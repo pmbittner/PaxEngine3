@@ -1,0 +1,33 @@
+//
+// Created by Paul on 29.04.2017.
+//
+
+#include "../include/EngineMain.h"
+
+#include "../include/core/Engine.h"
+#include "../include/test/SDLTestApplication2.h"
+#include "../include/test/trials/GenericTypesInMapTest.h"
+#include "../include/test/EntityTest.h"
+#include "../include/lib/easylogging++.h"
+
+int PAX::Engine_Main(int argc, char *argv[]) {
+    int exitcode = 0;
+
+    // FAMOUS TOGGLE COMMENT <3
+    //*
+    Engine *engine = Engine::getInstance();
+
+    IGameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
+    engine->getGame()->addGameSystem(testGameSystem);
+
+    engine->initialize();
+
+    exitcode = engine->run();
+    delete engine;
+    /*/
+    exitcode = PAX::TEST::ENTITY::test();
+    LOG(INFO) << "Test finished with exit code " << exitcode;
+    //*/
+
+    return exitcode;
+}

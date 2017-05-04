@@ -1,0 +1,8 @@
+//
+// Created by Paul on 02.05.2017.
+//
+
+#ifndef PAXENGINE3_SCENEGRAPH_H
+#define PAXENGINE3_SCENEGRAPH_H
+
+#endif //PAXENGINE3_SCENEGRAPH_H
