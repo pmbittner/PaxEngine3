@@ -1,0 +1,68 @@
+Proposal PADI Sommersemester 2017
+
+       Name: Paul Maximilian Bittner
+   Mat.-Nr.: 4568306
+     E-Mail: p.bittner@tu.bs.de
+
+Projektname: PaxEngine3
+
+
+= Beschreibung ========================================================
+
+Dieses Projekt ist die Basis einer Game-Engine, die fuer
+2D-Spiele ausgelegt ist, aber auch 3D-Inhalte ohne Schwierigkeiten
+erlaubt. Wichtig ist, dass die Software auf Windows, Linux
+und Android laeuft.
+    Es ist ausdruecklich nicht das Ziel ein fertiges Spiel zu liefern,
+sondern eine saubere Architektur, die die Entwicklung solcher
+moeglichst einfach gestaltet.
+
+Funktionsumfang:
+    - erweiterbare Architektur, die es erlaubt beliebige Systeme
+      und Komponenten in die Software einzuhaengen
+    - GameLoop mit einer regulierbaren Anzahl an Bildern pro Sekunde,
+      fuer maximale Performance auf PCs und Schonen des Akkus auf
+      Mobilgeraeten
+    - Automatische Erzeugung und Wartung eines konfigurierbaren
+      Szenengraphs aus der vom Entwicker definierten Spielwelt und
+      deren Elementen. So muss sich der Spieleentwickler nicht um
+      die Reihenfolge der Rendercalls sorgen. Lediglich Optimierungen
+      seinerseits u.a. fuer die Nutzung von 2D- und 3D-Inhalten
+      konnen notwendig sein.
+    - (grundlegend) plattformunabhaengige Renderarchitektur, sodass
+      beispielsweise die Implementierung mittels DirectX moeglich,
+      wenngleich nicht Ziel, ist.
+    - grundlegende 2D-Funktionen, wie das Rendern von Sprites,
+      in OpenGL
+    - Demo fuer die Praesentation (simples Spiel)
+
+Optionale Features:
+    - 3D-Graphik fuer die Demo
+    - Game-Controller-Support
+    - Serialisierung
+
+= Genutzte Bibliotheken und Technologien ==============================
+
+SDL2: Plattformunabhaengige Bibliothek zum Erzeugen von Fenstern,
+      Lesen von Nutzereingaben und vielem mehr, die bereits u.a. in
+      der Source Engine von Valve zum Einsatz kommt. Besonders ist,
+      dass bereits ein nutzbares Template eines Androidprojektes fuer
+      Android Studio bereitgestellt wird.
+
+OpenGL: plattformunabhängige Graphikschnittstelle
+
+Easylogging++: Eine Header-Only-Bibliothek fuer unkompliziertes
+               Logging.
+
+NDK:  Das Native Development Kit erlaubt die Integration von
+      C/C++-Code in die mit Java geschriebenen Android-Anwendungen.
+
+CMake: Bauen, Projektverwaltung in CLion
+
+
+= Genutzte IDEs =======================================================
+
+CLion: fuer die Entwicklung und das Bauen unter Windows und Linux
+
+Android Studio: fuer die Erzeugung der apk-Datei aus den fuer Android
+                gebauten Quelldateien
