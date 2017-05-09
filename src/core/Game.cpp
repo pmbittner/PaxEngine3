@@ -18,6 +18,15 @@ namespace PAX {
             gameSystem->update();
     }
 
+    World* Game::getActiveWorld() {
+        return _activeWorld;
+    }
+
+    void Game::setActiveWorld(World *world) {
+        assert(world);
+        _activeWorld = world;
+    }
+
     void Game::addGameSystem(IGameSystem *gameSystem) {
         if (std::find(_gameSystems.begin(), _gameSystems.end(), gameSystem) == _gameSystems.end()) {
             _gameSystems.push_back(gameSystem);

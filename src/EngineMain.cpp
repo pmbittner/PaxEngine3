@@ -9,12 +9,14 @@
 #include "../include/test/trials/GenericTypesInMapTest.h"
 #include "../include/test/EntityTest.h"
 #include "../include/lib/easylogging++.h"
+#include "../include/test/trials/PrivateHackTest.h"
+#include "../include/test/EventServiceTest.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
     // FAMOUS TOGGLE COMMENT <3
-    //*
+    /*
     Engine *engine = Engine::getInstance();
 
     IGameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
@@ -25,7 +27,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     exitcode = engine->run();
     delete engine;
     /*/
-    exitcode = PAX::TEST::ENTITY::test();
+    exitcode = PAX::TEST::eventServiceText();
     LOG(INFO) << "Test finished with exit code " << exitcode;
     //*/
 

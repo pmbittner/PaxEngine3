@@ -157,6 +157,10 @@ PAX::Game* PAX::Engine::getGame() {
     return &_game;
 }
 
+PAX::EventService* PAX::Engine::getEventService() {
+    return &_eventService;
+}
+
 double PAX::Engine::getFPS() {
     return _actualFPS;
 }

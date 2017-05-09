@@ -1,1 +1,0 @@
-set(CORE_SOURCE_FILES ${CORE_SOURCE_FILES} entity/Entity.cpp entity/EntityComponent.cpp entity/Transform.cpp PARENT_SCOPE)

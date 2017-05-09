@@ -11,6 +11,7 @@
 #include "EntityComponent.h"
 #include <vector>
 #include <stdexcept>
+#include <typeindex>
 
 namespace PAX {
     class World;

@@ -9,6 +9,7 @@
 
 #include "interfaces/IEngineSystem.h"
 #include "interfaces/IGameSystem.h"
+#include "world/World.h"
 
 namespace PAX {
     class Game : private IEngineSystem {
@@ -16,9 +17,14 @@ namespace PAX {
         bool _initialized {false};
         std::vector<IGameSystem*> _gameSystems;
 
+        World *_activeWorld;
+
     public:
         virtual void initialize() override;
         virtual void update() override;
+
+        World* getActiveWorld();
+        void setActiveWorld(World *world);
 
         void addGameSystem(IGameSystem *gameSystem);
         void removeGameSystem(IGameSystem *gameSystem);

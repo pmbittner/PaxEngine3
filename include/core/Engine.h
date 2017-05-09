@@ -8,6 +8,7 @@
 #include "InputSystem.h"
 #include "Game.h"
 #include "../core/rendering/Renderer.h"
+#include "event/EventService.h"
 
 namespace PAX {
     class Engine {
@@ -19,13 +20,14 @@ namespace PAX {
         // GAME LOOP VARS
 
         // constraint: _targetFPS < _targetUPS
-        double _targetFPS = 100;//bei Double.POSITIVE_INFINITY spackt die GUI ab
+        double _targetFPS = 100;
         double _targetUPS = 250;
 
         double _actualFPS;
         double _actualUPS;
 
         // ARCHITECTURAL VARS
+        EventService _eventService;
         InputSystem _inputSystem;
         Game _game;
         Renderer _renderer;
@@ -44,6 +46,7 @@ namespace PAX {
 
         InputSystem* getInputSystem();
         Game* getGame();
+        EventService* getEventService();
 
         double getFPS();
 

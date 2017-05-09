@@ -1,1 +1,0 @@
-set(CORE_SOURCE_FILES ${CORE_SOURCE_FILES} io/Keyboard.cpp io/Mouse.cpp PARENT_SCOPE)

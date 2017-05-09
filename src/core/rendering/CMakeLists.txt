@@ -1,1 +1,0 @@
-set(CORE_SOURCE_FILES ${CORE_SOURCE_FILES} rendering/Renderer.cpp PARENT_SCOPE)
