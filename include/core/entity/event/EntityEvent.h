@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_ENTITYEVENT_H
 #define PAXENGINE3_ENTITYEVENT_H
 
-#include "Entity.h"
-#include "../event/Event.h"
+#include "../Entity.h"
+#include "../../event/Event.h"
 
 namespace PAX {
     class EntityEvent : public Event {
     public:
-        const Entity* entity;
+        Entity* entity;
         EntityEvent(Entity *entity) : entity(entity) {}
     };
 }

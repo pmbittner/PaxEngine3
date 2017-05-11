@@ -8,7 +8,7 @@
 
 #include <sstream>
 
-#include "../../include/utility/Path.h"
+#include "../../include/sdl/utitlity/Path.h"
 #include "../../include/core/Engine.h"
 
 #include "../../include/test/SDLTestApplication2.h"

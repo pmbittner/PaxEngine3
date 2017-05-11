@@ -19,15 +19,28 @@ namespace PAX {
     }
 
     void SceneGraphBuilder::onEvent(EntitySpawnedEvent *e) {
-        const Entity *entity = e->entity;
+        Entity *entity = e->entity;
         if (entity->has<Graphics>()) {
-            std::vector<Graphics*>* gfx = entity->get<Graphics>();
-            for (Graphics *g : gfx)
+            const std::vector<Graphics*>* gfx = entity->get<Graphics>();
+            for (Graphics *g : *gfx)
                 addGraphics(g);
         }
     }
 
-    void SceneGraphBuilder::onEvent(EntityDespawnedEvent *e) {
+    void SceneGraphBuilder::onEvent(EntityComponentAddedEvent<Graphics> *e) {
+        addGraphics(e->_component);
+    }
 
+    void SceneGraphBuilder::onEvent(EntityDespawnedEvent *e) {
+        Entity *entity = e->entity;
+        if (entity->has<Graphics>()) {
+            const std::vector<Graphics*>* gfx = entity->get<Graphics>();
+            for (Graphics *g : *gfx)
+                removeGraphics(g);
+        }
+    }
+
+    void SceneGraphBuilder::onEvent(EntityComponentRemovedEvent<Graphics> *e) {
+        removeGraphics(e->_component);
     }
 }

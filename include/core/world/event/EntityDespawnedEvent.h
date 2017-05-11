@@ -6,7 +6,7 @@
 #define PAXENGINE3_ENTITYDESPAWNEDEVENT_H
 
 #include "../../entity/Entity.h"
-#include "../../entity/EntityEvent.h"
+#include "../../entity/event/EntityEvent.h"
 
 namespace PAX {
     class EntityDespawnedEvent : public EntityEvent {

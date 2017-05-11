@@ -1,18 +1,18 @@
 //
-// Created by Paul on 29.04.2017.
+// Created by Paul on 11.05.2017.
 //
 
 #include <SDL_events.h>
-#include "../../include/core/InputSystem.h"
+#include "../../include/sdl/SDLInputSystem.h"
 #include "../../include/core/io/Keyboard.h"
 #include "../../include/core/Engine.h"
 
 namespace PAX {
-    void InputSystem::initialize() {
+    void SDLInputSystem::initialize() {
 
     }
 
-    void InputSystem::update() {
+    void SDLInputSystem::update() {
         while (SDL_PollEvent(&_currentEvent)) {
             if (_currentEvent.type == SDL_QUIT) {
                 PAX::Engine::getInstance()->stop();
@@ -28,15 +28,15 @@ namespace PAX {
         }
     }
 
-    void InputSystem::updateMouseLocation() {
+    void SDLInputSystem::updateMouseLocation() {
         SDL_GetMouseState(&_mouse.x, &_mouse.y);
     }
 
-    Keyboard* InputSystem::getKeyboard() {
+    Keyboard* SDLInputSystem::getKeyboard() {
         return &_keyboard;
     }
 
-    Mouse* InputSystem::getMouse() {
+    Mouse* SDLInputSystem::getMouse() {
         return &_mouse;
     }
 }

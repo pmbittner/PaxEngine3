@@ -9,7 +9,7 @@ namespace PAX {
     template<class TEvent>
     class EventListener {
     public:
-        virtual void onEvent(TEvent* e);
+        virtual void onEvent(TEvent* e) = 0;
     };
 }
 

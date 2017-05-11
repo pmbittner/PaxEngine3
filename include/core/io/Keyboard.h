@@ -8,14 +8,9 @@
 #include <SDL2/SDL_keycode.h>
 
 namespace PAX {
-    class InputSystem;
-
     class Keyboard {
-    private:
-        friend class InputSystem;
-        bool keyDown[1 << 10];
-
     public:
+        bool keyDown[1 << 10];
         bool isKeyDown(SDL_Keycode key);
     };
 }

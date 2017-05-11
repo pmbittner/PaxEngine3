@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_MAIN_H
 #define PAXENGINE3_MAIN_H
 
-#include "InputSystem.h"
+#include "io/InputSystem.h"
 #include "Game.h"
 #include "../core/rendering/Renderer.h"
 #include "event/EventService.h"
@@ -28,7 +28,7 @@ namespace PAX {
 
         // ARCHITECTURAL VARS
         EventService _eventService;
-        InputSystem _inputSystem;
+        InputSystem* _inputSystem;
         Game _game;
         Renderer _renderer;
         std::vector<IEngineSystem*> _systems;
@@ -40,7 +40,7 @@ namespace PAX {
     public:
         ~Engine();
 
-        bool initialize();
+        bool initialize(InputSystem *inputSystem);
         int run();
         void stop();
 

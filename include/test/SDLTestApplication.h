@@ -13,7 +13,7 @@
 #include <SDL2/SDL.h>
 
 #include "../core/Engine.h"
-#include "../utility/Path.h"
+#include "../sdl/utitlity/Path.h"
 
 namespace SDL_TEST_APPLICATION {
     bool running = true;

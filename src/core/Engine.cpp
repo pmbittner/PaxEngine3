@@ -19,9 +19,10 @@ PAX::Engine::~Engine() {
     instance = nullptr;
 }
 
-bool PAX::Engine::initialize() {
+bool PAX::Engine::initialize(InputSystem *inputSystem) {
     LOG(INFO) << "Initializing engine";
-    _inputSystem.initialize();
+    _inputSystem = inputSystem;
+    _inputSystem->initialize();
     _game.initialize();
     _renderer.initialize();
     return true;
@@ -139,7 +140,7 @@ void PAX::Engine::stop() {
 
 void PAX::Engine::update() {
     //SDL_TEST_APPLICATION2::update();
-    _inputSystem.update();
+    _inputSystem->update();
     _game.update();
 }
 
@@ -150,7 +151,7 @@ void PAX::Engine::render() {
 }
 
 PAX::InputSystem* PAX::Engine::getInputSystem() {
-    return &_inputSystem;
+    return _inputSystem;
 }
 
 PAX::Game* PAX::Engine::getGame() {

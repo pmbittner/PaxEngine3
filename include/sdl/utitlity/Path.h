@@ -5,7 +5,7 @@
 #ifndef SDLTEST_UTILS_H
 #define SDLTEST_UTILS_H
 
-#include <SDL_system.h>
+#include <SDL2/SDL_system.h>
 
 /*
  * Get the resource path for resources located in res/subDir

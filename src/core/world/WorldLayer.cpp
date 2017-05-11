@@ -10,7 +10,9 @@
 
 namespace PAX {
     WorldLayer::WorldLayer(std::string name, float z) : _name(name), _z(z) {
-
+        addEntitySpawnedEventListener(&_sceneGraphBuilder);
+        addEntityDespawnedEventListener(&_sceneGraphBuilder);
+        addEntityComponentAddedEventListener(&_sceneGraphBuilder);
     }
 
     void WorldLayer::spawn(Entity *entity) {
@@ -36,6 +38,14 @@ namespace PAX {
             for (EventListener<EntityDespawnedEvent>* listener : _despawnListeners)
                 listener->onEvent(&e);
         }
+    }
+
+    void WorldLayer::addEntitySpawnedEventListener(EventListener<EntitySpawnedEvent> *listener) {
+        _spawnListeners.push_back(listener);
+    }
+
+    void WorldLayer::addEntityDespawnedEventListener(EventListener<EntityDespawnedEvent> *listener) {
+        _despawnListeners.push_back(listener);
     }
 
     std::string WorldLayer::getName() {

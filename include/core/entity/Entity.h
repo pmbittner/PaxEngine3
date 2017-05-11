@@ -6,12 +6,13 @@
 #define PAXENGINE3_ENTITY_H
 
 #include <unordered_map>
-
-#include "Transform.h"
-#include "EntityComponent.h"
 #include <vector>
 #include <stdexcept>
 #include <typeindex>
+#include <algorithm>
+
+#include "Transform.h"
+#include "EntityComponent.h"
 
 namespace PAX {
     class World;
@@ -41,8 +42,8 @@ namespace PAX {
         WorldLayer* getWorldLayer();
 
         template<typename ComponentClass>
-        inline bool has() {
-            return _components[std::type_index(typeid(ComponentClass))];
+        inline bool has() const{
+            return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
         }
 
         template<typename ComponentClass>
