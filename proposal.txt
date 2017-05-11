@@ -28,7 +28,7 @@ Funktionsumfang:
       deren Elementen. So muss sich der Spieleentwickler nicht um
       die Reihenfolge der Rendercalls sorgen. Lediglich Optimierungen
       seinerseits u.a. fuer die Nutzung von 2D- und 3D-Inhalten
-      konnen notwendig sein.
+      koennen notwendig sein.
     - (grundlegend) plattformunabhaengige Renderarchitektur, sodass
       beispielsweise die Implementierung mittels DirectX moeglich,
       wenngleich nicht Ziel, ist.
