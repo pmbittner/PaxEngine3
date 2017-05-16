@@ -16,7 +16,7 @@ namespace PAX {
     }
 
     bool SDLWindow::create(std::string title, int width, int height) {
-        LOG(INFO) << "Create SDL Window (" << title << ", (" << width << "/" << height << ")";
+        LOG(INFO) << "Create SDL Window (" << title << ", (" << width << "/" << height << "))";
         _window = SDL_CreateWindow(title.c_str(),
                                   SDL_WINDOWPOS_CENTERED,
                                   SDL_WINDOWPOS_CENTERED,

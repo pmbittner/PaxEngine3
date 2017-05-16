@@ -6,7 +6,7 @@
 #define PAXENGINE3_IENGINESYSTEM_H
 
 namespace PAX {
-    class IEngineSystem {
+    class EngineSystem {
     public:
         virtual void initialize() = 0;
         virtual void update() = 0;

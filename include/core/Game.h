@@ -7,15 +7,15 @@
 
 #include <vector>
 
-#include "interfaces/IEngineSystem.h"
-#include "interfaces/IGameSystem.h"
+#include "EngineSystem.h"
+#include "GameSystem.h"
 #include "world/World.h"
 
 namespace PAX {
-    class Game : private IEngineSystem {
+    class Game : private EngineSystem {
     private:
         bool _initialized {false};
-        std::vector<IGameSystem*> _gameSystems;
+        std::vector<GameSystem*> _gameSystems;
 
         World *_activeWorld;
 
@@ -26,8 +26,8 @@ namespace PAX {
         World* getActiveWorld();
         void setActiveWorld(World *world);
 
-        void addGameSystem(IGameSystem *gameSystem);
-        void removeGameSystem(IGameSystem *gameSystem);
+        void addGameSystem(GameSystem *gameSystem);
+        void removeGameSystem(GameSystem *gameSystem);
     };
 }
 

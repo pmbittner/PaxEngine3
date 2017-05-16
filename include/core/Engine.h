@@ -35,7 +35,7 @@ namespace PAX {
 
         Window *_window;
         InputSystem* _inputSystem;
-        std::vector<IEngineSystem*> _systems;
+        std::vector<EngineSystem*> _systems;
 
         Engine();
         void update();

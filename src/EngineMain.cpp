@@ -24,7 +24,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
 
     Engine *engine = Engine::getInstance();
 
-    IGameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
+    GameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
     engine->getGame()->addGameSystem(testGameSystem);
 
     engine->initialize(setup);

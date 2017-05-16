@@ -8,13 +8,13 @@
 
 namespace PAX {
     void Game::initialize() {
-        for (IGameSystem *gameSystem : _gameSystems)
+        for (GameSystem *gameSystem : _gameSystems)
             gameSystem->initialize();
         _initialized = true;
     }
 
     void Game::update() {
-        for (IGameSystem *gameSystem : _gameSystems)
+        for (GameSystem *gameSystem : _gameSystems)
             gameSystem->update();
     }
 
@@ -27,7 +27,7 @@ namespace PAX {
         _activeWorld = world;
     }
 
-    void Game::addGameSystem(IGameSystem *gameSystem) {
+    void Game::addGameSystem(GameSystem *gameSystem) {
         if (std::find(_gameSystems.begin(), _gameSystems.end(), gameSystem) == _gameSystems.end()) {
             _gameSystems.push_back(gameSystem);
 
@@ -36,7 +36,7 @@ namespace PAX {
         }
     }
 
-    void Game::removeGameSystem(IGameSystem *gameSystem) {
+    void Game::removeGameSystem(GameSystem *gameSystem) {
         auto gameSystemIterator = std::find(_gameSystems.begin(), _gameSystems.end(), gameSystem);
         if (gameSystemIterator != _gameSystems.end())
             _gameSystems.erase(gameSystemIterator);

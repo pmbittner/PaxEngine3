@@ -5,10 +5,10 @@
 #ifndef PAXENGINE3_IGAMESYSTEM_H
 #define PAXENGINE3_IGAMESYSTEM_H
 
-#include "IEngineSystem.h"
+#include "EngineSystem.h"
 
 namespace PAX {
-    class IGameSystem : public IEngineSystem {
+    class GameSystem : public EngineSystem {
 
     };
 }
