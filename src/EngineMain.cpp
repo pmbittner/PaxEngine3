@@ -12,18 +12,22 @@
 #include "../include/test/trials/PrivateHackTest.h"
 #include "../include/test/EventServiceTest.h"
 #include "../include/sdl/SDLInputSystem.h"
+#include "../include/sdl/SDLWindow.h"
+#include "../include/sdl/SDLEngineSetup.h"
+
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
-
     // FAMOUS TOGGLE COMMENT <3
-    //*
+
+    EngineSetup *setup = new SDLEngineSetup;
+
     Engine *engine = Engine::getInstance();
 
     IGameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
     engine->getGame()->addGameSystem(testGameSystem);
 
-    engine->initialize(new SDLInputSystem());
+    engine->initialize(setup);
 
     exitcode = engine->run();
     delete engine;

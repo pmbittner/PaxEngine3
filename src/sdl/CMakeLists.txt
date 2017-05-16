@@ -1,2 +1,2 @@
-add_library(paxsdl SDLScreen.cpp SDLInputSystem.cpp)
+add_library(paxsdl SDLInputSystem.cpp SDLWindow.cpp SDLEngineSetup.cpp)
 target_link_libraries(paxsdl ${SDL2_LIBRARY})

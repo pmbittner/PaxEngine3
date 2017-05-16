@@ -19,9 +19,16 @@ PAX::Engine::~Engine() {
     instance = nullptr;
 }
 
-bool PAX::Engine::initialize(InputSystem *inputSystem) {
+bool PAX::Engine::initialize(EngineSetup* setup) {
     LOG(INFO) << "Initializing engine";
-    _inputSystem = inputSystem;
+
+    setup->initialize(this);
+
+    _window = setup->createWindow();
+    _window->create("PaxEngine3", 800, 600);
+
+    _inputSystem = setup->createInputSystem();
+
     _inputSystem->initialize();
     _game.initialize();
     _renderer.initialize();
@@ -131,12 +138,10 @@ int PAX::Engine::run() {
         }
     }
 #undef DEF_NOW
+
     return 0;
 }
 
-void PAX::Engine::stop() {
-    _running = false;
-}
 
 void PAX::Engine::update() {
     //SDL_TEST_APPLICATION2::update();
@@ -150,12 +155,20 @@ void PAX::Engine::render() {
     _renderer.render();
 }
 
+void PAX::Engine::stop() {
+    _running = false;
+}
+
 PAX::InputSystem* PAX::Engine::getInputSystem() {
     return _inputSystem;
 }
 
 PAX::Game* PAX::Engine::getGame() {
     return &_game;
+}
+
+PAX::Window* PAX::Engine::getWindow() {
+    return _window;
 }
 
 PAX::EventService* PAX::Engine::getEventService() {

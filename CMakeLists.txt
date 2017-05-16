@@ -24,7 +24,6 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
 
         include/core/io/Keyboard.h
         include/core/io/Mouse.h
-        include/core/io/Screen.h
 
         include/core/rendering/Renderable.h
         include/core/rendering/Renderer.h
@@ -68,8 +67,7 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/entity/event/EntityComponentAddedEvent.h
         include/core/entity/event/EntityComponentEvent.h
         include/core/entity/event/EntityComponentRemovedEvent.h
-        include/sdl/SDLScreen.h
-        include/sdl/SDLInputSystem.h )
+        include/sdl/SDLInputSystem.h include/core/io/Window.h include/sdl/SDLWindow.h include/core/EngineSetup.h include/sdl/SDLEngineSetup.h)
 
 ### API INCLUDES ########################################
 find_package(SDL2 REQUIRED)

@@ -9,6 +9,8 @@
 #include "Game.h"
 #include "../core/rendering/Renderer.h"
 #include "event/EventService.h"
+#include "io/Window.h"
+#include "EngineSetup.h"
 
 namespace PAX {
     class Engine {
@@ -28,9 +30,11 @@ namespace PAX {
 
         // ARCHITECTURAL VARS
         EventService _eventService;
-        InputSystem* _inputSystem;
         Game _game;
         Renderer _renderer;
+
+        Window *_window;
+        InputSystem* _inputSystem;
         std::vector<IEngineSystem*> _systems;
 
         Engine();
@@ -40,12 +44,13 @@ namespace PAX {
     public:
         ~Engine();
 
-        bool initialize(InputSystem *inputSystem);
+        bool initialize(EngineSetup* setup);
         int run();
         void stop();
 
         InputSystem* getInputSystem();
         Game* getGame();
+        Window* getWindow();
         EventService* getEventService();
 
         double getFPS();

@@ -15,10 +15,10 @@
 #include "../../include/lib/easylogging++.h"
 
 #include "../../include/utility/OSDefines.h"
+#include "../../include/sdl/SDLWindow.h"
 
 namespace SDL_TEST_APPLICATION2 {
     SDL_Renderer *renderer;
-    SDL_Window *window;
 
     float x, y;
     float speed = 5.0f;
@@ -46,26 +46,12 @@ namespace SDL_TEST_APPLICATION2 {
 #ifdef PAX_OS_ANDROID
             LOG(INFO) << "INIT SDL2TestApplication2 on Android";
 #endif
-            SDL_Init(SDL_INIT_EVERYTHING);
+            PAX::Window * window = PAX::Engine::getInstance()->getWindow();
+            SDL_Window *sdlWindow = static_cast<PAX::SDLWindow*>(window)->getSDL_Window();
 
-            std::string windowTitle("TestWindow");
-            int width = 800;
-            int height = 600;
-
-            window = SDL_CreateWindow(windowTitle.c_str(),
-                                      SDL_WINDOWPOS_CENTERED,
-                                      SDL_WINDOWPOS_CENTERED,
-                                      width,
-                                      height,
-                                      SDL_WINDOW_RESIZABLE);
-
-            if (window == NULL) {
-                std::cout << "Window could not be created: " << SDL_GetError() << std::endl;
-            }
-
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (renderer == nullptr) {
-                SDL_DestroyWindow(window);
+                SDL_DestroyWindow(sdlWindow);
                 std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
                 SDL_Quit();
                 return;
@@ -123,9 +109,6 @@ namespace SDL_TEST_APPLICATION2 {
         }
 
     SDLTestApplication2GameSystem::~SDLTestApplication2GameSystem() {
-            SDL_DestroyWindow(window);
-            window = nullptr;
-
             SDL_DestroyTexture(message);
             SDL_DestroyTexture(testSprite);
             SDL_DestroyRenderer(renderer);
