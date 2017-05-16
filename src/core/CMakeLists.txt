@@ -16,7 +16,7 @@ set(CORE_SOURCE_FILES
 
         world/World.cpp
         world/WorldLayer.cpp
-        )
+        rendering/Camera.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)
