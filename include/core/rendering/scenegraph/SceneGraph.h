@@ -12,6 +12,7 @@
 
 namespace PAX {
     class SceneGraph : public Renderable {
+        float _z;
         Sort::RenderableSort _sorter;
         std::vector<Renderable*> _children;
 
@@ -20,6 +21,8 @@ namespace PAX {
 
         virtual void render() override;
         virtual float getZ() override;
+
+        void setZ(float z);
     };
 }
 

@@ -15,6 +15,8 @@ namespace PAX {
         private:
             RenderableSortComparator* _comparator;
 
+            void insertionSort(std::vector<Renderable *> &renderables, unsigned int l, unsigned int r);
+
         public:
 
             /**
@@ -31,7 +33,7 @@ namespace PAX {
              */
             void setRenderableSortComparator(RenderableSortComparator* comparator);
 
-            void insertionSort(std::vector<Renderable *> *renderables);
+            void insertionSort(std::vector<Renderable *> &renderables);
         };
     }
 }

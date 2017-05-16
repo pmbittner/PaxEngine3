@@ -7,20 +7,21 @@
 
 namespace PAX {
     SceneGraph::SceneGraph() {
-        int* intpointerlol = new int;
-        delete intpointerlol;
+
     }
 
     void SceneGraph::render() {
-        _sorter.insertionSort(&_children);
+        _sorter.insertionSort(_children);
 
         for (Renderable *child : _children)
             child->render();
     }
 
     float SceneGraph::getZ() {
-        if (!_children.empty())
-            return _children[0]->getZ();
-        return 0;
+        return _z;
+    }
+
+    void SceneGraph::setZ(float z) {
+        _z = z;
     }
 }

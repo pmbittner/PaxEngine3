@@ -19,8 +19,8 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/entity/EntityComponentPool.h
         include/core/entity/Transform.h
 
-        include/core/interfaces/IEngineSystem.h
-        include/core/interfaces/IGameSystem.h
+        include/core/EngineSystem.h
+        include/core/GameSystem.h
 
         include/core/io/Keyboard.h
         include/core/io/Mouse.h
@@ -67,7 +67,7 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/entity/event/EntityComponentAddedEvent.h
         include/core/entity/event/EntityComponentEvent.h
         include/core/entity/event/EntityComponentRemovedEvent.h
-        include/sdl/SDLInputSystem.h include/core/io/Window.h include/sdl/SDLWindow.h include/core/EngineSetup.h include/sdl/SDLEngineSetup.h)
+        include/sdl/SDLInputSystem.h include/core/io/Window.h include/sdl/SDLWindow.h include/core/EngineSetup.h include/sdl/SDLEngineSetup.h include/core/rendering/Camera.h)
 
 ### API INCLUDES ########################################
 find_package(SDL2 REQUIRED)
