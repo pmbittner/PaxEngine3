@@ -5,60 +5,73 @@
 #ifndef PAXENGINE3_EVENTSERVICE_H
 #define PAXENGINE3_EVENTSERVICE_H
 
-#include <typeindex>
-#include <functional>
-#include <unordered_map>
 #include <vector>
-#include <algorithm>
+#include "Delegate.h"
+#include "../../utility/stdutils.h"
 
 namespace PAX {
     class EventService {
         std::unordered_map<std::type_index, void*> _listeners;
 
+        template<typename EventClass, class T, void (T::*Method)(EventClass*)>
+        static void invoke(void* callee, EventClass* event) {
+            T* object = static_cast<T*>(callee);
+            (object->*Method)(event);
+        };
+
     public:
+#define PAX_ES_DELEGATE Delegate<EventClass*>
+#define PAX_ES_MAP_VALUES std::vector<PAX_ES_DELEGATE>
 
-#define FUNC_VECTOR std::vector<std::function<void(EventClass*)>*>
-
-        template<typename EventClass>
-        void add(std::function<void(EventClass*)> *listener) {
+        template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass*)>
+        void add(Listener* listener) {
             std::type_index type = std::type_index(typeid(EventClass));
 
-            FUNC_VECTOR* listenerList;
+            PAX_ES_MAP_VALUES* listenerList;
 
             if (_listeners[type])
-                listenerList = static_cast<FUNC_VECTOR*>(_listeners[type]);
+                listenerList = static_cast<PAX_ES_MAP_VALUES*>(_listeners[type]);
             else {
-                listenerList = new FUNC_VECTOR;
+                listenerList = new PAX_ES_MAP_VALUES;
                 _listeners[type] = listenerList;
             }
 
-            listenerList->push_back(listener);
+            listenerList->push_back(PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
         }
 
-        template<typename EventClass>
-        void remove(std::function<void(EventClass*)> *listener) {
+        template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass*)>
+        bool remove(Listener *listener) {
             std::type_index type = std::type_index(typeid(EventClass));
 
             if (_listeners[type]) {
-                FUNC_VECTOR* vec = static_cast<FUNC_VECTOR*>(_listeners[type]);
-
-                auto iter = std::find(vec->begin(), vec->end(), listener);
-                if (iter != vec->end())
-                    vec->erase(iter);
+                PAX_ES_MAP_VALUES* vec = static_cast<PAX_ES_MAP_VALUES*>(_listeners[type]);
+                return PAX::Util::removeFromVector(vec, PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
             }
+
+            return false;
+        }
+
+#define FIRE_EVENT \
+        std::type_index type = std::type_index(typeid(EventClass));\
+        if (_listeners[type]) {\
+            PAX_ES_MAP_VALUES* values = static_cast<PAX_ES_MAP_VALUES*>(_listeners[type]);\
+            for (PAX_ES_DELEGATE delegate : *values) {\
+                delegate.method(delegate.callee, event);\
+            }\
         }
 
         template<typename EventClass>
-        void trigger(EventClass* event) {
-            std::type_index type = std::type_index(typeid(EventClass));
-            if (_listeners[type]) {
-                FUNC_VECTOR* vec = static_cast<FUNC_VECTOR*>(_listeners[type]);
-                for (std::function<void(EventClass*)> *listener : *vec)
-                    (*listener)(event);
-            }
+        void operator()(EventClass* event) {
+            FIRE_EVENT
         }
 
-#undef FUNC_VECTOR
+        template<typename EventClass>
+        void fire(EventClass* event) {
+            FIRE_EVENT
+        }
+
+#undef PAX_ES_DELEGATE
+#undef PAX_ES_MAP_VALUES
     };
 }
 
