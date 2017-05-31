@@ -10,9 +10,7 @@
 
 namespace PAX {
     WorldLayer::WorldLayer(std::string name, float z) : _name(name), _z(z) {
-        addEntitySpawnedEventListener(&_sceneGraphBuilder);
-        addEntityDespawnedEventListener(&_sceneGraphBuilder);
-        addEntityComponentAddedEventListener(&_sceneGraphBuilder);
+        _sceneGraphBuilder.initialize();
     }
 
     void WorldLayer::spawn(Entity *entity) {
@@ -22,10 +20,11 @@ namespace PAX {
         if (entityIter == _entities.end()) {
             _entities.push_back(entity);
             entity->_worldLayer = this;
+
             EntitySpawnedEvent e(entity);
-            //Engine::getInstance()->getEventService()->trigger(&e);
-            for (EventListener<EntitySpawnedEvent>* listener : _spawnListeners)
-                listener->onEvent(&e);
+
+            _localEventService(&e);
+            Engine::getInstance()->getEventService()(&e);
         }
     }
 
@@ -34,18 +33,19 @@ namespace PAX {
         if (entityIter != _entities.end()) {
             _entities.erase(entityIter);
             EntityDespawnedEvent e(entity);
-            //Engine::getInstance()->getEventService()->trigger(&e);
-            for (EventListener<EntityDespawnedEvent>* listener : _despawnListeners)
-                listener->onEvent(&e);
+
+            _localEventService(&e);
+            Engine::getInstance()->getEventService()(&e);
+
         }
     }
 
-    void WorldLayer::addEntitySpawnedEventListener(EventListener<EntitySpawnedEvent> *listener) {
-        _spawnListeners.push_back(listener);
+    EventService* WorldLayer::getEventService() {
+        return &_localEventService;
     }
 
-    void WorldLayer::addEntityDespawnedEventListener(EventListener<EntityDespawnedEvent> *listener) {
-        _despawnListeners.push_back(listener);
+    SceneGraph* WorldLayer::getSceneGraph() {
+        return &_sceneGraph;
     }
 
     std::string WorldLayer::getName() {
