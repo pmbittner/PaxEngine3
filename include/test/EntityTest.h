@@ -72,16 +72,18 @@ namespace PAX {
                     e.add(new DirectXGraphics);
                 }
 
+                int physicsElementCount = 0;
                 if (e.has<Physics>()) {
-                    std::cout << "Found physics elements: " << e.get<Physics>()->size() << std::endl;
+                    physicsElementCount = e.get<Physics>().size();
                 }
+                std::cout << "Found physics elements: " << physicsElementCount << std::endl;
 
                 std::cout << "Graphics components:" << std::endl;
-                for (Graphics *g : *e.get<Graphics>())
+                for (Graphics *g : e.get<Graphics>())
                     printGraphics(g);
 
                 std::cout << "DirectXGraphics components:" << std::endl;
-                for (Graphics *g : *e.get<DirectXGraphics>())
+                for (Graphics *g : e.get<DirectXGraphics>())
                     printGraphics(g);
 
                 Entity parent;
@@ -98,9 +100,9 @@ namespace PAX {
                 std::cout << t.vec[0] << " / " << t.i << std::endl;
                  */
 
-                DirectionTest();
+                //DirectionTest();
 
-                std::cout << "Start Object Pool Test" << std::endl;
+                //std::cout << "Start Object Pool Test" << std::endl;
                 //PoolTest pool;
                 //pool.initialize(5);
 
