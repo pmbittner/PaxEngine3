@@ -163,16 +163,16 @@ PAX::InputSystem* PAX::Engine::getInputSystem() {
     return _inputSystem;
 }
 
-PAX::Game* PAX::Engine::getGame() {
-    return &_game;
+PAX::Game& PAX::Engine::getGame() {
+    return _game;
 }
 
 PAX::Window* PAX::Engine::getWindow() {
     return _window;
 }
 
-PAX::EventService* PAX::Engine::getEventService() {
-    return &_eventService;
+PAX::EventService& PAX::Engine::getEventService() {
+    return _eventService;
 }
 
 double PAX::Engine::getFPS() {

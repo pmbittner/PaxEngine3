@@ -16,7 +16,10 @@ set(CORE_SOURCE_FILES
 
         world/World.cpp
         world/WorldLayer.cpp
-        rendering/Camera.cpp)
+        rendering/Camera.cpp
+        rendering/scenegraph/rule/ListSceneGraphBuildingRule.cpp
+        rendering/scenegraph/rule/GroupByEntitySceneGraphBuildingRule.cpp
+        rendering/Graphics.cpp rendering/scenegraph/EntitySceneGraph.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

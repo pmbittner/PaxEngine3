@@ -15,26 +15,29 @@
 #include "../include/sdl/SDLWindow.h"
 #include "../include/sdl/SDLEngineSetup.h"
 
+#include "../include/test/trials/FriendTest.h"
+#include "../include/test/trials/DelegateTest.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
-    // FAMOUS TOGGLE COMMENT <3
 
     EngineSetup *setup = new SDLEngineSetup;
+    GameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
 
     Engine *engine = Engine::getInstance();
+    engine->getGame().addGameSystem(testGameSystem);
 
-    GameSystem *testGameSystem = new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem;
-    engine->getGame()->addGameSystem(testGameSystem);
-
+    // FAMOUS TOGGLE COMMENT <3
+    //*
     engine->initialize(setup);
 
     exitcode = engine->run();
-    delete engine;
     /*/
-    exitcode = PAX::TEST::eventServiceText();
+    exitcode = PAX::Test::Event::run();
     LOG(INFO) << "Test finished with exit code " << exitcode;
     //*/
+
+    delete engine;
 
     return exitcode;
 }

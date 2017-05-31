@@ -35,7 +35,6 @@ namespace PAX {
 
         Window *_window;
         InputSystem* _inputSystem;
-        std::vector<EngineSystem*> _systems;
 
         Engine();
         void update();
@@ -49,9 +48,9 @@ namespace PAX {
         void stop();
 
         InputSystem* getInputSystem();
-        Game* getGame();
         Window* getWindow();
-        EventService* getEventService();
+        Game& getGame();
+        EventService& getEventService();
 
         double getFPS();
 

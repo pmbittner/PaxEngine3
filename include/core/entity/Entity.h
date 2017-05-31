@@ -23,11 +23,14 @@ namespace PAX {
         friend class WorldLayer;
 
     private:
+        std::string _name;
         Transform _transform;
+        std::unordered_map<std::type_index, void*> _components;
+
         Entity *_parent;
         std::vector<Entity*> _children;
+
         WorldLayer *_worldLayer;
-        std::unordered_map<std::type_index, void*> _components;
 
     public:
         Entity();
@@ -42,17 +45,15 @@ namespace PAX {
         WorldLayer* getWorldLayer();
 
         template<typename ComponentClass>
-        inline bool has() const{
+        inline bool has() const {
             return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
         }
 
         template<typename ComponentClass>
-        inline const std::vector<ComponentClass*>* get() {
+        inline const std::vector<ComponentClass*>& get() {
             std::type_index type = std::type_index(typeid(ComponentClass));
-            if (!_components[type]) //_components.find(type) == _components.end()) {
-                return nullptr;
-            else
-                return static_cast<std::vector<ComponentClass*>*>(_components[type]);
+            assert(_components[type]);
+            return *static_cast<std::vector<ComponentClass*>*>(_components[type]);
         }
 
         template<typename ComponentClass>
