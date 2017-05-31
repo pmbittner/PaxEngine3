@@ -8,7 +8,7 @@
 namespace PAX {
     namespace Sort {
         RenderableSort::RenderableSort(RenderableSortComparator *comparator) : _comparator(comparator) {
-            assert(_comparator);
+            assert(comparator);
         }
 
         RenderableSort::~RenderableSort() {

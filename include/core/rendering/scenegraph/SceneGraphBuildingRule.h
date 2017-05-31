@@ -6,8 +6,12 @@
 #define PAXENGINE3_SCENEGRAPHAGENT_H
 
 namespace PAX {
-    class SceneGraphBuildingRule {
+    class Graphics;
+    class SceneGraph;
 
+    class SceneGraphBuildingRule {
+    public:
+        virtual SceneGraph* determineSceneGraphNodeFor(Graphics *graphics, SceneGraph* root) = 0;
     };
 }
 

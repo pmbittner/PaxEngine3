@@ -11,7 +11,7 @@ namespace PAX {
     namespace Sort {
         class RenderableSortComparator {
         public:
-            virtual inline bool smaller(Renderable* a, Renderable* b) = 0;
+            virtual bool smaller(Renderable* a, Renderable* b) = 0;
         };
 
         /**

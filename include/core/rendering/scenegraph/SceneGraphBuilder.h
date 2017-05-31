@@ -13,11 +13,7 @@
 #include "../../entity/event/EntityComponentRemovedEvent.h"
 
 namespace PAX {
-    class SceneGraphBuilder :
-            public EventListener<EntitySpawnedEvent>,
-            public EventListener<EntityDespawnedEvent>,
-            public EventListener<EntityComponentAddedEvent<Graphics>>,
-            public EventListener<EntityComponentRemovedEvent<Graphics>>
+    class SceneGraphBuilder
 {
     private:
         WorldLayer* _worldLayer;
@@ -25,10 +21,10 @@ namespace PAX {
     public:
         void initialize();
 
-        virtual void onEvent(EntitySpawnedEvent* e) override;
-        virtual void onEvent(EntityDespawnedEvent* e) override;
-        virtual void onEvent(EntityComponentAddedEvent<Graphics>* e) override;
-        virtual void onEvent(EntityComponentRemovedEvent<Graphics>* e) override;
+        void onEntitySpawnedEvent(EntitySpawnedEvent* e);
+        void onEntityDespawnedEvent(EntityDespawnedEvent* e);
+        void onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>* e);
+        void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>* e);
 
         void addGraphics(Graphics *g);
         void removeGraphics(Graphics *g);

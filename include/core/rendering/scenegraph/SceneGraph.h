@@ -7,22 +7,28 @@
 
 #include <vector>
 #include "SceneGraphBuilder.h"
-#include "../Renderable.h"
 #include "sort/RenderableSort.h"
 
 namespace PAX {
-    class SceneGraph : public Renderable {
-        float _z;
-        Sort::RenderableSort _sorter;
+    class SceneGraph : private Renderable {
+        std::vector<SceneGraph*> _parents;
         std::vector<Renderable*> _children;
+        Sort::RenderableSort _sorter;
 
     public:
         SceneGraph();
 
-        virtual void render() override;
+        const std::vector<SceneGraph*>& getParents();
+
+        void addRenderable(Renderable* renderable);
+        bool removeRenderable(Renderable* renderable);
+        void addChild(SceneGraph* child);
+        bool removeChild(SceneGraph* child);
+
+        virtual void render();
         virtual float getZ() override;
 
-        void setZ(float z);
+        void prettyPrint();
     };
 }
 
