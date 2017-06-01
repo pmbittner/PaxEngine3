@@ -6,20 +6,17 @@
 #define PAXENGINE3_SCENEGRAPHBUILDER_H
 
 #include "../Graphics.h"
-#include "../../event/EventListener.h"
 #include "../../world/event/EntitySpawnedEvent.h"
 #include "../../world/event/EntityDespawnedEvent.h"
 #include "../../entity/event/EntityComponentAddedEvent.h"
 #include "../../entity/event/EntityComponentRemovedEvent.h"
 
 namespace PAX {
-    class SceneGraphBuilder
-{
-    private:
-        WorldLayer* _worldLayer;
+    class SceneGraphBuilder {
+        SceneGraph *_sceneGraph = nullptr;
 
     public:
-        void initialize();
+        void initialize(SceneGraph *sceneGraph, EventService& eventService);
 
         void onEntitySpawnedEvent(EntitySpawnedEvent& e);
         void onEntityDespawnedEvent(EntityDespawnedEvent& e);

@@ -26,7 +26,7 @@ namespace PAX {
         glm::mat4 _relativeTransform;
         glm::mat4 _worldTransform;
 
-        Transform *_parent;
+        Transform *_parent = nullptr;
         bool _relativeMatDirty;
         bool _worldMatDirty;
 

@@ -12,7 +12,7 @@
 
 namespace PAX {
     class SDLWindow : public Window {
-        SDL_Window *_window;
+        SDL_Window *_window = nullptr;
 
     public:
         SDLWindow();

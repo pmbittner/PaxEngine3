@@ -12,7 +12,7 @@
 namespace PAX {
     PAX_EntityComponent(Graphics, false, public Renderable)
         // The SceneGraph that holds this Graphics for rendering
-        SceneGraph* _sceneGraph;
+        SceneGraph* _sceneGraph = nullptr;
 
     public:
         SceneGraph* getSceneGraph();

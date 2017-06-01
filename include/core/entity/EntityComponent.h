@@ -12,7 +12,7 @@ namespace PAX {
         friend class Entity;
 
     private:
-        Entity *_owner;
+        Entity *_owner = nullptr;
 
     public:
         EntityComponent();

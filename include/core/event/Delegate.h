@@ -16,7 +16,7 @@ namespace PAX {
         friend class EventHandler<Args...>;
         friend class EventService;
 
-        void *callee;
+        void *callee = nullptr;
         void (*method)(void*, Args...);
 
     public:

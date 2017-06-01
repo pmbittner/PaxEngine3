@@ -32,12 +32,12 @@ namespace PAX {
         Transform _transform;
         std::unordered_map<std::type_index, void*> _components;
 
-        Entity *_parent;
+        Entity *_parent = nullptr;
         std::vector<Entity*> _children;
 
         EventService _localEventService;
 
-        WorldLayer *_worldLayer;
+        WorldLayer *_worldLayer = nullptr;
 
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;

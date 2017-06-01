@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_DEMOGAME_H
 #define PAXENGINE3_DEMOGAME_H
 
+#include <iostream>
 #include "../core/Game.h"
 #include "../test/SDLTestApplication2.h"
 #include "../sdl/test/SDLSprite.h"
@@ -18,7 +19,7 @@ namespace PAX {
             virtual void initialize() override {
                 Game::initialize();
                 addGameSystem(new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem);
-/*
+
                 World *testWorld = new World();
 
                 setActiveWorld(testWorld);

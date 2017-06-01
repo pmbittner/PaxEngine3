@@ -9,7 +9,7 @@
 
 namespace PAX {
     class SDLSprite  : public Graphics {
-        static SceneGraphBuildingRule* sceneGraphBuildingRule;
+        static SceneGraphBuildingRule* sceneGraphBuildingRule = nullptr;
 
     public:
         virtual SceneGraphBuildingRule* getSceneGraphBuildingRule() override;

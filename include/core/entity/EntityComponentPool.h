@@ -18,7 +18,7 @@ namespace PAX {
         };
 
         std::vector<ArrayElement> _pool;
-        ArrayElement *_firstFreeElement;
+        ArrayElement *_firstFreeElement = nullptr;
 
     protected:
         virtual T* createElement() = 0;

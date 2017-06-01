@@ -15,7 +15,7 @@
 namespace PAX {
     class Engine {
     private:
-        static Engine *instance;
+        static Engine *instance = nullptr;
 
         // GAME LOOP VARS ////////////////////////////////////////////////////////////
         bool _running {false};
@@ -31,9 +31,9 @@ namespace PAX {
         EventService _eventService;
         Renderer _renderer;
 
-        Game *_game;
-        Window *_window;
-        InputSystem* _inputSystem;
+        Game *_game = nullptr;
+        Window *_window = nullptr;
+        InputSystem* _inputSystem = nullptr;
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();

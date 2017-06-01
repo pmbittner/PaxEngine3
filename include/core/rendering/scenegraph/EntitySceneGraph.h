@@ -9,7 +9,7 @@
 
 namespace PAX {
     class EntitySceneGraph : public SceneGraph {
-        Entity *_entity;
+        Entity *_entity = nullptr;
 
     public:
         EntitySceneGraph(Entity *entity);

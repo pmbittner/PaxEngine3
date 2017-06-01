@@ -6,19 +6,18 @@
 #include "../../../../include/core/world/WorldLayer.h"
 
 namespace PAX {
-    void SceneGraphBuilder::initialize() {
-        EventService eservice = _worldLayer->getEventService();
+    void SceneGraphBuilder::initialize(SceneGraph *sceneGraph, EventService& eventService) {
+        _sceneGraph = sceneGraph;
 
-        eservice.add<EntitySpawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntitySpawnedEvent>(this);
-        eservice.add<EntityDespawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntityDespawnedEvent>(this);
-        eservice.add<EntityComponentAddedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentAddedEvent>(this);
-        eservice.add<EntityComponentRemovedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentRemovedEvent>(this);
+        eventService.add<EntitySpawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntitySpawnedEvent>(this);
+        eventService.add<EntityDespawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntityDespawnedEvent>(this);
+        eventService.add<EntityComponentAddedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentAddedEvent>(this);
+        eventService.add<EntityComponentRemovedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphBuilder::addGraphics(Graphics *g) {
-        SceneGraph *mySceneGraph = _worldLayer->getSceneGraph();
         SceneGraphBuildingRule *rule = g->getSceneGraphBuildingRule();
-        SceneGraph *node = rule->determineSceneGraphNodeFor(g, mySceneGraph);
+        SceneGraph *node = rule->determineSceneGraphNodeFor(g, _sceneGraph);
         node->addRenderable(g);
     }
 

@@ -8,12 +8,13 @@
 #include <vector>
 #include <typeindex>
 #include <unordered_map>
+#include <iostream>
 #include "Delegate.h"
 #include "../../utility/stdutils.h"
 
 namespace PAX {
     class EventService {
-        EventService *_parent;
+        EventService *_parent = nullptr;
         std::unordered_map<std::type_index, void*> _listeners;
 
         template<typename EventClass, class T, void (T::*Method)(EventClass&)>
@@ -65,8 +66,9 @@ namespace PAX {
                 delegate.method(delegate.callee, event);\
             }\
         }\
-        if (_parent) \
-            _parent->fire(event);
+        if (_parent) {\
+            _parent->fire(event); \
+        }
 
         template<typename EventClass>
         void operator()(EventClass& event) {
@@ -78,6 +80,7 @@ namespace PAX {
             FIRE_EVENT
         }
 
+#undef FIRE_EVENT
 #undef PAX_ES_DELEGATE
 #undef PAX_ES_MAP_VALUES
     };

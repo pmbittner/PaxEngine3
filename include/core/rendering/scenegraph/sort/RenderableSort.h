@@ -13,7 +13,7 @@ namespace PAX {
     namespace Sort {
         class RenderableSort {
         private:
-            RenderableSortComparator* _comparator;
+            RenderableSortComparator* _comparator = nullptr;
 
             void insertionSort(std::vector<Renderable *> &renderables, unsigned int l, unsigned int r);
 

@@ -29,7 +29,7 @@ namespace PAX {
         float _z;
 
         EventService _localEventService;
-        WorldLayerLayout *_layout;
+        WorldLayerLayout *_layout = nullptr;
 
         SceneGraph _sceneGraph;
         SceneGraphBuilder _sceneGraphBuilder;

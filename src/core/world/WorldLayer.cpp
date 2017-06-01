@@ -10,7 +10,7 @@
 
 namespace PAX {
     WorldLayer::WorldLayer(std::string name, float z) : _name(name), _z(z) {
-        _sceneGraphBuilder.initialize();
+        _sceneGraphBuilder.initialize(&_sceneGraph, _localEventService);
     }
 
     void WorldLayer::spawn(Entity *entity) {

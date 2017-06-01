@@ -17,7 +17,7 @@ namespace PAX {
         bool _initialized {false};
         std::vector<GameSystem*> _gameSystems;
 
-        World *_activeWorld;
+        World *_activeWorld = nullptr;
 
     public:
         virtual void initialize() override;
