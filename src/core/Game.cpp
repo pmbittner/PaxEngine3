@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include "../../include/core/Game.h"
+#include "../../include/core/Engine.h"
 
 namespace PAX {
     void Game::initialize() {
@@ -24,7 +25,12 @@ namespace PAX {
 
     void Game::setActiveWorld(World *world) {
         assert(world);
+
+        if (_activeWorld)
+            _activeWorld->getEventService().setParent(nullptr);
+
         _activeWorld = world;
+        _activeWorld->getEventService().setParent(&Engine::GetInstance()->getEventService());
     }
 
     void Game::addGameSystem(GameSystem *gameSystem) {

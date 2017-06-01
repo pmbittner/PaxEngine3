@@ -20,9 +20,9 @@ namespace PAX {
         if (entityIter == _entities.end()) {
             _entities.push_back(entity);
             entity->_worldLayer = this;
+            entity->_localEventService.setParent(&_localEventService);
 
             EntitySpawnedEvent e(entity);
-
             _localEventService(e);
             Engine::GetInstance()->getEventService()(e);
         }
@@ -32,16 +32,17 @@ namespace PAX {
         auto entityIter = std::find(_entities.begin(), _entities.end(), entity);
         if (entityIter != _entities.end()) {
             _entities.erase(entityIter);
-            EntityDespawnedEvent e(entity);
+            entity->_worldLayer = nullptr;
+            entity->_localEventService.setParent(nullptr);
 
+            EntityDespawnedEvent e(entity);
             _localEventService(e);
             Engine::GetInstance()->getEventService()(e);
-
         }
     }
 
-    EventService* WorldLayer::getEventService() {
-        return &_localEventService;
+    EventService& WorldLayer::getEventService() {
+        return _localEventService;
     }
 
     SceneGraph* WorldLayer::getSceneGraph() {

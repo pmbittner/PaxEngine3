@@ -20,6 +20,13 @@ namespace PAX {
     void World::addLayer(WorldLayer *layer) {
         assert(_layers[layer->getName()] == nullptr);
         _layers[layer->getName()] = layer;
+
+        layer->getEventService().setParent(&_localEventService);
+    }
+
+    void World::removeLayer(WorldLayer *layer) {
+        _layers.erase(layer->getName());
+        layer->getEventService().setParent(nullptr);
     }
 
     WorldLayer* World::getWorldLayerWithName(const std::string &name) {
@@ -32,5 +39,9 @@ namespace PAX {
 
     WorldLayer* World::getGUILayer() {
         return getWorldLayerWithName(PAX_WORLDLAYERNAME_GUI);
+    }
+
+    EventService& World::getEventService() {
+        return _localEventService;
     }
 }

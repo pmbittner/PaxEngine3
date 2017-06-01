@@ -11,16 +11,22 @@
 namespace PAX {
     class World {
     private:
+        EventService _localEventService;
         std::unordered_map<std::string, WorldLayer*> _layers;
 
     public:
+
         World();
         ~World();
 
         void addLayer(WorldLayer *layer);
+        void removeLayer(WorldLayer *layer);
+
         WorldLayer* getMainLayer();
         WorldLayer* getGUILayer();
         WorldLayer* getWorldLayerWithName(const std::string& name);
+
+        EventService& getEventService();
     };
 }
 

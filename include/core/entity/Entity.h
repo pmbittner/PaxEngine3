@@ -35,21 +35,21 @@ namespace PAX {
         Entity *_parent;
         std::vector<Entity*> _children;
 
+        EventService _localEventService;
+
         WorldLayer *_worldLayer;
 
     public:
-        EventService LocalEventService;
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
 
         Entity();
         ~Entity();
 
         Transform& getTransform();
-
         void setParent(Entity *parent);
         Entity* getParent();
         const std::vector<Entity*>& getChildren();
-
+        EventService& getEventService();
         WorldLayer* getWorldLayer();
 
         template<typename ComponentClass>
@@ -90,7 +90,7 @@ namespace PAX {
             }
 
             EntityComponentAddedEvent<ComponentClass> e(component, this);
-            LocalEventService(e);
+            _localEventService(e);
 
             return true;
         }
@@ -106,7 +106,7 @@ namespace PAX {
                 }
 
                 EntityComponentRemovedEvent<ComponentClass> e(component, this);
-                LocalEventService(e);
+                _localEventService(e);
 
                 return true;
             }

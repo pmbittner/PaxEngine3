@@ -6,11 +6,14 @@
 #define PAXENGINE3_EVENTSERVICE_H
 
 #include <vector>
+#include <typeindex>
+#include <unordered_map>
 #include "Delegate.h"
 #include "../../utility/stdutils.h"
 
 namespace PAX {
     class EventService {
+        EventService *_parent;
         std::unordered_map<std::type_index, void*> _listeners;
 
         template<typename EventClass, class T, void (T::*Method)(EventClass&)>
@@ -20,6 +23,9 @@ namespace PAX {
         };
 
     public:
+        void setParent(EventService *parent);
+        EventService* getParent();
+
 #define PAX_ES_DELEGATE Delegate<EventClass&>
 #define PAX_ES_MAP_VALUES std::vector<PAX_ES_DELEGATE>
 
@@ -58,7 +64,9 @@ namespace PAX {
             for (PAX_ES_DELEGATE delegate : *values) {\
                 delegate.method(delegate.callee, event);\
             }\
-        }
+        }\
+        if (_parent) \
+            _parent->fire(event);
 
         template<typename EventClass>
         void operator()(EventClass& event) {

@@ -22,9 +22,14 @@ namespace PAX {
 
         class Friend {
         public:
-            void run(Base *base) {
+            void run(Base *base) const {
                 std::cout << base->getName() << std::endl;
             }
+        };
+
+        class PubMemberTest {
+        public:
+            Friend f;
         };
 
         int FriendTest() {
@@ -34,6 +39,10 @@ namespace PAX {
 
             f.run(&d);
             f.run(b);
+
+            PubMemberTest p;
+            p.f.run(&d);
+            p.f = Friend();
 
             return 1;
         }

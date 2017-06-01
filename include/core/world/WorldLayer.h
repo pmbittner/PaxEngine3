@@ -21,7 +21,7 @@ namespace PAX {
 #define PAX_WORLDLAYERNAME_GUI "GuiLayer"
 #define PAX_WORLDLAYERNAME_BACKGROUND "Background"
 
-    class WorldLayer : public EventService {
+    class WorldLayer {
         friend class SceneGraphBuilder;
 
     private:
@@ -44,7 +44,7 @@ namespace PAX {
 
         std::string getName();
         SceneGraph* getSceneGraph();
-        EventService* getEventService();
+        EventService& getEventService();
     };
 }
 
