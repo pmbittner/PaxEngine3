@@ -13,12 +13,12 @@ namespace PAX {
 namespace TEST {
     class Lol {
     public:
-        void testListener(EntitySpawnedEvent* e) {
+        void testListener(EntitySpawnedEvent& e) {
             std::cout << "Lol func Entity Spawn received!" << std::endl;
         }
     };
 
-    void testListener(EntitySpawnedEvent* e) {
+    void testListener(EntitySpawnedEvent& e) {
         std::cout << "Func Entity Spawn received!" << std::endl;
     }
 
@@ -26,26 +26,26 @@ namespace TEST {
         EventService e;
         Lol lol;
 
-        std::function<void(EntitySpawnedEvent*)> listi = [](EntitySpawnedEvent* e) { std::cout << "Lambda Entity Spawn received!" << std::endl; };
+        std::function<void(EntitySpawnedEvent&)> listi = [](EntitySpawnedEvent& e) { std::cout << "Lambda Entity Spawn received!" << std::endl; };
 
         //e.add(&testListener);
-        std::function<void(EntitySpawnedEvent*)> gTest = &testListener;
+        std::function<void(EntitySpawnedEvent&)> gTest = &testListener;
         //std::function<void(EntitySpawnedEvent*)> lTest = std::bind(&Lol::testListener, &l);
 
-        auto whatisit = lol.testListener;
+        //auto whatisit = lol.testListener;
 
         //e.add(&gTest);
         e.add<EntitySpawnedEvent, Lol, &Lol::testListener>(&lol);
 
         EntitySpawnedEvent s(nullptr);
         std::cout << "Trigger event" << std::endl;
-        e(&s);
+        e(s);
 
         //e.remove(&testListener);
         e.remove<EntitySpawnedEvent, Lol, &Lol::testListener>(&lol);
         //e.remove(&lTest);
         std::cout << "Trigger event" << std::endl;
-        e(&s);
+        e(s);
 
 
         //std::vector<std::function<EntitySpawnedEvent*>> vec;

@@ -20,12 +20,12 @@ namespace PAX {
             _delegates.push_back(Delegate<Args...>(callee, &invoke<T, Method>));
         }
 
-        /*
+/*
         template<auto Method, typename T>
         void cpp17add(T* callee) {
             _delegates.push_back(Delegate<Args...>(callee, &invoke<T, Method>));
         }
-         */
+        //*/
 
         template<class T, void (T::*Method)(Args...)>
         bool remove(T* callee) {

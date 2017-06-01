@@ -8,7 +8,7 @@
 
 namespace PAX {
     Entity::Entity() {
-
+        OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&LocalEventService);
     }
 
     Entity::~Entity() {
@@ -20,12 +20,17 @@ namespace PAX {
     }
 
     void Entity::setParent(Entity *parent) {
+        Entity *oldParent = _parent;//#PRANT
+
         _parent = parent;
         LOG(WARNING) << "Entity::setParent: event not implemented!";
         Transform *parentTransform = nullptr;
         if (_parent)
             parentTransform = &_parent->_transform;
         _transform.setParent(parentTransform);
+
+        EntityParentChangedEvent e(this, oldParent, parent);
+        OnParentChanged(e);
     }
 
     Entity* Entity::getParent() {
@@ -39,10 +44,4 @@ namespace PAX {
     WorldLayer* Entity::getWorldLayer() {
         return _worldLayer;
     }
-
-    //bool Entity::add(EntityComponent *component) {
-    //    std::type_index type = std::type_index(typeid(*component));
-    //    if (_components.find(type) != _components.end())
-    //        _components[type] = component;
-    //}
 }

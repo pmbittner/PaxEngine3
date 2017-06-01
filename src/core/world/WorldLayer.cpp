@@ -23,8 +23,8 @@ namespace PAX {
 
             EntitySpawnedEvent e(entity);
 
-            _localEventService(&e);
-            Engine::getInstance()->getEventService()(&e);
+            _localEventService(e);
+            Engine::getInstance()->getEventService()(e);
         }
     }
 
@@ -34,8 +34,8 @@ namespace PAX {
             _entities.erase(entityIter);
             EntityDespawnedEvent e(entity);
 
-            _localEventService(&e);
-            Engine::getInstance()->getEventService()(&e);
+            _localEventService(e);
+            Engine::getInstance()->getEventService()(e);
 
         }
     }

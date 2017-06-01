@@ -4,8 +4,6 @@
 
 #include "../../../../include/core/rendering/scenegraph/SceneGraphBuilder.h"
 #include "../../../../include/core/world/WorldLayer.h"
-#include "../../../../include/core/Engine.h"
-#include <vector>
 
 namespace PAX {
     void SceneGraphBuilder::initialize() {

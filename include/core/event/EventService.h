@@ -13,17 +13,17 @@ namespace PAX {
     class EventService {
         std::unordered_map<std::type_index, void*> _listeners;
 
-        template<typename EventClass, class T, void (T::*Method)(EventClass*)>
-        static void invoke(void* callee, EventClass* event) {
+        template<typename EventClass, class T, void (T::*Method)(EventClass&)>
+        static void invoke(void* callee, EventClass& event) {
             T* object = static_cast<T*>(callee);
             (object->*Method)(event);
         };
 
     public:
-#define PAX_ES_DELEGATE Delegate<EventClass*>
+#define PAX_ES_DELEGATE Delegate<EventClass&>
 #define PAX_ES_MAP_VALUES std::vector<PAX_ES_DELEGATE>
 
-        template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass*)>
+        template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass&)>
         void add(Listener* listener) {
             std::type_index type = std::type_index(typeid(EventClass));
 
@@ -39,7 +39,7 @@ namespace PAX {
             listenerList->push_back(PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
         }
 
-        template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass*)>
+        template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass&)>
         bool remove(Listener *listener) {
             std::type_index type = std::type_index(typeid(EventClass));
 
@@ -61,12 +61,12 @@ namespace PAX {
         }
 
         template<typename EventClass>
-        void operator()(EventClass* event) {
+        void operator()(EventClass& event) {
             FIRE_EVENT
         }
 
         template<typename EventClass>
-        void fire(EventClass* event) {
+        void fire(EventClass& event) {
             FIRE_EVENT
         }
 

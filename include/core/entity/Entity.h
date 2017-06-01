@@ -13,6 +13,11 @@
 
 #include "Transform.h"
 #include "EntityComponent.h"
+#include "event/EntityParentChangedEvent.h"
+#include "../event/EventHandler.h"
+#include "event/EntityComponentRemovedEvent.h"
+#include "event/EntityComponentAddedEvent.h"
+#include "../event/EventService.h"
 
 namespace PAX {
     class World;
@@ -33,6 +38,9 @@ namespace PAX {
         WorldLayer *_worldLayer;
 
     public:
+        EventService LocalEventService;
+        EventHandler<EntityParentChangedEvent&> OnParentChanged;
+
         Entity();
         ~Entity();
 
@@ -57,7 +65,7 @@ namespace PAX {
         }
 
         template<typename ComponentClass>
-        inline bool add(ComponentClass* component) {
+        bool add(ComponentClass* component) {
             std::type_index type = std::type_index(typeid(ComponentClass));
             std::vector<ComponentClass*>* result;
 
@@ -75,6 +83,28 @@ namespace PAX {
 
             component->_owner = this;
             result->push_back(component);
+
+            EntityComponentAddedEvent<ComponentClass> e(component, this);
+            LocalEventService(e);
+
+            return true;
+        }
+
+        template<typename ComponentClass>
+        bool remove(ComponentClass* component) {
+            std::type_index type = std::type_index(typeid(ComponentClass));
+            if (_components[type]) {
+                std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
+
+                if (Util::removeFromVector(result, component)) {
+                    component->_owner = nullptr;
+                }
+
+                EntityComponentRemovedEvent<ComponentClass> e(component, this);
+                LocalEventService(e);
+
+                return true;
+            }
 
             return true;
         }
