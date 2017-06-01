@@ -10,7 +10,7 @@
 #include "../entity/EntityComponent.h"
 
 namespace PAX {
-    class Camera : public EntityComponent {
+    PAX_EntityComponent(Camera, false)
         glm::mat4 _viewMatrix;
 
     public:

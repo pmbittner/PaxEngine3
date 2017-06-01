@@ -17,7 +17,15 @@ namespace PAX {
     public:
         EntityComponent();
         Entity* getOwner();
+
+        virtual bool isMultiple() = 0;
     };
 }
+
+#define PAX_EntityComponent(name, bool_multiple, inheritance...) class name : public PAX::EntityComponent,##inheritance  { \
+            public: \
+                const static bool IsMultiple = bool_multiple;\
+                virtual bool isMultiple() override { return bool_multiple; } \
+            private:
 
 #endif //PAXENGINE3_ENTITYCOMPONENT_H

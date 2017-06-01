@@ -10,7 +10,7 @@
 #include "scenegraph/SceneGraphBuildingRule.h"
 
 namespace PAX {
-    class Graphics : public Renderable, public EntityComponent {
+    PAX_EntityComponent(Graphics, false, public Renderable)
         // The SceneGraph that holds this Graphics for rendering
         SceneGraph* _sceneGraph;
 

@@ -15,7 +15,7 @@
 namespace PAX {
     namespace TEST {
         namespace ENTITY {
-            class Graphics : public EntityComponent {
+            PAX_EntityComponent(Graphics, false)
             public:
                 virtual std::string getPlatformName() = 0;
             };
@@ -57,8 +57,8 @@ namespace PAX {
             }
 
             class PoolTest : public EntityComponentPool<OpenGLGraphics> {
-                virtual OpenGLGraphics createElement() override {
-                    return OpenGLGraphics();
+                virtual OpenGLGraphics* createElement() override {
+                    return new OpenGLGraphics();
                 }
             };
 

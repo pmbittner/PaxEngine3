@@ -68,6 +68,7 @@ namespace PAX {
         bool add(ComponentClass* component) {
             std::type_index type = std::type_index(typeid(ComponentClass));
             std::vector<ComponentClass*>* result;
+            bool addAllowed = true;
 
             if (component->_owner) {
                 //LOG(WARN) << "The component is already assigned to an Entity!";
@@ -77,12 +78,16 @@ namespace PAX {
             if (!_components[type]) {//_components.find(type) == _components.end()) {
                 result = new std::vector<ComponentClass*>();
                 _components[type] = result;
+                addAllowed = ComponentClass::IsMultiple || result->empty();
             } else {
                 result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
             }
 
-            component->_owner = this;
-            result->push_back(component);
+            // add only if multiple instances are allowed
+            if (addAllowed) {
+                component->_owner = this;
+                result->push_back(component);
+            }
 
             EntityComponentAddedEvent<ComponentClass> e(component, this);
             LocalEventService(e);
