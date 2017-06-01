@@ -19,6 +19,11 @@ namespace PAX {
             }
             return false;
         }
+
+        template<class T>
+        inline bool vectorContains(std::vector<T> *vector, const T element) {
+            return std::find(vector->begin(), vector->end(), element) != vector->end();
+        }
     }
 }
 
