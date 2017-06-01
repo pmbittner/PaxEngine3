@@ -17,44 +17,45 @@ namespace PAX {
     private:
         static Engine *instance;
 
+        // GAME LOOP VARS ////////////////////////////////////////////////////////////
         bool _running {false};
 
-        // GAME LOOP VARS
-
-        // constraint: _targetFPS < _targetUPS
-        double _targetFPS = 100;
+        // constraint: _targetFPS <= _targetUPS
+        double _targetFPS = 250;
         double _targetUPS = 250;
 
         double _actualFPS;
         double _actualUPS;
 
-        // ARCHITECTURAL VARS
+        // ARCHITECTURAL VARS ////////////////////////////////////////////////////////
         EventService _eventService;
-        Game _game;
         Renderer _renderer;
 
+        Game *_game;
         Window *_window;
         InputSystem* _inputSystem;
 
+        // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
+        ~Engine();
+
         void update();
         void render();
 
     public:
-        ~Engine();
-
-        bool initialize(EngineSetup* setup);
+        bool initialize(EngineSetup* setup, Game* game);
         int run();
         void stop();
 
         InputSystem* getInputSystem();
         Window* getWindow();
-        Game& getGame();
+        Game* getGame();
         EventService& getEventService();
 
         double getFPS();
 
-        static Engine* getInstance();
+        static Engine* GetInstance();
+        static bool Dispose();
     };
 }
 

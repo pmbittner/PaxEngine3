@@ -33,12 +33,7 @@ namespace PAX {
     }
 
     bool SceneGraph::removeChild(SceneGraph *child) {
-        if (Util::removeFromVector(&_children, static_cast<Renderable*>(child))) {
-            Util::removeFromVector(&(child->_parents), this);
-            return true;
-        }
-
-        return false;
+        return Util::removeFromVector(&_children, static_cast<Renderable*>(child)) && Util::removeFromVector(&(child->_parents), this);
     }
 
     void SceneGraph::addRenderable(Renderable *renderable) {
@@ -46,7 +41,7 @@ namespace PAX {
     }
 
     bool SceneGraph::removeRenderable(Renderable *renderable) {
-        Util::removeFromVector(&_children, renderable);
+        return Util::removeFromVector(&_children, renderable);
     }
 
     void SceneGraph::prettyPrint() {

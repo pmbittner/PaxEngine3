@@ -46,7 +46,7 @@ namespace SDL_TEST_APPLICATION2 {
 #ifdef PAX_OS_ANDROID
             LOG(INFO) << "INIT SDL2TestApplication2 on Android";
 #endif
-            PAX::Window * window = PAX::Engine::getInstance()->getWindow();
+            PAX::Window * window = PAX::Engine::GetInstance()->getWindow();
             SDL_Window *sdlWindow = static_cast<PAX::SDLWindow*>(window)->getSDL_Window();
 
             renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -84,8 +84,8 @@ namespace SDL_TEST_APPLICATION2 {
         }
 
         void SDLTestApplication2GameSystem::update() {
-            PAX::Keyboard *keyboard = PAX::Engine::getInstance()->getInputSystem()->getKeyboard();
-            PAX::Mouse *mouse = PAX::Engine::getInstance()->getInputSystem()->getMouse();
+            PAX::Keyboard *keyboard = PAX::Engine::GetInstance()->getInputSystem()->getKeyboard();
+            PAX::Mouse *mouse = PAX::Engine::GetInstance()->getInputSystem()->getMouse();
 
             if (keyboard->isKeyDown(SDLK_w)) y -= speed;
             if (keyboard->isKeyDown(SDLK_s)) y += speed;
@@ -101,7 +101,7 @@ namespace SDL_TEST_APPLICATION2 {
                 SDL_DestroyTexture(message);
 
             std::ostringstream strs;
-            strs << (int)PAX::Engine::getInstance()->getFPS();
+            strs << (int)PAX::Engine::GetInstance()->getFPS();
 
             SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, strs.str().c_str(), fontColor); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
             message = SDL_CreateTextureFromSurface(renderer, surfaceMessage); //now you can convert it into a texture

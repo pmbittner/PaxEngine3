@@ -15,7 +15,7 @@ namespace PAX {
     void SDLInputSystem::update() {
         while (SDL_PollEvent(&_currentEvent)) {
             if (_currentEvent.type == SDL_QUIT) {
-                PAX::Engine::getInstance()->stop();
+                PAX::Engine::GetInstance()->stop();
             } else if (_currentEvent.type == SDL_KEYDOWN) {
                 _keyboard.keyDown[_currentEvent.key.keysym.sym] = true;
             } else if (_currentEvent.type == SDL_KEYUP) {

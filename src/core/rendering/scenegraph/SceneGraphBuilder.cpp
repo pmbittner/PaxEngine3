@@ -9,10 +9,10 @@ namespace PAX {
     void SceneGraphBuilder::initialize() {
         EventService *eservice = _worldLayer->getEventService();
 
-        //eservice->add(&onEntitySpawnedEvent);
-        //eservice->add(&onEntityDespawnedEvent);
-        //eservice->add(&onEntityComponentAddedEvent);
-        //eservice->add(&onEntityComponentRemovedEvent);
+        eservice->add<EntitySpawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntitySpawnedEvent>(this);
+        eservice->add<EntityDespawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntityDespawnedEvent>(this);
+        eservice->add<EntityComponentAddedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentAddedEvent>(this);
+        eservice->add<EntityComponentRemovedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphBuilder::addGraphics(Graphics *g) {
@@ -26,8 +26,8 @@ namespace PAX {
 
     }
 
-    void SceneGraphBuilder::onEntitySpawnedEvent(EntitySpawnedEvent *e) {
-        Entity *entity = e->entity;
+    void SceneGraphBuilder::onEntitySpawnedEvent(EntitySpawnedEvent& e) {
+        Entity *entity = e.entity;
         if (entity->has<Graphics>()) {
             const std::vector<Graphics*> &gfx = entity->get<Graphics>();
             for (Graphics *g : gfx)
@@ -35,12 +35,12 @@ namespace PAX {
         }
     }
 
-    void SceneGraphBuilder::onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics> *e) {
-        addGraphics(e->_component);
+    void SceneGraphBuilder::onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>& e) {
+        addGraphics(e._component);
     }
 
-    void SceneGraphBuilder::onEntityDespawnedEvent(EntityDespawnedEvent *e) {
-        Entity *entity = e->entity;
+    void SceneGraphBuilder::onEntityDespawnedEvent(EntityDespawnedEvent& e) {
+        Entity *entity = e.entity;
         if (entity->has<Graphics>()) {
             const std::vector<Graphics*> &gfx = entity->get<Graphics>();
             for (Graphics *g : gfx)
@@ -48,7 +48,7 @@ namespace PAX {
         }
     }
 
-    void SceneGraphBuilder::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics> *e) {
-        removeGraphics(e->_component);
+    void SceneGraphBuilder::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>& e) {
+        removeGraphics(e._component);
     }
 }
