@@ -19,8 +19,15 @@ PAX::Engine::~Engine() {
     instance = nullptr;
 }
 
-bool PAX::Engine::initialize(EngineSetup* setup) {
+bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     LOG(INFO) << "Initializing engine";
+
+    if (game) {
+        _game = game;
+    } else {
+        LOG(ERROR) << "Game not set! Abort initialization!";
+        return false;
+    }
 
     setup->initialize(this);
 
@@ -30,12 +37,11 @@ bool PAX::Engine::initialize(EngineSetup* setup) {
     _inputSystem = setup->createInputSystem();
 
     _inputSystem->initialize();
-    _game.initialize();
+    _game->initialize();
     _renderer.initialize();
+
     return true;
 }
-
-//std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).count();
 
 
 int PAX::Engine::run() {
@@ -146,7 +152,7 @@ int PAX::Engine::run() {
 void PAX::Engine::update() {
     //SDL_TEST_APPLICATION2::update();
     _inputSystem->update();
-    _game.update();
+    _game->update();
 }
 
 void PAX::Engine::render() {
@@ -163,7 +169,7 @@ PAX::InputSystem* PAX::Engine::getInputSystem() {
     return _inputSystem;
 }
 
-PAX::Game& PAX::Engine::getGame() {
+PAX::Game* PAX::Engine::getGame() {
     return _game;
 }
 
@@ -179,10 +185,13 @@ double PAX::Engine::getFPS() {
     return _actualFPS;
 }
 
-PAX::Engine* PAX::Engine::getInstance() {
+PAX::Engine* PAX::Engine::GetInstance() {
     if (instance)
         return instance;
     else
         return new Engine();
 }
 
+bool PAX::Engine::Dispose() {
+    delete instance;
+}
