@@ -21,10 +21,10 @@ namespace PAX {
     public:
         void initialize();
 
-        void onEntitySpawnedEvent(EntitySpawnedEvent* e);
-        void onEntityDespawnedEvent(EntityDespawnedEvent* e);
-        void onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>* e);
-        void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>* e);
+        void onEntitySpawnedEvent(EntitySpawnedEvent& e);
+        void onEntityDespawnedEvent(EntityDespawnedEvent& e);
+        void onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>& e);
+        void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>& e);
 
         void addGraphics(Graphics *g);
         void removeGraphics(Graphics *g);

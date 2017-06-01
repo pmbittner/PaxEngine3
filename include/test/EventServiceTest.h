@@ -6,6 +6,7 @@
 #define PAXENGINE3_EVENTSERVICETEST_H
 
 #include <iostream>
+#include <functional>
 #include "../core/event/EventService.h"
 #include "../core/world/event/EntitySpawnedEvent.h"
 

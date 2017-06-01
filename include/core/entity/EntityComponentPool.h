@@ -21,7 +21,7 @@ namespace PAX {
         ArrayElement *_firstFreeElement;
 
     protected:
-        virtual T createElement() = 0;
+        virtual T* createElement() = 0;
 
     public:
         void initialize(int size) {
