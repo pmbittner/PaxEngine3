@@ -37,8 +37,9 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     _inputSystem = setup->createInputSystem();
 
     _inputSystem->initialize();
-    _game->initialize();
     _renderer.initialize();
+
+    _game->initialize();
 
     return true;
 }
