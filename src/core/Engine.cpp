@@ -9,7 +9,7 @@
 #include "../../include/utility/Sleep.h"
 #include "../../include/lib/easylogging++.h"
 
-PAX::Engine *PAX::Engine::instance;
+PAX::Engine *PAX::Engine::instance = nullptr;
 
 PAX::Engine::Engine() {
     instance = this;
@@ -195,4 +195,5 @@ PAX::Engine* PAX::Engine::GetInstance() {
 
 bool PAX::Engine::Dispose() {
     delete instance;
+    return true;
 }

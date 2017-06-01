@@ -13,10 +13,8 @@
 
 namespace PAX {
     class SceneGraphBuilder {
-        SceneGraph *_sceneGraph = nullptr;
-
     public:
-        void initialize(SceneGraph *sceneGraph, EventService& eventService);
+        void initialize(EventService& eventService);
 
         void onEntitySpawnedEvent(EntitySpawnedEvent& e);
         void onEntityDespawnedEvent(EntityDespawnedEvent& e);

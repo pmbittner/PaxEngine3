@@ -15,7 +15,7 @@
 namespace PAX {
     class Engine {
     private:
-        static Engine *instance = nullptr;
+        static Engine *instance;
 
         // GAME LOOP VARS ////////////////////////////////////////////////////////////
         bool _running {false};

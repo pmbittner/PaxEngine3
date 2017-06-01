@@ -4,10 +4,11 @@
 
 #include "../../../include/core/rendering/Renderer.h"
 #include "../../../include/test/SDLTestApplication2.h"
+#include "../../../include/core/Engine.h"
 
 namespace PAX {
     void Renderer::initialize() {
-
+        _sceneGraphBuilder.initialize(Engine::GetInstance()->getEventService());
     }
 
     void Renderer::render() {

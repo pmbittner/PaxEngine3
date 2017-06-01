@@ -23,7 +23,6 @@ namespace PAX {
         Entity *oldParent = _parent;//#PRANT
 
         _parent = parent;
-        LOG(WARNING) << "Entity::setParent: event not implemented!";
         Transform *parentTransform = nullptr;
         if (_parent)
             parentTransform = &_parent->_transform;

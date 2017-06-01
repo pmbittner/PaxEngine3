@@ -32,8 +32,6 @@ namespace PAX {
         WorldLayerLayout *_layout = nullptr;
 
         SceneGraph _sceneGraph;
-        SceneGraphBuilder _sceneGraphBuilder;
-
         std::vector<Entity*> _entities;
 
     public:

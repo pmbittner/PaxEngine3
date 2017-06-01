@@ -6,9 +6,7 @@
 #include "../../../../include/core/world/WorldLayer.h"
 
 namespace PAX {
-    void SceneGraphBuilder::initialize(SceneGraph *sceneGraph, EventService& eventService) {
-        _sceneGraph = sceneGraph;
-
+    void SceneGraphBuilder::initialize(EventService& eventService) {
         eventService.add<EntitySpawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntitySpawnedEvent>(this);
         eventService.add<EntityDespawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntityDespawnedEvent>(this);
         eventService.add<EntityComponentAddedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentAddedEvent>(this);
@@ -16,8 +14,9 @@ namespace PAX {
     }
 
     void SceneGraphBuilder::addGraphics(Graphics *g) {
+        SceneGraph *sceneGraph = (g->getOwner()->getWorldLayer()->getSceneGraph());
         SceneGraphBuildingRule *rule = g->getSceneGraphBuildingRule();
-        SceneGraph *node = rule->determineSceneGraphNodeFor(g, _sceneGraph);
+        SceneGraph *node = rule->determineSceneGraphNodeFor(g, sceneGraph);
         node->addRenderable(g);
     }
 
