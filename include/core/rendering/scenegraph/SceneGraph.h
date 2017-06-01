@@ -25,7 +25,7 @@ namespace PAX {
         void addChild(SceneGraph* child);
         bool removeChild(SceneGraph* child);
 
-        virtual void render();
+        virtual void render() override;
         virtual float getZ() override;
 
         void prettyPrint();

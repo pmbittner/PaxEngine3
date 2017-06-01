@@ -11,7 +11,16 @@ namespace PAX {
     class Renderer {
         SceneGraphBuilder _sceneGraphBuilder;
 
+        SceneGraph* _sceneGraphRoot;
+        SceneGraph* _generationEntryPoint;
+
     public:
+        void setSceneGraphRoot(SceneGraph *root);
+        SceneGraph* getSceneGraphRoot();
+
+        void setSceneGraphGenerationEntryPoint(SceneGraph *generationEntiryPoint);
+        SceneGraph* getSceneGraphGenerationEntryPoint();
+
         virtual void initialize();
         virtual void render();
     };

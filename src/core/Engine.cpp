@@ -182,6 +182,10 @@ PAX::EventService& PAX::Engine::getEventService() {
     return _eventService;
 }
 
+PAX::Renderer& PAX::Engine::getRenderer() {
+    return _renderer;
+}
+
 double PAX::Engine::getFPS() {
     return _actualFPS;
 }

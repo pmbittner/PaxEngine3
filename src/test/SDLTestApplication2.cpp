@@ -120,7 +120,7 @@ namespace SDL_TEST_APPLICATION2 {
         }
 
     void render() {
-        //First clear the renderer
+        //First clear the _renderer
         SDL_RenderClear(renderer);
         //Draw the texture
         SDL_RenderCopy(renderer, message, NULL, &message_rect);

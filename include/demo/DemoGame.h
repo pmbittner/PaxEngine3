@@ -9,6 +9,8 @@
 #include "../core/Game.h"
 #include "../test/SDLTestApplication2.h"
 #include "../sdl/test/SDLSprite.h"
+#include "../sdl/SDLRenderPass.h"
+#include "../sdl/utitlity/Path.h"
 
 namespace PAX {
     namespace Demo {
@@ -18,14 +20,26 @@ namespace PAX {
         public:
             virtual void initialize() override {
                 Game::initialize();
+
+                /*
                 addGameSystem(new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem);
 
-                World *testWorld = new World();
 
+                /*/
+                SDLRenderPass *renderpass = new SDLRenderPass();
+                Renderer &renderer = Engine::GetInstance()->getRenderer();
+                renderer.setSceneGraphRoot(renderpass);
+                renderer.setSceneGraphGenerationEntryPoint(renderpass);
+
+                renderpass->initialize();
+
+                World *testWorld = new World();
                 setActiveWorld(testWorld);
 
-                SDLSprite *sprite = new SDLSprite();
+                SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), getResourcePath() + "img/test/Gilgamesh.bmp");
                 testEntity.add<Graphics>(sprite);
+
+                testEntity.getTransform().setPosition(300, 200);
 
                 testWorld->getMainLayer()->spawn(&testEntity);
                 //*/

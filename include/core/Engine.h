@@ -51,6 +51,7 @@ namespace PAX {
         Window* getWindow();
         Game* getGame();
         EventService& getEventService();
+        Renderer& getRenderer();
 
         double getFPS();
 
