@@ -10,7 +10,7 @@
 namespace PAX {
     class ListSceneGraphBuildingRule : public SceneGraphBuildingRule {
     public:
-        virtual SceneGraph* determineSceneGraphNodeFor(Graphics *graphics, SceneGraph* root) override;
+        virtual SceneGraph* determineSceneGraphNodeFor(EntityComponent *component, SceneGraph* root) override;
     };
 }
 

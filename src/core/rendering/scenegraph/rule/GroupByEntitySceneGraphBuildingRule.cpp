@@ -11,7 +11,7 @@
 namespace PAX {
     SceneGraph* GroupByEntitySceneGraphBuildingRule::findNodeOf(Entity *entity) {
         if (entity->has<Graphics>())
-            return entity->get<Graphics>()->getSceneGraph();
+            return entity->get<Graphics>()->getSceneGraphNode();
         return nullptr;
     }
 
@@ -42,8 +42,8 @@ namespace PAX {
         return node;
     }
 
-    SceneGraph * GroupByEntitySceneGraphBuildingRule::determineSceneGraphNodeFor(Graphics *graphics, SceneGraph *root) {
-        Entity *entity = graphics->getOwner();
+    SceneGraph * GroupByEntitySceneGraphBuildingRule::determineSceneGraphNodeFor(EntityComponent *component, SceneGraph *root) {
+        Entity *entity = component->getOwner();
         assert(entity);
         return determineSceneGraphNodeFor(entity, root);
     }

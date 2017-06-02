@@ -12,6 +12,15 @@ namespace PAX {
 
     }
 
+    SceneGraph::~SceneGraph() {
+        for (SceneGraph* parent : _parents)
+            parent->removeChild(this);
+
+        _children.clear();
+
+        LOG(WARNING) << "SceneGraph destructor is memory leaking! It does not delete children!";
+    }
+
     void SceneGraph::render() {
         _sorter.insertionSort(_children);
 
@@ -33,7 +42,9 @@ namespace PAX {
     }
 
     bool SceneGraph::removeChild(SceneGraph *child) {
-        return Util::removeFromVector(&_children, static_cast<Renderable*>(child)) && Util::removeFromVector(&(child->_parents), this);
+        if (Util::vectorContains(&_children, static_cast<Renderable*>(child))) {
+            return Util::removeFromVector(&_children, static_cast<Renderable*>(child)) && Util::removeFromVector(&(child->_parents), this);
+        }
     }
 
     void SceneGraph::addRenderable(Renderable *renderable) {
@@ -42,6 +53,10 @@ namespace PAX {
 
     bool SceneGraph::removeRenderable(Renderable *renderable) {
         return Util::removeFromVector(&_children, renderable);
+    }
+
+    bool SceneGraph::isEmpty() {
+        return _children.empty();
     }
 
     void SceneGraph::prettyPrint() {

@@ -11,6 +11,7 @@
 #include "WorldLayerLayout.h"
 #include "../entity/Entity.h"
 #include "../rendering/scenegraph/SceneGraph.h"
+#include "../rendering/scenegraph/SceneGraphGenerator.h"
 #include "event/EntitySpawnedEvent.h"
 #include "../event/EventListener.h"
 #include "event/EntityDespawnedEvent.h"
@@ -22,9 +23,8 @@ namespace PAX {
 #define PAX_WORLDLAYERNAME_BACKGROUND "Background"
 
     class WorldLayer {
-        friend class SceneGraphBuilder;
+        friend class SceneGraphGenerator;
 
-    private:
         std::string _name;
         float _z;
 
@@ -32,6 +32,7 @@ namespace PAX {
         WorldLayerLayout *_layout = nullptr;
 
         SceneGraph _sceneGraph;
+        SceneGraphGenerator _sceneGraphBuilder;
         std::vector<Entity*> _entities;
 
     public:

@@ -5,7 +5,7 @@
 #include "../../../../../include/core/rendering/scenegraph/rule/ListSceneGraphBuildingRule.h"
 
 namespace PAX {
-    SceneGraph * ListSceneGraphBuildingRule::determineSceneGraphNodeFor(Graphics *graphics, SceneGraph *root) {
+    SceneGraph * ListSceneGraphBuildingRule::determineSceneGraphNodeFor(EntityComponent *component, SceneGraph *root) {
         return root;
     }
 }

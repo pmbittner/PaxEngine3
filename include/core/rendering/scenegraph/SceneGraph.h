@@ -6,7 +6,6 @@
 #define PAXENGINE3_SCENEGRAPH_H
 
 #include <vector>
-#include "SceneGraphBuilder.h"
 #include "sort/RenderableSort.h"
 
 namespace PAX {
@@ -17,6 +16,7 @@ namespace PAX {
 
     public:
         SceneGraph();
+        ~SceneGraph();
 
         const std::vector<SceneGraph*>& getParents();
 
@@ -24,6 +24,8 @@ namespace PAX {
         bool removeRenderable(Renderable* renderable);
         void addChild(SceneGraph* child);
         bool removeChild(SceneGraph* child);
+
+        bool isEmpty();
 
         virtual void render() override;
         virtual float getZ() override;

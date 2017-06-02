@@ -5,12 +5,10 @@
 #ifndef PAXENGINE3_RENDERER_H
 #define PAXENGINE3_RENDERER_H
 
-#include "scenegraph/SceneGraphBuilder.h"
+#include "scenegraph/SceneGraphGenerator.h"
 
 namespace PAX {
     class Renderer {
-        SceneGraphBuilder _sceneGraphBuilder;
-
         SceneGraph* _sceneGraphRoot;
         SceneGraph* _generationEntryPoint;
 

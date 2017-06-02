@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_SCENEGRAPHBUILDER_H
 #define PAXENGINE3_SCENEGRAPHBUILDER_H
 
+#include "SceneGraph.h"
 #include "../Graphics.h"
 #include "../Camera.h"
 #include "../../world/event/EntitySpawnedEvent.h"
@@ -13,9 +14,12 @@
 #include "../../entity/event/EntityComponentRemovedEvent.h"
 
 namespace PAX {
-    class SceneGraphBuilder {
+    class SceneGraphGenerator {
+        SceneGraph _sceneRoot;
+        SceneGraph *_root;
+
     public:
-        void initialize(EventService& eventService);
+        void initialize(SceneGraph *_root, EventService& eventService);
 
         void onEntitySpawnedEvent(EntitySpawnedEvent& e);
         void onEntityDespawnedEvent(EntityDespawnedEvent& e);
@@ -26,6 +30,8 @@ namespace PAX {
 
         void addGraphics(Graphics *g);
         void removeGraphics(Graphics *g);
+        void addCamera(Camera *g);
+        void removeCamera(Camera *g);
     };
 }
 

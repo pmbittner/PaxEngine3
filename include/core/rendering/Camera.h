@@ -6,11 +6,11 @@
 #define PAXENGINE3_CAMERA_H
 
 #include <glm/detail/type_mat4x4.hpp>
-
 #include "../entity/EntityComponent.h"
+#include "../rendering/scenegraph/SceneGraph.h"
 
 namespace PAX {
-    PAX_EntityComponent(Camera, false)
+    PAX_EntityComponent(Camera, false, public SceneGraph)
         glm::mat4 _viewMatrix;
 
     public:

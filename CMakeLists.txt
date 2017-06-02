@@ -31,7 +31,7 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
 
         include/core/rendering/scenegraph/SceneGraph.h
         include/core/rendering/scenegraph/SceneGraphBuildingRule.h
-        include/core/rendering/scenegraph/SceneGraphBuilder.h
+        include/core/rendering/scenegraph/SceneGraphGenerator.h
         include/core/rendering/scenegraph/sort/RenderableSort.h
         include/core/rendering/scenegraph/sort/RenderableSortComparator.h
 
@@ -78,7 +78,7 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/rendering/scenegraph/rule/ListSceneGraphBuildingRule.h
         include/test/trials/FriendTest.h
         include/test/trials/InheritanceTest.h
-        include/utility/stdutils.h include/test/SceneGraphTest.h include/core/rendering/scenegraph/EntitySceneGraph.h include/test/trials/DelegateTest.h include/core/event/Delegate.h include/core/event/EventHandler.h include/core/entity/event/EntityParentChangedEvent.h include/test/trials/StaticMember.h include/demo/DemoGame.h include/sdl/test/SDLSprite.h include/sdl/SDLRenderPass.h include/test/trials/SpecializedFunctionWithDifferentReturType.h include/utility/MacroIncludes.h)
+        include/utility/stdutils.h include/test/SceneGraphTest.h include/core/rendering/scenegraph/EntitySceneGraph.h include/test/trials/DelegateTest.h include/core/event/Delegate.h include/core/event/EventHandler.h include/core/entity/event/EntityParentChangedEvent.h include/test/trials/StaticMember.h include/demo/DemoGame.h include/sdl/test/SDLSprite.h include/sdl/SDLRenderPass.h include/test/trials/SpecializedFunctionWithDifferentReturType.h include/utility/MacroIncludes.h include/core/rendering/scenegraph/SceneGraphGeneratable.h)
 
 ### API INCLUDES ########################################
 find_package(SDL2 REQUIRED)

@@ -13,7 +13,7 @@ namespace PAX {
         SceneGraph* findNodeOf(Entity *entity);
         SceneGraph* determineSceneGraphNodeFor(Entity *entity, SceneGraph* root);
     public:
-        virtual SceneGraph* determineSceneGraphNodeFor(Graphics *graphics, SceneGraph* root) override;
+        virtual SceneGraph* determineSceneGraphNodeFor(EntityComponent *component, SceneGraph* root) override;
     };
 }
 

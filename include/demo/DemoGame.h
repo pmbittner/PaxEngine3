@@ -39,6 +39,8 @@ namespace PAX {
                 SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), getResourcePath() + "img/test/Gilgamesh.bmp");
                 testEntity.add<Graphics>(sprite);
 
+                testEntity.add<Camera>(new Camera);
+
                 testEntity.getTransform().setPosition(300, 200);
 
                 testWorld->getMainLayer()->spawn(&testEntity);

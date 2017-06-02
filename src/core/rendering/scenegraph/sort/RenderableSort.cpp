@@ -4,6 +4,7 @@
 
 #include "../../../../../include/core/rendering/scenegraph/sort/RenderableSort.h"
 #include <cassert>
+#include <iostream>
 
 namespace PAX {
     namespace Sort {
@@ -21,7 +22,7 @@ namespace PAX {
             _comparator = comparator;
         }
 
-        void RenderableSort::insertionSort(std::vector<Renderable *> &renderables, unsigned int l, unsigned int r) {
+        void RenderableSort::insertionSort(std::vector<Renderable *> &renderables, int l, int r) {
             int i, j;
             for (i = l + 1; i <= r; ++i) {
                 Renderable *temp = renderables[i];

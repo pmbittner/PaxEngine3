@@ -61,14 +61,14 @@ namespace PAX {
 
         template<typename ComponentClass, typename return_type = Util::conditional_t_cpp17<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
         inline const return_type get() {
-            std::type_index type = PAX_typeof(ComponentClass);
+            std::type_index type = std::type_index(typeid(ComponentClass));
             assert(_components[type]);
             return static_cast<return_type>(_components[type]);
         }
 
         template<typename ComponentClass>
         bool add(ComponentClass* component) {
-            std::type_index type = PAX_typeof(ComponentClass);
+            std::type_index type = std::type_index(typeid(ComponentClass));
             bool addAllowed = true;
 
             if (component->_owner) {
@@ -106,7 +106,7 @@ namespace PAX {
 
         template<typename ComponentClass>
         bool remove(ComponentClass* component) {
-            std::type_index type = PAX_typeof(ComponentClass);
+            std::type_index type = std::type_index(typeid(ComponentClass));
 
             if (_components[type]) {
                 if (ComponentClass::IsMultiple) {

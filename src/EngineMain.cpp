@@ -22,7 +22,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
     // FAMOUS TOGGLE COMMENT <3
-    /*
+    //*
     EngineSetup *setup = new SDLEngineSetup;
     Game *game = new Demo::DemoGame();
 

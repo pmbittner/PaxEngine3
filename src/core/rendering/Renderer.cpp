@@ -8,7 +8,7 @@
 
 namespace PAX {
     void Renderer::initialize() {
-        _sceneGraphBuilder.initialize(Engine::GetInstance()->getEventService());
+
     }
 
     void Renderer::render() {

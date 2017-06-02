@@ -6,6 +6,7 @@
 #define PAXENGINE3_ENTITYSCENEGRAPH_H
 
 #include "SceneGraph.h"
+#include "../../entity/Entity.h"
 
 namespace PAX {
     class EntitySceneGraph : public SceneGraph {

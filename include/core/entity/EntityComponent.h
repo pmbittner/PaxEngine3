@@ -22,7 +22,7 @@ namespace PAX {
     };
 }
 
-#define PAX_EntityComponent(name, bool_multiple, inheritance...) class name : public PAX::EntityComponent,##inheritance  { \
+#define PAX_EntityComponent(name, bool_multiple, inheritance...) class name : public PAX::EntityComponent, ##inheritance { \
             public: \
                 const static bool IsMultiple = bool_multiple;\
                 virtual bool isMultiple() override { return bool_multiple; } \

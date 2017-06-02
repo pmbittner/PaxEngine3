@@ -7,18 +7,11 @@
 
 #include "Renderable.h"
 #include "../entity/EntityComponent.h"
-#include "scenegraph/SceneGraphBuildingRule.h"
+#include "scenegraph/SceneGraphGeneratable.h"
 
 namespace PAX {
-    PAX_EntityComponent(Graphics, false, public Renderable)
-        // The SceneGraph that holds this Graphics for rendering
-        SceneGraph* _sceneGraph = nullptr;
-
+    PAX_EntityComponent(Graphics, false, public Renderable, public SceneGraphGeneratable)
     public:
-        SceneGraph* getSceneGraph();
-        void setSceneGraph(SceneGraph *sceneGraph);
-
-        virtual SceneGraphBuildingRule* getSceneGraphBuildingRule() = 0;
         virtual float getZ() override;
     };
 }
