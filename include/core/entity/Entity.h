@@ -18,6 +18,7 @@
 #include "event/EntityComponentRemovedEvent.h"
 #include "event/EntityComponentAddedEvent.h"
 #include "../event/EventService.h"
+#include "../../utility/stdutils.h"
 
 namespace PAX {
     class World;
@@ -57,11 +58,12 @@ namespace PAX {
             return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
         }
 
-        template<typename ComponentClass>
-        inline const std::vector<ComponentClass*>& get() {
+        template<typename ComponentClass,
+                typename return_type = Util::conditional_t_cpp17<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
+        inline const return_type get() {
             std::type_index type = std::type_index(typeid(ComponentClass));
             assert(_components[type]);
-            return *static_cast<std::vector<ComponentClass*>*>(_components[type]);
+            return static_cast<return_type>(_components[type]);
         }
 
         template<typename ComponentClass>

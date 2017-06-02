@@ -16,12 +16,13 @@
 #include "../include/test/trials/DelegateTest.h"
 #include "../include/test/trials/StaticMember.h"
 #include "../include/lib/easylogging++.h"
+#include "../include/test/trials/SpecializedFunctionWithDifferentReturType.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
     // FAMOUS TOGGLE COMMENT <3
-    //*
+    /*
     EngineSetup *setup = new SDLEngineSetup;
     Game *game = new Demo::DemoGame();
 
@@ -30,7 +31,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     exitcode = engine->run();
     Engine::Dispose();
     /*/
-    exitcode = PAX::Test::StaticMember::run();
+    exitcode = PAX::Test::SpecFuncDifRetType::run();
     LOG(INFO) << "Test finished with exit code " << exitcode;
     //*/
 

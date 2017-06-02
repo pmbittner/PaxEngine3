@@ -10,16 +10,8 @@
 
 namespace PAX {
     SceneGraph* GroupByEntitySceneGraphBuildingRule::findNodeOf(Entity *entity) {
-        if (entity->has<Graphics>()) {
-            const std::vector<Graphics *> &graphicsComponents = entity->get<Graphics>();
-            for (Graphics *g : graphicsComponents) {
-                SceneGraph *sceneGraph = g->getSceneGraph();
-                if (sceneGraph) {
-                    return sceneGraph;
-                }
-            }
-        }
-
+        if (entity->has<Graphics>())
+            return entity->get<Graphics>()->getSceneGraph();
         return nullptr;
     }
 

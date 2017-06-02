@@ -6,6 +6,7 @@
 #define PAXENGINE3_SCENEGRAPHBUILDER_H
 
 #include "../Graphics.h"
+#include "../Camera.h"
 #include "../../world/event/EntitySpawnedEvent.h"
 #include "../../world/event/EntityDespawnedEvent.h"
 #include "../../entity/event/EntityComponentAddedEvent.h"
@@ -20,6 +21,8 @@ namespace PAX {
         void onEntityDespawnedEvent(EntityDespawnedEvent& e);
         void onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>& e);
         void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>& e);
+        void onEntityComponentAddedEvent(EntityComponentAddedEvent<Camera>& e);
+        void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera>& e);
 
         void addGraphics(Graphics *g);
         void removeGraphics(Graphics *g);

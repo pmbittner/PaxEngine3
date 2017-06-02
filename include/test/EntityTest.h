@@ -38,7 +38,7 @@ namespace PAX {
                 }
             };
 
-            class Physics : public EntityComponent {
+            PAX_EntityComponent(Physics, true)
 
             };
 
@@ -74,17 +74,15 @@ namespace PAX {
 
                 int physicsElementCount = 0;
                 if (e.has<Physics>()) {
-                    physicsElementCount = e.get<Physics>().size();
+                    physicsElementCount = e.get<Physics>()->size();
                 }
                 std::cout << "Found physics elements: " << physicsElementCount << std::endl;
 
                 std::cout << "Graphics components:" << std::endl;
-                for (Graphics *g : e.get<Graphics>())
-                    printGraphics(g);
+                printGraphics(e.get<Graphics>());
 
                 std::cout << "DirectXGraphics components:" << std::endl;
-                for (Graphics *g : e.get<DirectXGraphics>())
-                    printGraphics(g);
+                printGraphics(e.get<DirectXGraphics>());
 
                 Entity parent;
                 e.setParent(&parent);

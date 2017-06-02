@@ -11,6 +11,8 @@ namespace PAX {
         eventService.add<EntityDespawnedEvent, SceneGraphBuilder, &SceneGraphBuilder::onEntityDespawnedEvent>(this);
         eventService.add<EntityComponentAddedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentAddedEvent>(this);
         eventService.add<EntityComponentRemovedEvent<Graphics>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentRemovedEvent>(this);
+        eventService.add<EntityComponentAddedEvent<Camera>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentAddedEvent>(this);
+        eventService.add<EntityComponentRemovedEvent<Camera>, SceneGraphBuilder, &SceneGraphBuilder::onEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphBuilder::addGraphics(Graphics *g) {
@@ -27,9 +29,7 @@ namespace PAX {
     void SceneGraphBuilder::onEntitySpawnedEvent(EntitySpawnedEvent& e) {
         Entity *entity = e.entity;
         if (entity->has<Graphics>()) {
-            const std::vector<Graphics*> &gfx = entity->get<Graphics>();
-            for (Graphics *g : gfx)
-                addGraphics(g);
+            addGraphics(entity->get<Graphics>());
         }
     }
 
@@ -40,13 +40,19 @@ namespace PAX {
     void SceneGraphBuilder::onEntityDespawnedEvent(EntityDespawnedEvent& e) {
         Entity *entity = e.entity;
         if (entity->has<Graphics>()) {
-            const std::vector<Graphics*> &gfx = entity->get<Graphics>();
-            for (Graphics *g : gfx)
-                removeGraphics(g);
+            removeGraphics(entity->get<Graphics>());
         }
     }
 
     void SceneGraphBuilder::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>& e) {
         removeGraphics(e._component);
+    }
+
+    void SceneGraphBuilder::onEntityComponentAddedEvent(EntityComponentAddedEvent<Camera> &e) {
+
+    }
+
+    void SceneGraphBuilder::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera> &e) {
+
     }
 }
