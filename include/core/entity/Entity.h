@@ -19,6 +19,7 @@
 #include "event/EntityComponentAddedEvent.h"
 #include "../event/EventService.h"
 #include "../../utility/stdutils.h"
+#include "../../lib/easylogging++.h"
 
 namespace PAX {
     class World;
@@ -58,18 +59,16 @@ namespace PAX {
             return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
         }
 
-        template<typename ComponentClass,
-                typename return_type = Util::conditional_t_cpp17<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
+        template<typename ComponentClass, typename return_type = Util::conditional_t_cpp17<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
         inline const return_type get() {
-            std::type_index type = std::type_index(typeid(ComponentClass));
+            std::type_index type = PAX_typeof(ComponentClass);
             assert(_components[type]);
             return static_cast<return_type>(_components[type]);
         }
 
         template<typename ComponentClass>
         bool add(ComponentClass* component) {
-            std::type_index type = std::type_index(typeid(ComponentClass));
-            std::vector<ComponentClass*>* result;
+            std::type_index type = PAX_typeof(ComponentClass);
             bool addAllowed = true;
 
             if (component->_owner) {
@@ -77,19 +76,27 @@ namespace PAX {
                 return false;
             }
 
-            if (!_components[type]) {//_components.find(type) == _components.end()) {
-                result = new std::vector<ComponentClass*>();
-                _components[type] = result;
-                addAllowed = ComponentClass::IsMultiple || result->empty();
+            if (ComponentClass::IsMultiple) {
+                std::vector<ComponentClass*>* result;
+
+                if (!_components[type]) {
+                    result = new std::vector<ComponentClass*>();
+                    _components[type] = result;
+                } else {
+                    result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
+                }
+
+                result->push_back(component);
             } else {
-                result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
+                if (_components[type]) {
+                    LOG(ERROR) << "Trying to add instance of " << type.name() << ", that does not allow multiple instances!";
+                    return false;
+                } else {
+                    _components[type] = component;
+                }
             }
 
-            // add only if multiple instances are allowed
-            if (addAllowed) {
-                component->_owner = this;
-                result->push_back(component);
-            }
+            component->_owner = this;
 
             EntityComponentAddedEvent<ComponentClass> e(component, this);
             _localEventService(e);
@@ -99,13 +106,21 @@ namespace PAX {
 
         template<typename ComponentClass>
         bool remove(ComponentClass* component) {
-            std::type_index type = std::type_index(typeid(ComponentClass));
-            if (_components[type]) {
-                std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
+            std::type_index type = PAX_typeof(ComponentClass);
 
-                if (Util::removeFromVector(result, component)) {
-                    component->_owner = nullptr;
+            if (_components[type]) {
+                if (ComponentClass::IsMultiple) {
+                    std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
+                    if (!Util::removeFromVector(result, component))
+                        return false;
+                } else {
+                    if (_components[type] != component)
+                        return false;
+
+                    _components[type] = nullptr;
                 }
+
+                component->_owner = nullptr;
 
                 EntityComponentRemovedEvent<ComponentClass> e(component, this);
                 _localEventService(e);
@@ -113,7 +128,7 @@ namespace PAX {
                 return true;
             }
 
-            return true;
+            return false;
         }
     };
 }

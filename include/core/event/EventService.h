@@ -32,7 +32,7 @@ namespace PAX {
 
         template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass&)>
         void add(Listener* listener) {
-            std::type_index type = std::type_index(typeid(EventClass));
+            std::type_index type = PAX_typeof(EventClass);
 
             PAX_ES_MAP_VALUES* listenerList;
 
@@ -48,7 +48,7 @@ namespace PAX {
 
         template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass&)>
         bool remove(Listener *listener) {
-            std::type_index type = std::type_index(typeid(EventClass));
+            std::type_index type = PAX_typeof(EventClass);
 
             if (_listeners[type]) {
                 PAX_ES_MAP_VALUES* vec = static_cast<PAX_ES_MAP_VALUES*>(_listeners[type]);
@@ -59,7 +59,7 @@ namespace PAX {
         }
 
 #define FIRE_EVENT \
-        std::type_index type = std::type_index(typeid(EventClass));\
+        std::type_index type = PAX_typeof(EventClass);\
         if (_listeners[type]) {\
             PAX_ES_MAP_VALUES* values = static_cast<PAX_ES_MAP_VALUES*>(_listeners[type]);\
             for (PAX_ES_DELEGATE delegate : *values) {\
