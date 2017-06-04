@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_GENERICTEST_H
 #define PAXENGINE3_GENERICTEST_H
 
+#include <iostream>
+
 namespace TEMPLATE_TRIAL {
     class IResource {
     public:
@@ -39,8 +41,8 @@ namespace TEMPLATE_TRIAL {
 
     bool genericTest() {
         ResourceManager resmng;
-        Shader *shader = resmng.loadResource<Shader>("shader.txt");
-        Texture *texture = resmng.loadResource<Texture>("texture.png");
+        Shader *shader = resmng.loadResource("shader.txt");
+        Texture *texture = resmng.loadResource("texture.png");
 
         std::cout << " Shader res: " << shader->name() << std::endl;
         std::cout << "Texture res: " << texture->name() << std::endl;

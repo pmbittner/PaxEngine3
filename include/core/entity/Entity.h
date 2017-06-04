@@ -59,7 +59,7 @@ namespace PAX {
             return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
         }
 
-        template<typename ComponentClass, typename return_type = Util::conditional_t_cpp17<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
+        template<typename ComponentClass, typename return_type = Util::conditional_t_cpp14<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
         inline const return_type get() {
             std::type_index type = std::type_index(typeid(ComponentClass));
             assert(_components[type]);

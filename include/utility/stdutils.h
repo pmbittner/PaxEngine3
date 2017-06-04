@@ -11,7 +11,7 @@
 namespace PAX {
     namespace Util {
         template< bool B, class T, class F >
-        using conditional_t_cpp17 = typename std::conditional<B,T,F>::type;
+        using conditional_t_cpp14 = typename std::conditional<B,T,F>::type;
 
         template<class T>
         inline bool removeFromVector(std::vector<T> *vector, const T element) {

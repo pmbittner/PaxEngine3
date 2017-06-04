@@ -21,11 +21,6 @@ namespace PAX {
             virtual void initialize() override {
                 Game::initialize();
 
-                /*
-                addGameSystem(new SDL_TEST_APPLICATION2::SDLTestApplication2GameSystem);
-
-
-                /*/
                 SDLRenderPass *renderpass = new SDLRenderPass();
                 Renderer &renderer = Engine::GetInstance()->getRenderer();
                 renderer.setSceneGraphRoot(renderpass);
