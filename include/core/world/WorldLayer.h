@@ -16,6 +16,7 @@
 #include "../event/EventListener.h"
 #include "event/EntityDespawnedEvent.h"
 #include "../event/EventService.h"
+#include "../rendering/scenegraph/ListSceneGraphGenerator.h"
 
 namespace PAX {
 #define PAX_WORLDLAYERNAME_MAIN "MainLayer"
@@ -32,11 +33,12 @@ namespace PAX {
         WorldLayerLayout *_layout = nullptr;
 
         SceneGraph _sceneGraph;
-        SceneGraphGenerator _sceneGraphBuilder;
+        SceneGraphGenerator *_sceneGraphGenerator;
         std::vector<Entity*> _entities;
 
     public:
-        WorldLayer(std::string name = PAX_WORLDLAYERNAME_MAIN, float z = 0);
+        WorldLayer(std::string name = PAX_WORLDLAYERNAME_MAIN, float z = 0, SceneGraphGenerator *generator = new ListSceneGraphGenerator);
+        ~WorldLayer();
 
         void spawn(Entity *entity);
         void despawn(Entity *entity);

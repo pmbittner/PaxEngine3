@@ -47,4 +47,7 @@ namespace PAX {
     };
 }
 
+
+class Test {
+};
 #endif //PAXENGINE3_EVENTHANDLER_H

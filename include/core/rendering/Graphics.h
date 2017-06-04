@@ -7,10 +7,9 @@
 
 #include "Renderable.h"
 #include "../entity/EntityComponent.h"
-#include "scenegraph/SceneGraphGeneratable.h"
 
 namespace PAX {
-    PAX_EntityComponent(Graphics, false, public Renderable, public SceneGraphGeneratable)
+    PAX_EntityComponent(Graphics, false, public Renderable)
     public:
         virtual float getZ() override;
     };

@@ -7,11 +7,22 @@
 
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 
 namespace PAX {
     namespace Util {
         template< bool B, class T, class F >
         using conditional_t_cpp14 = typename std::conditional<B,T,F>::type;
+
+        template<typename Key, typename Value>
+        inline bool removeFromMap(std::unordered_map<Key, Value> &map, Key &key) {
+            auto iterator = map.find(key);
+            if (iterator != map.end()) {
+                map.erase(iterator);
+                return true;
+            }
+            return false;
+        };
 
         template<class T>
         inline bool removeFromVector(std::vector<T> *vector, const T element) {

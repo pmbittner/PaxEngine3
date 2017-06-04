@@ -113,11 +113,18 @@ namespace PAX {
                     std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
                     if (!Util::removeFromVector(result, component))
                         return false;
+
+                    if (result->empty()) {
+                        auto iterator = _components.find(type);
+                        _components.erase(iterator);
+                        delete result;
+                    }
                 } else {
                     if (_components[type] != component)
                         return false;
 
-                    _components[type] = nullptr;
+                    auto iterator = _components.find(type);
+                    _components.erase(iterator);
                 }
 
                 component->_owner = nullptr;

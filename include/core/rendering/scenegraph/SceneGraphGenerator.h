@@ -15,6 +15,7 @@
 
 namespace PAX {
     class SceneGraphGenerator {
+    protected:
         SceneGraph _sceneRoot;
         SceneGraph *_root;
 
@@ -28,10 +29,11 @@ namespace PAX {
         void onEntityComponentAddedEvent(EntityComponentAddedEvent<Camera>& e);
         void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera>& e);
 
-        void addGraphics(Graphics *g);
-        void removeGraphics(Graphics *g);
         void addCamera(Camera *g);
         void removeCamera(Camera *g);
+
+        virtual void addGraphics(Graphics *g) = 0;
+        virtual void removeGraphics(Graphics *g) = 0;
     };
 }
 

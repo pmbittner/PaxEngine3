@@ -10,9 +10,9 @@
 
 namespace PAX {
     SceneGraph* GroupByEntitySceneGraphBuildingRule::findNodeOf(Entity *entity) {
-        if (entity->has<Graphics>())
-            return entity->get<Graphics>()->getSceneGraphNode();
-        return nullptr;
+        //if (entity->has<Graphics>())
+        //    return entity->get<Graphics>()->getSceneGraphNode();
+        //return nullptr;
     }
 
     SceneGraph* GroupByEntitySceneGraphBuildingRule::determineSceneGraphNodeFor(Entity *entity, SceneGraph *root) {

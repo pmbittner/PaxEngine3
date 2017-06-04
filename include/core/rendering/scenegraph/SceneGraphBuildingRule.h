@@ -6,6 +6,7 @@
 #define PAXENGINE3_SCENEGRAPHAGENT_H
 
 namespace PAX {
+    class Entity;
     class EntityComponent;
     class SceneGraph;
 

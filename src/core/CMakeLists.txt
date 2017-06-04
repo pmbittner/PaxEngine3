@@ -19,7 +19,7 @@ set(CORE_SOURCE_FILES
         rendering/Camera.cpp
         rendering/scenegraph/rule/ListSceneGraphBuildingRule.cpp
         rendering/scenegraph/rule/GroupByEntitySceneGraphBuildingRule.cpp
-        rendering/Graphics.cpp rendering/scenegraph/EntitySceneGraph.cpp event/EventService.cpp rendering/scenegraph/SceneGraphGeneratable.cpp)
+        rendering/Graphics.cpp rendering/scenegraph/EntitySceneGraph.cpp event/EventService.cpp rendering/scenegraph/ListSceneGraphGenerator.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

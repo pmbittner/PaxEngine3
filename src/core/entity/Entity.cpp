@@ -12,7 +12,8 @@ namespace PAX {
     }
 
     Entity::~Entity() {
-
+        LOG(WARNING) << "Entity destructor does not deallocate Entity Components!";
+        _components.clear();
     }
 
     Transform& Entity::getTransform() {

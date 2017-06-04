@@ -20,21 +20,6 @@ namespace PAX {
         eventService.add<EntityComponentRemovedEvent<Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
     }
 
-    void SceneGraphGenerator::addGraphics(Graphics *g) {
-        SceneGraph *node = g->getSceneGraphBuildingRule()->determineSceneGraphNodeFor(g, &_sceneRoot);
-        node->addRenderable(g);
-    }
-
-    void SceneGraphGenerator::removeGraphics(Graphics *g) {
-        SceneGraph *node = g->getSceneGraphNode();
-        node->removeRenderable(g);
-
-        if (node->isEmpty()) {
-            g->setSceneGraphNode(nullptr);
-            delete node; // node will unhook itself
-        }
-    }
-
     void SceneGraphGenerator::addCamera(Camera *c) {
         _root->addChild(c); // has to be done in the rule
         c->addChild(&_sceneRoot);
