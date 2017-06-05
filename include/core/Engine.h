@@ -6,13 +6,14 @@
 #define PAXENGINE3_MAIN_H
 
 #include "io/InputSystem.h"
-#include "Game.h"
 #include "../core/rendering/Renderer.h"
 #include "event/EventService.h"
 #include "io/Window.h"
 #include "EngineSetup.h"
 
 namespace PAX {
+    class Game;
+
     class Engine {
     private:
         static Engine *instance;

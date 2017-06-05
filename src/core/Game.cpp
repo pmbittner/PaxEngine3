@@ -6,16 +6,19 @@
 #include <iostream>
 #include "../../include/core/Game.h"
 #include "../../include/core/Engine.h"
+#include "../../include/core/system/BehaviourSystem.h"
 
 namespace PAX {
     void Game::initialize() {
-        for (GameSystem *gameSystem : _gameSystems)
+        addSystem(new BehaviourSystem);
+
+        for (EngineSystem *gameSystem : _systems)
             gameSystem->initialize();
         _initialized = true;
     }
 
     void Game::update() {
-        for (GameSystem *gameSystem : _gameSystems)
+        for (EngineSystem *gameSystem : _systems)
             gameSystem->update();
     }
 
@@ -33,18 +36,16 @@ namespace PAX {
         _activeWorld->getEventService().setParent(&Engine::GetInstance()->getEventService());
     }
 
-    void Game::addGameSystem(GameSystem *gameSystem) {
-        if (std::find(_gameSystems.begin(), _gameSystems.end(), gameSystem) == _gameSystems.end()) {
-            _gameSystems.push_back(gameSystem);
+    void Game::addSystem(EngineSystem *system) {
+        if (std::find(_systems.begin(), _systems.end(), system) == _systems.end()) {
+            _systems.push_back(system);
 
             if (_initialized)
-                gameSystem->initialize();
+                system->initialize();
         }
     }
 
-    void Game::removeGameSystem(GameSystem *gameSystem) {
-        auto gameSystemIterator = std::find(_gameSystems.begin(), _gameSystems.end(), gameSystem);
-        if (gameSystemIterator != _gameSystems.end())
-            _gameSystems.erase(gameSystemIterator);
+    void Game::removeSystem(EngineSystem *system) {
+        Util::removeFromVector(&_systems, system);
     }
 }

@@ -11,7 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "../core/GameSystem.h"
+#include "../core/system/EntityComponentSystem.h"
 
 namespace SDL_TEST_APPLICATION2 {
 // TEST values
@@ -35,7 +35,7 @@ namespace SDL_TEST_APPLICATION2 {
 
 //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
 
-    class SDLTestApplication2GameSystem : public PAX::GameSystem {
+    class SDLTestApplication2GameSystem : public PAX::EngineSystem {
 
 
         virtual void initialize() override;

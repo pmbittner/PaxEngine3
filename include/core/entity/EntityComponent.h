@@ -14,6 +14,10 @@ namespace PAX {
     private:
         Entity *_owner = nullptr;
 
+    protected:
+        virtual void attached(Entity *entity);
+        virtual void detached(Entity *entity);
+
     public:
         EntityComponent();
         Entity* getOwner();

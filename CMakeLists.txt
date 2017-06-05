@@ -19,8 +19,8 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/entity/EntityComponentPool.h
         include/core/entity/Transform.h
 
-        include/core/EngineSystem.h
-        include/core/GameSystem.h
+        include/core/system/EngineSystem.h
+        include/core/system/EntityComponentSystem.h
 
         include/core/io/Keyboard.h
         include/core/io/Mouse.h
@@ -78,7 +78,7 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/rendering/scenegraph/rule/ListSceneGraphBuildingRule.h
         include/test/trials/FriendTest.h
         include/test/trials/InheritanceTest.h
-        include/utility/stdutils.h include/test/SceneGraphTest.h include/core/rendering/scenegraph/EntitySceneGraph.h include/test/trials/DelegateTest.h include/core/event/Delegate.h include/core/event/EventHandler.h include/core/entity/event/EntityParentChangedEvent.h include/test/trials/StaticMember.h include/demo/DemoGame.h include/sdl/test/SDLSprite.h include/sdl/SDLRenderPass.h include/test/trials/SpecializedFunctionWithDifferentReturType.h include/utility/MacroIncludes.h include/core/rendering/scenegraph/ListSceneGraphGenerator.h)
+        include/utility/stdutils.h include/test/SceneGraphTest.h include/core/rendering/scenegraph/EntitySceneGraph.h include/test/trials/DelegateTest.h include/core/event/Delegate.h include/core/event/EventHandler.h include/core/entity/event/EntityParentChangedEvent.h include/test/trials/StaticMember.h include/demo/DemoGame.h include/sdl/test/SDLSprite.h include/sdl/SDLRenderPass.h include/test/trials/SpecializedFunctionWithDifferentReturType.h include/utility/MacroIncludes.h include/core/rendering/scenegraph/ListSceneGraphGenerator.h include/core/system/BehaviourSystem.h include/core/entity/component/Behaviour.h include/demo/MoveToMouseBehaviour.h include/core/io/MouseButtonPressedEvent.h include/core/io/MouseButtonReleasedEvent.h include/core/io/MouseButtonEvent.h)
 
 ### API INCLUDES ########################################
 find_package(SDL2 REQUIRED)

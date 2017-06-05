@@ -31,7 +31,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     exitcode = engine->run();
     Engine::Dispose();
     /*/
-    exitcode = PAX::Test::SpecFuncDifRetType::run();
+    exitcode = PAX::TEST::ENTITY::test();// PAX::Test::SpecFuncDifRetType::run();
     LOG(INFO) << "Test finished with exit code " << exitcode;
     //*/
 

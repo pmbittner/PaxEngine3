@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "../../include/core/Engine.h"
+#include "../../include/core/Game.h"
 #include "../../include/utility/Sleep.h"
 #include "../../include/lib/easylogging++.h"
 

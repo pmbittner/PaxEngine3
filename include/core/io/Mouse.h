@@ -11,7 +11,7 @@ namespace PAX {
         int x, y;
         int getX();
         int getY();
-        bool isButtonDown();
+        bool isButtonDown(int button);
     };
 }
 

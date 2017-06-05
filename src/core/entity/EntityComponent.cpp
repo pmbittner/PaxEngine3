@@ -9,6 +9,9 @@ namespace PAX {
 
     }
 
+    void EntityComponent::attached(Entity *entity) {}
+    void EntityComponent::detached(Entity *entity) {}
+
     Entity* EntityComponent::getOwner() {
         return _owner;
     }

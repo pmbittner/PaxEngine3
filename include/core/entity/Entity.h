@@ -59,6 +59,16 @@ namespace PAX {
             return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
         }
 
+        template<typename FirstComponentClass, typename SecondComponentClass, typename... ComponentClass>
+        inline bool has() const {
+            bool X[] = {has<FirstComponentClass>(), has<SecondComponentClass>(), has<ComponentClass>()...};
+
+            int len = sizeof...(ComponentClass) + 2;
+            for (int i = 0; i < len; ++i)
+                if (!X[i]) return false;
+            return true;
+        }
+
         template<typename ComponentClass, typename return_type = Util::conditional_t_cpp14<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
         inline const return_type get() {
             std::type_index type = std::type_index(typeid(ComponentClass));
@@ -97,6 +107,7 @@ namespace PAX {
             }
 
             component->_owner = this;
+            component->attached(this);
 
             EntityComponentAddedEvent<ComponentClass> e(component, this);
             _localEventService(e);
@@ -128,6 +139,7 @@ namespace PAX {
                 }
 
                 component->_owner = nullptr;
+                component->detached(this);
 
                 EntityComponentRemovedEvent<ComponentClass> e(component, this);
                 _localEventService(e);

@@ -3,6 +3,7 @@
 //
 
 #include "../../../include/core/io/Mouse.h"
+#include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
     int Mouse::getX() {
@@ -13,7 +14,8 @@ namespace PAX {
         return y;
     }
 
-    bool Mouse::isButtonDown() {
+    bool Mouse::isButtonDown(int button) {
+        LOG(WARNING) << "Mouse::isButtonDown not implemented";
         return false;
     }
 }

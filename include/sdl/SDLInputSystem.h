@@ -10,14 +10,19 @@
 #include "../core/io/InputSystem.h"
 #include "../core/io/Keyboard.h"
 #include "../core/io/Mouse.h"
+#include "../core/io/MouseButtonPressedEvent.h"
+#include "../core/io/MouseButtonReleasedEvent.h"
 
 namespace PAX {
     class SDLInputSystem : public InputSystem {
-    private:
         SDL_Event _currentEvent;
 
         Keyboard _keyboard;
         Mouse _mouse;
+
+        // pre allocated event objects
+        MouseButtonPressedEvent _mbPressed;
+        MouseButtonReleasedEvent _mbReleased;
 
         void updateMouseLocation();
 

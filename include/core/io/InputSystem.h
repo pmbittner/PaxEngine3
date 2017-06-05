@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_INPUTSYSTEM_H
 #define PAXENGINE3_INPUTSYSTEM_H
 
-#include "../EngineSystem.h"
+#include "../system/EngineSystem.h"
 #include "Keyboard.h"
 #include "Mouse.h"
 

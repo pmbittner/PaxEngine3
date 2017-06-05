@@ -5,6 +5,7 @@
 #include "../../../include/core/rendering/Renderer.h"
 #include "../../../include/test/SDLTestApplication2.h"
 #include "../../../include/core/Engine.h"
+#include "../../../include/core/Game.h"
 
 namespace PAX {
     void Renderer::initialize() {

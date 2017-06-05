@@ -11,6 +11,7 @@
 #include "../sdl/test/SDLSprite.h"
 #include "../sdl/SDLRenderPass.h"
 #include "../sdl/utitlity/Path.h"
+#include "MoveToMouseBehaviour.h"
 
 namespace PAX {
     namespace Demo {
@@ -35,6 +36,7 @@ namespace PAX {
 
                 testEntity.add<Graphics>(sprite);
                 testEntity.add<Camera>(new Camera);
+                testEntity.add<Behaviour>(new MoveToMouseBehaviour);
 
                 testEntity.getTransform().setPosition(300, 200);
 

@@ -9,21 +9,40 @@
 
 namespace PAX {
     void SDLInputSystem::initialize() {
-
+        _mbPressed.mouse = &_mouse;
+        _mbReleased.mouse = &_mouse;
     }
 
     void SDLInputSystem::update() {
         while (SDL_PollEvent(&_currentEvent)) {
-            if (_currentEvent.type == SDL_QUIT) {
-                PAX::Engine::GetInstance()->stop();
-            } else if (_currentEvent.type == SDL_KEYDOWN) {
-                _keyboard.keyDown[_currentEvent.key.keysym.sym] = true;
-            } else if (_currentEvent.type == SDL_KEYUP) {
-                _keyboard.keyDown[_currentEvent.key.keysym.sym] = false;
-            } else if (_currentEvent.type == SDL_MOUSEBUTTONDOWN) {
+            switch (_currentEvent.type) {
+                case SDL_QUIT:
+                    PAX::Engine::GetInstance()->stop();
+                    break;
 
-            } else if (_currentEvent.type == SDL_MOUSEMOTION) {
-                updateMouseLocation();
+                case SDL_KEYDOWN:
+                    _keyboard.keyDown[_currentEvent.key.keysym.sym] = true;
+                    break;
+
+                case SDL_KEYUP:
+                    _keyboard.keyDown[_currentEvent.key.keysym.sym] = false;
+                    break;
+
+                case SDL_MOUSEBUTTONDOWN:
+                    _mbPressed.button = _currentEvent.button.button;
+                    Engine::GetInstance()->getEventService()(_mbPressed);
+                    break;
+
+                case SDL_MOUSEBUTTONUP:
+                    _mbPressed.button = _currentEvent.button.button;
+                    Engine::GetInstance()->getEventService()(_mbReleased);
+                    break;
+
+                case SDL_MOUSEMOTION:
+                    updateMouseLocation();
+                    break;
+
+                default: break;
             }
         }
     }

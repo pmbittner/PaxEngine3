@@ -84,6 +84,23 @@ namespace PAX {
                 std::cout << "DirectXGraphics components:" << std::endl;
                 printGraphics(e.get<DirectXGraphics>());
 
+                Entity hasTest;
+                Graphics *hasTestGfx = new DirectXGraphics;
+                hasTest.add<Graphics>(hasTestGfx);
+                hasTest.add<Physics>(new Physics);
+
+                std::cout << "Has Graphics: " << hasTest.has<Graphics>() << std::endl;
+                std::cout << "Has Physics: " << hasTest.has<Physics>() << std::endl;
+                std::cout << "Has Graphics & Physics: " << hasTest.has<Graphics, Physics>() << std::endl;
+                std::cout << "Has Physics & Graphics: " << hasTest.has<Physics, Graphics>() << std::endl;
+
+                hasTest.remove<Graphics>(hasTestGfx);
+                std::cout << "Has Graphics: " << hasTest.has<Graphics>() << std::endl;
+                std::cout << "Has Physics: " << hasTest.has<Physics>() << std::endl;
+                std::cout << "Has Graphics & Physics: " << hasTest.has<Graphics, Physics>() << std::endl;
+                std::cout << "Has Physics & Graphics: " << hasTest.has<Physics, Graphics>() << std::endl;
+
+
                 Entity parent;
                 e.setParent(&parent);
                 parent.getTransform().setX(5);
