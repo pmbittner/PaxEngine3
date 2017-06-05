@@ -9,6 +9,7 @@
 #include "../../include/core/Game.h"
 #include "../../include/utility/Sleep.h"
 #include "../../include/lib/easylogging++.h"
+#include "../../include/core/time/Time.h"
 
 PAX::Engine *PAX::Engine::instance = nullptr;
 
@@ -31,6 +32,9 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     }
 
     setup->initialize(this);
+
+    Time::DeltaD = 1.0 / _targetUPS;
+    Time::DeltaF = static_cast<float>(Time::DeltaD);
 
     _window = setup->createWindow();
     _window->create("PaxEngine3", 800, 600);

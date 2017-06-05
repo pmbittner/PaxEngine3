@@ -9,11 +9,12 @@
 #include "../core/io/Mouse.h"
 #include "../core/Engine.h"
 #include "../core/io/MouseButtonPressedEvent.h"
+#include "../core/time/Time.h"
 
 namespace PAX {
     class MoveToMouseBehaviour : public Behaviour {
         glm::vec2 _dest;
-        float _speed = 0.5f;
+        float _speed = 300.0f;
 
     public:
         virtual void attached(Entity *entity) override {
@@ -29,7 +30,7 @@ namespace PAX {
         virtual void update() override {
             Transform &t = getOwner()->getTransform();
             glm::vec2 pos = t.xy();
-            glm::vec2 v = _speed * glm::normalize(_dest - pos);
+            glm::vec2 v = _speed * Time::DeltaF * glm::normalize(_dest - pos);
             t.setPosition(pos + v);
         }
 
