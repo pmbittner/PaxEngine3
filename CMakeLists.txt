@@ -81,11 +81,20 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/utility/stdutils.h include/test/SceneGraphTest.h include/core/rendering/scenegraph/EntitySceneGraph.h include/test/trials/DelegateTest.h include/core/event/Delegate.h include/core/event/EventHandler.h include/core/entity/event/EntityParentChangedEvent.h include/test/trials/StaticMember.h include/demo/DemoGame.h include/sdl/test/SDLSprite.h include/sdl/SDLRenderPass.h include/test/trials/SpecializedFunctionWithDifferentReturType.h include/utility/MacroIncludes.h include/core/rendering/scenegraph/ListSceneGraphGenerator.h include/core/system/BehaviourSystem.h include/core/entity/component/Behaviour.h include/demo/MoveToMouseBehaviour.h include/core/io/MouseButtonPressedEvent.h include/core/io/MouseButtonReleasedEvent.h include/core/io/MouseButtonEvent.h include/core/time/Time.h)
 
 ### API INCLUDES ########################################
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR})
+if (true)
+        find_package(SDL2 REQUIRED)
+        include_directories(${SDL2_INCLUDE_DIR})
 
-find_package(SDL2_ttf REQUIRED)
-include_directories(${SDL2_TTF_INCLUDE_DIR})
+        #find_package(SDL2_ttf REQUIRED)
+        #include_directories(${SDL2_TTF_INCLUDE_DIR})
+else()
+        set(SDL2_INCLUDE_DIR SDL/include)
+        include_directories(${SDL2_INCLUDE_DIR})
+
+        add_subdirectory(SDL)
+        set(SDL2_LIBRARY SDL2)
+endif()
+
 
 ### SUBDIRECTORIES ######################################
 add_subdirectory(src)
