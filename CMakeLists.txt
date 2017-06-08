@@ -5,8 +5,14 @@ project(PaxEngine3)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+set(MAIN_FILE Default_main.cpp)
+
+if (ANDROID)
+        set(MAIN_FILE Android_main.cpp)
+endif()
+
 ### SOURCE FILES ########################################
-set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
+set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         # Header files for CLion
         include/lib/easylogging++.h
 
@@ -81,18 +87,18 @@ set(SOURCE_FILES Default_main.cpp src/EngineMain.cpp src/lib/easylogging++.cc
         include/utility/stdutils.h include/test/SceneGraphTest.h include/core/rendering/scenegraph/EntitySceneGraph.h include/test/trials/DelegateTest.h include/core/event/Delegate.h include/core/event/EventHandler.h include/core/entity/event/EntityParentChangedEvent.h include/test/trials/StaticMember.h include/demo/DemoGame.h include/sdl/test/SDLSprite.h include/sdl/SDLRenderPass.h include/test/trials/SpecializedFunctionWithDifferentReturType.h include/utility/MacroIncludes.h include/core/rendering/scenegraph/ListSceneGraphGenerator.h include/core/system/BehaviourSystem.h include/core/entity/component/Behaviour.h include/demo/MoveToMouseBehaviour.h include/core/io/MouseButtonPressedEvent.h include/core/io/MouseButtonReleasedEvent.h include/core/io/MouseButtonEvent.h include/core/time/Time.h)
 
 ### API INCLUDES ########################################
-if (true)
-        find_package(SDL2 REQUIRED)
-        include_directories(${SDL2_INCLUDE_DIR})
-
-        #find_package(SDL2_ttf REQUIRED)
-        #include_directories(${SDL2_TTF_INCLUDE_DIR})
-else()
+if (ANDROID)
         set(SDL2_INCLUDE_DIR SDL/include)
         include_directories(${SDL2_INCLUDE_DIR})
 
         add_subdirectory(SDL)
         set(SDL2_LIBRARY SDL2)
+else()
+        find_package(SDL2 REQUIRED)
+        include_directories(${SDL2_INCLUDE_DIR})
+
+        #find_package(SDL2_ttf REQUIRED)
+        #include_directories(${SDL2_TTF_INCLUDE_DIR})
 endif()
 
 
@@ -100,7 +106,11 @@ endif()
 add_subdirectory(src)
 
 ### EXECUTABLES #########################################
-add_executable(PaxEngine3 ${SOURCE_FILES})
+if (ANDROID)
+        add_library(PaxEngine3 SHARED ${SOURCE_FILES})
+else()
+        add_executable(PaxEngine3 ${SOURCE_FILES})
+endif()
 
 ### LINKING #############################################
 target_link_libraries(PaxEngine3 paxsdl paxtest paxcore)
