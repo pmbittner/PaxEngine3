@@ -88,11 +88,19 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
 
 ### API INCLUDES ########################################
 if (ANDROID)
-        set(SDL2_INCLUDE_DIR SDL/include)
-        include_directories(${SDL2_INCLUDE_DIR})
 
-        add_subdirectory(SDL)
-        set(SDL2_LIBRARY SDL2)
+        set(ANDROID_LIBS_INCLUDE_DIR lib/Android/include)
+
+        include_directories(${ANDROID_LIBS_INCLUDE_DIR})
+
+        #find_package(SDL2 REQUIRED)
+        include(${PROJECT_SOURCE_DIR}/cmake/macros.cmake)
+        include(${PROJECT_SOURCE_DIR}/cmake/android.cmake)
+        set ( SDL2_LIBRARY SDL2 )
+        #link_directories(${PROJECT_SOURCE_DIR}/lib/Android/SDL/armeabi-v7a)
+        #FIND_LIBRARY(SDL2_LIBRARY NAMES libSDL2.so PATHS lib/Android/SDL/armeabi-v7a)
+#find_library(SDL2_LIBRARY NAMES SDL SDL2 libSDL2.so libSDL2 HINTS "${PROJECT_SOURCE_DIR}/lib/Android/SDL/armeabi-v7a")
+        #set(SDL2_LIBRARY SDL2)
 else()
         find_package(SDL2 REQUIRED)
         include_directories(${SDL2_INCLUDE_DIR})

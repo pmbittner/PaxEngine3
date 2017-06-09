@@ -14,7 +14,7 @@ namespace PAX {
     }
 
     WorldLayer::~WorldLayer() {
-        delete _sceneGraphGenerator;
+        //delete _sceneGraphGenerator;
     }
 
     void WorldLayer::spawn(Entity *entity) {

@@ -8,8 +8,13 @@
 //
 // Created by Paul on 17.04.2017.
 //
+//#define PAX_DEMO_USE_TTF
+
 #include <SDL2/SDL.h>
+
+#ifdef PAX_DEMO_USE_TTF
 #include <SDL2/SDL_ttf.h>
+#endif
 
 #include "../core/system/EntityComponentSystem.h"
 
@@ -26,10 +31,10 @@ namespace SDL_TEST_APPLICATION2 {
 
     extern SDL_Texture* message;
     extern SDL_Rect message_rect;
-
+#ifdef PAX_DEMO_USE_TTF
     extern TTF_Font* font;
     extern SDL_Color fontColor;  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
-
+#endif
 
 //Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understance
 

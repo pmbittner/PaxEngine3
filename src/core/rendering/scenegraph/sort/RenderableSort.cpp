@@ -13,12 +13,12 @@ namespace PAX {
         }
 
         RenderableSort::~RenderableSort() {
-            delete _comparator;
+            //delete _comparator;
         }
 
         void RenderableSort::setRenderableSortComparator(RenderableSortComparator *comparator) {
             assert(comparator);
-            delete (_comparator);
+            //delete (_comparator);
             _comparator = comparator;
         }
 

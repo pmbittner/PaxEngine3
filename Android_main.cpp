@@ -1,3 +1,4 @@
+#define GL_GLEXT_PROTOTYPES 
 #include <SDL.h> // Needs to be included, so SDL_main will be found.
 
 #include "include/MainIncludes.h"
