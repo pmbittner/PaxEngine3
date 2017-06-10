@@ -8,6 +8,9 @@
 #include "../../../../include/utility/MacroIncludes.h"
 
 namespace PAX {
+    SceneGraphGenerator::SceneGraphGenerator() {}
+    SceneGraphGenerator::~SceneGraphGenerator() {}
+
     void SceneGraphGenerator::initialize(SceneGraph* root, EventService& eventService) {
         PAX_notnull(root, "Root can't be null!");
         _root = root;

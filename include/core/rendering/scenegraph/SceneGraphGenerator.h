@@ -20,6 +20,9 @@ namespace PAX {
         SceneGraph *_root;
 
     public:
+        SceneGraphGenerator();
+        ~SceneGraphGenerator();
+
         void initialize(SceneGraph *_root, EventService& eventService);
 
         void onEntitySpawnedEvent(EntitySpawnedEvent& e);

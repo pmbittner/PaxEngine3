@@ -11,6 +11,7 @@ namespace PAX {
     namespace Sort {
         class RenderableSortComparator {
         public:
+            virtual ~RenderableSortComparator() {}
             virtual bool smaller(Renderable* a, Renderable* b) = 0;
         };
 
@@ -21,6 +22,8 @@ namespace PAX {
          */
         class FrontToBackRenderableSortComparator : public RenderableSortComparator {
         public:
+            virtual ~FrontToBackRenderableSortComparator() {}
+
             virtual inline bool smaller(Renderable* a, Renderable* b) override {
                 return a->getZ() < b->getZ();
             }
@@ -33,6 +36,8 @@ namespace PAX {
          */
         class BackToFrontRenderableSortComparator : public RenderableSortComparator {
         public:
+            virtual ~BackToFrontRenderableSortComparator() {}
+
             virtual inline bool smaller(Renderable* a, Renderable* b) override {
                 return a->getZ() > b->getZ();
             }
