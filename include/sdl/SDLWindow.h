@@ -13,9 +13,10 @@
 namespace PAX {
     class SDLWindow : public Window {
         SDL_Window *_window = nullptr;
+        bool _isOpenGL;
 
     public:
-        SDLWindow();
+        SDLWindow(bool isOpenGL = false);
         ~SDLWindow();
 
         virtual bool create(std::string title, int width, int height) override;

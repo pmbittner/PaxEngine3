@@ -88,7 +88,6 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
 
 ### API INCLUDES ########################################
 if (ANDROID)
-
         set(ANDROID_LIBS_INCLUDE_DIR lib/Android/include)
 
         include_directories(${ANDROID_LIBS_INCLUDE_DIR})
@@ -109,6 +108,21 @@ else()
         #include_directories(${SDL2_TTF_INCLUDE_DIR})
 endif()
 
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIR})
+
+if (WIN32)
+    #SET(GLEW_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/lib/glew/include CACHE PATH "")
+    #SET(GLEW_INCLUDE_DIRS ${GLEW_INCLUDE_DIR})
+    #SET(GLEW_LIBRARY ${PROJECT_SOURCE_DIR}/lib/glew/Win32/glew32.lib CACHE FILEPATH "")
+
+    #find_package(GLEW REQUIRED)
+else()
+    #find_package(GLEW REQUIRED)
+endif()
+
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
 
 ### SUBDIRECTORIES ######################################
 add_subdirectory(src)
