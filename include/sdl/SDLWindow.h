@@ -12,11 +12,12 @@
 
 namespace PAX {
     class SDLWindow : public Window {
+    protected:
         SDL_Window *_window = nullptr;
-        bool _isOpenGL;
+        virtual Uint32 flags();
 
     public:
-        SDLWindow(bool isOpenGL = false);
+        SDLWindow();
         ~SDLWindow();
 
         virtual bool create(std::string title, int width, int height) override;

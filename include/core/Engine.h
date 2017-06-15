@@ -22,8 +22,8 @@ namespace PAX {
         bool _running {false};
 
         // constraint: _targetFPS <= _targetUPS
-        double _targetFPS = 250;
-        double _targetUPS = 250;
+        double _targetFPS = 100;
+        double _targetUPS = 100;
 
         double _actualFPS;
         double _actualUPS;
