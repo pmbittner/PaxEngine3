@@ -2,13 +2,21 @@ cmake_minimum_required(VERSION 3.6)
 project(PaxEngine3)
 
 ### FLAGS ###############################################
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(PLATFORM_FLAGS)
+
+if (WIN32)
+        set(PLATFORM_FLAGS "-static")# "-static-libgcc -static-libstdc++")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${PLATFORM_FLAGS}")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 set(MAIN_FILE Default_main.cpp)
 
 if (ANDROID)
         set(MAIN_FILE Android_main.cpp)
+else()
+
 endif()
 
 ### SOURCE FILES ########################################

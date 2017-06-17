@@ -66,6 +66,7 @@ namespace PAX {
             int len = sizeof...(ComponentClass) + 2;
             for (int i = 0; i < len; ++i)
                 if (!X[i]) return false;
+
             return true;
         }
 
