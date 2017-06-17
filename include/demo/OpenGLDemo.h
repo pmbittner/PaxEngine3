@@ -17,6 +17,7 @@
 namespace PAX {
     namespace Demo {
         class OpenGLDemo : public Game {
+            World testWorld;
             Entity testEntity;
 
         public:
@@ -34,8 +35,7 @@ namespace PAX {
                 sdl->initialize();
                 opengl->initialize();
 
-                World *testWorld = new World();
-                setActiveWorld(testWorld);
+                setActiveWorld(&testWorld);
 
                 //SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), getResourcePath() + "img/test/Gilgamesh.bmp");
 
@@ -45,7 +45,7 @@ namespace PAX {
 
                 testEntity.getTransform().setPosition(300, 200);
 
-                testWorld->getMainLayer()->spawn(&testEntity);
+                testWorld.getMainLayer()->spawn(&testEntity);
                 //*/
             }
         };
