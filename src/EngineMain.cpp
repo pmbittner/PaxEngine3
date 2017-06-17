@@ -6,7 +6,7 @@
 
 #include "../include/core/Engine.h"
 #include "../include/sdl/SDLEngineSetup.h"
-#include "../include/demo/DemoGame.h"
+#include "../include/demo/SDLDemo.h"
 
 #include "../include/test/trials/GenericTypesInMapTest.h"
 #include "../include/test/EntityTest.h"
@@ -17,14 +17,16 @@
 #include "../include/test/trials/StaticMember.h"
 #include "../include/lib/easylogging++.h"
 #include "../include/test/trials/SpecializedFunctionWithDifferentReturType.h"
+#include "../include/sdl/opengl/SDLOpenGLSetup.h"
+#include "../include/demo/OpenGLDemo.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
     // FAMOUS TOGGLE COMMENT <3
     //*
-    EngineSetup *setup = new SDLEngineSetup;
-    Game *game = new Demo::DemoGame();
+    EngineSetup *setup = new SDLOpenGLSetup;
+    Game *game = new Demo::OpenGLDemo();
 
     Engine *engine = Engine::GetInstance();
     engine->initialize(setup, game);

@@ -14,6 +14,8 @@ namespace PAX {
 
     public:
         SDLRenderPass();
+        ~SDLRenderPass();
+
         void initialize();
         virtual void render() override;
 

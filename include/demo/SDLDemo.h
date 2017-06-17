@@ -15,7 +15,7 @@
 
 namespace PAX {
     namespace Demo {
-        class DemoGame : public Game {
+        class SDLDemo : public Game {
             Entity testEntity;
 
         public:
@@ -41,7 +41,6 @@ namespace PAX {
                 testEntity.getTransform().setPosition(300, 200);
 
                 testWorld->getMainLayer()->spawn(&testEntity);
-                //*/
             }
         };
     }

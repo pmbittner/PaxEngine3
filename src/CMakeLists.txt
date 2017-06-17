@@ -1,4 +1,5 @@
 add_subdirectory(sdl)
+add_subdirectory(opengl)
 add_subdirectory(core)
 add_subdirectory(test)
 

@@ -14,6 +14,10 @@ namespace PAX {
 
     }
 
+    SDLRenderPass::~SDLRenderPass() {
+        SDL_Quit();
+    }
+
     void SDLRenderPass::initialize() {
         PAX::Window * window = PAX::Engine::GetInstance()->getWindow();
         SDL_Window *sdlWindow = static_cast<PAX::SDLWindow*>(window)->getSDL_Window();

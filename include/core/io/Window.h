@@ -6,11 +6,13 @@
 #define PAXENGINE3_WINDOW_H
 
 #include <string>
+#include <glm/glm.hpp>
 
 namespace PAX {
     class Window {
     public:
         virtual bool create(std::string title, int width, int height) = 0;
+        virtual glm::vec2 getResolution() = 0;
     };
 }
 

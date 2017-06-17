@@ -21,6 +21,8 @@ namespace PAX {
 
     bool SDLWindow::create(std::string title, int width, int height) {
         LOG(INFO) << "Create SDL Window (" << title << ", (" << width << "/" << height << "))";
+        _resolution.x = width;
+        _resolution.y = height;
 
         _window = SDL_CreateWindow(title.c_str(),
                                    SDL_WINDOWPOS_CENTERED,
@@ -35,6 +37,10 @@ namespace PAX {
         }
 
         return true;
+    }
+
+    glm::vec2 SDLWindow::getResolution() {
+        return _resolution;
     }
 
     SDL_Window* SDLWindow::getSDL_Window() {

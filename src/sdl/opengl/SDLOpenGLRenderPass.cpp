@@ -1,0 +1,21 @@
+//
+// Created by Paul on 17.06.2017.
+//
+
+#include <SDL_video.h>
+#include "../../../include/sdl/opengl/SDLOpenGLRenderPass.h"
+#include "../../../include/sdl/SDLWindow.h"
+#include "../../../include/core/Engine.h"
+
+namespace PAX {
+    SDLOpenGLRenderPass::SDLOpenGLRenderPass() {}
+
+    void SDLOpenGLRenderPass::initialize() {}
+
+    void SDLOpenGLRenderPass::render() {
+        SceneGraph::render();
+
+        SDLWindow* window = static_cast<SDLWindow*>(Engine::GetInstance()->getWindow());
+        SDL_GL_SwapWindow(window->getSDL_Window());
+    }
+}
