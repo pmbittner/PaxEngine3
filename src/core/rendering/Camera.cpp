@@ -6,6 +6,15 @@
 #include "../../../include/core/entity/Entity.h"
 
 namespace PAX {
+    Camera::Camera(Viewport *viewport) : _viewport(viewport) {
+
+    }
+
+    void Camera::render() {
+        _viewport->apply();
+        SceneGraph::render();
+    }
+
     const glm::mat4 & Camera::getViewTransform() {
         Entity *owner = getOwner();
 
@@ -23,5 +32,9 @@ namespace PAX {
             _viewMatrix = glm::mat4(1.0f);
 
         return _viewMatrix;
+    }
+
+    Viewport* Camera::getViewport() {
+        return _viewport;
     }
 }

@@ -116,7 +116,7 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/sdl/opengl/SDLOpenGLWindow.h
         include/opengl/OpenGLRenderPass.h
         include/demo/OpenGLDemo.h
-        include/sdl/opengl/SDLOpenGLSetup.h)
+        include/sdl/opengl/SDLOpenGLSetup.h include/core/rendering/Viewport.h include/opengl/OpenGLViewport.h include/core/rendering/Sprite.h include/core/rendering/resource/Mesh.h include/core/rendering/resource/Texture.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

@@ -15,6 +15,11 @@
 
 namespace PAX {
     namespace Demo {
+        class EmptyViewport : public Viewport {
+        public:
+            virtual void apply() override {}
+        };
+
         class SDLDemo : public Game {
             Entity testEntity;
 
@@ -35,7 +40,7 @@ namespace PAX {
                 SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), getResourcePath() + "img/test/Gilgamesh.bmp");
 
                 testEntity.add<Graphics>(sprite);
-                testEntity.add<Camera>(new Camera);
+                testEntity.add<Camera>(new Camera(new EmptyViewport));
                 testEntity.add<Behaviour>(new MoveToMouseBehaviour);
 
                 testEntity.getTransform().setPosition(300, 200);

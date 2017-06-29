@@ -13,6 +13,7 @@
 #include "../sdl/utitlity/Path.h"
 #include "MoveToMouseBehaviour.h"
 #include "../sdl/opengl/SDLOpenGLRenderPass.h"
+#include "../opengl/OpenGLViewport.h"
 
 namespace PAX {
     namespace Demo {
@@ -40,7 +41,7 @@ namespace PAX {
                 //SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), getResourcePath() + "img/test/Gilgamesh.bmp");
 
                 //testEntity.add<Graphics>(sprite);
-                testEntity.add<Camera>(new Camera);
+                testEntity.add<Camera>(new Camera(new OpenGLViewport(0, 0, 100, 100)));
                 testEntity.add<Behaviour>(new MoveToMouseBehaviour);
 
                 testEntity.getTransform().setPosition(300, 200);
