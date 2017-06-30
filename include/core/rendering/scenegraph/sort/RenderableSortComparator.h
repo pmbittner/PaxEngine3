@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_RENDERABLESORTCOMPARATOR_H
 #define PAXENGINE3_RENDERABLESORTCOMPARATOR_H
 
-#include "../../Renderable.h"
+#include "../../interface/Renderable.h"
 
 namespace PAX {
     namespace Sort {

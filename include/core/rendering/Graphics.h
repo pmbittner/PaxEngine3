@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_GRAPHICS_H
 #define PAXENGINE3_GRAPHICS_H
 
-#include "Renderable.h"
+#include "interface/Renderable.h"
 #include "../entity/EntityComponent.h"
 
 namespace PAX {

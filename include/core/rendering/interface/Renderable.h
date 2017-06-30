@@ -5,10 +5,12 @@
 #ifndef PAXENGINE3_RENDERABLE_H
 #define PAXENGINE3_RENDERABLE_H
 
+#include "../RenderOptions.h"
+
 namespace PAX {
     class Renderable {
     public:
-        virtual void render() = 0;
+        virtual void render(RenderOptions &renderOptions) = 0;
         virtual float getZ() = 0;
     };
 }

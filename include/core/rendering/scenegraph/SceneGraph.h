@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "sort/RenderableSort.h"
+#include "../RenderOptions.h"
 
 namespace PAX {
     class SceneGraph : private Renderable {
@@ -27,7 +28,7 @@ namespace PAX {
 
         bool isEmpty();
 
-        virtual void render() override;
+        virtual void render(RenderOptions &renderOptions) override;
         virtual float getZ() override;
 
         void prettyPrint();

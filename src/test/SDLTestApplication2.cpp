@@ -87,10 +87,10 @@ namespace SDL_TEST_APPLICATION2 {
             PAX::Keyboard *keyboard = PAX::Engine::GetInstance()->getInputSystem()->getKeyboard();
             PAX::Mouse *mouse = PAX::Engine::GetInstance()->getInputSystem()->getMouse();
 
-            if (keyboard->isKeyDown(SDLK_w)) y -= speed;
-            if (keyboard->isKeyDown(SDLK_s)) y += speed;
-            if (keyboard->isKeyDown(SDLK_a)) x -= speed;
-            if (keyboard->isKeyDown(SDLK_d)) x += speed;
+            if (keyboard->isKeyDown(SDL_SCANCODE_W)) y -= speed;
+            if (keyboard->isKeyDown(SDL_SCANCODE_S)) y += speed;
+            if (keyboard->isKeyDown(SDL_SCANCODE_A)) x -= speed;
+            if (keyboard->isKeyDown(SDL_SCANCODE_D)) x += speed;
 
             x = mouse->getX() - srcRect.w / 2;
             y = mouse->getY() - srcRect.h / 2;

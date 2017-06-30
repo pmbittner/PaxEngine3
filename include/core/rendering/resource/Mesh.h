@@ -5,4 +5,13 @@
 #ifndef PAXENGINE3_MESH_H
 #define PAXENGINE3_MESH_H
 
+#include "../interface/Renderable.h"
+
+namespace PAX {
+    class Mesh : public Renderable {
+    public:
+        virtual float getZ() override;
+    };
+}
+
 #endif //PAXENGINE3_MESH_H

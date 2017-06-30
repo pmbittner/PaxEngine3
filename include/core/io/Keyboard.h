@@ -9,9 +9,11 @@
 
 namespace PAX {
     class Keyboard {
+        const Uint8* _keyState = 0;
+
     public:
-        bool keyDown[1 << 10];
-        bool isKeyDown(SDL_Keycode key);
+        void setKeyStates(const Uint8* keyState);
+        bool isKeyDown(SDL_Scancode key);
     };
 }
 

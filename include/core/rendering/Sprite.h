@@ -7,13 +7,22 @@
 
 #include "Graphics.h"
 #include "resource/Texture.h"
+#include "resource/Mesh.h"
+#include "resource/Shader.h"
 
 namespace PAX {
     class Sprite : public Graphics {
+        Shader *_shader;
         Texture *_texture;
+        Mesh *_mesh;
 
     public:
-        Sprite(Texture *texture){}
+        Sprite(Texture *texture, Mesh *mesh, Shader *shader);
+        virtual void render(RenderOptions &options) override;
+
+        Shader *getShader() const;
+        Texture *getTexture() const;
+        Mesh *getMesh() const;
     };
 }
 

@@ -8,13 +8,16 @@
 #include "../core/rendering/Viewport.h"
 
 namespace PAX {
-    class OpenGLViewport : public Viewport {
-    public:
-        OpenGLViewport();
-        OpenGLViewport(int x, int y, int w, int h);
+    namespace OpenGL {
+        class OpenGLViewport : public Viewport {
+        public:
+            OpenGLViewport();
 
-        virtual void apply() override;
-    };
+            OpenGLViewport(int x, int y, int w, int h);
+
+            virtual void apply() override;
+        };
+    }
 }
 
 #endif //PAXENGINE3_OPENGLVIEWPORT_H

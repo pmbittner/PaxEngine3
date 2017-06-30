@@ -14,20 +14,22 @@ namespace PAX {
     }
 
     void SDLInputSystem::update() {
+        _keyboard.setKeyStates(SDL_GetKeyboardState(NULL));
+
         while (SDL_PollEvent(&_currentEvent)) {
             switch (_currentEvent.type) {
                 case SDL_QUIT:
                     PAX::Engine::GetInstance()->stop();
                     break;
-
+/*
                 case SDL_KEYDOWN:
-                    _keyboard.keyDown[_currentEvent.key.keysym.sym] = true;
+                    _keyboard.setKeyDown(_currentEvent.key.keysym.sym, true);
                     break;
 
                 case SDL_KEYUP:
-                    _keyboard.keyDown[_currentEvent.key.keysym.sym] = false;
+                    _keyboard.setKeyDown(_currentEvent.key.keysym.sym, false);
                     break;
-
+//*/
                 case SDL_MOUSEBUTTONDOWN:
                     _mbPressed.button = _currentEvent.button.button;
                     Engine::GetInstance()->getEventService()(_mbPressed);

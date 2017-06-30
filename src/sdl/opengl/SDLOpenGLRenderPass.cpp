@@ -12,9 +12,9 @@ namespace PAX {
 
     void SDLOpenGLRenderPass::initialize() {}
 
-    void SDLOpenGLRenderPass::render() {
-        SceneGraph::render();
-
+    void SDLOpenGLRenderPass::render(RenderOptions &renderOptions) {
+        SceneGraph::render(renderOptions);
+        //LOG(INFO) << "SDL_Bufferflip";
         SDLWindow* window = static_cast<SDLWindow*>(Engine::GetInstance()->getWindow());
         SDL_GL_SwapWindow(window->getSDL_Window());
     }

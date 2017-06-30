@@ -12,7 +12,7 @@ namespace PAX {
     public:
         SDLOpenGLRenderPass();
         void initialize();
-        virtual void render() override;
+        virtual void render(RenderOptions &renderOptions) override;
     };
 }
 

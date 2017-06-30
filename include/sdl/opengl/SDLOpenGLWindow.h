@@ -17,7 +17,7 @@ namespace PAX {
 
     public:
         SDLOpenGLWindow();
-        ~SDLOpenGLWindow();
+        virtual ~SDLOpenGLWindow();
 
         virtual bool create(std::string title, int width, int height) override;
     };

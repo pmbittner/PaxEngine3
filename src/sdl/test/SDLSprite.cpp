@@ -18,7 +18,7 @@ namespace PAX {
         LOG(INFO) << "SDLSprite: Texture " << path << " loaded (" << _destRect.w << "/" << _destRect.h << ")" << std::endl;
     }
 
-    void SDLSprite::render() {
+    void SDLSprite::render(RenderOptions &renderOptions) {
         Transform t = getOwner()->getTransform();
         _destRect.x = (int) (t.x() - _destRect.w / 2);
         _destRect.y = (int) (t.y() - _destRect.h / 2);

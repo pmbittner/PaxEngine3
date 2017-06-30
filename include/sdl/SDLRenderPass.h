@@ -14,10 +14,10 @@ namespace PAX {
 
     public:
         SDLRenderPass();
-        ~SDLRenderPass();
+        virtual ~SDLRenderPass();
 
         void initialize();
-        virtual void render() override;
+        virtual void render(RenderOptions &renderOptions) override;
 
         SDL_Renderer* getSDLRenderer();
     };

@@ -16,10 +16,24 @@ set(CORE_SOURCE_FILES
 
         world/World.cpp
         world/WorldLayer.cpp
-        rendering/Camera.cpp
+        rendering/camera/Camera.cpp
         rendering/scenegraph/rule/ListSceneGraphBuildingRule.cpp
         rendering/scenegraph/rule/GroupByEntitySceneGraphBuildingRule.cpp
-        rendering/Graphics.cpp rendering/scenegraph/EntitySceneGraph.cpp event/EventService.cpp rendering/scenegraph/ListSceneGraphGenerator.cpp system/BehaviourSystem.cpp system/EntityComponentSystem.cpp time/Time.cpp rendering/Viewport.cpp)
+        rendering/Graphics.cpp
+        rendering/scenegraph/EntitySceneGraph.cpp
+        event/EventService.cpp
+        rendering/scenegraph/ListSceneGraphGenerator.cpp
+        system/BehaviourSystem.cpp
+        system/EntityComponentSystem.cpp
+        time/Time.cpp
+        rendering/Viewport.cpp
+        rendering/Sprite.cpp
+        ../../include/core/rendering/resource/Shader.h
+        rendering/camera/Projection.cpp
+        ../../include/core/rendering/camera/OrthographicProjection.h
+        rendering/camera/PerspectiveProjection.cpp
+        rendering/camera/OrthographicProjection.cpp
+        rendering/RenderOptions.cpp rendering/resource/Mesh.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

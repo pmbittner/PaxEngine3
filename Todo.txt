@@ -1,0 +1,4 @@
+OpenGL_Hardcodes entfernen:
+    OpenGLMesh.render -> glEnableVertexAttribArray momentan mit 0, bitte variabel
+    OpenGLSprite ist nur mit einem Shader moeglich. Shader besser abstrahieren!
+    Mehrere Texturen unterstetzen glActiveTexture(GL_TEXTURE0) in OpenGLSprite ist keine Loesung

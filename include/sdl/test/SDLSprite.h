@@ -17,7 +17,7 @@ namespace PAX {
 
     public:
         SDLSprite(SDL_Renderer *renderer, std::string path);
-        virtual void render() override;
+        virtual void render(RenderOptions &options) override;
     };
 }
 

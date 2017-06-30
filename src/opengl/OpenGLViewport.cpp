@@ -6,10 +6,13 @@
 #include "../../include/opengl/OpenGLViewport.h"
 
 namespace PAX {
-    OpenGLViewport::OpenGLViewport() : Viewport() {}
-    OpenGLViewport::OpenGLViewport(int x, int y, int w, int h) : Viewport(x, y, w, h) {}
+    namespace OpenGL {
+        OpenGLViewport::OpenGLViewport() : Viewport() {}
 
-    void OpenGLViewport::apply() {
-        glViewport(_x, _y, _w, _h);
+        OpenGLViewport::OpenGLViewport(int x, int y, int w, int h) : Viewport(x, y, w, h) {}
+
+        void OpenGLViewport::apply() {
+            glViewport(_x, _y, _w, _h);
+        }
     }
 }

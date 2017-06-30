@@ -6,7 +6,7 @@
 #define PAXENGINE3_RENDERABLESORT_H
 
 #include <vector>
-#include "../../Renderable.h"
+#include "../../interface/Renderable.h"
 #include "RenderableSortComparator.h"
 
 namespace PAX {

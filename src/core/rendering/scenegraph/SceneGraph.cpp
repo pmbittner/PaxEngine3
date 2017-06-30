@@ -21,11 +21,11 @@ namespace PAX {
         LOG(WARNING) << "SceneGraph destructor is memory leaking! It does not delete children!";
     }
 
-    void SceneGraph::render() {
+    void SceneGraph::render(RenderOptions &renderOptions) {
         _sorter.insertionSort(_children);
 
         for (Renderable *child : _children)
-            child->render();
+            child->render(renderOptions);
     }
 
     float SceneGraph::getZ() {

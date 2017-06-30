@@ -39,7 +39,7 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/io/Keyboard.h
         include/core/io/Mouse.h
 
-        include/core/rendering/Renderable.h
+        include/core/rendering/interface/Renderable.h
         include/core/rendering/Renderer.h
         include/core/rendering/Graphics.h
 
@@ -86,7 +86,7 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/sdl/SDLWindow.h
         include/core/EngineSetup.h
         include/sdl/SDLEngineSetup.h
-        include/core/rendering/Camera.h
+        include/core/rendering/camera/Camera.h
         include/sdl/SDLInputSystem.h
         include/core/rendering/scenegraph/rule/GroupByEntitySceneGraphBuildingRule.h
         include/core/rendering/scenegraph/rule/ListSceneGraphBuildingRule.h
@@ -115,8 +115,22 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/time/Time.h
         include/sdl/opengl/SDLOpenGLWindow.h
         include/opengl/OpenGLRenderPass.h
-        include/demo/OpenGLDemo.h
-        include/sdl/opengl/SDLOpenGLSetup.h include/core/rendering/Viewport.h include/opengl/OpenGLViewport.h include/core/rendering/Sprite.h include/core/rendering/resource/Mesh.h include/core/rendering/resource/Texture.h)
+        include/demo/OpenGL/OpenGLDemo.h
+        include/sdl/opengl/SDLOpenGLSetup.h
+        include/core/rendering/Viewport.h
+        include/opengl/OpenGLViewport.h
+        include/core/rendering/Sprite.h
+        include/core/rendering/resource/Mesh.h
+        include/core/rendering/resource/Texture.h
+        include/opengl/resource/OpenGLTexture2D.h
+        include/opengl/OpenGLSprite.h
+        include/opengl/resource/OpenGLMesh.h
+        include/opengl/resource/OpenGLShader.h
+        include/core/rendering/camera/Projection.h
+        include/core/rendering/camera/PerspectiveProjection.h
+        include/demo/OpenGL/Cube.h
+        include/demo/RotateAround3D.h
+        include/core/rendering/RenderOptions.h include/demo/CameraControls.h include/opengl/test.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
@@ -135,6 +149,9 @@ if (ANDROID)
 else()
         find_package(SDL2 REQUIRED)
         include_directories(${SDL2_INCLUDE_DIR})
+
+        find_package(SDL2_image REQUIRED)
+        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
         #find_package(SDL2_ttf REQUIRED)
         #include_directories(${SDL2_TTF_INCLUDE_DIR})

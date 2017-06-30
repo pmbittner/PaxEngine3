@@ -7,7 +7,7 @@
 
 #include "SceneGraph.h"
 #include "../Graphics.h"
-#include "../Camera.h"
+#include "../camera/Camera.h"
 #include "../../world/event/EntitySpawnedEvent.h"
 #include "../../world/event/EntityDespawnedEvent.h"
 #include "../../entity/event/EntityComponentAddedEvent.h"

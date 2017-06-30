@@ -2,17 +2,19 @@
 // Created by Gordon on 16.05.2017.
 //
 
-#include "../../../include/core/rendering/Camera.h"
-#include "../../../include/core/entity/Entity.h"
+#include "../../../../include/core/rendering/camera/Camera.h"
+#include "../../../../include/core/entity/Entity.h"
 
 namespace PAX {
-    Camera::Camera(Viewport *viewport) : _viewport(viewport) {
+    Camera::Camera(Viewport *viewport, Projection *projection) : _viewport(viewport), _projection(projection) {
 
     }
 
-    void Camera::render() {
+    void Camera::render(RenderOptions &renderOptions) {
+        renderOptions.setCamera(this);
+
         _viewport->apply();
-        SceneGraph::render();
+        SceneGraph::render(renderOptions);
     }
 
     const glm::mat4 & Camera::getViewTransform() {
@@ -36,5 +38,9 @@ namespace PAX {
 
     Viewport* Camera::getViewport() {
         return _viewport;
+    }
+
+    Projection* Camera::getProjection() {
+        return _projection;
     }
 }

@@ -14,7 +14,7 @@ namespace PAX {
 
     }
 
-    SDLRenderPass::~SDLRenderPass() {
+    virtual SDLRenderPass::~SDLRenderPass() {
         SDL_Quit();
     }
 
@@ -31,11 +31,11 @@ namespace PAX {
         }
     }
 
-    void SDLRenderPass::render() {
+    void SDLRenderPass::render(RenderOptions &renderOptions) {
         //First clear the _renderer
         SDL_RenderClear(_renderer);
 
-        SceneGraph::render();
+        SceneGraph::render(renderOptions);
 
         //Update the screen
         SDL_RenderPresent(_renderer);

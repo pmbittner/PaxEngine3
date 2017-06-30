@@ -18,7 +18,7 @@
 #include "../include/lib/easylogging++.h"
 #include "../include/test/trials/SpecializedFunctionWithDifferentReturType.h"
 #include "../include/sdl/opengl/SDLOpenGLSetup.h"
-#include "../include/demo/OpenGLDemo.h"
+#include "../include/demo/OpenGL/OpenGLDemo.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
