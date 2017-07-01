@@ -41,8 +41,12 @@ namespace PAX {
                 setActiveWorld(&testWorld);
 
                 Entity *camera = new Entity();
-                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 800, 600)));
+                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 400, 600)));
                 camera->add<Behaviour>(new CameraControls);
+
+                Entity *camera2 = new Entity();
+                camera2->add<Camera>(new Camera(new OpenGL::OpenGLViewport(400, 0, 400, 600)));
+                //camera2->add<Behaviour>(new CameraControls);
 
                 Entity *cube = createCubeEntity();
                 cube->add<Behaviour>(new RotateAround3D);
@@ -50,6 +54,7 @@ namespace PAX {
 
                 //*/
                 testWorld.getMainLayer()->spawn(camera);
+                testWorld.getMainLayer()->spawn(camera2);
                 //*/
                 testWorld.getMainLayer()->spawn(cube);
                 //*/

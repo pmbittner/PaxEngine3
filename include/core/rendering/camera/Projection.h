@@ -12,6 +12,7 @@ namespace PAX {
     private:
         bool _dirty = true;
         float _fov, _near, _far;
+        unsigned int _resWidth, _resHeight;
 
     protected:
         glm::mat4 _matrix;
@@ -30,11 +31,17 @@ namespace PAX {
          */
         float getFOV();
 
-        void setNearPlane(float nearPlane);
         float getNearPlane();
+        void setNearPlane(float nearPlane);
 
         float getFarPlane();
         void setFarPlane(float farPlane);
+
+        unsigned int getResolutionWidth();
+        void setResolutionWidth(unsigned int resolutionWidth);
+
+        unsigned int getResolutionHeight();
+        void setResolutionHeight(unsigned int resolutionHeight);
     };
 }
 

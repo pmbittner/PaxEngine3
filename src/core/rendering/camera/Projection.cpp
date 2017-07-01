@@ -40,4 +40,20 @@ namespace PAX {
     float Projection::getFarPlane() {
         return _far;
     }
+
+    void Projection::setResolutionHeight(unsigned int resolutionHeight) {
+        _resHeight = resolutionHeight;
+    }
+
+    unsigned int Projection::getResolutionHeight() {
+        return _resHeight;
+    }
+
+    void Projection::setResolutionWidth(unsigned int resolutionWidth) {
+        _resWidth = resolutionWidth;
+    }
+
+    unsigned int Projection::getResolutionWidth() {
+        return _resWidth;
+    }
 }

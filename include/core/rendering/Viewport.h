@@ -5,12 +5,19 @@
 #ifndef PAXENGINE3_VIEWPORT_H
 #define PAXENGINE3_VIEWPORT_H
 
+#include "../event/EventHandler.h"
+
 namespace PAX {
     class Viewport {
     protected:
         int _x, _y, _w, _h;
 
     public:
+        /**
+         * first = old value
+         * second = new value
+         */
+        EventHandler<int, int> WidthChanged, HeightChanged;
 
         Viewport();
         Viewport(int x, int y, int w, int h);

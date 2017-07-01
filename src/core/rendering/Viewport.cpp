@@ -34,6 +34,7 @@ namespace PAX {
     }
 
     void Viewport::setWidth(int w) {
+        WidthChanged(_w, w);
         Viewport::_w = w;
     }
 
@@ -42,6 +43,7 @@ namespace PAX {
     }
 
     void Viewport::setHeight(int h) {
+        HeightChanged(_h, h);
         Viewport::_h = h;
     }
 }

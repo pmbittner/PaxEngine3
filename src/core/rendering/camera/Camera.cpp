@@ -4,10 +4,18 @@
 
 #include "../../../../include/core/rendering/camera/Camera.h"
 #include "../../../../include/core/entity/Entity.h"
+#include "../../../../include/utility/MacroIncludes.h"
 
 namespace PAX {
     Camera::Camera(Viewport *viewport, Projection *projection) : _viewport(viewport), _projection(projection) {
+        PAX_assertNotNull(viewport, "Viewport can't be null!");
+        PAX_assertNotNull(projection, "Projection can't be null!");
 
+        viewport->WidthChanged.add<Camera, &Camera::onViewportWidthChanged>(this);
+        viewport->HeightChanged.add<Camera, &Camera::onViewportHeightChanged>(this);
+
+        projection->setResolutionWidth(viewport->getWidth());
+        projection->setResolutionHeight(viewport->getHeight());
     }
 
     void Camera::render(RenderOptions &renderOptions) {
@@ -34,6 +42,14 @@ namespace PAX {
             _viewMatrix = glm::mat4(1.0f);
 
         return _viewMatrix;
+    }
+
+    void Camera::onViewportWidthChanged(int oldWidth, int newWidth) {
+        _projection->setResolutionWidth(newWidth);
+    }
+
+    void Camera::onViewportHeightChanged(int oldHeight, int newHeight) {
+        _projection->setResolutionHeight(newHeight);
     }
 
     Viewport* Camera::getViewport() {

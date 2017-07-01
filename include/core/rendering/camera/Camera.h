@@ -19,6 +19,9 @@ namespace PAX {
         Viewport *_viewport;
         Projection *_projection;
 
+        void onViewportWidthChanged(int oldWidth, int newWidth);
+        void onViewportHeightChanged(int oldHeight, int newHeight);
+
     public:
         Camera(Viewport *viewport, Projection *projection = new PerspectiveProjection());
 

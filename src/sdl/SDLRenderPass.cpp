@@ -14,7 +14,7 @@ namespace PAX {
 
     }
 
-    virtual SDLRenderPass::~SDLRenderPass() {
+    SDLRenderPass::~SDLRenderPass() {
         SDL_Quit();
     }
 
