@@ -11,7 +11,7 @@
 
 namespace PAX {
     class SceneGraph : private Renderable {
-        float _z;
+        float _z = 0;
 
         std::vector<SceneGraph*> _parents;
         std::vector<Renderable*> _children;

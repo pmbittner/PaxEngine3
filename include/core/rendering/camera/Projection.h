@@ -11,8 +11,8 @@ namespace PAX {
     class Projection {
     private:
         bool _dirty = true;
-        float _fov, _near, _far;
-        unsigned int _resWidth, _resHeight;
+        float _fov = 90, _near = 0.1f, _far = 1000;
+        unsigned int _resWidth = 1, _resHeight = 1;
 
     protected:
         glm::mat4 _matrix;

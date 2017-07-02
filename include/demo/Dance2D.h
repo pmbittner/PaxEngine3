@@ -11,14 +11,14 @@
 
 namespace PAX {
     class Dance2D : public Behaviour {
-        float _t;
-        float _speed, _maxAngle, _maxElongation;
+        float _t = 0;
+        float _speed = 0, _maxAngle = 0, _maxElongation = 0;
 
     public:
         Dance2D(float speed = 0.03f, float maxAngle = M_PI/4, float maxElongation = -50) : _speed(speed), _maxAngle(maxAngle), _maxElongation(maxElongation) {}
 
         virtual void update() override {
-            float anim = sin(_t);
+            float anim = std::sin(_t);
             float position = anim * _maxElongation;
             float rotation = anim * _maxAngle;
 

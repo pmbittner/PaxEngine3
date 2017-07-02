@@ -32,8 +32,8 @@ namespace PAX {
             if (keyboard->isKeyDown(SDL_SCANCODE_A)) move.x -= speed;
             if (keyboard->isKeyDown(SDL_SCANCODE_D)) move.x += speed;
 
-            if (keyboard->isKeyDown(SDL_SCANCODE_LEFT)) rot.y -= rotspeed;
-            if (keyboard->isKeyDown(SDL_SCANCODE_RIGHT)) rot.y += rotspeed;
+            if (keyboard->isKeyDown(SDL_SCANCODE_LEFT)) rot.y += rotspeed;
+            if (keyboard->isKeyDown(SDL_SCANCODE_RIGHT)) rot.y -= rotspeed;
 
             Transform &t = getOwner()->getTransform();
             t.setPosition(t.xyz() + move);
