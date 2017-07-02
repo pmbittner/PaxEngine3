@@ -1,4 +1,7 @@
 OpenGL_Hardcodes entfernen:
     OpenGLMesh.render -> glEnableVertexAttribArray momentan mit 0, bitte variabel
-    OpenGLSprite ist nur mit einem Shader moeglich. Shader besser abstrahieren!
-    Mehrere Texturen unterstetzen glActiveTexture(GL_TEXTURE0) in OpenGLSprite ist keine Loesung
+    OpenGLTexturedMesh ist nur mit einem Shader moeglich. Shader besser abstrahieren!
+    Mehrere Texturen unterstetzen glActiveTexture(GL_TEXTURE0) in OpenGLTexturedMesh ist keine Loesung
+
+EntitySystem
+    - Arbeitet global und erfasst aktuellen Status der aktiven Welt nicht! Sollte nur fuer die aktuelle Welt arbeoten

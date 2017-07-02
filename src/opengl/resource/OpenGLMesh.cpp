@@ -196,5 +196,9 @@ namespace PAX {
         GLuint OpenGLMesh::getID() {
             return _vao;
         }
+
+        bool OpenGLMesh::isFinalized() {
+            return _finalized;
+        }
     }
 }

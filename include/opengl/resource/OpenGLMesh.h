@@ -41,6 +41,8 @@ namespace PAX {
             virtual void finalize();
             virtual void upload();
 
+            bool isFinalized();
+
             GLuint getID();
         };
     }

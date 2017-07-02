@@ -5,11 +5,12 @@
 #ifndef PAXENGINE3_CUBE_H
 #define PAXENGINE3_CUBE_H
 
+#include <glm/gtc/type_ptr.hpp>
 #include "../../opengl/resource/OpenGLMesh.h"
 #include "../../core/entity/Entity.h"
 #include "../../opengl/resource/OpenGLTexture2D.h"
 #include "../../sdl/utitlity/Path.h"
-#include "../../opengl/OpenGLSprite.h"
+#include "../../opengl/OpenGLTexturedMesh.h"
 #include "../../opengl/test.h"
 
 namespace PAX {
@@ -21,31 +22,10 @@ namespace PAX {
                     {-0.5f,-0.5f,-0.5f},
                     {0.5f,-0.5f,-0.5f},
                     {0.5f,0.5f,-0.5f},
-
                     {-0.5f,0.5f,0.5f},
                     {-0.5f,-0.5f,0.5f},
                     {0.5f,-0.5f,0.5f},
-                    {0.5f,0.5f,0.5f},
-
-                    {0.5f,0.5f,-0.5f},
-                    {0.5f,-0.5f,-0.5f},
-                    {0.5f,-0.5f,0.5f},
-                    {0.5f,0.5f,0.5f},
-
-                    {-0.5f,0.5f,-0.5f},
-                    {-0.5f,-0.5f,-0.5f},
-                    {-0.5f,-0.5f,0.5f},
-                    {-0.5f,0.5f,0.5f},
-
-                    {-0.5f,0.5f,0.5f},
-                    {-0.5f,0.5f,-0.5f},
-                    {0.5f,0.5f,-0.5f},
-                    {0.5f,0.5f,0.5f},
-
-                    {-0.5f,-0.5f,0.5f},
-                    {-0.5f,-0.5f,-0.5f},
-                    {0.5f,-0.5f,-0.5f},
-                    {0.5f,-0.5f,0.5f}
+                    {0.5f,0.5f,0.5f}
             };
 
             std::vector<std::vector<int>> faces = {
@@ -53,69 +33,75 @@ namespace PAX {
                     {3,1,2},
                     {4,5,7},
                     {7,5,6},
-                    {8,9,11},
-                    {11,9,10},
-                    {12,13,15},
-                    {15,13,14},
-                    {16,17,19},
-                    {19,17,18},
-                    {20,21,23},
-                    {23,21,22}
+                    {3,2,7},
+                    {7,2,6},
+                    {0,1,4},
+                    {4,1,5},
+                    {4,0,7},
+                    {7,0,3},
+                    {5,1,6},
+                    {6,1,2}
             };
 
             float relativeWidth = 1;//(float)texture.Width / (float)texture.ActualWidth;
             float relativeHeight = 1;//(float)texture.Height / (float)texture.ActualHeight;
 
             std::vector<glm::vec2> texCoords = {
-                    {0,0},
-                    {0,relativeHeight},
-                    {relativeWidth,relativeHeight},
                     {relativeWidth,0},
-                    {0,0},
-                    {0,relativeHeight},
                     {relativeWidth,relativeHeight},
-                    {relativeWidth,0},
-                    {0,0},
                     {0,relativeHeight},
-                    {relativeWidth,relativeHeight},
-                    {relativeWidth,0},
                     {0,0},
-                    {0,relativeHeight},
-                    {relativeWidth,relativeHeight},
-                    {relativeWidth,0},
-                    {0,0},
-                    {0,relativeHeight},
-                    {relativeWidth,relativeHeight},
-                    {relativeWidth,0},
                     {0,0},
                     {0,relativeHeight},
                     {relativeWidth,relativeHeight},
                     {relativeWidth,0}
             };
 
+            glm::vec3 objCenter(0, 0, 0);
+            std::vector<glm::vec3> normals;
+            for (glm::vec3 &vertex : vertices) {
+                normals.push_back(glm::normalize(vertex - objCenter));
+            }
+
             OpenGL::OpenGLMesh *mesh = new OpenGL::OpenGLMesh(vertices, faces);
-            //mesh->addAttribute(texCoords);
+            mesh->addAttribute(texCoords);
+            mesh->addAttribute(normals);
 
             return mesh;
         }
 
-        Entity* createCubeEntity() {
-            Entity *e = new Entity();
-            std::string res = getResourcePath();
+        Entity* createCubeEntity(glm::vec3 color, std::string texture = "") {
+            std::ostringstream nameStream;
+            nameStream << "Cube " << color.x << ", " << color.y << ", " << color.z;
+            Entity *e = new Entity(nameStream.str());
 
-            //*
-            OpenGL::OpenGLTexture2D *tex = new OpenGL::OpenGLTexture2D(res + "img/Crate.png");
-            OpenGL::OpenGLMesh *mesh = createCube();
-            mesh->finalize();
-            mesh->upload();
+            static std::string res = getResourcePath();
 
-            OpenGL::OpenGLShader *shader = new OpenGL::OpenGLShader("PlainTexture", res + "shader/test/PlainTexture.vert", res + "shader/test/PlainTexture.frag");
+            static OpenGL::OpenGLTexture2D *defaultTexture = new OpenGL::OpenGLTexture2D(res + "img/White16.png");
+            static OpenGL::OpenGLMesh *mesh = createCube();
+            if (!mesh->isFinalized()) {
+                mesh->finalize();
+                mesh->upload();
+            }
 
-            OpenGL::OpenGLSprite *sprite = new OpenGL::OpenGLSprite(tex, mesh, shader);
+            OpenGL::OpenGLTexture2D *tex;
+            OpenGL::OpenGLShader *shader = nullptr;
+            if (!texture.empty()) {
+                tex = new OpenGL::OpenGLTexture2D(res + texture);
+            } else {
+                tex = defaultTexture;
+            }
+
+            shader = new OpenGL::OpenGLShader("Lambert", res + "shader/test/lambert/SingleColor.vert", res + "shader/test/lambert/SingleColor.frag");
+            shader->bind();
+            glUniform3fv(glGetUniformLocation(shader->getID(), "pLightPositions[0]"), 1, glm::value_ptr(glm::vec3(0, 5, 0)));
+            glUniform3fv(glGetUniformLocation(shader->getID(), "pLightColors[0]"), 1, glm::value_ptr(glm::vec3(1, 1, 1)));
+            glUniform1f(glGetUniformLocation(shader->getID(), "pLightIntensity[0]"), 0.8f);
+            shader->unbind();
+
+            OpenGL::OpenGLTexturedMesh *sprite = new OpenGL::OpenGLTexturedMesh(tex, mesh, shader);
+            sprite->_color = color;
             e->add<Graphics>(sprite);
-            /*/
-            e->add<Graphics>(new OpenGL::test());
-            //*/
             return e;
         }
     }

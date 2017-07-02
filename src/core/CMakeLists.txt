@@ -30,9 +30,9 @@ set(CORE_SOURCE_FILES
         rendering/Sprite.cpp
         ../../include/core/rendering/resource/Shader.h
         rendering/camera/Projection.cpp
-        ../../include/core/rendering/camera/OrthographicProjection.h
+        ../../include/core/rendering/camera/PixelScreenProjection.h
         rendering/camera/PerspectiveProjection.cpp
-        rendering/camera/OrthographicProjection.cpp
+        rendering/camera/PixelScreenProjection.cpp
         rendering/RenderOptions.cpp rendering/resource/Mesh.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})

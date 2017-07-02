@@ -44,7 +44,7 @@ namespace PAX {
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
 
-        Entity();
+        Entity(std::string name = "Entity");
         ~Entity();
 
         Transform& getTransform();
@@ -150,6 +150,9 @@ namespace PAX {
 
             return false;
         }
+
+        std::string getName();
+        void setName(std::string name);
     };
 }
 

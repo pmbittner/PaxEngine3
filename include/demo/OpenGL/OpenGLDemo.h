@@ -6,6 +6,8 @@
 #define PAXENGINE3_OPENGLDEMO_H
 
 #include <iostream>
+
+#include "Cube.h"
 #include "../../core/Game.h"
 #include "../../test/SDLTestApplication2.h"
 #include "../../sdl/opengl/SDLOpenGLWindow.h"
@@ -14,7 +16,9 @@
 #include "../MoveToMouseBehaviour.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../opengl/OpenGLViewport.h"
-#include "Cube.h"
+#include "../../opengl/OpenGLSprite.h"
+#include "../../core/rendering/camera/PixelScreenProjection.h"
+#include "../Dance2D.h"
 #include "../RotateAround3D.h"
 #include "../CameraControls.h"
 
@@ -24,12 +28,11 @@ namespace PAX {
             World *_testWorld;
 
         public:
-            virtual void initialize() override {
-                LOG(INFO) << "Initializing Demo";
+            void onEntitySpawned(EntitySpawnedEvent &event) {
+                LOG(INFO) << "Demo: Entity spawned " << event.entity->getName();
+            }
 
-                Game::initialize();
-                _testWorld = new World();
-
+            void initRendering() {
                 SDL::OpenGL::SDLOpenGLRenderPass *sdl = new SDL::OpenGL::SDLOpenGLRenderPass();
                 OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
                 sdl->addChild(opengl);
@@ -40,27 +43,68 @@ namespace PAX {
 
                 sdl->initialize();
                 opengl->initialize();
+            }
+
+            void initGui() {
+                WorldLayer *guiLayer = _testWorld->getGUILayer();
+
+                Entity *camera = new Entity();
+                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 800, 600), new PixelScreenProjection()));
+
+                OpenGL::OpenGLSprite::Initialize();
+                Entity *paxLogo = new Entity("DemoGuiElement");
+                float w = 100, h = 100;
+                paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D(getResourcePath() + "img/PaxEngine3_128.png")));
+                paxLogo->add<Behaviour>(new Dance2D());
+                paxLogo->getTransform().setPosition(0, -300 + h, -1);
+                paxLogo->getTransform().setScale(w, h);
+
+                Entity* blackBar = new Entity("SplitScreenDivider");
+                blackBar->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D(getResourcePath() + "img/Black16.png")));
+                blackBar->getTransform().setPosition(0, 0, -2);
+                blackBar->getTransform().setScale(5, 610);
+
+                guiLayer->spawn(camera);
+                guiLayer->spawn(paxLogo);
+                guiLayer->spawn(blackBar);
+            }
+
+            virtual void initialize() override {
+                LOG(INFO) << "Demo: Initializing";
+
+                Game::initialize();
+                _testWorld = new World();
+                _testWorld->getEventService().add<EntitySpawnedEvent, OpenGLDemo, &OpenGLDemo::onEntitySpawned>(this);
 
                 setActiveWorld(_testWorld);
 
-                Entity *camera = new Entity();
-                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 400, 600)));
-                camera->add<Behaviour>(new CameraControls);
+                initRendering();
+                initGui();
 
-                Entity *camera2 = new Entity();
-                camera2->add<Camera>(new Camera(new OpenGL::OpenGLViewport(400, 0, 400, 600)));
-                //camera2->add<Behaviour>(new CameraControls);
+                Entity *paxCube = createCubeEntity(glm::vec3(1, 1, 1), "img/PaxEngine3_128.png");
+                paxCube->add<Behaviour>(new CameraControls);
+                paxCube->getTransform().setZ(3);
 
-                Entity *cube = createCubeEntity();
-                cube->add<Behaviour>(new RotateAround3D);
-                cube->getTransform().setZ(-5);
+                Entity *cgCube = createCubeEntity(glm::vec3(1,1,1), "img/cg512borders.png");
+                cgCube->add<Behaviour>(new RotateAround3D(glm::vec3(0, 0.005, 0.005)));
 
-                //*/
-                _testWorld->getMainLayer()->spawn(camera);
-                _testWorld->getMainLayer()->spawn(camera2);
-                //*/
-                _testWorld->getMainLayer()->spawn(cube);
-                //*/
+                Entity *tuCube = createCubeEntity(glm::vec3(1, 1, 1), "img/tu512.png");
+                tuCube->getTransform().setY(-1);
+                tuCube->setParent(cgCube);
+
+                Entity *paxCubeCamera = new Entity("PaxCubeCam");
+                paxCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 400, 600)));
+                paxCubeCamera->setParent(paxCube);
+                paxCubeCamera->getTransform().setZ(-0.6f);
+
+                Entity *cgCubeCamera = new Entity("CgCubeCam");
+                cgCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(400, 0, 400, 600)));
+                cgCubeCamera->setParent(cgCube);
+                cgCubeCamera->getTransform().setRotation(0, M_PI, 0);
+                cgCubeCamera->getTransform().setZ(0.6f);
+
+                _testWorld->getMainLayer()->spawn(paxCube);
+                _testWorld->getMainLayer()->spawn(cgCube);
             }
         };
     }

@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_TRANSFORM_H
 #define PAXENGINE3_TRANSFORM_H
 
+#include <vector>
 #include <glm/glm.hpp>
 
 namespace PAX {
@@ -27,6 +28,8 @@ namespace PAX {
         glm::mat4 _worldTransform;
 
         Transform *_parent = nullptr;
+        std::vector<Transform*> _children;
+
         bool _relativeMatDirty;
         bool _worldMatDirty;
 

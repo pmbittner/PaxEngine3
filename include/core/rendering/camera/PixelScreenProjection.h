@@ -8,8 +8,9 @@
 #include "Projection.h"
 
 namespace PAX {
-    class OrthographicProjection : public Projection {
+    class PixelScreenProjection : public Projection {
     public:
+        PixelScreenProjection();
         virtual void calcMatrix() override;
     };
 }

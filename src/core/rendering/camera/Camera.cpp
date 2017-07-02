@@ -30,16 +30,20 @@ namespace PAX {
 
         if (owner) {
             Transform &transform = owner->getTransform();
-            _viewMatrix = glm::mat4(transform.toWorldMatrix());
-
-            float x = _viewMatrix[3][0];
-            float y = _viewMatrix[3][1];
-            float z = _viewMatrix[3][2];
-            _viewMatrix[3][0] = -(_viewMatrix[0][0] * x + _viewMatrix[1][0] * y + _viewMatrix[2][0] * z);
-            _viewMatrix[3][1] = -(_viewMatrix[0][1] * x + _viewMatrix[1][1] * y + _viewMatrix[2][1] * z);
-            _viewMatrix[3][2] = -(_viewMatrix[0][2] * x + _viewMatrix[1][2] * y + _viewMatrix[2][2] * z);
-        } else
+            _viewMatrix = transform.toWorldMatrix();
+            // extracting upper left 3x3 part of the mat4
+            glm::mat3 rotationMatrix(_viewMatrix);
+            // invert the rotation (rotationMatrix is orthogonal => transpose = inverse)
+            rotationMatrix = glm::transpose(rotationMatrix);
+            // apply the rotation of the matrix to the displacement, as it isn't independent of the rotation,
+            // meaning, that the look should rotate with its object
+            glm::vec3 translation = rotationMatrix * glm::vec3(_viewMatrix[3]);
+            _viewMatrix = glm::mat4(rotationMatrix);
+            // invert translation
+            _viewMatrix[3] = glm::vec4(-translation, 1);
+        } else {
             _viewMatrix = glm::mat4(1.0f);
+        }
 
         return _viewMatrix;
     }

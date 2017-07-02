@@ -23,7 +23,12 @@ namespace PAX {
 
         auto entityIter = std::find(_entities.begin(), _entities.end(), entity);
         if (entityIter == _entities.end()) {
+            for (Entity *child : entity->getChildren()) {
+                spawn(child);
+            }
+
             _entities.push_back(entity);
+
             entity->_worldLayer = this;
             entity->_localEventService.setParent(&_localEventService);
 
@@ -35,7 +40,11 @@ namespace PAX {
     void WorldLayer::despawn(Entity *entity) {
         auto entityIter = std::find(_entities.begin(), _entities.end(), entity);
         if (entityIter != _entities.end()) {
+            for (Entity *child : entity->getChildren())
+                despawn(child);
+
             _entities.erase(entityIter);
+
             entity->_worldLayer = nullptr;
             entity->_localEventService.setParent(nullptr);
 

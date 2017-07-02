@@ -3,6 +3,7 @@
 //
 
 #include "../../../include/core/entity/Transform.h"
+#include "../../../include/utility/stdutils.h"
 
 namespace PAX {
     Transform::Transform() :
@@ -18,18 +19,31 @@ namespace PAX {
     void Transform::setRelativeMatDirty(bool dirty) {
         _relativeMatDirty = dirty;
 
-        if (_relativeMatDirty)
+        if (_relativeMatDirty) {
             setWorldMatDirty(true);
+        }
     }
 
     void Transform::setWorldMatDirty(bool dirty) {
         _worldMatDirty = dirty;
+
+        if (_worldMatDirty) {
+            for (Transform* child : _children)
+                child->setWorldMatDirty(true);
+        }
     }
 
 
     void Transform::setParent(Transform *parent) {
         if (_parent != parent) {
+            if (_parent)
+                Util::removeFromVector(&(_parent->_children), this);
+
             _parent = parent;
+
+            if (_parent)
+                _parent->_children.push_back(this);
+
             setWorldMatDirty(true);
         }
     }
@@ -213,9 +227,6 @@ namespace PAX {
     }
 
     const glm::mat4& Transform::toWorldMatrix() {
-        if (_parent && _parent->_worldMatDirty)
-            setWorldMatDirty(true);
-
         if (_worldMatDirty) {
             const glm::mat4 &relativeMat = toRelativeMatrix();
 

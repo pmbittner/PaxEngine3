@@ -12,8 +12,7 @@ namespace PAX {
     class RotateAround3D : public Behaviour {
         glm::vec3 _impulse;
     public:
-        RotateAround3D() {
-            _impulse = glm::vec3(0.01f, 0.01f, 0.0f);
+        RotateAround3D(glm::vec3 impulse = glm::vec3(0.01f, 0.008f, 0.006f)) : _impulse(impulse){
         }
 
         virtual void update() override {

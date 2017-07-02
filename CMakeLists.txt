@@ -123,14 +123,22 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/rendering/resource/Mesh.h
         include/core/rendering/resource/Texture.h
         include/opengl/resource/OpenGLTexture2D.h
-        include/opengl/OpenGLSprite.h
+        include/opengl/OpenGLTexturedMesh.h
         include/opengl/resource/OpenGLMesh.h
         include/opengl/resource/OpenGLShader.h
         include/core/rendering/camera/Projection.h
         include/core/rendering/camera/PerspectiveProjection.h
         include/demo/OpenGL/Cube.h
         include/demo/RotateAround3D.h
-        include/core/rendering/RenderOptions.h include/demo/CameraControls.h include/opengl/test.h include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h include/core/rendering/RenderFactory.h include/sdl/SDLRenderFactory.h include/opengl/OpenGLRenderFactory.h)
+        include/core/rendering/RenderOptions.h
+        include/demo/CameraControls.h
+        include/opengl/test.h
+        include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h
+        include/core/rendering/RenderFactory.h
+        include/sdl/SDLRenderFactory.h
+        include/opengl/OpenGLRenderFactory.h
+        include/opengl/OpenGLMacros.h
+        include/opengl/OpenGLSprite.h include/demo/Dance2D.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
