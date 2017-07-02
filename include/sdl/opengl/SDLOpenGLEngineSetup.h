@@ -11,6 +11,7 @@ namespace PAX {
     namespace SDL {
         namespace OpenGL {
             class SDLOpenGLEngineSetup : public SDLEngineSetup {
+            public:
                 virtual Window *createWindow();
                 virtual RenderFactory *createRenderFactory() override;
             };

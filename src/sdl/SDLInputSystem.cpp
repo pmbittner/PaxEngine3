@@ -22,15 +22,17 @@ namespace PAX {
                     case SDL_QUIT:
                         PAX::Engine::GetInstance()->stop();
                         break;
-/*
+
                 case SDL_KEYDOWN:
-                    _keyboard.setKeyDown(_currentEvent.key.keysym.sym, true);
+                    //_keyboard.setKeyDown(_currentEvent.key.keysym.sym, true);
+                    if (_currentEvent.key.keysym.sym == SDLK_ESCAPE)
+                        PAX::Engine::GetInstance()->stop();
                     break;
 
                 case SDL_KEYUP:
-                    _keyboard.setKeyDown(_currentEvent.key.keysym.sym, false);
+                    //_keyboard.setKeyDown(_currentEvent.key.keysym.sym, false);
                     break;
-//*/
+
                     case SDL_MOUSEBUTTONDOWN:
                         _mbPressed.button = _currentEvent.button.button;
                         Engine::GetInstance()->getEventService()(_mbPressed);

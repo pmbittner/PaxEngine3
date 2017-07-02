@@ -5,6 +5,10 @@
 #ifndef PAXENGINE3_MACROINCLUDES_H
 #define PAXENGINE3_MACROINCLUDES_H
 
+// HACK FOR RESOLUTION
+#define PAX_RES_X 1920
+#define PAX_RES_Y 1080
+
 /** UTILITY **/
 
 #define PAX_typeof(expr) std::type_index(typeid(expr))

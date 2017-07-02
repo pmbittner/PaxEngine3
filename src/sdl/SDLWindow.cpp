@@ -40,6 +40,11 @@ namespace PAX {
             return true;
         }
 
+        void SDLWindow::setFullscreen(bool fullscreen) {
+            SDL_SetWindowFullscreen(_window, flags() | SDL_WINDOW_FULLSCREEN);
+            Window::setFullscreen(fullscreen);
+        }
+
         glm::vec2 SDLWindow::getResolution() {
             return _resolution;
         }

@@ -45,24 +45,24 @@ namespace PAX {
                 opengl->initialize();
             }
 
-            void initGui() {
+            void initGui(glm::vec2 res = {800, 600}) {
                 WorldLayer *guiLayer = _testWorld->getGUILayer();
 
                 Entity *camera = new Entity();
-                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 800, 600), new PixelScreenProjection()));
+                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new PixelScreenProjection()));
 
                 OpenGL::OpenGLSprite::Initialize();
                 Entity *paxLogo = new Entity("DemoGuiElement");
                 float w = 100, h = 100;
                 paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D(getResourcePath() + "img/PaxEngine3_128.png")));
                 paxLogo->add<Behaviour>(new Dance2D());
-                paxLogo->getTransform().setPosition(0, -300 + h, -1);
+                paxLogo->getTransform().setPosition(0, -res.y/2 + h, -1);
                 paxLogo->getTransform().setScale(w, h);
 
                 Entity* blackBar = new Entity("SplitScreenDivider");
                 blackBar->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D(getResourcePath() + "img/Black16.png")));
                 blackBar->getTransform().setPosition(0, 0, -2);
-                blackBar->getTransform().setScale(5, 610);
+                blackBar->getTransform().setScale(5, res.y);
 
                 guiLayer->spawn(camera);
                 guiLayer->spawn(paxLogo);
@@ -72,6 +72,9 @@ namespace PAX {
             virtual void initialize() override {
                 LOG(INFO) << "Demo: Initializing";
 
+                Window *window = Engine::GetInstance()->getWindow();
+                glm::vec2 res = window->getResolution();
+
                 Game::initialize();
                 _testWorld = new World();
                 _testWorld->getEventService().add<EntitySpawnedEvent, OpenGLDemo, &OpenGLDemo::onEntitySpawned>(this);
@@ -79,7 +82,7 @@ namespace PAX {
                 setActiveWorld(_testWorld);
 
                 initRendering();
-                initGui();
+                initGui(res);
 
                 Entity *cgCube = createCubeEntity(glm::vec3(1, 1, 1), "img/cg512borders.png");
                 cgCube->add<Behaviour>(new CameraControls);
@@ -93,20 +96,38 @@ namespace PAX {
                 tuCube->getTransform().setY(-1);
                 tuCube->setParent(paxCube);
 
-                Entity *cgCubeCamera = new Entity("PaxCubeCam");
-                cgCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 400, 600)));
+                Entity *cgCubeCamera = new Entity("CgCubeCam");
+                cgCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x/2, res.y)));
                 cgCubeCamera->setParent(cgCube);
                 cgCubeCamera->getTransform().setY(1.3f);
                 cgCubeCamera->getTransform().setZ(2.0f);
 
-                Entity *paxCubeCamera = new Entity("CgCubeCam");
-                paxCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(400, 0, 400, 600)));
+                Entity *paxCubeCamera = new Entity("PaxCubeCam");
+                paxCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(res.x/2, 0, res.x/2, res.y)));
                 paxCubeCamera->setParent(paxCube);
                 paxCubeCamera->getTransform().setRotation(0, M_PI, 0);
                 paxCubeCamera->getTransform().setZ(0.6f);
 
+                // orientation cubes
+                Entity *bonuscubeLeft = createCubeEntity(glm::vec3(1, 0, 0));
+                bonuscubeLeft->add<Behaviour>(new RotateAround3D(glm::vec3(0, 0, -0.005)));
+                bonuscubeLeft->getTransform().setPosition(-3, 0, 0);
+                _testWorld->getMainLayer()->spawn(bonuscubeLeft);
+
+                Entity *bonuscubeRight = createCubeEntity(glm::vec3(0, 0, 1));
+                bonuscubeRight->add<Behaviour>(new RotateAround3D(glm::vec3(-0.005, 0.005, 0.005)));
+                bonuscubeRight->getTransform().setPosition(3, 0, 0);
+                _testWorld->getMainLayer()->spawn(bonuscubeRight);
+
+                Entity *bonuscubeBack = createCubeEntity(glm::vec3(0, 1, 0));
+                bonuscubeBack->add<Behaviour>(new RotateAround3D(glm::vec3(0.005, 0, 0)));
+                bonuscubeBack->getTransform().setPosition(0, 0, -3);
+                _testWorld->getMainLayer()->spawn(bonuscubeBack);
+
                 _testWorld->getMainLayer()->spawn(cgCube);
                 _testWorld->getMainLayer()->spawn(paxCube);
+
+                window->setFullscreen(true);
             }
         };
     }

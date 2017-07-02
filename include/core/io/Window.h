@@ -10,9 +10,14 @@
 
 namespace PAX {
     class Window {
+        bool _fullscreen;
+
     public:
         virtual bool create(std::string title, int width, int height) = 0;
         virtual glm::vec2 getResolution() = 0;
+
+        virtual void setFullscreen(bool fullscreen);
+        bool isFullscreen();
     };
 }
 

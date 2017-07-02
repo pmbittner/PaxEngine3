@@ -27,7 +27,9 @@ namespace PAX {
 
             virtual bool create(std::string title, int width, int height) override;
 
-            virtual glm::vec2 getResolution();
+            virtual glm::vec2 getResolution() override;
+
+            virtual void setFullscreen(bool fullscreen) override;
 
             SDL_Window *getSDL_Window();
         };

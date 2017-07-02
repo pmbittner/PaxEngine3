@@ -47,6 +47,7 @@ namespace PAX {
                     return true;
                 }
 
+                SDL_Window *win = this->getSDL_Window();
                 return false;
             }
         }

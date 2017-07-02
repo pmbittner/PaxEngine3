@@ -38,7 +38,7 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
 
     _window = setup->createWindow();
     PAX_assertNotNull(_window, "Engine::initialize: The given setup could not create a Window!");
-    _window->create("PaxEngine3", 800, 600);
+    _window->create("PaxEngine3", PAX_RES_X, PAX_RES_Y);
 
     _inputSystem = setup->createInputSystem();
     PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
