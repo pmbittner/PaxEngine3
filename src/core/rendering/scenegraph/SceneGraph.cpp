@@ -8,7 +8,7 @@
 #include "../../../../include/utility/stdutils.h"
 
 namespace PAX {
-    SceneGraph::SceneGraph() {
+    SceneGraph::SceneGraph(float z) : _z(z) {
 
     }
 
@@ -28,8 +28,12 @@ namespace PAX {
             child->render(renderOptions);
     }
 
+    void SceneGraph::setZ(float z) {
+        _z = z;
+    }
+
     float SceneGraph::getZ() {
-        return 0;
+        return _z;
     }
 
     const std::vector<SceneGraph*>& SceneGraph::getParents() {

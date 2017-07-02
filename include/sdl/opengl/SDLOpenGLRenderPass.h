@@ -8,12 +8,17 @@
 #include "../../core/rendering/scenegraph/SceneGraph.h"
 
 namespace PAX {
-    class SDLOpenGLRenderPass : public SceneGraph {
-    public:
-        SDLOpenGLRenderPass();
-        void initialize();
-        virtual void render(RenderOptions &renderOptions) override;
-    };
+    namespace SDL {
+        namespace OpenGL {
+            class SDLOpenGLRenderPass : public SceneGraph {
+            public:
+                SDLOpenGLRenderPass();
+
+                void initialize();
+                virtual void render(RenderOptions &renderOptions) override;
+            };
+        }
+    }
 }
 
 #endif //PAXENGINE3_SDLOPENGLRENDERPASS_H

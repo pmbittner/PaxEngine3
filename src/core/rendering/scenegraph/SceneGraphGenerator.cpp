@@ -24,7 +24,7 @@ namespace PAX {
     }
 
     void SceneGraphGenerator::addCamera(Camera *c) {
-        _root->addChild(c); // has to be done in the rule
+        _root->addChild(c);
         c->addChild(&_sceneRoot);
     }
 

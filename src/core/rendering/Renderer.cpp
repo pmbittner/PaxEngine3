@@ -16,7 +16,8 @@ namespace PAX {
         RenderOptions options;
 
         World *activeWorld = Engine::GetInstance()->getGame()->getActiveWorld();
-        SceneGraph *scene = activeWorld->getMainLayer()->getSceneGraph();
+        SceneGraph *scene = activeWorld->getSceneGraph();
+
         _generationEntryPoint->addChild(scene);
         _sceneGraphRoot->render(options);
         _generationEntryPoint->removeChild(scene);

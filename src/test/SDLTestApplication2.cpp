@@ -47,7 +47,7 @@ namespace SDL_TEST_APPLICATION2 {
             LOG(INFO) << "INIT SDL2TestApplication2 on Android";
 #endif
             PAX::Window * window = PAX::Engine::GetInstance()->getWindow();
-            SDL_Window *sdlWindow = static_cast<PAX::SDLWindow*>(window)->getSDL_Window();
+            SDL_Window *sdlWindow = static_cast<PAX::SDL::SDLWindow*>(window)->getSDL_Window();
 
             renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (renderer == nullptr) {

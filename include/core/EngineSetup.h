@@ -5,11 +5,11 @@
 #ifndef PAXENGINE3_ENGINESETUP_H
 #define PAXENGINE3_ENGINESETUP_H
 
-#include "io/Window.h"
-#include "io/InputSystem.h"
-
 namespace PAX {
     class Engine;
+    class Window;
+    class InputSystem;
+    class RenderFactory;
 
     class EngineSetup {
     public:
@@ -17,6 +17,7 @@ namespace PAX {
 
         virtual Window* createWindow() = 0;
         virtual InputSystem* createInputSystem() = 0;
+        virtual RenderFactory* createRenderFactory() = 0;
     };
 }
 

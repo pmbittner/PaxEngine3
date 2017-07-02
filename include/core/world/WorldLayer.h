@@ -32,7 +32,7 @@ namespace PAX {
         EventService _localEventService;
         WorldLayerLayout *_layout = nullptr;
 
-        SceneGraph _sceneGraph;
+        SceneGraph *_sceneGraph;
         SceneGraphGenerator *_sceneGraphGenerator;
         std::vector<Entity*> _entities;
 

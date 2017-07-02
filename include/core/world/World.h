@@ -13,6 +13,7 @@ namespace PAX {
     private:
         EventService _localEventService;
         std::unordered_map<std::string, WorldLayer*> _layers;
+        SceneGraph *_sceneGraph = nullptr;
 
     public:
 
@@ -25,6 +26,8 @@ namespace PAX {
         WorldLayer* getMainLayer();
         WorldLayer* getGUILayer();
         WorldLayer* getWorldLayerWithName(const std::string& name);
+
+        SceneGraph* getSceneGraph();
 
         EventService& getEventService();
     };

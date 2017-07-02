@@ -114,9 +114,9 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/io/MouseButtonEvent.h
         include/core/time/Time.h
         include/sdl/opengl/SDLOpenGLWindow.h
-        include/opengl/OpenGLRenderPass.h
+        include/opengl/rendernodes/OpenGLRenderPass.h
         include/demo/OpenGL/OpenGLDemo.h
-        include/sdl/opengl/SDLOpenGLSetup.h
+        include/sdl/opengl/SDLOpenGLEngineSetup.h
         include/core/rendering/Viewport.h
         include/opengl/OpenGLViewport.h
         include/core/rendering/Sprite.h
@@ -130,7 +130,7 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/core/rendering/camera/PerspectiveProjection.h
         include/demo/OpenGL/Cube.h
         include/demo/RotateAround3D.h
-        include/core/rendering/RenderOptions.h include/demo/CameraControls.h include/opengl/test.h)
+        include/core/rendering/RenderOptions.h include/demo/CameraControls.h include/opengl/test.h include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h include/core/rendering/RenderFactory.h include/sdl/SDLRenderFactory.h include/opengl/OpenGLRenderFactory.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

@@ -12,21 +12,26 @@
 #include "../core/io/Window.h"
 
 namespace PAX {
-    class SDLWindow : public Window {
-    protected:
-        SDL_Window *_window = nullptr;
-        glm::vec2 _resolution;
-        virtual Uint32 flags();
+    namespace SDL {
+        class SDLWindow : public Window {
+        protected:
+            SDL_Window *_window = nullptr;
+            glm::vec2 _resolution;
 
-    public:
-        SDLWindow();
-        ~SDLWindow();
+            virtual Uint32 flags();
 
-        virtual bool create(std::string title, int width, int height) override;
-        virtual glm::vec2 getResolution();
+        public:
+            SDLWindow();
 
-        SDL_Window* getSDL_Window();
-    };
+            ~SDLWindow();
+
+            virtual bool create(std::string title, int width, int height) override;
+
+            virtual glm::vec2 getResolution();
+
+            SDL_Window *getSDL_Window();
+        };
+    }
 }
 
 #endif //PAXENGINE3_SDLWINDOW_H

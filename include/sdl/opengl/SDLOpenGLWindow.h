@@ -8,19 +8,24 @@
 #include "../SDLWindow.h"
 
 namespace PAX {
-    class SDLOpenGLWindow : public SDLWindow {
-    private:
-        SDL_GLContext _context;
+    namespace SDL {
+        namespace OpenGL {
+            class SDLOpenGLWindow : public SDL::SDLWindow {
+            private:
+                SDL_GLContext _context;
 
-    protected:
-        virtual Uint32 flags() override;
+            protected:
+                virtual Uint32 flags() override;
 
-    public:
-        SDLOpenGLWindow();
-        virtual ~SDLOpenGLWindow();
+            public:
+                SDLOpenGLWindow();
 
-        virtual bool create(std::string title, int width, int height) override;
-    };
+                virtual ~SDLOpenGLWindow();
+
+                virtual bool create(std::string title, int width, int height) override;
+            };
+        }
+    }
 }
 
 #endif //PAXENGINE3_SDLOPENGLWINDOW_H

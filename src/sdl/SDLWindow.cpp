@@ -6,44 +6,46 @@
 #include "../../include/lib/easylogging++.h"
 
 namespace PAX {
-    SDLWindow::SDLWindow() {
+    namespace SDL {
+        SDLWindow::SDLWindow() {
 
-    }
-
-    SDLWindow::~SDLWindow() {
-        if (_window)
-            SDL_DestroyWindow(_window);
-    }
-
-    Uint32 SDLWindow::flags() {
-        return SDL_WINDOW_RESIZABLE;
-    }
-
-    bool SDLWindow::create(std::string title, int width, int height) {
-        LOG(INFO) << "Create SDL Window (" << title << ", (" << width << "/" << height << "))";
-        _resolution.x = width;
-        _resolution.y = height;
-
-        _window = SDL_CreateWindow(title.c_str(),
-                                   SDL_WINDOWPOS_CENTERED,
-                                   SDL_WINDOWPOS_CENTERED,
-                                   width,
-                                   height,
-                                   flags());
-
-        if (_window == NULL) {
-            LOG(ERROR) << "Window could not be created: " << SDL_GetError();
-            return false;
         }
 
-        return true;
-    }
+        SDLWindow::~SDLWindow() {
+            if (_window)
+                SDL_DestroyWindow(_window);
+        }
 
-    glm::vec2 SDLWindow::getResolution() {
-        return _resolution;
-    }
+        Uint32 SDLWindow::flags() {
+            return SDL_WINDOW_RESIZABLE;
+        }
 
-    SDL_Window* SDLWindow::getSDL_Window() {
-        return _window;
+        bool SDLWindow::create(std::string title, int width, int height) {
+            LOG(INFO) << "Create SDL Window (" << title << ", (" << width << "/" << height << "))";
+            _resolution.x = width;
+            _resolution.y = height;
+
+            _window = SDL_CreateWindow(title.c_str(),
+                                       SDL_WINDOWPOS_CENTERED,
+                                       SDL_WINDOWPOS_CENTERED,
+                                       width,
+                                       height,
+                                       flags());
+
+            if (_window == NULL) {
+                LOG(ERROR) << "Window could not be created: " << SDL_GetError();
+                return false;
+            }
+
+            return true;
+        }
+
+        glm::vec2 SDLWindow::getResolution() {
+            return _resolution;
+        }
+
+        SDL_Window *SDLWindow::getSDL_Window() {
+            return _window;
+        }
     }
 }

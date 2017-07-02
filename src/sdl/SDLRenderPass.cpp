@@ -10,38 +10,40 @@
 #include "../../include/lib/easylogging++.h"
 
 namespace PAX {
-    SDLRenderPass::SDLRenderPass() : SceneGraph() {
+    namespace SDL {
+        SDLRenderPass::SDLRenderPass() : SceneGraph() {
 
-    }
-
-    SDLRenderPass::~SDLRenderPass() {
-        SDL_Quit();
-    }
-
-    void SDLRenderPass::initialize() {
-        PAX::Window * window = PAX::Engine::GetInstance()->getWindow();
-        SDL_Window *sdlWindow = static_cast<PAX::SDLWindow*>(window)->getSDL_Window();
-
-        _renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        if (_renderer == nullptr) {
-            SDL_DestroyWindow(sdlWindow);
-            LOG(ERROR) << "SDL_CreateRenderer Error: " << SDL_GetError();
-            SDL_Quit();
-            return;
         }
-    }
 
-    void SDLRenderPass::render(RenderOptions &renderOptions) {
-        //First clear the _renderer
-        SDL_RenderClear(_renderer);
+        SDLRenderPass::~SDLRenderPass() {
+            SDL_Quit();
+        }
 
-        SceneGraph::render(renderOptions);
+        void SDLRenderPass::initialize() {
+            PAX::Window *window = PAX::Engine::GetInstance()->getWindow();
+            SDL_Window *sdlWindow = static_cast<PAX::SDL::SDLWindow *>(window)->getSDL_Window();
 
-        //Update the screen
-        SDL_RenderPresent(_renderer);
-    }
+            _renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            if (_renderer == nullptr) {
+                SDL_DestroyWindow(sdlWindow);
+                LOG(ERROR) << "SDL_CreateRenderer Error: " << SDL_GetError();
+                SDL_Quit();
+                return;
+            }
+        }
 
-    SDL_Renderer* SDLRenderPass::getSDLRenderer() {
-        return _renderer;
+        void SDLRenderPass::render(RenderOptions &renderOptions) {
+            //First clear the _renderer
+            SDL_RenderClear(_renderer);
+
+            SceneGraph::render(renderOptions);
+
+            //Update the screen
+            SDL_RenderPresent(_renderer);
+        }
+
+        SDL_Renderer *SDLRenderPass::getSDLRenderer() {
+            return _renderer;
+        }
     }
 }

@@ -8,14 +8,18 @@
 #include "../../../include/core/Engine.h"
 
 namespace PAX {
-    SDLOpenGLRenderPass::SDLOpenGLRenderPass() {}
+    namespace SDL {
+        namespace OpenGL {
+            SDLOpenGLRenderPass::SDLOpenGLRenderPass() {}
 
-    void SDLOpenGLRenderPass::initialize() {}
+            void SDLOpenGLRenderPass::initialize() {}
 
-    void SDLOpenGLRenderPass::render(RenderOptions &renderOptions) {
-        SceneGraph::render(renderOptions);
-        //LOG(INFO) << "SDL_Bufferflip";
-        SDLWindow* window = static_cast<SDLWindow*>(Engine::GetInstance()->getWindow());
-        SDL_GL_SwapWindow(window->getSDL_Window());
+            void SDLOpenGLRenderPass::render(RenderOptions &renderOptions) {
+                SceneGraph::render(renderOptions);
+                //LOG(INFO) << "SDL_Bufferflip";
+                SDLWindow *window = static_cast<SDLWindow *>(Engine::GetInstance()->getWindow());
+                SDL_GL_SwapWindow(window->getSDL_Window());
+            }
+        }
     }
 }

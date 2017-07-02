@@ -9,18 +9,22 @@
 #include "../core/rendering/scenegraph/SceneGraph.h"
 
 namespace PAX {
-    class SDLRenderPass : public SceneGraph {
-        SDL_Renderer *_renderer = nullptr;
+    namespace SDL {
+        class SDLRenderPass : public SceneGraph {
+            SDL_Renderer *_renderer = nullptr;
 
-    public:
-        SDLRenderPass();
-        virtual ~SDLRenderPass();
+        public:
+            SDLRenderPass();
 
-        void initialize();
-        virtual void render(RenderOptions &renderOptions) override;
+            virtual ~SDLRenderPass();
 
-        SDL_Renderer* getSDLRenderer();
-    };
+            void initialize();
+
+            virtual void render(RenderOptions &renderOptions) override;
+
+            SDL_Renderer *getSDLRenderer();
+        };
+    }
 }
 
 #endif //PAXENGINE3_SDLRENDERPASS_H

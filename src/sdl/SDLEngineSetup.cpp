@@ -7,17 +7,24 @@
 #include "../../include/sdl/SDLEngineSetup.h"
 #include "../../include/sdl/SDLWindow.h"
 #include "../../include/sdl/SDLInputSystem.h"
+#include "../../include/sdl/SDLRenderFactory.h"
 
 namespace PAX {
-    void SDLEngineSetup::initialize(Engine* engine) {
-        SDL_Init(SDL_INIT_EVERYTHING);//TTF_Init();
-    }
+    namespace SDL {
+        void SDLEngineSetup::initialize(Engine *engine) {
+            SDL_Init(SDL_INIT_EVERYTHING);//TTF_Init();
+        }
 
-    Window* SDLEngineSetup::createWindow() {
-        return new SDLWindow();
-    }
+        Window *SDLEngineSetup::createWindow() {
+            return new SDLWindow();
+        }
 
-    InputSystem* SDLEngineSetup::createInputSystem() {
-        return new SDLInputSystem();
+        InputSystem *SDLEngineSetup::createInputSystem() {
+            return new SDLInputSystem();
+        }
+
+        RenderFactory * SDLEngineSetup::createRenderFactory() {
+            return new SDLRenderFactory();
+        }
     }
 }

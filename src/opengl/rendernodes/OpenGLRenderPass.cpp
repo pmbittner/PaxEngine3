@@ -3,8 +3,8 @@
 //
 
 #include <GL/glew.h>
-#include "../../include/opengl/OpenGLRenderPass.h"
-#include "../../include/core/Engine.h"
+#include "../../../include/opengl/rendernodes/OpenGLRenderPass.h"
+#include "../../../include/core/Engine.h"
 
 namespace PAX {
     namespace OpenGL {

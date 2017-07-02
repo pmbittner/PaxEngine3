@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_OPENGLRENDERPASS_H
 #define PAXENGINE3_OPENGLRENDERPASS_H
 
-#include "../core/rendering/scenegraph/SceneGraph.h"
+#include "../../core/rendering/scenegraph/SceneGraph.h"
 
 namespace PAX {
     namespace OpenGL{

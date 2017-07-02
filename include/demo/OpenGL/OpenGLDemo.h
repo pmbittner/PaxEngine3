@@ -9,7 +9,7 @@
 #include "../../core/Game.h"
 #include "../../test/SDLTestApplication2.h"
 #include "../../sdl/opengl/SDLOpenGLWindow.h"
-#include "../../opengl/OpenGLRenderPass.h"
+#include "../../opengl/rendernodes/OpenGLRenderPass.h"
 #include "../../sdl/utitlity/Path.h"
 #include "../MoveToMouseBehaviour.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
@@ -21,13 +21,16 @@
 namespace PAX {
     namespace Demo {
         class OpenGLDemo : public Game {
-            World testWorld;
+            World *_testWorld;
 
         public:
             virtual void initialize() override {
-                Game::initialize();
+                LOG(INFO) << "Initializing Demo";
 
-                SDLOpenGLRenderPass *sdl = new SDLOpenGLRenderPass();
+                Game::initialize();
+                _testWorld = new World();
+
+                SDL::OpenGL::SDLOpenGLRenderPass *sdl = new SDL::OpenGL::SDLOpenGLRenderPass();
                 OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
                 sdl->addChild(opengl);
 
@@ -38,7 +41,7 @@ namespace PAX {
                 sdl->initialize();
                 opengl->initialize();
 
-                setActiveWorld(&testWorld);
+                setActiveWorld(_testWorld);
 
                 Entity *camera = new Entity();
                 camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, 400, 600)));
@@ -53,10 +56,10 @@ namespace PAX {
                 cube->getTransform().setZ(-5);
 
                 //*/
-                testWorld.getMainLayer()->spawn(camera);
-                testWorld.getMainLayer()->spawn(camera2);
+                _testWorld->getMainLayer()->spawn(camera);
+                _testWorld->getMainLayer()->spawn(camera2);
                 //*/
-                testWorld.getMainLayer()->spawn(cube);
+                _testWorld->getMainLayer()->spawn(cube);
                 //*/
             }
         };

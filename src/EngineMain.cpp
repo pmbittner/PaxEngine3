@@ -17,7 +17,7 @@
 #include "../include/test/trials/StaticMember.h"
 #include "../include/lib/easylogging++.h"
 #include "../include/test/trials/SpecializedFunctionWithDifferentReturType.h"
-#include "../include/sdl/opengl/SDLOpenGLSetup.h"
+#include "../include/sdl/opengl/SDLOpenGLEngineSetup.h"
 #include "../include/demo/OpenGL/OpenGLDemo.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
@@ -25,7 +25,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
 
     // FAMOUS TOGGLE COMMENT <3
     //*
-    EngineSetup *setup = new SDLOpenGLSetup;
+    EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;
     Game *game = new Demo::OpenGLDemo();
 
     Engine *engine = Engine::GetInstance();

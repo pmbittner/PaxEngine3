@@ -10,6 +10,7 @@
 #include "../../include/utility/Sleep.h"
 #include "../../include/lib/easylogging++.h"
 #include "../../include/core/time/Time.h"
+#include "../../include/utility/MacroIncludes.h"
 
 PAX::Engine *PAX::Engine::instance = nullptr;
 
@@ -23,23 +24,24 @@ PAX::Engine::~Engine() {
 
 bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     LOG(INFO) << "Initializing engine";
+    PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
+    PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!");
 
-    if (game) {
-        _game = game;
-    } else {
-        LOG(ERROR) << "Game not set! Abort initialization!";
-        return false;
-    }
-
-    setup->initialize(this);
+    _game = game;
 
     Time::DeltaD = 1.0 / _targetUPS;
     Time::DeltaF = static_cast<float>(Time::DeltaD);
 
+    setup->initialize(this);
+    _renderFactory = setup->createRenderFactory();
+    PAX_assertNotNull(_renderFactory, "Engine::initialize: The given setup could not create a RenderFactory!");
+
     _window = setup->createWindow();
+    PAX_assertNotNull(_window, "Engine::initialize: The given setup could not create a Window!");
     _window->create("PaxEngine3", 800, 600);
 
     _inputSystem = setup->createInputSystem();
+    PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
 
     _inputSystem->initialize();
     _renderer.initialize();
@@ -173,6 +175,10 @@ void PAX::Engine::stop() {
 
 PAX::InputSystem* PAX::Engine::getInputSystem() {
     return _inputSystem;
+}
+
+PAX::RenderFactory* PAX::Engine::getRenderFactory() {
+    return _renderFactory;
 }
 
 PAX::Game* PAX::Engine::getGame() {

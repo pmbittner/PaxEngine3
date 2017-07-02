@@ -14,25 +14,29 @@
 #include "../core/io/MouseButtonReleasedEvent.h"
 
 namespace PAX {
-    class SDLInputSystem : public InputSystem {
-        SDL_Event _currentEvent;
+    namespace SDL {
+        class SDLInputSystem : public InputSystem {
+            SDL_Event _currentEvent;
 
-        Keyboard _keyboard;
-        Mouse _mouse;
+            Keyboard _keyboard;
+            Mouse _mouse;
 
-        // pre allocated event objects
-        MouseButtonPressedEvent _mbPressed;
-        MouseButtonReleasedEvent _mbReleased;
+            // pre allocated event objects
+            MouseButtonPressedEvent _mbPressed;
+            MouseButtonReleasedEvent _mbReleased;
 
-        void updateMouseLocation();
+            void updateMouseLocation();
 
-    public:
-        virtual void initialize() override;
-        virtual void update() override;
+        public:
+            virtual void initialize() override;
 
-        virtual Keyboard* getKeyboard() override;
-        virtual Mouse* getMouse() override;
-    };
+            virtual void update() override;
+
+            virtual Keyboard *getKeyboard() override;
+
+            virtual Mouse *getMouse() override;
+        };
+    }
 }
 
 #endif //PAXENGINE3_SDLINPUTSYSTEM_H

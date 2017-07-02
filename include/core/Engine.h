@@ -7,6 +7,7 @@
 
 #include "io/InputSystem.h"
 #include "../core/rendering/Renderer.h"
+#include "../core/rendering/RenderFactory.h"
 #include "event/EventService.h"
 #include "io/Window.h"
 #include "EngineSetup.h"
@@ -35,6 +36,7 @@ namespace PAX {
         Game *_game = nullptr;
         Window *_window = nullptr;
         InputSystem* _inputSystem = nullptr;
+        RenderFactory* _renderFactory = nullptr;
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
@@ -49,6 +51,7 @@ namespace PAX {
         void stop();
 
         InputSystem* getInputSystem();
+        RenderFactory* getRenderFactory();
         Window* getWindow();
         Game* getGame();
         EventService& getEventService();
