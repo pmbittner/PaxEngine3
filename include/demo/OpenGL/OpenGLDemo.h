@@ -21,6 +21,7 @@
 #include "../Dance2D.h"
 #include "../RotateAround3D.h"
 #include "../CameraControls.h"
+#include "../../utility/io/CSVSettingsLoader.h"
 
 namespace PAX {
     namespace Demo {
@@ -127,7 +128,8 @@ namespace PAX {
                 _testWorld->getMainLayer()->spawn(cgCube);
                 _testWorld->getMainLayer()->spawn(paxCube);
 
-                window->setFullscreen(true);
+                Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
+                window->setFullscreen(graphicSettings.getBool("fullscreen"));
             }
         };
     }

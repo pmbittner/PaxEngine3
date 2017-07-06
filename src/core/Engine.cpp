@@ -11,6 +11,8 @@
 #include "../../include/lib/easylogging++.h"
 #include "../../include/core/time/Time.h"
 #include "../../include/utility/MacroIncludes.h"
+#include "../../include/sdl/utitlity/Path.h"
+#include "../../include/utility/io/CSVSettingsLoader.h"
 
 PAX::Engine *PAX::Engine::instance = nullptr;
 
@@ -27,6 +29,11 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
     PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!");
 
+    // load graphic settings
+    Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
+    int resX = graphicSettings.getInt("resolutionWidth");
+    int resY = graphicSettings.getInt("resolutionHeight");
+
     _game = game;
 
     Time::DeltaD = 1.0 / _targetUPS;
@@ -38,7 +45,7 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
 
     _window = setup->createWindow();
     PAX_assertNotNull(_window, "Engine::initialize: The given setup could not create a Window!");
-    _window->create("PaxEngine3", PAX_RES_X, PAX_RES_Y);
+    _window->create("PaxEngine3", resX, resY);
 
     _inputSystem = setup->createInputSystem();
     PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");

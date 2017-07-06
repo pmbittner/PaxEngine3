@@ -20,7 +20,12 @@ else()
 endif()
 
 ### SOURCE FILES ########################################
-set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
+set(SOURCE_FILES
+        # actual source files for PaxEngine3
+        ${MAIN_FILE}
+        src/EngineMain.cpp
+        src/lib/easylogging++.cc
+
         # Header files for CLion
         include/lib/easylogging++.h
 
@@ -138,7 +143,11 @@ set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp src/lib/easylogging++.cc
         include/sdl/SDLRenderFactory.h
         include/opengl/OpenGLRenderFactory.h
         include/opengl/OpenGLMacros.h
-        include/opengl/OpenGLSprite.h include/demo/Dance2D.h)
+        include/opengl/OpenGLSprite.h
+        include/demo/Dance2D.h
+        include/utility/io/CSVSettingsLoader.h
+        include/utility/io/CSVRow.h
+        include/utility/StringUtils.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
@@ -182,4 +191,4 @@ else()
 endif()
 
 ### LINKING #############################################
-target_link_libraries(PaxEngine3 paxsdl paxopengl paxtest paxcore)
+target_link_libraries(PaxEngine3 paxutil paxsdl paxopengl paxtest paxcore)
