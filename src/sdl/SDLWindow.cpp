@@ -41,7 +41,12 @@ namespace PAX {
         }
 
         void SDLWindow::setFullscreen(bool fullscreen) {
-            SDL_SetWindowFullscreen(_window, flags() | SDL_WINDOW_FULLSCREEN);
+            if (fullscreen && !isFullscreen()) {
+                SDL_SetWindowFullscreen(_window, flags() | SDL_WINDOW_FULLSCREEN);
+            } else if (!fullscreen && isFullscreen()) {
+                SDL_SetWindowFullscreen(_window, flags());
+            }
+
             Window::setFullscreen(fullscreen);
         }
 
