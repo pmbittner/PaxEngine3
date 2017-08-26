@@ -8,11 +8,16 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include "../event/EventHandler.h"
+#include "event/ResolutionChangedEvent.h"
+
 namespace PAX {
     class Window {
         bool _fullscreen;
 
     public:
+        EventHandler<ResolutionChangedEvent&> OnResolutionChanged;
+
         virtual bool create(std::string title, int width, int height) = 0;
         virtual glm::vec2 getResolution() = 0;
 

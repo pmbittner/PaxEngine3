@@ -19,12 +19,13 @@
 #include "../include/test/trials/SpecializedFunctionWithDifferentReturType.h"
 #include "../include/sdl/opengl/SDLOpenGLEngineSetup.h"
 #include "../include/demo/OpenGL/OpenGLDemo.h"
+#include "../include/test/trials/InvisibleMixinTest.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
     // FAMOUS TOGGLE COMMENT <3
-    //*
+    /*
     EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;
     Game *game = new Demo::OpenGLDemo();
 
@@ -33,8 +34,8 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     exitcode = engine->run();
     Engine::Dispose();
     /*/
-    exitcode = PAX::TEST::ENTITY::test();// PAX::Test::SpecFuncDifRetType::run();
-    LOG(INFO) << "Test finished with exit code " << exitcode;
+    PAX::TEST::MIXIN::test();// PAX::Test::SpecFuncDifRetType::run();
+    LOG(INFO) << "Test finished";
     //*/
 
     return exitcode;

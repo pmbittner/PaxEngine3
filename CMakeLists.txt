@@ -147,7 +147,7 @@ set(SOURCE_FILES
         include/demo/Dance2D.h
         include/utility/io/CSVSettingsLoader.h
         include/utility/io/CSVRow.h
-        include/utility/StringUtils.h)
+        include/utility/StringUtils.h include/core/rendering/camera/FullPixelScreenProjection.h include/core/io/event/ResolutionChangedEvent.h include/test/trials/InvisibleMixinTest.h include/core/entity/EntityComponentDependency.h include/utility/reflection/MemberCheck.h include/utility/Dependency.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

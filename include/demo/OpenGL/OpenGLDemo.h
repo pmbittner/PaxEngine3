@@ -22,6 +22,7 @@
 #include "../RotateAround3D.h"
 #include "../CameraControls.h"
 #include "../../utility/io/CSVSettingsLoader.h"
+#include "../../core/rendering/camera/FullPixelScreenProjection.h"
 
 namespace PAX {
     namespace Demo {
@@ -50,7 +51,7 @@ namespace PAX {
                 WorldLayer *guiLayer = _testWorld->getGUILayer();
 
                 Entity *camera = new Entity();
-                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new PixelScreenProjection()));
+                camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));
 
                 OpenGL::OpenGLSprite::Initialize();
                 Entity *paxLogo = new Entity("DemoGuiElement");

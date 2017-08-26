@@ -11,15 +11,17 @@
 #include <typeindex>
 #include <algorithm>
 
+#include "../../lib/easylogging++.h"
+
 #include "Transform.h"
 #include "EntityComponent.h"
-#include "event/EntityParentChangedEvent.h"
 #include "../event/EventHandler.h"
+#include "../event/EventService.h"
+#include "event/EntityParentChangedEvent.h"
 #include "event/EntityComponentRemovedEvent.h"
 #include "event/EntityComponentAddedEvent.h"
-#include "../event/EventService.h"
 #include "../../utility/stdutils.h"
-#include "../../lib/easylogging++.h"
+#include "../../utility/reflection/MemberCheck.h"
 
 namespace PAX {
     class World;
@@ -83,10 +85,19 @@ namespace PAX {
             bool addAllowed = true;
 
             if (component->_owner) {
-                //LOG(WARN) << "The component is already assigned to an Entity!";
+                LOG(WARNING) << "The component is already assigned to an Entity!";
                 return false;
             }
 
+            // check for dependencies
+            if (const Dependency<Entity>* dependency = component->getDependency()) {
+                if (!dependency->met(this)) {
+                    LOG(WARNING) << "Dependencies for component " << type.name() << " are not met! It won't be added!";
+                    return false;
+                }
+            }
+
+            // If component type is allowed to occur more than once
             if (ComponentClass::IsMultiple) {
                 std::vector<ComponentClass*>* result;
 

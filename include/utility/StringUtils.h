@@ -11,6 +11,8 @@
 #define PAX_UTIL_STRING_EQUALS !strcmp
 #define PAX_UTIL_STRING_NEQUALS strcmp
 
+#define PAX_UTIL_BOOL_TO_YESNO(boolValue) boolValue ? "yes" : "no"
+
 namespace PAX {
     namespace Util {
 
