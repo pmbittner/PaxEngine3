@@ -5,3 +5,6 @@ OpenGL_Hardcodes entfernen:
 
 EntitySystem
     - Arbeitet global und erfasst aktuellen Status der aktiven Welt nicht! Sollte nur fuer die aktuelle Welt arbeoten
+    
+Entity
+	- Wenn eine Component entfernt wird sollen alle Components automatisch entfernt werden, deren Dependencies nicht mehr erfuellt sind.
