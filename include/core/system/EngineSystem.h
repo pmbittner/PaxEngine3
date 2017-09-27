@@ -5,11 +5,12 @@
 #ifndef PAXENGINE3_IENGINESYSTEM_H
 #define PAXENGINE3_IENGINESYSTEM_H
 
+#include "System.h"
+
 namespace PAX {
-    class EngineSystem {
+    class EngineSystem : public System {
     public:
         virtual void initialize() = 0;
-        virtual void update() = 0;
     };
 }
 

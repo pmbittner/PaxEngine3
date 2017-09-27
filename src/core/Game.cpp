@@ -12,14 +12,37 @@ namespace PAX {
     void Game::initialize() {
         addSystem(new BehaviourSystem);
 
-        for (EngineSystem *gameSystem : _systems)
-            gameSystem->initialize();
+        for (GameSystem *gameSystem : _systems)
+            gameSystem->initialize(this);
         _initialized = true;
     }
 
     void Game::update() {
-        for (EngineSystem *gameSystem : _systems)
+        for (GameSystem *gameSystem : _systems)
             gameSystem->update();
+    }
+
+    bool Game::isRegistered(World *world) {
+        return Util::vectorContains(&_worlds, world);
+    }
+
+    void Game::registerWorld(World *world) {
+        if (!isRegistered(world)) {
+            _worlds.push_back(world);
+            WorldEvent e(world);
+            WorldRegistered(e);
+        }
+    }
+
+    void Game::unregisterWorld(World *world) {
+        if (Util::removeFromVector(&_worlds, world)) {
+            WorldEvent e(world);
+            WorldUnregistered(e);
+        }
+    }
+
+    const std::vector<World*>& Game::getRegisteredWorlds() {
+        return _worlds;
     }
 
     World* Game::getActiveWorld() {
@@ -28,24 +51,30 @@ namespace PAX {
 
     void Game::setActiveWorld(World *world) {
         assert(world);
+        assert(isRegistered(world));
+
+        World *oldActive = _activeWorld;
 
         if (_activeWorld)
             _activeWorld->getEventService().setParent(nullptr);
 
         _activeWorld = world;
         _activeWorld->getEventService().setParent(&Engine::GetInstance()->getEventService());
+
+        ActiveWorldChangedEvent e(oldActive, _activeWorld);
+        ActiveWorldChanged(e);
     }
 
-    void Game::addSystem(EngineSystem *system) {
+    void Game::addSystem(GameSystem *system) {
         if (std::find(_systems.begin(), _systems.end(), system) == _systems.end()) {
             _systems.push_back(system);
 
             if (_initialized)
-                system->initialize();
+                system->initialize(this);
         }
     }
 
-    void Game::removeSystem(EngineSystem *system) {
+    void Game::removeSystem(GameSystem *system) {
         Util::removeFromVector(&_systems, system);
     }
 }

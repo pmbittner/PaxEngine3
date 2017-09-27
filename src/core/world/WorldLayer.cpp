@@ -53,6 +53,10 @@ namespace PAX {
         }
     }
 
+    const std::vector<Entity*>& WorldLayer::getEntities() {
+        return _entities;
+    }
+
     EventService& WorldLayer::getEventService() {
         return _localEventService;
     }

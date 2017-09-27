@@ -34,8 +34,7 @@ namespace PAX {
 
         void operator()(Args... args) {
             for (Delegate<Args...> delegate: _delegates)
-            // Do not use operator () for perfomance increase
-            delegate.method(delegate.callee, args...);
+                delegate.method(delegate.callee, args...);
         }
 
     private:

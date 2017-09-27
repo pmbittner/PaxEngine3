@@ -21,7 +21,6 @@ namespace PAX {
 
     public:
         Delegate(void* callee, void (*method)(void*, Args...)) : callee(callee), method(method) {}
-        // Do not use operator () for perfomance increase
 
         bool operator==(const Delegate& other) {
             return callee == callee && method == method;

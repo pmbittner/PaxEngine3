@@ -20,6 +20,7 @@
 
 namespace PAX {
 #define PAX_WORLDLAYERNAME_MAIN "MainLayer"
+#define PAX_WORLDLAYERNAME_DEFAULT "WorldLayer"
 #define PAX_WORLDLAYERNAME_GUI "GuiLayer"
 #define PAX_WORLDLAYERNAME_BACKGROUND "Background"
 
@@ -37,11 +38,13 @@ namespace PAX {
         std::vector<Entity*> _entities;
 
     public:
-        WorldLayer(std::string name = PAX_WORLDLAYERNAME_MAIN, float z = 0, SceneGraphGenerator *generator = new ListSceneGraphGenerator);
+        WorldLayer(std::string name = PAX_WORLDLAYERNAME_DEFAULT, float z = 0, SceneGraphGenerator *generator = new ListSceneGraphGenerator);
         ~WorldLayer();
 
         void spawn(Entity *entity);
         void despawn(Entity *entity);
+
+        const std::vector<Entity*>& getEntities();
 
         std::string getName();
         SceneGraph* getSceneGraph();

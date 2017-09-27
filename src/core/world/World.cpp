@@ -12,29 +12,35 @@ namespace PAX {
     }
 
     World::~World() {
-        for (std::pair<const std::string, WorldLayer*> entry : _layers) {
+        for (std::pair<const std::string, WorldLayer*> entry : _layersByName) {
             delete entry.second;
         }
-        _layers.clear();
+        _layersByName.clear();
     }
 
     void World::addLayer(WorldLayer *layer) {
-        assert(_layers[layer->getName()] == nullptr);
-        _layers[layer->getName()] = layer;
+        assert(_layersByName[layer->getName()] == nullptr);
+        _layersByName[layer->getName()] = layer;
+        _layers.push_back(layer);
 
         _sceneGraph->addChild(layer->getSceneGraph());
         layer->getEventService().setParent(&_localEventService);
     }
 
     void World::removeLayer(WorldLayer *layer) {
-        _layers.erase(layer->getName());
+        _layersByName.erase(layer->getName());
+        Util::removeFromVector(&_layers, layer);
 
         _sceneGraph->removeChild(layer->getSceneGraph());
         layer->getEventService().setParent(nullptr);
     }
 
+    const std::vector<WorldLayer*>& World::getLayers() {
+        return _layers;
+    }
+
     WorldLayer* World::getWorldLayerWithName(const std::string &name) {
-        return _layers[name];
+        return _layersByName[name];
     }
 
     WorldLayer* World::getMainLayer() {
