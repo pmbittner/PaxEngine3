@@ -15,12 +15,14 @@ namespace PAX {
     void Renderer::render() {
         RenderOptions options;
 
-        World *activeWorld = Engine::GetInstance()->getGame()->getActiveWorld();
-        SceneGraph *scene = activeWorld->getSceneGraph();
+        World *activeWorld = Engine::Instance()->getGame()->getActiveWorld();
+        if (activeWorld) {
+            SceneGraph *scene = activeWorld->getSceneGraph();
 
-        _generationEntryPoint->addChild(scene);
-        _sceneGraphRoot->render(options);
-        _generationEntryPoint->removeChild(scene);
+            _generationEntryPoint->addChild(scene);
+            _sceneGraphRoot->render(options);
+            _generationEntryPoint->removeChild(scene);
+        }
     }
 
     SceneGraph* Renderer::getSceneGraphGenerationEntryPoint() {

@@ -14,6 +14,7 @@ namespace PAX {
 
         for (GameSystem *gameSystem : _systems)
             gameSystem->initialize(this);
+
         _initialized = true;
     }
 
@@ -51,7 +52,9 @@ namespace PAX {
 
     void Game::setActiveWorld(World *world) {
         assert(world);
-        assert(isRegistered(world));
+
+        if(!isRegistered(world))
+            registerWorld(world);
 
         World *oldActive = _activeWorld;
 
@@ -59,7 +62,7 @@ namespace PAX {
             _activeWorld->getEventService().setParent(nullptr);
 
         _activeWorld = world;
-        _activeWorld->getEventService().setParent(&Engine::GetInstance()->getEventService());
+        _activeWorld->getEventService().setParent(&Engine::Instance()->getEventService());
 
         ActiveWorldChangedEvent e(oldActive, _activeWorld);
         ActiveWorldChanged(e);

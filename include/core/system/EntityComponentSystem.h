@@ -20,7 +20,7 @@ namespace PAX {
     template<typename... RequiredEntityComponents>
     class EntityComponentSystem : public GameSystem {
         std::map<World*, std::vector<Entity*>> _entities;
-        World* _activeWorld;
+        World* _activeWorld = nullptr;
 
         /* two functions are needed for unfolding the variadic template parameter RequiredEntityComponents */
 

@@ -1,10 +1,10 @@
 //
 // Created by Paul on 15.07.2017.
 //
-
 #ifndef PAXENGINE3_INVISIBLEMIXINTEST_H
 #define PAXENGINE3_INVISIBLEMIXINTEST_H
 
+#ifndef PAXENGINE3_INVISIBLEMIXINTEST_H
 #include <iostream>
 
 #include "../../core/entity/Entity.h"
@@ -147,3 +147,4 @@ namespace PAX {
     }
 }
 #endif //PAXENGINE3_INVISIBLEMIXINTEST_H
+#endif

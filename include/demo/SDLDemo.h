@@ -11,7 +11,7 @@
 #include "../sdl/test/SDLSprite.h"
 #include "../sdl/SDLRenderPass.h"
 #include "../sdl/utitlity/Path.h"
-#include "MoveToMouseBehaviour.h"
+#include "behaviours/MoveToMouseBehaviour.h"
 
 namespace PAX {
     namespace Demo {
@@ -28,7 +28,7 @@ namespace PAX {
                 Game::initialize();
 
                 SDL::SDLRenderPass *renderpass = new SDL::SDLRenderPass();
-                Renderer &renderer = Engine::GetInstance()->getRenderer();
+                Renderer &renderer = Engine::Instance()->getRenderer();
                 renderer.setSceneGraphRoot(renderpass);
                 renderer.setSceneGraphGenerationEntryPoint(renderpass);
 

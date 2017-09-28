@@ -15,7 +15,7 @@
 
 namespace PAX {
     namespace Demo {
-        OpenGL::OpenGLMesh* createCube()
+        OpenGL::OpenGLMesh* createCube(bool withTexCoords = true)
         {
             std::vector<glm::vec3> vertices = {
                     {-0.5f,0.5f,-0.5f},
@@ -43,20 +43,6 @@ namespace PAX {
                     {6,1,2}
             };
 
-            float relativeWidth = 1;//(float)texture.Width / (float)texture.ActualWidth;
-            float relativeHeight = 1;//(float)texture.Height / (float)texture.ActualHeight;
-
-            std::vector<glm::vec2> texCoords = {
-                    {relativeWidth,0},
-                    {relativeWidth,relativeHeight},
-                    {0,relativeHeight},
-                    {0,0},
-                    {0,0},
-                    {0,relativeHeight},
-                    {relativeWidth,relativeHeight},
-                    {relativeWidth,0}
-            };
-
             glm::vec3 objCenter(0, 0, 0);
             std::vector<glm::vec3> normals;
             for (glm::vec3 &vertex : vertices) {
@@ -64,32 +50,52 @@ namespace PAX {
             }
 
             OpenGL::OpenGLMesh *mesh = new OpenGL::OpenGLMesh(vertices, faces);
-            mesh->addAttribute(texCoords);
             mesh->addAttribute(normals);
+
+            if (withTexCoords) {
+                float relativeWidth = 1;//(float)texture.Width / (float)texture.ActualWidth;
+                float relativeHeight = 1;//(float)texture.Height / (float)texture.ActualHeight;
+
+                std::vector<glm::vec2> texCoords = {
+                        {relativeWidth,0},
+                        {relativeWidth,relativeHeight},
+                        {0,relativeHeight},
+                        {0,0},
+                        {0,0},
+                        {0,relativeHeight},
+                        {relativeWidth,relativeHeight},
+                        {relativeWidth,0}
+                };
+
+                mesh->addAttribute(texCoords);
+            }
 
             return mesh;
         }
 
-        Entity* createCubeEntity(glm::vec3 color, std::string texture = "") {
+        Entity* createCubeEntity(glm::vec3 color, std::string texture = "", bool withTexture = true) {
             std::ostringstream nameStream;
             nameStream << "Cube " << color.x << ", " << color.y << ", " << color.z;
             Entity *e = new Entity(nameStream.str());
 
             static std::string res = getResourcePath();
+            static OpenGL::OpenGLMesh *mesh = createCube(withTexture);
+            OpenGL::OpenGLShader *shader = nullptr;
+            OpenGL::OpenGLTexture2D *tex = nullptr;
 
-            static OpenGL::OpenGLTexture2D *defaultTexture = new OpenGL::OpenGLTexture2D(res + "img/White16.png");
-            static OpenGL::OpenGLMesh *mesh = createCube();
+            if (withTexture) {
+                static OpenGL::OpenGLTexture2D *defaultTexture = new OpenGL::OpenGLTexture2D(res + "img/White16.png");
+
+                if (!texture.empty()) {
+                    tex = new OpenGL::OpenGLTexture2D(res + texture);
+                } else {
+                    tex = defaultTexture;
+                }
+            }
+
             if (!mesh->isFinalized()) {
                 mesh->finalize();
                 mesh->upload();
-            }
-
-            OpenGL::OpenGLTexture2D *tex;
-            OpenGL::OpenGLShader *shader = nullptr;
-            if (!texture.empty()) {
-                tex = new OpenGL::OpenGLTexture2D(res + texture);
-            } else {
-                tex = defaultTexture;
             }
 
             shader = new OpenGL::OpenGLShader("Lambert", res + "shader/test/lambert/SingleColor.vert", res + "shader/test/lambert/SingleColor.frag");

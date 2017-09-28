@@ -7,8 +7,8 @@
 
 #include <SDL2/SDL_events.h>
 
+#include "SDLKeyboard.h"
 #include "../core/io/InputSystem.h"
-#include "../core/io/Keyboard.h"
 #include "../core/io/Mouse.h"
 #include "../core/io/MouseButtonPressedEvent.h"
 #include "../core/io/MouseButtonReleasedEvent.h"
@@ -18,7 +18,7 @@ namespace PAX {
         class SDLInputSystem : public InputSystem {
             SDL_Event _currentEvent;
 
-            Keyboard _keyboard;
+            SDLKeyboard _keyboard;
             Mouse _mouse;
 
             // pre allocated event objects

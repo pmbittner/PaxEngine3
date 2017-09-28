@@ -5,9 +5,9 @@
 #ifndef PAXENGINE3_CAMERACONTROLS_H
 #define PAXENGINE3_CAMERACONTROLS_H
 
-#include "../core/entity/component/Behaviour.h"
-#include "../core/entity/Entity.h"
-#include "../core/Engine.h"
+#include "../../core/entity/component/Behaviour.h"
+#include "../../core/entity/Entity.h"
+#include "../../core/Engine.h"
 
 namespace PAX {
     class CameraControls : public Behaviour {
@@ -21,19 +21,19 @@ namespace PAX {
             glm::vec3 move;
             glm::vec3 rot;
 
-            Keyboard *keyboard = Engine::GetInstance()->getInputSystem()->getKeyboard();
+            Keyboard *keyboard = Engine::Instance()->getInputSystem()->getKeyboard();
 
-            if (keyboard->isKeyDown(SDL_SCANCODE_W)) {
+            if (keyboard->isKeyDown(Key::W)) {
                 move.z -= speed;
             }
-            if (keyboard->isKeyDown(SDL_SCANCODE_S)) {
+            if (keyboard->isKeyDown(Key::S)) {
                 move.z += speed;
             }
-            if (keyboard->isKeyDown(SDL_SCANCODE_A)) move.x -= speed;
-            if (keyboard->isKeyDown(SDL_SCANCODE_D)) move.x += speed;
+            if (keyboard->isKeyDown(Key::A)) move.x -= speed;
+            if (keyboard->isKeyDown(Key::D)) move.x += speed;
 
-            if (keyboard->isKeyDown(SDL_SCANCODE_LEFT)) rot.y += rotspeed;
-            if (keyboard->isKeyDown(SDL_SCANCODE_RIGHT)) rot.y -= rotspeed;
+            if (keyboard->isKeyDown(Key::LEFT)) rot.y += rotspeed;
+            if (keyboard->isKeyDown(Key::RIGHT)) rot.y -= rotspeed;
 
             Transform &t = getOwner()->getTransform();
             t.setPosition(t.xyz() + move);

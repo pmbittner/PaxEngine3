@@ -11,18 +11,16 @@ namespace PAX {
         node->addRenderable(g);
         _sceneRoot.addChild(node);
 
-        _gxToSceneGraph[g] = node;
+        _gfxToSceneGraph[g] = node;
     }
 
     void ListSceneGraphGenerator::removeGraphics(Graphics *g) {
-        SceneGraph *node = _gxToSceneGraph[g];
+        SceneGraph *node = _gfxToSceneGraph[g];
         node->removeRenderable(g);
 
-        auto iterator = _gxToSceneGraph.find(g);
-        _gxToSceneGraph.erase(iterator);
+        _gfxToSceneGraph.erase(g);
 
         if (node->isEmpty()) {
-            _gxToSceneGraph[g] = nullptr;
             delete node; // node will unhook itself
         }
     }

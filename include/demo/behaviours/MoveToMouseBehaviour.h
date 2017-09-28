@@ -5,11 +5,11 @@
 #ifndef PAXENGINE3_MOVETOMOUSEBEHAVIOUR_H
 #define PAXENGINE3_MOVETOMOUSEBEHAVIOUR_H
 
-#include "../core/entity/component/Behaviour.h"
-#include "../core/io/Mouse.h"
-#include "../core/Engine.h"
-#include "../core/io/MouseButtonPressedEvent.h"
-#include "../core/time/Time.h"
+#include "../../core/entity/component/Behaviour.h"
+#include "../../core/io/Mouse.h"
+#include "../../core/Engine.h"
+#include "../../core/io/MouseButtonPressedEvent.h"
+#include "../../core/time/Time.h"
 
 namespace PAX {
     class MoveToMouseBehaviour : public Behaviour {
@@ -18,12 +18,12 @@ namespace PAX {
 
     public:
         virtual void attached(Entity *entity) override {
-            EventService &e = Engine::GetInstance()->getEventService();
+            EventService &e = Engine::Instance()->getEventService();
             e.add<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
         }
 
         virtual void detached(Entity *entity) override {
-            EventService &e = Engine::GetInstance()->getEventService();
+            EventService &e = Engine::Instance()->getEventService();
             e.remove<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
         }
 

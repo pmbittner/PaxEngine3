@@ -2,8 +2,8 @@
 // Created by Paul on 17.06.2017.
 //
 
-#ifndef PAXENGINE3_OPENGLDEMO_H
-#define PAXENGINE3_OPENGLDEMO_H
+#ifndef PAXENGINE3_PADIDEMO_H
+#define PAXENGINE3_PADIDEMO_H
 
 #include <iostream>
 
@@ -13,20 +13,20 @@
 #include "../../sdl/opengl/SDLOpenGLWindow.h"
 #include "../../opengl/rendernodes/OpenGLRenderPass.h"
 #include "../../sdl/utitlity/Path.h"
-#include "../MoveToMouseBehaviour.h"
+#include "../behaviours/MoveToMouseBehaviour.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../opengl/OpenGLViewport.h"
 #include "../../opengl/OpenGLSprite.h"
 #include "../../core/rendering/camera/PixelScreenProjection.h"
-#include "../Dance2D.h"
-#include "../RotateAround3D.h"
-#include "../CameraControls.h"
+#include "../behaviours/Dance2D.h"
+#include "../behaviours/RotateAround3D.h"
+#include "../behaviours/CameraControls.h"
 #include "../../utility/io/CSVSettingsLoader.h"
 #include "../../core/rendering/camera/FullPixelScreenProjection.h"
 
 namespace PAX {
     namespace Demo {
-        class OpenGLDemo : public Game {
+        class PadiDemo : public Game {
             World *_testWorld;
 
         public:
@@ -39,7 +39,7 @@ namespace PAX {
                 OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
                 sdl->addChild(opengl);
 
-                Renderer &renderer = Engine::GetInstance()->getRenderer();
+                Renderer &renderer = Engine::Instance()->getRenderer();
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
 
@@ -74,12 +74,12 @@ namespace PAX {
             virtual void initialize() override {
                 LOG(INFO) << "Demo: Initializing";
 
-                Window *window = Engine::GetInstance()->getWindow();
+                Window *window = Engine::Instance()->getWindow();
                 glm::vec2 res = window->getResolution();
 
                 Game::initialize();
                 _testWorld = new World();
-                _testWorld->getEventService().add<EntitySpawnedEvent, OpenGLDemo, &OpenGLDemo::onEntitySpawned>(this);
+                _testWorld->getEventService().add<EntitySpawnedEvent, PadiDemo, &PadiDemo::onEntitySpawned>(this);
 
                 setActiveWorld(_testWorld);
 
@@ -136,4 +136,4 @@ namespace PAX {
     }
 }
 
-#endif //PAXENGINE3_OPENGLDEMO_H
+#endif //PAXENGINE3_PADIDEMO_H

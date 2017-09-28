@@ -3,7 +3,10 @@
 //
 
 #include <SDL.h>
+
+#ifdef PAX_WITH_SDLIMAGE
 #include <SDL_image.h>
+#endif
 
 #include "../../../include/opengl/resource/OpenGLTexture2D.h"
 #include "../../../include/lib/easylogging++.h"
@@ -11,6 +14,7 @@
 namespace PAX {
     namespace OpenGL {
         OpenGLTexture2D::OpenGLTexture2D(std::string path) {
+#ifdef PAX_WITH_SDLIMAGE
             SDL_Surface* tex = NULL;
 
             int flags = IMG_INIT_JPG | IMG_INIT_PNG;
@@ -40,6 +44,7 @@ namespace PAX {
             unbind();
 
             SDL_FreeSurface(tex);
+#endif
         }
 
         OpenGLTexture2D::~OpenGLTexture2D() {

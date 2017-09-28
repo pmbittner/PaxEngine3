@@ -38,6 +38,7 @@ namespace PAX {
             virtual void addAttribute(std::vector<glm::vec2> &attrib);
             virtual void addAttribute(std::vector<glm::vec3> &attrib);
             virtual void addAttribute(std::vector<glm::vec4> &attrib);
+
             virtual void finalize();
             virtual void upload();
 

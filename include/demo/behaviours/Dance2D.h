@@ -5,9 +5,9 @@
 #ifndef PAXENGINE3_DANCE2D_H
 #define PAXENGINE3_DANCE2D_H
 
-#include "../utility/MacroIncludes.h"
-#include "../core/entity/component/Behaviour.h"
-#include "../core/entity/Entity.h"
+#include "../../utility/MacroIncludes.h"
+#include "../../core/entity/component/Behaviour.h"
+#include "../../core/entity/Entity.h"
 
 namespace PAX {
     class Dance2D : public Behaviour {

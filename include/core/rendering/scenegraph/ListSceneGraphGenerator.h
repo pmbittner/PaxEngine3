@@ -9,7 +9,7 @@
 
 namespace PAX {
     class ListSceneGraphGenerator : public SceneGraphGenerator {
-        std::unordered_map<Graphics*, SceneGraph*> _gxToSceneGraph;
+        std::unordered_map<Graphics*, SceneGraph*> _gfxToSceneGraph;
     public:
         virtual void addGraphics(Graphics *g) override;
         virtual void removeGraphics(Graphics *g) override;

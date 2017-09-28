@@ -18,7 +18,7 @@ namespace PAX {
     public:
         EventHandler<ResolutionChangedEvent&> OnResolutionChanged;
 
-        virtual bool create(std::string title, int width, int height) = 0;
+        virtual bool create(std::string title, int width = 800, int height = 600) = 0;
         virtual glm::vec2 getResolution() = 0;
 
         virtual void setFullscreen(bool fullscreen);

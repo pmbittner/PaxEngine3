@@ -5,8 +5,8 @@
 #ifndef PAXENGINE3_ROTATEAROUND_H
 #define PAXENGINE3_ROTATEAROUND_H
 
-#include "../core/entity/component/Behaviour.h"
-#include "../core/entity/Entity.h"
+#include "../../core/entity/component/Behaviour.h"
+#include "../../core/entity/Entity.h"
 
 namespace PAX {
     class RotateAround3D : public Behaviour {

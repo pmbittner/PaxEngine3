@@ -59,7 +59,7 @@ namespace PAX {
 
         double getFPS();
 
-        static Engine* GetInstance();
+        static Engine* Instance();
         static bool Dispose();
     };
 }

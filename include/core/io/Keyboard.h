@@ -5,15 +5,13 @@
 #ifndef PAXENGINE3_KEYBOARD_H
 #define PAXENGINE3_KEYBOARD_H
 
-#include <SDL2/SDL_keycode.h>
+// giosheo
+#include "Keys.h"
 
 namespace PAX {
     class Keyboard {
-        const Uint8* _keyState = 0;
-
     public:
-        void setKeyStates(const Uint8* keyState);
-        bool isKeyDown(SDL_Scancode key);
+        virtual bool isKeyDown(Key key) = 0;
     };
 }
 

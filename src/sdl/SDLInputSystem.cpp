@@ -20,14 +20,14 @@ namespace PAX {
             while (SDL_PollEvent(&_currentEvent)) {
                 switch (_currentEvent.type) {
                     case SDL_QUIT: {
-                        PAX::Engine::GetInstance()->stop();
+                        PAX::Engine::Instance()->stop();
                         break;
                     }
 
                     case SDL_KEYDOWN: {
                         //_keyboard.setKeyDown(_currentEvent.key.keysym.sym, true);
                         if (_currentEvent.key.keysym.sym == SDLK_ESCAPE)
-                            PAX::Engine::GetInstance()->stop();
+                            PAX::Engine::Instance()->stop();
                         break;
                     }
 
@@ -38,13 +38,13 @@ namespace PAX {
 
                     case SDL_MOUSEBUTTONDOWN: {
                         _mbPressed.button = _currentEvent.button.button;
-                        Engine::GetInstance()->getEventService()(_mbPressed);
+                        Engine::Instance()->getEventService()(_mbPressed);
                         break;
                     }
 
                     case SDL_MOUSEBUTTONUP: {
                         _mbPressed.button = _currentEvent.button.button;
-                        Engine::GetInstance()->getEventService()(_mbReleased);
+                        Engine::Instance()->getEventService()(_mbReleased);
                         break;
                     }
 
@@ -56,7 +56,7 @@ namespace PAX {
                     case SDL_WINDOWEVENT: {
                         switch (_currentEvent.window.event) {
                             case SDL_WINDOWEVENT_RESIZED: {
-                                Window *window = Engine::GetInstance()->getWindow();
+                                Window *window = Engine::Instance()->getWindow();
                                 ResolutionChangedEvent e(window->getResolution(), glm::vec2(_currentEvent.window.data1,
                                                                                             _currentEvent.window.data2));
                                 window->OnResolutionChanged(e);

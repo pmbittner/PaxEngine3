@@ -9,8 +9,8 @@
 
 namespace PAX {
     class Renderer {
-        SceneGraph* _sceneGraphRoot;
-        SceneGraph* _generationEntryPoint;
+        SceneGraph* _sceneGraphRoot = nullptr;
+        SceneGraph* _generationEntryPoint = nullptr;
 
     public:
         void setSceneGraphRoot(SceneGraph *root);

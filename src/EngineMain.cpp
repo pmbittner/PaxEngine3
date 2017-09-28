@@ -18,25 +18,20 @@
 #include "../include/lib/easylogging++.h"
 #include "../include/test/trials/SpecializedFunctionWithDifferentReturType.h"
 #include "../include/sdl/opengl/SDLOpenGLEngineSetup.h"
-#include "../include/demo/OpenGL/OpenGLDemo.h"
+#include "../include/demo/OpenGL/PadiDemo.h"
 #include "../include/test/trials/InvisibleMixinTest.h"
+#include "../include/demo/OpenGL/RenderTests.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
-    // FAMOUS TOGGLE COMMENT <3
-    /*
     EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;
-    Game *game = new Demo::OpenGLDemo();
+    Game *game = new Demo::RenderTests();
 
-    Engine *engine = Engine::GetInstance();
+    Engine *engine = Engine::Instance();
     engine->initialize(setup, game);
     exitcode = engine->run();
     Engine::Dispose();
-    /*/
-    PAX::TEST::MIXIN::test();// PAX::Test::SpecFuncDifRetType::run();
-    LOG(INFO) << "Test finished";
-    //*/
 
     return exitcode;
 }
