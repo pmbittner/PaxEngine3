@@ -1,2 +1,2 @@
-add_library(paxtest SDLTestApplication2.cpp)
-target_link_libraries(paxtest paxcore paxsdl)
+#add_library(paxtest SDLTestApplication2.cpp)
+#target_link_libraries(paxtest paxcore paxsdl)

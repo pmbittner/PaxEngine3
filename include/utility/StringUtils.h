@@ -15,7 +15,6 @@
 
 namespace PAX {
     namespace Util {
-
         // trim from start (in place)
         inline void ltrim(std::string &s) {
             s.erase(s.begin(), std::find_if(s.begin(), s.end(),
@@ -38,6 +37,15 @@ namespace PAX {
         inline std::string trimmed(std::string s) {
             trim(s);
             return s;
+        }
+
+        std::string getExtension(std::string path) {
+            auto dotIndex = path.find_last_of('.');
+
+            if (dotIndex == std::string::npos)
+                return "";
+
+            return path.substr(dotIndex + 1);
         }
     }
 }

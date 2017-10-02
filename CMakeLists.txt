@@ -20,6 +20,9 @@ else()
 endif()
 
 ### SOURCE FILES ########################################
+
+include_directories(include)
+
 set(SOURCE_FILES
         # actual source files for PaxEngine3
         ${MAIN_FILE}
@@ -75,6 +78,15 @@ set(SOURCE_FILES
         include/sdl/utitlity/Path.h
         include/sdl/utitlity/SDLImageLoader.h
 
+        include/demo/behaviours/MoveToMouseBehaviour.h
+        include/demo/behaviours/RotateAround3D.h
+        include/demo/behaviours/CameraControls.h
+        include/demo/behaviours/Dance2D.h
+        include/demo/SDLDemo.h
+        include/demo/OpenGL/PadiDemo.h
+        include/demo/OpenGL/RenderTests.h
+        include/demo/OpenGL/Cube.h
+
         include/core/event/Event.h
         include/core/event/EventService.h
         include/core/entity/event/EntityEvent.h
@@ -105,22 +117,21 @@ set(SOURCE_FILES
         include/core/event/EventHandler.h
         include/core/entity/event/EntityParentChangedEvent.h
         include/test/trials/StaticMember.h
-        include/demo/SDLDemo.h
         include/sdl/test/SDLSprite.h
         include/sdl/SDLRenderPass.h
+        include/sdl/SDLKeyboard.h
         include/test/trials/SpecializedFunctionWithDifferentReturType.h
         include/utility/MacroIncludes.h
         include/core/rendering/scenegraph/ListSceneGraphGenerator.h
         include/core/system/BehaviourSystem.h
         include/core/entity/component/Behaviour.h
-        include/demo/MoveToMouseBehaviour.h
+
         include/core/io/MouseButtonPressedEvent.h
         include/core/io/MouseButtonReleasedEvent.h
         include/core/io/MouseButtonEvent.h
         include/core/time/Time.h
         include/sdl/opengl/SDLOpenGLWindow.h
         include/opengl/rendernodes/OpenGLRenderPass.h
-        include/demo/OpenGL/OpenGLDemo.h
         include/sdl/opengl/SDLOpenGLEngineSetup.h
         include/core/rendering/Viewport.h
         include/opengl/OpenGLViewport.h
@@ -133,10 +144,7 @@ set(SOURCE_FILES
         include/opengl/resource/OpenGLShader.h
         include/core/rendering/camera/Projection.h
         include/core/rendering/camera/PerspectiveProjection.h
-        include/demo/OpenGL/Cube.h
-        include/demo/RotateAround3D.h
         include/core/rendering/RenderOptions.h
-        include/demo/CameraControls.h
         include/opengl/test.h
         include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h
         include/core/rendering/RenderFactory.h
@@ -144,10 +152,17 @@ set(SOURCE_FILES
         include/opengl/OpenGLRenderFactory.h
         include/opengl/OpenGLMacros.h
         include/opengl/OpenGLSprite.h
-        include/demo/Dance2D.h
         include/utility/io/CSVSettingsLoader.h
         include/utility/io/CSVRow.h
-        include/utility/StringUtils.h include/core/rendering/camera/FullPixelScreenProjection.h include/core/io/event/ResolutionChangedEvent.h include/test/trials/InvisibleMixinTest.h include/core/entity/EntityComponentDependency.h include/utility/reflection/MemberCheck.h include/utility/Dependency.h)
+        include/utility/StringUtils.h
+        include/core/rendering/camera/FullPixelScreenProjection.h
+        include/core/io/event/ResolutionChangedEvent.h
+        include/test/trials/InvisibleMixinTest.h
+        include/core/entity/EntityComponentDependency.h
+        include/utility/reflection/MemberCheck.h
+        include/utility/Dependency.h
+        include/core/io/resources/Resources.h
+        include/utility/TypeMap.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
@@ -191,4 +206,4 @@ else()
 endif()
 
 ### LINKING #############################################
-target_link_libraries(PaxEngine3 paxutil paxsdl paxopengl paxtest paxcore)
+target_link_libraries(PaxEngine3 paxutil paxsdl paxopengl paxcore)#paxtest
