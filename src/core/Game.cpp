@@ -36,7 +36,9 @@ namespace PAX {
     }
 
     void Game::unregisterWorld(World *world) {
-        if (Util::removeFromVector(&_worlds, world)) {
+        assert(world != _activeWorld);
+
+        if (Util::removeFromVector(_worlds, world)) {
             WorldEvent e(world);
             WorldUnregistered(e);
         }
@@ -78,6 +80,6 @@ namespace PAX {
     }
 
     void Game::removeSystem(GameSystem *system) {
-        Util::removeFromVector(&_systems, system);
+        Util::removeFromVector(_systems, system);
     }
 }

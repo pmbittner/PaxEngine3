@@ -29,7 +29,7 @@ namespace PAX {
 
     void World::removeLayer(WorldLayer *layer) {
         _layersByName.erase(layer->getName());
-        Util::removeFromVector(&_layers, layer);
+        Util::removeFromVector(_layers, layer);
 
         _sceneGraph->removeChild(layer->getSceneGraph());
         layer->getEventService().setParent(nullptr);

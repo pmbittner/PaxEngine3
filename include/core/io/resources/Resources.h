@@ -5,132 +5,107 @@
 #ifndef PAXENGINE3_RESOURCES_H
 #define PAXENGINE3_RESOURCES_H
 
-#include "utility/TypeMap.h"
-#include "utility/StringUtils.h"
-#include <string>
 #include <vector>
-#include <iostream>
-#include <memory>
+#include <utility/TypeMap.h>
+#include <utility/stdutils.h>
+
+#include "ResourceLoader.h"
+#include "ResourceHandle.h"
 
 namespace PAX {
-    class RTestTexture {};
-    class RTestShader {};
-
-    class IResourceLoader {
-    public:
-        virtual ~IResourceLoader() {}
-    };
-
-    template<typename Resource, typename... Params>
-    class ResourceLoader : public IResourceLoader {
-    public:
-        virtual bool canLoad(Params...) = 0;
-        virtual Resource* load(Params...) = 0;
-    };
-
-    class PNGTextureLoader : public ResourceLoader<RTestTexture, const char*> {
-    public:
-        virtual bool canLoad(const char* path) override {
-            std::string extension = Util::getExtension(path);
-            return extension == "png" || extension == "PNG";
-        }
-
-        RTestTexture* load(const char* path) override {
-            std::cout << "PNGTextureLoader loads " << path << std::endl;
-            return new RTestTexture();
-        }
-    };
-
-    class ShaderLoader : public ResourceLoader<RTestShader, const char*, const char*> {
-    public:
-        virtual bool canLoad(const char* vertexShaderPath, const char* fragmentShaderPath) override {
-            return true;
-        }
-
-        RTestShader* load(const char* vertexShaderPath, const char* fragmentShaderPath) {
-            std::cout << "ShaderLoader loads " << vertexShaderPath << ", " << fragmentShaderPath << std::endl;
-            return new RTestShader();
-        }
-    };
-
-    struct ISignature {
-        virtual bool equals(ISignature* signature) = 0;
-        virtual bool equals(ISignature& signature) {
-            return equals(&signature);
-        }
-    };
-
-    template<typename... S>
-    struct Signature : public ISignature {
-        std::tuple<S...> values;
-
-        bool equals(Signature<S...> const& rhs) const {
-            return values == rhs.values;
-        }
-
-        bool equals(S const&... rhs) const {
-            // forward here to produce a tuple<S const&...> and avoid an unnecessary copy
-            return values == std::forward_as_tuple(rhs...);
-        }
-
-        virtual bool equals(ISignature* signature) override {
-            Signature<S...>* concreteSignature = dynamic_cast<Signature<S...>*>(signature);
-            if (concreteSignature) {
-                return equals(concreteSignature);
-            }
-            return false;
-        }
-    };
-
-    class Resources;
-    class ResourceHandle {
-        friend class Resources;
-        //union {
-        //    const int _id = 0;
-            void* _resource = nullptr;
-        //};
-        size_t _resourceSize = 0;
-        int _uses = 0;
-
-        ISignature *_signature;
-
-    public:
-        ResourceHandle() {
-
-        }
-
-        ~ResourceHandle() {
-            delete _signature;
-        }
-    };
-
     class Resources {
         TypeMap<std::vector<IResourceLoader*>> _loaders;
+
         TypeMap<std::vector<ResourceHandle>> _resourcesInUse;
+        std::map<void*, ResourceHandle*> _resourceToHandle;
 
     private:
         template<typename Resource, typename... Params>
-        void registerResource(Resource *res) {
-            Signature<Params...> s;
-
-            std::vector<ResourceHandle> &handles = _resourcesInUse.get<Resource>();
-            for (ResourceHandle &handle : handles) {
-                if (s.equals(handle._signature)) {
-                    handle._uses++;
-                    return;
+        ResourceLoader<Resource, Params...>* getLoader(Params... params) {
+            std::vector<IResourceLoader *> &possibleLoaders = _loaders.get<Resource>();
+            for (IResourceLoader *possibleLoader : possibleLoaders) {
+                ResourceLoader<Resource, Params...> *loader = dynamic_cast<ResourceLoader<Resource, Params...> *>(possibleLoader);
+                if (loader) {
+                    if (loader->canLoad(params...)) {
+                        return loader;
+                    }
                 }
             }
 
-            ResourceHandle newEntry;
-            newEntry._signature = new Signature<Params...>();
-            newEntry._uses = 1;
-            newEntry._resource = res;
-            newEntry._resourceSize = sizeof(Resource);
-            handles.push_back(newEntry);
+            return nullptr;
+        }
+
+        template<typename Resource>
+        ResourceHandle* getHandle(Resource *resource) {
+            auto iterator = _resourceToHandle.find(resource);
+            if (iterator != _resourceToHandle.end())
+                return iterator->second;
+            return nullptr;
+        }
+
+        template<typename Resource, typename... Params>
+        ResourceHandle* getHandle(Params... params) {
+            Signature<Params...> s(params...);
+
+            std::vector<ResourceHandle> &handles = _resourcesInUse.get<Resource>();
+            for (ResourceHandle &handle : handles) {
+                if (handle._signature->equals(s)) {
+                    return &handle;
+                }
+            }
+
+            return nullptr;
+        }
+
+        template<typename Resource, typename... Params>
+        ResourceHandle* registerResource(Resource *res, Params... params) {
+            ResourceHandle* handle = getHandle<Resource>(res);
+
+            if (handle) {
+                handle->_uses++;
+            } else {
+                ResourceHandle newEntry;
+                newEntry._signature = new Signature<Params...>(params...);
+                newEntry._uses = 1;
+                newEntry._resource = res;
+                newEntry._resourceSize = sizeof(Resource);
+
+                std::vector<ResourceHandle> &handles = _resourcesInUse.get<Resource>();
+                handles.push_back(newEntry);
+                handle = &handles.back();
+
+                _resourceToHandle[static_cast<void*>(res)] = handle;
+            }
+
+            return handle;
+        }
+
+        template<typename Resource>
+        bool unregisterResource(Resource *res) {
+            ResourceHandle* handle = getHandle<Resource>(res);
+
+            if (handle) {
+                Util::removeFromVector(_resourcesInUse.get<Resource>(), *handle);
+                _resourceToHandle.erase(res);
+                return true;
+            }
+
+            return false;
+        }
+
+        template<typename Resource, typename... Params>
+        Resource* load(Params... p) {
+            ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
+            if (loader) {
+                Resource *r = loader->load(p...);
+                ResourceHandle* handle = registerResource<Resource, Params...>(r, p...);
+                handle->_loader = loader;
+                return r;
+            }
+            return nullptr;
         }
 
     public:
-
         template<typename Resource, typename... Params>
         bool registerLoader(ResourceLoader<Resource, Params...>* loader) {
             std::vector<IResourceLoader*> &loaders = _loaders.get<Resource>();
@@ -138,49 +113,36 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        Resource* loadOrGet(Params... p) {
-
+        Resource* get(Params... p) {
+            ResourceHandle *handle = getHandle<Resource, Params...>(p...);
+            if (handle)
+                return static_cast<Resource*>(handle->_resource);
+            return nullptr;
         }
 
         template<typename Resource, typename... Params>
-        Resource* load(Params... p) {
-            std::vector<IResourceLoader*> &possibleLoaders = _loaders.get<Resource>();
-            for (IResourceLoader *possibleLoader : possibleLoaders) {
-                ResourceLoader<Resource, Params...>* loader = dynamic_cast<ResourceLoader<Resource, Params...>*>(possibleLoader);
-                if (loader) {
-                    if (loader->canLoad(p...)) {
-                        Resource *r = loader->load(p...);
-                        registerResource<Resource, Params...>(r);
-                        return r;
-                    }
+        Resource* loadOrGet(Params... p) {
+            Resource* res = get<Resource>(p...);
+            if (!res)
+                res = load<Resource>(p...);
+            return res;
+        }
+
+        template<typename Resource>
+        bool free(Resource *resource) {
+            ResourceHandle *handle = getHandle<Resource>(resource);
+
+            if (handle) {
+                ResourceLoaderT<Resource> *loader = static_cast<ResourceLoaderT<Resource>*>(handle->_loader);
+                if (loader->free(resource)) {
+                    if (unregisterResource(resource))
+                        return true;
                 }
             }
 
-            return nullptr;
+            return false;
         }
     };
-
-    void ResourcesTest() {
-        Resources r;
-
-        r.registerLoader(new PNGTextureLoader());
-        r.registerLoader(new ShaderLoader());
-
-        /// LEGAL
-        std::cout << "Loading \"test.png\"" << std::endl;
-        RTestTexture *testTex = r.load<RTestTexture>("test.png");
-        std::cout << testTex << std::endl << std::endl;
-
-        std::cout << "Loading \"vert.glsl\", \"frag.glsl\"" << std::endl;
-        std::cout << r.load<RTestShader>("vert.glsl", "frag.glsl") << std::endl << std::endl;
-
-        /// FAILS
-        std::cout << "Loading \"test.lol\"" << std::endl;
-        std::cout << r.load<RTestTexture>("test.lol") << std::endl << std::endl;
-
-        std::cout << "Loading \"vert.glsl\", \"frag.glsl\", \"some.shit\"" << std::endl;
-        std::cout << r.load<RTestShader>("vert.glsl", "frag.glsl", "some.shit") << std::endl << std::endl;
-    }
 }
 
 #endif //PAXENGINE3_RESOURCES_H

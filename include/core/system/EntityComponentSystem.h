@@ -104,7 +104,7 @@ namespace PAX {
 
         void remove(Entity *entity) {
             if (_activeWorld)
-                Util::removeFromVector(&_entities[_activeWorld], entity);
+                Util::removeFromVector(_entities[_activeWorld], entity);
         }
 
     public:

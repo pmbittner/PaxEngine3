@@ -33,7 +33,11 @@ set(CORE_SOURCE_FILES
         ../../include/core/rendering/camera/PixelScreenProjection.h
         rendering/camera/PerspectiveProjection.cpp
         rendering/camera/PixelScreenProjection.cpp
-        rendering/RenderOptions.cpp rendering/resource/Mesh.cpp io/Window.cpp rendering/camera/FullPixelScreenProjection.cpp io/event/ResolutionChangedEvent.cpp)
+        rendering/RenderOptions.cpp rendering/resource/Mesh.cpp
+        io/Window.cpp
+        rendering/camera/FullPixelScreenProjection.cpp
+        io/event/ResolutionChangedEvent.cpp
+        io/resources/ResourceHandle.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

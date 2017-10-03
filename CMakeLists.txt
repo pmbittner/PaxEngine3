@@ -162,7 +162,7 @@ set(SOURCE_FILES
         include/utility/reflection/MemberCheck.h
         include/utility/Dependency.h
         include/core/io/resources/Resources.h
-        include/utility/TypeMap.h)
+        include/utility/TypeMap.h include/utility/Signature.h include/test/ResourcesTest.h include/core/io/resources/ResourceLoader.h include/core/io/resources/ResourceHandle.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

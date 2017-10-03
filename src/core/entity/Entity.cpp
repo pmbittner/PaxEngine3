@@ -26,7 +26,7 @@ namespace PAX {
         _parent = parent;
 
         if (oldParent) {
-            Util::removeFromVector(&(parent->_children), this);
+            Util::removeFromVector(parent->_children, this);
         }
 
         Transform *parentTransform = nullptr;

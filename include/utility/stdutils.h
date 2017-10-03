@@ -25,10 +25,10 @@ namespace PAX {
         };
 
         template<class T>
-        inline bool removeFromVector(std::vector<T> *vector, const T element) {
-            auto iter = std::find(vector->begin(), vector->end(), element);
-            if (iter != vector->end()) {
-                vector->erase(iter);
+        inline bool removeFromVector(std::vector<T> &vector, const T &element) {
+            auto iter = std::find(vector.begin(), vector.end(), element);
+            if (iter != vector.end()) {
+                vector.erase(iter);
                 return true;
             }
             return false;

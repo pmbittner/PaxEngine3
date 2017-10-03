@@ -2,6 +2,8 @@
 // Created by Paul on 29.04.2017.
 //
 
+#include <test/ResourcesTest.h>
+
 #include "../include/EngineMain.h"
 
 #include "../include/core/Engine.h"
@@ -14,6 +16,10 @@
 #include "../include/demo/OpenGL/RenderTests.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
+    //*
+    PAX::ResourcesTest();
+    //*/
+
     int exitcode = 0;
 
     EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;

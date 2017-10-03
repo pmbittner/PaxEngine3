@@ -37,7 +37,7 @@ namespace PAX {
     void Transform::setParent(Transform *parent) {
         if (_parent != parent) {
             if (_parent)
-                Util::removeFromVector(&(_parent->_children), this);
+                Util::removeFromVector(_parent->_children, this);
 
             _parent = parent;
 

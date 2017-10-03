@@ -52,7 +52,7 @@ namespace PAX {
 
             if (_listeners[type]) {
                 PAX_ES_MAP_VALUES* vec = static_cast<PAX_ES_MAP_VALUES*>(_listeners[type]);
-                return PAX::Util::removeFromVector(vec, PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
+                return PAX::Util::removeFromVector(*vec, PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
             }
 
             return false;
