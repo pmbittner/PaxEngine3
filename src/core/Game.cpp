@@ -64,7 +64,7 @@ namespace PAX {
             _activeWorld->getEventService().setParent(nullptr);
 
         _activeWorld = world;
-        _activeWorld->getEventService().setParent(&Engine::Instance()->getEventService());
+        _activeWorld->getEventService().setParent(&Services::EventService());
 
         ActiveWorldChangedEvent e(oldActive, _activeWorld);
         ActiveWorldChanged(e);

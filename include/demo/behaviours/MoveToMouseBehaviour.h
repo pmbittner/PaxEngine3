@@ -10,6 +10,7 @@
 #include "../../core/Engine.h"
 #include "../../core/io/MouseButtonPressedEvent.h"
 #include "../../core/time/Time.h"
+#include "../../core/Services.h"
 
 namespace PAX {
     class MoveToMouseBehaviour : public Behaviour {
@@ -18,12 +19,12 @@ namespace PAX {
 
     public:
         virtual void attached(Entity *entity) override {
-            EventService &e = Engine::Instance()->getEventService();
+            EventService &e = Services::EventService();
             e.add<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
         }
 
         virtual void detached(Entity *entity) override {
-            EventService &e = Engine::Instance()->getEventService();
+            EventService &e = Services::EventService();
             e.remove<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
         }
 

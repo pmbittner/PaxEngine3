@@ -10,7 +10,7 @@
 
 namespace PAX {
     WorldLayer::WorldLayer(std::string name, float z, SceneGraphGenerator *generator) : _name(name), _sceneGraphGenerator(generator) {
-        _sceneGraph = Engine::Instance()->getRenderFactory()->createWorldLayerSceneGraphNode();
+        _sceneGraph = Services::RenderFactory()->createWorldLayerSceneGraphNode();
         _sceneGraphGenerator->initialize(_sceneGraph, _localEventService);
     }
 

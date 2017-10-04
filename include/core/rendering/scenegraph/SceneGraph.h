@@ -11,17 +11,18 @@
 
 namespace PAX {
     class SceneGraph : private Renderable {
+    protected:
         float _z = 0;
 
         std::vector<SceneGraph*> _parents;
         std::vector<Renderable*> _children;
-        Sort::RenderableSort _sorter;
 
     public:
         SceneGraph(float z = 0);
-        ~SceneGraph();
+        virtual ~SceneGraph();
 
-        const std::vector<SceneGraph*>& getParents();
+        const std::vector<SceneGraph*>& getParents() const;
+        const std::vector<Renderable*>& getChildren() const;
 
         void addRenderable(Renderable* renderable);
         bool removeRenderable(Renderable* renderable);
@@ -33,8 +34,6 @@ namespace PAX {
         virtual void render(RenderOptions &renderOptions) override;
         void setZ(float z);
         virtual float getZ() override;
-
-        void prettyPrint();
     };
 }
 

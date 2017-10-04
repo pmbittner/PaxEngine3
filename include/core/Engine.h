@@ -5,12 +5,10 @@
 #ifndef PAXENGINE3_MAIN_H
 #define PAXENGINE3_MAIN_H
 
-#include "io/InputSystem.h"
 #include "../core/rendering/Renderer.h"
-#include "../core/rendering/RenderFactory.h"
-#include "event/EventService.h"
 #include "io/Window.h"
 #include "EngineSetup.h"
+#include "Services.h"
 
 namespace PAX {
     class Game;
@@ -30,13 +28,11 @@ namespace PAX {
         double _actualUPS;
 
         // ARCHITECTURAL VARS ////////////////////////////////////////////////////////
-        EventService _eventService;
+        Services _services;
         Renderer _renderer;
-
         Game *_game = nullptr;
+
         Window *_window = nullptr;
-        InputSystem* _inputSystem = nullptr;
-        RenderFactory* _renderFactory = nullptr;
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
@@ -46,21 +42,19 @@ namespace PAX {
         void render();
 
     public:
+        /// Takes ownership of game
         bool initialize(EngineSetup* setup, Game* game);
         int run();
         void stop();
 
-        InputSystem* getInputSystem();
-        RenderFactory* getRenderFactory();
         Window* getWindow();
         Game* getGame();
-        EventService& getEventService();
         Renderer& getRenderer();
 
         double getFPS();
+        bool dispose();
 
-        static Engine* Instance();
-        static bool Dispose();
+        static Engine& Instance();
     };
 }
 

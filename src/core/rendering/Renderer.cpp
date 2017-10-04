@@ -15,7 +15,7 @@ namespace PAX {
     void Renderer::render() {
         RenderOptions options;
 
-        World *activeWorld = Engine::Instance()->getGame()->getActiveWorld();
+        World *activeWorld = Engine::Instance().getGame()->getActiveWorld();
         if (activeWorld) {
             SceneGraph *scene = activeWorld->getSceneGraph();
 

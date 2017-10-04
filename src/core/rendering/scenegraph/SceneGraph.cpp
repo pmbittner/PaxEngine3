@@ -22,8 +22,6 @@ namespace PAX {
     }
 
     void SceneGraph::render(RenderOptions &renderOptions) {
-        _sorter.insertionSort(_children);
-
         for (Renderable *child : _children)
             child->render(renderOptions);
     }
@@ -36,18 +34,22 @@ namespace PAX {
         return _z;
     }
 
-    const std::vector<SceneGraph*>& SceneGraph::getParents() {
+    const std::vector<SceneGraph*>& SceneGraph::getParents() const {
         return _parents;
+    };
+
+    const std::vector<Renderable*>& SceneGraph::getChildren() const {
+        return _children;
     };
 
     void SceneGraph::addChild(SceneGraph *child) {
         child->_parents.push_back(this);
-        _children.push_back(static_cast<Renderable*>(child));
+        addRenderable(child);
     }
 
     bool SceneGraph::removeChild(SceneGraph *child) {
-        if (Util::vectorContains(&_children, static_cast<Renderable*>(child))) {
-            return Util::removeFromVector(_children, static_cast<Renderable*>(child)) && Util::removeFromVector(child->_parents, this);
+        if (Util::vectorContains<Renderable*>(&_children, child)) {
+            return Util::removeFromVector<Renderable*>(_children, child) && Util::removeFromVector(child->_parents, this);
         }
     }
 
@@ -61,9 +63,5 @@ namespace PAX {
 
     bool SceneGraph::isEmpty() {
         return _children.empty();
-    }
-
-    void SceneGraph::prettyPrint() {
-
     }
 }

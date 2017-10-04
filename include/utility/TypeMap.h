@@ -13,29 +13,38 @@ namespace PAX {
     class TypeMap {
         Map _map;
 
+        template<typename Type>
+        inline std::type_index getType() const {
+            return std::type_index(typeid(Type));
+        }
+
     public:
 
         template<typename Value>
         inline bool contains() const {
-            return _map.find(std::type_index(typeid(Value))) != _map.end();
+            return _map.find(getType<Value>()) != _map.end();
         }
 
         template<typename Key>
         inline ValueType& get() {
-            std::type_index type = std::type_index(typeid(Key));
-            return _map[type];
+            return _map[getType<Key>()];
         }
 
         template<typename Key>
-        bool add(ValueType value) {
-            std::type_index type = std::type_index(typeid(Key));
-            _map[type] = value;
+        bool put(ValueType value) {
+            _map[getType<Key>()] = value;
             return true;
+        }
+
+        /// Returns the number of erased elements
+        template<typename Key>
+        size_t erase() {
+            return _map.erase(getType<Key>());
         }
 
         template<typename Key>
         bool remove(ValueType value) {
-            std::type_index type = std::type_index(typeid(Key));
+            std::type_index type = getType<Key>();
 
             if (_map[type]) {
                 if (_map[type] != value)

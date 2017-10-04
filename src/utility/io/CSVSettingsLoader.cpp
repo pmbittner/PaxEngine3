@@ -3,9 +3,9 @@
 //
 
 #include <cstring>
-#include "../../../include/utility/io/CSVRow.h"
-#include "../../../include/utility/io/CSVSettingsLoader.h"
-#include "../../../include/utility/StringUtils.h"
+#include <utility/io/CSVRow.h>
+#include <utility/io/CSVSettingsLoader.h>
+#include <utility/StringUtils.h>
 
 namespace PAX {
     namespace Util {

@@ -20,7 +20,7 @@ namespace PAX {
         }
 
         void SDLRenderPass::initialize() {
-            PAX::Window *window = PAX::Engine::Instance()->getWindow();
+            PAX::Window *window = PAX::Engine::Instance().getWindow();
             SDL_Window *sdlWindow = static_cast<PAX::SDL::SDLWindow *>(window)->getSDL_Window();
 
             _renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);

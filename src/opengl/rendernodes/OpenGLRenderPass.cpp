@@ -15,7 +15,7 @@ namespace PAX {
         void OpenGLRenderPass::initialize() {
             LOG(INFO) << "Initializing OpenGL";
 
-            Window *window = Engine::Instance()->getWindow();
+            Window *window = Engine::Instance().getWindow();
             glm::vec2 res = window->getResolution();
 
             glEnable(GL_TEXTURE_2D);

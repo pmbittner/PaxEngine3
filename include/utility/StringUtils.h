@@ -16,37 +16,18 @@
 namespace PAX {
     namespace Util {
         // trim from start (in place)
-        inline void ltrim(std::string &s) {
-            s.erase(s.begin(), std::find_if(s.begin(), s.end(),
-                                            std::not1(std::ptr_fun<int, int>(std::isspace))));
-        }
+        void ltrim(std::string &s);
 
         // trim from end (in place)
-        inline void rtrim(std::string &s) {
-            s.erase(std::find_if(s.rbegin(), s.rend(),
-                                 std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-        }
+        void rtrim(std::string &s);
 
         // trim from both ends (in place)
-        inline void trim(std::string &s) {
-            ltrim(s);
-            rtrim(s);
-        }
+        void trim(std::string &s);
 
         // trim from both ends (copying)
-        inline std::string trimmed(std::string s) {
-            trim(s);
-            return s;
-        }
+        std::string trimmed(std::string s);
 
-        std::string getExtension(std::string path) {
-            auto dotIndex = path.find_last_of('.');
-
-            if (dotIndex == std::string::npos)
-                return "";
-
-            return path.substr(dotIndex + 1);
-        }
+        std::string getExtension(std::string path);
     }
 }
 #endif //PAXENGINE3_STRINGUTILS_H

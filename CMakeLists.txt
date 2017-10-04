@@ -15,8 +15,6 @@ set(MAIN_FILE Default_main.cpp)
 
 if (ANDROID)
         set(MAIN_FILE Android_main.cpp)
-else()
-
 endif()
 
 ### SOURCE FILES ########################################
@@ -162,7 +160,14 @@ set(SOURCE_FILES
         include/utility/reflection/MemberCheck.h
         include/utility/Dependency.h
         include/core/io/resources/Resources.h
-        include/utility/TypeMap.h include/utility/Signature.h include/test/ResourcesTest.h include/core/io/resources/ResourceLoader.h include/core/io/resources/ResourceHandle.h)
+        include/utility/TypeMap.h
+        include/utility/Signature.h
+        include/test/ResourcesTest.h
+        include/core/io/resources/ResourceLoader.h
+        include/core/io/resources/ResourceHandle.h
+        include/core/Services.h
+        src/EngineSetup.cpp
+        include/core/rendering/scenegraph/sort/SortedSceneGraph.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

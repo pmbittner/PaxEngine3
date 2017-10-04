@@ -37,7 +37,9 @@ set(CORE_SOURCE_FILES
         io/Window.cpp
         rendering/camera/FullPixelScreenProjection.cpp
         io/event/ResolutionChangedEvent.cpp
-        io/resources/ResourceHandle.cpp)
+        io/resources/ResourceHandle.cpp
+        Services.cpp
+        rendering/scenegraph/sort/SortedSceneGraph.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

@@ -14,14 +14,15 @@
 #include "../../include/sdl/utitlity/Path.h"
 #include "../../include/utility/io/CSVSettingsLoader.h"
 
+
 PAX::Engine *PAX::Engine::instance = nullptr;
 
 PAX::Engine::Engine() {
-    instance = this;
+
 }
 
 PAX::Engine::~Engine() {
-    instance = nullptr;
+
 }
 
 bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
@@ -29,25 +30,21 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
     PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!");
 
-    _game = game;
-
     Time::DeltaD = 1.0 / _targetUPS;
     Time::DeltaF = static_cast<float>(Time::DeltaD);
 
+    _game = game;
+
     setup->initialize(this);
-    _renderFactory = setup->createRenderFactory();
-    PAX_assertNotNull(_renderFactory, "Engine::initialize: The given setup could not create a RenderFactory!");
 
     _window = setup->createWindow();
     PAX_assertNotNull(_window, "Engine::initialize: The given setup could not create a Window!");
-    _window->create("PaxEngine3");
 
-    _inputSystem = setup->createInputSystem();
-    PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
+    _services.initialize(setup);
 
-    _inputSystem->initialize();
+    setup->registerServices();
+
     _renderer.initialize();
-
     _game->initialize();
 
     return true;
@@ -155,12 +152,14 @@ int PAX::Engine::run() {
     }
 #undef DEF_NOW
 
+    dispose();
+
     return 0;
 }
 
 
 void PAX::Engine::update() {
-    _inputSystem->update();
+    _services.update();
     _game->update();
 }
 
@@ -172,24 +171,12 @@ void PAX::Engine::stop() {
     _running = false;
 }
 
-PAX::InputSystem* PAX::Engine::getInputSystem() {
-    return _inputSystem;
-}
-
-PAX::RenderFactory* PAX::Engine::getRenderFactory() {
-    return _renderFactory;
-}
-
 PAX::Game* PAX::Engine::getGame() {
     return _game;
 }
 
 PAX::Window* PAX::Engine::getWindow() {
     return _window;
-}
-
-PAX::EventService& PAX::Engine::getEventService() {
-    return _eventService;
 }
 
 PAX::Renderer& PAX::Engine::getRenderer() {
@@ -200,14 +187,13 @@ double PAX::Engine::getFPS() {
     return _actualFPS;
 }
 
-PAX::Engine* PAX::Engine::Instance() {
-    if (instance)
-        return instance;
-    else
-        return new Engine();
+PAX::Engine& PAX::Engine::Instance() {
+    if (!instance)
+        instance = new Engine();
+    return *instance;
 }
 
-bool PAX::Engine::Dispose() {
-    delete instance;
+bool PAX::Engine::dispose() {
+    //delete _game; // takes way too long :(
     return true;
 }

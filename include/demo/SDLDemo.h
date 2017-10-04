@@ -28,7 +28,7 @@ namespace PAX {
                 Game::initialize();
 
                 SDL::SDLRenderPass *renderpass = new SDL::SDLRenderPass();
-                Renderer &renderer = Engine::Instance()->getRenderer();
+                Renderer &renderer = Engine::Instance().getRenderer();
                 renderer.setSceneGraphRoot(renderpass);
                 renderer.setSceneGraphGenerationEntryPoint(renderpass);
 

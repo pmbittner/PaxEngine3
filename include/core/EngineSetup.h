@@ -15,6 +15,8 @@ namespace PAX {
     public:
         virtual void initialize(Engine* engine) = 0;
 
+        virtual void registerServices();
+
         virtual Window* createWindow() = 0;
         virtual InputSystem* createInputSystem() = 0;
         virtual RenderFactory* createRenderFactory() = 0;

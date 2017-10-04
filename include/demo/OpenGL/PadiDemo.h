@@ -39,7 +39,7 @@ namespace PAX {
                 OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
                 sdl->addChild(opengl);
 
-                Renderer &renderer = Engine::Instance()->getRenderer();
+                Renderer &renderer = Engine::Instance().getRenderer();
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
 
@@ -74,7 +74,7 @@ namespace PAX {
             virtual void initialize() override {
                 LOG(INFO) << "Demo: Initializing";
 
-                Window *window = Engine::Instance()->getWindow();
+                Window *window = Engine::Instance().getWindow();
                 glm::vec2 res = window->getResolution();
 
                 Game::initialize();

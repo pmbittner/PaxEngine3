@@ -21,7 +21,7 @@ namespace PAX {
                 SDL::OpenGL::SDLOpenGLRenderPass* opengl = new SDL::OpenGL::SDLOpenGLRenderPass();
                 sdl->addChild(opengl);
 
-                Renderer &renderer = Engine::Instance()->getRenderer();
+                Renderer &renderer = Engine::Instance().getRenderer();
 
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
@@ -36,12 +36,12 @@ namespace PAX {
             }
 
             virtual void initialize() override {
-                /*
                 // load graphic settings
                 Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
                 int resX = graphicSettings.getInt("resolutionWidth");
                 int resY = graphicSettings.getInt("resolutionHeight");
-                */
+
+                Engine::Instance().getWindow()->create("PaxEngine3", resX, resY);
 
                 initRendering();
 
