@@ -5,9 +5,12 @@
 #ifndef PAXENGINE3_RENDEROPTIONS_H
 #define PAXENGINE3_RENDEROPTIONS_H
 
+#include <core/rendering/resource/Shader.h>
+#include <stack>
+#include <utility/MacroIncludes.h>
+
 namespace PAX {
     class Camera;
-    class Shader;
 
     enum class ShaderPriority {
         MUTABLE,
@@ -15,14 +18,22 @@ namespace PAX {
     };
 
     class ShaderOptions {
-        Shader *_shader;
-        ShaderPriority _priority = ShaderPriority::MUTABLE;
+        struct ShaderUsage {
+            Shader *_shader;
+            ShaderPriority _priority = ShaderPriority::MUTABLE;
+            void* _owner;
+        };
+
+        std::stack<ShaderUsage> _shaders;
+
+    public:
+        bool useShader(void* caller, Shader *shader, ShaderPriority priority = ShaderPriority::MUTABLE);
+        void unuseShader(void* caller);
     };
 
     class RenderOptions {
-        Camera *_camera;
-        Shader *_shader;
-        //ShaderOptions _shaderOptions;
+        Camera *_camera = nullptr;
+        ShaderOptions _shaderOptions;
 
     public:
         RenderOptions();
@@ -30,8 +41,7 @@ namespace PAX {
         Camera *getCamera() const;
         void setCamera(Camera *camera);
 
-        Shader *getShader() const;
-        void setShader(Shader *shader);
+        ShaderOptions& getShaderOptions();
     };
 }
 

@@ -58,9 +58,7 @@ namespace PAX {
 
         void OpenGLSprite::render(RenderOptions &renderOptions) {
             Shader *shader = getShader();
-            renderOptions.setShader(shader);
-
-            shader->bind();
+            renderOptions.getShaderOptions().useShader(this, shader);
 
             Camera *cam = renderOptions.getCamera();
             glm::mat4 model = getOwner()->getTransform().toWorldMatrix();
@@ -77,7 +75,7 @@ namespace PAX {
 
             Sprite::render(renderOptions);
 
-            shader->unbind();
+            renderOptions.getShaderOptions().unuseShader(this);
         }
     }
 }

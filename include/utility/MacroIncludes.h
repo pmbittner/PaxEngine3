@@ -7,12 +7,12 @@
 
 /** UTILITY **/
 
+#include <stdexcept>
+
 #define PAX_typeof(expr) std::type_index(typeid(expr))
 #define PAX_nameof(type) #type
 
 #define PAX_assertNotNull(value, str_message) if (value == nullptr) throw std::invalid_argument(str_message);
-
-typedef unsigned int uint;
 
 /** MATH **/
 
