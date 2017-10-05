@@ -26,6 +26,9 @@ namespace PAX {
 
         std::stack<ShaderUsage> _shaders;
 
+        void activateShader(ShaderUsage & usage);
+        void deactivateCurrentShader();
+
     public:
         bool useShader(void* caller, Shader *shader, ShaderPriority priority = ShaderPriority::MUTABLE);
         void unuseShader(void* caller);

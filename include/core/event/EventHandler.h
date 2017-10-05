@@ -29,7 +29,7 @@ namespace PAX {
 
         template<class T, void (T::*Method)(Args...)>
         bool remove(T* callee) {
-            return PAX::Util::removeFromVector(&_delegates, Delegate<Args...>(callee, &invoke<T, Method>));
+            return PAX::Util::removeFromVector(_delegates, Delegate<Args...>(callee, &invoke<T, Method>));
         }
 
         void operator()(Args... args) {

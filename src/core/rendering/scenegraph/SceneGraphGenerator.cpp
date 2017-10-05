@@ -3,7 +3,6 @@
 //
 
 #include "../../../../include/core/rendering/scenegraph/SceneGraphGenerator.h"
-#include "../../../../include/core/rendering/scenegraph/SceneGraphBuildingRule.h"
 #include "../../../../include/core/world/WorldLayer.h"
 #include "../../../../include/utility/MacroIncludes.h"
 

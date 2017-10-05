@@ -1,6 +1,8 @@
 set(CORE_SOURCE_FILES
         Engine.cpp
+        EngineSetup.cpp
         Game.cpp
+        Services.cpp
 
         entity/Entity.cpp
         entity/EntityComponent.cpp
@@ -8,38 +10,37 @@ set(CORE_SOURCE_FILES
 
         io/Keyboard.cpp
         io/Mouse.cpp
+        io/Window.cpp
+        io/event/ResolutionChangedEvent.cpp
+        io/resources/ResourceHandle.cpp
 
         rendering/Renderer.cpp
-        rendering/scenegraph/sort/RenderableSort.cpp
+        rendering/Viewport.cpp
+        rendering/Sprite.cpp
+        rendering/Graphics.cpp
+        rendering/RenderOptions.cpp
+        rendering/camera/Camera.cpp
+        rendering/camera/Projection.cpp
+        rendering/camera/PerspectiveProjection.cpp
+        rendering/camera/PixelScreenProjection.cpp
+        rendering/camera/FullPixelScreenProjection.cpp
+        rendering/resource/Mesh.cpp
         rendering/scenegraph/SceneGraph.cpp
         rendering/scenegraph/SceneGraphGenerator.cpp
+        rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.cpp
+        rendering/scenegraph/nodes/SortingNode.cpp
+        rendering/scenegraph/nodes/ShadingNode.cpp
+        rendering/scenegraph/sort/RenderableSort.cpp
 
         world/World.cpp
         world/WorldLayer.cpp
-        rendering/camera/Camera.cpp
-        rendering/scenegraph/rule/ListSceneGraphBuildingRule.cpp
-        rendering/scenegraph/rule/GroupByEntitySceneGraphBuildingRule.cpp
-        rendering/Graphics.cpp
-        rendering/scenegraph/EntitySceneGraph.cpp
+
         event/EventService.cpp
-        rendering/scenegraph/ListSceneGraphGenerator.cpp
+
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
-        time/Time.cpp
-        rendering/Viewport.cpp
-        rendering/Sprite.cpp
-        ../../include/core/rendering/resource/Shader.h
-        rendering/camera/Projection.cpp
-        ../../include/core/rendering/camera/PixelScreenProjection.h
-        rendering/camera/PerspectiveProjection.cpp
-        rendering/camera/PixelScreenProjection.cpp
-        rendering/RenderOptions.cpp rendering/resource/Mesh.cpp
-        io/Window.cpp
-        rendering/camera/FullPixelScreenProjection.cpp
-        io/event/ResolutionChangedEvent.cpp
-        io/resources/ResourceHandle.cpp
-        Services.cpp
-        rendering/scenegraph/sort/SortedSceneGraph.cpp)
+
+        time/Time.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

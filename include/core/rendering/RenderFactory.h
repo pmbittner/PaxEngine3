@@ -7,10 +7,13 @@
 
 namespace PAX {
     class SceneGraph;
+    class SceneGraphGenerator;
+    class WorldLayer;
 
     class RenderFactory {
     public:
-        virtual SceneGraph* createWorldLayerSceneGraphNode() = 0;
+        virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) = 0;
+        virtual SceneGraphGenerator* createSceneGraphGeneratorFor(WorldLayer *worldLayer) = 0;
     };
 }
 

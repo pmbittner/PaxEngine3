@@ -24,8 +24,11 @@ namespace PAX {
         const std::vector<SceneGraph*>& getParents() const;
         const std::vector<Renderable*>& getChildren() const;
 
+        /// Takes ownership of renderable
         void addRenderable(Renderable* renderable);
         bool removeRenderable(Renderable* renderable);
+
+        /// Takes ownership of child
         void addChild(SceneGraph* child);
         bool removeChild(SceneGraph* child);
 

@@ -3,7 +3,6 @@
 //
 
 #include "../../../include/sdl/test/SDLSprite.h"
-#include "../../../include/core/rendering/scenegraph/rule/ListSceneGraphBuildingRule.h"
 #include "../../../include/core/entity/Entity.h"
 #include "../../../include/core/entity/Transform.h"
 #include "../../../include/lib/easylogging++.h"

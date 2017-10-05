@@ -6,6 +6,18 @@
 #include "../../../include/core/rendering/RenderOptions.h"
 
 namespace PAX {
+    void ShaderOptions::activateShader(ShaderUsage &usage) {
+        usage._shader->bind();
+    }
+
+    void ShaderOptions::deactivateCurrentShader() {
+        _shaders.top()._shader->unbind();
+        _shaders.pop();
+
+        if (!_shaders.empty())
+            activateShader(_shaders.top());
+    }
+
     bool ShaderOptions::useShader(void *caller, Shader *shader, ShaderPriority priority) {
         PAX_assertNotNull(shader, "Shader can't be null!");
 
@@ -16,7 +28,7 @@ namespace PAX {
             usage._shader = shader;
             _shaders.push(usage);
 
-            shader->bind();
+            activateShader(usage);
 
             return true;
         }
@@ -26,9 +38,7 @@ namespace PAX {
 
     void ShaderOptions::unuseShader(void *caller) {
         assert(caller == _shaders.top()._owner);
-
-        _shaders.top()._shader->unbind();
-        _shaders.pop();
+        deactivateCurrentShader();
     }
 
     RenderOptions::RenderOptions() {
@@ -42,15 +52,6 @@ namespace PAX {
     void PAX::RenderOptions::setCamera(PAX::Camera *camera) {
         RenderOptions::_camera = camera;
     }
-
-    /*
-    PAX::Shader *PAX::RenderOptions::getShader() const {
-        return _shader;
-    }
-
-    void PAX::RenderOptions::setShader(PAX::Shader *shader) {
-        RenderOptions::_shader = shader;
-    }*/
 
     ShaderOptions& PAX::RenderOptions::getShaderOptions() {
         return _shaderOptions;

@@ -11,7 +11,8 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLRenderFactory : public RenderFactory {
         public:
-            virtual SceneGraph* createWorldLayerSceneGraphNode() override;
+            virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) override;
+            virtual SceneGraphGenerator* createSceneGraphGeneratorFor(WorldLayer *worldLayer) override;
         };
     }
 }

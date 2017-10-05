@@ -15,13 +15,14 @@
 
 namespace PAX {
     class SceneGraphGenerator {
+        SceneGraph *_root;
+
     protected:
         SceneGraph _sceneRoot;
-        SceneGraph *_root;
 
     public:
         SceneGraphGenerator();
-        ~SceneGraphGenerator();
+        virtual ~SceneGraphGenerator();
 
         void initialize(SceneGraph *_root, EventService& eventService);
 

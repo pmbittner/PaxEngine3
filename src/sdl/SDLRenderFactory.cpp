@@ -2,13 +2,19 @@
 // Created by Paul on 02.07.2017.
 //
 
-#include "../../include/sdl/SDLRenderFactory.h"
-#include "../../include/core/rendering/scenegraph/SceneGraph.h"
+#include <sdl/SDLRenderFactory.h>
+#include <core/rendering/scenegraph/SceneGraph.h>
+#include <core/world/WorldLayer.h>
+#include <core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
 
 namespace PAX {
     namespace SDL {
-        SceneGraph * SDLRenderFactory::createWorldLayerSceneGraphNode() {
+        SceneGraph * SDLRenderFactory::createSceneGraphNodeFor(WorldLayer *worldLayer) {
             return new SceneGraph();
+        }
+
+        SceneGraphGenerator * SDLRenderFactory::createSceneGraphGeneratorFor(WorldLayer *worldLayer) {
+            return new GroupByShadersSceneGraphGenerator();
         }
     }
 }

@@ -16,9 +16,10 @@ namespace PAX {
         for (SceneGraph* parent : _parents)
             parent->removeChild(this);
 
-        _children.clear();
+        for (Renderable *renderable : _children)
+            delete renderable;
 
-        LOG(WARNING) << "SceneGraph destructor is memory leaking! It does not delete children!";
+        _children.clear();
     }
 
     void SceneGraph::render(RenderOptions &renderOptions) {
@@ -49,7 +50,7 @@ namespace PAX {
 
     bool SceneGraph::removeChild(SceneGraph *child) {
         if (Util::vectorContains<Renderable*>(&_children, child)) {
-            return Util::removeFromVector<Renderable*>(_children, child) && Util::removeFromVector(child->_parents, this);
+            return removeRenderable(child) && Util::removeFromVector(child->_parents, this);
         }
     }
 

@@ -50,7 +50,6 @@ set(SOURCE_FILES
         include/core/rendering/Graphics.h
 
         include/core/rendering/scenegraph/SceneGraph.h
-        include/core/rendering/scenegraph/SceneGraphBuildingRule.h
         include/core/rendering/scenegraph/SceneGraphGenerator.h
         include/core/rendering/scenegraph/sort/RenderableSort.h
         include/core/rendering/scenegraph/sort/RenderableSortComparator.h
@@ -103,13 +102,10 @@ set(SOURCE_FILES
         include/sdl/SDLEngineSetup.h
         include/core/rendering/camera/Camera.h
         include/sdl/SDLInputSystem.h
-        include/core/rendering/scenegraph/rule/GroupByEntitySceneGraphBuildingRule.h
-        include/core/rendering/scenegraph/rule/ListSceneGraphBuildingRule.h
         include/test/trials/FriendTest.h
         include/test/trials/InheritanceTest.h
         include/utility/stdutils.h
         include/test/SceneGraphTest.h
-        include/core/rendering/scenegraph/EntitySceneGraph.h
         include/test/trials/DelegateTest.h
         include/core/event/Delegate.h
         include/core/event/EventHandler.h
@@ -120,7 +116,6 @@ set(SOURCE_FILES
         include/sdl/SDLKeyboard.h
         include/test/trials/SpecializedFunctionWithDifferentReturType.h
         include/utility/MacroIncludes.h
-        include/core/rendering/scenegraph/ListSceneGraphGenerator.h
         include/core/system/BehaviourSystem.h
         include/core/entity/component/Behaviour.h
 
@@ -166,8 +161,10 @@ set(SOURCE_FILES
         include/core/io/resources/ResourceLoader.h
         include/core/io/resources/ResourceHandle.h
         include/core/Services.h
-        src/EngineSetup.cpp
-        include/core/rendering/scenegraph/sort/SortedSceneGraph.h)
+        include/core/rendering/scenegraph/nodes/SortingNode.h
+        include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
+        include/core/rendering/event/ShaderChangedEvent.h
+        include/core/rendering/scenegraph/nodes/ShadingNode.h include/core/rendering/event/GraphicsShaderChangedEvent.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

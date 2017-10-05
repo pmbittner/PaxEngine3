@@ -9,8 +9,9 @@
 #include "../../../include/core/Engine.h"
 
 namespace PAX {
-    WorldLayer::WorldLayer(std::string name, float z, SceneGraphGenerator *generator) : _name(name), _sceneGraphGenerator(generator) {
-        _sceneGraph = Services::RenderFactory()->createWorldLayerSceneGraphNode();
+    WorldLayer::WorldLayer(std::string name, float z) : _name(name) {
+        _sceneGraph = Services::RenderFactory()->createSceneGraphNodeFor(this);
+        _sceneGraphGenerator = Services::RenderFactory()->createSceneGraphGeneratorFor(this);
         _sceneGraphGenerator->initialize(_sceneGraph, _localEventService);
     }
 

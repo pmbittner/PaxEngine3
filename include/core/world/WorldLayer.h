@@ -16,7 +16,6 @@
 #include "../event/EventListener.h"
 #include "event/EntityDespawnedEvent.h"
 #include "../event/EventService.h"
-#include "../rendering/scenegraph/ListSceneGraphGenerator.h"
 
 namespace PAX {
 #define PAX_WORLDLAYERNAME_MAIN "MainLayer"
@@ -38,7 +37,7 @@ namespace PAX {
         std::vector<Entity*> _entities;
 
     public:
-        WorldLayer(std::string name = PAX_WORLDLAYERNAME_DEFAULT, float z = 0, SceneGraphGenerator *generator = new ListSceneGraphGenerator);
+        WorldLayer(std::string name = PAX_WORLDLAYERNAME_DEFAULT, float z = 0);
         ~WorldLayer();
 
         void spawn(Entity *entity);

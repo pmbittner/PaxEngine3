@@ -9,12 +9,12 @@
 #include "core/rendering/scenegraph/SceneGraph.h"
 
 namespace PAX {
-    class SortedSceneGraph : public SceneGraph {
+    class SortingNode : public SceneGraph {
         Sort::RenderableSort _sorter;
 
     public:
-        SortedSceneGraph();
-        virtual ~SortedSceneGraph();
+        SortingNode();
+        virtual ~SortingNode();
 
         virtual void render(RenderOptions &renderOptions) override;
     };

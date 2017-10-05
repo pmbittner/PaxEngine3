@@ -9,4 +9,14 @@ namespace PAX {
     float Graphics::getZ() {
         return getOwner()->getTransform().z();
     }
+
+    Shader *Graphics::getShader() const {
+        return _shader;
+    }
+
+    void Graphics::setShader(Shader *shader) {
+        GraphicsShaderChangedEvent e(_shader, shader, this);
+        Graphics::_shader = shader;
+        OnShaderChanged(e);
+    }
 }
