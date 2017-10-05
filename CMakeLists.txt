@@ -49,6 +49,8 @@ set(SOURCE_FILES
         include/core/rendering/Renderer.h
         include/core/rendering/Graphics.h
 
+        include/core/rendering/resource/Shader.h
+
         include/core/rendering/scenegraph/SceneGraph.h
         include/core/rendering/scenegraph/SceneGraphGenerator.h
         include/core/rendering/scenegraph/sort/RenderableSort.h
@@ -164,7 +166,8 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/nodes/SortingNode.h
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
-        include/core/rendering/scenegraph/nodes/ShadingNode.h include/core/rendering/event/GraphicsShaderChangedEvent.h)
+        include/core/rendering/scenegraph/nodes/ShadingNode.h
+        include/core/rendering/event/GraphicsShaderChangedEvent.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
