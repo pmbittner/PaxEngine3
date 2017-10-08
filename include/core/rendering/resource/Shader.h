@@ -5,15 +5,27 @@
 #ifndef PAXENGINE3_SHADER_H
 #define PAXENGINE3_SHADER_H
 
+#include <glm/glm.hpp>
+#include <string>
+#include <vector>
+
 namespace PAX {
     class Shader {
     public:
-        //void cacheUniforms(std::vector<std::string>& uniformNames) = 0;
-        //bool hasUniform(std::string uniformName) = 0;
-        //void setUniform(std::string uniformName, int value) = 0;
-
         virtual void bind() = 0;
         virtual void unbind() = 0;
+
+        void cacheUniforms(const std::vector<std::string>& uniformNames);
+        virtual void cacheUniform(const std::string& uniformName) = 0;
+        virtual bool hasUniform(const std::string& uniformName) = 0;
+
+        virtual bool setUniform(const std::string& uniformName, float value);
+        virtual bool setUniform(const std::string& uniformName, glm::vec2 value);
+        virtual bool setUniform(const std::string& uniformName, glm::vec3 value);
+        virtual bool setUniform(const std::string& uniformName, glm::vec4 value);
+
+        virtual bool setUniform(const std::string& uniformName, glm::mat3 value);
+        virtual bool setUniform(const std::string& uniformName, glm::mat4 value);
     };
 }
 

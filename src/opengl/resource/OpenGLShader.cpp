@@ -3,6 +3,7 @@
 //
 
 #include <iomanip>
+#include <opengl/OpenGLMacros.h>
 #include "../../../include/opengl/resource/OpenGLShader.h"
 #include "../../../include/lib/easylogging++.h"
 
@@ -156,5 +157,50 @@ namespace PAX {
         GLuint OpenGLShader::getID() {
             return _shaderProgram;
         }
+
+        void OpenGLShader::cacheUniform(const std::string &uniformName) {
+            GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
+            if (PAX_OPENGL_doesUniformExist(location)) {
+                _uniformLocations[uniformName] = location;
+            }
+        }
+
+        bool OpenGLShader::hasUniform(const std::string &uniformName) {
+            return _uniformLocations.find(uniformName) != _uniformLocations.end();
+        }
+
+#define PAX_OPENGL_LOADUNIFORM(funcname, params...) \
+        if (hasUniform(uniformName)) { \
+            funcname(_uniformLocations[uniformName], params); \
+            return true; \
+        } \
+        return false;
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, float value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform1f, value)
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, glm::vec2 value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform2f, value.x, value.y)
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, glm::vec3 value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform3f, value.x, value.y, value.z)
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, glm::vec4 value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform4f, value.x, value.y, value.z, value.w)
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, glm::mat3 value) {
+            //glUniformMatrix3fv(1, 9, false, &value.);
+            return Shader::setUniform(uniformName, value);
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, glm::mat4 value) {
+            return Shader::setUniform(uniformName, value);
+        }
+
+#undef PAX_OPENGL_LOADUNIFORM
     }
 }

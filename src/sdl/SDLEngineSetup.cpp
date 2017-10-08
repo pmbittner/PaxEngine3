@@ -26,5 +26,9 @@ namespace PAX {
         RenderFactory * SDLEngineSetup::createRenderFactory() {
             return new SDLRenderFactory();
         }
+
+        void SDLEngineSetup::registerServices() {
+            EngineSetup::registerServices();
+        }
     }
 }

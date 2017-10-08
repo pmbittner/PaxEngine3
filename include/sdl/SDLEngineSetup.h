@@ -12,6 +12,7 @@ namespace PAX {
         class SDLEngineSetup : public EngineSetup {
         public:
             virtual void initialize(Engine *engine) override;
+            virtual void registerServices() override;
 
             virtual Window *createWindow() override;
             virtual InputSystem *createInputSystem() override;

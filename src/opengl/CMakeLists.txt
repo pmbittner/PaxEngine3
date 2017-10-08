@@ -1,2 +1,2 @@
-add_library(paxopengl rendernodes/OpenGLRenderPass.cpp OpenGLViewport.cpp resource/OpenGLTexture2D.cpp OpenGLTexturedMesh.cpp resource/OpenGLMesh.cpp resource/OpenGLShader.cpp rendernodes/OpenGLWorldLayerRenderPass.cpp OpenGLRenderFactory.cpp OpenGLSprite.cpp)
+add_library(paxopengl rendernodes/OpenGLRenderPass.cpp OpenGLViewport.cpp resource/OpenGLTexture2D.cpp OpenGLTexturedMesh.cpp resource/OpenGLMesh.cpp resource/OpenGLShader.cpp rendernodes/OpenGLWorldLayerRenderPass.cpp OpenGLRenderFactory.cpp OpenGLSprite.cpp resource/OpenGLShaderLoader.cpp)
 target_link_libraries(paxopengl ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${SDL2_IMAGE_LIBRARY})# ${SDL2_TTF_LIBRARIES})

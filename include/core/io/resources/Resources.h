@@ -61,12 +61,9 @@ namespace PAX {
         ResourceHandle* registerResource(Resource *res, Params... params) {
             ResourceHandle* handle = getHandle<Resource>(res);
 
-            if (handle) {
-                handle->_uses++;
-            } else {
+            if (!handle) {
                 ResourceHandle newEntry;
                 newEntry._signature = new Signature<Params...>(params...);
-                newEntry._uses = 1;
                 newEntry._resource = res;
                 newEntry._resourceSize = sizeof(Resource);
 
@@ -100,6 +97,7 @@ namespace PAX {
                 Resource *r = loader->load(p...);
                 ResourceHandle* handle = registerResource<Resource, Params...>(r, p...);
                 handle->_loader = loader;
+                handle->_uses = 1;
                 return r;
             }
             return nullptr;
@@ -115,8 +113,10 @@ namespace PAX {
         template<typename Resource, typename... Params>
         Resource* get(Params... p) {
             ResourceHandle *handle = getHandle<Resource, Params...>(p...);
-            if (handle)
+            if (handle) {
+                handle->_uses++;
                 return static_cast<Resource*>(handle->_resource);
+            }
             return nullptr;
         }
 
@@ -133,10 +133,14 @@ namespace PAX {
             ResourceHandle *handle = getHandle<Resource>(resource);
 
             if (handle) {
-                ResourceLoaderT<Resource> *loader = static_cast<ResourceLoaderT<Resource>*>(handle->_loader);
-                if (loader->free(resource)) {
-                    if (unregisterResource(resource))
-                        return true;
+                handle->_uses--;
+
+                if (handle->_uses == 0) {
+                    ResourceLoaderT<Resource> *loader = static_cast<ResourceLoaderT<Resource>*>(handle->_loader);
+                    if (loader->free(resource)) {
+                        if (unregisterResource<Resource>(resource))
+                            return true;
+                    }
                 }
             }
 
