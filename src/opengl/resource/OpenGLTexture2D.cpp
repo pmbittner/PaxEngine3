@@ -52,11 +52,11 @@ namespace PAX {
         }
 
         void OpenGLTexture2D::bind() {
-            glBindTexture(GL_TEXTURE_2D, _id);
+            //glBindTexture(GL_TEXTURE_2D, _id);
         }
 
         void OpenGLTexture2D::unbind() {
-            glBindTexture(GL_TEXTURE_2D, 0);
+            //glBindTexture(GL_TEXTURE_2D, 0);
         }
     }
 }

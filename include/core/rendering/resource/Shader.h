@@ -24,8 +24,14 @@ namespace PAX {
         virtual bool setUniform(const std::string& uniformName, const glm::vec3& value);
         virtual bool setUniform(const std::string& uniformName, const glm::vec4& value);
 
-        virtual bool setUniform(const std::string& uniformName, const glm::mat3& value);
-        virtual bool setUniform(const std::string& uniformName, const glm::mat4& value);
+        virtual bool setUniform(const std::string& uniformName, const int& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::ivec2& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value);
+
+        virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose = false);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose = false);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose = false);
     };
 }
 

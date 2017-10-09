@@ -4,6 +4,7 @@
 
 #include <core/Services.h>
 #include <opengl/resource/OpenGLShaderLoader.h>
+#include <lib/easylogging++.h>
 #include "../../../include/sdl/opengl/SDLOpenGLEngineSetup.h"
 #include "../../../include/opengl/OpenGLRenderFactory.h"
 #include "../../../include/sdl/opengl/SDLOpenGLWindow.h"
@@ -20,8 +21,10 @@ namespace PAX {
             }
 
             void SDLOpenGLEngineSetup::registerServices() {
+                LOG(INFO) << "Registering Services:";
                 SDLEngineSetup::registerServices();
 
+                LOG(INFO) << "    OpenGLShaderLoader";
                 Services::GetResources().registerLoader<Shader>(new PAX::OpenGL::OpenGLShaderLoader());
             }
         }

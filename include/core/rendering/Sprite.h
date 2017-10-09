@@ -12,15 +12,13 @@
 
 namespace PAX {
     class Sprite : public Graphics {
-        Shader *_shader;
         Texture *_texture;
         Mesh *_mesh;
 
     public:
-        Sprite(Texture *texture, Mesh *mesh, Shader *shader);
+        Sprite(Texture *texture, Mesh *mesh);
         virtual void render(RenderOptions &options) override;
 
-        Shader *getShader() const;
         Texture *getTexture() const;
         Mesh *getMesh() const;
     };

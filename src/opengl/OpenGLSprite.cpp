@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <core/Services.h>
 
 #include "../../include/opengl/OpenGLSprite.h"
 #include "../../include/opengl/resource/OpenGLMesh.h"
@@ -18,7 +19,6 @@
 namespace PAX {
     namespace OpenGL {
         OpenGLMesh *OpenGLSprite::QuadMesh = nullptr;
-        OpenGLShader *OpenGLSprite::SpriteShader = nullptr;
 
         void OpenGLSprite::Initialize() {
             std::vector<glm::vec3> vertices = {
@@ -44,38 +44,38 @@ namespace PAX {
             QuadMesh->addAttribute(texCoords);
             QuadMesh->finalize();
             QuadMesh->upload();
-
-            SpriteShader = new OpenGLShader("GuiShader",
-                                          getResourcePath() + "shader/gui/PlainTexture.vert",
-                                          getResourcePath() + "shader/gui/PlainTexture.frag");
         }
 
-        OpenGLSprite::OpenGLSprite(OpenGLTexture2D *texture) : Sprite(texture, QuadMesh, SpriteShader) {
-            ul_projection = glGetUniformLocation(SpriteShader->getID(), "projection");
-            ul_modelview = glGetUniformLocation(SpriteShader->getID(), "modelview");
-            ul_texture = glGetUniformLocation(SpriteShader->getID(), "textureSampler");
+        OpenGLSprite::OpenGLSprite(OpenGLTexture2D *texture) : Sprite(texture, QuadMesh) {
+            Shader* shader = Services::GetResources().loadOrGet<Shader>(
+                    (getResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
+                    (getResourcePath() + "shader/gui/PlainTexture.frag").c_str()
+            );
+
+            shader->cacheUniforms({
+                                          "projection",
+                                          "modelview",
+                                          "textureSampler"
+                                  });
+
+            setShader(shader);
         }
 
         void OpenGLSprite::render(RenderOptions &renderOptions) {
-            Shader *shader = getShader();
-            renderOptions.getShaderOptions().useShader(this, shader);
+            Shader *shader = renderOptions.getShaderOptions().getShader();
 
             Camera *cam = renderOptions.getCamera();
             glm::mat4 model = getOwner()->getTransform().toWorldMatrix();
             const glm::mat4 &view = cam->getViewTransform();
             glm::mat4 modelview = view * model;
 
-            glUniformMatrix4fv(ul_modelview, 1, GL_FALSE, glm::value_ptr(modelview));
-            glUniformMatrix4fv(ul_projection, 1, GL_FALSE, glm::value_ptr(cam->getProjection()->toMatrix()));
+            shader->setUniform("modelview", modelview);
+            shader->setUniform("projection", cam->getProjection()->toMatrix());
 
-            if (PAX_OPENGL_doesUniformExist(ul_texture)) {
-                glActiveTexture(GL_TEXTURE0);
-                glUniform1i(ul_texture, 0);
-            }
+            glActiveTexture(GL_TEXTURE0);
+            shader->setUniform("textureSampler", 0);
 
             Sprite::render(renderOptions);
-
-            renderOptions.getShaderOptions().unuseShader(this);
         }
     }
 }

@@ -140,7 +140,7 @@ set(SOURCE_FILES
         include/core/rendering/camera/Projection.h
         include/core/rendering/camera/PerspectiveProjection.h
         include/core/rendering/RenderOptions.h
-        include/opengl/test.h
+        include/opengl/deprecated/test.h
         include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h
         include/core/rendering/RenderFactory.h
         include/sdl/SDLRenderFactory.h

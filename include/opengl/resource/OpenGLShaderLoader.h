@@ -10,10 +10,10 @@
 
 namespace PAX {
     namespace OpenGL {
-        class OpenGLShaderLoader : public ResourceLoader<Shader, char*, char*> {
+        class OpenGLShaderLoader : public ResourceLoader<Shader, const char*, const char*> {
         public:
-            virtual bool canLoad(char* vertexShaderPath, char* fragmentShaderPath) override;
-            virtual Shader *load(char* vertexShaderPath, char* fragmentShaderPath) override;
+            virtual bool canLoad(const char* vertexShaderPath, const char* fragmentShaderPath) override;
+            virtual Shader *load(const char* vertexShaderPath, const char* fragmentShaderPath) override;
             virtual bool free(Shader *res) override;
         };
     }

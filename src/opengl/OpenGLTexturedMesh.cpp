@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <core/Services.h>
 #include "../../include/opengl/OpenGLMacros.h"
 #include "../../include/opengl/OpenGLTexturedMesh.h"
 #include "../../include/opengl/resource/OpenGLMesh.h"
@@ -12,36 +13,20 @@
 
 namespace PAX {
     namespace OpenGL {
-        void checkUniformLocationExistence(std::string uniformName, GLint uniformLocation) {
-            if (!PAX_OPENGL_doesUniformExist(uniformLocation)) {
-                LOG(WARNING) << "The uniform " << uniformName << " could not be found!";
-            }
-        }
-
-        OpenGLTexturedMesh::OpenGLTexturedMesh(OpenGLTexture2D *texture, OpenGLMesh *mesh, OpenGLShader *shader) : Sprite(texture, mesh, shader) {
-            ul_projection = glGetUniformLocation(shader->getID(), "projection");
-            ul_modelview = glGetUniformLocation(shader->getID(), "modelview");
-
-            std::string ulName = "view";
-            ul_view = glGetUniformLocation(shader->getID(), ulName.c_str());
-            checkUniformLocationExistence(ulName, ul_view);
-
-            ulName = "transposedInvModelView";
-            ul_transposedInvModelView = glGetUniformLocation(shader->getID(), ulName.c_str());
-            checkUniformLocationExistence(ulName, ul_transposedInvModelView);
-
-            ulName = "textureSampler";
-            ul_texture = glGetUniformLocation(shader->getID(), ulName.c_str());
-            checkUniformLocationExistence(ulName, ul_texture);
-
-            ulName = "mat_diffuseColor";
-            ul_matClr = glGetUniformLocation(shader->getID(), ulName.c_str());
-            checkUniformLocationExistence(ulName, ul_matClr);
+        OpenGLTexturedMesh::OpenGLTexturedMesh(OpenGLTexture2D *texture, OpenGLMesh *mesh) : Sprite(texture, mesh) {
+            Shader* meshShader = Services::GetResources().loadOrGet<Shader>("", "");
+            meshShader->cacheUniforms({
+                                              "projection",
+                                              "modelview",
+                                              "view",
+                                              "transposedInvModelView",
+                                              "textureSampler",
+                                              "mat_diffuseColor"
+                                      });
         }
 
         void OpenGLTexturedMesh::render(RenderOptions &renderOptions) {
-            Shader *shader = getShader();
-            renderOptions.getShaderOptions().useShader(this, shader);
+            Shader *shader = renderOptions.getShaderOptions().getShader();
 
             Camera *cam = renderOptions.getCamera();
             glm::mat4 model = getOwner()->getTransform().toWorldMatrix();
@@ -56,6 +41,7 @@ namespace PAX {
             std::cout << "]" << std::endl;
              //*/
 
+            /*
             glUniformMatrix4fv(ul_modelview, 1, GL_FALSE, glm::value_ptr(modelview));
             glUniformMatrix4fv(ul_projection, 1, GL_FALSE, glm::value_ptr(cam->getProjection()->toMatrix()));
 
@@ -77,10 +63,9 @@ namespace PAX {
                 glActiveTexture(GL_TEXTURE0);
                 glUniform1i(ul_texture, 0);
             }
+             */
 
             Sprite::render(renderOptions);
-
-            renderOptions.getShaderOptions().unuseShader(this);
         }
     }
 }

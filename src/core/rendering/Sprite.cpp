@@ -6,16 +6,13 @@
 #include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
-    Sprite::Sprite(Texture *texture, Mesh *mesh, Shader *shader) : _texture(texture), _mesh(mesh), _shader(shader) {}
+    Sprite::Sprite(Texture *texture, Mesh *mesh) : _texture(texture), _mesh(mesh) {
+    }
 
     void Sprite::render(RenderOptions &renderOptions) {
         _texture->bind();
         _mesh->render(renderOptions);
         _texture->unbind();
-    }
-
-    Shader *Sprite::getShader() const {
-        return _shader;
     }
 
     Texture *Sprite::getTexture() const {

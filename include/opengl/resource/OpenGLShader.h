@@ -47,8 +47,14 @@ namespace PAX {
             virtual bool setUniform(const std::string& uniformName, const glm::vec3& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::vec4& value) override;
 
-            virtual bool setUniform(const std::string& uniformName, const glm::mat3& value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::mat4& value) override;
+            virtual bool setUniform(const std::string& uniformName, const int& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::ivec2& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value) override;
+
+            virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose = false) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose = false) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose = false) override;
 
             GLuint getID();
         };

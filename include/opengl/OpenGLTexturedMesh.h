@@ -13,11 +13,9 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLTexturedMesh : public Sprite {
-            GLint ul_modelview, ul_projection, ul_texture, ul_view, ul_transposedInvModelView, ul_matClr;
-
         public:
             glm::vec3 _color;
-            OpenGLTexturedMesh(OpenGLTexture2D *texture, OpenGLMesh *mesh, OpenGLShader *shader);
+            OpenGLTexturedMesh(OpenGLTexture2D *texture, OpenGLMesh *mesh);
             virtual void render(RenderOptions &renderOptions) override;
         };
     }

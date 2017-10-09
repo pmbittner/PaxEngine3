@@ -160,9 +160,11 @@ namespace PAX {
         }
 
         void OpenGLShader::cacheUniform(const std::string &uniformName) {
-            GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
-            if (PAX_OPENGL_doesUniformExist(location)) {
-                _uniformLocations[uniformName] = location;
+            if (!hasUniform(uniformName)) {
+                GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
+                if (PAX_OPENGL_doesUniformExist(location)) {
+                    _uniformLocations[uniformName] = location;
+                }
             }
         }
 
@@ -193,12 +195,32 @@ namespace PAX {
             PAX_OPENGL_LOADUNIFORM(glUniform4f, value.x, value.y, value.z, value.w)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat3& value) {
-            PAX_OPENGL_LOADUNIFORM(glUniformMatrix3fv, 1, GL_FALSE, glm::value_ptr(value))
+        bool OpenGLShader::setUniform(const std::string &uniformName, const int &value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform1i, value);
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat4& value) {
-            PAX_OPENGL_LOADUNIFORM(glUniformMatrix4fv, 1, GL_FALSE, glm::value_ptr(value))
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::ivec2 &value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform2i, value.x, value.y);
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::ivec3 &value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform3i, value.x, value.y, value.z);
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::ivec4 &value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform4i, value.x, value.y, value.z, value.w);
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat2 &value, bool transpose) {
+            PAX_OPENGL_LOADUNIFORM(glUniformMatrix2fv, 1, transpose, glm::value_ptr(value))
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat3& value, bool transpose) {
+            PAX_OPENGL_LOADUNIFORM(glUniformMatrix3fv, 1, transpose, glm::value_ptr(value))
+        }
+
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat4& value, bool transpose) {
+            PAX_OPENGL_LOADUNIFORM(glUniformMatrix4fv, 1, transpose, glm::value_ptr(value))
         }
 
 #undef PAX_OPENGL_LOADUNIFORM

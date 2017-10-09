@@ -6,10 +6,10 @@
 #define PAXENGINE3_TEST_H
 
 #include <GL/glew.h>
-#include "../core/rendering/Graphics.h"
-#include "resource/OpenGLMesh.h"
-#include "resource/OpenGLShader.h"
-#include "../sdl/utitlity/Path.h"
+#include "core/rendering/Graphics.h"
+#include "opengl/resource/OpenGLMesh.h"
+#include "opengl/resource/OpenGLShader.h"
+#include "sdl/utitlity/Path.h"
 
 namespace PAX {
     namespace OpenGL {

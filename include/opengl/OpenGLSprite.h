@@ -16,9 +16,6 @@ namespace PAX {
 
         class OpenGLSprite : public Sprite {
             static OpenGLMesh *QuadMesh;
-            static OpenGLShader *SpriteShader;
-
-            GLint ul_modelview, ul_projection, ul_texture;
 
         public:
             static void Initialize();

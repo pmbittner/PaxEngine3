@@ -32,6 +32,8 @@ namespace PAX {
     public:
         bool useShader(void* caller, Shader *shader, ShaderPriority priority = ShaderPriority::MUTABLE);
         void unuseShader(void* caller);
+
+        Shader* getShader();
     };
 
     class RenderOptions {

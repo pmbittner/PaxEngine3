@@ -8,6 +8,7 @@
 #include <vector>
 #include <utility/TypeMap.h>
 #include <utility/stdutils.h>
+#include <iostream>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"

@@ -20,14 +20,21 @@ namespace PAX {
                 SDL::SDLRenderPass* sdl = new SDL::SDLRenderPass();
                 SDL::OpenGL::SDLOpenGLRenderPass* opengl = new SDL::OpenGL::SDLOpenGLRenderPass();
                 sdl->addChild(opengl);
+                LOG(INFO) << "RenderTests: RenderPasses created";
 
                 Renderer &renderer = Engine::Instance().getRenderer();
 
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
+                LOG(INFO) << "RenderTests: Nodes initialized";
 
                 sdl->initialize();
+                LOG(INFO) << "RenderTests: SDL initialized";
                 opengl->initialize();
+                LOG(INFO) << "RenderTests: OpenGL initialized";
+
+                OpenGL::OpenGLSprite::Initialize();
+                LOG(INFO) << "RenderTests: Sprite initialized";
             }
 
         public:
@@ -44,12 +51,31 @@ namespace PAX {
                 Engine::Instance().getWindow()->create("PaxEngine3: RenderTests Demo", resX, resY);
 
                 initRendering();
+                LOG(INFO) << "RenderTests: Rendering initialized";
 
                 World *world = new World();
 
+                Entity *cameraEntity = new Entity();
+                Camera *camera = new Camera(
+                        new OpenGL::OpenGLViewport(0, 0, resX, resY),
+                        new FullPixelScreenProjection()
+                );
+                cameraEntity->add<Camera>(camera);
+                cameraEntity->getTransform().setZ(1);
+
+                Entity *entity1 = new Entity();
+                entity1->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D("")));
+                entity1->add<Behaviour>(new Dance2D());
+                entity1->getTransform().setScale(400, 400);
+                LOG(INFO) << "RenderTests: Entities initialized";
+
+                world->getMainLayer()->spawn(cameraEntity);
+                world->getMainLayer()->spawn(entity1);
 
                 setActiveWorld(world);
                 Game::initialize();
+
+                LOG(INFO) << "RenderTests: Game initialized";
             }
         };
     }

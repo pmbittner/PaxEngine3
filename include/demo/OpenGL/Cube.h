@@ -11,7 +11,7 @@
 #include "../../opengl/resource/OpenGLTexture2D.h"
 #include "../../sdl/utitlity/Path.h"
 #include "../../opengl/OpenGLTexturedMesh.h"
-#include "../../opengl/test.h"
+#include "opengl/deprecated/test.h"
 
 namespace PAX {
     namespace Demo {
@@ -105,7 +105,8 @@ namespace PAX {
             glUniform1f(glGetUniformLocation(shader->getID(), "pLightIntensity[0]"), 0.8f);
             shader->unbind();
 
-            OpenGL::OpenGLTexturedMesh *sprite = new OpenGL::OpenGLTexturedMesh(tex, mesh, shader);
+            OpenGL::OpenGLTexturedMesh *sprite = new OpenGL::OpenGLTexturedMesh(tex, mesh);
+            sprite->setShader(shader);
             sprite->_color = color;
             e->add<Graphics>(sprite);
             return e;

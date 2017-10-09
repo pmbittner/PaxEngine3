@@ -41,6 +41,12 @@ namespace PAX {
         deactivateCurrentShader();
     }
 
+    Shader *ShaderOptions::getShader() {
+        if (_shaders.empty())
+            return nullptr;
+        return _shaders.top()._shader;
+    }
+
     RenderOptions::RenderOptions() {
         _camera = nullptr;
     }
