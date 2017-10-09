@@ -4,14 +4,12 @@
 
 #include <algorithm>
 #include "../../../include/core/world/WorldLayer.h"
-#include "../../../include/lib/easylogging++.h"
-#include "../../../include/core/world/event/EntitySpawnedEvent.h"
 #include "../../../include/core/Engine.h"
 
 namespace PAX {
-    WorldLayer::WorldLayer(std::string name, float z) : _name(name) {
-        _sceneGraph = Services::RenderFactory()->createSceneGraphNodeFor(this);
-        _sceneGraphGenerator = Services::RenderFactory()->createSceneGraphGeneratorFor(this);
+    WorldLayer::WorldLayer(std::string name, float z) : _name(name) , _z(z) {
+        _sceneGraph = Services::GetRenderFactory()->createSceneGraphNodeFor(this);
+        _sceneGraphGenerator = Services::GetRenderFactory()->createSceneGraphGeneratorFor(this);
         _sceneGraphGenerator->initialize(_sceneGraph, _localEventService);
     }
 

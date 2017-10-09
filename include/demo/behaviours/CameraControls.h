@@ -21,7 +21,7 @@ namespace PAX {
             glm::vec3 move;
             glm::vec3 rot;
 
-            Keyboard *keyboard = Services::Input()->getKeyboard();
+            Keyboard *keyboard = Services::GetInput()->getKeyboard();
 
             if (keyboard->isKeyDown(Key::W)) {
                 move.z -= speed;

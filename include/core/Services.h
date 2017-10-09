@@ -42,7 +42,7 @@ namespace PAX {
         }
 
         template<typename Service>
-        bool unregisterService() {
+        size_t unregisterService() {
             return _registeredServices.erase<Service>();
         }
 
@@ -55,11 +55,11 @@ namespace PAX {
 
         static Services& Instance();
 
-        static InputSystem* Input();
-        static RenderFactory* RenderFactory();
+        static InputSystem* GetInput();
+        static RenderFactory* GetRenderFactory();
 
-        static Resources& Resources();
-        static EventService& EventService();
+        static Resources& GetResources();
+        static EventService& GetEventService();
 
         void update();
     };

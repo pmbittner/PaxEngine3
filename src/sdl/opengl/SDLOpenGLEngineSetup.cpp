@@ -22,7 +22,7 @@ namespace PAX {
             void SDLOpenGLEngineSetup::registerServices() {
                 SDLEngineSetup::registerServices();
 
-                Services::Resources().registerLoader<Shader>(new PAX::OpenGL::OpenGLShaderLoader());
+                Services::GetResources().registerLoader<Shader>(new PAX::OpenGL::OpenGLShaderLoader());
             }
         }
     }

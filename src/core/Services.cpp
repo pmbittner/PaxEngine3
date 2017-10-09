@@ -30,19 +30,19 @@ namespace PAX {
         return *_instance;
     }
 
-    EventService & Services::EventService() {
+    EventService & Services::GetEventService() {
         return Instance()._eventService;
     }
 
-    InputSystem* Services::Input() {
+    InputSystem* Services::GetInput() {
         return Instance()._inputSystem;
     }
 
-    RenderFactory * Services::RenderFactory() {
+    RenderFactory * Services::GetRenderFactory() {
         return Instance()._renderFactory;
     }
 
-    Resources& Services::Resources() {
+    Resources& Services::GetResources() {
         return Instance()._resources;
     }
 

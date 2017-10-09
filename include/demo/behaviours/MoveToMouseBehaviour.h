@@ -19,12 +19,12 @@ namespace PAX {
 
     public:
         virtual void attached(Entity *entity) override {
-            EventService &e = Services::EventService();
+            EventService &e = Services::GetEventService();
             e.add<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
         }
 
         virtual void detached(Entity *entity) override {
-            EventService &e = Services::EventService();
+            EventService &e = Services::GetEventService();
             e.remove<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
         }
 

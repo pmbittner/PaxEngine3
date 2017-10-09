@@ -4,7 +4,6 @@
 
 #include <SDL_events.h>
 #include "../../include/sdl/SDLInputSystem.h"
-#include "../../include/core/io/Keyboard.h"
 #include "../../include/core/Engine.h"
 
 namespace PAX {
@@ -38,13 +37,13 @@ namespace PAX {
 
                     case SDL_MOUSEBUTTONDOWN: {
                         _mbPressed.button = _currentEvent.button.button;
-                        Services::EventService()(_mbPressed);
+                        Services::GetEventService()(_mbPressed);
                         break;
                     }
 
                     case SDL_MOUSEBUTTONUP: {
                         _mbPressed.button = _currentEvent.button.button;
-                        Services::EventService()(_mbReleased);
+                        Services::GetEventService()(_mbReleased);
                         break;
                     }
 
