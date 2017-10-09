@@ -42,13 +42,13 @@ namespace PAX {
             virtual void cacheUniform(const std::string& uniformName) override;
             virtual bool hasUniform(const std::string& uniformName) override;
 
-            virtual bool setUniform(const std::string& uniformName, float value) override;
-            virtual bool setUniform(const std::string& uniformName, glm::vec2 value) override;
-            virtual bool setUniform(const std::string& uniformName, glm::vec3 value) override;
-            virtual bool setUniform(const std::string& uniformName, glm::vec4 value) override;
+            virtual bool setUniform(const std::string& uniformName, const float& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::vec2& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::vec3& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::vec4& value) override;
 
-            virtual bool setUniform(const std::string& uniformName, glm::mat3 value) override;
-            virtual bool setUniform(const std::string& uniformName, glm::mat4 value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat3& value) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat4& value) override;
 
             GLuint getID();
         };

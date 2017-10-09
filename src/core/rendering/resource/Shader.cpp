@@ -10,27 +10,27 @@ namespace PAX {
             cacheUniform(uniformName);
     }
 
-    bool Shader::setUniform(const std::string &uniformName, float value) {
+    bool Shader::setUniform(const std::string &uniformName, const float& value) {
         return false;
     }
 
-    bool Shader::setUniform(const std::string &uniformName, glm::vec2 value) {
+    bool Shader::setUniform(const std::string &uniformName, const glm::vec2& value) {
         return false;
     }
 
-    bool Shader::setUniform(const std::string &uniformName, glm::vec3 value) {
+    bool Shader::setUniform(const std::string &uniformName, const glm::vec3& value) {
         return false;
     }
 
-    bool Shader::setUniform(const std::string &uniformName, glm::vec4 value) {
+    bool Shader::setUniform(const std::string &uniformName, const glm::vec4& value) {
         return false;
     }
 
-    bool Shader::setUniform(const std::string &uniformName, glm::mat3 value) {
+    bool Shader::setUniform(const std::string &uniformName, const glm::mat3& value) {
         return false;
     }
 
-    bool Shader::setUniform(const std::string &uniformName, glm::mat4 value) {
+    bool Shader::setUniform(const std::string &uniformName, const glm::mat4& value) {
         return false;
     }
 }

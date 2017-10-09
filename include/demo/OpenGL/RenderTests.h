@@ -41,7 +41,7 @@ namespace PAX {
                 int resX = graphicSettings.getInt("resolutionWidth");
                 int resY = graphicSettings.getInt("resolutionHeight");
 
-                Engine::Instance().getWindow()->create("PaxEngine3", resX, resY);
+                Engine::Instance().getWindow()->create("PaxEngine3: RenderTests Demo", resX, resY);
 
                 initRendering();
 

@@ -19,13 +19,13 @@ namespace PAX {
         virtual void cacheUniform(const std::string& uniformName) = 0;
         virtual bool hasUniform(const std::string& uniformName) = 0;
 
-        virtual bool setUniform(const std::string& uniformName, float value);
-        virtual bool setUniform(const std::string& uniformName, glm::vec2 value);
-        virtual bool setUniform(const std::string& uniformName, glm::vec3 value);
-        virtual bool setUniform(const std::string& uniformName, glm::vec4 value);
+        virtual bool setUniform(const std::string& uniformName, const float& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::vec2& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::vec3& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::vec4& value);
 
-        virtual bool setUniform(const std::string& uniformName, glm::mat3 value);
-        virtual bool setUniform(const std::string& uniformName, glm::mat4 value);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat3& value);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat4& value);
     };
 }
 

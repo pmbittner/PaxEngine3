@@ -4,6 +4,7 @@
 
 #include <iomanip>
 #include <opengl/OpenGLMacros.h>
+#include <glm/gtc/type_ptr.hpp>
 #include "../../../include/opengl/resource/OpenGLShader.h"
 #include "../../../include/lib/easylogging++.h"
 
@@ -176,29 +177,28 @@ namespace PAX {
         } \
         return false;
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, float value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, const float& value) {
             PAX_OPENGL_LOADUNIFORM(glUniform1f, value)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, glm::vec2 value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::vec2& value) {
             PAX_OPENGL_LOADUNIFORM(glUniform2f, value.x, value.y)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, glm::vec3 value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::vec3& value) {
             PAX_OPENGL_LOADUNIFORM(glUniform3f, value.x, value.y, value.z)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, glm::vec4 value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::vec4& value) {
             PAX_OPENGL_LOADUNIFORM(glUniform4f, value.x, value.y, value.z, value.w)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, glm::mat3 value) {
-            //glUniformMatrix3fv(1, 9, false, &value.);
-            return Shader::setUniform(uniformName, value);
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat3& value) {
+            PAX_OPENGL_LOADUNIFORM(glUniformMatrix3fv, 1, GL_FALSE, glm::value_ptr(value))
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, glm::mat4 value) {
-            return Shader::setUniform(uniformName, value);
+        bool OpenGLShader::setUniform(const std::string &uniformName, const glm::mat4& value) {
+            PAX_OPENGL_LOADUNIFORM(glUniformMatrix4fv, 1, GL_FALSE, glm::value_ptr(value))
         }
 
 #undef PAX_OPENGL_LOADUNIFORM
