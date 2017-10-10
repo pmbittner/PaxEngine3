@@ -19,7 +19,6 @@ namespace PAX {
     }
 
     void Game::update() {
-        std::cout << "LOL " << _systems.size() << std::endl;
         for (GameSystem *gameSystem : _systems)
             gameSystem->update();
     }
