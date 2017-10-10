@@ -17,8 +17,8 @@ namespace PAX {
         class RenderTests : public Game {
 
             void initRendering() {
-                SDL::SDLRenderPass* sdl = new SDL::SDLRenderPass();
-                SDL::OpenGL::SDLOpenGLRenderPass* opengl = new SDL::OpenGL::SDLOpenGLRenderPass();
+                SDL::OpenGL::SDLOpenGLRenderPass *sdl = new SDL::OpenGL::SDLOpenGLRenderPass();
+                OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
                 sdl->addChild(opengl);
                 LOG(INFO) << "RenderTests: RenderPasses created";
 
@@ -65,8 +65,9 @@ namespace PAX {
 
                 Entity *entity1 = new Entity();
                 entity1->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D("")));
-                entity1->add<Behaviour>(new Dance2D());
-                entity1->getTransform().setScale(400, 400);
+                //entity1->add<Behaviour>(new Dance2D());
+                entity1->add<Behaviour>(new MoveToMouseBehaviour());
+                entity1->getTransform().setScale(200, 200);
                 LOG(INFO) << "RenderTests: Entities initialized";
 
                 world->getMainLayer()->spawn(cameraEntity);

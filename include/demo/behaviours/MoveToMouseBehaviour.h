@@ -15,9 +15,13 @@
 namespace PAX {
     class MoveToMouseBehaviour : public Behaviour {
         glm::vec2 _dest;
-        float _speed = 300.0f;
+        float _speed = 100.0f;
 
     public:
+        MoveToMouseBehaviour() {
+            _dest = glm::vec2(0, 0);
+        }
+
         virtual void attached(Entity *entity) override {
             EventService &e = Services::GetEventService();
             e.add<MouseButtonPressedEvent, MoveToMouseBehaviour, &MoveToMouseBehaviour::onMousePressed>(this);
@@ -31,14 +35,17 @@ namespace PAX {
         virtual void update() override {
             Transform &t = getOwner()->getTransform();
             glm::vec2 pos = t.xy();
-            glm::vec2 v = _speed * Time::DeltaF * glm::normalize(_dest - pos);
-            t.setPosition(pos + v);
+            if (_dest != pos) {
+                glm::vec2 n = glm::normalize(_dest - pos);
+                glm::vec2 v = _speed * Time::DeltaF * n;
+                t.setPosition(pos + v);
+            }
         }
 
         void onMousePressed(MouseButtonPressedEvent &e) {
-            LOG(INFO) << "MB Press, Button = " << e.button;
-            _dest.x = e.mouse->x;
-            _dest.y = e.mouse->y;
+            LOG(INFO) << "MB " << e.button << " pressed at " << e.mouse->x << " / " << e.mouse->y;
+            _dest.x = e.mouse->x - 400;
+            _dest.y = 300 - e.mouse->y;
         }
     };
 }

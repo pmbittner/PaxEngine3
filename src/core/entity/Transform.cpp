@@ -7,11 +7,12 @@
 
 namespace PAX {
     Transform::Transform() :
-            _pos3D(0), _rotation(0), _scale3D(1),
             _parent(nullptr),
             _relativeMatDirty(true), _worldMatDirty(true)
     {
-
+        _pos3D = glm::vec3(0, 0, 0);
+        _rotation = glm::vec3(0, 0, 0);
+        _scale3D = glm::vec3(1, 1, 1);
     }
 
     /** GETTERS AND SETTERS **/
