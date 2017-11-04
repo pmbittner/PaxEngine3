@@ -5,8 +5,9 @@
 #ifndef PAXENGINE3_RENDERFACTORY_H
 #define PAXENGINE3_RENDERFACTORY_H
 
+#include <core/rendering/scenegraph/SceneGraph.h>
+
 namespace PAX {
-    class SceneGraph;
     class SceneGraphGenerator;
     class WorldLayer;
 

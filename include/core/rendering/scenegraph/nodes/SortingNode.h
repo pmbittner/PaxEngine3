@@ -5,12 +5,12 @@
 #ifndef PAXENGINE3_SORTEDSCENEGRAPH_H
 #define PAXENGINE3_SORTEDSCENEGRAPH_H
 
-#include <core/rendering/scenegraph/sort/RenderableSort.h>
-#include "core/rendering/scenegraph/SceneGraph.h"
+#include <core/rendering/scenegraph/sort/GraphicsSort.h>
+#include <core/rendering/scenegraph/SceneGraph.h>
 
 namespace PAX {
-    class SortingNode : public SceneGraph {
-        Sort::RenderableSort _sorter;
+    class SortingNode : public GraphicsSceneGraph {
+        Sort::GraphicsSort _sorter;
 
     public:
         SortingNode();

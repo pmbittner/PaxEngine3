@@ -46,7 +46,7 @@ namespace PAX {
             QuadMesh->upload();
         }
 
-        OpenGLSprite::OpenGLSprite(OpenGLTexture2D *texture) : Sprite(texture, QuadMesh) {
+        OpenGLSprite::OpenGLSprite(Texture *texture) : Sprite(texture, QuadMesh) {
             Shader* shader = Services::GetResources().loadOrGet<Shader>(
                     (getResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
                     (getResourcePath() + "shader/gui/PlainTexture.frag").c_str()

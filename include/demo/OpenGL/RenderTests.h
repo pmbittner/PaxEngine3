@@ -64,7 +64,8 @@ namespace PAX {
                 cameraEntity->getTransform().setZ(1);
 
                 Entity *entity1 = new Entity();
-                entity1->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D("")));
+                Texture *entity1Texture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
+                entity1->add<Graphics>(new OpenGL::OpenGLSprite(entity1Texture));
                 //entity1->add<Behaviour>(new Dance2D());
                 entity1->add<Behaviour>(new MoveToMouseBehaviour());
                 entity1->getTransform().setScale(200, 200);

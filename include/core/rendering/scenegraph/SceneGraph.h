@@ -1,43 +1,62 @@
 //
-// Created by Paul on 02.05.2017.
+// Created by Paul on 04.11.2017.
 //
 
-#ifndef PAXENGINE3_SCENEGRAPH_H
-#define PAXENGINE3_SCENEGRAPH_H
+#ifndef PAXENGINE3_SCENEGRAPHNODE_H
+#define PAXENGINE3_SCENEGRAPHNODE_H
 
 #include <vector>
-#include "sort/RenderableSort.h"
-#include "../RenderOptions.h"
+#include <utility/stdutils.h>
+
+#include <core/rendering/Graphics.h>
+#include <core/rendering/interface/Renderable.h>
 
 namespace PAX {
-    class SceneGraph : private Renderable {
+    /**
+     *
+     * @tparam ChildrensType Has to be a subtype of Renderable
+     */
+    template<class ChildrensType>
+    class TypedSceneGraph : public Renderable {
     protected:
-        float _z = 0;
-
-        std::vector<SceneGraph*> _parents;
-        std::vector<Renderable*> _children;
+        std::vector<ChildrensType*> _children;
 
     public:
-        SceneGraph(float z = 0);
-        virtual ~SceneGraph();
+        TypedSceneGraph() {
 
-        const std::vector<SceneGraph*>& getParents() const;
-        const std::vector<Renderable*>& getChildren() const;
+        }
 
-        /// Takes ownership of renderable
-        void addRenderable(Renderable* renderable);
-        bool removeRenderable(Renderable* renderable);
+        virtual ~TypedSceneGraph() {
+            for (ChildrensType *child : _children)
+                delete child;
 
-        /// Takes ownership of child
-        void addChild(SceneGraph* child);
-        bool removeChild(SceneGraph* child);
+            _children.clear();
+        }
 
-        bool isEmpty();
+        void addChild(ChildrensType* child) {
+            _children.push_back(child);
+        }
 
-        virtual void render(RenderOptions &renderOptions) override;
-        void setZ(float z);
-        virtual float getZ() override;
+        bool removeChild(ChildrensType* child) {
+            return Util::removeFromVector(_children, child);
+        }
+
+        const std::vector<ChildrensType*>& getChildren() const {
+            return _children;
+        };
+
+        bool isEmpty() {
+            return _children.empty();
+        }
+
+        void render(RenderOptions &renderOptions) override {
+            for (Renderable *child : _children)
+                child->render(renderOptions);
+        }
     };
+
+    typedef TypedSceneGraph<Renderable> SceneGraph;
+    typedef TypedSceneGraph<Graphics> GraphicsSceneGraph;
 }
 
-#endif //PAXENGINE3_SCENEGRAPH_H
+#endif //PAXENGINE3_SCENEGRAPHNODE_H

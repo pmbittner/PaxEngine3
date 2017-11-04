@@ -11,7 +11,6 @@ namespace PAX {
     class Renderable {
     public:
         virtual void render(RenderOptions &renderOptions) = 0;
-        virtual float getZ() = 0;
     };
 }
 

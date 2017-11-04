@@ -7,6 +7,8 @@
 
 namespace PAX {
     Sprite::Sprite(Texture *texture, Mesh *mesh) : _texture(texture), _mesh(mesh) {
+        PAX_assertNotNull(texture, "Texture can't be null!")
+        PAX_assertNotNull(mesh, "Mesh can't be null!")
     }
 
     void Sprite::render(RenderOptions &renderOptions) {

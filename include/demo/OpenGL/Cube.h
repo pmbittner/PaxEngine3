@@ -78,12 +78,14 @@ namespace PAX {
             nameStream << "Cube " << color.x << ", " << color.y << ", " << color.z;
             Entity *e = new Entity(nameStream.str());
 
+            /*
             static std::string res = getResourcePath();
             static OpenGL::OpenGLMesh *mesh = createCube(withTexture);
             OpenGL::OpenGLShader *shader = nullptr;
             OpenGL::OpenGLTexture2D *tex = nullptr;
 
             if (withTexture) {
+
                 static OpenGL::OpenGLTexture2D *defaultTexture = new OpenGL::OpenGLTexture2D(res + "img/White16.png");
 
                 if (!texture.empty()) {
@@ -109,6 +111,7 @@ namespace PAX {
             sprite->setShader(shader);
             sprite->_color = color;
             e->add<Graphics>(sprite);
+             */
             return e;
         }
     }

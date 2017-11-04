@@ -25,12 +25,11 @@ set(CORE_SOURCE_FILES
         rendering/camera/PixelScreenProjection.cpp
         rendering/camera/FullPixelScreenProjection.cpp
         rendering/resource/Mesh.cpp
-        rendering/scenegraph/SceneGraph.cpp
         rendering/scenegraph/SceneGraphGenerator.cpp
         rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.cpp
         rendering/scenegraph/nodes/SortingNode.cpp
         rendering/scenegraph/nodes/ShadingNode.cpp
-        rendering/scenegraph/sort/RenderableSort.cpp
+        rendering/scenegraph/sort/GraphicsSort.cpp
 
         world/World.cpp
         world/WorldLayer.cpp
@@ -40,7 +39,7 @@ set(CORE_SOURCE_FILES
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp rendering/resource/Shader.cpp)
+        time/Time.cpp rendering/resource/Shader.cpp rendering/resource/Texture.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

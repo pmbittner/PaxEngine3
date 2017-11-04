@@ -10,7 +10,6 @@
 namespace PAX {
     class Mesh : public Renderable {
     public:
-        virtual float getZ() override;
     };
 }
 

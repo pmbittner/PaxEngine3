@@ -56,13 +56,13 @@ namespace PAX {
                 OpenGL::OpenGLSprite::Initialize();
                 Entity *paxLogo = new Entity("DemoGuiElement");
                 float w = 100, h = 100;
-                paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D(getResourcePath() + "img/PaxEngine3_128.png")));
+                paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((getResourcePath() + "img/PaxEngine3_128.png").c_str())));
                 paxLogo->add<Behaviour>(new Dance2D());
                 paxLogo->getTransform().setPosition(0, -res.y/2 + h, -1);
                 paxLogo->getTransform().setScale(w, h);
 
                 Entity* blackBar = new Entity("SplitScreenDivider");
-                blackBar->add<Graphics>(new OpenGL::OpenGLSprite(new OpenGL::OpenGLTexture2D(getResourcePath() + "img/Black16.png")));
+                blackBar->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((getResourcePath() + "img/Black16.png").c_str())));
                 blackBar->getTransform().setPosition(0, 0, -2);
                 blackBar->getTransform().setScale(5, res.y);
 

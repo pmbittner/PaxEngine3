@@ -5,12 +5,12 @@
 #include <core/rendering/scenegraph/nodes/SortingNode.h>
 
 namespace PAX {
-    SortingNode::SortingNode() : SceneGraph() {}
+    SortingNode::SortingNode() : GraphicsSceneGraph() {}
 
     SortingNode::~SortingNode() {}
 
     void SortingNode::render(RenderOptions &renderOptions) {
         _sorter.insertionSort(_children);
-        SceneGraph::render(renderOptions);
+        GraphicsSceneGraph::render(renderOptions);
     }
 }

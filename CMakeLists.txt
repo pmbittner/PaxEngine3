@@ -51,10 +51,9 @@ set(SOURCE_FILES
 
         include/core/rendering/resource/Shader.h
 
-        include/core/rendering/scenegraph/SceneGraph.h
         include/core/rendering/scenegraph/SceneGraphGenerator.h
-        include/core/rendering/scenegraph/sort/RenderableSort.h
-        include/core/rendering/scenegraph/sort/RenderableSortComparator.h
+        include/core/rendering/scenegraph/sort/GraphicsSort.h
+        include/core/rendering/scenegraph/sort/GraphicsSortComparator.h
 
         include/core/world/World.h
         include/core/world/WorldLayer.h
@@ -167,7 +166,7 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
@@ -184,14 +183,19 @@ if (ANDROID)
         #find_library(SDL2_LIBRARY NAMES SDL SDL2 libSDL2.so libSDL2 HINTS "${PROJECT_SOURCE_DIR}/lib/Android/SDL/armeabi-v7a")
         #set(SDL2_LIBRARY SDL2)
 else()
-        find_package(SDL2 REQUIRED)
-        include_directories(${SDL2_INCLUDE_DIR})
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIR})
 
-        #find_package(SDL2_image REQUIRED)
-        #include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+    set(WITH_SDL_IMAGE true)
 
-        #find_package(SDL2_ttf REQUIRED)
-        #include_directories(${SDL2_TTF_INCLUDE_DIR})
+    if(${WITH_SDL_IMAGE})
+        find_package(SDL2_image REQUIRED)
+        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+        add_definitions(-DPAX_WITH_SDLIMAGE)
+    endif()
+
+    #find_package(SDL2_ttf REQUIRED)
+    #include_directories(${SDL2_TTF_INCLUDE_DIR})
 endif()
 
 find_package(OpenGL REQUIRED)

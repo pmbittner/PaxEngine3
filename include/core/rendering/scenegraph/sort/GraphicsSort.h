@@ -6,16 +6,16 @@
 #define PAXENGINE3_RENDERABLESORT_H
 
 #include <vector>
-#include "../../interface/Renderable.h"
-#include "RenderableSortComparator.h"
+#include <core/rendering/Graphics.h>
+#include "GraphicsSortComparator.h"
 
 namespace PAX {
     namespace Sort {
-        class RenderableSort {
+        class GraphicsSort {
         private:
-            RenderableSortComparator* _comparator = nullptr;
+            GraphicsSortComparator* _comparator = nullptr;
 
-            void insertionSort(std::vector<Renderable *> &renderables, int l, int r);
+            void insertionSort(std::vector<Graphics*> &graphics, int l, int r);
 
         public:
 
@@ -25,15 +25,15 @@ namespace PAX {
              * rendering. The comparator will be owned to the RenderableSort-Object meaning that the RenderableSort
              * destructor will delete it.
              */
-            RenderableSort(RenderableSortComparator* comparator = new BackToFrontRenderableSortComparator);
-            ~RenderableSort();
+            GraphicsSort(GraphicsSortComparator* comparator = new BackToFrontGraphicsSortComparator);
+            ~GraphicsSort();
 
             /**
              * Sets a new comparator. The old one will be deleted.
              */
-            void setRenderableSortComparator(RenderableSortComparator* comparator);
+            void setGraphicsSortComparator(GraphicsSortComparator* comparator);
 
-            void insertionSort(std::vector<Renderable *> &renderables);
+            void insertionSort(std::vector<Graphics*> &graphics);
         };
     }
 }

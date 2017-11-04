@@ -7,7 +7,13 @@
 
 namespace PAX {
     class Texture {
+    protected:
+        int _width, _height;
+
     public:
+        int getWidth();
+        int getHeight();
+
         virtual void bind() = 0;
         virtual void unbind() = 0;
     };

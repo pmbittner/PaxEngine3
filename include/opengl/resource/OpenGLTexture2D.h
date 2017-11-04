@@ -14,11 +14,12 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLTexture2D : public Texture {
             GLuint _id;
-            int _w, _h;
 
         public:
-            OpenGLTexture2D(std::string path);
+            OpenGLTexture2D(GLuint id, int width = -1, int height = -1);
             ~OpenGLTexture2D();
+
+            GLuint getID();
 
             virtual void bind() override;
             virtual void unbind() override;

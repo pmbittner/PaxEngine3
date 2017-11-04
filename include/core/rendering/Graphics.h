@@ -5,10 +5,10 @@
 #ifndef PAXENGINE3_GRAPHICS_H
 #define PAXENGINE3_GRAPHICS_H
 
-#include <core/rendering/event/GraphicsShaderChangedEvent.h>
+#include <core/entity/EntityComponent.h>
 #include <core/event/EventHandler.h>
+#include <core/rendering/event/GraphicsShaderChangedEvent.h>
 #include "interface/Renderable.h"
-#include "../entity/EntityComponent.h"
 #include "resource/Shader.h"
 
 namespace PAX {
@@ -22,7 +22,7 @@ namespace PAX {
         Shader *getShader() const;
         void setShader(Shader *shader);
 
-        virtual float getZ() override;
+        virtual float getZ();
     };
 }
 

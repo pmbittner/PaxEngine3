@@ -12,14 +12,13 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLMesh;
         class OpenGLShader;
-        class OpenGLTexture2D;
 
         class OpenGLSprite : public Sprite {
             static OpenGLMesh *QuadMesh;
 
         public:
             static void Initialize();
-            OpenGLSprite(OpenGLTexture2D *texture);
+            OpenGLSprite(Texture *texture);
 
             virtual void render(RenderOptions &options) override;
         };

@@ -9,10 +9,10 @@
 
 namespace PAX {
     namespace Sort {
-        class RenderableSortComparator {
+        class GraphicsSortComparator {
         public:
-            virtual ~RenderableSortComparator() {}
-            virtual bool smaller(Renderable* a, Renderable* b) = 0;
+            virtual ~GraphicsSortComparator() {}
+            virtual bool smaller(Graphics* a, Graphics* b) = 0;
         };
 
         /**
@@ -20,11 +20,11 @@ namespace PAX {
          * meaning Renderables in front will be rendered first.
          * This is the comparator to use for 3D applications.
          */
-        class FrontToBackRenderableSortComparator : public RenderableSortComparator {
+        class FrontToBackGraphicsSortComparator : public GraphicsSortComparator {
         public:
-            virtual ~FrontToBackRenderableSortComparator() {}
+            virtual ~FrontToBackGraphicsSortComparator() {}
 
-            virtual inline bool smaller(Renderable* a, Renderable* b) override {
+            virtual inline bool smaller(Graphics* a, Graphics* b) override {
                 return a->getZ() < b->getZ();
             }
         };
@@ -34,11 +34,11 @@ namespace PAX {
          * Renderables far away will be rendered first.
          * This is the comparator to use for 2D applications.
          */
-        class BackToFrontRenderableSortComparator : public RenderableSortComparator {
+        class BackToFrontGraphicsSortComparator : public GraphicsSortComparator {
         public:
-            virtual ~BackToFrontRenderableSortComparator() {}
+            virtual ~BackToFrontGraphicsSortComparator() {}
 
-            virtual inline bool smaller(Renderable* a, Renderable* b) override {
+            virtual inline bool smaller(Graphics* a, Graphics* b) override {
                 return a->getZ() > b->getZ();
             }
         };

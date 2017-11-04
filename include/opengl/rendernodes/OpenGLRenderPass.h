@@ -9,8 +9,7 @@
 
 namespace PAX {
     namespace OpenGL{
-            class OpenGLRenderPass :
-            public SceneGraph {
+            class OpenGLRenderPass : public SceneGraph {
                 public:
                 OpenGLRenderPass();
                 void initialize();
