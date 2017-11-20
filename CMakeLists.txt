@@ -133,7 +133,7 @@ set(SOURCE_FILES
         include/sdl/opengl/SDLOpenGLEngineSetup.h
         include/core/rendering/Viewport.h
         include/opengl/OpenGLViewport.h
-        include/core/rendering/Sprite.h
+        include/core/rendering/TexturedMesh.h
         include/core/rendering/resource/Mesh.h
         include/core/rendering/resource/Texture.h
         include/opengl/resource/OpenGLTexture2D.h
@@ -170,7 +170,7 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
