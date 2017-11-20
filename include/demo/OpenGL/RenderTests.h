@@ -62,10 +62,13 @@ namespace PAX {
                 );
                 cameraEntity->add<Camera>(camera);
                 cameraEntity->getTransform().setZ(1);
+                LOG(INFO) << "RenderTests: Camera initialized";
 
                 Entity *entity1 = new Entity();
                 Texture *entity1Texture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
+                LOG(INFO) << "RenderTests: Texture loaded";
                 entity1->add<Graphics>(new OpenGL::OpenGLSprite(entity1Texture));
+                LOG(INFO) << "RenderTests: Sprite created";
                 //entity1->add<Behaviour>(new Dance2D());
                 entity1->add<Behaviour>(new MoveToMouseBehaviour());
                 entity1->getTransform().setScale(200, 200);
