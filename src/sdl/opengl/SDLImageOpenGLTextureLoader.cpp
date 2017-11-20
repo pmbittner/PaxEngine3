@@ -3,13 +3,15 @@
 //
 
 #include <sdl/opengl/SDLImageOpenGLTextureLoader.h>
-#include <GL/glew.h>
 #include <opengl/resource/OpenGLTexture2D.h>
 
-#include <SDL.h>
+#ifdef PAX_WITH_SDLIMAGE
 #include <SDL_image.h>
+#endif
+
 #include <lib/easylogging++.h>
 #include <utility/io/FormatChecker.h>
+#include <assert.h>
 
 namespace PAX {
     namespace OpenGL {
@@ -22,7 +24,6 @@ namespace PAX {
         }
 
         bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(const char *path) {
-            // BMP, GIF, JPEG, LBM, PCX, PNG, PNM, SVG, TGA, TIFF, WEBP, XCF, XPM, XV
             Util::FormatChecker formats({
                     "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
             });
@@ -65,7 +66,8 @@ namespace PAX {
 
             return ogltexture;
 #else
-            return new OpenGLTexture2D(0);
+            assert(false);
+            return nullptr;
 #endif
         }
 
