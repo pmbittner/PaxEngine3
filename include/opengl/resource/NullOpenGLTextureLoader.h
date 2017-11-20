@@ -10,10 +10,10 @@
 
 namespace PAX {
     namespace OpenGL {
-        class OpenGLNullTextureLoader : public ResourceLoader<Texture, const char*> {
+        class NullOpenGLTextureLoader : public ResourceLoader<Texture, const char*> {
         public:
-            OpenGLNullTextureLoader();
-            ~OpenGLNullTextureLoader();
+            NullOpenGLTextureLoader();
+            ~NullOpenGLTextureLoader();
 
             bool free(Texture *res) override;
             bool canLoad(const char * path) override;

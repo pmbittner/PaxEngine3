@@ -5,6 +5,7 @@
 #include <lib/easylogging++.h>
 #include <core/Services.h>
 #include <opengl/resource/OpenGLShaderLoader.h>
+#include <opengl/resource/NullOpenGLTextureLoader.h>
 #include <opengl/io/FreeImageOpenGLTextureLoader.h>
 #include <sdl/opengl/SDLImageOpenGLTextureLoader.h>
 #include "../../../include/sdl/opengl/SDLOpenGLEngineSetup.h"
@@ -30,13 +31,20 @@ namespace PAX {
                 Services::GetResources().registerLoader<Shader>(new PAX::OpenGL::OpenGLShaderLoader());
 
 #ifdef PAX_WITH_FREEIMAGE
+#define PAX_IMAGE_LOADER_FOUND
                 LOG(INFO) << "    FreeImageOpenGLTextureLoader";
                 Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::FreeImageOpenGLTextureLoader());
 #endif
 
 #ifdef PAX_WITH_SDLIMAGE
+#define PAX_IMAGE_LOADER_FOUND
                 LOG(INFO) << "    SDLImageOpenGLTextureLoader";
                 Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::SDLImageOpenGLTextureLoader());
+#endif
+
+#ifndef PAX_IMAGE_LOADER_FOUND
+                LOG(INFO) << "    NullImageOpenGLTextureLoader (No real image loaders were registered!)";
+                Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::NullOpenGLTextureLoader());
 #endif
             }
         }

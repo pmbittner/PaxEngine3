@@ -2,29 +2,66 @@
 // Created by bittner on 11/20/17.
 //
 
-#include <opengl/resource/OpenGLNullTextureLoader.h>
+#include <opengl/resource/NullOpenGLTextureLoader.h>
 #include <opengl/resource/OpenGLTexture2D.h>
+#include <vector>
+#include <utility/math/Conversion.h>
 
 namespace PAX {
     namespace OpenGL {
-        OpenGLNullTextureLoader::OpenGLNullTextureLoader() {
+        NullOpenGLTextureLoader::NullOpenGLTextureLoader() {
 
         }
 
-        OpenGLNullTextureLoader::~OpenGLNullTextureLoader() {
+        NullOpenGLTextureLoader::~NullOpenGLTextureLoader() {
 
         }
 
-        bool OpenGLNullTextureLoader::canLoad(const char *path) {
+        bool NullOpenGLTextureLoader::canLoad(const char *path) {
             return true;
         }
 
-        PAX::Texture *OpenGLNullTextureLoader::load(const char *path) {
+        PAX::Texture *NullOpenGLTextureLoader::load(const char *path) {
             int w = 16;
             int h = w;
 
             int mode = GL_RGB;
-            char pixels[w * h * 3];
+            int pixelCount = w * h;
+            char pixels[pixelCount * 3];
+
+            struct Pixel { int x; int y; };
+            int xoffset = 6;//2 for 8x8 pixels
+            int yoffset = 5;//1 for 8x8 pixels
+            std::vector<Pixel> errorLetter = {
+                    {0, 0},
+                    {1, 0},
+                    {2, 0},
+                    {3, 0},
+                    {0, 1},
+                    {0, 2},
+                    {1, 2},
+                    {2, 2},
+                    {0, 3},
+                    {0, 4},
+                    {0, 5},
+                    {1, 5},
+                    {2, 5},
+                    {3, 5},
+            };
+
+            /*
+            for (int i = 0; i < pixelCount; ++i) {
+                int index = 3*i;
+                pixels[index] = pixels[index+1] = pixels[index+2] = 0;
+            }
+            //*/
+
+            for (Pixel& p: errorLetter) {
+                int index = 3 * PAX::Util::Conversion::coordinatesToIndex(w, h, p.x + xoffset, p.y + yoffset);
+                pixels[index] = 255;
+                pixels[index + 1] = 0;
+                pixels[index + 2] = 0;
+            }
 
             GLuint id;
             glGenTextures(1, &id);
@@ -35,14 +72,14 @@ namespace PAX {
 
             glPixelStorei(GL_UNPACK_ALIGNMENT, 8);
             glTexImage2D(GL_TEXTURE_2D, 0, mode, ogltexture->getWidth(), ogltexture->getHeight(), 0, mode, GL_UNSIGNED_BYTE, &pixels);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             ogltexture->unbind();
 
             return ogltexture;
         }
 
-        bool OpenGLNullTextureLoader::free(Texture *res) {
+        bool NullOpenGLTextureLoader::free(Texture *res) {
             delete res;
         }
     }
