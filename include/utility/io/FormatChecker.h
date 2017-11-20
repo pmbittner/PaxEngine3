@@ -24,7 +24,7 @@ namespace PAX {
 
             bool check(std::string extension) {
                 std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
-                return Util::vectorContains(&_formats, extension);
+                return Util::vectorContains(_formats, extension);
             }
 
             bool check(const char* extension) {

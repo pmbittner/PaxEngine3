@@ -26,7 +26,7 @@ namespace PAX {
 
         template<class T>
         inline bool removeFromVector(std::vector<T> &vector, const T &element) {
-            auto iter = std::find(vector.begin(), vector.end(), element);
+            typename std::vector<T>::iterator iter = std::find(vector.begin(), vector.end(), element);
             if (iter != vector.end()) {
                 vector.erase(iter);
                 return true;
@@ -35,8 +35,8 @@ namespace PAX {
         }
 
         template<class T>
-        inline bool vectorContains(std::vector<T> *vector, const T element) {
-            return std::find(vector->begin(), vector->end(), element) != vector->end();
+        inline bool vectorContains(std::vector<T> &vector, const T &element) {
+            return std::find(vector.begin(), vector.end(), element) != vector.end();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace PAX {
     }
 
     bool Game::isRegistered(World *world) {
-        return Util::vectorContains(&_worlds, world);
+        return Util::vectorContains(_worlds, world);
     }
 
     void Game::registerWorld(World *world) {
