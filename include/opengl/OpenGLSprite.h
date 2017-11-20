@@ -6,14 +6,14 @@
 #define PAXENGINE3_OPENGLSPRITE_H
 
 #include <GL/glew.h>
-#include "../core/rendering/Sprite.h"
+#include "core/rendering/TexturedMesh.h"
 
 namespace PAX {
     namespace OpenGL {
         class OpenGLMesh;
         class OpenGLShader;
 
-        class OpenGLSprite : public Sprite {
+        class OpenGLSprite : public TexturedMesh {
             static OpenGLMesh *QuadMesh;
 
         public:

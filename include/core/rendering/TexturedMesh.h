@@ -11,12 +11,12 @@
 #include "resource/Shader.h"
 
 namespace PAX {
-    class Sprite : public Graphics {
+    class TexturedMesh : public Graphics {
         Texture *_texture;
         Mesh *_mesh;
 
     public:
-        Sprite(Texture *texture, Mesh *mesh);
+        TexturedMesh(Texture *texture, Mesh *mesh);
         virtual void render(RenderOptions &options) override;
 
         Texture *getTexture() const;

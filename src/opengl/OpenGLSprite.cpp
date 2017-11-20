@@ -46,7 +46,7 @@ namespace PAX {
             QuadMesh->upload();
         }
 
-        OpenGLSprite::OpenGLSprite(Texture *texture) : Sprite(texture, QuadMesh) {
+        OpenGLSprite::OpenGLSprite(Texture *texture) : TexturedMesh(texture, QuadMesh) {
             Shader* shader = Services::GetResources().loadOrGet<Shader>(
                     (getResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
                     (getResourcePath() + "shader/gui/PlainTexture.frag").c_str()
@@ -75,7 +75,7 @@ namespace PAX {
             glActiveTexture(GL_TEXTURE0);
             shader->setUniform("textureSampler", 0);
 
-            Sprite::render(renderOptions);
+            TexturedMesh::render(renderOptions);
         }
     }
 }

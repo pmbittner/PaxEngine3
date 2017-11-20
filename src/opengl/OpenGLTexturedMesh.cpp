@@ -13,7 +13,7 @@
 
 namespace PAX {
     namespace OpenGL {
-        OpenGLTexturedMesh::OpenGLTexturedMesh(OpenGLTexture2D *texture, OpenGLMesh *mesh) : Sprite(texture, mesh) {
+        OpenGLTexturedMesh::OpenGLTexturedMesh(OpenGLTexture2D *texture, OpenGLMesh *mesh) : TexturedMesh(texture, mesh) {
             Shader* meshShader = Services::GetResources().loadOrGet<Shader>("", "");
             meshShader->cacheUniforms({
                                               "projection",
@@ -65,7 +65,7 @@ namespace PAX {
             }
              */
 
-            Sprite::render(renderOptions);
+            TexturedMesh::render(renderOptions);
         }
     }
 }

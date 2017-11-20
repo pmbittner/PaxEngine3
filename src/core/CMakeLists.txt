@@ -16,7 +16,7 @@ set(CORE_SOURCE_FILES
 
         rendering/Renderer.cpp
         rendering/Viewport.cpp
-        rendering/Sprite.cpp
+        rendering/TexturedMesh.cpp
         rendering/Graphics.cpp
         rendering/RenderOptions.cpp
         rendering/camera/Camera.cpp
