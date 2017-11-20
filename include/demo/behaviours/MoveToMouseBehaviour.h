@@ -36,9 +36,14 @@ namespace PAX {
             Transform &t = getOwner()->getTransform();
             glm::vec2 pos = t.xy();
             if (_dest != pos) {
-                glm::vec2 n = glm::normalize(_dest - pos);
-                glm::vec2 v = _speed * Time::DeltaF * n;
-                t.setPosition(pos + v);
+                glm::vec2 dist = _dest - pos;
+                if (glm::length(dist) < 2.f) {
+                    t.setPosition(_dest);
+                } else {
+                    glm::vec2 n = glm::normalize(dist);
+                    glm::vec2 v = _speed * Time::DeltaF * n;
+                    t.setPosition(pos + v);
+                }
             }
         }
 
