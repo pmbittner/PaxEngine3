@@ -5,10 +5,12 @@
 #ifndef PAXENGINE3_TERRAINGENERATOR_H
 #define PAXENGINE3_TERRAINGENERATOR_H
 
+#include "Terrain.h"
+
 namespace PAX {
     class TerrainGenerator {
     public:
-
+        Terrain* generateTerrain();
     };
 }
 
