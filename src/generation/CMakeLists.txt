@@ -1,0 +1,2 @@
+add_library(paxutil StringUtils.cpp io/CSVSettingsLoader.cpp io/CSVRow.cpp)
+target_link_libraries(paxutil)
