@@ -11,6 +11,10 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${PLATFORM_FLAGS}")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+### OPTIONS #############################################
+option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+
+### PATHS ###############################################
 set(MAIN_FILE Default_main.cpp)
 
 if (ANDROID)
@@ -166,7 +170,7 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
@@ -186,9 +190,7 @@ else()
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
 
-    set(WITH_SDL_IMAGE true)
-
-    if(${WITH_SDL_IMAGE})
+    if(WITH_SDL_IMAGE)
         find_package(SDL2_image REQUIRED)
         include_directories(${SDL2_IMAGE_INCLUDE_DIR})
         add_definitions(-DPAX_WITH_SDLIMAGE)
