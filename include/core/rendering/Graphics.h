@@ -21,8 +21,6 @@ namespace PAX {
 
         Shader *getShader() const;
         void setShader(Shader *shader);
-
-        virtual float getZ();
     };
 }
 

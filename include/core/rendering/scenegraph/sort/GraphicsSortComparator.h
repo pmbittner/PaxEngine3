@@ -6,6 +6,7 @@
 #define PAXENGINE3_RENDERABLESORTCOMPARATOR_H
 
 #include "../../interface/Renderable.h"
+#include <core/entity/Entity.h>
 
 namespace PAX {
     namespace Sort {
@@ -25,7 +26,7 @@ namespace PAX {
             virtual ~FrontToBackGraphicsSortComparator() {}
 
             virtual inline bool smaller(Graphics* a, Graphics* b) override {
-                return a->getZ() < b->getZ();
+                return a->getOwner()->getTransform().z() < b->getOwner()->getTransform().z();
             }
         };
 
@@ -39,7 +40,7 @@ namespace PAX {
             virtual ~BackToFrontGraphicsSortComparator() {}
 
             virtual inline bool smaller(Graphics* a, Graphics* b) override {
-                return a->getZ() > b->getZ();
+                return a->getOwner()->getTransform().z() > b->getOwner()->getTransform().z();
             }
         };
     }

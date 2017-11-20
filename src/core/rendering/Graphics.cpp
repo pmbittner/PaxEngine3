@@ -6,10 +6,6 @@
 #include "../../../include/core/entity/Entity.h"
 
 namespace PAX {
-    float Graphics::getZ() {
-        return getOwner()->getTransform().z();
-    }
-
     Shader *Graphics::getShader() const {
         return _shader;
     }
