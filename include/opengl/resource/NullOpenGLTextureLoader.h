@@ -7,10 +7,14 @@
 
 #include <core/rendering/resource/Texture.h>
 #include <core/io/resources/ResourceLoader.h>
+#include "OpenGLTexture2D.h"
 
 namespace PAX {
     namespace OpenGL {
         class NullOpenGLTextureLoader : public ResourceLoader<Texture, const char*> {
+        private:
+            OpenGLTexture2D *_texture = nullptr;
+
         public:
             NullOpenGLTextureLoader();
             ~NullOpenGLTextureLoader();
