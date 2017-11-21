@@ -23,6 +23,9 @@ namespace PAX {
         World *_activeWorld = nullptr;
 
     public:
+        Game();
+        virtual ~Game();
+
         EventHandler<ActiveWorldChangedEvent&> ActiveWorldChanged;
         EventHandler<WorldEvent&> WorldRegistered;
         EventHandler<WorldEvent&> WorldUnregistered;

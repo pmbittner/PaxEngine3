@@ -194,6 +194,6 @@ PAX::Engine& PAX::Engine::Instance() {
 }
 
 bool PAX::Engine::dispose() {
-    //delete _game; // takes way too long :(
+    delete _game; // takes way too long :(
     return true;
 }

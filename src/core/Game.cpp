@@ -9,6 +9,9 @@
 #include "../../include/core/system/BehaviourSystem.h"
 
 namespace PAX {
+    Game::Game() {}
+    Game::~Game() {}
+
     void Game::initialize() {
         addSystem(new BehaviourSystem);
 

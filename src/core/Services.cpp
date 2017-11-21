@@ -13,6 +13,8 @@ namespace PAX {
     }
 
     Services::~Services() {
+        delete _renderFactory;
+        delete _inputSystem;
         _instance = nullptr;
     }
 

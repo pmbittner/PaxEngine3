@@ -16,10 +16,6 @@
 #include "../include/demo/OpenGL/RenderTests.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
-    /*
-    PAX::ResourcesTest();
-    //*/
-
     int exitcode = 0;
 
     EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;
@@ -28,7 +24,6 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     Engine &engine = Engine::Instance();
     engine.initialize(setup, game);
     exitcode = engine.run();
-    engine.dispose();
 
     return exitcode;
 }

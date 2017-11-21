@@ -15,6 +15,7 @@
 namespace PAX {
     namespace Demo {
         class RenderTests : public Game {
+            Texture *cgTexture;
 
             void initRendering() {
                 SDL::OpenGL::SDLOpenGLRenderPass *sdl = new SDL::OpenGL::SDLOpenGLRenderPass();
@@ -42,6 +43,10 @@ namespace PAX {
 
             }
 
+            ~RenderTests() {
+                Services::GetResources().free(cgTexture);
+            }
+
             virtual void initialize() override {
                 // load graphic settings
                 Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
@@ -65,9 +70,9 @@ namespace PAX {
                 LOG(INFO) << "RenderTests: Camera initialized";
 
                 Entity *entity1 = new Entity();
-                Texture *entity1Texture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
+                cgTexture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
                 LOG(INFO) << "RenderTests: Texture loaded";
-                entity1->add<Graphics>(new OpenGL::OpenGLSprite(entity1Texture));
+                entity1->add<Graphics>(new OpenGL::OpenGLSprite(cgTexture));
                 LOG(INFO) << "RenderTests: Sprite created";
                 //entity1->add<Behaviour>(new Dance2D());
                 entity1->add<Behaviour>(new MoveToMouseBehaviour());
