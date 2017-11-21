@@ -43,7 +43,7 @@ namespace PAX {
 #endif
 
 #ifndef PAX_IMAGE_LOADER_FOUND
-                LOG(INFO) << "    NullImageOpenGLTextureLoader (No real image loaders were registered!)";
+                LOG(WARNING) << "    NullImageOpenGLTextureLoader (No real image loaders were registered!)";
                 Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::NullOpenGLTextureLoader());
 #endif
             }
