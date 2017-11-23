@@ -34,7 +34,7 @@ namespace PAX {
     private:
         std::string _name;
         Transform _transform;
-        std::unordered_map<std::type_index, void*> _components;
+        std::unordered_map<bool, std::unordered_map<std::type_index, void*>> _components;
 
         Entity *_parent = nullptr;
         std::vector<Entity*> _children;
@@ -57,12 +57,12 @@ namespace PAX {
         WorldLayer* getWorldLayer();
 
         template<typename ComponentClass>
-        inline bool has() const {
-            return _components.find(std::type_index(typeid(ComponentClass))) != _components.end();
+        inline bool has() {
+            return _components[ComponentClass::IsMultiple].find(std::type_index(typeid(ComponentClass))) != _components[ComponentClass::IsMultiple].end();
         }
 
         template<typename FirstComponentClass, typename SecondComponentClass, typename... ComponentClass>
-        inline bool has() const {
+        inline bool has() {
             bool X[] = {has<FirstComponentClass>(), has<SecondComponentClass>(), has<ComponentClass>()...};
 
             int len = sizeof...(ComponentClass) + 2;
@@ -75,8 +75,8 @@ namespace PAX {
         template<typename ComponentClass, typename return_type = Util::conditional_t_cpp14<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
         inline const return_type get() {
             std::type_index type = std::type_index(typeid(ComponentClass));
-            assert(_components[type]);
-            return static_cast<return_type>(_components[type]);
+            assert(_components[ComponentClass::IsMultiple][type]);
+            return static_cast<return_type>(_components[ComponentClass::IsMultiple][type]);
         }
 
         template<typename ComponentClass>
@@ -101,20 +101,20 @@ namespace PAX {
             if (ComponentClass::IsMultiple) {
                 std::vector<ComponentClass*>* result;
 
-                if (!_components[type]) {
+                if (!_components[true][type]) {
                     result = new std::vector<ComponentClass*>();
-                    _components[type] = result;
+                    _components[true][type] = result;
                 } else {
-                    result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
+                    result = static_cast<std::vector<ComponentClass*>*>(_components[true][type]);
                 }
 
                 result->push_back(component);
             } else {
-                if (_components[type]) {
+                if (_components[false][type]) {
                     LOG(ERROR) << "Trying to add instance of " << type.name() << ", that does not allow multiple instances!";
                     return false;
                 } else {
-                    _components[type] = component;
+                    _components[false][type] = component;
                 }
             }
 
@@ -131,23 +131,23 @@ namespace PAX {
         bool remove(ComponentClass* component) {
             std::type_index type = std::type_index(typeid(ComponentClass));
 
-            if (_components[type]) {
+            if (_components[ComponentClass::IsMultiple][type]) {
                 if (ComponentClass::IsMultiple) {
-                    std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[type]);
-                    if (!Util::removeFromVector(result, component))
+                    std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[true][type]);
+                    if (!Util::removeFromVector(*result, component))
                         return false;
 
                     if (result->empty()) {
-                        auto iterator = _components.find(type);
-                        _components.erase(iterator);
+                        auto iterator = _components[true].find(type);
+                        _components[true].erase(iterator);
                         delete result;
                     }
                 } else {
-                    if (_components[type] != component)
+                    if (_components[false][type] != component)
                         return false;
 
-                    auto iterator = _components.find(type);
-                    _components.erase(iterator);
+                    auto iterator = _components[false].find(type);
+                    _components[false].erase(iterator);
                 }
 
                 component->_owner = nullptr;

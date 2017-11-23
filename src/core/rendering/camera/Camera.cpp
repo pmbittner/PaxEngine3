@@ -7,6 +7,8 @@
 #include "../../../../include/utility/MacroIncludes.h"
 
 namespace PAX {
+    constexpr bool Camera::IsMultiple;
+
     Camera::Camera(Viewport *viewport, Projection *projection) : _viewport(viewport), _projection(projection) {
         PAX_assertNotNull(viewport, "Viewport can't be null!");
         PAX_assertNotNull(projection, "Projection can't be null!");

@@ -48,6 +48,10 @@ namespace PAX {
         return Instance()._resources;
     }
 
+    EntityComponentService& Services::GetEntityComponentService() {
+        return Instance()._entityComponentService;
+    }
+
     void Services::update() {
         _inputSystem->update();
     }

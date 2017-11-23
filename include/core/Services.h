@@ -7,6 +7,7 @@
 
 #include <core/io/resources/Resources.h>
 #include <utility/TypeMap.h>
+#include <core/entity/EntityComponentService.h>
 
 #include "rendering/RenderFactory.h"
 #include "event/EventService.h"
@@ -24,6 +25,7 @@ namespace PAX {
         TypeMap<void*> _registeredServices;
 
         EventService _eventService;
+        EntityComponentService _entityComponentService;
         Resources _resources;
 
         InputSystem* _inputSystem = nullptr;
@@ -59,6 +61,7 @@ namespace PAX {
         static RenderFactory* GetRenderFactory();
 
         static Resources& GetResources();
+        static EntityComponentService& GetEntityComponentService();
         static EventService& GetEventService();
 
         void update();

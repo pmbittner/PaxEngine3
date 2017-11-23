@@ -25,9 +25,17 @@ namespace PAX {
             return _map.find(getType<Value>()) != _map.end();
         }
 
+        inline bool contains(std::type_index index) const {
+            return _map.find(index) != _map.end();
+        }
+
         template<typename Key>
         inline ValueType& get() {
             return _map[getType<Key>()];
+        }
+
+        ValueType& get(std::type_index index) {
+            return _map[index];
         }
 
         template<typename Key>

@@ -39,7 +39,7 @@ set(CORE_SOURCE_FILES
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp rendering/resource/Shader.cpp rendering/resource/Texture.cpp)
+        time/Time.cpp rendering/resource/Shader.cpp rendering/resource/Texture.cpp entity/component/Behaviour.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

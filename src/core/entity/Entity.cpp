@@ -3,6 +3,7 @@
 //
 
 #include <typeindex>
+#include <core/Services.h>
 #include "../../../include/core/entity/Entity.h"
 #include "../../../include/lib/easylogging++.h"
 
@@ -13,7 +14,19 @@ namespace PAX {
     }
 
     Entity::~Entity() {
-        LOG(WARNING) << "Entity destructor does not deallocate Entity Components!";
+        for (std::pair<const std::type_index, void*>& kv : _components[true]) {
+            std::vector<EntityComponent*> *vector = static_cast<std::vector<EntityComponent*>*>(kv.second);
+            for (EntityComponent* component : *vector) {
+                Services::GetEntityComponentService().free(kv.first, component);
+            }
+        }
+        _components[true].clear();
+
+        for (std::pair<const std::type_index, void*>& kv : _components[false]) {
+            Services::GetEntityComponentService().free(kv.first, static_cast<EntityComponent*>(kv.second));
+        }
+        _components[false].clear();
+
         _components.clear();
     }
 

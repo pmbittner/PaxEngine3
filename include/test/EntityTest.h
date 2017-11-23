@@ -10,7 +10,7 @@
 #include "../core/entity/Entity.h"
 
 #include "../test/trials/enum.h"
-#include "../core/entity/EntityComponentPool.h"
+#include "core/entity/component/providers/EntityComponentPool.h"
 
 namespace PAX {
     namespace TEST {
