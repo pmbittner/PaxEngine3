@@ -5,16 +5,17 @@
 #ifndef PAXENGINE3_ENTITYCOMPONENTSERVICE_H
 #define PAXENGINE3_ENTITYCOMPONENTSERVICE_H
 
-#include <utility/TypeMap.h>
 #include <assert.h>
-#include <utility/MacroIncludes.h>
-#include <core/entity/component/providers/EntityComponentNewAllocator.h>
+#include <utility>
+
+#include <utility/TypeMap.h>
+#include <core/entity/component/providers/EntityComponentMallocAllocator.h>
 #include "EntityComponentProvider.h"
 #include "EntityComponent.h"
 
 namespace PAX {
     class EntityComponentService {
-        TypeMap<EntityComponentProvider<EntityComponent>*> _registeredProviders;
+        TypeMap<void*> _registeredProviders;
 
     private:
         template<class EntityComponentType>
@@ -24,11 +25,13 @@ namespace PAX {
             return nullptr;
         }
 
+        /*
         EntityComponentProvider<EntityComponent>* getProviderFor(std::type_index index) {
             if (_registeredProviders.contains(index))
-                return _registeredProviders.get(index);
+                return static_cast<EntityComponentProvider<EntityComponent>*>(_registeredProviders.get(index));
             return nullptr;
         }
+        //*/
 
     public:
         template<class EntityComponentType>
@@ -45,29 +48,33 @@ namespace PAX {
          * This will return an instance of the given EntityComponent type.
          * If no provider for the given type is registered, a EntityComponentNewAllocator will be registered for it.
          */
-        template<class EntityComponentType>
-        EntityComponentType* create() {
+        template<class EntityComponentType, typename... Args>
+        EntityComponentType* create(Args... args) {
             EntityComponentProvider<EntityComponentType>* provider = getProviderFor<EntityComponentType>();
 
             if (!provider) {
-                provider = new EntityComponentNewAllocator<EntityComponentType>();
+                provider = new EntityComponentMallocAllocator<EntityComponentType>();
                 registerProvider<EntityComponentType>(provider);
             }
 
-            return provider->create();
+            EntityComponentType* memory = provider->allocate();
+            provider->construct(memory, std::forward<Args>(args)...);
+            return memory;
         }
 
         template<class EntityComponentType>
         void free(EntityComponentType *component) {
             EntityComponentProvider<EntityComponentType>* provider = getProviderFor<EntityComponentType>();
             assert(provider && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
-            provider->free(component);
+            provider->deallocate(component);
         }
 
         void free(std::type_index index, EntityComponent *component) {
+            /*
             EntityComponentProvider<EntityComponent>* provider = getProviderFor(index);
             assert(provider && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
-            provider->free(component);
+            provider->deallocate(component);
+            //*/
         }
     };
 }

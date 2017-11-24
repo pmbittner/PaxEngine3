@@ -9,8 +9,14 @@ namespace PAX {
     template<class EntityComponentType>
     class EntityComponentProvider {
     public:
-        virtual EntityComponentType* create() = 0;
-        virtual void free(EntityComponentType *component) = 0;
+        template<typename... Args>
+        EntityComponentType* construct(EntityComponentType* component, Args... args) {
+            return new (component) EntityComponentType(std::forward<Args>(args)...);
+        }
+
+        virtual EntityComponentType* allocate() = 0;
+
+        virtual void deallocate(EntityComponentType *component) = 0;
     };
 }
 

@@ -3,6 +3,7 @@
 //
 
 #include <test/ResourcesTest.h>
+#include <test/trials/AllocatorConstructorTest.h>
 
 #include "../include/EngineMain.h"
 
@@ -16,6 +17,10 @@
 #include "../include/demo/OpenGL/RenderTests.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {
+    //*
+    PAX::Test::Allocator::test();
+    //*/
+
     int exitcode = 0;
 
     EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;

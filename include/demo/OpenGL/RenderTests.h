@@ -48,6 +48,8 @@ namespace PAX {
             }
 
             virtual void initialize() override {
+                EntityComponentService &componentAllocator = Services::GetEntityComponentService();
+
                 // load graphic settings
                 Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
                 int resX = graphicSettings.getInt("resolutionWidth");
@@ -61,7 +63,7 @@ namespace PAX {
                 World *world = new World();
 
                 Entity *cameraEntity = new Entity();
-                Camera *camera = new Camera(
+                Camera *camera = componentAllocator.create<Camera>(
                         new OpenGL::OpenGLViewport(0, 0, resX, resY),
                         new FullPixelScreenProjection()
                 );
@@ -71,11 +73,9 @@ namespace PAX {
 
                 Entity *entity1 = new Entity();
                 cgTexture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
-                LOG(INFO) << "RenderTests: Texture loaded";
-                entity1->add<Graphics>(new OpenGL::OpenGLSprite(cgTexture));
-                LOG(INFO) << "RenderTests: Sprite created";
+                entity1->add<Graphics>(componentAllocator.create<OpenGL::OpenGLSprite>(cgTexture));
                 //entity1->add<Behaviour>(new Dance2D());
-                entity1->add<Behaviour>(new MoveToMouseBehaviour());
+                entity1->add<Behaviour>(componentAllocator.create<MoveToMouseBehaviour>());
                 entity1->getTransform().setScale(200, 200);
                 LOG(INFO) << "RenderTests: Entities initialized";
 
