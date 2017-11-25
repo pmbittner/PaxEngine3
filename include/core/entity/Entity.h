@@ -32,7 +32,6 @@ namespace PAX {
         friend class WorldLayer;
 
     private:
-        std::string _name;
         Transform _transform;
         std::unordered_map<bool, std::unordered_map<std::type_index, void*>> _components;
 
@@ -46,7 +45,7 @@ namespace PAX {
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
 
-        Entity(std::string name = "Entity");
+        Entity();
         ~Entity();
 
         Transform& getTransform();
@@ -161,9 +160,6 @@ namespace PAX {
 
             return false;
         }
-
-        std::string getName();
-        void setName(std::string name);
     };
 }
 

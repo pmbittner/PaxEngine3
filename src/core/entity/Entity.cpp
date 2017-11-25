@@ -8,8 +8,7 @@
 #include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
-    Entity::Entity(std::string name) {
-        _name = name;
+    Entity::Entity() {
         OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&_localEventService);
     }
 
@@ -67,13 +66,5 @@ namespace PAX {
 
     EventService& Entity::getEventService() {
         return _localEventService;
-    }
-
-    std::string Entity::getName() {
-        return _name;
-    }
-
-    void Entity::setName(std::string name) {
-        _name = name;
     }
 }

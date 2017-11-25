@@ -40,7 +40,7 @@ set(SOURCE_FILES
 
         include/core/entity/Entity.h
         include/core/entity/EntityComponent.h
-        include/core/entity/component/providers/EntityComponentPool.h
+        include/core/entity/component/allocators/EntityComponentPool.h
         include/core/entity/Transform.h
 
         include/core/system/EngineSystem.h
@@ -96,7 +96,7 @@ set(SOURCE_FILES
         include/core/world/event/EntityDespawnedEvent.h
         include/test/EventServiceTest.h
         include/core/event/EventListener.h
-        include/core/entity/EntityComponentProvider.h
+        include/core/entity/EntityComponentAllocator.h
         include/core/entity/event/EntityComponentAddedEvent.h
         include/core/entity/event/EntityComponentEvent.h
         include/core/entity/event/EntityComponentRemovedEvent.h
@@ -170,7 +170,7 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/providers/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/allocators/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
