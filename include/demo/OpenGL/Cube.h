@@ -74,9 +74,7 @@ namespace PAX {
         }
 
         Entity* createCubeEntity(glm::vec3 color, std::string texture = "", bool withTexture = true) {
-            std::ostringstream nameStream;
-            nameStream << "Cube " << color.x << ", " << color.y << ", " << color.z;
-            Entity *e = new Entity(nameStream.str());
+            Entity *e = new Entity();
 
             /*
             static std::string res = getResourcePath();

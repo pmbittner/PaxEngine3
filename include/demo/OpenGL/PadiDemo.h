@@ -31,7 +31,7 @@ namespace PAX {
 
         public:
             void onEntitySpawned(EntitySpawnedEvent &event) {
-                LOG(INFO) << "Demo: Entity spawned " << event.entity->getName();
+                LOG(INFO) << "Demo: Entity spawned " << event.entity;
             }
 
             void initRendering() {
@@ -54,14 +54,14 @@ namespace PAX {
                 camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));
 
                 OpenGL::OpenGLSprite::Initialize();
-                Entity *paxLogo = new Entity("DemoGuiElement");
+                Entity *paxLogo = new Entity();
                 float w = 100, h = 100;
                 paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((getResourcePath() + "img/PaxEngine3_128.png").c_str())));
                 paxLogo->add<Behaviour>(new Dance2D());
                 paxLogo->getTransform().setPosition(0, -res.y/2 + h, -1);
                 paxLogo->getTransform().setScale(w, h);
 
-                Entity* blackBar = new Entity("SplitScreenDivider");
+                Entity* blackBar = new Entity();
                 blackBar->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((getResourcePath() + "img/Black16.png").c_str())));
                 blackBar->getTransform().setPosition(0, 0, -2);
                 blackBar->getTransform().setScale(5, res.y);
@@ -98,13 +98,13 @@ namespace PAX {
                 tuCube->getTransform().setY(-1);
                 tuCube->setParent(paxCube);
 
-                Entity *cgCubeCamera = new Entity("CgCubeCam");
+                Entity *cgCubeCamera = new Entity();
                 cgCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x/2, res.y)));
                 cgCubeCamera->setParent(cgCube);
                 cgCubeCamera->getTransform().setY(1.3f);
                 cgCubeCamera->getTransform().setZ(2.0f);
 
-                Entity *paxCubeCamera = new Entity("PaxCubeCam");
+                Entity *paxCubeCamera = new Entity();
                 paxCubeCamera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(res.x/2, 0, res.x/2, res.y)));
                 paxCubeCamera->setParent(paxCube);
                 paxCubeCamera->getTransform().setRotation(0, M_PI, 0);
