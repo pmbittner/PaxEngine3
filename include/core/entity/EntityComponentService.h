@@ -46,7 +46,7 @@ namespace PAX {
 
         /**
          * This will return an instance of the given EntityComponent type.
-         * If no provider for the given type is registered, a EntityComponentNewAllocator will be registered for it.
+         * If no provider for the given type is registered, a EntityComponentMallocAllocator will be registered for it.
          */
         template<class EntityComponentType, typename... Args>
         EntityComponentType* create(Args... args) {

@@ -16,13 +16,13 @@ namespace PAX {
         for (std::pair<const std::type_index, void*>& kv : _components[true]) {
             std::vector<EntityComponent*> *vector = static_cast<std::vector<EntityComponent*>*>(kv.second);
             for (EntityComponent* component : *vector) {
-                Services::GetEntityComponentService().free(kv.first, component);
+                //Services::GetEntityComponentService().free(kv.first, component);
             }
         }
         _components[true].clear();
 
         for (std::pair<const std::type_index, void*>& kv : _components[false]) {
-            Services::GetEntityComponentService().free(kv.first, static_cast<EntityComponent*>(kv.second));
+            //Services::GetEntityComponentService().free(kv.first, static_cast<EntityComponent*>(kv.second));
         }
         _components[false].clear();
 
