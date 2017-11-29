@@ -9,17 +9,12 @@
 
 namespace PAX {
     class Entity;
-    //template<typename ComponentClass>
-    //bool Entity::has();
-    //template<typename FirstComponentClass, typename SecondComponentClass, typename... ComponentClass>
-    //bool Entity::has();
 
     template<class... EntityComponentTypes>
     class EntityComponentDependency : public Dependency<Entity> {
     public:
         bool met(const Entity *entity) const {
-            //return entity->has<EntityComponentTypes...>();
-            return true;
+            return entity->has<EntityComponentTypes...>();
         }
     };
 }
