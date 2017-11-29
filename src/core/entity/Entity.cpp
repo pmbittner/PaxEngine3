@@ -8,25 +8,25 @@
 #include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
+    const std::vector<EntityComponent*> Entity::EmptyEntityComponentVector(0);
+
     Entity::Entity() {
         OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&_localEventService);
     }
 
     Entity::~Entity() {
-        for (std::pair<const std::type_index, void*>& kv : _components[true]) {
-            std::vector<EntityComponent*> *vector = static_cast<std::vector<EntityComponent*>*>(kv.second);
-            for (EntityComponent* component : *vector) {
+        for (std::pair<const std::type_index, std::vector<EntityComponent*>>& kv : _multipleComponents) {
+            for (EntityComponent* component : kv.second) {
                 Services::GetEntityComponentService().free(kv.first, component);
             }
         }
-        _components[true].clear();
 
-        for (std::pair<const std::type_index, void*>& kv : _components[false]) {
-            Services::GetEntityComponentService().free(kv.first, static_cast<EntityComponent*>(kv.second));
+        for (std::pair<const std::type_index, EntityComponent*>& kv : _singleComponents) {
+            Services::GetEntityComponentService().free(kv.first, kv.second);
         }
-        _components[false].clear();
 
-        _components.clear();
+        _multipleComponents.clear();
+        _singleComponents.clear();
     }
 
     Transform& Entity::getTransform() {

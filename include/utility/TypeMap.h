@@ -5,12 +5,15 @@
 #ifndef PAXENGINE3_TYPEMAP_H
 #define PAXENGINE3_TYPEMAP_H
 
-#include <map>
 #include <typeindex>
+#include <unordered_map>
 
 namespace PAX {
-    template<typename ValueType, class Map = std::map<std::type_index, ValueType>>
+    template<typename ValueType, class Map = std::unordered_map<std::type_index, ValueType>>
     class TypeMap {
+        using iterator = typename Map::iterator;
+        using const_iterator = typename Map::const_iterator;
+
         Map _map;
 
         template<typename Type>
@@ -19,7 +22,6 @@ namespace PAX {
         }
 
     public:
-
         template<typename Value>
         inline bool contains() const {
             return _map.find(getType<Value>()) != _map.end();
@@ -66,6 +68,17 @@ namespace PAX {
 
             return false;
         }
+
+        void clear() {
+            _map.clear();
+        }
+
+        iterator begin() { return _map.begin(); }
+        iterator end() { return _map.end(); }
+        const_iterator begin() const { return _map.begin(); }
+        const_iterator end() const { return _map.end(); }
+        const_iterator cbegin() const { return _map.cbegin(); }
+        const_iterator cend() const { return _map.cend(); }
     };
 }
 

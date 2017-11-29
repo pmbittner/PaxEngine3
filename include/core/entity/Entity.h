@@ -5,23 +5,23 @@
 #ifndef PAXENGINE3_ENTITY_H
 #define PAXENGINE3_ENTITY_H
 
-#include <unordered_map>
 #include <vector>
 #include <stdexcept>
 #include <typeindex>
 #include <algorithm>
 
-#include "../../lib/easylogging++.h"
-
 #include "Transform.h"
 #include "EntityComponent.h"
+
+#include "../../utility/TypeMap.h"
+#include "../../utility/stdutils.h"
+#include "../../lib/easylogging++.h"
+
 #include "../event/EventHandler.h"
 #include "../event/EventService.h"
 #include "event/EntityParentChangedEvent.h"
 #include "event/EntityComponentRemovedEvent.h"
 #include "event/EntityComponentAddedEvent.h"
-#include "../../utility/stdutils.h"
-#include "../../utility/reflection/MemberCheck.h"
 
 namespace PAX {
     class World;
@@ -32,17 +32,16 @@ namespace PAX {
         friend class WorldLayer;
 
     private:
+        static const std::vector<EntityComponent*> EmptyEntityComponentVector;
+
         Transform _transform;
-        std::unordered_map<bool, std::unordered_map<std::type_index, void*>> _components;
+        TypeMap<EntityComponent*> _singleComponents;
+        TypeMap<std::vector<EntityComponent*>> _multipleComponents;
 
         Entity *_parent = nullptr;
         std::vector<Entity*> _children;
-
         EventService _localEventService;
-
         WorldLayer *_worldLayer = nullptr;
-
-        bool b_true = true, b_false = false;
 
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
@@ -57,56 +56,9 @@ namespace PAX {
         EventService& getEventService();
         WorldLayer* getWorldLayer();
 
-        /*
-        template<typename ComponentClass, bool multi = ComponentClass::IsMultiple>
-        bool testHas() {
-            std::cout << "general" << std::endl;
-            return multi;
-        };**/
-
-        template <typename ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        inline typename std::enable_if<multi, bool>::type
-        testHas() {
-            std::cout << "spec true" << std::endl;
-            return true;
-        }
-
-        template <typename ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        inline typename std::enable_if<!multi, bool>::type
-        testHas() {
-            std::cout << "spec false" << std::endl;
-            return false;
-        }
-
-
-        template<typename ComponentClass>
-        inline bool has() {
-            return _components[ComponentClass::IsMultiple()].find(std::type_index(typeid(ComponentClass))) != _components[ComponentClass::IsMultiple()].end();
-        }
-
-        template<typename FirstComponentClass, typename SecondComponentClass, typename... ComponentClass>
-        inline bool has() {
-            bool X[] = {has<FirstComponentClass>(), has<SecondComponentClass>(), has<ComponentClass>()...};
-
-            int len = sizeof...(ComponentClass) + 2;
-            for (int i = 0; i < len; ++i)
-                if (!X[i]) return false;
-
-            return true;
-        }
-
-        template<typename ComponentClass, typename return_type = Util::conditional_t_cpp14<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>*, ComponentClass*>>
-        inline const return_type get() {
-            std::type_index type = std::type_index(typeid(ComponentClass));
-            assert(_components[ComponentClass::IsMultiple()][type]);
-            return static_cast<return_type>(_components[ComponentClass::IsMultiple()][type]);
-        }
-
-        template<typename ComponentClass>
-        bool add(ComponentClass* component) {
-            std::type_index type = std::type_index(typeid(ComponentClass));
-            bool addAllowed = true;
-
+    private:
+        template<class ComponentClass>
+        inline bool isValid(ComponentClass* component) {
             if (component->_owner) {
                 LOG(WARNING) << "The component is already assigned to an Entity!";
                 return false;
@@ -115,70 +67,130 @@ namespace PAX {
             // check for dependencies
             if (const Dependency<Entity>* dependency = component->getDependency()) {
                 if (!dependency->met(this)) {
-                    LOG(WARNING) << "Dependencies for component " << type.name() << " are not met! It won't be added!";
+                    LOG(WARNING) << "Dependencies for component " << std::type_index(typeid(ComponentClass)).name() << " are not met! It won't be added!";
                     return false;
                 }
             }
 
-            // If component type is allowed to occur more than once
-            if (ComponentClass::IsMultiple()) {
-                std::vector<ComponentClass*>* result;
+            return true;
+        }
 
-                if (!_components[true][type]) {
-                    result = new std::vector<ComponentClass*>();
-                    _components[true][type] = result;
-                } else {
-                    result = static_cast<std::vector<ComponentClass*>*>(_components[true][type]);
-                }
-
-                result->push_back(component);
-            } else {
-                if (_components[false][type]) {
-                    LOG(ERROR) << "Trying to add instance of " << type.name() << ", that does not allow multiple instances!";
-                    return false;
-                } else {
-                    _components[false][type] = component;
-                }
-            }
-
+        template<class ComponentClass>
+        inline void onEntityComponentAttached(ComponentClass* component) {
             component->_owner = this;
             component->attached(this);
 
             EntityComponentAddedEvent<ComponentClass> e(component, this);
             _localEventService(e);
+        }
+
+        template<class ComponentClass>
+        inline void onEntityComponentDetached(ComponentClass* component) {
+            component->_owner = nullptr;
+            component->detached(this);
+
+            EntityComponentRemovedEvent<ComponentClass> e(component, this);
+            _localEventService(e);
+        }
+
+    public:
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<multi, bool>::type
+        has() const {
+            return _multipleComponents.contains<ComponentClass>();
+        }
+
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<!multi, bool>::type
+        has() const {
+            return _singleComponents.contains<ComponentClass>();
+        }
+
+        template<class FirstComponentClass, class SecondComponentClass, class... FurtherComponentClasses>
+        inline bool has() const {
+            bool X[] = { has<FirstComponentClass>(), has<SecondComponentClass>(), has<FurtherComponentClasses>()... };
+
+            int len = sizeof...(FurtherComponentClasses) + 2;
+            for (int i = 0; i < len; ++i)
+                if (!X[i]) return false;
 
             return true;
         }
 
-        template<typename ComponentClass>
-        bool remove(ComponentClass* component) {
-            std::type_index type = std::type_index(typeid(ComponentClass));
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<multi, const std::vector<ComponentClass*>&>::type
+        get() {
+            if (_multipleComponents.contains<ComponentClass>())
+                return reinterpret_cast<std::vector<ComponentClass*>&>(_multipleComponents.get<ComponentClass>());
+            else
+                return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyEntityComponentVector);
+        }
 
-            if (_components[ComponentClass::IsMultiple()][type]) {
-                if (ComponentClass::IsMultiple()) {
-                    std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[true][type]);
-                    if (!Util::removeFromVector(*result, component))
-                        return false;
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<!multi, ComponentClass*>::type
+        get() {
+            if (_singleComponents.contains<ComponentClass>())
+                return static_cast<ComponentClass*>(_singleComponents.get<ComponentClass>());
+            else
+                return nullptr;
+        }
 
-                    if (result->empty()) {
-                        auto iterator = _components[true].find(type);
-                        _components[true].erase(iterator);
-                        delete result;
-                    }
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<multi, bool>::type
+        add(ComponentClass* component) {
+            if (isValid(component)) {
+                _multipleComponents.get<ComponentClass>().push_back(component);
+                onEntityComponentAttached(component);
+                return true;
+            }
+
+            return false;
+        }
+
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<!multi, bool>::type
+        add(ComponentClass* component) {
+           if (isValid(component)) {
+                if (_singleComponents.contains<ComponentClass>()) {
+                    LOG(ERROR) << "Trying to add instance of " << std::type_index(typeid(ComponentClass)).name() << ", that does not allow multiple instances!";
+                    return false;
                 } else {
-                    if (_components[false][type] != component)
-                        return false;
-
-                    auto iterator = _components[false].find(type);
-                    _components[false].erase(iterator);
+                    _singleComponents.put<ComponentClass>(component);
                 }
 
-                component->_owner = nullptr;
-                component->detached(this);
+                onEntityComponentAttached(component);
+                return true;
+            }
+            return false;
+        }
 
-                EntityComponentRemovedEvent<ComponentClass> e(component, this);
-                _localEventService(e);
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<multi, bool>::type
+        remove(ComponentClass* component) {
+            if (_multipleComponents.contains<ComponentClass>()) {
+                std::vector<ComponentClass*> &result = reinterpret_cast<std::vector<ComponentClass*>&>(_multipleComponents.get<ComponentClass>());
+                if (!Util::removeFromVector(result, component))
+                    return false;
 
+                if (result.empty())
+                    _multipleComponents.erase<ComponentClass>();
+
+                onEntityComponentDetached(component);
+                return true;
+            }
+
+            return false;
+        }
+
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<!multi, bool>::type
+        remove(ComponentClass* component) {
+            if (_singleComponents.contains<ComponentClass>()) {
+                if (_singleComponents.get<ComponentClass>() != component) // The given component is not the component, that is registered in this Entity for the given type
+                    return false;
+
+                _singleComponents.erase<ComponentClass>();
+                onEntityComponentDetached(component);
                 return true;
             }
 

@@ -8,10 +8,8 @@
 namespace PAX {
     void BehaviourSystem::update() {
         for (Entity *e : getEntities()) {
-            const std::vector<Behaviour*> *v = e->get<Behaviour>();
-            for (Behaviour *b : *v) {
+            for (Behaviour *b : e->get<Behaviour>())
                 b->update();
-            }
         }
     }
 }

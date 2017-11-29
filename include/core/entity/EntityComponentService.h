@@ -7,17 +7,19 @@
 
 #include <assert.h>
 #include <utility>
+#include <unordered_set>
 
 #include <utility/TypeMap.h>
 #include <core/entity/component/allocators/EntityComponentMallocAllocator.h>
+
 #include "EntityComponentAllocator.h"
 #include "EntityComponent.h"
 
 namespace PAX {
     class EntityComponentService {
         TypeMap<UntypedEntityComponentAllocator*> _allocators;
+        std::unordered_set<EntityComponent*> _allocatedComponents;
 
-    private:
         template<class EntityComponentType>
         EntityComponentAllocator<EntityComponentType>* getAllocatorFor() {
             if (_allocators.contains<EntityComponentType>())
@@ -25,20 +27,23 @@ namespace PAX {
             return nullptr;
         }
 
-        UntypedEntityComponentAllocator* getProviderFor(std::type_index index) {
+        UntypedEntityComponentAllocator* getAllocatorFor(std::type_index index) {
             if (_allocators.contains(index))
                 return _allocators.get(index);
             return nullptr;
         }
 
     public:
+        EntityComponentService() {
+        }
+
         template<class EntityComponentType>
-        bool registerProvider(EntityComponentAllocator<EntityComponentType> *provider) {
+        bool registerAllocator(EntityComponentAllocator<EntityComponentType> *provider) {
             return _allocators.put<EntityComponentType>(provider);
         }
 
         template<class EntityComponentType>
-        size_t unregisterProvider() {
+        size_t unregisterAllocator() {
             return _allocators.erase<EntityComponentType>();
         }
 
@@ -52,26 +57,36 @@ namespace PAX {
 
             if (!allocator) {
                 allocator = new EntityComponentMallocAllocator<EntityComponentType>();
-                registerProvider<EntityComponentType>(allocator);
+                registerAllocator<EntityComponentType>(allocator);
             }
 
             EntityComponentType* memory = allocator->allocate();
             allocator->construct(memory, std::forward<Args>(args)...);
+            _allocatedComponents.insert(memory);
+
             return memory;
         }
 
         template<class EntityComponentType>
         void free(EntityComponentType *component) {
-            EntityComponentAllocator<EntityComponentType>* provider = getAllocatorFor<EntityComponentType>();
-            assert(provider && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
-            provider->destruct(component);
-            provider->deallocate(component);
+            if (_allocatedComponents.count(component) > 0) {
+                EntityComponentAllocator<EntityComponentType>* allocator = getAllocatorFor<EntityComponentType>();
+                assert(allocator && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
+
+                allocator->destruct(component);
+                allocator->deallocate(component);
+                _allocatedComponents.erase(component);
+            }
         }
 
         void free(std::type_index index, EntityComponent *component) {
-            UntypedEntityComponentAllocator* provider = getProviderFor(index);
-            assert(provider && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
-            provider->untypedDestructAndDeallocate(component);
+            if (_allocatedComponents.count(component) > 0) {
+                UntypedEntityComponentAllocator* allocator = getAllocatorFor(index);
+                assert(allocator && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
+
+                allocator->untypedDestructAndDeallocate(component);
+                _allocatedComponents.erase(component);
+            }
         }
     };
 }
