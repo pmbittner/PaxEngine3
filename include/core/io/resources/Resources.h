@@ -9,6 +9,7 @@
 #include <utility/TypeMap.h>
 #include <utility/stdutils.h>
 #include <iostream>
+#include <unordered_map>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
@@ -18,7 +19,7 @@ namespace PAX {
         TypeMap<std::vector<IResourceLoader*>> _loaders;
 
         TypeMap<std::vector<ResourceHandle>> _resourcesInUse;
-        std::map<void*, ResourceHandle*> _resourceToHandle;
+        std::unordered_map<void*, ResourceHandle*> _resourceToHandle;
 
     private:
         template<typename Resource, typename... Params>
