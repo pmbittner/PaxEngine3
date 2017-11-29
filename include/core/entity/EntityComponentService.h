@@ -15,23 +15,21 @@
 
 namespace PAX {
     class EntityComponentService {
-        TypeMap<void*> _allocators;
+        TypeMap<UntypedEntityComponentAllocator*> _allocators;
 
     private:
         template<class EntityComponentType>
         EntityComponentAllocator<EntityComponentType>* getAllocatorFor() {
             if (_allocators.contains<EntityComponentType>())
-                return static_cast<EntityComponentAllocator<EntityComponentType>*>(_allocators.get<EntityComponentType>());
+                return static_cast<EntityComponentAllocator<EntityComponentType> *>(_allocators.get<EntityComponentType>());
             return nullptr;
         }
 
-        /*
-        EntityComponentAllocator<EntityComponent>* getProviderFor(std::type_index index) {
+        UntypedEntityComponentAllocator* getProviderFor(std::type_index index) {
             if (_allocators.contains(index))
-                return static_cast<EntityComponentAllocator<EntityComponent>*>(_allocators.get(index));
+                return _allocators.get(index);
             return nullptr;
         }
-        //*/
 
     public:
         template<class EntityComponentType>
@@ -70,13 +68,11 @@ namespace PAX {
             provider->deallocate(component);
         }
 
-        /*
-    void free(std::type_index index, EntityComponent *component) {
-        EntityComponentAllocator<EntityComponent>* provider = getProviderFor(index);
-        assert(provider && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
-        provider->deallocate(component);
+        void free(std::type_index index, EntityComponent *component) {
+            UntypedEntityComponentAllocator* provider = getProviderFor(index);
+            assert(provider && ("No provider is registered for the given type! The component was either created externally or the provider for its type was unregistered!"));
+            provider->untypedDestructAndDeallocate(component);
         }
-        //*/
     };
 }
 
