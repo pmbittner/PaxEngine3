@@ -22,8 +22,9 @@ namespace PAX {
 
     public:
         EntityComponent();
-        Entity* getOwner();
+        virtual ~EntityComponent();
 
+        Entity* getOwner();
         virtual const Dependency<Entity>* getDependency();
         virtual bool isMultiple() = 0;
     };
@@ -31,7 +32,7 @@ namespace PAX {
 
 #define PAX_EntityComponent(name, bool_multiple, inheritance...) class name : public PAX::EntityComponent, ##inheritance { \
             public: \
-                static constexpr bool IsMultiple = bool_multiple; \
+                static constexpr bool IsMultiple() { return bool_multiple; } \
                 virtual bool isMultiple() override { return bool_multiple; } \
             private:
 

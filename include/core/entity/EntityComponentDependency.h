@@ -18,7 +18,7 @@ namespace PAX {
     class EntityComponentDependency : public Dependency<Entity> {
     public:
         bool met(const Entity *entity) const {
-            //return entity.has<EntityComponentTypes>();
+            //return entity->has<EntityComponentTypes...>();
             return true;
         }
     };

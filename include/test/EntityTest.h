@@ -10,7 +10,7 @@
 #include "../core/entity/Entity.h"
 
 #include "../test/trials/enum.h"
-#include "core/entity/component/providers/EntityComponentPool.h"
+#include "core/entity/component/allocators/EntityComponentPool.h"
 
 namespace PAX {
     namespace TEST {
@@ -56,13 +56,15 @@ namespace PAX {
                 std::cout << "    " << g << " " << (g ? g->getPlatformName()  : "") << std::endl;
             }
 
+            /*
             class PoolTest : public EntityComponentPool<OpenGLGraphics> {
                 virtual OpenGLGraphics* createElement() override {
                     return new OpenGLGraphics();
                 }
-            };
+            };*/
 
             bool test() {
+                /*
                 Entity e;
 
                 {
@@ -105,6 +107,14 @@ namespace PAX {
                 e.setParent(&parent);
                 parent.getTransform().setX(5);
                 std::cout << e.getTransform().getParent()->x() << std::endl;
+                //*/
+
+                Entity *multipleTest = new Entity();
+                multipleTest->add<Graphics>(new OpenGLGraphics);
+                multipleTest->add<Physics>(new Physics);
+                multipleTest->testHas<Graphics>();
+                multipleTest->testHas<Physics>();
+
 
                 /*
                 VTest t;

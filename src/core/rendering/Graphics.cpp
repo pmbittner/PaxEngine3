@@ -6,8 +6,6 @@
 #include "../../../include/core/entity/Entity.h"
 
 namespace PAX {
-    constexpr bool Graphics::IsMultiple;
-
     Shader *Graphics::getShader() const {
         return _shader;
     }

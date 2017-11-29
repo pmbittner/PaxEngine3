@@ -42,6 +42,8 @@ namespace PAX {
 
         WorldLayer *_worldLayer = nullptr;
 
+        bool b_true = true, b_false = false;
+
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
 
@@ -55,9 +57,31 @@ namespace PAX {
         EventService& getEventService();
         WorldLayer* getWorldLayer();
 
+        /*
+        template<typename ComponentClass, bool multi = ComponentClass::IsMultiple>
+        bool testHas() {
+            std::cout << "general" << std::endl;
+            return multi;
+        };**/
+
+        template <typename ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<multi, bool>::type
+        testHas() {
+            std::cout << "spec true" << std::endl;
+            return true;
+        }
+
+        template <typename ComponentClass, bool multi = ComponentClass::IsMultiple()>
+        inline typename std::enable_if<!multi, bool>::type
+        testHas() {
+            std::cout << "spec false" << std::endl;
+            return false;
+        }
+
+
         template<typename ComponentClass>
         inline bool has() {
-            return _components[ComponentClass::IsMultiple].find(std::type_index(typeid(ComponentClass))) != _components[ComponentClass::IsMultiple].end();
+            return _components[ComponentClass::IsMultiple()].find(std::type_index(typeid(ComponentClass))) != _components[ComponentClass::IsMultiple()].end();
         }
 
         template<typename FirstComponentClass, typename SecondComponentClass, typename... ComponentClass>
@@ -71,11 +95,11 @@ namespace PAX {
             return true;
         }
 
-        template<typename ComponentClass, typename return_type = Util::conditional_t_cpp14<ComponentClass::IsMultiple, const std::vector<ComponentClass*>*, ComponentClass*>>
+        template<typename ComponentClass, typename return_type = Util::conditional_t_cpp14<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>*, ComponentClass*>>
         inline const return_type get() {
             std::type_index type = std::type_index(typeid(ComponentClass));
-            assert(_components[ComponentClass::IsMultiple][type]);
-            return static_cast<return_type>(_components[ComponentClass::IsMultiple][type]);
+            assert(_components[ComponentClass::IsMultiple()][type]);
+            return static_cast<return_type>(_components[ComponentClass::IsMultiple()][type]);
         }
 
         template<typename ComponentClass>
@@ -97,7 +121,7 @@ namespace PAX {
             }
 
             // If component type is allowed to occur more than once
-            if (ComponentClass::IsMultiple) {
+            if (ComponentClass::IsMultiple()) {
                 std::vector<ComponentClass*>* result;
 
                 if (!_components[true][type]) {
@@ -130,8 +154,8 @@ namespace PAX {
         bool remove(ComponentClass* component) {
             std::type_index type = std::type_index(typeid(ComponentClass));
 
-            if (_components[ComponentClass::IsMultiple][type]) {
-                if (ComponentClass::IsMultiple) {
+            if (_components[ComponentClass::IsMultiple()][type]) {
+                if (ComponentClass::IsMultiple()) {
                     std::vector<ComponentClass*> *result = static_cast<std::vector<ComponentClass*>*>(_components[true][type]);
                     if (!Util::removeFromVector(*result, component))
                         return false;

@@ -9,6 +9,10 @@ namespace PAX {
 
     }
 
+    EntityComponent::~EntityComponent() {
+
+    }
+
     const Dependency<Entity>* EntityComponent::getDependency() {
         return nullptr;
     }

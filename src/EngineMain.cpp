@@ -5,6 +5,7 @@
 #include <test/ResourcesTest.h>
 #include <test/trials/AllocatorConstructorTest.h>
 #include <test/trials/InheritedTemplateTypeTest.h>
+#include <test/EntityTest.h>
 
 #include "../include/EngineMain.h"
 
@@ -19,7 +20,7 @@
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     //*
-    PAX::Test::Template::test();
+    PAX::TEST::ENTITY::test();
     //*/
 
     int exitcode = 0;
