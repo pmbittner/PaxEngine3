@@ -6,6 +6,7 @@
 #define PAXENGINE3_ENTITYTEST_H
 
 #include <iostream>
+#include <unordered_set>
 #include "../core/entity/EntityComponent.h"
 #include "../core/entity/Entity.h"
 
@@ -64,57 +65,59 @@ namespace PAX {
             };*/
 
             bool test() {
-                /*
-                Entity e;
+                {
+                    std::cout << "Default test" << std::endl;
+
+                    Entity e;
+
+                    {
+                        e.add<Graphics>(new DirectXGraphics);
+                        e.add<Graphics>(new OpenGLGraphics);
+
+                        e.add(new DirectXGraphics);
+                    }
+
+                    int physicsElementCount = e.get<Physics>().size();
+                    std::cout << "Found physics elements: " << physicsElementCount << std::endl;
+
+                    std::cout << "Graphics components:" << std::endl;
+                    printGraphics(e.get<Graphics>());
+
+                    std::cout << "DirectXGraphics components:" << std::endl;
+                    printGraphics(e.get<DirectXGraphics>());
+                }
 
                 {
-                    e.add<Graphics>(new DirectXGraphics);
-                    e.add<Graphics>(new OpenGLGraphics);
+                    std::cout << "Has test" << std::endl;
 
-                    e.add(new DirectXGraphics);
+                    Entity hasTest;
+                    Graphics *hasTestGfx = new DirectXGraphics;
+                    hasTest.add<Graphics>(hasTestGfx);
+                    hasTest.add<Physics>(new Physics);
+
+                    std::cout << "Has Graphics: " << hasTest.has<Graphics>() << std::endl;
+                    std::cout << "Has Physics: " << hasTest.has<Physics>() << std::endl;
+                    std::cout << "Has Graphics & Physics: " << hasTest.has<Graphics, Physics>() << std::endl;
+                    std::cout << "Has Physics & Graphics: " << hasTest.has<Physics, Graphics>() << std::endl;
+
+                    hasTest.remove<Graphics>(hasTestGfx);
+                    std::cout << "Has Graphics: " << hasTest.has<Graphics>() << std::endl;
+                    std::cout << "Has Physics: " << hasTest.has<Physics>() << std::endl;
+                    std::cout << "Has Graphics & Physics: " << hasTest.has<Graphics, Physics>() << std::endl;
+                    std::cout << "Has Physics & Graphics: " << hasTest.has<Physics, Graphics>() << std::endl;
                 }
 
-                int physicsElementCount = 0;
-                if (e.has<Physics>()) {
-                    physicsElementCount = e.get<Physics>()->size();
+                {
+                    std::cout << std::endl << "Remove test" << std::endl;
+                    Entity removeTest;
+                    Physics p;
+                    removeTest.add(&p);
+                    std::cout << "Has Physics: " << removeTest.has<Physics>() << std::endl;
+                    removeTest.remove(&p);
+                    std::cout << "Has Physics: " << removeTest.has<Physics>() << std::endl;
                 }
-                std::cout << "Found physics elements: " << physicsElementCount << std::endl;
 
-                std::cout << "Graphics components:" << std::endl;
-                printGraphics(e.get<Graphics>());
-
-                std::cout << "DirectXGraphics components:" << std::endl;
-                printGraphics(e.get<DirectXGraphics>());
-
-                Entity hasTest;
-                Graphics *hasTestGfx = new DirectXGraphics;
-                hasTest.add<Graphics>(hasTestGfx);
-                hasTest.add<Physics>(new Physics);
-
-                std::cout << "Has Graphics: " << hasTest.has<Graphics>() << std::endl;
-                std::cout << "Has Physics: " << hasTest.has<Physics>() << std::endl;
-                std::cout << "Has Graphics & Physics: " << hasTest.has<Graphics, Physics>() << std::endl;
-                std::cout << "Has Physics & Graphics: " << hasTest.has<Physics, Graphics>() << std::endl;
-
-                hasTest.remove<Graphics>(hasTestGfx);
-                std::cout << "Has Graphics: " << hasTest.has<Graphics>() << std::endl;
-                std::cout << "Has Physics: " << hasTest.has<Physics>() << std::endl;
-                std::cout << "Has Graphics & Physics: " << hasTest.has<Graphics, Physics>() << std::endl;
-                std::cout << "Has Physics & Graphics: " << hasTest.has<Physics, Graphics>() << std::endl;
-
-
-                Entity parent;
-                e.setParent(&parent);
-                parent.getTransform().setX(5);
-                std::cout << e.getTransform().getParent()->x() << std::endl;
                 //*/
-
-                Entity *multipleTest = new Entity();
-                multipleTest->add<Graphics>(new OpenGLGraphics);
-                multipleTest->add<Physics>(new Physics);
-                multipleTest->testHas<Graphics>();
-                multipleTest->testHas<Physics>();
-
 
                 /*
                 VTest t;
