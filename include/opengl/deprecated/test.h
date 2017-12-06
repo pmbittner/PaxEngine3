@@ -9,7 +9,7 @@
 #include "core/rendering/Graphics.h"
 #include "opengl/resource/OpenGLMesh.h"
 #include "opengl/resource/OpenGLShader.h"
-#include "sdl/utitlity/Path.h"
+#include "sdl/utility/Path.h"
 
 namespace PAX {
     namespace OpenGL {

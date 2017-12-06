@@ -8,7 +8,7 @@
 #include "EntityEvent.h"
 
 namespace PAX {
-    class EntityParentChangedEvent : public EntityEvent {
+    struct EntityParentChangedEvent : public EntityEvent {
     public:
         Entity *newParent, *oldParent;
         EntityParentChangedEvent(Entity *entity, Entity *oldParent, Entity *newParent) : EntityEvent(entity), oldParent(oldParent), newParent(newParent) {}

@@ -9,8 +9,7 @@
 #include "../World.h"
 
 namespace PAX {
-    class WorldEvent : public Event {
-    public:
+    struct WorldEvent : public Event {
         World *world;
 
         WorldEvent(World *world) : world(world) {}

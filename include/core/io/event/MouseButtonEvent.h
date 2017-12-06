@@ -5,14 +5,13 @@
 #ifndef PAXENGINE3_MOUSEBUTTONEVENT_H
 #define PAXENGINE3_MOUSEBUTTONEVENT_H
 
-#include "../event/Event.h"
-#include "Mouse.h"
+#include "MouseEvent.h"
+#include <core/io/MouseButtons.h>
 
 namespace PAX {
-    class MouseButtonEvent : public Event {
+    struct MouseButtonEvent : public MouseEvent {
     public:
-        Mouse *mouse;
-        int button;
+        MouseButton button = MouseButton::NONE;
     };
 }
 

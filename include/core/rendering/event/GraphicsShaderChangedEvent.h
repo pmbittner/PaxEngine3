@@ -10,7 +10,7 @@
 namespace PAX {
     class Graphics;
 
-    class GraphicsShaderChangedEvent : public ShaderChangedEvent {
+    struct GraphicsShaderChangedEvent : public ShaderChangedEvent {
     public:
         Graphics *graphics;
 

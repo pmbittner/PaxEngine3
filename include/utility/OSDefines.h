@@ -5,8 +5,6 @@
 #ifndef PAXENGINE3_OSDEFINES_H
 #define PAXENGINE3_OSDEFINES_H
 
-#define PAX_OS_INCLUDES
-
 #if defined (__linux__) || defined(linux) || defined(LINUX)
 #define PAX_OS_LINUX
 

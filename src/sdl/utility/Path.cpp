@@ -5,7 +5,8 @@
 #include <SDL2/SDL.h>
 #include <string>
 #include <iostream>
-#include "../../../include/sdl/utitlity/Path.h"
+#include "../../../include/sdl/utility/Path.h"
+#include <utility/OSDefines.h>
 
 /*
  * Get the resource path for resources located in res/subDir
@@ -22,13 +23,13 @@ std::string getResourcePath() {
     //We need to choose the path separator properly based on which
     //platform we're running on, since Windows uses a different
     //separator than most systems
-#ifdef _WIN32
+#ifdef PAX_OS_WIN
     const char PATH_SEP = '\\';
 #else
     const char PATH_SEP = '/';
 #endif
 
-#ifdef ANDROID
+#ifdef PAX_OS_ANDROID
     return "res/";
 #else
     //This will hold the base resource path: Lessons/res/

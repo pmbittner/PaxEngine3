@@ -9,7 +9,7 @@
 
 namespace PAX {
     class Shader;
-    class ShaderChangedEvent : public Event {
+    struct ShaderChangedEvent : public Event {
     public:
         Shader *oldShader, *newShader;
 

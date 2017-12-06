@@ -9,7 +9,7 @@
 #include "../../opengl/resource/OpenGLMesh.h"
 #include "../../core/entity/Entity.h"
 #include "../../opengl/resource/OpenGLTexture2D.h"
-#include "../../sdl/utitlity/Path.h"
+#include "../../sdl/utility/Path.h"
 #include "../../opengl/OpenGLTexturedMesh.h"
 #include "opengl/deprecated/test.h"
 

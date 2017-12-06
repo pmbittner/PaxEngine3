@@ -12,7 +12,7 @@
 namespace PAX {
     namespace SDL {
         class SDLKeyboard : public Keyboard {
-            const Uint8 *_keyState = 0;
+            const Uint8 *_keyState = nullptr;
 
         public:
             virtual bool isKeyDown(Key key) override;

@@ -10,7 +10,7 @@
 #include "../../include/opengl/resource/OpenGLMesh.h"
 #include "../../include/opengl/resource/OpenGLShader.h"
 #include "../../include/opengl/resource/OpenGLTexture2D.h"
-#include "../../include/sdl/utitlity/Path.h"
+#include "../../include/sdl/utility/Path.h"
 
 #include "../../include/opengl/OpenGLMacros.h"
 #include "../../include/core/entity/Entity.h"

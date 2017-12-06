@@ -9,8 +9,7 @@
 #include "../../entity/event/EntityEvent.h"
 
 namespace PAX {
-    class EntitySpawnedEvent : public EntityEvent {
-    public:
+    struct EntitySpawnedEvent : public EntityEvent {
         EntitySpawnedEvent(Entity *entity) : EntityEvent(entity) {}
     };
 }

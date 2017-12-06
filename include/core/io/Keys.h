@@ -7,6 +7,8 @@
 
 namespace PAX {
     enum class Key {
+        NONE = 0, // Added for PaxEngine, not contained in SDL2
+
         A = 4,
         B = 5,
         C = 6,
@@ -194,11 +196,8 @@ namespace PAX {
         MUTE = 127,
         VOLUMEUP = 128,
         VOLUMEDOWN = 129,
-/* not sure whether there's a reason to enable these */
-/*     LOCKINGCAPSLOCK = 130,  */
-/*     LOCKINGNUMLOCK = 131, */
-/*     LOCKINGSCROLLLOCK = 132, */
-                KP_COMMA = 133,
+
+        KP_COMMA = 133,
         KP_EQUALSAS400 = 134,
 
         INTERNATIONAL1 = 135, /**< used on Asian keyboards, see
@@ -290,21 +289,9 @@ namespace PAX {
         RALT = 230, /**< alt gr, option */
         RGUI = 231, /**< windows, command (apple), meta */
 
-        MODE = 257,    /**< I'm not sure if this is really not covered
-                                 *   by any of the above, but since there's a
-                                 *   special KMOD_MODE for it I'm adding it here
-                                 */
+        MODE = 257,
 
-        /* @} *//* Usage page 0x07 */
-
-        /**
-         *  \name Usage page 0x0C
-         *
-         *  These values are mapped from usage page 0x0C (USB consumer page).
-         */
-        /* @{ */
-
-                AUDIONEXT = 258,
+        AUDIONEXT = 258,
         AUDIOPREV = 259,
         AUDIOSTOP = 260,
         AUDIOPLAY = 261,
@@ -322,16 +309,7 @@ namespace PAX {
         AC_REFRESH = 273,
         AC_BOOKMARKS = 274,
 
-        /* @} *//* Usage page 0x0C */
-
-        /**
-         *  \name Walther keys
-         *
-         *  These are values that Christian Walther added (for mac keyboard?).
-         */
-        /* @{ */
-
-                BRIGHTNESSDOWN = 275,
+        BRIGHTNESSDOWN = 275,
         BRIGHTNESSUP = 276,
         DISPLAYSWITCH = 277, /**< display mirroring/dual display
                                            switch, video mode switch */
@@ -344,11 +322,7 @@ namespace PAX {
         APP1 = 283,
         APP2 = 284,
 
-        /* @} *//* Walther keys */
-
-        /* Add any other keys here. */
-
-                SDL_NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
+        SDL_NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
                                  for array bounds */
     };
 }

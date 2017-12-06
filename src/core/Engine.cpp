@@ -11,7 +11,7 @@
 #include "../../include/lib/easylogging++.h"
 #include "../../include/core/time/Time.h"
 #include "../../include/utility/MacroIncludes.h"
-#include "../../include/sdl/utitlity/Path.h"
+#include "../../include/sdl/utility/Path.h"
 #include "../../include/utility/io/CSVSettingsLoader.h"
 
 

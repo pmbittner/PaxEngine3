@@ -9,8 +9,7 @@
 #include "../World.h"
 
 namespace PAX {
-    class ActiveWorldChangedEvent : public Event {
-    public:
+    struct ActiveWorldChangedEvent : public Event {
         World *oldWorld, *newWorld;
 
         ActiveWorldChangedEvent(World* oldWorld, World* newWorld) : oldWorld(oldWorld), newWorld(newWorld) {

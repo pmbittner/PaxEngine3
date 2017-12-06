@@ -6,7 +6,7 @@
 #define PAXENGINE3_EVENT_H
 
 namespace PAX {
-    class Event {
+    struct Event {
 
     };
 }

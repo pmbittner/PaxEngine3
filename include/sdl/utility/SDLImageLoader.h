@@ -9,6 +9,7 @@
 #include <iostream>
 
 /**
+ * DEPRECATED
 * Loads an image into a texture on the rendering device
 * @param file The image file to load
 * @param ren The renderer to load the texture onto

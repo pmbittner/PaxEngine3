@@ -14,6 +14,12 @@ namespace PAX {
     public:
         virtual Keyboard* getKeyboard() = 0;
         virtual Mouse* getMouse() = 0;
+
+    protected:
+        inline void setMouseLocation(Mouse& mouse, int x, int y) {
+            mouse.x = x;
+            mouse.y = y;
+        }
     };
 }
 

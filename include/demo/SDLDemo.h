@@ -10,7 +10,7 @@
 #include "../test/SDLTestApplication2.h"
 #include "../sdl/test/SDLSprite.h"
 #include "../sdl/SDLRenderPass.h"
-#include "../sdl/utitlity/Path.h"
+#include "../sdl/utility/Path.h"
 #include "behaviours/MoveToMouseBehaviour.h"
 
 namespace PAX {

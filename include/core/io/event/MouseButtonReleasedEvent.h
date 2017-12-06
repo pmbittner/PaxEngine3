@@ -8,7 +8,7 @@
 #include "MouseButtonEvent.h"
 
 namespace PAX {
-    class MouseButtonReleasedEvent : public MouseButtonEvent {
+    struct MouseButtonReleasedEvent : public MouseButtonEvent {
     };
 }
 

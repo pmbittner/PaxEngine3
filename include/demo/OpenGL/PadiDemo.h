@@ -12,7 +12,7 @@
 #include "../../test/SDLTestApplication2.h"
 #include "../../sdl/opengl/SDLOpenGLWindow.h"
 #include "../../opengl/rendernodes/OpenGLRenderPass.h"
-#include "../../sdl/utitlity/Path.h"
+#include "../../sdl/utility/Path.h"
 #include "../behaviours/MoveToMouseBehaviour.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../opengl/OpenGLViewport.h"

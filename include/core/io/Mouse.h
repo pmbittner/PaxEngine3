@@ -6,9 +6,13 @@
 #define PAXENGINE3_MOUSE_H
 
 namespace PAX {
+    class InputSystem;
+
     class Mouse {
-    public:
         int x, y;
+
+        friend class InputSystem;
+    public:
         int getX();
         int getY();
         bool isButtonDown(int button);

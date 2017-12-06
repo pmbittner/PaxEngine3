@@ -11,10 +11,13 @@ namespace PAX {
         void SDLInputSystem::initialize() {
             _mbPressed.mouse = &_mouse;
             _mbReleased.mouse = &_mouse;
+            _mWheel.mouse = &_mouse;
+            _keyPressed.keyboard = &_keyboard;
+            _keyReleased.keyboard = &_keyboard;
         }
 
         void SDLInputSystem::update() {
-            _keyboard.setKeyStates(SDL_GetKeyboardState(NULL));
+            _keyboard.setKeyStates(SDL_GetKeyboardState(nullptr));
 
             while (SDL_PollEvent(&_currentEvent)) {
                 switch (_currentEvent.type) {
@@ -24,31 +27,44 @@ namespace PAX {
                     }
 
                     case SDL_KEYDOWN: {
-                        //_keyboard.setKeyDown(_currentEvent.key.keysym.sym, true);
-                        if (_currentEvent.key.keysym.sym == SDLK_ESCAPE)
-                            PAX::Engine::Instance().stop();
+                        _keyPressed.button = static_cast<Key>(_currentEvent.key.keysym.scancode); // mapping is 1:1
+                        _keyPressed.repeated = _currentEvent.key.repeat;
+                        Services::GetEventService()(_keyPressed);
                         break;
                     }
 
                     case SDL_KEYUP: {
-                        //_keyboard.setKeyDown(_currentEvent.key.keysym.sym, false);
+                        _keyReleased.button = static_cast<Key>(_currentEvent.key.keysym.scancode); // mapping is 1:1
+                        Services::GetEventService()(_keyReleased);
                         break;
                     }
 
                     case SDL_MOUSEBUTTONDOWN: {
-                        _mbPressed.button = _currentEvent.button.button;
+                        _mbPressed.button = static_cast<MouseButton>(_currentEvent.button.button); // mapping is 1:1
+                        setMouseLocation(_mouse, _currentEvent.button.x, _currentEvent.button.y);
+                        _mbPressed.clicks = _currentEvent.button.clicks;
                         Services::GetEventService()(_mbPressed);
                         break;
                     }
 
                     case SDL_MOUSEBUTTONUP: {
-                        _mbPressed.button = _currentEvent.button.button;
+                        _mbReleased.button = static_cast<MouseButton>(_currentEvent.button.button); // mapping is 1:1
+                        setMouseLocation(_mouse, _currentEvent.button.x, _currentEvent.button.y);
                         Services::GetEventService()(_mbReleased);
                         break;
                     }
 
+                    case SDL_MOUSEWHEEL: {
+                        char dir = _currentEvent.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1;
+                        _mWheel.ticksX = dir * _currentEvent.wheel.x;
+                        _mWheel.ticksY = dir * _currentEvent.wheel.y;
+                        Services::GetEventService()(_mWheel);
+                    }
+
                     case SDL_MOUSEMOTION: {
-                        updateMouseLocation();
+                        int x, y;
+                        SDL_GetMouseState(&x, &y);
+                        setMouseLocation(_mouse, x, y);
                         break;
                     }
 
@@ -75,11 +91,7 @@ namespace PAX {
             }
         }
 
-        void SDLInputSystem::updateMouseLocation() {
-            SDL_GetMouseState(&_mouse.x, &_mouse.y);
-        }
-
-        Keyboard *SDLInputSystem::getKeyboard() {
+        SDLKeyboard *SDLInputSystem::getKeyboard() {
             return &_keyboard;
         }
 

@@ -7,11 +7,15 @@
 
 #include <SDL2/SDL_events.h>
 
+#include <core/io/InputSystem.h>
+#include <core/io/Mouse.h>
+#include <core/io/event/KeyPressedEvent.h>
+#include <core/io/event/KeyReleasedEvent.h>
+#include <core/io/event/MouseButtonPressedEvent.h>
+#include <core/io/event/MouseButtonReleasedEvent.h>
+#include <core/io/event/MouseWheelEvent.h>
+
 #include "SDLKeyboard.h"
-#include "../core/io/InputSystem.h"
-#include "../core/io/Mouse.h"
-#include "../core/io/MouseButtonPressedEvent.h"
-#include "../core/io/MouseButtonReleasedEvent.h"
 
 namespace PAX {
     namespace SDL {
@@ -24,16 +28,16 @@ namespace PAX {
             // pre allocated event objects
             MouseButtonPressedEvent _mbPressed;
             MouseButtonReleasedEvent _mbReleased;
+            MouseWheelEvent _mWheel;
 
-            void updateMouseLocation();
+            KeyPressedEvent _keyPressed;
+            KeyReleasedEvent _keyReleased;
 
         public:
             virtual void initialize() override;
-
             virtual void update() override;
 
-            virtual Keyboard *getKeyboard() override;
-
+            virtual SDLKeyboard *getKeyboard() override;
             virtual Mouse *getMouse() override;
         };
     }

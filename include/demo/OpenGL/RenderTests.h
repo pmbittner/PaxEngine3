@@ -7,7 +7,7 @@
 
 #include "../../core/Game.h"
 #include "../../utility/io/CSVSettingsLoader.h"
-#include "../../sdl/utitlity/Path.h"
+#include "../../sdl/utility/Path.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../sdl/SDLRenderPass.h"
 #include "../../core/Engine.h"

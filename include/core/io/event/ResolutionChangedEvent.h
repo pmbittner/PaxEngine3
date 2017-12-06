@@ -9,7 +9,7 @@
 #include "../../event/Event.h"
 
 namespace PAX {
-    class ResolutionChangedEvent : public Event {
+    struct ResolutionChangedEvent : public Event {
         int _oldWidth, _oldHeight, _newWidth, _newHeight;
 
     public:

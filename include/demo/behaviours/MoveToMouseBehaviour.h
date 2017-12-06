@@ -8,7 +8,7 @@
 #include "../../core/entity/component/Behaviour.h"
 #include "../../core/io/Mouse.h"
 #include "../../core/Engine.h"
-#include "../../core/io/MouseButtonPressedEvent.h"
+#include "core/io/event/MouseButtonPressedEvent.h"
 #include "../../core/time/Time.h"
 #include "../../core/Services.h"
 
@@ -48,9 +48,9 @@ namespace PAX {
         }
 
         void onMousePressed(MouseButtonPressedEvent &e) {
-            LOG(INFO) << "MB " << e.button << " pressed at " << e.mouse->x << " / " << e.mouse->y;
-            _dest.x = e.mouse->x - 400;
-            _dest.y = 300 - e.mouse->y;
+            LOG(INFO) << "Mouse pressed at " << e.mouse->getX() << " / " << e.mouse->getY();
+            _dest.x = e.mouse->getX() - 400;
+            _dest.y = 300 - e.mouse->getY();
         }
     };
 }
