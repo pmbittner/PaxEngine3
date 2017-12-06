@@ -63,7 +63,7 @@ set(SOURCE_FILES
         include/core/world/WorldLayer.h
         include/core/world/WorldLayerLayout.h
 
-        include/utility/OSDefines.h
+        include/utility/macros/OSDefines.h
         include/utility/Sleep.h
 
         include/utility/log/LogIncludes.h
@@ -120,7 +120,7 @@ set(SOURCE_FILES
         include/sdl/SDLRenderPass.h
         include/sdl/SDLKeyboard.h
         include/test/trials/SpecializedFunctionWithDifferentReturType.h
-        include/utility/MacroIncludes.h
+        include/utility/macros/MacroIncludes.h
         include/core/system/BehaviourSystem.h
         include/core/entity/component/Behaviour.h
 
@@ -160,7 +160,7 @@ set(SOURCE_FILES
         include/utility/reflection/MemberCheck.h
         include/utility/Dependency.h
         include/core/io/resources/Resources.h
-        include/utility/TypeMap.h
+        include/utility/datastructures/TypeMap.h
         include/utility/Signature.h
         include/test/ResourcesTest.h
         include/core/io/resources/ResourceLoader.h

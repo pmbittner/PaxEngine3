@@ -4,7 +4,7 @@
 
 #include "../../../../include/core/rendering/camera/Camera.h"
 #include "../../../../include/core/entity/Entity.h"
-#include "../../../../include/utility/MacroIncludes.h"
+#include "utility/macros/MacroIncludes.h"
 
 namespace PAX {
     Camera::Camera(Viewport *viewport, Projection *projection) : _viewport(viewport), _projection(projection) {

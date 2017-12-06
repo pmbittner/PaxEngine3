@@ -9,7 +9,7 @@
 #include <utility>
 #include <unordered_set>
 
-#include <utility/TypeMap.h>
+#include <utility/datastructures/TypeMap.h>
 #include <core/entity/component/allocators/EntityComponentMallocAllocator.h>
 
 #include "EntityComponentAllocator.h"

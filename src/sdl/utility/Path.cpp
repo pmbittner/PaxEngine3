@@ -6,7 +6,7 @@
 #include <string>
 #include <iostream>
 #include "../../../include/sdl/utility/Path.h"
-#include <utility/OSDefines.h>
+#include <utility/macros/OSDefines.h>
 
 /*
  * Get the resource path for resources located in res/subDir

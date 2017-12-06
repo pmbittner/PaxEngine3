@@ -2,7 +2,7 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include "../../../../include/utility/MacroIncludes.h"
+#include "utility/macros/MacroIncludes.h"
 #include "../../../../include/core/rendering/camera/PerspectiveProjection.h"
 
 namespace PAX {

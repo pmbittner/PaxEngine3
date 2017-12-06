@@ -6,7 +6,7 @@
 #define PAXENGINE3_RESOURCES_H
 
 #include <vector>
-#include <utility/TypeMap.h>
+#include <utility/datastructures/TypeMap.h>
 #include <utility/stdutils.h>
 #include <iostream>
 #include <unordered_map>

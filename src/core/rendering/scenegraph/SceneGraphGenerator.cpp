@@ -4,7 +4,7 @@
 
 #include "../../../../include/core/rendering/scenegraph/SceneGraphGenerator.h"
 #include "../../../../include/core/world/WorldLayer.h"
-#include "../../../../include/utility/MacroIncludes.h"
+#include "utility/macros/MacroIncludes.h"
 
 namespace PAX {
     SceneGraphGenerator::SceneGraphGenerator() {}

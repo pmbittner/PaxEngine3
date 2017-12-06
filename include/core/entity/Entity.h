@@ -13,7 +13,7 @@
 #include "Transform.h"
 #include "EntityComponent.h"
 
-#include "../../utility/TypeMap.h"
+#include "utility/datastructures/TypeMap.h"
 #include "../../utility/stdutils.h"
 #include "../../lib/easylogging++.h"
 

@@ -14,7 +14,7 @@
 #include "../../include/test/SDLTestApplication2.h"
 #include "../../include/lib/easylogging++.h"
 
-#include "../../include/utility/OSDefines.h"
+#include "utility/macros/OSDefines.h"
 #include "../../include/sdl/SDLWindow.h"
 
 namespace SDL_TEST_APPLICATION2 {

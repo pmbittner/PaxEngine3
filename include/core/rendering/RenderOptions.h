@@ -7,7 +7,7 @@
 
 #include <core/rendering/resource/Shader.h>
 #include <stack>
-#include <utility/MacroIncludes.h>
+#include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
     class Camera;

@@ -6,7 +6,7 @@
 #define PAXENGINE3_SERVICES_H
 
 #include <core/io/resources/Resources.h>
-#include <utility/TypeMap.h>
+#include <utility/datastructures/TypeMap.h>
 #include <core/entity/EntityComponentService.h>
 
 #include "rendering/RenderFactory.h"
