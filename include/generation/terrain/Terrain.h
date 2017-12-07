@@ -5,12 +5,12 @@
 #ifndef PAXENGINE3_TERRAIN_H
 #define PAXENGINE3_TERRAIN_H
 
-#include <core/rendering/TexturedMesh.h>
+#include <core/rendering/scenegraph/nodes/TexturingNode.h>
 
 namespace PAX {
     class Terrain : public Graphics {
     private:
-        TexturedMesh *mesh;
+        MeshNode *mesh;
 
     public:
         Terrain();

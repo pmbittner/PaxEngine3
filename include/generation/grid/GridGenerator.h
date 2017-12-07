@@ -6,11 +6,12 @@
 #define PAXENGINE3_GRIDGENERATOR_H
 
 #include <core/rendering/data/CPUMesh.h>
+#include "Grid.h"
 
 namespace PAX {
     class GridGenerator {
     public:
-        CPUMesh generateGrid(float width, float depth, int subdivsX, int subdivsY);
+        Grid generateGrid(float width, float depth, int subdivsX, int subdivsY);
     };
 }
 
