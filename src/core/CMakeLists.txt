@@ -18,7 +18,7 @@ set(CORE_SOURCE_FILES
 
         rendering/Renderer.cpp
         rendering/Viewport.cpp
-        rendering/TexturedMesh.cpp
+        rendering/scenegraph/nodes/TexturingNode.cpp
         rendering/Graphics.cpp
         rendering/RenderOptions.cpp
 
@@ -46,7 +46,7 @@ set(CORE_SOURCE_FILES
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp)
+        time/Time.cpp rendering/scenegraph/nodes/MeshNode.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

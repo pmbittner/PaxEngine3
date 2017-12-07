@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <core/service/Services.h>
+#include <opengl/rendernodes/OpenGLTexturingNode.h>
 
 #include "../../include/opengl/OpenGLSprite.h"
 #include "../../include/opengl/resource/OpenGLMesh.h"
@@ -19,33 +20,40 @@ namespace PAX {
     namespace OpenGL {
         OpenGLMesh *OpenGLSprite::QuadMesh = nullptr;
 
-        void OpenGLSprite::Initialize() {
-            std::vector<glm::vec3> vertices = {
-                    {-0.5f,0.5f,0},   //V0
-                    {-0.5f,-0.5f,0},  //V1
-                    {0.5f,-0.5f,0},   //V2
-                    {0.5f,0.5f,0}     //V3
-            };
+        OpenGLMesh * OpenGLSprite::GetMesh() {
+            if (!QuadMesh) {
+                std::vector<glm::vec3> vertices = {
+                        {-0.5f, 0.5f,  0},   //V0
+                        {-0.5f, -0.5f, 0},  //V1
+                        {0.5f,  -0.5f, 0},   //V2
+                        {0.5f,  0.5f,  0}     //V3
+                };
 
-            std::vector<std::vector<int>> indices = {
-                    {0,1,3},  //Top left triangle (V0,V1,V3)
-                    {3,1,2}   //Bottom right triangle (V3,V1,V2)
-            };
+                std::vector<std::vector<int>> indices = {
+                        {0, 1, 3},  //Top left triangle (V0,V1,V3)
+                        {3, 1, 2}   //Bottom right triangle (V3,V1,V2)
+                };
 
-            std::vector<glm::vec2> texCoords = {
-                    {0, 0},
-                    {0, 1},
-                    {1, 1},
-                    {1, 0}
-            };
+                std::vector<glm::vec2> texCoords = {
+                        {0, 0},
+                        {0, 1},
+                        {1, 1},
+                        {1, 0}
+                };
 
-            QuadMesh = new OpenGLMesh(vertices, indices);
-            QuadMesh->addAttribute(texCoords);
-            QuadMesh->finalize();
-            QuadMesh->upload();
+                QuadMesh = new OpenGLMesh(vertices, indices);
+                QuadMesh->addAttribute(texCoords);
+                QuadMesh->finalize();
+                QuadMesh->upload();
+            }
+
+            return QuadMesh;
         }
 
-        OpenGLSprite::OpenGLSprite(Texture *texture) : TexturedMesh(texture, QuadMesh) {
+        OpenGLSprite::OpenGLSprite(Texture *texture) : Graphics(), _textureNode(texture), _meshNode(GetMesh()) {
+            addChild(&_textureNode);
+            _textureNode.addChild(&_meshNode);
+
             Shader* shader = Services::GetResources().loadOrGet<Shader>(
                     (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
                     (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.frag").c_str()
@@ -54,27 +62,10 @@ namespace PAX {
             shader->cacheUniforms({
                                           "projection",
                                           "modelview",
-                                          "textureSampler"
+                                          "texture"
                                   });
 
             setShader(shader);
-        }
-
-        void OpenGLSprite::render(RenderOptions &renderOptions) {
-            Shader *shader = renderOptions.getShaderOptions().getShader();
-
-            Camera *cam = renderOptions.getCamera();
-            glm::mat4 model = getOwner()->getTransform().toWorldMatrix();
-            const glm::mat4 &view = cam->getViewTransform();
-            glm::mat4 modelview = view * model;
-
-            shader->setUniform("modelview", modelview);
-            shader->setUniform("projection", cam->getProjection()->toMatrix());
-
-            glActiveTexture(GL_TEXTURE0);
-            shader->setUniform("textureSampler", 0);
-
-            TexturedMesh::render(renderOptions);
         }
     }
 }

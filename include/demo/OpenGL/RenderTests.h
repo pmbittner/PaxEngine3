@@ -32,9 +32,6 @@ namespace PAX {
                 LOG(INFO) << "RenderTests: SDL initialized";
                 opengl->initialize();
                 LOG(INFO) << "RenderTests: OpenGL initialized";
-
-                OpenGL::OpenGLSprite::Initialize();
-                LOG(INFO) << "RenderTests: Sprite initialized";
             }
 
         public:

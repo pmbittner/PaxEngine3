@@ -10,7 +10,6 @@
 #include "../../core/entity/Entity.h"
 #include "../../opengl/resource/OpenGLTexture2D.h"
 #include "../../sdl/utility/Path.h"
-#include "../../opengl/OpenGLTexturedMesh.h"
 #include "opengl/deprecated/test.h"
 
 namespace PAX {

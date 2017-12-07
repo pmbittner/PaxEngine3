@@ -8,7 +8,6 @@
 #include <vector>
 #include <utility/stdutils.h>
 
-#include <core/rendering/Graphics.h>
 #include <core/rendering/interface/Renderable.h>
 
 namespace PAX {
@@ -27,14 +26,17 @@ namespace PAX {
         }
 
         virtual ~TypedSceneGraph() {
-            for (ChildrensType *child : _children)
-                delete child;
-
             _children.clear();
         }
 
-        void addChild(ChildrensType* child) {
+        ChildrensType* operator<<=(ChildrensType* child) {
             _children.push_back(child);
+            return child;
+        }
+
+        ChildrensType* addChild(ChildrensType* child) {
+            _children.push_back(child);
+            return child;
         }
 
         bool removeChild(ChildrensType* child) {
@@ -50,13 +52,12 @@ namespace PAX {
         }
 
         void render(RenderOptions &renderOptions) override {
-            for (Renderable *child : _children)
+            for (ChildrensType *child : _children)
                 child->render(renderOptions);
         }
     };
 
     typedef TypedSceneGraph<Renderable> SceneGraph;
-    typedef TypedSceneGraph<Graphics> GraphicsSceneGraph;
 }
 
 #endif //PAXENGINE3_SCENEGRAPHNODE_H

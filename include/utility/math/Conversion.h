@@ -10,9 +10,8 @@
 namespace PAX {
     namespace Util {
         namespace Conversion {
-            int coordinatesToIndex(int w, int h, int x, int y) {
+            int coordinatesToIndex(int w, int x, int y) {
                 assert(x < w);
-                assert(y < h);
                 return (w*y)+x;
             }
         }

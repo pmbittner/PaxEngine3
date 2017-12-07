@@ -52,7 +52,6 @@ namespace PAX {
                 Entity *camera = new Entity();
                 camera->add<Camera>(new Camera(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));
 
-                OpenGL::OpenGLSprite::Initialize();
                 Entity *paxLogo = new Entity();
                 float w = 100, h = 100;
                 paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((Services::GetPaths().RelativeResourcePath() + "img/PaxEngine3_128.png").c_str())));

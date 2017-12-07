@@ -3,6 +3,7 @@
 //
 
 #include <cassert>
+#include <core/entity/Transform.h>
 #include "../../../include/core/rendering/RenderOptions.h"
 
 namespace PAX {
@@ -57,6 +58,14 @@ namespace PAX {
 
     void PAX::RenderOptions::setCamera(PAX::Camera *camera) {
         RenderOptions::_camera = camera;
+    }
+
+    Transform & PAX::RenderOptions::getTransformation() const {
+        return *_currentTransform;
+    }
+
+    void PAX::RenderOptions::setTransformation(Transform &transform) {
+        _currentTransform = &transform;
     }
 
     ShaderOptions& PAX::RenderOptions::getShaderOptions() {

@@ -6,21 +6,24 @@
 #define PAXENGINE3_OPENGLSPRITE_H
 
 #include <GL/glew.h>
-#include "core/rendering/TexturedMesh.h"
+#include <core/rendering/Graphics.h>
+#include <opengl/rendernodes/OpenGLTexturingNode.h>
+#include <opengl/rendernodes/OpenGLMeshNode.h>
 
 namespace PAX {
     namespace OpenGL {
         class OpenGLMesh;
         class OpenGLShader;
 
-        class OpenGLSprite : public TexturedMesh {
+        class OpenGLSprite : public Graphics {
             static OpenGLMesh *QuadMesh;
+            static OpenGLMesh *GetMesh();
+
+            OpenGLTexturingNode _textureNode;
+            OpenGLMeshNode _meshNode;
 
         public:
-            static void Initialize();
             OpenGLSprite(Texture *texture);
-
-            virtual void render(RenderOptions &options) override;
         };
     }
 }

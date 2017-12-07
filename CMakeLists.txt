@@ -133,11 +133,10 @@ set(SOURCE_FILES
         include/sdl/opengl/SDLOpenGLEngineSetup.h
         include/core/rendering/Viewport.h
         include/opengl/OpenGLViewport.h
-        include/core/rendering/TexturedMesh.h
+        include/core/rendering/scenegraph/nodes/TexturingNode.h
         include/core/rendering/resource/Mesh.h
         include/core/rendering/resource/Texture.h
         include/opengl/resource/OpenGLTexture2D.h
-        include/opengl/OpenGLTexturedMesh.h
         include/opengl/resource/OpenGLMesh.h
         include/opengl/resource/OpenGLShader.h
         include/core/rendering/camera/Projection.h
@@ -170,7 +169,7 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/allocators/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h include/test/trials/InheritedTemplateTypeTest.h include/core/io/event/KeyEvent.h include/core/io/event/KeyPressedEvent.h "include/core/io/event/KeyReleasedEvent.h" include/core/io/MouseButtons.h include/core/io/event/MouseWheelEvent.h include/core/io/event/MouseEvent.h include/core/service/Paths.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/allocators/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h include/test/trials/InheritedTemplateTypeTest.h include/core/io/event/KeyEvent.h include/core/io/event/KeyPressedEvent.h "include/core/io/event/KeyReleasedEvent.h" include/core/io/MouseButtons.h include/core/io/event/MouseWheelEvent.h include/core/io/event/MouseEvent.h include/core/service/Paths.h include/generation/grid/Grid.h include/core/rendering/scenegraph/nodes/MeshNode.h include/opengl/rendernodes/OpenGLMeshNode.h include/opengl/rendernodes/OpenGLTexturingNode.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)

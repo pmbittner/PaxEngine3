@@ -44,9 +44,9 @@ namespace PAX {
 
         // delete shader node if it no longer holds any graphics
         if (sortingNode->isEmpty()) {
-            // removes the entry for gShader from the map. This deletes the shader node, which deletes the sorting node
             _sceneRoot.removeChild(&shaderNode);
             _shadersToNodes.erase(shader);
+            delete sortingNode;
         }
 
         graphics->OnShaderChanged.remove<GroupByShadersSceneGraphGenerator, &GroupByShadersSceneGraphGenerator::onShaderChanged>(this);

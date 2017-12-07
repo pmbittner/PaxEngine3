@@ -60,7 +60,7 @@ namespace PAX {
                 //*/
 
                 for (Pixel &p: errorLetter) {
-                    int index = 3 * PAX::Util::Conversion::coordinatesToIndex(w, h, p.x + xoffset, p.y + yoffset);
+                    int index = 3 * PAX::Util::Conversion::coordinatesToIndex(w, p.x + xoffset, p.y + yoffset);
                     pixels[index] = 255;
                     pixels[index + 1] = 0;
                     pixels[index + 2] = 0;

@@ -5,8 +5,9 @@
 #ifndef PAXENGINE3_RENDEROPTIONS_H
 #define PAXENGINE3_RENDEROPTIONS_H
 
-#include <core/rendering/resource/Shader.h>
 #include <stack>
+#include <core/entity/Transform.h>
+#include <core/rendering/resource/Shader.h>
 #include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
@@ -39,12 +40,17 @@ namespace PAX {
     class RenderOptions {
         Camera *_camera = nullptr;
         ShaderOptions _shaderOptions;
+        Transform* _currentTransform;
 
     public:
         RenderOptions();
 
         Camera *getCamera() const;
         void setCamera(Camera *camera);
+
+        Transform& getTransformation() const;
+        void setTransformation(Transform& transform);
+
 
         ShaderOptions& getShaderOptions();
     };
