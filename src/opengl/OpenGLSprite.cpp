@@ -4,13 +4,12 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <core/Services.h>
+#include <core/service/Services.h>
 
 #include "../../include/opengl/OpenGLSprite.h"
 #include "../../include/opengl/resource/OpenGLMesh.h"
 #include "../../include/opengl/resource/OpenGLShader.h"
 #include "../../include/opengl/resource/OpenGLTexture2D.h"
-#include "../../include/sdl/utility/Path.h"
 
 #include "../../include/opengl/OpenGLMacros.h"
 #include "../../include/core/entity/Entity.h"
@@ -48,8 +47,8 @@ namespace PAX {
 
         OpenGLSprite::OpenGLSprite(Texture *texture) : TexturedMesh(texture, QuadMesh) {
             Shader* shader = Services::GetResources().loadOrGet<Shader>(
-                    (getResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
-                    (getResourcePath() + "shader/gui/PlainTexture.frag").c_str()
+                    (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
+                    (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.frag").c_str()
             );
 
             shader->cacheUniforms({

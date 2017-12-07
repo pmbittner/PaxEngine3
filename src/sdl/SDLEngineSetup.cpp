@@ -3,6 +3,9 @@
 //
 
 #include <SDL2/SDL.h>
+#include <core/service/Paths.h>
+#include <sdl/utility/Path.h>
+#include <core/service/Services.h>
 //#include <SDL_ttf.h>
 #include "../../include/sdl/SDLEngineSetup.h"
 #include "../../include/sdl/SDLWindow.h"
@@ -13,6 +16,8 @@ namespace PAX {
     namespace SDL {
         void SDLEngineSetup::initialize(Engine *engine) {
             SDL_Init(SDL_INIT_EVERYTHING);//TTF_Init();
+
+            Services::GetPaths().setExecutionDirectory(getBasePath());
         }
 
         Window *SDLEngineSetup::createWindow() {

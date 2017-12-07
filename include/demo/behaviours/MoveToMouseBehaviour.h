@@ -10,7 +10,7 @@
 #include "../../core/Engine.h"
 #include "core/io/event/MouseButtonPressedEvent.h"
 #include "../../core/time/Time.h"
-#include "../../core/Services.h"
+#include "core/service/Services.h"
 
 namespace PAX {
     class MoveToMouseBehaviour : public Behaviour {

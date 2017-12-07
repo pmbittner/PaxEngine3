@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <core/Services.h>
+#include <core/service/Services.h>
 #include "../../include/opengl/OpenGLMacros.h"
 #include "../../include/opengl/OpenGLTexturedMesh.h"
 #include "../../include/opengl/resource/OpenGLMesh.h"

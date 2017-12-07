@@ -5,17 +5,10 @@
 #ifndef SDLTEST_UTILS_H
 #define SDLTEST_UTILS_H
 
-/*
- * Get the resource path for resources located in res/subDir
- * It's assumed the project directory is structured like:
- * bin/
- *  res/
- *  OS/ eg Windows or Linux
- *    debug/
- *      executable in here
- *    release/
- *      executable in here
- */
-std::string getResourcePath();
+namespace PAX {
+    namespace SDL {
+        std::string getBasePath();
+    }
+}
 
 #endif //SDLTEST_UTILS_H

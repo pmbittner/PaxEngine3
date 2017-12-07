@@ -9,10 +9,12 @@
 #include <utility/datastructures/TypeMap.h>
 #include <core/entity/EntityComponentService.h>
 
-#include "rendering/RenderFactory.h"
-#include "event/EventService.h"
-#include "io/InputSystem.h"
-#include "EngineSetup.h"
+#include "core/rendering/RenderFactory.h"
+#include "core/event/EventService.h"
+#include "core/io/InputSystem.h"
+#include "core/EngineSetup.h"
+
+#include "Paths.h"
 
 namespace PAX {
     class Engine;
@@ -30,6 +32,8 @@ namespace PAX {
 
         InputSystem* _inputSystem = nullptr;
         RenderFactory* _renderFactory = nullptr;
+
+        Paths _paths;
 
     protected:
         Services();
@@ -63,6 +67,8 @@ namespace PAX {
         static Resources& GetResources();
         static EntityComponentService& GetEntityComponentService();
         static EventService& GetEventService();
+
+        static Paths& GetPaths();
 
         void update();
     };

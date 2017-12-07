@@ -7,7 +7,6 @@
 
 #include "../../core/Game.h"
 #include "../../utility/io/CSVSettingsLoader.h"
-#include "../../sdl/utility/Path.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../sdl/SDLRenderPass.h"
 #include "../../core/Engine.h"
@@ -51,7 +50,7 @@ namespace PAX {
                 EntityComponentService &componentAllocator = Services::GetEntityComponentService();
 
                 // load graphic settings
-                Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
+                Util::CSVSettingsLoader graphicSettings(Services::GetPaths().RelativeResourcePath() + "config/graphics.ini", '=', true);
                 int resX = graphicSettings.getInt("resolutionWidth");
                 int resY = graphicSettings.getInt("resolutionHeight");
 

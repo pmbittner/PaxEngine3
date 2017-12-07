@@ -2,7 +2,7 @@
 // Created by Paul on 04.10.2017.
 //
 
-#include <core/Services.h>
+#include <core/service/Services.h>
 #include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
@@ -26,6 +26,10 @@ namespace PAX {
         PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
 
         _inputSystem->initialize();
+    }
+
+    void Services::update() {
+        _inputSystem->update();
     }
 
     Services& Services::Instance() {
@@ -52,7 +56,7 @@ namespace PAX {
         return Instance()._entityComponentService;
     }
 
-    void Services::update() {
-        _inputSystem->update();
+    Paths& Services::GetPaths() {
+        return Instance()._paths;
     }
 }

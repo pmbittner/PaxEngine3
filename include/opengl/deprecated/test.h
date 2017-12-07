@@ -9,7 +9,6 @@
 #include "core/rendering/Graphics.h"
 #include "opengl/resource/OpenGLMesh.h"
 #include "opengl/resource/OpenGLShader.h"
-#include "sdl/utility/Path.h"
 
 namespace PAX {
     namespace OpenGL {
@@ -37,8 +36,8 @@ namespace PAX {
                 mesh->upload();
 
                 shader = new OpenGLShader("ThinMatrix",
-                                          getResourcePath() + "shader/test/thinmatrix/tut5.vert",
-                                          getResourcePath() + "shader/test/thinmatrix/tut5.frag"
+                                          Services::GetPaths().RelativeResourcePath() + "shader/test/thinmatrix/tut5.vert",
+                                          Services::GetPaths().RelativeResourcePath() + "shader/test/thinmatrix/tut5.frag"
                 );
             }
 

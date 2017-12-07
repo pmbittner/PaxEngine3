@@ -8,7 +8,7 @@
 #include "../core/rendering/Renderer.h"
 #include "io/Window.h"
 #include "EngineSetup.h"
-#include "Services.h"
+#include "core/service/Services.h"
 
 namespace PAX {
     class Game;

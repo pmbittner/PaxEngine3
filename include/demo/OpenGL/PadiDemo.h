@@ -12,7 +12,6 @@
 #include "../../test/SDLTestApplication2.h"
 #include "../../sdl/opengl/SDLOpenGLWindow.h"
 #include "../../opengl/rendernodes/OpenGLRenderPass.h"
-#include "../../sdl/utility/Path.h"
 #include "../behaviours/MoveToMouseBehaviour.h"
 #include "../../sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../opengl/OpenGLViewport.h"
@@ -56,13 +55,13 @@ namespace PAX {
                 OpenGL::OpenGLSprite::Initialize();
                 Entity *paxLogo = new Entity();
                 float w = 100, h = 100;
-                paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((getResourcePath() + "img/PaxEngine3_128.png").c_str())));
+                paxLogo->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((Services::GetPaths().RelativeResourcePath() + "img/PaxEngine3_128.png").c_str())));
                 paxLogo->add<Behaviour>(new Dance2D());
                 paxLogo->getTransform().setPosition(0, -res.y/2 + h, -1);
                 paxLogo->getTransform().setScale(w, h);
 
                 Entity* blackBar = new Entity();
-                blackBar->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((getResourcePath() + "img/Black16.png").c_str())));
+                blackBar->add<Graphics>(new OpenGL::OpenGLSprite(Services::GetResources().loadOrGet<Texture>((Services::GetPaths().RelativeResourcePath() + "img/Black16.png").c_str())));
                 blackBar->getTransform().setPosition(0, 0, -2);
                 blackBar->getTransform().setScale(5, res.y);
 
@@ -129,7 +128,7 @@ namespace PAX {
                 _testWorld->getMainLayer()->spawn(cgCube);
                 _testWorld->getMainLayer()->spawn(paxCube);
 
-                Util::CSVSettingsLoader graphicSettings(getResourcePath() + "config/graphics.ini", '=', true);
+                Util::CSVSettingsLoader graphicSettings(Services::GetPaths().RelativeResourcePath() + "config/graphics.ini", '=', true);
                 window->setFullscreen(graphicSettings.getBool("fullscreen"));
             }
         };

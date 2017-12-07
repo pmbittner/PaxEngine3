@@ -6,11 +6,10 @@
 #define PAXENGINE3_DEMOGAME_H
 
 #include <iostream>
-#include "../core/Game.h"
-#include "../test/SDLTestApplication2.h"
-#include "../sdl/test/SDLSprite.h"
-#include "../sdl/SDLRenderPass.h"
-#include "../sdl/utility/Path.h"
+#include <core/Game.h>
+#include <test/SDLTestApplication2.h>
+#include <sdl/test/SDLSprite.h>
+#include <sdl/SDLRenderPass.h>
 #include "behaviours/MoveToMouseBehaviour.h"
 
 namespace PAX {
@@ -37,7 +36,7 @@ namespace PAX {
                 World *testWorld = new World();
                 setActiveWorld(testWorld);
 
-                SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), getResourcePath() + "img/test/Gilgamesh.bmp");
+                SDLSprite *sprite = new SDLSprite(renderpass->getSDLRenderer(), Services::GetPaths().RelativeResourcePath() + "img/test/Gilgamesh.bmp");
 
                 testEntity.add<Graphics>(sprite);
                 testEntity.add<Camera>(new Camera(new EmptyViewport));

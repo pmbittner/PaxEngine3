@@ -3,7 +3,7 @@
 //
 
 #include <lib/easylogging++.h>
-#include <core/Services.h>
+#include <core/service/Services.h>
 #include <opengl/resource/OpenGLShaderLoader.h>
 #include <opengl/resource/NullOpenGLTextureLoader.h>
 #include <opengl/io/FreeImageOpenGLTextureLoader.h>

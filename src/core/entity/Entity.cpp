@@ -3,7 +3,7 @@
 //
 
 #include <typeindex>
-#include <core/Services.h>
+#include <core/service/Services.h>
 #include "../../../include/core/entity/Entity.h"
 #include "../../../include/lib/easylogging++.h"
 

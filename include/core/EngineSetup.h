@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_ENGINESETUP_H
 #define PAXENGINE3_ENGINESETUP_H
 
+#include <string>
+
 namespace PAX {
     class Engine;
     class Window;
