@@ -29,14 +29,20 @@ namespace PAX {
             _children.clear();
         }
 
-        ChildrensType* operator<<=(ChildrensType* child) {
+        /**
+         * Works the same as addChild but returns itself to allow chains like
+         *
+         * scenegraph <<= node <<= childOfNode <<= &childOfChildOfNode
+         * @param child The child to be added to the scenegraph.
+         * @return this
+         */
+        TypedSceneGraph<ChildrensType>* operator<<=(ChildrensType* child) {
             _children.push_back(child);
-            return child;
+            return this;
         }
 
-        ChildrensType* addChild(ChildrensType* child) {
+        void addChild(ChildrensType* child) {
             _children.push_back(child);
-            return child;
         }
 
         bool removeChild(ChildrensType* child) {

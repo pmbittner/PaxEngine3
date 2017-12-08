@@ -12,7 +12,7 @@
 #include "resource/Shader.h"
 
 namespace PAX {
-    PAX_EntityComponent(Graphics, false, public SceneGraph)
+    PAX_EntityComponent(Graphics, false, public Renderable)
     protected:
         Shader *_shader;
 

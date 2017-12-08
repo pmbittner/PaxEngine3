@@ -50,9 +50,8 @@ namespace PAX {
             return QuadMesh;
         }
 
-        OpenGLSprite::OpenGLSprite(Texture *texture) : Graphics(), _textureNode(texture), _meshNode(GetMesh()) {
-            addChild(&_textureNode);
-            _textureNode.addChild(&_meshNode);
+        OpenGLSprite::OpenGLSprite(Texture *texture) : SceneGraphGraphics(), _textureNode(texture), _meshNode(GetMesh()) {
+            scenegraph <<= _textureNode <<= &_meshNode;
 
             Shader* shader = Services::GetResources().loadOrGet<Shader>(
                     (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.vert").c_str(),

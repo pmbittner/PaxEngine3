@@ -6,16 +6,16 @@
 #define PAXENGINE3_OPENGLSPRITE_H
 
 #include <GL/glew.h>
-#include <core/rendering/Graphics.h>
 #include <opengl/rendernodes/OpenGLTexturingNode.h>
 #include <opengl/rendernodes/OpenGLMeshNode.h>
+#include <core/rendering/SceneGraphGraphics.h>
 
 namespace PAX {
     namespace OpenGL {
         class OpenGLMesh;
         class OpenGLShader;
 
-        class OpenGLSprite : public Graphics {
+        class OpenGLSprite : public SceneGraphGraphics {
             static OpenGLMesh *QuadMesh;
             static OpenGLMesh *GetMesh();
 

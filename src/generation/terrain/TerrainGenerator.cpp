@@ -24,6 +24,8 @@ namespace PAX {
 
         randomizeHeights(grid);
 
+        Mesh* mesh;
+
         return new Terrain;
     }
 }

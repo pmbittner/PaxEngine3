@@ -8,7 +8,6 @@
 namespace PAX {
     void Graphics::render(RenderOptions &renderOptions) {
         renderOptions.setTransformation(getOwner()->getTransform());
-        SceneGraph::render(renderOptions);
     }
 
     Shader *Graphics::getShader() const {
