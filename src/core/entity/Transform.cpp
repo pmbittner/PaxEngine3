@@ -55,121 +55,74 @@ namespace PAX {
 
 
     // Position
-    void Transform::setX(float x) {
-        _pos3D.x = x;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setY(float y) {
-        _pos3D.y = y;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setZ(float z) {
-        _pos3D.z = z;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setPosition(float x, float y) {
-        _pos2D = {x, y};
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setPosition(float x, float y, float z) {
-        _pos3D = {x, y, z};
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setPosition(glm::vec2 pos) {
-        _pos2D = pos;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setPosition(glm::vec3 pos) {
-        _pos3D = pos;
-        setRelativeMatDirty(true);
-    }
-
-
-    float Transform::x() {
+    float Transform::getX() {
         return _pos3D.x;
     }
 
-    float Transform::y() {
+    float Transform::getY() {
         return _pos3D.y;
     }
 
-    float Transform::z() {
+    float Transform::getZ() {
         return _pos3D.z;
     }
 
-    glm::vec2 Transform::xy() {
+    glm::vec2 Transform::getPosition2D() {
+       return _pos2D;
+    }
+
+    glm::vec3 Transform::getPosition() {
+        return _pos3D;
+    }
+
+
+    float& Transform::x() {
+        setRelativeMatDirty(true);
+        return _pos3D.x;
+    }
+
+    float& Transform::y() {
+        setRelativeMatDirty(true);
+        return _pos3D.y;
+    }
+
+    float& Transform::z() {
+        setRelativeMatDirty(true);
+        return _pos3D.z;
+    }
+
+    glm::vec2& Transform::position2D() {
+        setRelativeMatDirty(true);
         return _pos2D;
     }
 
-    glm::vec3 Transform::xyz() {
+    glm::vec3& Transform::position() {
+        setRelativeMatDirty(true);
         return _pos3D;
     }
 
 
     // Rotation
-    void Transform::setRotation(float rotation) {
-        _rotation.z = rotation;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setRotation(float x, float y, float z) {
-        _rotation = {x, y, z};
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setRotation(glm::vec3 rotation) {
-        _rotation = rotation;
-        setRelativeMatDirty(true);
-    }
-
-
-    float Transform::getRotation() {
+    float Transform::getRotation2D() {
         return _rotation.z;
     }
 
-    glm::vec3 Transform::getRotation3D() {
+    glm::vec3 Transform::getRotation() {
+        return _rotation;
+    }
+
+    float& Transform::rotation2D() {
+        setRelativeMatDirty(true);
+        return _rotation.z;
+    }
+
+    glm::vec3& Transform::rotation() {
+        setRelativeMatDirty(true);
         return _rotation;
     }
 
 
     // Scale
-    void Transform::setScaleX(float x) {
-        _scale3D.x = x;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setScaleY(float y) {
-        _scale3D.y = y;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setScaleZ(float z) {
-        _scale3D.z = z;
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setScale(float x, float y) {
-        _scale2D = {x, y};
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setScale(float x, float y, float z) {
-        _scale3D = {x, y, z};
-        setRelativeMatDirty(true);
-    }
-
-    void Transform::setScale(glm::vec3 scale) {
-        _scale3D = scale;
-        setRelativeMatDirty(true);
-    }
-
-
     float Transform::getScaleX() {
         return _scale3D.x;
     }
@@ -182,11 +135,36 @@ namespace PAX {
         return _scale3D.z;
     }
 
-    glm::vec2 Transform::getScale() {
+    glm::vec2 Transform::getScale2D() {
         return _scale2D;
     }
 
-    glm::vec3 Transform::getScale3D() {
+    glm::vec3 Transform::getScale() {
+        return _scale3D;
+    }
+
+    float& Transform::scaleX() {
+        setRelativeMatDirty(true);
+        return _scale3D.x;
+    }
+
+    float& Transform::scaleY() {
+        setRelativeMatDirty(true);
+        return _scale3D.y;
+    }
+
+    float& Transform::scaleZ() {
+        setRelativeMatDirty(true);
+        return _scale3D.z;
+    }
+
+    glm::vec2& Transform::scale2D() {
+        setRelativeMatDirty(true);
+        return _scale2D;
+    }
+
+    glm::vec3& Transform::scale() {
+        setRelativeMatDirty(true);
         return _scale3D;
     }
 

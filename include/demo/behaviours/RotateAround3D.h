@@ -16,10 +16,7 @@ namespace PAX {
         }
 
         virtual void update() override {
-            Transform &t = getOwner()->getTransform();
-            glm::vec3 rotation = t.getRotation3D();
-            rotation += _impulse;
-            t.setRotation(rotation);
+            getOwner()->getTransform().rotation() += _impulse;
         }
     };
 }

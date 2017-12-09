@@ -5,37 +5,19 @@
 #ifndef PAXENGINE3_RENDERTESTS_H
 #define PAXENGINE3_RENDERTESTS_H
 
-#include "../../core/Game.h"
-#include "../../utility/io/CSVSettingsLoader.h"
-#include "../../sdl/opengl/SDLOpenGLRenderPass.h"
-#include "../../sdl/SDLRenderPass.h"
-#include "../../core/Engine.h"
+#include "OpenGLDemo.h"
+
+#include <core/rendering/resource/Texture.h>
+#include <core/rendering/camera/FullPixelScreenProjection.h>
+#include <opengl/OpenGLSprite.h>
 
 namespace PAX {
     namespace Demo {
-        class RenderTests : public Game {
+        class RenderTests : public OpenGLDemo {
             Texture *cgTexture;
 
-            void initRendering() {
-                SDL::OpenGL::SDLOpenGLRenderPass *sdl = new SDL::OpenGL::SDLOpenGLRenderPass();
-                OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
-                sdl->addChild(opengl);
-                LOG(INFO) << "RenderTests: RenderPasses created";
-
-                Renderer &renderer = Engine::Instance().getRenderer();
-
-                renderer.setSceneGraphRoot(sdl);
-                renderer.setSceneGraphGenerationEntryPoint(opengl);
-                LOG(INFO) << "RenderTests: Nodes initialized";
-
-                sdl->initialize();
-                LOG(INFO) << "RenderTests: SDL initialized";
-                opengl->initialize();
-                LOG(INFO) << "RenderTests: OpenGL initialized";
-            }
-
         public:
-            RenderTests() : Game() {
+            RenderTests() : OpenGLDemo() {
 
             }
 
@@ -44,27 +26,21 @@ namespace PAX {
             }
 
             virtual void initialize() override {
+                OpenGLDemo::initialize();
+
                 EntityComponentService &componentAllocator = Services::GetEntityComponentService();
-
-                // load graphic settings
-                Util::CSVSettingsLoader graphicSettings(Services::GetPaths().RelativeResourcePath() + "config/graphics.ini", '=', true);
-                int resX = graphicSettings.getInt("resolutionWidth");
-                int resY = graphicSettings.getInt("resolutionHeight");
-
-                Engine::Instance().getWindow()->create("PaxEngine3: RenderTests Demo", resX, resY);
-
-                initRendering();
-                LOG(INFO) << "RenderTests: Rendering initialized";
+                Window* window = Engine::Instance().getWindow();
 
                 World *world = new World();
+                glm::ivec2 res = window->getResolution();
 
                 Entity *cameraEntity = new Entity();
                 Camera *camera = componentAllocator.create<Camera>(
-                        new OpenGL::OpenGLViewport(0, 0, resX, resY),
+                        new OpenGL::OpenGLViewport(0, 0, res.x, res.y),
                         new FullPixelScreenProjection()
                 );
                 cameraEntity->add<Camera>(camera);
-                cameraEntity->getTransform().setZ(1);
+                cameraEntity->getTransform().z() = 1;
                 LOG(INFO) << "RenderTests: Camera initialized";
 
                 Entity *entity1 = new Entity();
@@ -72,7 +48,7 @@ namespace PAX {
                 entity1->add<Graphics>(componentAllocator.create<OpenGL::OpenGLSprite>(cgTexture));
                 //entity1->add<Behaviour>(new Dance2D());
                 entity1->add<Behaviour>(componentAllocator.create<MoveToMouseBehaviour>());
-                entity1->getTransform().setScale(200, 200);
+                entity1->getTransform().scale2D() = {200, 200};
                 LOG(INFO) << "RenderTests: Entities initialized";
 
                 world->getMainLayer()->spawn(cameraEntity);

@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_MOUSE_H
 #define PAXENGINE3_MOUSE_H
 
+#include "MouseButtons.h"
+
 namespace PAX {
     class InputSystem;
 
@@ -15,7 +17,7 @@ namespace PAX {
     public:
         int getX();
         int getY();
-        bool isButtonDown(int button);
+        bool isButtonDown(MouseButton button);
     };
 }
 

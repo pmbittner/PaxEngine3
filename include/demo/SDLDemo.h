@@ -42,7 +42,7 @@ namespace PAX {
                 testEntity.add<Camera>(new Camera(new EmptyViewport));
                 testEntity.add<Behaviour>(new MoveToMouseBehaviour);
 
-                testEntity.getTransform().setPosition(300, 200);
+                testEntity.getTransform().position2D() = {300, 200};
 
                 testWorld->getMainLayer()->spawn(&testEntity);
             }

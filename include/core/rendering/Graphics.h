@@ -14,7 +14,7 @@
 namespace PAX {
     PAX_EntityComponent(Graphics, false, public Renderable)
     protected:
-        Shader *_shader;
+        Shader *_shader = nullptr;
 
     public:
         EventHandler<GraphicsShaderChangedEvent&> OnShaderChanged;

@@ -28,8 +28,11 @@ namespace PAX {
             std::vector<std::pair<int, int>> _attributes; //offset and length
             int _currentOffset = 0;
 
+            void initialize(std::vector<glm::vec3> &vertices);
+
         public:
             OpenGLMesh(std::vector<glm::vec3> &vertices, std::vector<std::vector<int>> &faces, GLenum faceMode = GL_TRIANGLES);
+            OpenGLMesh(std::vector<glm::vec3> &vertices, std::vector<glm::ivec3> &faces, GLenum faceMode = GL_TRIANGLES);
             ~OpenGLMesh();
 
             virtual void render(RenderOptions &renderOptions) override;

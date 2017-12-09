@@ -46,7 +46,7 @@ set(CORE_SOURCE_FILES
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp rendering/scenegraph/nodes/MeshNode.cpp rendering/SceneGraphGraphics.cpp)
+        time/Time.cpp rendering/scenegraph/nodes/MeshNode.cpp rendering/SceneGraphGraphics.cpp entity/component/behaviours/NoClipControls.cpp)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore)

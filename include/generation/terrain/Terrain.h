@@ -11,10 +11,12 @@
 namespace PAX {
     class Terrain : public Graphics {
     private:
-        MeshNode *mesh;
+        Mesh* mesh;
 
     public:
-        Terrain();
+        Terrain(Mesh* mesh);
+
+        void render(RenderOptions& renderOptions) override;
     };
 }
 

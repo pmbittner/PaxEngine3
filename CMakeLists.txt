@@ -82,10 +82,8 @@ set(SOURCE_FILES
 
         include/demo/behaviours/MoveToMouseBehaviour.h
         include/demo/behaviours/RotateAround3D.h
-        include/demo/behaviours/CameraControls.h
         include/demo/behaviours/Dance2D.h
         include/demo/SDLDemo.h
-        include/demo/OpenGL/PadiDemo.h
         include/demo/OpenGL/RenderTests.h
         include/demo/OpenGL/Cube.h
 
@@ -169,7 +167,7 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/allocators/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h include/test/trials/InheritedTemplateTypeTest.h include/core/io/event/KeyEvent.h include/core/io/event/KeyPressedEvent.h "include/core/io/event/KeyReleasedEvent.h" include/core/io/MouseButtons.h include/core/io/event/MouseWheelEvent.h include/core/io/event/MouseEvent.h include/core/service/Paths.h include/generation/grid/Grid.h include/core/rendering/scenegraph/nodes/MeshNode.h include/opengl/rendernodes/OpenGLMeshNode.h include/opengl/rendernodes/OpenGLTexturingNode.h include/core/rendering/SceneGraphGraphics.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/allocators/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h include/test/trials/InheritedTemplateTypeTest.h include/core/io/event/KeyEvent.h include/core/io/event/KeyPressedEvent.h "include/core/io/event/KeyReleasedEvent.h" include/core/io/MouseButtons.h include/core/io/event/MouseWheelEvent.h include/core/io/event/MouseEvent.h include/core/service/Paths.h include/generation/grid/Grid.h include/core/rendering/scenegraph/nodes/MeshNode.h include/opengl/rendernodes/OpenGLMeshNode.h include/opengl/rendernodes/OpenGLTexturingNode.h include/core/rendering/SceneGraphGraphics.h include/demo/OpenGL/TerrainDemo.h include/demo/OpenGL/OpenGLDemo.h include/core/entity/component/behaviours/NoClipControls.h include/core/io/event/MouseMovedEvent.h)
 
 ### API INCLUDES ########################################
 if (ANDROID)
@@ -216,4 +214,4 @@ else()
 endif()
 
 ### LINKING #############################################
-target_link_libraries(PaxEngine3 paxutil paxsdl paxopengl paxcore)#paxtest
+target_link_libraries(PaxEngine3 paxgeneration paxutil paxsdl paxopengl paxcore)#paxtest

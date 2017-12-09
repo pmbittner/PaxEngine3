@@ -14,7 +14,7 @@ namespace PAX {
         return y;
     }
 
-    bool Mouse::isButtonDown(int button) {
+    bool Mouse::isButtonDown(MouseButton button) {
         LOG(WARNING) << "Mouse::isButtonDown not implemented";
         return false;
     }

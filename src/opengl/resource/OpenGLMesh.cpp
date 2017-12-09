@@ -9,9 +9,19 @@
 namespace PAX {
     namespace OpenGL {
         OpenGLMesh::OpenGLMesh(std::vector<glm::vec3> &vertices, std::vector<std::vector<int>> &faces, GLenum faceMode) : _faceMode(faceMode), _indices(faces) {
+            initialize(vertices);
+        }
+
+        OpenGLMesh::OpenGLMesh(std::vector<glm::vec3> &vertices, std::vector<glm::ivec3> &faces, GLenum faceMode) : _faceMode(faceMode) {
+            for (glm::ivec3& triangle : faces)
+                _indices.push_back({triangle.x, triangle.y, triangle.z});
+            initialize(vertices);
+        }
+
+        void OpenGLMesh::initialize(std::vector<glm::vec3> &vertices) {
             _numberOfVertices = vertices.size();
-            _numberOfFaces = faces.size();
-            _verticesPerFace = faces.at(0).size();
+            _numberOfFaces = _indices.size();
+            _verticesPerFace = _indices.at(0).size();
 
             this->_vertices.resize(_numberOfVertices);
 

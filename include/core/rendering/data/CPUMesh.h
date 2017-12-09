@@ -12,6 +12,10 @@ namespace PAX {
     struct CPUMesh {
         std::vector<glm::vec3> vertices;
         std::vector<glm::ivec3> faces;
+
+        CPUMesh(std::vector<glm::vec3> &vertices, std::vector<glm::ivec3> faces) : vertices(vertices), faces(faces) {
+
+        }
     };
 }
 

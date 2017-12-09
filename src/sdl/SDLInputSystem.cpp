@@ -12,6 +12,7 @@ namespace PAX {
             _mbPressed.mouse = &_mouse;
             _mbReleased.mouse = &_mouse;
             _mWheel.mouse = &_mouse;
+            _mMoved.mouse = &_mouse;
             _keyPressed.keyboard = &_keyboard;
             _keyReleased.keyboard = &_keyboard;
         }
@@ -62,9 +63,14 @@ namespace PAX {
                     }
 
                     case SDL_MOUSEMOTION: {
+                        _mMoved.oldX = _mouse.getX();
+                        _mMoved.oldY = _mouse.getY();
+
                         int x, y;
                         SDL_GetMouseState(&x, &y);
                         setMouseLocation(_mouse, x, y);
+
+                        Services::GetEventService()(_mMoved);
                         break;
                     }
 

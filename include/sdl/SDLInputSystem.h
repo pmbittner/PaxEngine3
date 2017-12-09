@@ -13,6 +13,7 @@
 #include <core/io/event/KeyReleasedEvent.h>
 #include <core/io/event/MouseButtonPressedEvent.h>
 #include <core/io/event/MouseButtonReleasedEvent.h>
+#include <core/io/event/MouseMovedEvent.h>
 #include <core/io/event/MouseWheelEvent.h>
 
 #include "SDLKeyboard.h"
@@ -28,6 +29,7 @@ namespace PAX {
             // pre allocated event objects
             MouseButtonPressedEvent _mbPressed;
             MouseButtonReleasedEvent _mbReleased;
+            MouseMovedEvent _mMoved;
             MouseWheelEvent _mWheel;
 
             KeyPressedEvent _keyPressed;

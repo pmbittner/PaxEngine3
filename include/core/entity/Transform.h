@@ -46,6 +46,7 @@ namespace PAX {
         Transform* getParent();
 
         // Position
+        /*
         void setX(float x);
         void setY(float y);
         void setZ(float z);
@@ -53,34 +54,52 @@ namespace PAX {
         void setPosition(float x, float y, float z);
         void setPosition(glm::vec2 pos);
         void setPosition(glm::vec3 pos);
+         */
 
-        float x();
-        float y();
-        float z();
-        glm::vec2 xy();
-        glm::vec3 xyz();
+        float getX();
+        float getY();
+        float getZ();
+        glm::vec2 getPosition2D();
+        glm::vec3 getPosition();
+
+        float& x();
+        float& y();
+        float& z();
+        glm::vec2& position2D();
+        glm::vec3& position();
 
         // Rotation
+        /*
         void setRotation(float rotation);
         void setRotation(float x, float y, float z);
         void setRotation(glm::vec3 rotation);
+         */
+        float getRotation2D();
+        glm::vec3 getRotation();
 
-        float getRotation();
-        glm::vec3 getRotation3D();
+        float& rotation2D();
+        glm::vec3& rotation();
 
         // Scale
+        /*
         void setScaleX(float x);
         void setScaleY(float y);
         void setScaleZ(float z);
         void setScale(float x, float y);
         void setScale(float x, float y, float z);
         void setScale(glm::vec3 scale);
-
+         */
         float getScaleX();
         float getScaleY();
         float getScaleZ();
-        glm::vec2 getScale();
-        glm::vec3 getScale3D();
+        glm::vec2 getScale2D();
+        glm::vec3 getScale();
+
+        float& scaleX();
+        float& scaleY();
+        float& scaleZ();
+        glm::vec2& scale2D();
+        glm::vec3& scale();
 
         // Mat
         const glm::mat4 &toRelativeMatrix();
