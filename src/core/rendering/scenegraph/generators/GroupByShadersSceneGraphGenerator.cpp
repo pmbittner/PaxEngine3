@@ -16,37 +16,26 @@ namespace PAX {
 
     void GroupByShadersSceneGraphGenerator::registerGraphicsForShader(Graphics *graphics, Shader *shader) {
         ShadingNode &shaderNode = _shadersToNodes[shader];
-        SortingNode *sortingNode = nullptr;
 
         if (shaderNode.isEmpty()) {
-            // This is the first occurence of the shader. Hence, create new nodes below the scene root
+            // This is the first occurence of the shader.
             shaderNode.setShader(shader);
-            sortingNode = new SortingNode();
-            shaderNode.addChild(sortingNode);
-
             _sceneRoot.addChild(&shaderNode);
-        } else {
-            // This is not the first occurence of the shader. Hence, grab the
-            // SortingNode below shaderNode, which is the only child of shaderNode.
-            sortingNode = dynamic_cast<SortingNode*>(shaderNode.getChildren()[0]);
         }
 
-        sortingNode->addChild(graphics);
+        shaderNode.addChild(graphics);
         graphics->OnShaderChanged.add<GroupByShadersSceneGraphGenerator, &GroupByShadersSceneGraphGenerator::onShaderChanged>(this);
     }
 
     void GroupByShadersSceneGraphGenerator::unregisterGraphicsFromShader(Graphics *graphics, Shader *shader) {
         ShadingNode &shaderNode = _shadersToNodes[shader];
-        // Grab the SortingNode below shaderNode, which is the only child of shaderNode.
-        SortingNode* sortingNode = dynamic_cast<SortingNode*>(shaderNode.getChildren()[0]);
 
-        sortingNode->removeChild(graphics);
+        shaderNode.removeChild(graphics);
 
         // delete shader node if it no longer holds any graphics
-        if (sortingNode->isEmpty()) {
+        if (shaderNode.isEmpty()) {
             _sceneRoot.removeChild(&shaderNode);
             _shadersToNodes.erase(shader);
-            delete sortingNode;
         }
 
         graphics->OnShaderChanged.remove<GroupByShadersSceneGraphGenerator, &GroupByShadersSceneGraphGenerator::onShaderChanged>(this);

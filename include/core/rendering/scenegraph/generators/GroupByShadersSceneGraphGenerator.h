@@ -20,8 +20,6 @@ namespace PAX {
      *        |            |               |
      *   ShaderNode1  ShaderNode2 ... ShaderNodeN
      *        |            |               |
-     *   SortingNode  SortingNode     SortingNode
-     *        |            |               |
      *    Graphics     Graphics        Graphics
      */
     class GroupByShadersSceneGraphGenerator : public SceneGraphGenerator {
