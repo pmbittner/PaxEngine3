@@ -19,6 +19,16 @@ namespace PAX {
         float maxX =  grid.width/2.f;
         float maxZ =  grid.depth/2.f;
 
+        for (int x = 0; x <= grid.subdivsX; ++x) {
+            for (int z = 0; z <= grid.subdivsZ; ++z) {
+                grid.getVertexAt(x,z).y = heightFunction(
+                        floor(((x / ((float)grid.subdivsX)) - .5f) * grid.width),
+                        floor(((z / ((float)grid.subdivsZ)) - .5f) * grid.depth)
+                );
+            }
+        }
+
+        /*
         for (float x = -maxX; x <= maxX; x+=xstep) {
             for (float z = -maxZ; z <= maxZ; z+=zstep) {
                 grid.getVertexAt(
@@ -27,11 +37,12 @@ namespace PAX {
                 ).y = heightFunction(x, z);
             }
         }
+         //*/
     }
 
     Terrain * TerrainGenerator::generateTerrain() {
         GridGenerator gridGenerator;
-        Grid grid = gridGenerator.generateGrid(40, 40, 100, 100);
+        Grid grid = gridGenerator.generateGrid(40, 40, 1000, 1000);
 
         randomizeHeights(grid);
 

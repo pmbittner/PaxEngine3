@@ -18,8 +18,8 @@ namespace PAX {
         }
 
         glm::vec3& getVertexAt(int x, int z) {
-            assert(0 <= x && x < subdivsX);
-            assert(0 <= z && z < subdivsZ);
+            assert(0 <= x && x <= subdivsX);
+            assert(0 <= z && z <= subdivsZ);
             
             return vertices[z + x*subdivsZ];
         }
