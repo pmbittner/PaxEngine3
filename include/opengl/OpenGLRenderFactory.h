@@ -12,7 +12,7 @@ namespace PAX {
         class OpenGLRenderFactory : public RenderFactory {
         public:
             virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) override;
-            virtual SceneGraphGenerator* createSceneGraphGeneratorFor(WorldLayer *worldLayer) override;
+            virtual SceneGraphGenerator* createDefaultSceneGraphGenerator() override;
         };
     }
 }

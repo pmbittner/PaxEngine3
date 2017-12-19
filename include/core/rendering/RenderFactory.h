@@ -14,7 +14,7 @@ namespace PAX {
     class RenderFactory {
     public:
         virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) = 0;
-        virtual SceneGraphGenerator* createSceneGraphGeneratorFor(WorldLayer *worldLayer) = 0;
+        virtual SceneGraphGenerator* createDefaultSceneGraphGenerator() = 0;
     };
 }
 

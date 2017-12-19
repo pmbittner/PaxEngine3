@@ -13,7 +13,7 @@ namespace PAX {
             return new SceneGraph();
         }
 
-        SceneGraphGenerator * SDLRenderFactory::createSceneGraphGeneratorFor(WorldLayer *worldLayer) {
+        SceneGraphGenerator * SDLRenderFactory::createDefaultSceneGraphGenerator() {
             return new GroupByShadersSceneGraphGenerator();
         }
     }

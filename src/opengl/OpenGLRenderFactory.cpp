@@ -13,7 +13,7 @@ namespace PAX {
             return new OpenGLWorldLayerRenderPass();
         }
 
-        SceneGraphGenerator* OpenGLRenderFactory::createSceneGraphGeneratorFor(WorldLayer *worldLayer) {
+        SceneGraphGenerator* OpenGLRenderFactory::createDefaultSceneGraphGenerator() {
             return new GroupByShadersSceneGraphGenerator();
         }
     }

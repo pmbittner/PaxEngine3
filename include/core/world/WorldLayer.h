@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <core/service/Services.h>
 #include "WorldLayerLayout.h"
 #include "../entity/Entity.h"
 #include "../rendering/scenegraph/SceneGraph.h"
@@ -19,9 +20,7 @@
 
 namespace PAX {
 #define PAX_WORLDLAYERNAME_MAIN "MainLayer"
-#define PAX_WORLDLAYERNAME_DEFAULT "WorldLayer"
 #define PAX_WORLDLAYERNAME_GUI "GuiLayer"
-#define PAX_WORLDLAYERNAME_BACKGROUND "Background"
 
     class WorldLayer {
         friend class SceneGraphGenerator;
@@ -37,7 +36,8 @@ namespace PAX {
         std::vector<Entity*> _entities;
 
     public:
-        WorldLayer(std::string name = PAX_WORLDLAYERNAME_DEFAULT, float z = 0);
+        WorldLayer();
+        WorldLayer(std::string name, float z = 0, SceneGraphGenerator *sceneGraphGenerator = Services::GetRenderFactory()->createDefaultSceneGraphGenerator());
         ~WorldLayer();
 
         void spawn(Entity *entity);
