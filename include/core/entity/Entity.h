@@ -14,7 +14,7 @@
 #include "EntityComponent.h"
 
 #include "utility/datastructures/TypeMap.h"
-#include "../../utility/stdutils.h"
+#include "utility/stdutils/CollectionUtils.h"
 #include "../../lib/easylogging++.h"
 
 #include "../event/EventHandler.h"

@@ -11,8 +11,10 @@ endif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${PLATFORM_FLAGS}")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+
 ### OPTIONS #############################################
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+
 
 ### PATHS ###############################################
 set(MAIN_FILE Default_main.cpp)
@@ -20,6 +22,7 @@ set(MAIN_FILE Default_main.cpp)
 if (ANDROID)
         set(MAIN_FILE Android_main.cpp)
 endif()
+
 
 ### SOURCE FILES ########################################
 
@@ -29,7 +32,6 @@ set(SOURCE_FILES
         # actual source files for PaxEngine3
         ${MAIN_FILE}
         src/EngineMain.cpp
-        src/lib/easylogging++.cc
 
         # Header files for CLion
         include/lib/easylogging++.h
@@ -107,7 +109,7 @@ set(SOURCE_FILES
         include/sdl/SDLInputSystem.h
         include/test/trials/FriendTest.h
         include/test/trials/InheritanceTest.h
-        include/utility/stdutils.h
+        include/utility/stdutils/CollectionUtils.h
         include/test/SceneGraphTest.h
         include/test/trials/DelegateTest.h
         include/core/event/Delegate.h
@@ -167,51 +169,70 @@ set(SOURCE_FILES
         include/core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
-        include/core/rendering/event/GraphicsShaderChangedEvent.h include/opengl/resource/OpenGLShaderLoader.h include/opengl/io/FreeImageOpenGLTextureLoader.h include/sdl/opengl/SDLImageOpenGLTextureLoader.h include/utility/io/FormatChecker.h include/core/rendering/scenegraph/SceneGraph.h include/opengl/resource/NullOpenGLTextureLoader.h include/utility/math/Conversion.h include/generation/terrain/TerrainGenerator.h include/generation/terrain/Terrain.h include/generation/grid/GridGenerator.h include/core/rendering/data/CPUMesh.h include/core/entity/component/allocators/EntityComponentMallocAllocator.h include/core/entity/EntityComponentService.h include/test/trials/AllocatorConstructorTest.h include/test/trials/InheritedTemplateTypeTest.h include/core/io/event/KeyEvent.h include/core/io/event/KeyPressedEvent.h "include/core/io/event/KeyReleasedEvent.h" include/core/io/MouseButtons.h include/core/io/event/MouseWheelEvent.h include/core/io/event/MouseEvent.h include/core/service/Paths.h include/generation/grid/Grid.h include/core/rendering/scenegraph/nodes/MeshNode.h include/opengl/rendernodes/OpenGLMeshNode.h include/opengl/rendernodes/OpenGLTexturingNode.h include/core/rendering/SceneGraphGraphics.h include/demo/OpenGL/TerrainDemo.h include/demo/OpenGL/OpenGLDemo.h include/core/entity/component/behaviours/NoClipControls.h include/core/io/event/MouseMovedEvent.h)
+        include/core/rendering/event/GraphicsShaderChangedEvent.h
+        include/opengl/resource/OpenGLShaderLoader.h
+        include/opengl/io/FreeImageOpenGLTextureLoader.h
+        include/sdl/opengl/SDLImageOpenGLTextureLoader.h
+        include/utility/io/FormatChecker.h
+        include/core/rendering/scenegraph/SceneGraph.h
+        include/opengl/resource/NullOpenGLTextureLoader.h
+        include/utility/math/Conversion.h
+        include/generation/terrain/TerrainGenerator.h
+        include/generation/terrain/Terrain.h
+        include/generation/grid/GridGenerator.h
+        include/core/rendering/data/CPUMesh.h
+        include/core/entity/component/allocators/EntityComponentMallocAllocator.h
+        include/core/entity/EntityComponentService.h
+        include/test/trials/AllocatorConstructorTest.h
+        include/test/trials/InheritedTemplateTypeTest.h
+        include/core/io/event/KeyEvent.h
+        include/core/io/event/KeyPressedEvent.h
+        "include/core/io/event/KeyReleasedEvent.h"
+        include/core/io/MouseButtons.h
+        include/core/io/event/MouseWheelEvent.h
+        include/core/io/event/MouseEvent.h
+        include/core/service/Paths.h
+        include/generation/grid/Grid.h
+        include/core/rendering/scenegraph/nodes/MeshNode.h
+        include/opengl/rendernodes/OpenGLMeshNode.h
+        include/opengl/rendernodes/OpenGLTexturingNode.h
+        include/core/rendering/SceneGraphGraphics.h
+        include/demo/OpenGL/TerrainDemo.h
+        include/demo/OpenGL/OpenGLDemo.h
+        include/core/entity/component/behaviours/NoClipControls.h
+        include/core/io/event/MouseMovedEvent.h
+        include/utility/reflection/TemplateTypeToString.h
+        include/utility/macros/CompilerDetection.h)
 
 ### API INCLUDES ########################################
-if (ANDROID)
-        set(ANDROID_LIBS_INCLUDE_DIR lib/Android/include)
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR})
 
-        include_directories(${ANDROID_LIBS_INCLUDE_DIR})
-
-        #find_package(SDL2 REQUIRED)
-        include(${PROJECT_SOURCE_DIR}/cmake/macros.cmake)
-        include(${PROJECT_SOURCE_DIR}/cmake/android.cmake)
-        set ( SDL2_LIBRARY SDL2 )
-        #link_directories(${PROJECT_SOURCE_DIR}/lib/Android/SDL/armeabi-v7a)
-        #FIND_LIBRARY(SDL2_LIBRARY NAMES libSDL2.so PATHS lib/Android/SDL/armeabi-v7a)
-        #find_library(SDL2_LIBRARY NAMES SDL SDL2 libSDL2.so libSDL2 HINTS "${PROJECT_SOURCE_DIR}/lib/Android/SDL/armeabi-v7a")
-        #set(SDL2_LIBRARY SDL2)
-else()
-    find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIR})
-
-    if(WITH_SDL_IMAGE)
-        find_package(SDL2_image REQUIRED)
-        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-        add_definitions(-DPAX_WITH_SDLIMAGE)
-    endif()
-
-    #find_package(SDL2_ttf REQUIRED)
-    #include_directories(${SDL2_TTF_INCLUDE_DIR})
+if(WITH_SDL_IMAGE)
+    find_package(SDL2_image REQUIRED)
+    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+    add_definitions(-DPAX_WITH_SDLIMAGE)
 endif()
+
+#find_package(SDL2_ttf REQUIRED)
+#include_directories(${SDL2_TTF_INCLUDE_DIR})
+
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
+
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
+
 
 ### SUBDIRECTORIES ######################################
 add_subdirectory(src)
 
-### EXECUTABLES #########################################
-if (ANDROID)
-        add_library(PaxEngine3 SHARED ${SOURCE_FILES})
-else()
-        add_executable(PaxEngine3 ${SOURCE_FILES})
-endif()
 
-### LINKING #############################################
-target_link_libraries(PaxEngine3 paxgeneration paxutil paxsdl paxopengl paxcore)#paxtest
+### EXECUTABLES #########################################
+add_executable(PaxEngine3 ${SOURCE_FILES})
+target_link_libraries(PaxEngine3 paxlib paxgeneration paxutil paxsdl paxopengl paxcore)
+
+#add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
+#target_link_libraries(ResourceTest paxio paxutil paxlib)

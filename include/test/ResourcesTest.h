@@ -47,43 +47,6 @@ namespace PAX {
             delete res;
         };
     };
-
-    void ResourcesTest() {
-        Resources r;
-
-        r.registerLoader(new PNGTextureLoader());
-        r.registerLoader(new ShaderLoader());
-
-        /// LEGAL
-        std::cout << "Loading \"test.png\"" << std::endl;
-        RTestTexture *testTex = r.loadOrGet<RTestTexture>("test.png");
-        std::cout << testTex << std::endl << std::endl;
-
-        std::cout << "Loading \"vert.glsl\", \"frag.glsl\"" << std::endl;
-        RTestShader *testShader = r.loadOrGet<RTestShader>("vert.glsl", "frag.glsl");
-        std::cout << testShader << std::endl << std::endl;
-
-        /// FAILS
-        std::cout << "Loading \"test.lol\"" << std::endl;
-        std::cout << r.loadOrGet<RTestTexture>("test.lol") << std::endl << std::endl;
-
-        std::cout << "Loading \"vert.glsl\", \"frag.glsl\", \"some.shit\"" << std::endl;
-        std::cout << r.loadOrGet<RTestShader>("vert.glsl", "frag.glsl", "some.shit") << std::endl << std::endl;
-
-        /// FREES
-        std::cout << "Freeing something unregistered" << std::endl;
-        RTestTexture s;
-        std::cout << r.free(&s) << std::endl;
-
-        std::cout << "Freeing \"test.png\"" << std::endl;
-        std::cout << r.free(testTex) << std::endl;
-
-        std::cout << "Freeing \"test.png\" again!" << std::endl;
-        std::cout << r.free(testTex) << std::endl;
-
-        std::cout << "Freeing \"vert.glsl\", \"frag.glsl\"" << std::endl;
-        std::cout << r.free(testShader) << std::endl;
-    }
 }
 
 #endif //PAXENGINE3_RESOURCESTEST_H

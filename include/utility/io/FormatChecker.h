@@ -7,7 +7,7 @@
 
 #include <string>
 #include <algorithm>
-#include <utility/stdutils.h>
+#include <utility/stdutils/CollectionUtils.h>
 
 namespace PAX {
     namespace Util {

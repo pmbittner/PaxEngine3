@@ -8,7 +8,7 @@
 #include <utility>
 #include <iostream>
 #include <vector>
-#include "../../utility/stdutils.h"
+#include "utility/stdutils/CollectionUtils.h"
 #include "../../core/world/event/EntitySpawnedEvent.h"
 
 namespace PAX {

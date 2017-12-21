@@ -9,34 +9,7 @@ set(CORE_SOURCE_FILES
         entity/Entity.cpp
         entity/EntityComponent.cpp
         entity/Transform.cpp
-
-        io/Keyboard.cpp
-        io/Mouse.cpp
-        io/Window.cpp
-        io/event/ResolutionChangedEvent.cpp
-        io/resources/ResourceHandle.cpp
-
-        rendering/Renderer.cpp
-        rendering/Viewport.cpp
-        rendering/scenegraph/nodes/TexturingNode.cpp
-        rendering/Graphics.cpp
-        rendering/RenderOptions.cpp
-
-        rendering/camera/Camera.cpp
-        rendering/camera/Projection.cpp
-        rendering/camera/PerspectiveProjection.cpp
-        rendering/camera/PixelScreenProjection.cpp
-        rendering/camera/FullPixelScreenProjection.cpp
-
-        rendering/scenegraph/SceneGraphGenerator.cpp
-        rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.cpp
-        rendering/scenegraph/nodes/SortingNode.cpp
-        rendering/scenegraph/nodes/ShadingNode.cpp
-        rendering/scenegraph/sort/GraphicsSort.cpp
-
-        rendering/resource/Mesh.cpp
-        rendering/resource/Shader.cpp
-        rendering/resource/Texture.cpp
+        entity/component/behaviours/NoClipControls.cpp
 
         world/World.cpp
         world/WorldLayer.cpp
@@ -46,7 +19,10 @@ set(CORE_SOURCE_FILES
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp rendering/scenegraph/nodes/MeshNode.cpp rendering/SceneGraphGraphics.cpp entity/component/behaviours/NoClipControls.cpp)
+        time/Time.cpp ../test/ResourceTest.cpp)
+
+add_subdirectory(io)
+add_subdirectory(rendering)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
-target_link_libraries(paxcore)
+target_link_libraries(paxcore paxrendering paxio)

@@ -7,6 +7,7 @@
 #include <test/trials/InheritedTemplateTypeTest.h>
 #include <test/EntityTest.h>
 #include <demo/OpenGL/TerrainDemo.h>
+#include <utility/reflection/TemplateTypeToString.h>
 
 #include "../include/EngineMain.h"
 
