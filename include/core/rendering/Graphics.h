@@ -14,13 +14,13 @@
 namespace PAX {
     PAX_EntityComponent(Graphics, false, public Renderable)
     protected:
-        Shader *_shader = nullptr;
+        std::shared_ptr<Shader> _shader = nullptr;
 
     public:
         EventHandler<GraphicsShaderChangedEvent&> OnShaderChanged;
 
-        Shader *getShader() const;
-        void setShader(Shader *shader);
+        std::shared_ptr<Shader>& getShader();
+        void setShader(const std::shared_ptr<Shader> &shader);
 
         void render(RenderOptions &renderOptions) override;
     };

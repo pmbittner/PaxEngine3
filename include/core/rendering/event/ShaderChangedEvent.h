@@ -5,15 +5,18 @@
 #ifndef PAXENGINE3_SHADERCHANGEDEVENT_H
 #define PAXENGINE3_SHADERCHANGEDEVENT_H
 
+#include <memory>
 #include <core/event/Event.h>
 
 namespace PAX {
     class Shader;
     struct ShaderChangedEvent : public Event {
     public:
-        Shader *oldShader, *newShader;
+        const std::shared_ptr<Shader> oldShader, newShader;
 
-        ShaderChangedEvent(Shader* oldShader, Shader* newShader) : oldShader(oldShader), newShader(newShader) {}
+        ShaderChangedEvent(const std::shared_ptr<Shader> &oldShader, const std::shared_ptr<Shader> &newShader)
+                : oldShader(oldShader), newShader(newShader)
+        {}
     };
 }
 

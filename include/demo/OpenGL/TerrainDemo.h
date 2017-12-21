@@ -46,7 +46,7 @@ namespace PAX {
 
                 TerrainGenerator terrainGenerator;
                 Terrain *t = terrainGenerator.generateTerrain();
-                Shader *s = Services::GetResources().loadOrGet<Shader>(
+                std::shared_ptr<Shader> s = Services::GetResources().loadOrGet<Shader>(
                         (Services::GetPaths().RelativeResourcePath() + "shader/terrain/terrain.vert").c_str(),
                         (Services::GetPaths().RelativeResourcePath() + "shader/terrain/terrain.frag").c_str()
                 );

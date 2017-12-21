@@ -5,18 +5,20 @@
 #ifndef PAXENGINE3_SPRITE_H
 #define PAXENGINE3_SPRITE_H
 
+#include <memory>
+
 #include <core/rendering/scenegraph/SceneGraph.h>
 #include <core/rendering/resource/Texture.h>
 
 namespace PAX {
     class TexturingNode : public SceneGraph {
-        Texture *_texture;
+        std::shared_ptr<Texture> _texture;
 
     public:
-        TexturingNode(Texture *texture);
+        TexturingNode(const std::shared_ptr<Texture> &texture);
         virtual void render(RenderOptions &options) override;
 
-        Texture *getTexture() const;
+        std::shared_ptr<Texture>& getTexture();
     };
 }
 

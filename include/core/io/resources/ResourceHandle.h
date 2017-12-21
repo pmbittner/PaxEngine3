@@ -5,26 +5,51 @@
 #ifndef PAXENGINE3_RESOURCEHANDLE_H
 #define PAXENGINE3_RESOURCEHANDLE_H
 
-#include <utility/Signature.h>
+#include <memory>
+#include <string>
+
 #include "ResourceLoader.h"
+
+#include <utility/Signature.h>
+#include <utility/reflection/TemplateTypeToString.h>
 
 namespace PAX {
     class Resources;
     class ResourceHandle {
         friend class Resources;
 
-        void* _resource = nullptr;
-        size_t _resourceSize = 0;
-        int _uses = 0;
-
-        ISignature *_signature;
-        IResourceLoader *_loader;
+        ISignature *_signature = nullptr;
+        IResourceLoader *_loader = nullptr;
 
     public:
         ResourceHandle();
-        ~ResourceHandle();
+        virtual ~ResourceHandle();
 
-        bool operator==(const ResourceHandle& other) const;
+        virtual int getExternalReferenceCount() const = 0;
+
+        virtual std::string toString() {
+            return _signature ? _signature->toString() : "";
+        }
+    };
+
+    template<typename ResType>
+    class TypedResourceHandle : ResourceHandle {
+        friend class Resources;
+
+    public:
+        std::shared_ptr<ResType> _resource = nullptr;
+
+        bool operator==(const TypedResourceHandle<ResType>& other) const {
+            return _resource == other._resource;
+        };
+
+        virtual int getExternalReferenceCount() const override {
+            return _resource.use_count() - 1; // subtract our own reference
+        }
+
+        virtual std::string toString() override {
+            return std::string(Reflection::GetTypeName<ResType>()) + "(" + ResourceHandle::toString() + ")";
+        }
     };
 }
 

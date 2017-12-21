@@ -14,8 +14,9 @@ namespace PAX {
 
     }
 
-    void GroupByShadersSceneGraphGenerator::registerGraphicsForShader(Graphics *graphics, Shader *shader) {
-        ShadingNode &shaderNode = _shadersToNodes[shader];
+    void GroupByShadersSceneGraphGenerator::registerGraphics(Graphics *graphics) {
+        std::shared_ptr<Shader> &shader = graphics->getShader();
+        ShadingNode &shaderNode = _shadersToNodes[shader.get()];
 
         if (shaderNode.isEmpty()) {
             // This is the first occurence of the shader.
@@ -27,7 +28,7 @@ namespace PAX {
         graphics->OnShaderChanged.add<GroupByShadersSceneGraphGenerator, &GroupByShadersSceneGraphGenerator::onShaderChanged>(this);
     }
 
-    void GroupByShadersSceneGraphGenerator::unregisterGraphicsFromShader(Graphics *graphics, Shader *shader) {
+    void GroupByShadersSceneGraphGenerator::unregisterGraphicsFromShader(Graphics *graphics, Shader* shader) {
         ShadingNode &shaderNode = _shadersToNodes[shader];
 
         shaderNode.removeChild(graphics);
@@ -42,15 +43,15 @@ namespace PAX {
     }
 
     void GroupByShadersSceneGraphGenerator::addGraphics(Graphics *g) {
-        registerGraphicsForShader(g, g->getShader());
+        registerGraphics(g);
     }
 
     void GroupByShadersSceneGraphGenerator::removeGraphics(Graphics *g) {
-        unregisterGraphicsFromShader(g, g->getShader());
+        unregisterGraphicsFromShader(g, g->getShader().get());
     }
 
     void GroupByShadersSceneGraphGenerator::onShaderChanged(GraphicsShaderChangedEvent &e) {
-        unregisterGraphicsFromShader(e.graphics, e.oldShader);
-        registerGraphicsForShader(e.graphics, e.newShader);
+        unregisterGraphicsFromShader(e.graphics, e.oldShader.get());
+        registerGraphics(e.graphics);
     }
 }

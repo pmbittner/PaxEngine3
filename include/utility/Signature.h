@@ -6,11 +6,15 @@
 #define PAXENGINE3_SIGNATURE_H
 
 #include <tuple>
+#include <string>
+#include <sstream>
+#include <utility/stdutils/TuplePrinter.h>
 
 namespace PAX {
     class ISignature {
     public:
         virtual bool equals(ISignature const& signature) const = 0;
+        virtual std::string toString() = 0;
     };
 
     template<typename... S>
@@ -43,6 +47,12 @@ namespace PAX {
             }
             return false;
         }
+
+        virtual std::string toString() {
+            std::stringstream ss;
+            Util::TuplePrinter<decltype(_values), sizeof...(S)>::print(_values, ss);
+            return ss.str();
+        };
     };
 }
 

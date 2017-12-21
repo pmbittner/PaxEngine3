@@ -6,7 +6,7 @@
 #include "lib/easylogging++.h"
 
 namespace PAX {
-    TexturingNode::TexturingNode(Texture *texture) : _texture(texture) {
+    TexturingNode::TexturingNode(const std::shared_ptr<Texture> &texture) : _texture(texture) {
         PAX_assertNotNull(texture, "Texture can't be null!")
     }
 
@@ -16,7 +16,7 @@ namespace PAX {
         _texture->unbind();
     }
 
-    Texture *TexturingNode::getTexture() const {
+    std::shared_ptr<Texture>& TexturingNode::getTexture() {
         return _texture;
     }
 }

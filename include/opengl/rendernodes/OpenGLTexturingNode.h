@@ -12,7 +12,7 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLTexturingNode : public TexturingNode {
         public:
-            OpenGLTexturingNode(Texture *texture);
+            OpenGLTexturingNode(const std::shared_ptr<Texture> &texture);
             virtual void render(RenderOptions &renderOptions) override;
         };
     }

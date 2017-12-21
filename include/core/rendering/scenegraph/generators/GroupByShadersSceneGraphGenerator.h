@@ -27,8 +27,8 @@ namespace PAX {
 
         void onShaderChanged(GraphicsShaderChangedEvent& e);
 
-        void registerGraphicsForShader(Graphics *graphics, Shader *shader);
-        void unregisterGraphicsFromShader(Graphics *graphics, Shader *shader);
+        void registerGraphics(Graphics *graphics);
+        void unregisterGraphicsFromShader(Graphics *graphics, Shader* shader);
 
     public:
         GroupByShadersSceneGraphGenerator();

@@ -14,7 +14,7 @@ namespace PAX {
     public:
         Graphics *graphics;
 
-        GraphicsShaderChangedEvent(Shader* oldShader, Shader *newShader, Graphics *graphics) :
+        GraphicsShaderChangedEvent(const std::shared_ptr<Shader> &oldShader, const std::shared_ptr<Shader> &newShader, Graphics *graphics) :
                 ShaderChangedEvent(oldShader, newShader), graphics(graphics) {}
     };
 }

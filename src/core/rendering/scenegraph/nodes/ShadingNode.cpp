@@ -10,31 +10,31 @@ PAX::ShadingNode::ShadingNode() : SceneGraph() {
 }
 
 PAX::ShadingNode::~ShadingNode() {
-    // do not delete shader, since we do not own it
+
 }
 
-PAX::Shader *PAX::ShadingNode::getShader() const {
-    return shader;
+std::shared_ptr<PAX::Shader>& PAX::ShadingNode::getShader() {
+    return _shader;
 }
 
-void PAX::ShadingNode::setShader(PAX::Shader *shader) {
-    ShadingNode::shader = shader;
+void PAX::ShadingNode::setShader(const std::shared_ptr<Shader>& shader) {
+    ShadingNode::_shader = shader;
 }
 
 PAX::ShaderPriority PAX::ShadingNode::getPriority() const {
-    return priority;
+    return _priority;
 }
 
 void PAX::ShadingNode::setPriority(PAX::ShaderPriority priority) {
-    ShadingNode::priority = priority;
+    ShadingNode::_priority = priority;
 }
 
 void PAX::ShadingNode::render(RenderOptions &renderOptions) {
     // Cache this in case, that shader will be reset during render. (should not happen)
-    bool isShaded = shader != nullptr;
+    bool isShaded = _shader != nullptr;
 
     if (isShaded)
-        renderOptions.getShaderOptions().useShader(this, shader, ShaderPriority::MUTABLE);
+        renderOptions.getShaderOptions().useShader(this, _shader.get(), _priority);
 
     SceneGraph::render(renderOptions);
 

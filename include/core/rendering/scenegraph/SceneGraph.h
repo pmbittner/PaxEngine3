@@ -6,7 +6,7 @@
 #define PAXENGINE3_SCENEGRAPHNODE_H
 
 #include <vector>
-#include <utility/stdutils.h>
+#include <utility/stdutils/CollectionUtils.h>
 
 #include <core/rendering/interface/Renderable.h>
 

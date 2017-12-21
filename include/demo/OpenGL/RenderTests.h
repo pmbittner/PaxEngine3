@@ -14,15 +14,13 @@
 namespace PAX {
     namespace Demo {
         class RenderTests : public OpenGLDemo {
-            Texture *cgTexture;
-
         public:
             RenderTests() : OpenGLDemo() {
 
             }
 
             ~RenderTests() {
-                Services::GetResources().free(cgTexture);
+
             }
 
             virtual void initialize() override {
@@ -44,7 +42,7 @@ namespace PAX {
                 LOG(INFO) << "RenderTests: Camera initialized";
 
                 Entity *entity1 = new Entity();
-                cgTexture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
+                std::shared_ptr<Texture> &cgTexture = Services::GetResources().loadOrGet<Texture>("../../res/img/cg512.png");
                 entity1->add<Graphics>(componentAllocator.create<OpenGL::OpenGLSprite>(cgTexture));
                 //entity1->add<Behaviour>(new Dance2D());
                 entity1->add<Behaviour>(componentAllocator.create<MoveToMouseBehaviour>());

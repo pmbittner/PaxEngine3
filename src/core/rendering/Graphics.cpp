@@ -10,11 +10,11 @@ namespace PAX {
         renderOptions.setTransformation(getOwner()->getTransform());
     }
 
-    Shader *Graphics::getShader() const {
+    std::shared_ptr<Shader>& Graphics::getShader() {
         return _shader;
     }
 
-    void Graphics::setShader(Shader *shader) {
+    void Graphics::setShader(const std::shared_ptr<Shader> &shader) {
         GraphicsShaderChangedEvent e(_shader, shader, this);
         Graphics::_shader = shader;
         OnShaderChanged(e);

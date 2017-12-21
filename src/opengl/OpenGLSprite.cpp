@@ -50,10 +50,10 @@ namespace PAX {
             return QuadMesh;
         }
 
-        OpenGLSprite::OpenGLSprite(Texture *texture) : SceneGraphGraphics(), _textureNode(texture), _meshNode(GetMesh()) {
+        OpenGLSprite::OpenGLSprite(const std::shared_ptr<Texture> &texture) : SceneGraphGraphics(), _textureNode(texture), _meshNode(GetMesh()) {
             scenegraph <<= _textureNode <<= &_meshNode;
 
-            Shader* shader = Services::GetResources().loadOrGet<Shader>(
+            std::shared_ptr<Shader> shader = Services::GetResources().loadOrGet<Shader>(
                     (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.vert").c_str(),
                     (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.frag").c_str()
             );

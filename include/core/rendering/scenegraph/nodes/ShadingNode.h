@@ -5,19 +5,20 @@
 #ifndef PAXENGINE3_SHADINGNODE_H
 #define PAXENGINE3_SHADINGNODE_H
 
+#include <memory>
 #include "core/rendering/scenegraph/SceneGraph.h"
 
 namespace PAX {
     class ShadingNode : public SceneGraph {
-        Shader *shader = nullptr;
-        ShaderPriority priority = ShaderPriority::MUTABLE;
+        std::shared_ptr<Shader> _shader = nullptr;
+        ShaderPriority _priority = ShaderPriority::MUTABLE;
 
     public:
         ShadingNode();
         virtual ~ShadingNode();
 
-        Shader *getShader() const;
-        void setShader(Shader *shader);
+        std::shared_ptr<Shader>& getShader();
+        void setShader(const std::shared_ptr<Shader>& shader);
 
         ShaderPriority getPriority() const;
         void setPriority(ShaderPriority priority);

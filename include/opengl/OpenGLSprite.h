@@ -23,7 +23,7 @@ namespace PAX {
             OpenGLMeshNode _meshNode;
 
         public:
-            OpenGLSprite(Texture *texture);
+            OpenGLSprite(const std::shared_ptr<Texture> &texture);
         };
     }
 }

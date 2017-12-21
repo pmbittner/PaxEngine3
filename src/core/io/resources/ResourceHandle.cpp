@@ -10,8 +10,4 @@ namespace PAX {
     ResourceHandle::~ResourceHandle() {
         delete _signature;
     }
-
-    bool ResourceHandle::operator==(const ResourceHandle &other) const {
-        return _resource == other._resource;
-    }
 }

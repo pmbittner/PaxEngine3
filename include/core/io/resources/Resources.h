@@ -5,11 +5,12 @@
 #ifndef PAXENGINE3_RESOURCES_H
 #define PAXENGINE3_RESOURCES_H
 
-#include <vector>
-#include <utility/datastructures/TypeMap.h>
-#include <utility/stdutils.h>
-#include <iostream>
+#include <unordered_set>
 #include <unordered_map>
+
+#include <utility/datastructures/TypeMap.h>
+#include <utility/stdutils/CollectionUtils.h>
+#include <lib/easylogging++.h>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
@@ -18,8 +19,7 @@ namespace PAX {
     class Resources {
         TypeMap<std::vector<IResourceLoader*>> _loaders;
 
-        TypeMap<std::vector<ResourceHandle>> _resourcesInUse;
-        std::unordered_map<void*, ResourceHandle*> _resourceToHandle;
+        TypeMap<std::unordered_set<ResourceHandle*>> _resourcesInUse;
 
     private:
         template<typename Resource, typename... Params>
@@ -37,22 +37,14 @@ namespace PAX {
             return nullptr;
         }
 
-        template<typename Resource>
-        ResourceHandle* getHandle(Resource *resource) {
-            auto iterator = _resourceToHandle.find(resource);
-            if (iterator != _resourceToHandle.end())
-                return iterator->second;
-            return nullptr;
-        }
-
         template<typename Resource, typename... Params>
-        ResourceHandle* getHandle(Params... params) {
+        TypedResourceHandle<Resource>* getHandle(Params... params) {
             Signature<Params...> s(params...);
 
-            std::vector<ResourceHandle> &handles = _resourcesInUse.get<Resource>();
-            for (ResourceHandle &handle : handles) {
-                if (handle._signature->equals(s)) {
-                    return &handle;
+            std::unordered_set<ResourceHandle*> &handles = _resourcesInUse.get<Resource>();
+            for (ResourceHandle *handle : handles) {
+                if (handle->_signature->equals(s)) {
+                    return reinterpret_cast<TypedResourceHandle<Resource>*>(handle);
                 }
             }
 
@@ -60,47 +52,34 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        ResourceHandle* registerResource(Resource *res, Params... params) {
-            ResourceHandle* handle = getHandle<Resource>(res);
+        TypedResourceHandle<Resource>* registerResource(ResourceLoader<Resource, Params...> *loader, Params... params) {
+            Resource *res = loader->load(params...);
 
-            if (!handle) {
-                ResourceHandle newEntry;
-                newEntry._signature = new Signature<Params...>(params...);
-                newEntry._resource = res;
-                newEntry._resourceSize = sizeof(Resource);
+            TypedResourceHandle<Resource>* handle = new TypedResourceHandle<Resource>();
+            handle->_signature = new Signature<Params...>(params...);
+            handle->_loader = loader;
+            handle->_resource = std::shared_ptr<Resource>(res, /*deleter*/
+                                                          [loader](Resource* r) {
+                                                              loader->free(r);
+                                                          });
 
-                std::vector<ResourceHandle> &handles = _resourcesInUse.get<Resource>();
-                handles.push_back(newEntry);
-                handle = &handles.back();
-
-                _resourceToHandle[static_cast<void*>(res)] = handle;
-            }
+            _resourcesInUse.get<Resource>().insert(handle);
 
             return handle;
         }
 
-        template<typename Resource>
-        bool unregisterResource(Resource *res) {
-            ResourceHandle* handle = getHandle<Resource>(res);
-
-            if (handle) {
-                Util::removeFromVector(_resourcesInUse.get<Resource>(), *handle);
-                _resourceToHandle.erase(res);
-                return true;
-            }
-
-            return false;
+        bool unregisterResource(const std::type_index type, ResourceHandle* handle) {
+            _resourcesInUse.get(type).erase(handle);
+            delete handle;
         }
 
         template<typename Resource, typename... Params>
-        Resource* load(Params... p) {
+        TypedResourceHandle<Resource>* load(Params... p) {
             ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader) {
-                Resource *r = loader->load(p...);
-                ResourceHandle* handle = registerResource<Resource, Params...>(r, p...);
-                handle->_loader = loader;
-                handle->_uses = 1;
-                return r;
+                return registerResource<Resource, Params...>(
+                        loader,
+                        p...);
             }
             return nullptr;
         }
@@ -113,40 +92,42 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        Resource* get(Params... p) {
-            ResourceHandle *handle = getHandle<Resource, Params...>(p...);
+        std::shared_ptr<Resource>& get(Params... p) {
+            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
+            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
             if (handle) {
-                handle->_uses++;
-                return static_cast<Resource*>(handle->_resource);
+                return handle->_resource;
             }
-            return nullptr;
+            return shared_nullptr;
         }
 
         template<typename Resource, typename... Params>
-        Resource* loadOrGet(Params... p) {
-            Resource* res = get<Resource>(p...);
-            if (!res)
-                res = load<Resource>(p...);
+        std::shared_ptr<Resource>& loadOrGet(Params... p) {
+            std::shared_ptr<Resource> &res = get<Resource>(p...);
+            if (!res) {
+                TypedResourceHandle<Resource> *handle = load<Resource>(p...);
+                if (handle)
+                    return handle->_resource;
+            }
             return res;
         }
 
-        template<typename Resource>
-        bool free(Resource *resource) {
-            ResourceHandle *handle = getHandle<Resource>(resource);
+        void collectGarbage() {
+            for (std::pair<const std::type_index, std::unordered_set<ResourceHandle*>> &kv : _resourcesInUse) {
+                std::unordered_set<ResourceHandle*> &handles = kv.second;
+                std::unordered_set<ResourceHandle*> resourcesToDelete;
 
-            if (handle) {
-                handle->_uses--;
-
-                if (handle->_uses == 0) {
-                    ResourceLoaderT<Resource> *loader = static_cast<ResourceLoaderT<Resource>*>(handle->_loader);
-                    if (loader->free(resource)) {
-                        if (unregisterResource<Resource>(resource))
-                            return true;
+                for (ResourceHandle* handle : handles) {
+                    if (handle->getExternalReferenceCount() == 0) {
+                        //unregisterResource(kv.first, handle);
+                        resourcesToDelete.insert(handle);
                     }
                 }
-            }
 
-            return false;
+                for (ResourceHandle* handle : resourcesToDelete) {
+                    unregisterResource(kv.first, handle);
+                }
+            }
         }
     };
 }

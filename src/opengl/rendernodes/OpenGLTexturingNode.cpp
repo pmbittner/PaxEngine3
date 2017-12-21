@@ -6,7 +6,7 @@
 
 namespace PAX {
     namespace OpenGL {
-        OpenGLTexturingNode::OpenGLTexturingNode(Texture *texture) : TexturingNode(texture) {
+        OpenGLTexturingNode::OpenGLTexturingNode(const std::shared_ptr<Texture> &texture) : TexturingNode(texture) {
 
         }
 
