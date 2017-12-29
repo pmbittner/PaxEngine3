@@ -14,7 +14,7 @@ namespace PAX {
         EventService _localEventService;
         std::unordered_map<std::string, WorldLayer*> _layersByName;
         std::vector<WorldLayer*> _layers;
-        SceneGraph *_sceneGraph = nullptr;
+        SceneGraph _sceneGraph;
 
     public:
 

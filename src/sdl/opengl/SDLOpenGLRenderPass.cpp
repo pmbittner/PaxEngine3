@@ -2,7 +2,7 @@
 // Created by Paul on 17.06.2017.
 //
 
-#include <SDL_video.h>
+#include <SDL2/SDL_video.h>
 #include "../../../include/sdl/opengl/SDLOpenGLRenderPass.h"
 #include "../../../include/sdl/SDLWindow.h"
 #include "../../../include/core/Engine.h"

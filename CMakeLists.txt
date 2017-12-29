@@ -1,19 +1,60 @@
 cmake_minimum_required(VERSION 3.6)
 project(PaxEngine3)
 
+### DETECT COMPILER #####################################
+set(COMPILER_IS_CLANG FALSE)
+set(COMPILER_IS_GCC FALSE)
+set(COMPILER_IS_INTEL FALSE)
+set(COMPILER_IS_MSVC FALSE)
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # using Clang
+    set(COMPILER_IS_CLANG TRUE)
+    message("Compiler set to CLANG")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    # using GCC
+    set(COMPILER_IS_GCC TRUE)
+    message("Compiler set to GCC")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+    # using Intel C++
+    set(COMPILER_IS_INTEL TRUE)
+    message("Compiler set to INTEL")
+
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    # using Visual Studio C++
+    set(COMPILER_IS_MSVC TRUE)
+    message("Compiler set to MSVC")
+endif()
+
 ### FLAGS ###############################################
 set(PLATFORM_FLAGS)
 
-if (WIN32)
-        set(PLATFORM_FLAGS "-static")# "-static-libgcc -static-libstdc++")
+set(LIB_DIR_RELATIVE ../lib)
+set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
+
+if (WIN32 AND ${COMPILER_IS_MSVC})
+    set(LIB_DIR_RELATIVE ../lib/win)
+    set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
+
+    set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "/std:c++latest")
+
+else()
+    set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "-static")# "-static-libgcc -static-libstdc++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 ${PLATFORM_FLAGS}")
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_FLAGS}")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 
 ### OPTIONS #############################################
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" OFF)
 
 
 ### PATHS ###############################################
@@ -85,7 +126,6 @@ set(SOURCE_FILES
         include/demo/behaviours/MoveToMouseBehaviour.h
         include/demo/behaviours/RotateAround3D.h
         include/demo/behaviours/Dance2D.h
-        include/demo/SDLDemo.h
         include/demo/OpenGL/RenderTests.h
         include/demo/OpenGL/Cube.h
 
@@ -116,7 +156,6 @@ set(SOURCE_FILES
         include/core/event/EventHandler.h
         include/core/entity/event/EntityParentChangedEvent.h
         include/test/trials/StaticMember.h
-        include/sdl/test/SDLSprite.h
         include/sdl/SDLRenderPass.h
         include/sdl/SDLKeyboard.h
         include/test/trials/SpecializedFunctionWithDifferentReturType.h
@@ -187,7 +226,7 @@ set(SOURCE_FILES
         include/test/trials/InheritedTemplateTypeTest.h
         include/core/io/event/KeyEvent.h
         include/core/io/event/KeyPressedEvent.h
-        "include/core/io/event/KeyReleasedEvent.h"
+        include/core/io/event/KeyReleasedEvent.h
         include/core/io/MouseButtons.h
         include/core/io/event/MouseWheelEvent.h
         include/core/io/event/MouseEvent.h
@@ -202,28 +241,51 @@ set(SOURCE_FILES
         include/core/entity/component/behaviours/NoClipControls.h
         include/core/io/event/MouseMovedEvent.h
         include/utility/reflection/TemplateTypeToString.h
-        include/utility/macros/CompilerDetection.h)
+        include/utility/macros/CompilerDetection.h include/fbx/FBXLoader.h include/fbx/FBXModel.h)
 
 ### API INCLUDES ########################################
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR})
-
-if(WITH_SDL_IMAGE)
-    find_package(SDL2_image REQUIRED)
-    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-    add_definitions(-DPAX_WITH_SDLIMAGE)
-endif()
-
-#find_package(SDL2_ttf REQUIRED)
-#include_directories(${SDL2_TTF_INCLUDE_DIR})
-
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
 
-find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
+if(WITH_SDL_IMAGE)
+    add_definitions(-DPAX_WITH_SDLIMAGE)
+endif()
+
+if (WIN32 AND ${COMPILER_IS_MSVC})
+    include_directories(${LIB_DIR_RELATIVE}/include)
+
+    set(GLEW_LIBRARY ${LIB_DIR}/lib/glew32.lib)
+    set(SDL2_LIBRARY ${LIB_DIR}/lib/SDL2-2.0.7/lib/x64/SDL2.lib)
+
+    if(WITH_SDL_IMAGE)
+        set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/lib/SDL2_image-2.0.2/lib/x64/SDL2_image.lib)
+    endif()
+
+    if (WITH_FBX)
+        set(FBX_LIBRARY debug ${lib_dir}/lib/libfbxsdk-mtd.lib optimized ${lib_dir}/lib/libfbxsdk-mt.lib)
+    endif()
+
+else()
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIR})
+
+    if(WITH_SDL_IMAGE)
+        find_package(SDL2_image REQUIRED)
+        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+    endif()
+
+    #find_package(SDL2_ttf REQUIRED)
+    #include_directories(${SDL2_TTF_INCLUDE_DIR})
+
+    find_package(GLEW REQUIRED)
+    include_directories(${GLEW_INCLUDE_DIRS})
+endif()
+
+if (WITH_FBX)
+    add_definitions(-DPAX_WITH_FBX)
+endif()
 
 
 ### SUBDIRECTORIES ######################################
@@ -232,7 +294,7 @@ add_subdirectory(src)
 
 ### EXECUTABLES #########################################
 add_executable(PaxEngine3 ${SOURCE_FILES})
-target_link_libraries(PaxEngine3 paxlib paxgeneration paxutil paxsdl paxopengl paxcore)
+target_link_libraries(PaxEngine3 paxfbx paxlib paxgeneration paxutil paxsdl paxopengl paxcore)
 
-#add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
-#target_link_libraries(ResourceTest paxio paxutil paxlib)
+add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
+target_link_libraries(ResourceTest paxio paxutil paxlib)

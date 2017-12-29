@@ -10,6 +10,7 @@
 #include <core/rendering/resource/Texture.h>
 #include <core/rendering/camera/FullPixelScreenProjection.h>
 #include <opengl/OpenGLSprite.h>
+#include <demo/behaviours/MoveToMouseBehaviour.h>
 
 namespace PAX {
     namespace Demo {

@@ -6,7 +6,6 @@
 
 namespace PAX {
     World::World() {
-        _sceneGraph = new SceneGraph();
         addLayer(new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 0));
         addLayer(new WorldLayer(PAX_WORLDLAYERNAME_GUI, 1));
     }
@@ -23,7 +22,7 @@ namespace PAX {
         _layersByName[layer->getName()] = layer;
         _layers.push_back(layer);
 
-        _sceneGraph->addChild(layer->getSceneGraph());
+        _sceneGraph.addChild(layer->getSceneGraph());
         layer->getEventService().setParent(&_localEventService);
     }
 
@@ -31,7 +30,7 @@ namespace PAX {
         _layersByName.erase(layer->getName());
         Util::removeFromVector(_layers, layer);
 
-        _sceneGraph->removeChild(layer->getSceneGraph());
+        _sceneGraph.removeChild(layer->getSceneGraph());
         layer->getEventService().setParent(nullptr);
     }
 
@@ -52,7 +51,7 @@ namespace PAX {
     }
 
     SceneGraph* World::getSceneGraph() {
-        return _sceneGraph;
+        return &_sceneGraph;
     }
 
     EventService& World::getEventService() {

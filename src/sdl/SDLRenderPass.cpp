@@ -2,7 +2,7 @@
 // Created by Paul on 01.06.2017.
 //
 
-#include <SDL_render.h>
+#include <SDL2/SDL_render.h>
 #include "../../include/sdl/SDLRenderPass.h"
 #include "../../include/core/io/Window.h"
 #include "../../include/sdl/SDLWindow.h"

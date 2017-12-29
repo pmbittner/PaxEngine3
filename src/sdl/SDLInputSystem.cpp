@@ -2,7 +2,7 @@
 // Created by Paul on 11.05.2017.
 //
 
-#include <SDL_events.h>
+#include <SDL2/SDL_events.h>
 #include "../../include/sdl/SDLInputSystem.h"
 #include "../../include/core/Engine.h"
 

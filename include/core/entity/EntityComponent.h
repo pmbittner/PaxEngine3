@@ -30,16 +30,16 @@ namespace PAX {
     };
 }
 
-#define PAX_EntityComponent(name, bool_multiple, inheritance...) class name : public PAX::EntityComponent, ##inheritance { \
+#define PAX_EntityComponent(name, bool_multiple, ...) class name : public PAX::EntityComponent, ##__VA_ARGS__ { \
             public: \
                 static constexpr bool IsMultiple() { return bool_multiple; } \
                 virtual bool isMultiple() override { return bool_multiple; } \
             private:
 
-#define PAX_EntityComponent_DependsOn(ComponentTypes...) \
+#define PAX_EntityComponent_DependsOn(...) \
             public: \
                 virtual const Dependency<Entity>* getDependency() override { \
-                    static EntityComponentDependency<ComponentTypes> Dependencies; \
+                    static EntityComponentDependency<__VA_ARGS__> Dependencies; \
                     return &Dependencies; \
                 } \
             private:

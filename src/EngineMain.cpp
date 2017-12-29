@@ -13,7 +13,6 @@
 
 #include "../include/core/Engine.h"
 #include "../include/sdl/SDLEngineSetup.h"
-#include "../include/demo/SDLDemo.h"
 
 #include "../include/lib/easylogging++.h"
 #include "../include/sdl/opengl/SDLOpenGLEngineSetup.h"

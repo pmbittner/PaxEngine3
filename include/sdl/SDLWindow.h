@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SDLWINDOW_H
 #define PAXENGINE3_SDLWINDOW_H
 
-#include <SDL_video.h>
+#include <SDL2/SDL_video.h>
 #include <string>
 #include <glm/vec2.hpp>
 
@@ -16,7 +16,7 @@ namespace PAX {
         class SDLWindow : public Window {
         protected:
             SDL_Window *_window = nullptr;
-            glm::vec2 _resolution;
+            glm::ivec2 _resolution;
 
             virtual Uint32 flags();
 
@@ -27,7 +27,7 @@ namespace PAX {
 
             virtual bool create(std::string title, int width, int height) override;
 
-            virtual glm::vec2 getResolution() override;
+            virtual glm::ivec2 getResolution() override;
 
             virtual void setFullscreen(bool fullscreen) override;
 

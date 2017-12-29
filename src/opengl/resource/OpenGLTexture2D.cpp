@@ -2,12 +2,6 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <SDL.h>
-
-#ifdef PAX_WITH_SDLIMAGE
-#include <SDL_image.h>
-#endif
-
 #include "../../../include/opengl/resource/OpenGLTexture2D.h"
 #include "../../../include/lib/easylogging++.h"
 

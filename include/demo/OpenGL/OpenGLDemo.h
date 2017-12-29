@@ -18,18 +18,18 @@ namespace PAX {
                 SDL::OpenGL::SDLOpenGLRenderPass *sdl = new SDL::OpenGL::SDLOpenGLRenderPass();
                 OpenGL::OpenGLRenderPass *opengl = new OpenGL::OpenGLRenderPass();
                 sdl->addChild(opengl);
-                LOG(INFO) << "RenderTests: RenderPasses created";
+                LOG(INFO) << "OpenGLDemo: RenderPasses created";
 
                 Renderer &renderer = Engine::Instance().getRenderer();
 
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
-                LOG(INFO) << "RenderTests: Nodes initialized";
+                LOG(INFO) << "OpenGLDemo: Nodes initialized";
 
                 sdl->initialize();
-                LOG(INFO) << "RenderTests: SDL initialized";
+                LOG(INFO) << "OpenGLDemo: SDL initialized";
                 opengl->initialize();
-                LOG(INFO) << "RenderTests: OpenGL initialized";
+                LOG(INFO) << "OpenGLDemo: OpenGL initialized";
             }
 
         public:
@@ -47,7 +47,7 @@ namespace PAX {
 
                 initRendering();
                 Game::initialize();
-                LOG(INFO) << "RenderTests: Rendering initialized";
+                LOG(INFO) << "OpenGLDemo: Rendering initialized";
             }
         };
     }

@@ -50,7 +50,7 @@ namespace PAX {
             Window::setFullscreen(fullscreen);
         }
 
-        glm::vec2 SDLWindow::getResolution() {
+        glm::ivec2 SDLWindow::getResolution() {
             return _resolution;
         }
 

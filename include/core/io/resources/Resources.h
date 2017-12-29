@@ -69,8 +69,9 @@ namespace PAX {
         }
 
         bool unregisterResource(const std::type_index type, ResourceHandle* handle) {
-            _resourcesInUse.get(type).erase(handle);
+            auto deletedElementCount = _resourcesInUse.get(type).erase(handle);
             delete handle;
+            return deletedElementCount;
         }
 
         template<typename Resource, typename... Params>
@@ -86,7 +87,7 @@ namespace PAX {
 
     public:
         template<typename Resource, typename... Params>
-        bool registerLoader(ResourceLoader<Resource, Params...>* loader) {
+        void registerLoader(ResourceLoader<Resource, Params...>* loader) {
             std::vector<IResourceLoader*> &loaders = _loaders.get<Resource>();
             loaders.push_back(loader);
         }
@@ -108,6 +109,8 @@ namespace PAX {
                 TypedResourceHandle<Resource> *handle = load<Resource>(p...);
                 if (handle)
                     return handle->_resource;
+                else
+                    LOG(WARNING) << "The Resource " << Reflection::GetTypeName<Resource>() << "(" << Signature<Params...>(p...).toString() << ") could not be loaded!";
             }
             return res;
         }

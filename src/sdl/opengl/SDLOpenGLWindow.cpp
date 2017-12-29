@@ -4,7 +4,7 @@
 
 
 #include <GL/glew.h>
-#include <SDL_opengl.h>
+#include <SDL2/SDL_opengl.h>
 
 #include "../../../include/sdl/opengl/SDLOpenGLWindow.h"
 #include "../../../include/lib/easylogging++.h"

@@ -172,9 +172,9 @@ namespace PAX {
             return _uniformLocations.find(uniformName) != _uniformLocations.end();
         }
 
-#define PAX_OPENGL_LOADUNIFORM(funcname, params...) \
+#define PAX_OPENGL_LOADUNIFORM(funcname, ...) \
         if (hasUniform(uniformName)) { \
-            funcname(_uniformLocations[uniformName], params); \
+            funcname(_uniformLocations[uniformName], __VA_ARGS__); \
             return true; \
         } \
         return false;

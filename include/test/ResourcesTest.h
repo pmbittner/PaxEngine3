@@ -28,6 +28,7 @@ namespace PAX {
         virtual bool free(RTestTexture* res) override {
             std::cout << "PNGTextureLoader frees " << res << std::endl;
             delete res;
+            return true;
         };
     };
 
@@ -45,6 +46,7 @@ namespace PAX {
         virtual bool free(RTestShader* res) override {
             std::cout << "ShaderLoader frees " << res << std::endl;
             delete res;
+            return true;
         };
     };
 }

@@ -23,7 +23,7 @@ namespace PAX {
          * Adapted to GCC
          */
         namespace internal {
-            static const unsigned int FRONT_SIZE = sizeof("internal::GetTypeNameHelper<") - 1u;
+            static const unsigned int FRONT_SIZE = sizeof("PAX::Reflection::internal::GetTypeNameHelper<") - 1u;
             static const unsigned int BACK_SIZE = sizeof(">::GetTypeName") - 1u;
 
             template<typename T>

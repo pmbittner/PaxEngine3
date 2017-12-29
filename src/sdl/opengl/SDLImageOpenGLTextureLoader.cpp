@@ -6,7 +6,7 @@
 #include <opengl/resource/OpenGLTexture2D.h>
 
 #ifdef PAX_WITH_SDLIMAGE
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #endif
 
 #include <lib/easylogging++.h>
@@ -27,6 +27,7 @@ namespace PAX {
             Util::FormatChecker formats({
                     "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
             });
+
             return formats.check(path);
         }
 
@@ -61,7 +62,6 @@ namespace PAX {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             ogltexture->unbind();
 
-
             SDL_FreeSurface(tex);
 
             return ogltexture;
@@ -72,7 +72,12 @@ namespace PAX {
         }
 
         bool PAX::OpenGL::SDLImageOpenGLTextureLoader::free(Texture *res) {
-            delete res;
+            if (res) {
+                delete res;
+                return true;
+            }
+
+            return false;
         }
     }
 }

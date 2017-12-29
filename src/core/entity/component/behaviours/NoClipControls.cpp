@@ -103,7 +103,15 @@ namespace PAX {
         theta = theta + dx * dt;
         //lastTheta = theta;
         phi = lastPhi - dy * dt;
-        phi = std::max(std::min((float)(PAX_PI/2),phi),(float)(-PAX_PI/2));
+        phi = static_cast<float>(
+                std::max(
+                        std::min(
+                                PAX_HALF_PI,
+                                static_cast<double>(phi)
+                        ),
+                        -PAX_HALF_PI
+                )
+        );
 
         t.rotation().y = theta;
 

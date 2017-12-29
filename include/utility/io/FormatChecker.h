@@ -8,6 +8,8 @@
 #include <string>
 #include <algorithm>
 #include <utility/stdutils/CollectionUtils.h>
+#include <iostream>
+#include <utility/StringUtils.h>
 
 namespace PAX {
     namespace Util {
@@ -22,13 +24,10 @@ namespace PAX {
                 }
             }
 
-            bool check(std::string extension) {
+            bool check(const std::string& path) {
+                std::string extension = Util::getExtension(path);
                 std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
                 return Util::vectorContains(_formats, extension);
-            }
-
-            bool check(const char* extension) {
-                check(std::string(extension));
             }
         };
     }

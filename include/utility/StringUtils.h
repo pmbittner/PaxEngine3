@@ -7,6 +7,8 @@
 
 #include <string>
 #include <algorithm>
+#include <cctype>
+#include <locale>
 
 #define PAX_UTIL_STRING_EQUALS !strcmp
 #define PAX_UTIL_STRING_NEQUALS strcmp

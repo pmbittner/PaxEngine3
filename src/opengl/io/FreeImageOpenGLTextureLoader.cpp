@@ -92,7 +92,12 @@ namespace PAX {
         }
 
         bool PAX::OpenGL::FreeImageOpenGLTextureLoader::free(Texture *res) {
-            delete res;
+            if (res) {
+                delete res;
+                return true;
+            }
+
+            return false;
         }
     }
 }

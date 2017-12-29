@@ -5,6 +5,7 @@
 #include <opengl/resource/NullOpenGLTextureLoader.h>
 #include <vector>
 #include <utility/math/Conversion.h>
+#include <GL/glew.h>
 
 namespace PAX {
     namespace OpenGL {
@@ -27,7 +28,7 @@ namespace PAX {
 
                 int mode = GL_RGB;
                 int pixelCount = w * h;
-                char pixels[pixelCount * 3];
+                std::vector<char> pixels(pixelCount * 3);
 
                 struct Pixel {
                     int x;
@@ -75,7 +76,7 @@ namespace PAX {
 
                 glPixelStorei(GL_UNPACK_ALIGNMENT, 8);
                 glTexImage2D(GL_TEXTURE_2D, 0, mode, _texture->getWidth(), _texture->getHeight(), 0, mode,
-                             GL_UNSIGNED_BYTE, &pixels);
+                             GL_UNSIGNED_BYTE, &pixels.front());
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
                 _texture->unbind();
@@ -85,7 +86,12 @@ namespace PAX {
         }
 
         bool NullOpenGLTextureLoader::free(Texture *res) {
-            delete res;
+            if (res) {
+                delete res;
+                return true;
+            }
+
+            return false;
         }
     }
 }
