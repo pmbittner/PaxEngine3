@@ -8,14 +8,14 @@
 #include <core/io/resources/ResourceLoader.h>
 #include "FBXModel.h"
 
-#ifdef DPAX_WITH_FBX
+#ifdef PAX_WITH_FBX
 #include <fbxsdk.h>
 #endif
 
 namespace PAX {
     class FBXLoader : ResourceLoader<FBXModel, const char*> {
-#ifdef DPAX_WITH_FBX
-        FbxManager _fbxManager;
+#ifdef PAX_WITH_FBX
+        FbxManager *_fbxManager;
 #endif
     public:
         FBXLoader();
@@ -26,9 +26,9 @@ namespace PAX {
         FBXModel *load(const char * path) override;
 
     private:
-#ifdef DPAX_WITH_FBX
-        void FBXLoader::InitializeSdkObjects(FbxManager*& pManager);
-        void FBXLoader::DestroySdkObjects(FbxManager* pManager, bool pExitStatus);
+#ifdef PAX_WITH_FBX
+        void initializeSdkObjects();
+        void destroySdkObjects();
 #endif
     };
 }

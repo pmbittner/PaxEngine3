@@ -7,11 +7,11 @@
 
 namespace PAX {
     FBXLoader::FBXLoader() {
-
+        initializeSdkObjects();
     }
 
     FBXLoader::~FBXLoader() {
-
+        destroySdkObjects();
     }
 
     bool FBXLoader::canLoad(const char *path) {
@@ -27,33 +27,32 @@ namespace PAX {
     }
 
 
-#ifdef DPAX_WITH_FBX
-    void FBXLoader::InitializeSdkObjects(FbxManager*& pManager)
+#ifdef PAX_WITH_FBX
+    void FBXLoader::initializeSdkObjects()
     {
         //The first thing to do is to create the FBX Manager which is the object allocator for almost all the classes in the SDK
-        pManager = FbxManager::Create();
-        if (!pManager)
+        _fbxManager = FbxManager::Create();
+        if (!_fbxManager)
         {
             FBXSDK_printf("Error: Unable to create FBX Manager!\n");
             exit(1);
         }
-        else FBXSDK_printf("Autodesk FBX SDK version %s\n", pManager->GetVersion());
+        else FBXSDK_printf("Autodesk FBX SDK version %s\n", _fbxManager->GetVersion());
 
         //Create an IOSettings object. This object holds all import/export settings.
-        FbxIOSettings* ios = FbxIOSettings::Create(pManager, IOSROOT);
-        pManager->SetIOSettings(ios);
+        FbxIOSettings* ios = FbxIOSettings::Create(_fbxManager, IOSROOT);
+        _fbxManager->SetIOSettings(ios);
 
         //Load plugins from the executable directory (optional)
         FbxString lPath = FbxGetApplicationDirectory();
-        pManager->LoadPluginsDirectory(lPath.Buffer());
+        _fbxManager->LoadPluginsDirectory(lPath.Buffer());
 
     }
 
-    void FBXLoader::DestroySdkObjects(FbxManager* pManager, bool pExitStatus)
+    void FBXLoader::destroySdkObjects()
     {
         //Delete the FBX Manager. All the objects that have been allocated using the FBX Manager and that haven't been explicitly destroyed are also automatically destroyed.
-        if (pManager) pManager->Destroy();
-        if (pExitStatus) FBXSDK_printf("Program Success!\n");
+        if (_fbxManager) _fbxManager->Destroy();
     }
 #endif
 }

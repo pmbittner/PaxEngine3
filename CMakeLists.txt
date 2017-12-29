@@ -54,7 +54,7 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 ### OPTIONS #############################################
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
-option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" OFF)
+option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" ON)
 
 
 ### PATHS ###############################################
@@ -253,6 +253,10 @@ if(WITH_SDL_IMAGE)
     add_definitions(-DPAX_WITH_SDLIMAGE)
 endif()
 
+if (WITH_FBX)
+    add_definitions(-DPAX_WITH_FBX)
+endif()
+
 if (WIN32 AND ${COMPILER_IS_MSVC})
     include_directories(${LIB_DIR_RELATIVE}/include)
 
@@ -276,15 +280,15 @@ else()
         include_directories(${SDL2_IMAGE_INCLUDE_DIR})
     endif()
 
+    if (WITH_FBX)
+        message(SEND_ERROR "FBX loading is not supported yet!" )
+    endif()
+
     #find_package(SDL2_ttf REQUIRED)
     #include_directories(${SDL2_TTF_INCLUDE_DIR})
 
     find_package(GLEW REQUIRED)
     include_directories(${GLEW_INCLUDE_DIRS})
-endif()
-
-if (WITH_FBX)
-    add_definitions(-DPAX_WITH_FBX)
 endif()
 
 
