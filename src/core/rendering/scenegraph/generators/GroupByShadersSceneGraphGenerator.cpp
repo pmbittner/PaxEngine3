@@ -14,6 +14,14 @@ namespace PAX {
 
     }
 
+    void GroupByShadersSceneGraphGenerator::attach(ShadingNode &shadingNode, Graphics *g) {
+        shadingNode.addChild(g);
+    }
+
+    void GroupByShadersSceneGraphGenerator::detach(ShadingNode &shadingNode, Graphics *g) {
+        shadingNode.removeChild(g);
+    }
+
     void GroupByShadersSceneGraphGenerator::registerGraphics(Graphics *graphics) {
         std::shared_ptr<Shader> &shader = graphics->getShader();
         ShadingNode &shaderNode = _shadersToNodes[shader.get()];
@@ -24,14 +32,14 @@ namespace PAX {
             _sceneRoot.addChild(&shaderNode);
         }
 
-        shaderNode.addChild(graphics);
+        attach(shaderNode, graphics);
         graphics->OnShaderChanged.add<GroupByShadersSceneGraphGenerator, &GroupByShadersSceneGraphGenerator::onShaderChanged>(this);
     }
 
     void GroupByShadersSceneGraphGenerator::unregisterGraphicsFromShader(Graphics *graphics, Shader* shader) {
         ShadingNode &shaderNode = _shadersToNodes[shader];
 
-        shaderNode.removeChild(graphics);
+        detach(shaderNode, graphics);
 
         // delete shader node if it no longer holds any graphics
         if (shaderNode.isEmpty()) {

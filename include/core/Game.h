@@ -35,7 +35,7 @@ namespace PAX {
 
         bool isRegistered(World *world);
         void registerWorld(World *world);
-        void unregisterWorld(World *world);
+        bool unregisterWorld(World *world);
         const std::vector<World*>& getRegisteredWorlds();
 
         World* getActiveWorld();

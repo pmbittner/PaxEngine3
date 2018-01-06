@@ -1,0 +1,8 @@
+//
+// Created by Paul on 06.01.2018.
+//
+
+#ifndef PAXENGINE3_ANIMATION_H
+#define PAXENGINE3_ANIMATION_H
+
+#endif //PAXENGINE3_ANIMATION_H

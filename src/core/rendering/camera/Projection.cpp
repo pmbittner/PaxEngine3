@@ -6,10 +6,10 @@
 
 namespace PAX {
     const glm::mat4& Projection::toMatrix() {
-        //if (_dirty) {
+        if (_dirty) {
             calcMatrix();
             _dirty = false;
-        //}
+        }
 
         return _matrix;
     }

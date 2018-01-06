@@ -93,7 +93,6 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         TypedResourceHandle<Resource>* load(Params... p) {
-            std::cout << "\tLoad Resource " << print<Resource>(p...) << std::endl;
             ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader) {
                 return registerResource<Resource, Params...>(

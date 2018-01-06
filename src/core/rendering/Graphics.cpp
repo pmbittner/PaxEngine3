@@ -7,7 +7,7 @@
 
 namespace PAX {
     void Graphics::render(RenderOptions &renderOptions) {
-        renderOptions.setTransformation(getOwner()->getTransform());
+        renderOptions.setTransformation(getOwner()->getTransform().toWorldMatrix());
     }
 
     std::shared_ptr<Shader>& Graphics::getShader() {

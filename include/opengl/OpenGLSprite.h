@@ -9,6 +9,7 @@
 #include <opengl/rendernodes/OpenGLTexturingNode.h>
 #include <opengl/rendernodes/OpenGLMeshNode.h>
 #include <core/rendering/SceneGraphGraphics.h>
+#include <core/rendering/scenegraph/nodes/TransformationNode.h>
 
 namespace PAX {
     namespace OpenGL {
@@ -19,6 +20,7 @@ namespace PAX {
             static OpenGLMesh *QuadMesh;
             static OpenGLMesh *GetMesh();
 
+            TransformationNode _trafoNode;
             OpenGLTexturingNode _textureNode;
             OpenGLMeshNode _meshNode;
 

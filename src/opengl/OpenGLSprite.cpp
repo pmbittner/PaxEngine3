@@ -4,6 +4,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <core/service/Services.h>
 #include <opengl/rendernodes/OpenGLTexturingNode.h>
 
@@ -23,15 +25,15 @@ namespace PAX {
         OpenGLMesh * OpenGLSprite::GetMesh() {
             if (!QuadMesh) {
                 std::vector<glm::vec3> vertices = {
-                        {-0.5f, 0.5f,  0},   //V0
-                        {-0.5f, -0.5f, 0},  //V1
-                        {0.5f,  -0.5f, 0},   //V2
-                        {0.5f,  0.5f,  0}     //V3
+                        {-0.5f, 0.5f,  0},  // V0
+                        {-0.5f, -0.5f, 0},  // V1
+                        {0.5f,  -0.5f, 0},  // V2
+                        {0.5f,  0.5f,  0}   // V3
                 };
 
                 std::vector<std::vector<int>> indices = {
-                        {0, 1, 3},  //Top left triangle (V0,V1,V3)
-                        {3, 1, 2}   //Bottom right triangle (V3,V1,V2)
+                        {0, 1, 3},  // Top    left  triangle (V0,V1,V3)
+                        {3, 1, 2}   // Bottom right triangle (V3,V1,V2)
                 };
 
                 std::vector<glm::vec2> texCoords = {
@@ -50,8 +52,13 @@ namespace PAX {
             return QuadMesh;
         }
 
-        OpenGLSprite::OpenGLSprite(const std::shared_ptr<Texture> &texture) : SceneGraphGraphics(), _textureNode(texture), _meshNode(GetMesh()) {
-            scenegraph <<= _textureNode <<= &_meshNode;
+        OpenGLSprite::OpenGLSprite(const std::shared_ptr<Texture> &texture) : SceneGraphGraphics(),
+                                                                              _trafoNode(glm::scale(glm::mat4(1),
+                                                                                      glm::vec3(texture->getWidth(), texture->getHeight(), 1)
+                                                                              )),
+                                                                              _textureNode(texture),
+                                                                              _meshNode(GetMesh()) {
+            scenegraph <<= _trafoNode <<= _textureNode <<= &_meshNode;
 
             std::shared_ptr<Shader> shader = Services::GetResources().loadOrGet<Shader>(
                     (Services::GetPaths().RelativeResourcePath() + "shader/gui/PlainTexture.vert").c_str(),

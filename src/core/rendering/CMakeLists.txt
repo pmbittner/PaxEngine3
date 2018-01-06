@@ -21,4 +21,4 @@ add_library(paxrendering
 
         resource/Mesh.cpp
         resource/Shader.cpp
-        resource/Texture.cpp)
+        resource/Texture.cpp resource/SpriteSheet.cpp scenegraph/nodes/TransformationNode.cpp scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.cpp)

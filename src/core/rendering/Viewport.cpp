@@ -2,15 +2,39 @@
 // Created by Paul on 29.06.2017.
 //
 
+#include <core/service/Services.h>
+#include <core/Engine.h>
 #include "../../../include/core/rendering/Viewport.h"
 
 namespace PAX {
-    Viewport::Viewport() : Viewport(0, 0, 800, 600) {
+    Viewport::Viewport() : _x(0), _y(0), _resizePolicy(ResizePolicy::Relative) {
+        Window *w = Engine::Instance().getWindow();
+        _w = w->getResolution().x;
+        _h = w->getResolution().y;
 
+        w->OnResolutionChanged.add<Viewport, &Viewport::onWindowResolutionChanged>(this);
     }
 
-    Viewport::Viewport(int x, int y, int w, int h) : _x(x), _y(y), _w(w), _h(h) {
+    Viewport::Viewport(int x, int y, int w, int h, ResizePolicy resizePolicy) : _x(x), _y(y), _w(w), _h(h), _resizePolicy(resizePolicy) {
+        if (_resizePolicy != ResizePolicy::Absolute) {
+            Engine::Instance().getWindow()->OnResolutionChanged.add<Viewport, &Viewport::onWindowResolutionChanged>(this);
+        }
+    }
 
+    void Viewport::onWindowResolutionChanged(ResolutionChangedEvent& e) {
+        switch(_resizePolicy) {
+            case ResizePolicy::Relative: {
+                float xScale = static_cast<float>(e._newWidth)  / static_cast<float>(e._oldWidth);
+                float yScale = static_cast<float>(e._newHeight) / static_cast<float>(e._oldHeight);
+
+                _x *= xScale;
+                _w *= xScale;
+                _y *= yScale;
+                _h *= yScale;
+
+                break;
+            }
+        }
     }
 
     int Viewport::getX() const {

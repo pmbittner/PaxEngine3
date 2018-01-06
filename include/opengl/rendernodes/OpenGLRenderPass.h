@@ -10,7 +10,7 @@
 namespace PAX {
     namespace OpenGL{
             class OpenGLRenderPass : public SceneGraph {
-                public:
+            public:
                 OpenGLRenderPass();
                 void initialize();
                 virtual void render(RenderOptions &renderOptions) override;

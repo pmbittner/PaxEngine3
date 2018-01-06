@@ -27,7 +27,7 @@ namespace PAX {
             Shader *shader = renderOptions.getShaderOptions().getShader();
 
             Camera *cam = renderOptions.getCamera();
-            glm::mat4 model = renderOptions.getTransformation().toWorldMatrix();
+            glm::mat4 model = renderOptions.getTransformation();
             const glm::mat4 &view = cam->getViewTransform();
             glm::mat4 modelview = view * model;
 

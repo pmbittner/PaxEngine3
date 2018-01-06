@@ -80,7 +80,6 @@ namespace PAX {
                 world->getGUILayer()->spawn(guiCamera);
 
                 setActiveWorld(world);
-                Game::initialize();
 
                 LOG(INFO) << "TerrainDemo: Game initialized";
             }

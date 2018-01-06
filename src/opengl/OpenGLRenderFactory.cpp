@@ -6,6 +6,7 @@
 #include <opengl/rendernodes/OpenGLWorldLayerRenderPass.h>
 #include <core/world/WorldLayer.h>
 #include <core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
+#include <core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h>
 
 namespace PAX {
     namespace OpenGL {
@@ -14,7 +15,7 @@ namespace PAX {
         }
 
         SceneGraphGenerator* OpenGLRenderFactory::createDefaultSceneGraphGenerator() {
-            return new GroupByShadersSceneGraphGenerator();
+            return new GroupByShadersAndSortByZSceneGraphGenerator();//new GroupByShadersSceneGraphGenerator();
         }
     }
 }

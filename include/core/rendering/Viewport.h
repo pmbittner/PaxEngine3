@@ -5,12 +5,22 @@
 #ifndef PAXENGINE3_VIEWPORT_H
 #define PAXENGINE3_VIEWPORT_H
 
+#include <core/io/event/ResolutionChangedEvent.h>
 #include "../event/EventHandler.h"
 
 namespace PAX {
     class Viewport {
+    public:
+        enum class ResizePolicy {
+            Absolute,
+            Relative
+        };
+
     protected:
         int _x, _y, _w, _h;
+        ResizePolicy _resizePolicy = ResizePolicy::Absolute;
+
+        void onWindowResolutionChanged(ResolutionChangedEvent& e);
 
     public:
         /**
@@ -20,7 +30,7 @@ namespace PAX {
         EventHandler<int, int> WidthChanged, HeightChanged;
 
         Viewport();
-        Viewport(int x, int y, int w, int h);
+        Viewport(int x, int y, int w, int h, ResizePolicy resizePolicy = ResizePolicy::Absolute);
 
         virtual void apply() = 0;
 

@@ -46,7 +46,6 @@ namespace PAX {
         //Load plugins from the executable directory (optional)
         FbxString lPath = FbxGetApplicationDirectory();
         _fbxManager->LoadPluginsDirectory(lPath.Buffer());
-
     }
 
     void FBXLoader::destroySdkObjects()

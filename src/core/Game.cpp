@@ -13,6 +13,8 @@ namespace PAX {
     Game::~Game() {}
 
     void Game::initialize() {
+        assert(!_initialized);
+
         addSystem(new BehaviourSystem);
 
         for (GameSystem *gameSystem : _systems)
@@ -38,13 +40,20 @@ namespace PAX {
         }
     }
 
-    void Game::unregisterWorld(World *world) {
-        assert(world != _activeWorld);
+    bool Game::unregisterWorld(World *world) {
+        if (world == _activeWorld) {
+            LOG(WARNING) << "Trying to unregister the active World " << world;
+            return false;
+        }
 
         if (Util::removeFromVector(_worlds, world)) {
             WorldEvent e(world);
             WorldUnregistered(e);
+
+            return true;
         }
+
+        return false;
     }
 
     const std::vector<World*>& Game::getRegisteredWorlds() {

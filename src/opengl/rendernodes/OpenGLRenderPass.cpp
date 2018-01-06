@@ -19,7 +19,7 @@ namespace PAX {
             glm::vec2 res = window->getResolution();
 
             glEnable(GL_TEXTURE_2D);
-            glEnable(GL_DEPTH_TEST);
+            //glEnable(GL_DEPTH_TEST);
             glEnable(GL_MULTISAMPLE);
             glEnable(GL_BACK);
 

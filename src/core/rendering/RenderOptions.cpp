@@ -60,12 +60,12 @@ namespace PAX {
         RenderOptions::_camera = camera;
     }
 
-    Transform & PAX::RenderOptions::getTransformation() const {
-        return *_currentTransform;
+    glm::mat4 & PAX::RenderOptions::getTransformation() {
+        return _currentTransform;
     }
 
-    void PAX::RenderOptions::setTransformation(Transform &transform) {
-        _currentTransform = &transform;
+    void PAX::RenderOptions::setTransformation(const glm::mat4 &transform) {
+        _currentTransform = transform;
     }
 
     ShaderOptions& PAX::RenderOptions::getShaderOptions() {

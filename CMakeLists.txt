@@ -241,7 +241,7 @@ set(SOURCE_FILES
         include/core/entity/component/behaviours/NoClipControls.h
         include/core/io/event/MouseMovedEvent.h
         include/utility/reflection/TemplateTypeToString.h
-        include/utility/macros/CompilerDetection.h include/fbx/FBXLoader.h include/fbx/FBXModel.h)
+        include/utility/macros/CompilerDetection.h include/fbx/FBXLoader.h include/fbx/FBXModel.h include/core/animation/Animation.h include/core/rendering/resource/SpriteSheet.h include/demo/OpenGL/Platformer/JumpNRunDemo.h include/core/rendering/scenegraph/nodes/TransformationNode.h include/demo/OpenGL/Platformer/PlayerControls.h include/core/io/resources/Path.h include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h include/opengl/OpenGLRenderFactory2D.h)
 
 ### API INCLUDES ########################################
 

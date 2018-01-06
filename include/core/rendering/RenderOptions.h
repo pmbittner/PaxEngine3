@@ -40,7 +40,7 @@ namespace PAX {
     class RenderOptions {
         Camera *_camera = nullptr;
         ShaderOptions _shaderOptions;
-        Transform* _currentTransform;
+        glm::mat4 _currentTransform;
 
     public:
         RenderOptions();
@@ -48,9 +48,8 @@ namespace PAX {
         Camera *getCamera() const;
         void setCamera(Camera *camera);
 
-        Transform& getTransformation() const;
-        void setTransformation(Transform& transform);
-
+        glm::mat4& getTransformation();
+        void setTransformation(const glm::mat4& transform);
 
         ShaderOptions& getShaderOptions();
     };

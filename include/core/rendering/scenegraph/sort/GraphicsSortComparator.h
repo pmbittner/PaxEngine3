@@ -26,7 +26,7 @@ namespace PAX {
             virtual ~FrontToBackGraphicsSortComparator() {}
 
             virtual inline bool smaller(Graphics* a, Graphics* b) override {
-                return a->getOwner()->getTransform().z() < b->getOwner()->getTransform().z();
+                return a->getOwner()->getTransform().z() > b->getOwner()->getTransform().z();
             }
         };
 
@@ -40,7 +40,7 @@ namespace PAX {
             virtual ~BackToFrontGraphicsSortComparator() {}
 
             virtual inline bool smaller(Graphics* a, Graphics* b) override {
-                return a->getOwner()->getTransform().z() > b->getOwner()->getTransform().z();
+                return a->getOwner()->getTransform().z() < b->getOwner()->getTransform().z();
             }
         };
     }
