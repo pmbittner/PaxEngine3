@@ -36,5 +36,9 @@ namespace PAX {
 
             return path.substr(dotIndex + 1);
         }
+
+        void str_replace(std::string& string, const char& from, const char& to) {
+            std::replace(string.begin(), string.end(), from, to);
+        }
     }
 }

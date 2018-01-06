@@ -5,11 +5,11 @@
 #include <opengl/resource/OpenGLShaderLoader.h>
 #include <opengl/resource/OpenGLShader.h>
 
-bool PAX::OpenGL::OpenGLShaderLoader::canLoad(const char *vertexShaderPath, const char *fragmentShaderPath) {
+bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Path vertexShaderPath, Path fragmentShaderPath) {
     return true;
 }
 
-PAX::Shader *PAX::OpenGL::OpenGLShaderLoader::load(const char *vertexShaderPath, const char *fragmentShaderPath) {
+PAX::Shader *PAX::OpenGL::OpenGLShaderLoader::load(Path vertexShaderPath, Path fragmentShaderPath) {
     OpenGLShader* shader = new OpenGLShader(vertexShaderPath, vertexShaderPath, fragmentShaderPath);
     return shader;
 }

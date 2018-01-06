@@ -13,8 +13,8 @@
 namespace PAX {
     class ISignature {
     public:
-        virtual bool equals(ISignature const& signature) const = 0;
-        virtual std::string toString() = 0;
+        virtual bool equals(ISignature *other) const = 0;
+        virtual std::string toString() const = 0;
     };
 
     template<typename... S>
@@ -31,8 +31,14 @@ namespace PAX {
         Signature(Signature<S...> &toCopy)
                 : Signature<S...>(toCopy._values) {}
 
+        virtual std::string toString() const {
+            std::stringstream ss;
+            Util::TuplePrinter<decltype(_values), sizeof...(S)>::print(_values, ss);
+            return ss.str();
+        };
+
         bool equals(Signature<S...> const& rhs) const {
-            return _values == rhs._values;
+            return _values._Equals(rhs._values);
         }
 
         bool equals(S const&... rhs) const {
@@ -40,19 +46,15 @@ namespace PAX {
             return _values == std::forward_as_tuple(rhs...);
         }
 
-        virtual bool equals(ISignature const& signature) const override {
-            const Signature<S...> *concreteSignature = dynamic_cast<const Signature<S...>*>(&signature);
+        virtual bool equals(ISignature *other) const override {
+            Signature<S...> *concreteSignature = dynamic_cast<Signature<S...>*>(other);
+
             if (concreteSignature) {
                 return Signature<S...>::equals(*concreteSignature);
             }
+
             return false;
         }
-
-        virtual std::string toString() {
-            std::stringstream ss;
-            Util::TuplePrinter<decltype(_values), sizeof...(S)>::print(_values, ss);
-            return ss.str();
-        };
     };
 }
 

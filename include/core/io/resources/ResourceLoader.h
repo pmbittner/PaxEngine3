@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_RESOURCELOADER_H
 #define PAXENGINE3_RESOURCELOADER_H
 
+#include "Path.h"
+
 namespace PAX {
     class IResourceLoader {
     public:

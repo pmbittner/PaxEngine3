@@ -23,7 +23,7 @@ namespace PAX {
 
         }
 
-        bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(const char *path) {
+        bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(Path path) {
             Util::FormatChecker formats({
                     "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
             });
@@ -31,7 +31,7 @@ namespace PAX {
             return formats.check(path);
         }
 
-        PAX::Texture *PAX::OpenGL::SDLImageOpenGLTextureLoader::load(const char *path) {
+        PAX::Texture *PAX::OpenGL::SDLImageOpenGLTextureLoader::load(Path path) {
 #ifdef PAX_WITH_SDLIMAGE
             SDL_Surface* tex = NULL;
 
@@ -58,8 +58,8 @@ namespace PAX {
             }
             glPixelStorei(GL_UNPACK_ALIGNMENT, 8);
             glTexImage2D(GL_TEXTURE_2D, 0, Mode, ogltexture->getWidth(), ogltexture->getHeight(), 0, Mode, GL_UNSIGNED_BYTE, tex->pixels);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             ogltexture->unbind();
 
             SDL_FreeSurface(tex);

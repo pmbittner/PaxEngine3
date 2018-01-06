@@ -30,6 +30,8 @@ namespace PAX {
         std::string trimmed(std::string s);
 
         std::string getExtension(std::string path);
+
+        void str_replace(std::string& string, const char& from, const char& to);
     }
 }
 #endif //PAXENGINE3_STRINGUTILS_H

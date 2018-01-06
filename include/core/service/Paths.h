@@ -11,11 +11,13 @@
 namespace PAX {
     class Paths {
     public:
+        static constexpr char PathSeparator_Win = '\\';
+        static constexpr char PathSeparator_Unix = '/';
         static constexpr char PathSeparator =
 #ifdef PAX_OS_WIN
-        '\\';
+                PathSeparator_Win;
 #else
-        '/';
+        PathSeparator_Unix;
 #endif
 
     private:

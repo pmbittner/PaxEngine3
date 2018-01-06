@@ -17,11 +17,28 @@
 
 namespace PAX {
     class Resources {
-        TypeMap<std::vector<IResourceLoader*>> _loaders;
+        template<typename T> struct convert {
+            using type = T;
+        };
+        template<> struct convert<char const*> {
+            using type = Path;
+        };
+        template<> struct convert<std::string> {
+            using type = Path;
+        };
+        template<typename T>
+        using convertStringsToPath = typename convert<T>::type;
 
+        TypeMap<std::vector<IResourceLoader*>> _loaders;
         TypeMap<std::unordered_set<ResourceHandle*>> _resourcesInUse;
 
-    private:
+        template<typename Resource, typename... Params>
+        std::string print(Params... params) {
+            std::stringstream ss;
+            ss << Reflection::GetTypeName<Resource>() << "(" << Signature<Params...>(params...).toString() << ")";
+            return ss.str();
+        }
+
         template<typename Resource, typename... Params>
         ResourceLoader<Resource, Params...>* getLoader(Params... params) {
             std::vector<IResourceLoader *> &possibleLoaders = _loaders.get<Resource>();
@@ -43,7 +60,7 @@ namespace PAX {
 
             std::unordered_set<ResourceHandle*> &handles = _resourcesInUse.get<Resource>();
             for (ResourceHandle *handle : handles) {
-                if (handle->_signature->equals(s)) {
+                if (s.equals(handle->_signature)) {
                     return reinterpret_cast<TypedResourceHandle<Resource>*>(handle);
                 }
             }
@@ -76,6 +93,7 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         TypedResourceHandle<Resource>* load(Params... p) {
+            std::cout << "\tLoad Resource " << print<Resource>(p...) << std::endl;
             ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader) {
                 return registerResource<Resource, Params...>(
@@ -85,6 +103,30 @@ namespace PAX {
             return nullptr;
         }
 
+        template<typename Resource, typename... Params>
+        std::shared_ptr<Resource>& get(Params... p) {
+            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
+            if (handle) {
+                return handle->_resource;
+            }
+
+            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
+            return shared_nullptr;
+        }
+
+        template<typename Resource, typename... Params>
+        std::shared_ptr<Resource>& loadOrGetWithCorrectPaths(Params... p) {
+            std::shared_ptr<Resource> &res = get<Resource>(p...);
+            if (!res) {
+                TypedResourceHandle<Resource> *handle = load<Resource>(p...);
+                if (handle)
+                    return handle->_resource;
+                else
+                    LOG(WARNING) << "The Resource " << print<Resource>(p...) << " could not be loaded!";
+            }
+            return res;
+        };
+
     public:
         template<typename Resource, typename... Params>
         void registerLoader(ResourceLoader<Resource, Params...>* loader) {
@@ -93,26 +135,8 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& get(Params... p) {
-            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
-            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
-            if (handle) {
-                return handle->_resource;
-            }
-            return shared_nullptr;
-        }
-
-        template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& loadOrGet(Params... p) {
-            std::shared_ptr<Resource> &res = get<Resource>(p...);
-            if (!res) {
-                TypedResourceHandle<Resource> *handle = load<Resource>(p...);
-                if (handle)
-                    return handle->_resource;
-                else
-                    LOG(WARNING) << "The Resource " << Reflection::GetTypeName<Resource>() << "(" << Signature<Params...>(p...).toString() << ") could not be loaded!";
-            }
-            return res;
+            return loadOrGetWithCorrectPaths<Resource, convertStringsToPath<Params>...>(p...);
         }
 
         void collectGarbage() {
@@ -122,7 +146,6 @@ namespace PAX {
 
                 for (ResourceHandle* handle : handles) {
                     if (handle->getExternalReferenceCount() == 0) {
-                        //unregisterResource(kv.first, handle);
                         resourcesToDelete.insert(handle);
                     }
                 }

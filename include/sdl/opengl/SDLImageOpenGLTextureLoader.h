@@ -10,14 +10,14 @@
 
 namespace PAX {
     namespace OpenGL {
-        class SDLImageOpenGLTextureLoader : public ResourceLoader<Texture, const char*> {
+        class SDLImageOpenGLTextureLoader : public ResourceLoader<Texture, Path> {
         public:
             SDLImageOpenGLTextureLoader();
             ~SDLImageOpenGLTextureLoader();
 
             bool free(Texture *res) override;
-            bool canLoad(const char * path) override;
-            Texture *load(const char * path) override;
+            bool canLoad(Path path) override;
+            Texture *load(Path path) override;
         };
     }
 }
