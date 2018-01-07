@@ -10,6 +10,7 @@
 #include <opengl/rendernodes/OpenGLMeshNode.h>
 #include <core/rendering/SceneGraphGraphics.h>
 #include <core/rendering/scenegraph/nodes/TransformationNode.h>
+#include <core/rendering/resource/SpriteSheet.h>
 
 namespace PAX {
     namespace OpenGL {

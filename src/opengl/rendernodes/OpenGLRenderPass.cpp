@@ -3,6 +3,7 @@
 //
 
 #include <GL/glew.h>
+#include <opengl/utility/Error.h>
 #include "../../../include/opengl/rendernodes/OpenGLRenderPass.h"
 #include "../../../include/core/Engine.h"
 
@@ -31,6 +32,8 @@ namespace PAX {
 
             glClearColor(0.8, 0.8, 0.8, 1);
             glViewport(0, 0, res.x, res.y);
+
+            catchError("Initialization", false);
         }
 
         void OpenGLRenderPass::render(RenderOptions &renderOptions) {

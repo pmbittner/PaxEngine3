@@ -13,7 +13,11 @@ namespace PAX {
         }
 
         OpenGLTexture2D::~OpenGLTexture2D() {
-            glDeleteTextures(1, &_id);
+
+        }
+
+        GLuint OpenGLTexture2D::getID() {
+            return _id;
         }
 
         void OpenGLTexture2D::bind() {

@@ -42,7 +42,7 @@ namespace PAX {
             }
 
             if((tex = IMG_Load(path)) == NULL) {
-                LOG(ERROR) << "Loading texture " << path << " failed in OpenGLTexture2D.";
+                LOG(ERROR) << "Loading texture " << path << " failed in SDLImageOpenGLTextureLoader.";
             }
 
             GLuint id;
@@ -73,6 +73,9 @@ namespace PAX {
 
         bool PAX::OpenGL::SDLImageOpenGLTextureLoader::free(Texture *res) {
             if (res) {
+                OpenGLTexture2D* tex = static_cast<OpenGLTexture2D*>(res);
+                GLuint id = tex->getID();
+                glDeleteTextures(1, &id);
                 delete res;
                 return true;
             }

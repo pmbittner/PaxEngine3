@@ -27,9 +27,9 @@ namespace PAX {
     }
 
 
-#ifdef PAX_WITH_FBX
     void FBXLoader::initializeSdkObjects()
     {
+#ifdef PAX_WITH_FBX
         //The first thing to do is to create the FBX Manager which is the object allocator for almost all the classes in the SDK
         _fbxManager = FbxManager::Create();
         if (!_fbxManager)
@@ -46,12 +46,14 @@ namespace PAX {
         //Load plugins from the executable directory (optional)
         FbxString lPath = FbxGetApplicationDirectory();
         _fbxManager->LoadPluginsDirectory(lPath.Buffer());
+#endif
     }
 
     void FBXLoader::destroySdkObjects()
     {
+#ifdef PAX_WITH_FBX
         //Delete the FBX Manager. All the objects that have been allocated using the FBX Manager and that haven't been explicitly destroyed are also automatically destroyed.
         if (_fbxManager) _fbxManager->Destroy();
-    }
 #endif
+    }
 }

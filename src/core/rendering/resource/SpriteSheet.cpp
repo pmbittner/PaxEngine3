@@ -5,5 +5,15 @@
 #include <core/rendering/resource/SpriteSheet.h>
 
 namespace PAX {
+    SpriteSheet::SpriteSheet(int textureCount) : _textures(textureCount) {
 
+    }
+
+    int SpriteSheet::getTextureCount() {
+        return _textures.size();
+    }
+
+    Texture* SpriteSheet::getTextureAt(int index) {
+        return _textures[index];
+    }
 }

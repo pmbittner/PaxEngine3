@@ -9,20 +9,16 @@
 #include "Texture.h"
 
 namespace PAX {
-    /*
     class SpriteSheet {
     protected:
         std::vector<Texture*> _textures;
 
     public:
-        SpriteSheet(std::vector<Texture*> textures);
+        SpriteSheet(int textureCount);
 
         int getTextureCount();
-        Texture& operator[](int index);
+        Texture* getTextureAt(int index);
     };
-     */
-
-    typedef std::vector<Texture*> SpriteSheet;
 }
 
 #endif //PAXENGINE3_SPRITESHEET_H

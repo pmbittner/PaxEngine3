@@ -8,6 +8,7 @@
 #include <opengl/resource/NullOpenGLTextureLoader.h>
 #include <opengl/io/FreeImageOpenGLTextureLoader.h>
 #include <sdl/opengl/SDLImageOpenGLTextureLoader.h>
+#include <sdl/opengl/SDLImageOpenGLSpriteSheetLoader.h>
 #include "../../../include/sdl/opengl/SDLOpenGLEngineSetup.h"
 #include "../../../include/opengl/OpenGLRenderFactory.h"
 #include "../../../include/sdl/opengl/SDLOpenGLWindow.h"
@@ -40,6 +41,9 @@ namespace PAX {
 #define PAX_IMAGE_LOADER_FOUND
                 LOG(INFO) << "    SDLImageOpenGLTextureLoader";
                 Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::SDLImageOpenGLTextureLoader());
+
+                LOG(INFO) << "    SDLImageOpenGLSpriteSheetLoader";
+                Services::GetResources().registerLoader<SpriteSheet>(new PAX::OpenGL::SDLImageOpenGLSpriteSheetLoader());
 #endif
 
 #ifndef PAX_IMAGE_LOADER_FOUND
