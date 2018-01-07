@@ -16,19 +16,19 @@
 #include "ResourceHandle.h"
 
 namespace PAX {
-    class Resources {
-        template<typename T> struct convert {
-            using type = T;
-        };
-        template<> struct convert<char const*> {
-            using type = Path;
-        };
-        template<> struct convert<std::string> {
-            using type = Path;
-        };
-        template<typename T>
-        using convertStringsToPath = typename convert<T>::type;
+    template<typename T> struct convert {
+        using type = T;
+    };
+    template<> struct convert<char const*> {
+        using type = Path;
+    };
+    template<> struct convert<std::string> {
+        using type = Path;
+    };
+    template<typename T>
+    using convertStringsToPath = typename convert<T>::type;
 
+    class Resources {
         TypeMap<std::vector<IResourceLoader*>> _loaders;
         TypeMap<std::unordered_set<ResourceHandle*>> _resourcesInUse;
 
