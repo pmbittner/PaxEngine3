@@ -6,20 +6,20 @@
 
 namespace PAX {
     void GroupByShadersAndSortByZSceneGraphGenerator::attach(ShadingNode &shadingNode, Graphics *g) {
-        SortingNode *sorter = nullptr;
+        GraphicsSortingNode2D *sorter = nullptr;
 
         if (shadingNode.isEmpty()) {
-            sorter = new SortingNode();
+            sorter = new GraphicsSortingNode2D();
             shadingNode.addChild(sorter);
         } else {
-            sorter = static_cast<SortingNode*>(shadingNode.getChildren()[0]);
+            sorter = static_cast<GraphicsSortingNode2D*>(shadingNode.getChildren()[0]);
         }
 
         sorter->addChild(g);
     }
 
     void GroupByShadersAndSortByZSceneGraphGenerator::detach(ShadingNode &shadingNode, Graphics *g) {
-        SortingNode *sorter = static_cast<SortingNode*>(shadingNode.getChildren()[0]);
+        GraphicsSortingNode2D *sorter = static_cast<GraphicsSortingNode2D*>(shadingNode.getChildren()[0]);
         sorter->removeChild(g);
 
         if (sorter->isEmpty()) {

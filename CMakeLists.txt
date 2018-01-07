@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.6)
 project(PaxEngine3)
 
+### OPTIONS #############################################
+option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" OFF)
+
 ### DETECT COMPILER #####################################
 set(COMPILER_IS_CLANG FALSE)
 set(COMPILER_IS_GCC FALSE)
@@ -52,11 +56,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_FLAGS}")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 
-### OPTIONS #############################################
-option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
-option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" ON)
-
-
 ### PATHS ###############################################
 set(MAIN_FILE Default_main.cpp)
 
@@ -100,7 +99,6 @@ set(SOURCE_FILES
 
         include/core/rendering/scenegraph/SceneGraphGenerator.h
         include/core/rendering/scenegraph/sort/GraphicsSort.h
-        include/core/rendering/scenegraph/sort/GraphicsSortComparator.h
 
         include/core/world/World.h
         include/core/world/WorldLayer.h
@@ -241,7 +239,18 @@ set(SOURCE_FILES
         include/core/entity/component/behaviours/NoClipControls.h
         include/core/io/event/MouseMovedEvent.h
         include/utility/reflection/TemplateTypeToString.h
-        include/utility/macros/CompilerDetection.h include/fbx/FBXLoader.h include/fbx/FBXModel.h include/core/animation/Animation.h include/core/rendering/resource/SpriteSheet.h include/demo/OpenGL/Platformer/JumpNRunDemo.h include/core/rendering/scenegraph/nodes/TransformationNode.h include/demo/OpenGL/Platformer/PlayerControls.h include/core/io/resources/Path.h include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h include/opengl/OpenGLRenderFactory2D.h)
+        include/utility/macros/CompilerDetection.h
+        include/fbx/FBXLoader.h
+        include/fbx/FBXModel.h
+        include/core/animation/Animation.h
+        include/core/rendering/resource/SpriteSheet.h
+        include/demo/OpenGL/Platformer/JumpNRunDemo.h
+        include/core/rendering/scenegraph/nodes/TransformationNode.h
+        include/demo/OpenGL/Platformer/PlayerControls.h
+        include/core/io/resources/Path.h
+        include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h
+        include/core/world/scenegraph/WorldLayerSceneGraph.h
+        include/core/world/scenegraph/WorldSceneGraph.h include/sdl/SDLImageLoader.h include/sdl/opengl/SDLImageOpenGLSpriteSheetLoader.h include/opengl/resource/OpenGLSpriteSheet.h include/opengl/utility/Error.h)
 
 ### API INCLUDES ########################################
 
@@ -281,7 +290,7 @@ else()
     endif()
 
     if (WITH_FBX)
-        message(SEND_ERROR "FBX loading is not supported yet!" )
+       message(WARNING "FBX loading is not supported yet!" )
     endif()
 
     #find_package(SDL2_ttf REQUIRED)

@@ -7,34 +7,47 @@
 
 #include <vector>
 #include <core/rendering/Graphics.h>
-#include "GraphicsSortComparator.h"
+#include <core/entity/Entity.h>
 
 namespace PAX {
     namespace Sort {
+        template<typename SmallerOperator>
         class GraphicsSort {
-        private:
-            GraphicsSortComparator* _comparator = nullptr;
-
-            void insertionSort(std::vector<Graphics*> &graphics, int l, int r);
+            SmallerOperator isSmaller;
 
         public:
+            void sort(std::vector<Graphics*> &graphics) {
 
-            /**
-             *
-             * @param comparator The comparator to use for sorting. This depends on the use of 2D or 3D
-             * rendering. The comparator will be owned to the RenderableSort-Object meaning that the RenderableSort
-             * destructor will delete it.
-             */
-            GraphicsSort(GraphicsSortComparator* comparator = new BackToFrontGraphicsSortComparator);
-            ~GraphicsSort();
+                int l = 0;
+                int r = graphics.size() - 1;
+                int i, j;
+                float tempZ;
+                Graphics* temp;
 
-            /**
-             * Sets a new comparator. The old one will be deleted.
-             */
-            void setGraphicsSortComparator(GraphicsSortComparator* comparator);
-
-            void insertionSort(std::vector<Graphics*> &graphics);
+                for (i = l + 1; i <= r; ++i) {
+                    temp = graphics[i];
+                    tempZ = temp->getOwner()->getTransform().z();
+                    for (j = i; j > l && isSmaller(tempZ, graphics[j-1]->getOwner()->getTransform().z()); --j) {
+                        graphics[j] = graphics[j - 1];
+                    }
+                    graphics[j] = temp;
+                }
+            }
         };
+
+        /**
+         * This Comparator puts Renderables with greater Z in front of Renderables with smaller Z, so that
+         * Renderables far away will be rendered first.
+         * This is the comparator to use for 2D applications.
+         */
+        typedef GraphicsSort<std::less<float>> BackToFrontGraphicsSort;
+
+        /**
+         * This Comparator puts Renderables with smaller Z in front of Renderables with greater Z,
+         * meaning Renderables in front will be rendered first.
+         * This is the comparator to use for 3D applications.
+         */
+        typedef GraphicsSort<std::greater<float>> FrontToBackGraphicsSort;
     }
 }
 
