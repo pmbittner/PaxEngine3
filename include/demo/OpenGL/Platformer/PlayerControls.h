@@ -22,7 +22,7 @@ namespace PAX {
             };
 
             int _walkingDirection = None;
-            float speed = 100;
+            float speed = 150;
 
             void onKeyPressed(KeyPressedEvent& e) {
                 if (e.repeated) return;
@@ -58,14 +58,14 @@ namespace PAX {
             PlayerControls() {}
             ~PlayerControls() {}
 
-            virtual void PlayerControls::attached(Entity *entity) override {
+            virtual void attached(Entity *entity) override {
                 Behaviour::attached(entity);
                 EventService& e = Services::GetEventService();
                 e.add<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
                 e.add<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);
             }
 
-            virtual void PlayerControls::detached(Entity *entity) override {
+            virtual void detached(Entity *entity) override {
                 Behaviour::detached(entity);
                 EventService& e = Services::GetEventService();
                 e.remove<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);

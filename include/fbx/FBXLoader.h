@@ -26,10 +26,8 @@ namespace PAX {
         FBXModel *load(const char * path) override;
 
     private:
-#ifdef PAX_WITH_FBX
         void initializeSdkObjects();
         void destroySdkObjects();
-#endif
     };
 }
 

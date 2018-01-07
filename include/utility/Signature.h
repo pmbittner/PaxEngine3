@@ -38,7 +38,7 @@ namespace PAX {
         };
 
         bool equals(Signature<S...> const& rhs) const {
-            return _values._Equals(rhs._values);
+            return _values == rhs._values;
         }
 
         bool equals(S const&... rhs) const {
