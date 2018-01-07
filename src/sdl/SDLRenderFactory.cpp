@@ -9,8 +9,8 @@
 
 namespace PAX {
     namespace SDL {
-        SceneGraph * SDLRenderFactory::createSceneGraphNodeFor(WorldLayer *worldLayer) {
-            return new SceneGraph();
+        WorldLayerSceneGraph * SDLRenderFactory::createSceneGraphNodeFor(WorldLayer *worldLayer, float z) {
+            return new WorldLayerSceneGraph(z);
         }
 
         SceneGraphGenerator * SDLRenderFactory::createDefaultSceneGraphGenerator() {

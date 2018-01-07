@@ -13,13 +13,16 @@ set(CORE_SOURCE_FILES
 
         world/World.cpp
         world/WorldLayer.cpp
+        world/scenegraph/WorldSceneGraph.cpp
+        world/scenegraph/WorldLayerSceneGraph.cpp
 
         event/EventService.cpp
 
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp ../test/ResourceTest.cpp)
+        time/Time.cpp
+        ../test/ResourceTest.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

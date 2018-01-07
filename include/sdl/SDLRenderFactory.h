@@ -11,7 +11,7 @@ namespace PAX {
     namespace SDL {
         class SDLRenderFactory : public RenderFactory {
         public:
-            virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) override;
+            virtual WorldLayerSceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer, float z) override;
             virtual SceneGraphGenerator* createDefaultSceneGraphGenerator() override;
         };
     }

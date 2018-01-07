@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_RENDERFACTORY_H
 #define PAXENGINE3_RENDERFACTORY_H
 
-#include <core/rendering/scenegraph/SceneGraph.h>
+#include <core/world/scenegraph/WorldLayerSceneGraph.h>
 
 namespace PAX {
     class SceneGraphGenerator;
@@ -13,7 +13,7 @@ namespace PAX {
 
     class RenderFactory {
     public:
-        virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) = 0;
+        virtual WorldLayerSceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer, float z) = 0;
         virtual SceneGraphGenerator* createDefaultSceneGraphGenerator() = 0;
     };
 }

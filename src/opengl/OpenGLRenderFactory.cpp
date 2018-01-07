@@ -10,8 +10,8 @@
 
 namespace PAX {
     namespace OpenGL {
-        SceneGraph* OpenGLRenderFactory::createSceneGraphNodeFor(WorldLayer *worldLayer) {
-            return new OpenGLWorldLayerRenderPass();
+        WorldLayerSceneGraph* OpenGLRenderFactory::createSceneGraphNodeFor(WorldLayer *worldLayer, float z) {
+            return new OpenGLWorldLayerRenderPass(z);
         }
 
         SceneGraphGenerator* OpenGLRenderFactory::createDefaultSceneGraphGenerator() {

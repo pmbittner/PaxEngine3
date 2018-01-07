@@ -13,11 +13,11 @@ namespace PAX {
     }
 
     void Renderer::render() {
-        RenderOptions options;
-
         World *activeWorld = Engine::Instance().getGame()->getActiveWorld();
+
         if (activeWorld) {
-            SceneGraph *scene = activeWorld->getSceneGraph();
+            RenderOptions options;
+            WorldSceneGraph *scene = activeWorld->getSceneGraph();
 
             _generationEntryPoint->addChild(scene);
             _sceneGraphRoot->render(options);

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "WorldLayer.h"
+#include "scenegraph/WorldSceneGraph.h"
 
 namespace PAX {
     class World {
@@ -14,10 +15,9 @@ namespace PAX {
         EventService _localEventService;
         std::unordered_map<std::string, WorldLayer*> _layersByName;
         std::vector<WorldLayer*> _layers;
-        SceneGraph _sceneGraph;
+        WorldSceneGraph _sceneGraph;
 
     public:
-
         World();
         ~World();
 
@@ -29,7 +29,7 @@ namespace PAX {
         WorldLayer* getGUILayer();
         WorldLayer* getWorldLayerWithName(const std::string& name);
 
-        SceneGraph* getSceneGraph();
+        WorldSceneGraph* getSceneGraph();
 
         EventService& getEventService();
     };

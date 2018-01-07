@@ -5,13 +5,14 @@
 #ifndef PAXENGINE3_OPENGLRENDERFACTORY_H
 #define PAXENGINE3_OPENGLRENDERFACTORY_H
 
+#include <core/world/scenegraph/WorldLayerSceneGraph.h>
 #include "../core/rendering/RenderFactory.h"
 
 namespace PAX {
     namespace OpenGL {
         class OpenGLRenderFactory : public RenderFactory {
         public:
-            virtual SceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer) override;
+            virtual WorldLayerSceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer, float z) override;
             virtual SceneGraphGenerator* createDefaultSceneGraphGenerator() override;
         };
     }

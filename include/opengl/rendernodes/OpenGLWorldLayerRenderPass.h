@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_OPENGLWORLDLAYERRENDERPASS_H
 #define PAXENGINE3_OPENGLWORLDLAYERRENDERPASS_H
 
-#include "../../core/rendering/scenegraph/SceneGraph.h"
+#include <core/world/scenegraph/WorldLayerSceneGraph.h>
 
 namespace PAX {
     namespace OpenGL{
-        class OpenGLWorldLayerRenderPass : public SceneGraph {
+        class OpenGLWorldLayerRenderPass : public WorldLayerSceneGraph {
         public:
-            OpenGLWorldLayerRenderPass();
+            OpenGLWorldLayerRenderPass(float z);
             virtual void render(RenderOptions &renderOptions) override;
         };
     }

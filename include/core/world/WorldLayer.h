@@ -9,14 +9,16 @@
 #include <vector>
 #include <algorithm>
 #include <core/service/Services.h>
+
 #include "WorldLayerLayout.h"
 #include "../entity/Entity.h"
-#include "../rendering/scenegraph/SceneGraph.h"
+
+#include "scenegraph/WorldLayerSceneGraph.h"
 #include "../rendering/scenegraph/SceneGraphGenerator.h"
-#include "event/EntitySpawnedEvent.h"
-#include "../event/EventListener.h"
-#include "event/EntityDespawnedEvent.h"
+
 #include "../event/EventService.h"
+#include "event/EntitySpawnedEvent.h"
+#include "event/EntityDespawnedEvent.h"
 
 namespace PAX {
 #define PAX_WORLDLAYERNAME_MAIN "MainLayer"
@@ -26,12 +28,11 @@ namespace PAX {
         friend class SceneGraphGenerator;
 
         std::string _name;
-        float _z;
 
         EventService _localEventService;
         WorldLayerLayout *_layout = nullptr;
 
-        SceneGraph *_sceneGraph;
+        WorldLayerSceneGraph *_sceneGraph;
         SceneGraphGenerator *_sceneGraphGenerator;
         std::vector<Entity*> _entities;
 
@@ -46,7 +47,7 @@ namespace PAX {
         const std::vector<Entity*>& getEntities();
 
         std::string getName();
-        SceneGraph* getSceneGraph();
+        WorldLayerSceneGraph* getSceneGraph();
         EventService& getEventService();
     };
 }

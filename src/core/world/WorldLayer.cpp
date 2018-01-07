@@ -7,9 +7,9 @@
 #include "../../../include/core/Engine.h"
 
 namespace PAX {
-    WorldLayer::WorldLayer(std::string name, float z, SceneGraphGenerator *sceneGraphGenerator) : _name(name) , _z(z), _sceneGraphGenerator(sceneGraphGenerator) {
+    WorldLayer::WorldLayer(std::string name, float z, SceneGraphGenerator *sceneGraphGenerator) : _name(name), _sceneGraphGenerator(sceneGraphGenerator) {
         assert(sceneGraphGenerator);
-        _sceneGraph = Services::GetRenderFactory()->createSceneGraphNodeFor(this);
+        _sceneGraph = Services::GetRenderFactory()->createSceneGraphNodeFor(this, z);
         _sceneGraphGenerator->initialize(_sceneGraph, _localEventService);
     }
 
@@ -60,7 +60,7 @@ namespace PAX {
         return _localEventService;
     }
 
-    SceneGraph* WorldLayer::getSceneGraph() {
+    WorldLayerSceneGraph* WorldLayer::getSceneGraph() {
         return _sceneGraph;
     }
 

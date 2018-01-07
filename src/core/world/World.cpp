@@ -50,7 +50,7 @@ namespace PAX {
         return getWorldLayerWithName(PAX_WORLDLAYERNAME_GUI);
     }
 
-    SceneGraph* World::getSceneGraph() {
+    WorldSceneGraph* World::getSceneGraph() {
         return &_sceneGraph;
     }
 
