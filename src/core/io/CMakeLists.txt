@@ -3,4 +3,5 @@ add_library(paxio
         Mouse.cpp
         Window.cpp
         event/ResolutionChangedEvent.cpp
-        resources/ResourceHandle.cpp resources/Path.cpp)
+        resources/ResourceHandle.cpp
+        resources/Path.cpp)

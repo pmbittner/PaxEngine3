@@ -37,13 +37,15 @@ namespace PAX {
 
             virtual void render(RenderOptions &renderOptions) override;
 
-            virtual void addAttribute(std::vector<float> &attrib);
-            virtual void addAttribute(std::vector<glm::vec2> &attrib);
-            virtual void addAttribute(std::vector<glm::vec3> &attrib);
-            virtual void addAttribute(std::vector<glm::vec4> &attrib);
+            virtual void addAttribute(std::vector<float> &attrib) override;
+            virtual void addAttribute(std::vector<glm::vec2> &attrib) override;
+            virtual void addAttribute(std::vector<glm::vec3> &attrib) override;
+            virtual void addAttribute(std::vector<glm::vec4> &attrib) override;
 
-            virtual void finalize();
-            virtual void upload();
+            virtual void finalize() override;
+            virtual void upload() override;
+
+            virtual void destroy() override;
 
             bool isFinalized();
 

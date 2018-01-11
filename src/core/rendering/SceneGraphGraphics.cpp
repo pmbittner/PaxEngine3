@@ -2,17 +2,17 @@
 // Created by Paul on 08.12.2017.
 //
 
-#include <core/rendering/SceneGraphGraphics.h>
+#include <core/rendering/graphics/SceneGraphGraphics.h>
 
 namespace PAX {
     SceneGraphGraphics::SceneGraphGraphics() {}
 
     SceneGraph & SceneGraphGraphics::getSceneGraph() {
-        return scenegraph;
+        return _scenegraph;
     }
 
     void SceneGraphGraphics::render(RenderOptions &renderOptions) {
         Graphics::render(renderOptions);
-        scenegraph.render(renderOptions);
+        _scenegraph.render(renderOptions);
     }
 }

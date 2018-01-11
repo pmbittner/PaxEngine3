@@ -7,9 +7,10 @@
 
 #include <core/rendering/camera/FullPixelScreenProjection.h>
 #include <opengl/OpenGLViewport.h>
-#include <opengl/OpenGLSprite.h>
 #include <core/io/resources/Path.h>
 #include <core/rendering/resource/SpriteSheet.h>
+#include <core/rendering/graphics/SpriteGraphics.h>
+#include <core/rendering/graphics/SpriteSheetGraphics.h>
 #include "demo/OpenGL/OpenGLDemo.h"
 #include "PlayerControls.h"
 
@@ -19,40 +20,59 @@ namespace PAX {
             World *_world = nullptr;
             Entity *_player = nullptr;
 
+            SpriteSheetGraphics* playerGraphics;
+
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
             std::shared_ptr<Texture> rightBlockTexture;
-
-            std::shared_ptr<SpriteSheet> sprite;
             std::shared_ptr<Texture> spriteTest;
 
+            std::shared_ptr<Shader> spriteShader, spriteSheetShader;
+
+
+            void gatherResources() {
+                LOG(INFO) << "JumpNRunDemo: gatherResources";
+
+                EntityComponentService& s = Services::GetEntityComponentService();
+
+                spriteTest = Services::GetResources().loadOrGet<Texture>(
+                        Services::GetPaths().RelativeResourcePath() + "img/Platformer/GreenBot16.png"
+                );
+
+                spriteShader = Services::GetResources().loadOrGet<Shader>(
+                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.vert",
+                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.frag"
+                );
+
+                playerGraphics = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
+                spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
+                        playerGraphics->getShaderFlags(),
+                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.vert",
+                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.frag"
+                );
+
+                spriteShader->upload();
+                spriteSheetShader->upload();
+
+                playerGraphics->setShader(spriteSheetShader);
+                playerGraphics->setSpriteScale({5, 5});
+            }
+
             Entity* createPlayer() {
+                LOG(INFO) << "JumpNRunDemo: createPlayer";
+
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 Entity* player = new Entity();
-                player->add<Behaviour>(
-                        s.create<PlayerControls>()
-                );
-
-                sprite = Services::GetResources().loadOrGet<SpriteSheet>(
-                        Services::GetPaths().RelativeResourcePath() + "img/Platformer/GreenBot16.png", 16, 16
-                );
-                spriteTest = std::shared_ptr<Texture>(sprite->getTextureAt(0));
-
-                player->add<Graphics>(
-                        s.create<OpenGL::OpenGLSprite>(
-                                spriteTest
-                        )
-                );
+                player->add<Graphics>(playerGraphics);
+                player->add<Behaviour>(s.create<PlayerControls>());
 
                 /// Create Camera
                 Entity* cameraChild = new Entity();
-                cameraChild->add(
-                        s.create<Camera>(
+                cameraChild->add(s.create<Camera>(
                                 new OpenGL::OpenGLViewport(),
                                 new FullPixelScreenProjection()
-                        )
-                );
+                ));
                 cameraChild->getTransform().z() = 1;
                 cameraChild->setParent(player);
 
@@ -60,6 +80,8 @@ namespace PAX {
             }
 
             Entity* createPlatform(int span) {
+                LOG(INFO) << "JumpNRunDemo: createPlatform of size " << span;
+
                 int scale = 5;
                 EntityComponentService& s = Services::GetEntityComponentService();
 
@@ -73,7 +95,9 @@ namespace PAX {
                         tex = rightBlockTexture;
 
                     Entity *block = new Entity();
-                    block->add<Graphics>(s.create<OpenGL::OpenGLSprite>(tex));
+                    SpriteGraphics* g = s.create<SpriteGraphics>(tex);
+                    g->setShader(spriteShader);
+                    block->add<Graphics>(g);
                     block->getTransform().x() = x;
                     block->getTransform().scale2D() = {scale, scale};
 
@@ -86,6 +110,7 @@ namespace PAX {
             }
 
             void createEnvironment() {
+                LOG(INFO) << "JumpNRunDemo: createEnvironment";
                 EntityComponentService& s = Services::GetEntityComponentService();
                 glm::vec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
@@ -109,9 +134,11 @@ namespace PAX {
 
                 {
                     Entity *background = new Entity();
-                    background->add<Graphics>(s.create<OpenGL::OpenGLSprite>(
+                    SpriteGraphics* backgroundGraphics = s.create<SpriteGraphics>(
                             r.loadOrGet<Texture>(imgPath + "bg.png")
-                    ));
+                    );
+                    backgroundGraphics->setShader(spriteShader);
+                    background->add<Graphics>(backgroundGraphics);
 
                     Entity *backgroundCam = new Entity();
                     backgroundCam->add(s.create<Camera>(
@@ -141,24 +168,17 @@ namespace PAX {
 
             virtual void initialize() override {
                 OpenGLDemo::initialize();
-                _world = new World();
+                LOG(INFO) << "JumpNRunDemo: initialize";
 
+                gatherResources();
+
+                //glActiveTexture(GL_TEXTURE0);
+
+                _world = new World();
                 _player = createPlayer();
+                _world->getMainLayer()->spawn(_player);
                 createEnvironment();
 
-
-
-                Entity *spriteMongo = new Entity();
-                spriteMongo->add<Graphics>(
-                        Services::GetEntityComponentService().create<OpenGL::OpenGLSprite>(
-                                spriteTest
-                        )
-                );
-                spriteMongo->getTransform().position2D() = {-200, 200};
-                spriteMongo->getTransform().scale2D() = {5, 5};
-                _world->getMainLayer()->spawn(spriteMongo);
-
-                _world->getMainLayer()->spawn(_player);
                 setActiveWorld(_world);
             }
         };

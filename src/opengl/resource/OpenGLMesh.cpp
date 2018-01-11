@@ -33,11 +33,6 @@ namespace PAX {
         }
 
         OpenGLMesh::~OpenGLMesh() {
-            if (_finalized) {
-                glDeleteBuffers(1, &_vbo);
-                glDeleteBuffers(1, &_ibo);
-                glDeleteVertexArrays(1, &_vao);
-            }
         }
 
         void OpenGLMesh::render(RenderOptions &renderOptions) {
@@ -201,6 +196,14 @@ namespace PAX {
             glBindVertexArray(0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
+
+        void OpenGLMesh::destroy() {
+            if (_finalized) {
+                glDeleteBuffers(1, &_vbo);
+                glDeleteBuffers(1, &_ibo);
+                glDeleteVertexArrays(1, &_vao);
+            }
         }
 
         GLuint OpenGLMesh::getID() {

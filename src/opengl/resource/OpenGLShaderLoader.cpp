@@ -9,8 +9,17 @@ bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Path vertexShaderPath, Path fragme
     return true;
 }
 
+bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) {
+    return true;
+}
+
 PAX::Shader *PAX::OpenGL::OpenGLShaderLoader::load(Path vertexShaderPath, Path fragmentShaderPath) {
     OpenGLShader* shader = new OpenGLShader(vertexShaderPath, vertexShaderPath, fragmentShaderPath);
+    return shader;
+}
+
+PAX::Shader *PAX::OpenGL::OpenGLShaderLoader::load(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) {
+    OpenGLShader* shader = new OpenGLShader(vertexShaderPath, vertexShaderPath, fragmentShaderPath, flags);
     return shader;
 }
 

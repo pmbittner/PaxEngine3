@@ -5,17 +5,17 @@
 #ifndef PAXENGINE3_SCENEGRAPHGRAPHICS_H
 #define PAXENGINE3_SCENEGRAPHGRAPHICS_H
 
-#include "Graphics.h"
+#include "core/rendering/Graphics.h"
 
 namespace PAX {
     class SceneGraphGraphics : public Graphics {
     protected:
-        SceneGraph scenegraph;
+        SceneGraph _scenegraph;
 
     public:
         SceneGraphGraphics();
-        SceneGraph& getSceneGraph();
 
+        SceneGraph& getSceneGraph();
         void render(RenderOptions &renderOptions) override final;
     };
 }

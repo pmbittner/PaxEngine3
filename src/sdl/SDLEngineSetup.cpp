@@ -10,7 +10,6 @@
 #include "../../include/sdl/SDLEngineSetup.h"
 #include "../../include/sdl/SDLWindow.h"
 #include "../../include/sdl/SDLInputSystem.h"
-#include "../../include/sdl/SDLRenderFactory.h"
 
 namespace PAX {
     namespace SDL {
@@ -26,10 +25,6 @@ namespace PAX {
 
         InputSystem *SDLEngineSetup::createInputSystem() {
             return new SDLInputSystem();
-        }
-
-        RenderFactory * SDLEngineSetup::createRenderFactory() {
-            return new SDLRenderFactory();
         }
 
         void SDLEngineSetup::registerServices() {

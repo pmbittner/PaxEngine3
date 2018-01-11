@@ -124,7 +124,6 @@ set(SOURCE_FILES
         include/demo/behaviours/MoveToMouseBehaviour.h
         include/demo/behaviours/RotateAround3D.h
         include/demo/behaviours/Dance2D.h
-        include/demo/OpenGL/RenderTests.h
         include/demo/OpenGL/Cube.h
 
         include/core/event/Event.h
@@ -170,7 +169,7 @@ set(SOURCE_FILES
         include/sdl/opengl/SDLOpenGLEngineSetup.h
         include/core/rendering/Viewport.h
         include/opengl/OpenGLViewport.h
-        include/core/rendering/scenegraph/nodes/TexturingNode.h
+        include/core/rendering/graphics/nodes/TexturingNode.h
         include/core/rendering/resource/Mesh.h
         include/core/rendering/resource/Texture.h
         include/opengl/resource/OpenGLTexture2D.h
@@ -182,10 +181,8 @@ set(SOURCE_FILES
         include/opengl/deprecated/test.h
         include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h
         include/core/rendering/RenderFactory.h
-        include/sdl/SDLRenderFactory.h
         include/opengl/OpenGLRenderFactory.h
         include/opengl/OpenGLMacros.h
-        include/opengl/OpenGLSprite.h
         include/utility/io/CSVSettingsLoader.h
         include/utility/io/CSVRow.h
         include/utility/StringUtils.h
@@ -230,10 +227,8 @@ set(SOURCE_FILES
         include/core/io/event/MouseEvent.h
         include/core/service/Paths.h
         include/generation/grid/Grid.h
-        include/core/rendering/scenegraph/nodes/MeshNode.h
-        include/opengl/rendernodes/OpenGLMeshNode.h
-        include/opengl/rendernodes/OpenGLTexturingNode.h
-        include/core/rendering/SceneGraphGraphics.h
+        include/core/rendering/graphics/nodes/MeshNode.h
+        include/core/rendering/graphics/SceneGraphGraphics.h
         include/demo/OpenGL/TerrainDemo.h
         include/demo/OpenGL/OpenGLDemo.h
         include/core/entity/component/behaviours/NoClipControls.h
@@ -250,7 +245,14 @@ set(SOURCE_FILES
         include/core/io/resources/Path.h
         include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h
         include/core/world/scenegraph/WorldLayerSceneGraph.h
-        include/core/world/scenegraph/WorldSceneGraph.h include/sdl/SDLImageLoader.h include/sdl/opengl/SDLImageOpenGLSpriteSheetLoader.h include/opengl/resource/OpenGLSpriteSheet.h include/opengl/utility/Error.h)
+        include/core/world/scenegraph/WorldSceneGraph.h
+        include/sdl/SDLImageLoader.h
+        include/opengl/resource/OpenGLSpriteSheet.h
+        include/opengl/utility/Error.h
+        include/core/rendering/graphics/SpriteSheetGraphics.h
+        include/core/rendering/graphics/SpriteGraphics.h
+        include/core/rendering/resource/Shaded.h
+        include/core/rendering/graphics/nodes/SpriteSheetNode.h)
 
 ### API INCLUDES ########################################
 

@@ -3,6 +3,7 @@
 //
 
 #include <SDL2/SDL_events.h>
+#include <sdl/SDLWindow.h>
 #include "../../include/sdl/SDLInputSystem.h"
 #include "../../include/core/Engine.h"
 
@@ -77,9 +78,10 @@ namespace PAX {
                     case SDL_WINDOWEVENT: {
                         switch (_currentEvent.window.event) {
                             case SDL_WINDOWEVENT_RESIZED: {
-                                Window *window = Engine::Instance().getWindow();
-                                ResolutionChangedEvent e(window->getResolution(), glm::vec2(_currentEvent.window.data1,
-                                                                                            _currentEvent.window.data2));
+                                SDLWindow *window = static_cast<SDLWindow*>(Engine::Instance().getWindow());
+                                glm::ivec2 newRes = {_currentEvent.window.data1, _currentEvent.window.data2};
+                                ResolutionChangedEvent e(window->getResolution(), newRes);
+                                window->_resolution = newRes;
                                 window->OnResolutionChanged(e);
                                 break;
                             }

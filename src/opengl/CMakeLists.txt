@@ -14,12 +14,9 @@
 add_library(paxopengl
         OpenGLViewport.cpp
         OpenGLRenderFactory.cpp
-        OpenGLSprite.cpp
         io/FreeImageOpenGLTextureLoader.cpp
         rendernodes/OpenGLWorldLayerRenderPass.cpp
         rendernodes/OpenGLRenderPass.cpp
-        rendernodes/OpenGLMeshNode.cpp
-        rendernodes/OpenGLTexturingNode.cpp
         resource/OpenGLTexture2D.cpp
         resource/OpenGLMesh.cpp
         resource/OpenGLShader.cpp

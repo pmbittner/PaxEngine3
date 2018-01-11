@@ -73,21 +73,25 @@ namespace PAX {
             return code;
         }
 
-        OpenGLShader::OpenGLShader(std::string name, std::string vertexPath, std::string fragmentPath) : _name(name), _vertexPath(vertexPath), _fragmentPath(fragmentPath) {
+        void OpenGLShader::insertFlags(std::string& shader, std::string& flags) {
+            std::size_t foundversion = shader.find("#version");
+
+            if (foundversion != std::string::npos) {
+                std::size_t foundendline = shader.find("\n", foundversion);
+                std::string flagsWithLinebreak = "\n" + flags;
+
+                shader.replace(foundendline, 0, flagsWithLinebreak);
+            }
+            else {
+                LOG(ERROR) << "Version info in shader required: #version xxx";
+            }
+        }
+
+
+        OpenGLShader::OpenGLShader(std::string name, std::string vertexPath, std::string fragmentPath, Flags flags) : Shader(flags), _name(name), _vertexPath(vertexPath), _fragmentPath(fragmentPath) {
             _shaderProgram  = glCreateProgram();
             _vertexShader   = 0;
             _fragmentShader = 0;
-
-            if (!loadVertexShaderFromCode(loadCodeFromFile(_vertexPath)))
-                LOG(ERROR) << "Shader Compilation - Vertex file: " << _vertexPath;
-
-            if (!loadFragmentShaderFromCode(loadCodeFromFile(_fragmentPath)))
-                LOG(ERROR) << "Shader Compilation - Fragment file: " << _fragmentPath;
-
-            glBindAttribLocation(_shaderProgram, 0, "position");
-            if (linkShader()) {
-                glBindFragDataLocation(_shaderProgram, 0, "out_Color");
-            }
         }
 
         OpenGLShader::~OpenGLShader() {
@@ -96,6 +100,36 @@ namespace PAX {
             glDeleteShader(_vertexShader);
             glDeleteShader(_fragmentShader);
             glDeleteProgram(_shaderProgram);
+        }
+
+        bool OpenGLShader::upload() {
+            if (!_uploaded) {
+                std::string vertexCode = loadCodeFromFile(_vertexPath);
+                insertFlags(vertexCode, _flags.VertexFlags);
+
+                if (!loadVertexShaderFromCode(vertexCode)) {
+                    LOG(ERROR) << "Shader Compilation - Vertex file: " << _vertexPath;
+                    return false;
+                }
+
+                std::string fragmentCode = loadCodeFromFile(_fragmentPath);
+                insertFlags(fragmentCode, _flags.FragmentFlags);
+
+                if (!loadFragmentShaderFromCode(fragmentCode)) {
+                    LOG(ERROR) << "Shader Compilation - Fragment file: " << _fragmentPath;
+                    return false;
+                }
+
+                glBindAttribLocation(_shaderProgram, 0, "position");
+                if (linkShader()) {
+                    glBindFragDataLocation(_shaderProgram, 0, "out_Color");
+                }
+
+                _flags.reset();
+                _uploaded = true;
+            }
+
+            return true;
         }
 
         bool OpenGLShader::loadVertexShaderFromCode(std::string code) {

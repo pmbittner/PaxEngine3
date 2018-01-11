@@ -13,7 +13,11 @@
 
 namespace PAX {
     namespace SDL {
+        class SDLInputSystem;
+
         class SDLWindow : public Window {
+            friend class SDLInputSystem;
+
         protected:
             SDL_Window *_window = nullptr;
             glm::ivec2 _resolution;

@@ -16,7 +16,6 @@ namespace PAX {
 
             virtual Window *createWindow() override;
             virtual InputSystem *createInputSystem() override;
-            virtual RenderFactory *createRenderFactory() override;
         };
     }
 }

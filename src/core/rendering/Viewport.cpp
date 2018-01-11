@@ -24,8 +24,8 @@ namespace PAX {
     void Viewport::onWindowResolutionChanged(ResolutionChangedEvent& e) {
         switch(_resizePolicy) {
             case ResizePolicy::Relative: {
-                float xScale = static_cast<float>(e._newWidth)  / static_cast<float>(e._oldWidth);
-                float yScale = static_cast<float>(e._newHeight) / static_cast<float>(e._oldHeight);
+                double xScale = static_cast<double>(e._newWidth)  / static_cast<double>(e._oldWidth);
+                double yScale = static_cast<double>(e._newHeight) / static_cast<double>(e._oldHeight);
 
                 _x *= xScale;
                 _w *= xScale;

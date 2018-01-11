@@ -14,12 +14,14 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLShader : public Shader {
+            bool _uploaded = false;
+
         protected:
             std::string _name, _vertexPath, _fragmentPath;
 
-            GLuint _shaderProgram;
-            GLuint _vertexShader;
-            GLuint _fragmentShader;
+            GLuint _shaderProgram = -1;
+            GLuint _vertexShader = -1;
+            GLuint _fragmentShader = -1;
 
             std::map<std::string, GLint> _uniformLocations;
 
@@ -27,14 +29,18 @@ namespace PAX {
             static bool compileShaderAndPrintErrors(GLuint shader);
             static bool setupShaderFromCodeString(GLuint shader, std::string code);
 
+            void insertFlags(std::string& shader, std::string& flags);
+
         public:
-            OpenGLShader(std::string name, std::string vertexPath, std::string fragmentPath);
+            OpenGLShader(std::string name, std::string vertexPath, std::string fragmentPath, Flags flags = Flags());
             ~OpenGLShader();
 
             bool loadVertexShaderFromCode(std::string code);
             bool loadFragmentShaderFromCode(std::string code);
 
             bool linkShader();
+
+            virtual bool upload() override;
 
             virtual void bind() override;
             virtual void unbind() override;

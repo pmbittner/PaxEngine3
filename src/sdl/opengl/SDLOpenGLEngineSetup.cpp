@@ -8,7 +8,6 @@
 #include <opengl/resource/NullOpenGLTextureLoader.h>
 #include <opengl/io/FreeImageOpenGLTextureLoader.h>
 #include <sdl/opengl/SDLImageOpenGLTextureLoader.h>
-#include <sdl/opengl/SDLImageOpenGLSpriteSheetLoader.h>
 #include "../../../include/sdl/opengl/SDLOpenGLEngineSetup.h"
 #include "../../../include/opengl/OpenGLRenderFactory.h"
 #include "../../../include/sdl/opengl/SDLOpenGLWindow.h"
@@ -29,7 +28,9 @@ namespace PAX {
                 SDLEngineSetup::registerServices();
 
                 LOG(INFO) << "    OpenGLShaderLoader";
-                Services::GetResources().registerLoader<Shader>(new PAX::OpenGL::OpenGLShaderLoader());
+                PAX::OpenGL::OpenGLShaderLoader *shaderLoader = new PAX::OpenGL::OpenGLShaderLoader();
+                Services::GetResources().registerLoader<Shader>(static_cast<ResourceLoader<Shader, Path, Path>*>(shaderLoader));
+                Services::GetResources().registerLoader<Shader>(static_cast<ResourceLoader<Shader, Shader::Flags, Path, Path>*>(shaderLoader));
 
 #ifdef PAX_WITH_FREEIMAGE
 #define PAX_IMAGE_LOADER_FOUND
@@ -41,9 +42,6 @@ namespace PAX {
 #define PAX_IMAGE_LOADER_FOUND
                 LOG(INFO) << "    SDLImageOpenGLTextureLoader";
                 Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::SDLImageOpenGLTextureLoader());
-
-                LOG(INFO) << "    SDLImageOpenGLSpriteSheetLoader";
-                Services::GetResources().registerLoader<SpriteSheet>(new PAX::OpenGL::SDLImageOpenGLSpriteSheetLoader());
 #endif
 
 #ifndef PAX_IMAGE_LOADER_FOUND

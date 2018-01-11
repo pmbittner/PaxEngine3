@@ -7,16 +7,20 @@
 
 #include <core/rendering/Graphics.h>
 #include <core/rendering/resource/Mesh.h>
+#include <core/rendering/resource/Shaded.h>
 
 namespace PAX {
-    class MeshNode : public SceneGraph {
+    class MeshNode : public SceneGraph, public Shaded {
         Mesh *_mesh;
 
     public:
         MeshNode(Mesh *mesh);
-        virtual void render(RenderOptions &options) override;
 
         Mesh *getMesh() const;
+
+        virtual void render(RenderOptions &options) override;
+        virtual void registerFlags(Shader::Flags &flags);
+        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader);
     };
 }
 

@@ -10,8 +10,8 @@
 #include <core/entity/component/behaviours/NoClipControls.h>
 #include <demo/behaviours/RotateAround3D.h>
 #include <demo/behaviours/Dance2D.h>
-#include <opengl/OpenGLSprite.h>
 #include <core/rendering/camera/FullPixelScreenProjection.h>
+#include <core/rendering/resource/Texture.h>
 #include "OpenGLDemo.h"
 
 namespace PAX {
@@ -62,21 +62,10 @@ namespace PAX {
                 guiCamera->add<Camera>(componentAllocator.create<Camera>(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));
                 guiCamera->getTransform().z() = 1;
 
-                Entity *guiElement = new Entity();
-                std::shared_ptr<Texture> &cgTexture = Services::GetResources().loadOrGet<Texture>(
-                        (Services::GetPaths().RelativeResourcePath() + "img/PaxEngine3_128.png").c_str()
-                );
-                guiElement->add<Graphics>(componentAllocator.create<OpenGL::OpenGLSprite>(cgTexture));
-                guiElement->add<Behaviour>(new Dance2D());
-                int guiSize = 100;
-                guiElement->getTransform().position2D() = {-res.x/2 + guiSize/2 + 10, -res.y/2 + guiSize/2 + 10};
-                guiElement->getTransform().scale2D() = {guiSize, guiSize};
-
                 LOG(INFO) << "TerrainDemo: Entities initialized";
 
                 world->getMainLayer()->spawn(camera);
                 world->getMainLayer()->spawn(terrainEntity);
-                world->getGUILayer()->spawn(guiElement);
                 world->getGUILayer()->spawn(guiCamera);
 
                 setActiveWorld(world);

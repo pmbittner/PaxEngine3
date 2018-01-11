@@ -6,6 +6,7 @@
 #define PAXENGINE3_RENDERFACTORY_H
 
 #include <core/world/scenegraph/WorldLayerSceneGraph.h>
+#include <core/rendering/resource/Mesh.h>
 
 namespace PAX {
     class SceneGraphGenerator;
@@ -15,6 +16,9 @@ namespace PAX {
     public:
         virtual WorldLayerSceneGraph* createSceneGraphNodeFor(WorldLayer *worldLayer, float z) = 0;
         virtual SceneGraphGenerator* createDefaultSceneGraphGenerator() = 0;
+
+        virtual Mesh* createMesh(std::vector<glm::vec3> &vertices, std::vector<std::vector<int>> &faces) = 0;
+        virtual Mesh* createMesh(std::vector<glm::vec3> &vertices, std::vector<glm::ivec3> &faces) = 0;
     };
 }
 

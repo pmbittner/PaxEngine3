@@ -1,7 +1,7 @@
 add_library(paxrendering
         Renderer.cpp
         Viewport.cpp
-        scenegraph/nodes/TexturingNode.cpp
+        graphics/nodes/TexturingNode.cpp
         Graphics.cpp
         SceneGraphGraphics.cpp
         RenderOptions.cpp
@@ -16,9 +16,14 @@ add_library(paxrendering
         scenegraph/generators/GroupByShadersSceneGraphGenerator.cpp
         scenegraph/nodes/SortingNode.cpp
         scenegraph/nodes/ShadingNode.cpp
-        scenegraph/nodes/MeshNode.cpp
+        graphics/nodes/MeshNode.cpp
         scenegraph/sort/GraphicsSort.cpp
 
         resource/Mesh.cpp
         resource/Shader.cpp
-        resource/Texture.cpp resource/SpriteSheet.cpp scenegraph/nodes/TransformationNode.cpp scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.cpp)
+        resource/Texture.cpp
+        resource/SpriteSheet.cpp
+        scenegraph/nodes/TransformationNode.cpp
+        scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.cpp
+        graphics/SpriteGraphics.cpp
+        graphics/SpriteSheetGraphics.cpp graphics/nodes/SpriteSheetNode.cpp)

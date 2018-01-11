@@ -10,6 +10,15 @@
 namespace PAX {
     class Mesh : public Renderable {
     public:
+        virtual void addAttribute(std::vector<float> &attrib) = 0;
+        virtual void addAttribute(std::vector<glm::vec2> &attrib) = 0;
+        virtual void addAttribute(std::vector<glm::vec3> &attrib) = 0;
+        virtual void addAttribute(std::vector<glm::vec4> &attrib) = 0;
+
+        virtual void finalize() = 0;
+        virtual void upload() = 0;
+
+        virtual void destroy() = 0;
     };
 }
 

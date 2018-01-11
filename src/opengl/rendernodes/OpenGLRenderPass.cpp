@@ -33,7 +33,7 @@ namespace PAX {
             glClearColor(0.8, 0.8, 0.8, 1);
             glViewport(0, 0, res.x, res.y);
 
-            catchError("Initialization", false);
+            catchError("OpenGLRenderPass::initialize", false);
         }
 
         void OpenGLRenderPass::render(RenderOptions &renderOptions) {

@@ -14,7 +14,7 @@ namespace PAX {
 
     public:
         ResolutionChangedEvent(int oldWidth, int oldHeight, int newWidth, int newHeight);
-        ResolutionChangedEvent(glm::vec2 oldRes, glm::vec2 newRes);
+        ResolutionChangedEvent(glm::ivec2 oldRes, glm::ivec2 newRes);
 
         int getOldWidth();
         int getOldHeight();
