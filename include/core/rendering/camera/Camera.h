@@ -14,7 +14,8 @@
 #include "../RenderOptions.h"
 
 namespace PAX {
-    PAX_EntityComponent(Camera, false, public SceneGraph)
+    PAX_EntityComponentDirect(Camera, false)
+    class Camera : public EntityComponent, public SceneGraph {
         glm::mat4 _viewMatrix;
         Viewport *_viewport;
         Projection *_projection;

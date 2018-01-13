@@ -252,7 +252,7 @@ set(SOURCE_FILES
         include/core/rendering/graphics/SpriteSheetGraphics.h
         include/core/rendering/graphics/SpriteGraphics.h
         include/core/rendering/resource/Shaded.h
-        include/core/rendering/graphics/nodes/SpriteSheetNode.h)
+        include/core/rendering/graphics/nodes/SpriteSheetNode.h include/core/entity/EntityComponentProperties.h)
 
 ### API INCLUDES ########################################
 

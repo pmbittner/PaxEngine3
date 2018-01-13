@@ -16,6 +16,7 @@
 namespace PAX {
     namespace TEST {
         namespace ENTITY {
+            /*
             PAX_EntityComponent(Graphics, false)
             public:
                 virtual std::string getPlatformName() = 0;
@@ -64,6 +65,7 @@ namespace PAX {
                 }
             };*/
 
+            /*
             bool test() {
                 {
                     std::cout << "Default test" << std::endl;
@@ -136,9 +138,10 @@ namespace PAX {
 
                 //OpenGLGraphics *g = pool.newElement();
                 //std::cout << g->testValue << std::endl;
-
+/*
                 return 0;
             };
+                */
         }
     }
 }

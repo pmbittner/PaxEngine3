@@ -6,6 +6,7 @@
 #define PAXENGINE3_ENTITYCOMPONENTDEPENDENCY_H
 
 #include "../../utility/Dependency.h"
+#include "Entity.h"
 
 namespace PAX {
     class Entity;
@@ -13,9 +14,14 @@ namespace PAX {
     template<class... EntityComponentTypes>
     class EntityComponentDependency : public Dependency<Entity> {
     public:
-        bool met(const Entity *entity) const {
+        virtual bool met(const Entity *entity) const override {
             return entity->has<EntityComponentTypes...>();
+            //return true;
         }
+    };
+
+    template<>
+    class EntityComponentDependency<> : public Dependency<Entity> {
     };
 }
 

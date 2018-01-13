@@ -67,4 +67,19 @@ namespace PAX {
     EventService& Entity::getEventService() {
         return _localEventService;
     }
+
+    template <>
+    bool Entity::checkDependencies(EntityComponentProperties<PAX::EntityComponent> &properties, Entity* entity) {
+        return true;
+    }
+
+    template<>
+    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties) {
+        return true;
+    }
+
+    template <>
+    bool Entity::removeComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties) {
+        return true;
+    }
 }

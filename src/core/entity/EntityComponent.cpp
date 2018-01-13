@@ -13,10 +13,6 @@ namespace PAX {
 
     }
 
-    const Dependency<Entity>* EntityComponent::getDependency() {
-        return nullptr;
-    }
-
     void EntityComponent::attached(Entity *entity) {}
     void EntityComponent::detached(Entity *entity) {}
 

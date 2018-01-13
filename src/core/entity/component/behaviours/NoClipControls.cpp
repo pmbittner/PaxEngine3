@@ -104,8 +104,8 @@ namespace PAX {
         //lastTheta = theta;
         phi = lastPhi - dy * dt;
         phi = static_cast<float>(
-                std::max(
-                        std::min(
+                (std::max)(
+                        (std::min)(
                                 PAX_HALF_PI,
                                 static_cast<double>(phi)
                         ),

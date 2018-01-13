@@ -12,7 +12,8 @@
 #include "resource/Shader.h"
 
 namespace PAX {
-    PAX_EntityComponent(Graphics, false, public Renderable)
+    PAX_EntityComponentDirect(Graphics, false)
+    class Graphics : public EntityComponent, public Renderable {
     protected:
         std::shared_ptr<Shader> _shader = nullptr;
 
