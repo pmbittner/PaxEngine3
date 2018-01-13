@@ -16,7 +16,7 @@
 
 namespace PAX {
     namespace Demo {
-        class JumpNRunDemo : public OpenGLDemo {
+        class PlatformerDemo : public OpenGLDemo {
             World *_world = nullptr;
             Entity *_player = nullptr;
 
@@ -31,7 +31,7 @@ namespace PAX {
 
 
             void gatherResources() {
-                LOG(INFO) << "JumpNRunDemo: gatherResources";
+                LOG(INFO) << "PlatformerDemo: gatherResources";
 
                 EntityComponentService& s = Services::GetEntityComponentService();
 
@@ -59,13 +59,13 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                LOG(INFO) << "JumpNRunDemo: createPlayer";
+                LOG(INFO) << "PlatformerDemo: createPlayer";
 
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 Entity* player = new Entity();
-                player->add<Graphics>(playerGraphics);
-                player->add<Behaviour>(s.create<PlayerControls>());
+                player->add(playerGraphics);
+                player->add(s.create<PlayerControls>());
 
                 /// Create Camera
                 Entity* cameraChild = new Entity();
@@ -80,7 +80,7 @@ namespace PAX {
             }
 
             Entity* createPlatform(int span) {
-                LOG(INFO) << "JumpNRunDemo: createPlatform of size " << span;
+                LOG(INFO) << "PlatformerDemo: createPlatform of size " << span;
 
                 int scale = 5;
                 EntityComponentService& s = Services::GetEntityComponentService();
@@ -97,7 +97,7 @@ namespace PAX {
                     Entity *block = new Entity();
                     SpriteGraphics* g = s.create<SpriteGraphics>(tex);
                     g->setShader(spriteShader);
-                    block->add<Graphics>(g);
+                    block->add(g);
                     block->getTransform().x() = x;
                     block->getTransform().scale2D() = {scale, scale};
 
@@ -110,7 +110,7 @@ namespace PAX {
             }
 
             void createEnvironment() {
-                LOG(INFO) << "JumpNRunDemo: createEnvironment";
+                LOG(INFO) << "PlatformerDemo: createEnvironment";
                 EntityComponentService& s = Services::GetEntityComponentService();
                 glm::vec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
@@ -138,7 +138,7 @@ namespace PAX {
                             r.loadOrGet<Texture>(imgPath + "bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
-                    background->add<Graphics>(backgroundGraphics);
+                    background->add(backgroundGraphics);
 
                     Entity *backgroundCam = new Entity();
                     backgroundCam->add(s.create<Camera>(
@@ -155,10 +155,10 @@ namespace PAX {
             }
 
         public:
-            JumpNRunDemo() : OpenGLDemo() {
+            PlatformerDemo() : OpenGLDemo() {
             }
 
-            ~JumpNRunDemo() {
+            ~PlatformerDemo() {
                 if (unregisterWorld(_world)) {
                     delete _world;
                 } else {
@@ -168,7 +168,7 @@ namespace PAX {
 
             virtual void initialize() override {
                 OpenGLDemo::initialize();
-                LOG(INFO) << "JumpNRunDemo: initialize";
+                LOG(INFO) << "PlatformerDemo: initialize";
 
                 gatherResources();
 
@@ -178,6 +178,11 @@ namespace PAX {
                 _player = createPlayer();
                 _world->getMainLayer()->spawn(_player);
                 createEnvironment();
+
+                std::cout << "Player Comp test" << std::endl;
+                std::cout << "           Graphics: " << _player->get<Graphics>() << std::endl;
+                std::cout << "     SpriteGraphics: " << _player->get<SpriteGraphics>() << std::endl;
+                std::cout << "SpriteSheetGraphics: " << _player->get<SpriteSheetGraphics>() << std::endl;
 
                 setActiveWorld(_world);
             }

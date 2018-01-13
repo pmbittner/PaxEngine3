@@ -239,7 +239,7 @@ set(SOURCE_FILES
         include/fbx/FBXModel.h
         include/core/animation/Animation.h
         include/core/rendering/resource/SpriteSheet.h
-        include/demo/OpenGL/Platformer/JumpNRunDemo.h
+        include/demo/OpenGL/Platformer/PlatformerDemo.h
         include/core/rendering/scenegraph/nodes/TransformationNode.h
         include/demo/OpenGL/Platformer/PlayerControls.h
         include/core/io/resources/Path.h
@@ -252,7 +252,7 @@ set(SOURCE_FILES
         include/core/rendering/graphics/SpriteSheetGraphics.h
         include/core/rendering/graphics/SpriteGraphics.h
         include/core/rendering/resource/Shaded.h
-        include/core/rendering/graphics/nodes/SpriteSheetNode.h include/core/entity/EntityComponentProperties.h)
+        include/core/rendering/graphics/nodes/SpriteSheetNode.h include/core/entity/EntityComponentProperties.h include/utility/macros/BuildType.h)
 
 ### API INCLUDES ########################################
 

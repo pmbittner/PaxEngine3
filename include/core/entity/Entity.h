@@ -17,6 +17,7 @@
 #include <utility/datastructures/TypeMap.h>
 #include <utility/stdutils/CollectionUtils.h>
 #include <utility/reflection/TemplateTypeToString.h>
+#include <utility/macros/BuildType.h>
 
 #include <lib/easylogging++.h>
 
@@ -26,6 +27,7 @@
 #include "event/EntityParentChangedEvent.h"
 #include "event/EntityComponentRemovedEvent.h"
 #include "event/EntityComponentAddedEvent.h"
+
 
 namespace PAX {
     class World;
@@ -140,7 +142,7 @@ namespace PAX {
 
         template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
         typename std::enable_if<multi, bool>::type
-        removeComponentAsType(ComponentClass* component, const EntityComponentProperties<ComponentClass> &properties) {
+        removeComponentAsType(ComponentClass* component) {
             std::vector<ComponentClass*> &result = reinterpret_cast<std::vector<ComponentClass*>&>(_multipleComponents.get<ComponentClass>());
             if (!Util::removeFromVector(result, component)) {
                 return false;
@@ -156,7 +158,7 @@ namespace PAX {
 
         template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
         typename std::enable_if<!multi, bool>::type
-        removeComponentAsType(ComponentClass* component, const EntityComponentProperties<ComponentClass> &properties) {
+        removeComponentAsType(ComponentClass* component) {
             if (_singleComponents.get<ComponentClass>() != component) // The given component is not the component, that is registered in this Entity for the given type
                 return false;
 
@@ -220,7 +222,11 @@ namespace PAX {
         bool add(ComponentClass* component) {
             if (isValid<ComponentClass>(component)) {
                 registerComponent(component);
-                return addComponentAsAllOfItsTypes(component, EntityComponentProperties<ComponentClass>());
+                EntityComponentProperties<ComponentClass> props;
+#ifdef PAX_DEBUG
+                props.DEBUG_INFO___EntityComponentProperties_Missing___Use_The_Macros_In_EntityComponentH_to_Annotate_Your_Components();
+#endif
+                return addComponentAsAllOfItsTypes(component, props);
             }
 
             return false;
@@ -231,7 +237,11 @@ namespace PAX {
         remove(ComponentClass* component) {
             if (_multipleComponents.contains<ComponentClass>()) {
                 unregisterComponent(component);
-                return removeComponentAsType(component, EntityComponentProperties<ComponentClass>());
+                EntityComponentProperties<ComponentClass> props;
+#ifdef PAX_DEBUG
+                props.DEBUG_INFO___EntityComponentProperties_Missing___Use_The_Macros_In_EntityComponentH_to_Annotate_Your_Components();
+#endif
+                return removeComponentAsAllOfItsTypes(component, props);
             }
 
             return false;
@@ -242,7 +252,11 @@ namespace PAX {
         remove(ComponentClass* component) {
             if (_singleComponents.contains<ComponentClass>()) {
                 unregisterComponent(component);
-                return removeComponentAsType(component, EntityComponentProperties<ComponentClass>());
+                EntityComponentProperties<ComponentClass> props;
+#ifdef PAX_DEBUG
+                props.DEBUG_INFO___EntityComponentProperties_Missing___Use_The_Macros_In_EntityComponentH_to_Annotate_Your_Components();
+#endif
+                return removeComponentAsAllOfItsTypes(component, props);
             }
 
             return false;

@@ -6,6 +6,7 @@
 #define PAXENGINE3_PLAYERCONTROLS_H
 
 #include <core/entity/Entity.h>
+#include <core/entity/EntityComponent.h>
 #include <core/entity/component/Behaviour.h>
 #include <core/service/Services.h>
 #include <core/io/event/KeyPressedEvent.h>
@@ -14,11 +15,17 @@
 
 namespace PAX {
     namespace Demo {
+        class PlayerControls;
+    }
+
+    PAX_EntityComponentSub(Demo::PlayerControls, Behaviour)
+    
+    namespace Demo {
         class PlayerControls : public Behaviour {
             enum Direction {
-                Left = -1,
-                None = 0,
-                Right = 1
+                Left  = -1,
+                None  =  0,
+                Right =  1
             };
 
             int _walkingDirection = None;
