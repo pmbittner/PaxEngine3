@@ -15,6 +15,7 @@ namespace PAX {
     }
 
     Entity::~Entity() {
+        /*
         for (std::pair<const std::type_index, std::vector<EntityComponent*>>& kv : _multipleComponents) {
             for (EntityComponent* component : kv.second) {
                 Services::GetEntityComponentService().free(kv.first, component);
@@ -24,7 +25,7 @@ namespace PAX {
         for (std::pair<const std::type_index, EntityComponent*>& kv : _singleComponents) {
             Services::GetEntityComponentService().free(kv.first, kv.second);
         }
-
+*/
         _multipleComponents.clear();
         _singleComponents.clear();
     }
@@ -74,12 +75,7 @@ namespace PAX {
     }
 
     template<>
-    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties) {
-        return true;
-    }
-
-    template <>
-    bool Entity::removeComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties) {
+    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties, EntityComponentTypeHandle* handle) {
         return true;
     }
 }

@@ -14,13 +14,9 @@
 #include <core/time/Time.h>
 
 namespace PAX {
-    namespace Demo {
-        class PlayerControls;
-    }
-
-    PAX_EntityComponentSub(Demo::PlayerControls, Behaviour)
-    
-    namespace Demo {
+    namespace Platformer { class PlayerControls; }
+    PAX_EntityComponentSub(Platformer::PlayerControls, Behaviour)
+    namespace Platformer {
         class PlayerControls : public Behaviour {
             enum Direction {
                 Left  = -1,

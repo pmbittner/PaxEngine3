@@ -11,12 +11,14 @@
 #include <core/rendering/resource/SpriteSheet.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
+
 #include "demo/OpenGL/OpenGLDemo.h"
 #include "PlayerControls.h"
+#include "PlayerSpriteAnimation.h"
 
 namespace PAX {
-    namespace Demo {
-        class PlatformerDemo : public OpenGLDemo {
+    namespace Platformer {
+        class PlatformerDemo : public Demo::OpenGLDemo {
             World *_world = nullptr;
             Entity *_player = nullptr;
 
@@ -65,7 +67,9 @@ namespace PAX {
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
+                
                 player->add(s.create<PlayerControls>());
+                player->add(s.create<PlayerSpriteAnimation>());
 
                 /// Create Camera
                 Entity* cameraChild = new Entity();

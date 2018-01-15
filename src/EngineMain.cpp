@@ -8,7 +8,7 @@
 #include <test/EntityTest.h>
 #include <demo/OpenGL/TerrainDemo.h>
 #include <utility/reflection/TemplateTypeToString.h>
-#include <demo/OpenGL/Platformer/PlatformerDemo.h>
+#include <demo/Platformer/PlatformerDemo.h>
 
 #include "../include/EngineMain.h"
 
@@ -22,7 +22,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
     EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;
-    Game *game = new Demo::PlatformerDemo();
+    Game *game = new Platformer::PlatformerDemo();
 
     Engine &engine = Engine::Instance();
     engine.initialize(setup, game);

@@ -239,9 +239,9 @@ set(SOURCE_FILES
         include/fbx/FBXModel.h
         include/core/animation/Animation.h
         include/core/rendering/resource/SpriteSheet.h
-        include/demo/OpenGL/Platformer/PlatformerDemo.h
+        include/demo/Platformer/PlatformerDemo.h
         include/core/rendering/scenegraph/nodes/TransformationNode.h
-        include/demo/OpenGL/Platformer/PlayerControls.h
+        include/demo/Platformer/PlayerControls.h
         include/core/io/resources/Path.h
         include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h
         include/core/world/scenegraph/WorldLayerSceneGraph.h
@@ -252,7 +252,7 @@ set(SOURCE_FILES
         include/core/rendering/graphics/SpriteSheetGraphics.h
         include/core/rendering/graphics/SpriteGraphics.h
         include/core/rendering/resource/Shaded.h
-        include/core/rendering/graphics/nodes/SpriteSheetNode.h include/core/entity/EntityComponentProperties.h include/utility/macros/BuildType.h)
+        include/core/rendering/graphics/nodes/SpriteSheetNode.h include/core/entity/EntityComponentProperties.h include/utility/macros/BuildType.h include/demo/Platformer/PlayerSpriteAnimation.h include/core/entity/EntityComponentTypeHandle.h include/utility/reflection/TypeInfo.h include/core/entity/EntityComponentTypeHierarchy.h)
 
 ### API INCLUDES ########################################
 
