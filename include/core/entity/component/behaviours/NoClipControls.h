@@ -17,7 +17,11 @@
 #include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
+    PAX_ENTITYCOMPONENT_DERIVED(NoClipControls, Behaviour)
     class NoClipControls : public Behaviour {
+
+        PAX_ENTITYCOMPONENT_BODY
+
         glm::vec3 relativeMovement;
         glm::vec3 velocity;
 

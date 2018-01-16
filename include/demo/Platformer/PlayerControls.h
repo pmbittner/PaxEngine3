@@ -15,9 +15,11 @@
 
 namespace PAX {
     namespace Platformer { class PlayerControls; }
-    PAX_EntityComponentSub(Platformer::PlayerControls, Behaviour)
+    PAX_ENTITYCOMPONENT_DERIVED(Platformer::PlayerControls, Behaviour)
     namespace Platformer {
         class PlayerControls : public Behaviour {
+            PAX_ENTITYCOMPONENT_BODY
+
             enum Direction {
                 Left  = -1,
                 None  =  0,

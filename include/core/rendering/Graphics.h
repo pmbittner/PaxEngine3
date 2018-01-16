@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_GRAPHICS_H
 #define PAXENGINE3_GRAPHICS_H
 
+#include <typeindex>
 #include <core/entity/EntityComponent.h>
 #include <core/event/EventHandler.h>
 #include <core/rendering/event/GraphicsShaderChangedEvent.h>
@@ -12,8 +13,9 @@
 #include "resource/Shader.h"
 
 namespace PAX {
-    PAX_EntityComponentDirect(Graphics, false)
+    PAX_ENTITYCOMPONENT(Graphics, false)
     class Graphics : public EntityComponent, public Renderable {
+        PAX_ENTITYCOMPONENT_BODY
     protected:
         std::shared_ptr<Shader> _shader = nullptr;
 

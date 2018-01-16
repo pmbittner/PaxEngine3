@@ -10,7 +10,6 @@
 #include <typeindex>
 #include <algorithm>
 
-#include "EntityComponentTypeHandle.h"
 #include "EntityComponentProperties.h"
 
 #include "Transform.h"
@@ -18,6 +17,7 @@
 #include <utility/datastructures/TypeMap.h>
 #include <utility/stdutils/CollectionUtils.h>
 #include <utility/reflection/TemplateTypeToString.h>
+#include <utility/reflection/TypeHierarchy.h>
 #include <utility/macros/BuildType.h>
 
 #include <lib/easylogging++.h>
@@ -40,17 +40,17 @@ namespace PAX {
         friend class WorldLayer;
 
     private:
+        // TODO: Build this statically
+        // Then we can use EntityComponent.getClassType to add components nearly independent from templates!
         static const std::vector<EntityComponent*> EmptyEntityComponentVector;
+        static Reflection::TypeHierarchy EntityComponentTypes;
+        static std::type_index EntityComponentType;
 
         Transform _transform;
 
         TypeMap<EntityComponent*> _singleComponents;
         TypeMap<std::vector<EntityComponent*>> _multipleComponents;
-
-        // TODO: To save memory and for easier allocation: share types!
-        // One static Container containing type hierarchy chains, that is built up by adding
-        // Then this map for components pointing to their type in the hierarchy
-        std::unordered_map<EntityComponent*, EntityComponentTypeHandle> _componentTypes;
+        std::unordered_map<EntityComponent*, Reflection::TypeHierarchyNode*> _componentTypes;
 
         Entity *_parent = nullptr;
         std::vector<Entity*> _children;
@@ -95,22 +95,16 @@ namespace PAX {
 
         template<class ComponentClass>
         void registerComponent(ComponentClass* component) {
-            _componentTypes[component] = Reflection::GetType<ComponentClass>();
-
             component->_owner = this;
             component->attached(this);
         }
 
         template<class ComponentClass>
-        std::type_index unregisterComponent(ComponentClass* component) {
-            // TODO: Deallocate EntityComponentTypeHandles
-            std::type_index type = _componentTypes[component];
+        void unregisterComponent(ComponentClass* component) {
             _componentTypes.erase(component);
 
             component->_owner = nullptr;
             component->detached(this);
-
-            return type;
         }
 
         template<class ComponentClass>
@@ -146,20 +140,19 @@ namespace PAX {
         }
 
         template<class ComponentClass>
-        bool addComponentAsAllOfItsTypes(ComponentClass* component, const EntityComponentProperties<ComponentClass> &properties, EntityComponentTypeHandle* handle = nullptr) {
+        bool addComponentAsAllOfItsTypes(ComponentClass* component, const EntityComponentProperties<ComponentClass> &properties, Reflection::TypeHierarchyNode* subType = nullptr) {
             if (addComponentAsType(component)) {
-                EntityComponentTypeHandle* componentHandle = handle;
-                if (componentHandle) {
-                    // TODO: Get rid of new
-                    handle->superType = new EntityComponentTypeHandle(Reflection::GetType<ComponentClass>(), nullptr);
-                    componentHandle = handle->superType;
-                } else {
-                    _componentTypes[component].type = Reflection::GetType<ComponentClass>();
-                    componentHandle = &_componentTypes[component];
+                Reflection::TypeHierarchyNode* myType = EntityComponentTypes.add(Reflection::GetType<ComponentClass>(), properties.parentType);
+
+                if (!subType) {
+                    _componentTypes[component] = myType;
                 }
 
                 onEntityComponentAttached(component);
-                return addComponentAsAllOfItsTypes(properties.cast(component), properties.parentProperties, componentHandle);
+                return addComponentAsAllOfItsTypes(
+                        properties.cast(component),
+                        properties.parentProperties,
+                        myType);
             }
 
             return false;
@@ -168,8 +161,10 @@ namespace PAX {
         template <bool multi>
         typename std::enable_if<!multi, bool>::type
         removeComponentAsType(EntityComponent* component, const std::type_index& type) {
-            if (_singleComponents.get(type) != component) // The given component is not the component, that is registered in this Entity for the given type
+            if (_singleComponents.get(type) != component) { // The given component is not the component, that is registered in this Entity for the given type
+                std::cout << "\tFailed! Another component was found" << std::endl;
                 return false;
+            }
 
             _singleComponents.erase(type);
             return true;
@@ -192,13 +187,13 @@ namespace PAX {
         }
 
         template <bool multiple>
-        bool removeComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentTypeHandle &handle) {
-            if (removeComponentAsType<multiple>(component, handle.type)) {
+        bool removeComponentAsAllOfItsTypes(EntityComponent* component, Reflection::TypeHierarchyNode* type) {
+            if (removeComponentAsType<multiple>(component, type->type)) {
                 // TODO: Repair onEntityComponentDetached for untyped version. Hint: EventService just uses type ids, too.
                 //onEntityComponentDetached(component); // THING GOES SKRA
-                if (handle.superType)
-                    return removeComponentAsAllOfItsTypes<multiple>(component, *handle.superType);
-                return true;
+                if (type->parent->type == EntityComponentType)
+                    return true;
+                return removeComponentAsAllOfItsTypes<multiple>(component, type->parent);
             }
 
             return false;
@@ -263,25 +258,17 @@ namespace PAX {
         template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
         typename std::enable_if<!multi, bool>::type
         remove(ComponentClass* component) {
-            if (_singleComponents.contains<ComponentClass>()) {
-                bool ret = removeComponentAsAllOfItsTypes<!multi>(component, _componentTypes[component]);
-                unregisterComponent(component);
-                return ret;
-            }
-
-            return false;
+            bool ret = removeComponentAsAllOfItsTypes<false>(component, _componentTypes[component]);
+            unregisterComponent(component);
+            return ret;
         }
 
         template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
         typename std::enable_if<multi, bool>::type
         remove(ComponentClass* component) {
-            if (_multipleComponents.contains<ComponentClass>()) {
-                bool ret = removeComponentAsAllOfItsTypes<multi>(component, _componentTypes[component]);
-                unregisterComponent(component);
-                return ret;
-            }
-
-            return false;
+            bool ret = removeComponentAsAllOfItsTypes<true>(component, _componentTypes[component]);
+            unregisterComponent(component);
+            return ret;
         }
 
         template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
@@ -317,7 +304,7 @@ namespace PAX {
     bool Entity::checkDependencies(EntityComponentProperties<EntityComponent> &properties, Entity* entity);
 
     template<>
-    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties, EntityComponentTypeHandle* handle);
+    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties, Reflection::TypeHierarchyNode* subType);
 }
 
 #endif //PAXENGINE3_ENTITY_H

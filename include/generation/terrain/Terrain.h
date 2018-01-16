@@ -9,8 +9,9 @@
 #include <core/rendering/Graphics.h>
 
 namespace PAX {
-    PAX_EntityComponentSub(Terrain, Graphics)
+    PAX_ENTITYCOMPONENT_DERIVED(Terrain, Graphics)
     class Terrain : public Graphics {
+        PAX_ENTITYCOMPONENT_BODY
     private:
         Mesh* mesh;
 

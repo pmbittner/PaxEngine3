@@ -9,7 +9,10 @@
 #include "../../core/entity/Entity.h"
 
 namespace PAX {
+    PAX_ENTITYCOMPONENT_DERIVED(RotateAround3D, Behaviour)
     class RotateAround3D : public Behaviour {
+        PAX_ENTITYCOMPONENT_BODY
+
         glm::vec3 _impulse;
     public:
         RotateAround3D(glm::vec3 impulse = glm::vec3(0.01f, 0.008f, 0.006f)) : _impulse(impulse){

@@ -170,6 +170,48 @@ namespace PAX {
                 }
             }
 
+            void printGraphicsOf(Entity& e) {
+                std::cout << "           Graphics: " << e.get<Graphics>() << std::endl
+                << "     SpriteGraphics: " << e.get<SpriteGraphics>() << std::endl
+                << "SpriteSheetGraphics: " << e.get<SpriteSheetGraphics>() << std::endl;
+            }
+
+            void runTests() {
+                EntityComponentService& s = Services::GetEntityComponentService();
+                Entity e;
+
+                std::cout << "type of            Type     " << std::type_index(typeid(Entity)).name() << std::endl;
+                std::cout << "type of            Instance " << std::type_index(typeid(e)).name() << std::endl;
+                std::cout << "type of Pointer to Instance " << std::type_index(typeid(&e)).name() << std::endl;
+                std::cout << "type of            this     " << std::type_index(typeid(this)).name() << std::endl;
+                std::cout << "type of            *this    " << std::type_index(typeid(*this)).name() << std::endl;
+
+                SpriteSheetGraphics* g = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
+
+                printGraphicsOf(e);
+
+                std::cout << "Add SpriteSheetGraphics" << std::endl;
+                e.add(g);
+                printGraphicsOf(e);
+                std::cout << "Remove SpriteSheetGraphics" << std::endl;
+                e.remove(g);
+                printGraphicsOf(e);
+
+                std::cout << "Add SpriteGraphics" << std::endl;
+                e.add<SpriteGraphics>(g);
+                printGraphicsOf(e);
+                std::cout << "Remove SpriteSheetGraphics" << std::endl;
+                e.remove(g);
+                printGraphicsOf(e);
+
+                std::cout << "Add SpriteSheetGraphics" << std::endl;
+                e.add(g);
+                printGraphicsOf(e);
+                std::cout << "Remove SpriteGraphics" << std::endl;
+                e.removeAll<SpriteGraphics>();
+                printGraphicsOf(e);
+            }
+
             virtual void initialize() override {
                 OpenGLDemo::initialize();
                 LOG(INFO) << "PlatformerDemo: initialize";
@@ -183,10 +225,7 @@ namespace PAX {
                 _world->getMainLayer()->spawn(_player);
                 createEnvironment();
 
-                std::cout << "Player Comp test" << std::endl;
-                std::cout << "           Graphics: " << _player->get<Graphics>() << std::endl;
-                std::cout << "     SpriteGraphics: " << _player->get<SpriteGraphics>() << std::endl;
-                std::cout << "SpriteSheetGraphics: " << _player->get<SpriteSheetGraphics>() << std::endl;
+                runTests();
 
                 setActiveWorld(_world);
             }

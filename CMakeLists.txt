@@ -252,7 +252,13 @@ set(SOURCE_FILES
         include/core/rendering/graphics/SpriteSheetGraphics.h
         include/core/rendering/graphics/SpriteGraphics.h
         include/core/rendering/resource/Shaded.h
-        include/core/rendering/graphics/nodes/SpriteSheetNode.h include/core/entity/EntityComponentProperties.h include/utility/macros/BuildType.h include/demo/Platformer/PlayerSpriteAnimation.h include/core/entity/EntityComponentTypeHandle.h include/utility/reflection/TypeInfo.h include/core/entity/EntityComponentTypeHierarchy.h)
+        include/core/rendering/graphics/nodes/SpriteSheetNode.h
+        include/core/entity/EntityComponentProperties.h
+        include/utility/macros/BuildType.h
+        include/demo/Platformer/PlayerSpriteAnimation.h
+        include/core/entity/EntityComponentTypeHandle.h
+        include/utility/reflection/TypeInfo.h
+        include/utility/reflection/TypeHierarchy.h)
 
 ### API INCLUDES ########################################
 

@@ -22,7 +22,7 @@ set(CORE_SOURCE_FILES
         system/EntityComponentSystem.cpp
 
         time/Time.cpp
-        ../test/ResourceTest.cpp entity/EntityComponentTypeHandle.cpp)
+        ../test/ResourceTest.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

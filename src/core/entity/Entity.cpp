@@ -9,23 +9,19 @@
 
 namespace PAX {
     const std::vector<EntityComponent*> Entity::EmptyEntityComponentVector(0);
+    Reflection::TypeHierarchy Entity::EntityComponentTypes = Reflection::TypeHierarchy(Reflection::GetType<EntityComponent>());
+    std::type_index Entity::EntityComponentType = typeid(EntityComponent);
 
     Entity::Entity() {
         OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&_localEventService);
     }
 
     Entity::~Entity() {
-        /*
-        for (std::pair<const std::type_index, std::vector<EntityComponent*>>& kv : _multipleComponents) {
-            for (EntityComponent* component : kv.second) {
-                Services::GetEntityComponentService().free(kv.first, component);
-            }
+        for (const std::pair<EntityComponent* const, Reflection::TypeHierarchyNode*>& kv : _componentTypes) {
+            Services::GetEntityComponentService().free(kv.second->type, kv.first);
         }
 
-        for (std::pair<const std::type_index, EntityComponent*>& kv : _singleComponents) {
-            Services::GetEntityComponentService().free(kv.first, kv.second);
-        }
-*/
+        _componentTypes.clear();
         _multipleComponents.clear();
         _singleComponents.clear();
     }
@@ -75,7 +71,7 @@ namespace PAX {
     }
 
     template<>
-    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties, EntityComponentTypeHandle* handle) {
+    bool Entity::addComponentAsAllOfItsTypes(EntityComponent* component, const EntityComponentProperties<EntityComponent> &properties, Reflection::TypeHierarchyNode* type) {
         return true;
     }
 }

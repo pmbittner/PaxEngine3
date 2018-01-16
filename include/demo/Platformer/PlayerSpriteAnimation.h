@@ -10,9 +10,10 @@
 
 namespace PAX {
     namespace Platformer { class PlayerSpriteAnimation; }
-    PAX_EntityComponentSub(Platformer::PlayerSpriteAnimation, Behaviour, SpriteSheetGraphics)
+    PAX_ENTITYCOMPONENT_DERIVED(Platformer::PlayerSpriteAnimation, Behaviour, SpriteSheetGraphics)
     namespace Platformer {
         class PlayerSpriteAnimation : public Behaviour {
+            PAX_ENTITYCOMPONENT_BODY
         public:
             virtual void attached(Entity *entity) override {
 

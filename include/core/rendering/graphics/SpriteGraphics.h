@@ -12,8 +12,9 @@
 #include <core/rendering/graphics/nodes/TexturingNode.h>
 
 namespace PAX {
-    PAX_EntityComponentSub(SpriteGraphics, SceneGraphGraphics)
+    PAX_ENTITYCOMPONENT_DERIVED(SpriteGraphics, SceneGraphGraphics)
     class SpriteGraphics : public SceneGraphGraphics {
+        PAX_ENTITYCOMPONENT_BODY
         static Mesh* QuadMesh;
         static Mesh *GetMesh();
 

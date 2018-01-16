@@ -13,7 +13,10 @@
 #include "core/service/Services.h"
 
 namespace PAX {
+    PAX_ENTITYCOMPONENT_DERIVED(MoveToMouseBehaviour, Behaviour)
     class MoveToMouseBehaviour : public Behaviour {
+        PAX_ENTITYCOMPONENT_BODY
+
         glm::vec2 _dest;
         float _speed = 100.0f;
 
