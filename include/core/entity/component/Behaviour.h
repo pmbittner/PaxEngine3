@@ -10,7 +10,7 @@
 namespace PAX {
     PAX_ENTITYCOMPONENT(Behaviour, true)
     class Behaviour : public EntityComponent {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(Behaviour)
     public:
         virtual void update() = 0;
     };

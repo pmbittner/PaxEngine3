@@ -14,7 +14,8 @@
 namespace PAX {
     PAX_ENTITYCOMPONENT_DERIVED(SpriteGraphics, SceneGraphGraphics)
     class SpriteGraphics : public SceneGraphGraphics {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(SpriteGraphics)
+
         static Mesh* QuadMesh;
         static Mesh *GetMesh();
 

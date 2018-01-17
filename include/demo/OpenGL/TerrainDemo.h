@@ -43,7 +43,7 @@ namespace PAX {
                         new PerspectiveProjection()
                 ));
                 camera->getTransform().position() = glm::vec3(0, ceil(terrainScale/2.f), 4);
-                camera->add<Behaviour>(componentAllocator.create<NoClipControls>());
+                camera->add(componentAllocator.create<NoClipControls>());
 
                 Entity *terrainEntity = new Entity();
 
@@ -55,11 +55,11 @@ namespace PAX {
                 );
                 s->cacheUniforms({"modelview", "projection"});
                 t->setShader(s);
-                terrainEntity->add<Graphics>(t);
+                terrainEntity->add(t);
                 terrainEntity->getTransform().scaleY() = terrainScale;
 
                 Entity *guiCamera = new Entity();
-                guiCamera->add<Camera>(componentAllocator.create<Camera>(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));
+                guiCamera->add(componentAllocator.create<Camera>(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));
                 guiCamera->getTransform().z() = 1;
 
                 LOG(INFO) << "TerrainDemo: Entities initialized";

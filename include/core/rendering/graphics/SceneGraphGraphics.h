@@ -10,7 +10,7 @@
 namespace PAX {
     PAX_ENTITYCOMPONENT_DERIVED(SceneGraphGraphics, Graphics)
     class SceneGraphGraphics : public Graphics {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(SceneGraphGraphics)
     protected:
         SceneGraph _scenegraph;
 

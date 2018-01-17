@@ -19,4 +19,8 @@ namespace PAX {
     Entity* EntityComponent::getOwner() {
         return _owner;
     }
+
+    bool EntityComponent::checkDependenciesFor(const Entity *entity) const {
+        return true;
+    }
 }

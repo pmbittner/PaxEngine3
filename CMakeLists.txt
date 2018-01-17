@@ -121,7 +121,6 @@ set(SOURCE_FILES
         include/sdl/utility/Path.h
         include/sdl/utility/SDLImageLoader.h
 
-        include/demo/behaviours/MoveToMouseBehaviour.h
         include/demo/behaviours/RotateAround3D.h
         include/demo/behaviours/Dance2D.h
         include/demo/OpenGL/Cube.h
@@ -256,9 +255,10 @@ set(SOURCE_FILES
         include/core/entity/EntityComponentProperties.h
         include/utility/macros/BuildType.h
         include/demo/Platformer/PlayerSpriteAnimation.h
-        include/core/entity/EntityComponentTypeHandle.h
         include/utility/reflection/TypeInfo.h
-        include/utility/reflection/TypeHierarchy.h)
+        include/utility/reflection/TypeHierarchy.h
+        include/generated/EntityComponentTypeHierarchy.h
+        )
 
 ### API INCLUDES ########################################
 

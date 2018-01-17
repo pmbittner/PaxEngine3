@@ -23,7 +23,7 @@ namespace PAX {
             return _map.find(Reflection::GetType<Value>()) != _map.end();
         }
 
-        inline bool contains(std::type_index index) const {
+        inline bool contains(const std::type_index &index) const {
             return _map.find(index) != _map.end();
         }
 
@@ -32,7 +32,7 @@ namespace PAX {
             return _map[Reflection::GetType<Key>()];
         }
 
-        ValueType& get(std::type_index index) {
+        ValueType& get(const std::type_index &index) {
             return _map[index];
         }
 
@@ -42,13 +42,18 @@ namespace PAX {
             return true;
         }
 
+        bool put(const std::type_index &index, ValueType value) {
+            _map[index] = value;
+            return true;
+        }
+
         /// Returns the number of erased elements
         template<typename Key>
         size_t erase() {
             return _map.erase(Reflection::GetType<Key>());
         }
 
-        size_t erase(std::type_index index) {
+        size_t erase(const std::type_index &index) {
             return _map.erase(index);
         }
 

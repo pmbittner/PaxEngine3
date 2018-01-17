@@ -20,7 +20,7 @@ namespace PAX {
     PAX_ENTITYCOMPONENT_DERIVED(NoClipControls, Behaviour)
     class NoClipControls : public Behaviour {
 
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(NoClipControls)
 
         glm::vec3 relativeMovement;
         glm::vec3 velocity;

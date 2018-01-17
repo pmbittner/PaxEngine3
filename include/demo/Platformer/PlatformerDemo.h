@@ -177,14 +177,9 @@ namespace PAX {
             }
 
             void runTests() {
+
                 EntityComponentService& s = Services::GetEntityComponentService();
                 Entity e;
-
-                std::cout << "type of            Type     " << std::type_index(typeid(Entity)).name() << std::endl;
-                std::cout << "type of            Instance " << std::type_index(typeid(e)).name() << std::endl;
-                std::cout << "type of Pointer to Instance " << std::type_index(typeid(&e)).name() << std::endl;
-                std::cout << "type of            this     " << std::type_index(typeid(this)).name() << std::endl;
-                std::cout << "type of            *this    " << std::type_index(typeid(*this)).name() << std::endl;
 
                 SpriteSheetGraphics* g = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
 
@@ -192,13 +187,6 @@ namespace PAX {
 
                 std::cout << "Add SpriteSheetGraphics" << std::endl;
                 e.add(g);
-                printGraphicsOf(e);
-                std::cout << "Remove SpriteSheetGraphics" << std::endl;
-                e.remove(g);
-                printGraphicsOf(e);
-
-                std::cout << "Add SpriteGraphics" << std::endl;
-                e.add<SpriteGraphics>(g);
                 printGraphicsOf(e);
                 std::cout << "Remove SpriteSheetGraphics" << std::endl;
                 e.remove(g);

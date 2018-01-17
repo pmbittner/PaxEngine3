@@ -16,12 +16,13 @@ namespace PAX {
     public:
         virtual bool met(const Entity *entity) const override {
             return entity->has<EntityComponentTypes...>();
-            //return true;
         }
     };
 
+    // Entity::has always needs arguments
     template<>
     class EntityComponentDependency<> : public Dependency<Entity> {
+
     };
 }
 

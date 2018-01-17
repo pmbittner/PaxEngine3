@@ -22,7 +22,9 @@ namespace PAX {
         Entity *_owner = nullptr;
 
     protected:
-        virtual const std::type_index& GetClassType() = 0;
+        virtual const std::type_index& getClassType() const = 0;
+        virtual bool isMultiple() const = 0;
+        virtual bool checkDependenciesFor(const Entity* entity) const;
 
         virtual void attached(Entity *entity);
         virtual void detached(Entity *entity);
@@ -33,7 +35,6 @@ namespace PAX {
 
         Entity* getOwner();
     };
-
 }
 
 #ifdef PAX_DEBUG
@@ -42,41 +43,38 @@ namespace PAX {
 #define PAX_EntityComponentProperties_DebugInfo
 #endif
 
-#define PAX_ENTITYCOMPONENT(Type, bool_multiple, ...) \
+#define PAX_ENTITYCOMPONENT(Type, bool_multiple) \
 class Type; \
 template<> \
 struct EntityComponentProperties<Type> { \
-    PAX::EntityComponentDependency<__VA_ARGS__> dependencies; \
-    std::type_index parentType = typeid(PAX::EntityComponent); \
-    PAX::EntityComponentProperties<PAX::EntityComponent> parentProperties; \
-    PAX::EntityComponent* cast(Type* component) const { return reinterpret_cast<PAX::EntityComponent*>(component); } \
     static constexpr bool IsMultiple() { return bool_multiple; } \
     PAX_EntityComponentProperties_DebugInfo \
 };
 
-#define PAX_ENTITYCOMPONENT_DERIVED(Type, Parent, ...) \
+#define PAX_ENTITYCOMPONENT_DERIVED(Type, Parent) \
 class Type; \
 template<> \
 struct EntityComponentProperties<Type> : EntityComponentProperties<Parent> { \
-    PAX::EntityComponentDependency<__VA_ARGS__> dependencies; \
-    std::type_index parentType = typeid(Parent); \
-    PAX::EntityComponentProperties<Parent> parentProperties; \
-    Parent* cast(Type* component) const { return reinterpret_cast<Parent*>(component); } \
     static constexpr bool IsMultiple() { return PAX::EntityComponentProperties<Parent>::IsMultiple(); } \
     PAX_EntityComponentProperties_DebugInfo \
 };
 
-// to gain complete independence from templates add line, which sadly requires the Type
-// virtual bool isMultiple() override { return EntityComponentProperties<Type>::IsMultiple(); }
-
-// Additionally the complete annotation struct may be useless then, as only get() and has() have to be template at all!
-// In this case using the Type as single argument may be valid. Dependencies could be another extra macro once again
-
-#define PAX_ENTITYCOMPONENT_BODY \
+#define PAX_ENTITYCOMPONENT_BODY(Type) \
 protected: \
-    virtual const std::type_index& GetClassType() override { \
-        static std::type_index MyType = typeid(*this); \
+    virtual bool isMultiple() const override { \
+        return PAX::EntityComponentProperties<Type>::IsMultiple(); \
+    } \
+    virtual const std::type_index& getClassType() const override { \
+        static std::type_index MyType = typeid(Type); \
         return MyType; \
+    } \
+private:
+
+#define PAX_ENTITYCOMPONENT_DEPENDS_ON(Parent, ...) \
+protected: \
+    virtual bool checkDependenciesFor(const Entity* entity) const override { \
+        static PAX::EntityComponentDependency<__VA_ARGS__> dependencies; \
+        return Parent::checkDependenciesFor(entity) && dependencies.met(entity); \
     } \
 private:
 

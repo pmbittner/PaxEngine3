@@ -11,7 +11,7 @@
 namespace PAX {
     PAX_ENTITYCOMPONENT_DERIVED(RotateAround3D, Behaviour)
     class RotateAround3D : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(RotateAround3D)
 
         glm::vec3 _impulse;
     public:

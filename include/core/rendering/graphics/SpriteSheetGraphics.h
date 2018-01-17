@@ -12,7 +12,8 @@
 namespace PAX {
     PAX_ENTITYCOMPONENT_DERIVED(SpriteSheetGraphics, SpriteGraphics)
     class SpriteSheetGraphics : public SpriteGraphics {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(SpriteSheetGraphics)
+
     protected:
         SpriteSheetNode _spriteSheet;
 

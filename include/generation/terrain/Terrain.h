@@ -11,7 +11,7 @@
 namespace PAX {
     PAX_ENTITYCOMPONENT_DERIVED(Terrain, Graphics)
     class Terrain : public Graphics {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(Terrain)
     private:
         Mesh* mesh;
 

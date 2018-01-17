@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <generated/EntityComponentTypeHierarchy.h>
 
 #include "../../include/core/Engine.h"
 #include "../../include/core/Game.h"
@@ -43,6 +44,8 @@ bool PAX::Engine::initialize(EngineSetup *setup, Game *game) {
     _services.initialize(setup);
 
     setup->registerServices();
+
+    Generated::EntityComponentTypeHierarchy::initialize();
 
     _renderer.initialize();
     _game->initialize();

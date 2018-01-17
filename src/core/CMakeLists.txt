@@ -28,4 +28,4 @@ add_subdirectory(io)
 add_subdirectory(rendering)
 
 add_library(paxcore ${CORE_SOURCE_FILES})
-target_link_libraries(paxcore paxrendering paxio)
+target_link_libraries(paxcore paxrendering paxio paxgenerated)
