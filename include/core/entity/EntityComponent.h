@@ -12,9 +12,23 @@
 
 #include <utility/macros/BuildType.h>
 
+#ifdef PAX_DEBUG
+#define PAX_EntityComponentProperties_DebugInfo void DEBUG_INFO___EntityComponentProperties_Missing___Use_The_Macros_In_EntityComponentH_to_Annotate_Your_Components() {}
+#else
+#define PAX_EntityComponentProperties_DebugInfo
+#endif
+
+#define PAX_ENTITYCOMPONENT(Type, Parent, bool_multiple) \
+class Type; \
+template<> \
+struct EntityComponentProperties<Type> { \
+    static constexpr bool IsMultiple() { return bool_multiple; } \
+};
+
 namespace PAX {
     class Entity;
 
+    PAX_ENTITYCOMPONENT(EntityComponent, void, true)
     class EntityComponent {
         friend class Entity;
 
@@ -23,7 +37,6 @@ namespace PAX {
 
     protected:
         virtual const std::type_index& getClassType() const = 0;
-        virtual bool isMultiple() const = 0;
         virtual bool checkDependenciesFor(const Entity* entity) const;
 
         virtual void attached(Entity *entity);
@@ -37,36 +50,21 @@ namespace PAX {
     };
 }
 
-#ifdef PAX_DEBUG
-#define PAX_EntityComponentProperties_DebugInfo void DEBUG_INFO___EntityComponentProperties_Missing___Use_The_Macros_In_EntityComponentH_to_Annotate_Your_Components() {}
-#else
-#define PAX_EntityComponentProperties_DebugInfo
-#endif
+#undef PAX_ENTITYCOMPONENT
 
-#define PAX_ENTITYCOMPONENT(Type, bool_multiple) \
+#define PAX_ENTITYCOMPONENT(Type, Parent, bool_multiple) \
 class Type; \
 template<> \
 struct EntityComponentProperties<Type> { \
-    static constexpr bool IsMultiple() { return bool_multiple; } \
+    static constexpr bool IsMultiple() { return PAX::EntityComponentProperties<Parent>::IsMultiple() && bool_multiple; } \
     PAX_EntityComponentProperties_DebugInfo \
 };
 
-#define PAX_ENTITYCOMPONENT_DERIVED(Type, Parent) \
-class Type; \
-template<> \
-struct EntityComponentProperties<Type> : EntityComponentProperties<Parent> { \
-    static constexpr bool IsMultiple() { return PAX::EntityComponentProperties<Parent>::IsMultiple(); } \
-    PAX_EntityComponentProperties_DebugInfo \
-};
-
-#define PAX_ENTITYCOMPONENT_BODY(Type) \
+#define PAX_ENTITYCOMPONENT_BODY \
 protected: \
-    virtual bool isMultiple() const override { \
-        return PAX::EntityComponentProperties<Type>::IsMultiple(); \
-    } \
     virtual const std::type_index& getClassType() const override { \
-        static std::type_index MyType = typeid(Type); \
-        return MyType; \
+        static std::type_index myType = typeid(*this); \
+        return myType; \
     } \
 private:
 

@@ -258,7 +258,7 @@ set(SOURCE_FILES
         include/utility/reflection/TypeInfo.h
         include/utility/reflection/TypeHierarchy.h
         include/generated/EntityComponentTypeHierarchy.h
-        )
+        include/demo/Platformer/VelocityBehaviour.h include/utility/math/Functions.h include/demo/Platformer/FollowEntityBehaviour.h)
 
 ### API INCLUDES ########################################
 

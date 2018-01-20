@@ -1,11 +1,19 @@
 import os
 import re
 
-EntityComponentRegex = ".*(PAX_ENTITYCOMPONENT|PAX_ENTITYCOMPONENT_DERIVED)\((\s*[a-zA-Z]+\s*)(,\s*[a-zA-Z]+\s*)*\)\s+(class|struct)\s+(?P<Type>[a-zA-Z]+)\s*:\s*(?P<Parents>([a-zA-Z\s]+)(\s*,\s*([a-zA-Z\s]+))*).*"
+# Version with class/struct definition parser
+#EntityComponentRegex = ".*(PAX_ENTITYCOMPONENT)\((\s*[a-zA-Z]+\s*)(,\s*[a-zA-Z]+\s*)*\)\s+(class|struct)\s+(?P<Type>[a-zA-Z]+)\s*:\s*(?P<Parents>([a-zA-Z\s]+)(\s*,\s*([a-zA-Z\s]+))*).*"
+EntityComponentRegex = "PAX_ENTITYCOMPONENT\(\s*(?P<Type>[a-zA-Z]+)\s*,\s*(?P<Parent>[a-zA-Z]+)\s*,\s*(?P<IsMultiple>[a-zA-Z]+)\s*\)"
 
 
 def createindent(level):
     return "    " * level
+
+
+class EntityComponent:
+    def __init__(self, name, ismultiple):
+        self.name = name
+        self.ismultiple = ismultiple
 
 
 class FileWriter:
@@ -40,7 +48,7 @@ def getCppTypeOf(var):
 
 
 def scanFilesForEntityComponentInheritance(generationData, dir):
-    entityComponents = ["EntityComponent"]
+    entityComponents = []
     entityComponentInheritances = []
     includes = ["core/entity/Entity.h"]
 
@@ -54,18 +62,19 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
                 if "PAX_ENTITYCOMPONENT" in code:
                     m = entityComponentRegexPattern.search(code)
                     if m is not None:
-                        ecType = m.group("Type")
-                        ecParents = m.group("Parents")
-                        print("Inheritance found:", ecType, "inherits", ecParents)
-                        entityComponents.append(ecType)
-                        entityComponentInheritances.append((ecType.strip(), ecParents.strip()))
+                        ecType = m.group("Type").strip()
+                        ecParent = m.group("Parent").strip()
+                        ecIsMultiple = m.group("IsMultiple").strip()
+                        print("Inheritance found:", ecType, "inherits", ecParent)
+                        entityComponents.append(EntityComponent(ecType, ecIsMultiple))
+                        entityComponentInheritances.append((ecType, ecParent))
 
                         includes.append(file_path.replace(precompilationDirectory, ""))
 
                 headerFile.close()
 
     generationData.entityComponents = entityComponents
-    generationData.entityComponentInheritances = entityComponentInheritances
+    generationData.entityComponentInheritances = [(ec, parent) for ec, parent in entityComponentInheritances if ec != "EntityComponent"]
     generationData.includes.extend(includes)
 
 
@@ -90,7 +99,7 @@ if __name__ == "__main__":
     myPath = os.path.realpath(__file__)
 
     precompilationDirectory = os.path.dirname(myPath) + "/../include/"
-    targetFile = os.path.dirname(myPath) + "/../src/generated/EntityComponentTypeHierarchy.cpp"
+    targetFile = os.path.dirname(myPath) + "/../src/generated/EntityComponentTypeHierarchyGenerated.cpp"
     genData = GenerationData()
     genData.includes.append("generated/EntityComponentTypeHierarchy.h")
     genData.includes.append("core/entity/event/EntityComponentAddedEvent.h")
@@ -111,13 +120,15 @@ if __name__ == "__main__":
     inheritancePairs = []
     sortedInheritancePairs = []
 
-    for str_entitycomponent, str_parents in genData.entityComponentInheritances:
-        supertypes = str_parents.split(",")
-        for supertype in supertypes:
-            supertypeCut = supertype.replace("public", "").replace("private", "").replace("protected", "").strip()
-            if supertypeCut in genData.entityComponents:
-                inheritancePairs.append((str_entitycomponent, supertypeCut))
+    #for str_entitycomponent, str_parents in genData.entityComponentInheritances:
+    #    supertypes = str_parents.split(",")
+    #    for supertype in supertypes:
+    #        supertypeCut = supertype.replace("public", "").replace("private", "").replace("protected", "").strip()
+    #        if supertypeCut in genData.entityComponents:
+    #            inheritancePairs.append((str_entitycomponent, supertypeCut))
+    sortedInheritancePairs = genData.entityComponentInheritances
 
+    # sort inheritance pairs
     while len(inheritancePairs) > 0:
         for etype, eparent in inheritancePairs:
             if eparent in knownTypes:
@@ -133,6 +144,7 @@ if __name__ == "__main__":
 
     outFile.writeLine("TypeMap<void (*)(Entity*, EntityComponent*)> EntityComponentTypeHierarchy::OnEntityComponentAttached;")
     outFile.writeLine("TypeMap<void (*)(Entity*, EntityComponent*)> EntityComponentTypeHierarchy::OnEntityComponentDetached;")
+    outFile.writeLine("TypeMap<bool> EntityComponentTypeHierarchy::IsMultiple;")
     outFile.writeLine("")
 
     addEventHandlersToMapCalls = []
@@ -142,10 +154,11 @@ if __name__ == "__main__":
     outFile.writeLine("class " + eventBrokerName + " {")
     outFile.writeLine("public:")
     outFile.incrementIndent()
-    for etype in genData.entityComponents:
-        generateEventHandlers(outFile, etype)
-        addEventHandlersToMapCalls.append("OnEntityComponentAttached.put(" + getCppTypeOf(etype) + ", &" + eventBrokerName + "::" + etype + "Attached);")
-        addEventHandlersToMapCalls.append("OnEntityComponentDetached.put(" + getCppTypeOf(etype) + ", &" + eventBrokerName + "::" + etype + "Detached);")
+    for entityComponent in genData.entityComponents:
+        generateEventHandlers(outFile, entityComponent.name)
+        addEventHandlersToMapCalls.append("OnEntityComponentAttached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.name + "Attached);")
+        addEventHandlersToMapCalls.append("OnEntityComponentDetached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.name + "Detached);")
+
     outFile.decrementIndent()
     outFile.writeLine("};")
     outFile.writeLine("")
@@ -163,6 +176,16 @@ if __name__ == "__main__":
     for etype, eparent in sortedInheritancePairs:
         outFile.writeLine("h.add(" + getCppTypeOf(etype) + ", " + getCppTypeOf(eparent) + ");")
         print("Wrote inheritance", etype, "->", eparent)
+
+    outFile.writeLine("")
+    outFile.writeLine("TypeMap<bool> IsMultipleTemp;")
+    for entityComponent in genData.entityComponents:
+        outFile.writeLine("IsMultipleTemp.put(" + getCppTypeOf(entityComponent.name) + ", " + entityComponent.ismultiple + ");")
+    outFile.writeLine("for (const std::pair<std::type_index, bool>& entry : IsMultipleTemp) {")
+    outFile.incrementIndent()
+    outFile.writeLine("IsMultiple.put(entry.first, checkMultiplicity(entry.first, IsMultipleTemp));")
+    outFile.decrementIndent()
+    outFile.writeLine("}")
 
     outFile.decrementIndent()
     outFile.writeLine("}")  # void createEntityComponentTypeHierarchy()

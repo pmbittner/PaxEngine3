@@ -8,11 +8,11 @@
 #include "../EntityComponent.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(Behaviour, true)
+    PAX_ENTITYCOMPONENT(Behaviour, EntityComponent, true)
     class Behaviour : public EntityComponent {
-        PAX_ENTITYCOMPONENT_BODY(Behaviour)
+        PAX_ENTITYCOMPONENT_BODY
     public:
-        virtual void update() = 0;
+        virtual void update();
     };
 }
 

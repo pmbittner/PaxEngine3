@@ -21,6 +21,7 @@
 #include <utility/macros/BuildType.h>
 
 #include <lib/easylogging++.h>
+#include <generated/EntityComponentTypeHierarchy.h>
 
 #include "../event/EventHandler.h"
 #include "../event/EventService.h"
@@ -86,32 +87,11 @@ namespace PAX {
 
         bool addComponentAsTypeSingle(EntityComponent* component, const std::type_index& type);
         bool addComponentAsTypeMultiple(EntityComponent* component, const std::type_index& type);
+        bool addComponentAsAllOfItsTypes(EntityComponent* component, Reflection::TypeHierarchyNode* typeNode);
 
         bool removeComponentAsTypeSingle(EntityComponent* component, const std::type_index& type);
         bool removeComponentAsTypeMultiple(EntityComponent* component, const std::type_index& type);
-
-        template<bool (Entity::*Method)(EntityComponent*, const std::type_index&)>
-        bool addComponentAsAllOfItsTypes(EntityComponent* component, Reflection::TypeHierarchyNode* typeNode) {
-            if ((this->*Method)(component, typeNode->type)) {
-                onEntityComponentAttached(component, typeNode->type);
-                if (typeNode->parent->type == EntityComponentType)
-                    return true;
-                return addComponentAsAllOfItsTypes<Method>(component, typeNode->parent);
-            }
-            return false;
-        }
-
-        template<bool (Entity::*Method)(EntityComponent*, const std::type_index&)>
-        bool removeComponentAsAllOfItsTypes(EntityComponent* component, Reflection::TypeHierarchyNode* typeNode) {
-            if ((this->*Method)(component, typeNode->type)) {
-                onEntityComponentDetached(component, typeNode->type);
-                if (typeNode->parent->type == EntityComponentType)
-                    return true;
-                return removeComponentAsAllOfItsTypes<Method>(component, typeNode->parent);
-            }
-
-            return false;
-        }
+        bool removeComponentAsAllOfItsTypes(EntityComponent* component, Reflection::TypeHierarchyNode* typeNode);
 
     public:
         bool add(EntityComponent* component);

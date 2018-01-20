@@ -10,11 +10,6 @@ namespace PAX {
 
     template<class EntityComponentType>
     struct EntityComponentProperties {};
-
-    template<>
-    struct EntityComponentProperties<EntityComponent> {
-        static constexpr bool IsMultiple() { return true; }
-    };
 }
 
 #endif //PAXENGINE3_ENTITYCOMPONENTPROPERTIES_H

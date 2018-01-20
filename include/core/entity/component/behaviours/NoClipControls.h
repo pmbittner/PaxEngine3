@@ -17,10 +17,10 @@
 #include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT_DERIVED(NoClipControls, Behaviour)
+    PAX_ENTITYCOMPONENT(NoClipControls, Behaviour, true)
     class NoClipControls : public Behaviour {
 
-        PAX_ENTITYCOMPONENT_BODY(NoClipControls)
+        PAX_ENTITYCOMPONENT_BODY
 
         glm::vec3 relativeMovement;
         glm::vec3 velocity;

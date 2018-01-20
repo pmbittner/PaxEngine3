@@ -12,11 +12,13 @@
 #include <core/io/event/KeyPressedEvent.h>
 #include <core/io/event/KeyReleasedEvent.h>
 #include <core/time/Time.h>
+#include "VelocityBehaviour.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT_DERIVED(PlayerControls, Behaviour)
+    PAX_ENTITYCOMPONENT(PlayerControls, Behaviour, false)
     class PlayerControls : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(PlayerControls)
+        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_DEPENDS_ON(Behaviour, VelocityBehaviour)
 
         enum Direction {
             Left  = -1,
@@ -24,7 +26,7 @@ namespace PAX {
             Right =  1
         };
 
-        int _walkingDirection = None;
+        VelocityBehaviour* velocityBehaviour = nullptr;
         float speed = 150;
 
         void onKeyPressed(KeyPressedEvent& e) {
@@ -32,12 +34,12 @@ namespace PAX {
 
             switch (e.button) {
                 case Key::LEFT: {
-                    _walkingDirection += Left;
+                    velocityBehaviour->velocity.x += Left * speed;
                     break;
                 }
 
                 case Key::RIGHT: {
-                    _walkingDirection += Right;
+                    velocityBehaviour->velocity.x += Right * speed;
                     break;
                 }
             }
@@ -46,12 +48,12 @@ namespace PAX {
         void onKeyReleased(KeyReleasedEvent& e) {
             switch (e.button) {
                 case Key::LEFT: {
-                    _walkingDirection -= Left;
+                    velocityBehaviour->velocity.x -= Left * speed;
                     break;
                 }
 
                 case Key::RIGHT: {
-                    _walkingDirection -= Right;
+                    velocityBehaviour->velocity.x -= Right * speed;
                     break;
                 }
             }
@@ -66,6 +68,8 @@ namespace PAX {
             EventService& e = Services::GetEventService();
             e.add<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
             e.add<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);
+
+            velocityBehaviour = entity->get<VelocityBehaviour>();
         }
 
         virtual void detached(Entity *entity) override {
@@ -73,11 +77,6 @@ namespace PAX {
             EventService& e = Services::GetEventService();
             e.remove<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
             e.remove<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);
-        }
-
-        virtual void update() override {
-            Transform& t = getOwner()->getTransform();
-            t.x() += _walkingDirection * speed * Time::DeltaF;
         }
     };
 }

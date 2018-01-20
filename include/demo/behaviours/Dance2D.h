@@ -10,10 +10,10 @@
 #include "../../core/entity/Entity.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT_DERIVED(Dance2D, Behaviour)
+    PAX_ENTITYCOMPONENT(Dance2D, Behaviour, true)
     class Dance2D : public Behaviour {
 
-    PAX_ENTITYCOMPONENT_BODY(Dance2D)
+    PAX_ENTITYCOMPONENT_BODY
 
         float _t = 0;
         float _speed = 0, _maxAngle = 0, _maxElongation = 0;

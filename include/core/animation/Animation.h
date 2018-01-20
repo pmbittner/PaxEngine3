@@ -10,37 +10,50 @@
 namespace PAX {
     template<typename T>
     class Animation {
+        typedef std::chrono::duration<double> Timespan;
+        typedef std::chrono::time_point<std::chrono::high_resolution_clock, Timespan> Timepoint;
+        typedef std::chrono::high_resolution_clock Clock;
+
         T _min, _max;
         T* _value = nullptr;
 
-        std::chrono::duration<double> _seconds;
-        std::chrono::high_resolution_clock::time_point startTime;
-        std::chrono::high_resolution_clock::time_point pauseTime;
+        Timespan _seconds;
+        Timepoint startTime;
 
         bool _running = false;
 
     protected:
-        double interpolate(std::chrono::high_resolution_clock::time_point time) {
+        double interpolate(Timepoint time) {
             return (time - startTime) / _seconds;
         }
 
     public:
-        Animation(T min, T max, double seconds, T* value) : _min(min), _max(max), _seconds(seconds), _value(value) {
+        Animation(T min, T max, double seconds, T* value) :
+                _min(min), _max(max),
+                _seconds(seconds),
+                _value(value) {
 
         }
 
         void start() {
-            startTime = std::chrono::high_resolution_clock::now();
+            *_value = _min;
+            startTime = Clock::now();
             _running = true;
         }
 
         void stop() {
+            *_value = _min;
             _running = false;
         }
 
         void update() {
             if (_running) {
-                *_value = interpolate(std::chrono::high_resolution_clock::now()) * (_max - _min) + _min;
+                double i = interpolate(Clock::now());
+                if (i > 1) { // LOOP behaviour
+                    --i;
+                    startTime += _seconds;
+                }
+                *_value = i * (_max - _min) + _min;
             }
         }
     };

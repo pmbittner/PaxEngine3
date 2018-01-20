@@ -15,12 +15,14 @@
 #include "demo/OpenGL/OpenGLDemo.h"
 #include "PlayerControls.h"
 #include "PlayerSpriteAnimation.h"
+#include "FollowEntityBehaviour.h"
 
 namespace PAX {
     namespace Platformer {
         class PlatformerDemo : public Demo::OpenGLDemo {
             World *_world = nullptr;
             Entity *_player = nullptr;
+            Entity* _camera = nullptr;
 
             SpriteSheetGraphics* playerGraphics;
 
@@ -61,26 +63,31 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                LOG(INFO) << "PlatformerDemo: createPlayer";
-
+                LOG(INFO) << "PlatformerDemo: create Player";
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
-                
+                player->add(s.create<VelocityBehaviour>());
                 player->add(s.create<PlayerControls>());
                 player->add(s.create<PlayerSpriteAnimation>());
 
-                /// Create Camera
-                Entity* cameraChild = new Entity();
-                cameraChild->add(s.create<Camera>(
-                                new OpenGL::OpenGLViewport(),
-                                new FullPixelScreenProjection()
-                ));
-                cameraChild->getTransform().z() = 1;
-                cameraChild->setParent(player);
-
                 return player;
+            }
+
+            Entity* createCamera(Entity *player) {
+                LOG(INFO) << "PlatformerDemo: create Camera";
+                EntityComponentService& s = Services::GetEntityComponentService();
+
+                Entity *cam = new Entity();
+                cam->add(s.create<Camera>(
+                        new OpenGL::OpenGLViewport(),
+                        new FullPixelScreenProjection()
+                ));
+                cam->getTransform().z() = 1;
+                cam->add(s.create<FollowEntityBehaviour>(player));
+
+                return cam;
             }
 
             Entity* createPlatform(int span) {
@@ -114,7 +121,7 @@ namespace PAX {
             }
 
             void createEnvironment() {
-                LOG(INFO) << "PlatformerDemo: createEnvironment";
+                LOG(INFO) << "PlatformerDemo: create Environment";
                 EntityComponentService& s = Services::GetEntityComponentService();
                 glm::vec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
@@ -170,36 +177,6 @@ namespace PAX {
                 }
             }
 
-            void printGraphicsOf(Entity& e) {
-                std::cout << "           Graphics: " << e.get<Graphics>() << std::endl
-                << "     SpriteGraphics: " << e.get<SpriteGraphics>() << std::endl
-                << "SpriteSheetGraphics: " << e.get<SpriteSheetGraphics>() << std::endl;
-            }
-
-            void runTests() {
-
-                EntityComponentService& s = Services::GetEntityComponentService();
-                Entity e;
-
-                SpriteSheetGraphics* g = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
-
-                printGraphicsOf(e);
-
-                std::cout << "Add SpriteSheetGraphics" << std::endl;
-                e.add(g);
-                printGraphicsOf(e);
-                std::cout << "Remove SpriteSheetGraphics" << std::endl;
-                e.remove(g);
-                printGraphicsOf(e);
-
-                std::cout << "Add SpriteSheetGraphics" << std::endl;
-                e.add(g);
-                printGraphicsOf(e);
-                std::cout << "Remove SpriteGraphics" << std::endl;
-                e.removeAll<SpriteGraphics>();
-                printGraphicsOf(e);
-            }
-
             virtual void initialize() override {
                 OpenGLDemo::initialize();
                 LOG(INFO) << "PlatformerDemo: initialize";
@@ -210,10 +187,12 @@ namespace PAX {
 
                 _world = new World();
                 _player = createPlayer();
+                _camera = createCamera(_player);
+                LOG(INFO) << "PlatformerDemo: spawn Player";
                 _world->getMainLayer()->spawn(_player);
+                LOG(INFO) << "PlatformerDemo: spawn Camera";
+                _world->getMainLayer()->spawn(_camera);
                 createEnvironment();
-
-                runTests();
 
                 setActiveWorld(_world);
             }

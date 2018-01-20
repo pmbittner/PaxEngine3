@@ -10,9 +10,9 @@
 #include "SpriteGraphics.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT_DERIVED(SpriteSheetGraphics, SpriteGraphics)
+    PAX_ENTITYCOMPONENT(SpriteSheetGraphics, SpriteGraphics, false)
     class SpriteSheetGraphics : public SpriteGraphics {
-        PAX_ENTITYCOMPONENT_BODY(SpriteSheetGraphics)
+        PAX_ENTITYCOMPONENT_BODY
 
     protected:
         SpriteSheetNode _spriteSheet;

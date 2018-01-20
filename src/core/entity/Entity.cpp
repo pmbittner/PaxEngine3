@@ -111,6 +111,34 @@ namespace PAX {
         return true;
     }
 
+    bool Entity::addComponentAsAllOfItsTypes(EntityComponent *component, Reflection::TypeHierarchyNode *typeNode) {
+        bool addSuccess;
+
+        if (Generated::EntityComponentTypeHierarchy::IsMultiple.get(typeNode->type))
+            addSuccess = addComponentAsTypeMultiple(component, typeNode->type);
+        else
+            addSuccess = addComponentAsTypeSingle(component, typeNode->type);
+
+        if (addSuccess) {
+            onEntityComponentAttached(component, typeNode->type);
+            if (typeNode->parent->type == EntityComponentType)
+                return true;
+            return addComponentAsAllOfItsTypes(component, typeNode->parent);
+        }
+        return false;
+    }
+
+    bool Entity::add(EntityComponent *component) {
+        if (isValid(component)) {
+            registerComponent(component);
+            auto typeNode = EntityComponentTypes.getNodeOf(component->getClassType());
+            _componentTypes[component] = typeNode;
+            return addComponentAsAllOfItsTypes(component, typeNode);
+        }
+
+        return false;
+    }
+
     bool Entity::removeComponentAsTypeSingle(EntityComponent *component, const std::type_index &type) {
         if (_singleComponents.get(type) != component) { // The given component is not the component, that is registered in this Entity for the given type
             std::cout << "\tFailed! Another component was found" << std::endl;
@@ -135,28 +163,26 @@ namespace PAX {
         return true;
     }
 
-    bool Entity::add(EntityComponent *component) {
-        if (isValid(component)) {
-            registerComponent(component);
-            auto typeNode = EntityComponentTypes.getNodeOf(component->getClassType());
-            _componentTypes[component] = typeNode;
-            if (component->isMultiple())
-                return addComponentAsAllOfItsTypes<&addComponentAsTypeMultiple>(component, typeNode);
-            else
-                return addComponentAsAllOfItsTypes<&addComponentAsTypeSingle>(component, typeNode);
+    bool Entity::removeComponentAsAllOfItsTypes(EntityComponent *component, Reflection::TypeHierarchyNode *typeNode) {
+        bool removeSuccess;
+
+        if (Generated::EntityComponentTypeHierarchy::IsMultiple.get(typeNode->type))
+            removeSuccess = removeComponentAsTypeMultiple(component, typeNode->type);
+        else
+            removeSuccess = removeComponentAsTypeSingle(component, typeNode->type);
+
+        if (removeSuccess) {
+            onEntityComponentDetached(component, typeNode->type);
+            if (typeNode->parent->type == EntityComponentType)
+                return true;
+            return removeComponentAsAllOfItsTypes(component, typeNode->parent);
         }
 
         return false;
     }
 
     bool Entity::remove(EntityComponent *component) {
-        bool ret;
-
-        if (component->isMultiple())
-            ret = removeComponentAsAllOfItsTypes<&removeComponentAsTypeMultiple>(component, _componentTypes[component]);
-        else
-            ret = removeComponentAsAllOfItsTypes<&removeComponentAsTypeSingle>(component, _componentTypes[component]);
-
+        bool ret  = removeComponentAsAllOfItsTypes(component, _componentTypes[component]);
         unregisterComponent(component);
         return ret;
     }
