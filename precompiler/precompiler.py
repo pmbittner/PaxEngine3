@@ -3,7 +3,7 @@ import re
 
 # Version with class/struct definition parser
 #EntityComponentRegex = ".*(PAX_ENTITYCOMPONENT)\((\s*[a-zA-Z]+\s*)(,\s*[a-zA-Z]+\s*)*\)\s+(class|struct)\s+(?P<Type>[a-zA-Z]+)\s*:\s*(?P<Parents>([a-zA-Z\s]+)(\s*,\s*([a-zA-Z\s]+))*).*"
-EntityComponentRegex = "PAX_ENTITYCOMPONENT\(\s*(?P<Type>[a-zA-Z]+)\s*,\s*(?P<Parent>[a-zA-Z]+)\s*,\s*(?P<IsMultiple>[a-zA-Z]+)\s*\)"
+EntityComponentRegex = "PAX_ENTITYCOMPONENT\(\s*(?P<Type>[:a-zA-Z0-9]+)\s*,\s*(?P<Parent>[:a-zA-Z0-9]+)\s*,\s*(?P<IsMultiple>[a-zA-Z]+)\s*\)"
 
 
 def createindent(level):
@@ -14,6 +14,7 @@ class EntityComponent:
     def __init__(self, name, ismultiple):
         self.name = name
         self.ismultiple = ismultiple
+        self.nameWithoutNamespaces = name.replace("::", "__ns__")
 
 
 class FileWriter:
@@ -66,7 +67,9 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
                         ecParent = m.group("Parent").strip()
                         ecIsMultiple = m.group("IsMultiple").strip()
                         print("Inheritance found:", ecType, "inherits", ecParent)
-                        entityComponents.append(EntityComponent(ecType, ecIsMultiple))
+
+                        ecomp = EntityComponent(ecType, ecIsMultiple)
+                        entityComponents.append(ecomp)
                         entityComponentInheritances.append((ecType, ecParent))
 
                         includes.append(file_path.replace(precompilationDirectory, ""))
@@ -78,16 +81,16 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
     generationData.includes.extend(includes)
 
 
-def generateEventHandlers(file, etype):
-    file.writeLine("static void " + etype + "Attached(Entity* e, EntityComponent *c) {")
+def generateEventHandlers(file, ecomp):
+    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Attached(Entity* e, EntityComponent *c) {")
     file.incrementIndent()
-    file.writeLine("EntityComponentAddedEvent<" + etype + "> event(static_cast<" + etype + "*>(c), e);")
+    file.writeLine("EntityComponentAddedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
     file.writeLine("e->_localEventService(event);")
     file.decrementIndent()
     file.writeLine("}")
-    file.writeLine("static void " + etype + "Detached(Entity* e, EntityComponent *c) {")
+    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Detached(Entity* e, EntityComponent *c) {")
     file.incrementIndent()
-    file.writeLine("EntityComponentRemovedEvent<" + etype + "> event(static_cast<" + etype + "*>(c), e);")
+    file.writeLine("EntityComponentRemovedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
     file.writeLine("e->_localEventService(event);")
     file.decrementIndent()
     file.writeLine("}")
@@ -155,9 +158,9 @@ if __name__ == "__main__":
     outFile.writeLine("public:")
     outFile.incrementIndent()
     for entityComponent in genData.entityComponents:
-        generateEventHandlers(outFile, entityComponent.name)
-        addEventHandlersToMapCalls.append("OnEntityComponentAttached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.name + "Attached);")
-        addEventHandlersToMapCalls.append("OnEntityComponentDetached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.name + "Detached);")
+        generateEventHandlers(outFile, entityComponent)
+        addEventHandlersToMapCalls.append("OnEntityComponentAttached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Attached);")
+        addEventHandlersToMapCalls.append("OnEntityComponentDetached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Detached);")
 
     outFile.decrementIndent()
     outFile.writeLine("};")
