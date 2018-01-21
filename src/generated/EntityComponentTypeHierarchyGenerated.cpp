@@ -10,11 +10,15 @@
 #include <core/rendering/graphics/SceneGraphGraphics.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
+#include <demo/behaviours/Dance2D.h>
+#include <demo/behaviours/RotateAround3D.h>
 #include <demo/Platformer/FollowEntityBehaviour.h>
 #include <demo/Platformer/PlayerControls.h>
 #include <demo/Platformer/PlayerSpriteAnimation.h>
 #include <demo/Platformer/VelocityBehaviour.h>
 #include <generation/terrain/Terrain.h>
+#include <physics/Physics.h>
+#include <physics/box2d/Box2DPhysics.h>
 
 namespace PAX {
     namespace Generated {
@@ -88,6 +92,22 @@ namespace PAX {
                 EntityComponentRemovedEvent<SpriteSheetGraphics> event(static_cast<SpriteSheetGraphics*>(c), e);
                 e->_localEventService(event);
             }
+            static void Dance2DAttached(Entity* e, EntityComponent *c) {
+                EntityComponentAddedEvent<Dance2D> event(static_cast<Dance2D*>(c), e);
+                e->_localEventService(event);
+            }
+            static void Dance2DDetached(Entity* e, EntityComponent *c) {
+                EntityComponentRemovedEvent<Dance2D> event(static_cast<Dance2D*>(c), e);
+                e->_localEventService(event);
+            }
+            static void RotateAround3DAttached(Entity* e, EntityComponent *c) {
+                EntityComponentAddedEvent<RotateAround3D> event(static_cast<RotateAround3D*>(c), e);
+                e->_localEventService(event);
+            }
+            static void RotateAround3DDetached(Entity* e, EntityComponent *c) {
+                EntityComponentRemovedEvent<RotateAround3D> event(static_cast<RotateAround3D*>(c), e);
+                e->_localEventService(event);
+            }
             static void FollowEntityBehaviourAttached(Entity* e, EntityComponent *c) {
                 EntityComponentAddedEvent<FollowEntityBehaviour> event(static_cast<FollowEntityBehaviour*>(c), e);
                 e->_localEventService(event);
@@ -128,6 +148,22 @@ namespace PAX {
                 EntityComponentRemovedEvent<Terrain> event(static_cast<Terrain*>(c), e);
                 e->_localEventService(event);
             }
+            static void PhysicsAttached(Entity* e, EntityComponent *c) {
+                EntityComponentAddedEvent<Physics> event(static_cast<Physics*>(c), e);
+                e->_localEventService(event);
+            }
+            static void PhysicsDetached(Entity* e, EntityComponent *c) {
+                EntityComponentRemovedEvent<Physics> event(static_cast<Physics*>(c), e);
+                e->_localEventService(event);
+            }
+            static void Box2D__ns__PhysicsAttached(Entity* e, EntityComponent *c) {
+                EntityComponentAddedEvent<Box2D::Physics> event(static_cast<Box2D::Physics*>(c), e);
+                e->_localEventService(event);
+            }
+            static void Box2D__ns__PhysicsDetached(Entity* e, EntityComponent *c) {
+                EntityComponentRemovedEvent<Box2D::Physics> event(static_cast<Box2D::Physics*>(c), e);
+                e->_localEventService(event);
+            }
         };
         
         void EntityComponentTypeHierarchy::initialize() {
@@ -147,6 +183,10 @@ namespace PAX {
             OnEntityComponentDetached.put(std::type_index(typeid(SpriteGraphics)), &EntityComponentTypeHierarchyEventBroker::SpriteGraphicsDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(SpriteSheetGraphics)), &EntityComponentTypeHierarchyEventBroker::SpriteSheetGraphicsAttached);
             OnEntityComponentDetached.put(std::type_index(typeid(SpriteSheetGraphics)), &EntityComponentTypeHierarchyEventBroker::SpriteSheetGraphicsDetached);
+            OnEntityComponentAttached.put(std::type_index(typeid(Dance2D)), &EntityComponentTypeHierarchyEventBroker::Dance2DAttached);
+            OnEntityComponentDetached.put(std::type_index(typeid(Dance2D)), &EntityComponentTypeHierarchyEventBroker::Dance2DDetached);
+            OnEntityComponentAttached.put(std::type_index(typeid(RotateAround3D)), &EntityComponentTypeHierarchyEventBroker::RotateAround3DAttached);
+            OnEntityComponentDetached.put(std::type_index(typeid(RotateAround3D)), &EntityComponentTypeHierarchyEventBroker::RotateAround3DDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(FollowEntityBehaviour)), &EntityComponentTypeHierarchyEventBroker::FollowEntityBehaviourAttached);
             OnEntityComponentDetached.put(std::type_index(typeid(FollowEntityBehaviour)), &EntityComponentTypeHierarchyEventBroker::FollowEntityBehaviourDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(PlayerControls)), &EntityComponentTypeHierarchyEventBroker::PlayerControlsAttached);
@@ -157,6 +197,10 @@ namespace PAX {
             OnEntityComponentDetached.put(std::type_index(typeid(VelocityBehaviour)), &EntityComponentTypeHierarchyEventBroker::VelocityBehaviourDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(Terrain)), &EntityComponentTypeHierarchyEventBroker::TerrainAttached);
             OnEntityComponentDetached.put(std::type_index(typeid(Terrain)), &EntityComponentTypeHierarchyEventBroker::TerrainDetached);
+            OnEntityComponentAttached.put(std::type_index(typeid(Physics)), &EntityComponentTypeHierarchyEventBroker::PhysicsAttached);
+            OnEntityComponentDetached.put(std::type_index(typeid(Physics)), &EntityComponentTypeHierarchyEventBroker::PhysicsDetached);
+            OnEntityComponentAttached.put(std::type_index(typeid(Box2D::Physics)), &EntityComponentTypeHierarchyEventBroker::Box2D__ns__PhysicsAttached);
+            OnEntityComponentDetached.put(std::type_index(typeid(Box2D::Physics)), &EntityComponentTypeHierarchyEventBroker::Box2D__ns__PhysicsDetached);
             
             Reflection::TypeHierarchy &h = Entity::EntityComponentTypes;
             h.add(std::type_index(typeid(Behaviour)), std::type_index(typeid(EntityComponent)));
@@ -166,11 +210,15 @@ namespace PAX {
             h.add(std::type_index(typeid(SceneGraphGraphics)), std::type_index(typeid(Graphics)));
             h.add(std::type_index(typeid(SpriteGraphics)), std::type_index(typeid(SceneGraphGraphics)));
             h.add(std::type_index(typeid(SpriteSheetGraphics)), std::type_index(typeid(SpriteGraphics)));
+            h.add(std::type_index(typeid(Dance2D)), std::type_index(typeid(Behaviour)));
+            h.add(std::type_index(typeid(RotateAround3D)), std::type_index(typeid(Behaviour)));
             h.add(std::type_index(typeid(FollowEntityBehaviour)), std::type_index(typeid(Behaviour)));
             h.add(std::type_index(typeid(PlayerControls)), std::type_index(typeid(Behaviour)));
             h.add(std::type_index(typeid(PlayerSpriteAnimation)), std::type_index(typeid(Behaviour)));
             h.add(std::type_index(typeid(VelocityBehaviour)), std::type_index(typeid(Behaviour)));
             h.add(std::type_index(typeid(Terrain)), std::type_index(typeid(Graphics)));
+            h.add(std::type_index(typeid(Physics)), std::type_index(typeid(EntityComponent)));
+            h.add(std::type_index(typeid(Box2D::Physics)), std::type_index(typeid(PAX::Physics)));
             
             TypeMap<bool> IsMultipleTemp;
             IsMultipleTemp.put(std::type_index(typeid(EntityComponent)), true);
@@ -181,11 +229,15 @@ namespace PAX {
             IsMultipleTemp.put(std::type_index(typeid(SceneGraphGraphics)), false);
             IsMultipleTemp.put(std::type_index(typeid(SpriteGraphics)), false);
             IsMultipleTemp.put(std::type_index(typeid(SpriteSheetGraphics)), false);
+            IsMultipleTemp.put(std::type_index(typeid(Dance2D)), true);
+            IsMultipleTemp.put(std::type_index(typeid(RotateAround3D)), true);
             IsMultipleTemp.put(std::type_index(typeid(FollowEntityBehaviour)), false);
             IsMultipleTemp.put(std::type_index(typeid(PlayerControls)), false);
             IsMultipleTemp.put(std::type_index(typeid(PlayerSpriteAnimation)), false);
             IsMultipleTemp.put(std::type_index(typeid(VelocityBehaviour)), false);
             IsMultipleTemp.put(std::type_index(typeid(Terrain)), false);
+            IsMultipleTemp.put(std::type_index(typeid(Physics)), true);
+            IsMultipleTemp.put(std::type_index(typeid(Box2D::Physics)), true);
             for (const std::pair<std::type_index, bool>& entry : IsMultipleTemp) {
                 IsMultiple.put(entry.first, checkMultiplicity(entry.first, IsMultipleTemp));
             }

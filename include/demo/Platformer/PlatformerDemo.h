@@ -11,6 +11,7 @@
 #include <core/rendering/resource/SpriteSheet.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
+#include <physics/box2d/Box2DPhysicsSystem.h>
 
 #include "demo/OpenGL/OpenGLDemo.h"
 #include "PlayerControls.h"
@@ -20,6 +21,10 @@
 namespace PAX {
     namespace Platformer {
         class PlatformerDemo : public Demo::OpenGLDemo {
+#ifdef PAX_WITH_BOX2D
+            Box2D::PhysicsSystem physics;
+#endif
+
             World *_world = nullptr;
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
@@ -166,7 +171,12 @@ namespace PAX {
             }
 
         public:
-            PlatformerDemo() : OpenGLDemo() {
+            PlatformerDemo() : OpenGLDemo()
+#ifdef PAX_WITH_BOX2D
+                    , physics({0, -10})
+#endif
+            {
+
             }
 
             ~PlatformerDemo() {
@@ -180,6 +190,9 @@ namespace PAX {
             virtual void initialize() override {
                 OpenGLDemo::initialize();
                 LOG(INFO) << "PlatformerDemo: initialize";
+#ifdef PAX_WITH_BOX2D
+                addSystem(&physics);
+#endif
 
                 gatherResources();
 

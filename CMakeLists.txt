@@ -3,7 +3,23 @@ project(PaxEngine3)
 
 ### OPTIONS #############################################
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+option(WITH_BOX2D "True if 2D physics with Box2D should be integrated" ON)
 option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" OFF)
+
+if(WITH_SDL_IMAGE)
+    message("Building with: SDL_Image")
+    add_definitions(-DPAX_WITH_SDLIMAGE)
+endif()
+
+if (WITH_FBX)
+    message("Building with: libfbx")
+    add_definitions(-DPAX_WITH_FBX)
+endif()
+
+if (WITH_BOX2D)
+    message("Building with: Box2D")
+    add_definitions(-DPAX_WITH_BOX2D)
+endif()
 
 ### DETECT COMPILER #####################################
 set(COMPILER_IS_CLANG FALSE)
@@ -37,17 +53,12 @@ set(LIB_DIR_RELATIVE ../lib)
 set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
 
 if (WIN32 AND ${COMPILER_IS_MSVC})
-    set(LIB_DIR_RELATIVE ../lib/win)
+    set(LIB_DIR_RELATIVE ../lib)
     set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
 
     set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "/std:c++latest")
-
 else()
-    set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "-static")# "-static-libgcc -static-libstdc++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-
-if (UNIX)
+    set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "-static")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
@@ -258,34 +269,36 @@ set(SOURCE_FILES
         include/utility/reflection/TypeInfo.h
         include/utility/reflection/TypeHierarchy.h
         include/generated/EntityComponentTypeHierarchy.h
-        include/demo/Platformer/VelocityBehaviour.h include/utility/math/Functions.h include/demo/Platformer/FollowEntityBehaviour.h)
+        include/demo/Platformer/VelocityBehaviour.h
+        include/utility/math/Functions.h
+        include/demo/Platformer/FollowEntityBehaviour.h
+        include/physics/box2d/Box2DPhysicsSystem.h
+        include/physics/box2d/Box2DPhysics.h
+        include/physics/Physics.h)
 
 ### API INCLUDES ########################################
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
-
-if(WITH_SDL_IMAGE)
-    add_definitions(-DPAX_WITH_SDLIMAGE)
-endif()
-
-if (WITH_FBX)
-    add_definitions(-DPAX_WITH_FBX)
-endif()
-
 if (WIN32 AND ${COMPILER_IS_MSVC})
-    include_directories(${LIB_DIR_RELATIVE}/include)
+    include_directories(${LIB_DIR_RELATIVE}/win/include)
 
-    set(GLEW_LIBRARY ${LIB_DIR}/lib/glew32.lib)
-    set(SDL2_LIBRARY ${LIB_DIR}/lib/SDL2-2.0.7/lib/x64/SDL2.lib)
+    set(GLEW_LIBRARY ${LIB_DIR}/win/lib/glew32.lib)
+    set(SDL2_LIBRARY ${LIB_DIR}/win/lib/SDL2-2.0.7/lib/x64/SDL2.lib)
 
     if(WITH_SDL_IMAGE)
-        set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/lib/SDL2_image-2.0.2/lib/x64/SDL2_image.lib)
+        set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/x64/SDL2_image.lib)
     endif()
 
     if (WITH_FBX)
-        set(FBX_LIBRARY debug ${lib_dir}/lib/libfbxsdk-mtd.lib optimized ${lib_dir}/lib/libfbxsdk-mt.lib)
+        set(FBX_LIBRARY debug ${LIB_DIR}/win/lib/libfbxsdk-mtd.lib optimized ${lib_dir}/lib/libfbxsdk-mt.lib)
+    endif()
+
+    if (WITH_BOX2D)
+        message(${LIB_DIR}/Box2D/Box2D)
+        include_directories(${LIB_DIR}/Box2D)
+        set(BOX2D_LIBRARY ${LIB_DIR}/Box2D/bin/msvc/box2d.lib)
     endif()
 
 else()
@@ -299,6 +312,13 @@ else()
 
     if (WITH_FBX)
        message(WARNING "FBX loading is not supported yet!" )
+    endif()
+
+    if (WITH_BOX2D)
+        message(${LIB_DIR}/Box2D/Box2D)
+        include_directories(${LIB_DIR}/Box2D)
+        link_directories(${LIB_DIR}/Box2D/bin/mingw)
+        set(BOX2D_LIBRARY box2d)
     endif()
 
     #find_package(SDL2_ttf REQUIRED)
@@ -315,7 +335,7 @@ add_subdirectory(src)
 
 ### EXECUTABLES #########################################
 add_executable(PaxEngine3 ${SOURCE_FILES})
-target_link_libraries(PaxEngine3 paxfbx paxlib paxgeneration paxutil paxsdl paxopengl paxcore)
+target_link_libraries(PaxEngine3 paxphysics paxfbx paxlib paxgeneration paxutil paxsdl paxopengl paxcore)
 
-add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
-target_link_libraries(ResourceTest paxio paxutil paxlib)
+#add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
+#target_link_libraries(ResourceTest paxio paxutil paxlib)
