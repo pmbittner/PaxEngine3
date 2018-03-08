@@ -2,8 +2,8 @@
 // Created by Paul on 30.06.2017.
 //
 
+#include <easylogging++.h>
 #include "../../../include/opengl/resource/OpenGLTexture2D.h"
-#include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
     namespace OpenGL {

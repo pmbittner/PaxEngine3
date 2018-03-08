@@ -2,6 +2,8 @@
 // Created by Paul on 29.04.2017.
 //
 
+#include <easylogging++.h>
+
 #include <test/ResourcesTest.h>
 #include <test/trials/AllocatorConstructorTest.h>
 #include <test/trials/InheritedTemplateTypeTest.h>
@@ -15,7 +17,6 @@
 #include "../include/core/Engine.h"
 #include "../include/sdl/SDLEngineSetup.h"
 
-#include "../include/lib/easylogging++.h"
 #include "../include/sdl/opengl/SDLOpenGLEngineSetup.h"
 
 int PAX::Engine_Main(int argc, char *argv[]) {

@@ -2,7 +2,7 @@
 // Created by paul on 01.06.17.
 //
 
-#include "../../../include/core/event/EventService.h"
+#include <core/event/EventService.h>
 
 namespace PAX {
     EventService* EventService::getParent() {

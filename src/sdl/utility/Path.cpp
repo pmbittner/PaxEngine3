@@ -8,7 +8,7 @@
 #include "../../../include/sdl/utility/Path.h"
 #include <utility/macros/OSDefines.h>
 #include <core/service/Paths.h>
-#include <lib/easylogging++.h>
+#include <easylogging++.h>
 
 namespace PAX {
     namespace SDL {

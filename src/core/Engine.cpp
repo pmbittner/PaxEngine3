@@ -4,12 +4,12 @@
 
 #include <chrono>
 #include <iostream>
+#include <easylogging++.h>
 #include <generated/EntityComponentTypeHierarchy.h>
 
 #include "../../include/core/Engine.h"
 #include "../../include/core/Game.h"
 #include "../../include/utility/Sleep.h"
-#include "../../include/lib/easylogging++.h"
 #include "../../include/core/time/Time.h"
 #include "utility/macros/MacroIncludes.h"
 #include "../../include/sdl/utility/Path.h"

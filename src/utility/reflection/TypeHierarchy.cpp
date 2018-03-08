@@ -3,7 +3,7 @@
 //
 
 #include <utility/reflection/TypeHierarchy.h>
-#include <lib/easylogging++.h>
+#include <easylogging++.h>
 
 namespace PAX {
     namespace Reflection {

@@ -56,7 +56,7 @@ namespace PAX {
                 s->cacheUniforms({"modelview", "projection"});
                 t->setShader(s);
                 terrainEntity->add(t);
-                terrainEntity->getTransform().scaleY() = terrainScale;
+                terrainEntity->getTransform().setScaleY(terrainScale);
 
                 Entity *guiCamera = new Entity();
                 guiCamera->add(componentAllocator.create<Camera>(new OpenGL::OpenGLViewport(0, 0, res.x, res.y), new FullPixelScreenProjection()));

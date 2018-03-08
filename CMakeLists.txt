@@ -79,14 +79,10 @@ endif()
 
 include_directories(include)
 
-set(SOURCE_FILES
-        # actual source files for PaxEngine3
-        ${MAIN_FILE}
-        src/EngineMain.cpp
+set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp)
 
+set(SOURCE_FILES ${SOURCE_FILES}
         # Header files for CLion
-        include/lib/easylogging++.h
-
         include/core/Engine.h
         include/core/Game.h
         include/core/io/InputSystem.h
@@ -118,7 +114,7 @@ set(SOURCE_FILES
         include/utility/macros/OSDefines.h
         include/utility/Sleep.h
 
-        include/utility/log/LogIncludes.h
+        include/utility/lib/LibIncludes.h
 
         include/test/EntityTest.h
         include/test/SDLTestApplication.h
@@ -274,18 +270,22 @@ set(SOURCE_FILES
         include/demo/Platformer/FollowEntityBehaviour.h
         include/physics/box2d/Box2DPhysicsSystem.h
         include/physics/box2d/Box2DPhysics.h
-        include/physics/Physics.h)
+        include/physics/Physics.h include/physics/box2d/Box2DUtils.h include/core/entity/component/Size.h include/core/entity/event/SizeChangedEvent.h include/core/entity/event/ScaleChangedEvent.h)
 
 ### API INCLUDES ########################################
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
+include_directories(${LIB_DIR_RELATIVE}/Easylogging/include)
+
 if (WIN32 AND ${COMPILER_IS_MSVC})
     include_directories(${LIB_DIR_RELATIVE}/win/include)
 
     set(GLEW_LIBRARY ${LIB_DIR}/win/lib/glew32.lib)
     set(SDL2_LIBRARY ${LIB_DIR}/win/lib/SDL2-2.0.7/lib/x64/SDL2.lib)
+
+    set(EASYLOGGING_LIBRARY ${LIB_DIR}/Easylogging/bin/msvc/easylogging.lib)
 
     if(WITH_SDL_IMAGE)
         set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/x64/SDL2_image.lib)
@@ -296,14 +296,19 @@ if (WIN32 AND ${COMPILER_IS_MSVC})
     endif()
 
     if (WITH_BOX2D)
-        message(${LIB_DIR}/Box2D/Box2D)
         include_directories(${LIB_DIR}/Box2D)
         set(BOX2D_LIBRARY ${LIB_DIR}/Box2D/bin/msvc/box2d.lib)
     endif()
 
 else()
+    find_package(GLEW REQUIRED)
+    include_directories(${GLEW_INCLUDE_DIRS})
+
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
+
+    link_directories(${LIB_DIR}/Easylogging/bin/mingw)
+    set(EASYLOGGING_LIBRARY easylogging)
 
     if(WITH_SDL_IMAGE)
         find_package(SDL2_image REQUIRED)
@@ -315,7 +320,6 @@ else()
     endif()
 
     if (WITH_BOX2D)
-        message(${LIB_DIR}/Box2D/Box2D)
         include_directories(${LIB_DIR}/Box2D)
         link_directories(${LIB_DIR}/Box2D/bin/mingw)
         set(BOX2D_LIBRARY box2d)
@@ -323,9 +327,6 @@ else()
 
     #find_package(SDL2_ttf REQUIRED)
     #include_directories(${SDL2_TTF_INCLUDE_DIR})
-
-    find_package(GLEW REQUIRED)
-    include_directories(${GLEW_INCLUDE_DIRS})
 endif()
 
 
@@ -335,7 +336,7 @@ add_subdirectory(src)
 
 ### EXECUTABLES #########################################
 add_executable(PaxEngine3 ${SOURCE_FILES})
-target_link_libraries(PaxEngine3 paxphysics paxfbx paxlib paxgeneration paxutil paxsdl paxopengl paxcore)
+target_link_libraries(PaxEngine3 ${EASYLOGGING_LIBRARY} paxphysics paxfbx paxgeneration paxutil paxsdl paxopengl paxcore)
 
 #add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
 #target_link_libraries(ResourceTest paxio paxutil paxlib)

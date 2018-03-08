@@ -3,7 +3,7 @@
 //
 
 #include "core/rendering/graphics/nodes/TexturingNode.h"
-#include "lib/easylogging++.h"
+#include <easylogging++.h>
 
 namespace PAX {
     TexturingNode::TexturingNode(const std::shared_ptr<Texture> &texture) : _texture(texture) {

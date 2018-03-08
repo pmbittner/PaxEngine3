@@ -16,7 +16,7 @@
 #include "scenegraph/WorldLayerSceneGraph.h"
 #include "../rendering/scenegraph/SceneGraphGenerator.h"
 
-#include "../event/EventService.h"
+#include "core/event/EventService.h"
 #include "event/EntitySpawnedEvent.h"
 #include "event/EntityDespawnedEvent.h"
 

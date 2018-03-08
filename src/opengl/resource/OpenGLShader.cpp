@@ -3,10 +3,10 @@
 //
 
 #include <iomanip>
+#include <easylogging++.h>
 #include <opengl/OpenGLMacros.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "../../../include/opengl/resource/OpenGLShader.h"
-#include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
     namespace OpenGL {

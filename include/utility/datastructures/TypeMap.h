@@ -36,6 +36,10 @@ namespace PAX {
             return _map[index];
         }
 
+        ValueType& operator[](const std::type_index &index) {
+            return _map[index];
+        }
+
         template<typename Key>
         bool put(ValueType value) {
             _map[Reflection::GetType<Key>()] = value;

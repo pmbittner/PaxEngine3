@@ -2,8 +2,8 @@
 // Created by Gordon on 16.05.2017.
 //
 
+#include <easylogging++.h>
 #include "../../include/sdl/SDLWindow.h"
-#include "../../include/lib/easylogging++.h"
 
 namespace PAX {
     namespace SDL {

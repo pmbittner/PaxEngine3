@@ -2,6 +2,8 @@
 // Created by Paul on 01.05.2017.
 //
 
+#include <core/entity/Entity.h>
+#include <core/entity/event/ScaleChangedEvent.h>
 #include "../../../include/core/entity/Transform.h"
 #include "utility/stdutils/CollectionUtils.h"
 
@@ -55,24 +57,44 @@ namespace PAX {
 
 
     // Position
-    float Transform::getX() {
+    float Transform::getX() const {
         return _pos3D.x;
     }
 
-    float Transform::getY() {
+    float Transform::getY() const {
         return _pos3D.y;
     }
 
-    float Transform::getZ() {
+    float Transform::getZ() const {
         return _pos3D.z;
     }
 
-    glm::vec2 Transform::getPosition2D() {
+    glm::vec2 Transform::getPosition2D() const {
        return _pos2D;
     }
 
-    glm::vec3 Transform::getPosition() {
+    glm::vec3 Transform::getPosition() const {
         return _pos3D;
+    }
+
+    float Transform::getAbsoluteX() const {
+        return (_parent ? _parent->getAbsoluteX() : 0) + _pos3D.x;
+    }
+
+    float Transform::getAbsoluteY() const {
+        return (_parent ? _parent->getAbsoluteY() : 0) + _pos3D.y;
+    }
+
+    float Transform::getAbsoluteZ() const {
+        return (_parent ? _parent->getAbsoluteZ() : 0) + _pos3D.z;
+    }
+
+    glm::vec2 Transform::getAbsolutePosition2D() const {
+        return (_parent ? _parent->getAbsolutePosition2D() : glm::vec2(0)) + _pos2D;
+    }
+
+    glm::vec3 Transform::getAbsolutePosition() const {
+        return (_parent ? _parent->getAbsolutePosition() : glm::vec3(0)) + _pos3D;
     }
 
 
@@ -103,13 +125,22 @@ namespace PAX {
 
 
     // Rotation
-    float Transform::getRotation2D() {
+    float Transform::getRotation2D() const {
         return _rotation.z;
     }
 
-    glm::vec3 Transform::getRotation() {
+    glm::vec3 Transform::getRotation() const {
         return _rotation;
     }
+
+    float Transform::getAbsoluteRotation2D() const {
+        return (_parent ? _parent->getAbsoluteRotation2D() : 0) + _rotation.z;
+    }
+
+    glm::vec3 Transform::getAbsoluteRotation() const {
+        return (_parent ? _parent->getAbsoluteRotation() : glm::vec3(0)) + _rotation;
+    }
+
 
     float& Transform::rotation2D() {
         setRelativeMatDirty(true);
@@ -123,49 +154,80 @@ namespace PAX {
 
 
     // Scale
-    float Transform::getScaleX() {
+    float Transform::getScaleX() const {
         return _scale3D.x;
     }
 
-    float Transform::getScaleY() {
+    float Transform::getScaleY() const {
         return _scale3D.y;
     }
 
-    float Transform::getScaleZ() {
+    float Transform::getScaleZ() const {
         return _scale3D.z;
     }
 
-    glm::vec2 Transform::getScale2D() {
+    glm::vec2 Transform::getScale2D() const {
         return _scale2D;
     }
 
-    glm::vec3 Transform::getScale() {
+    glm::vec3 Transform::getScale() const {
         return _scale3D;
     }
 
-    float& Transform::scaleX() {
-        setRelativeMatDirty(true);
-        return _scale3D.x;
+    float Transform::getAbsoluteScaleX() const {
+        return (_parent ? _parent->getAbsoluteScaleX() : 1) * _scale3D.x;
     }
 
-    float& Transform::scaleY() {
-        setRelativeMatDirty(true);
-        return _scale3D.y;
+    float Transform::getAbsoluteScaleY() const {
+        return (_parent ? _parent->getAbsoluteScaleY() : 1) * _scale3D.y;
     }
 
-    float& Transform::scaleZ() {
-        setRelativeMatDirty(true);
-        return _scale3D.z;
+    float Transform::getAbsoluteScaleZ() const {
+        return (_parent ? _parent->getAbsoluteScaleZ() : 1) * _scale3D.z;
     }
 
-    glm::vec2& Transform::scale2D() {
-        setRelativeMatDirty(true);
-        return _scale2D;
+    glm::vec2 Transform::getAbsoluteScale2D() const {
+        return (_parent ? _parent->getAbsoluteScale2D() : glm::vec2(1, 1)) * _scale2D;
     }
 
-    glm::vec3& Transform::scale() {
+    glm::vec3 Transform::getAbsoluteScale() const {
+        return (_parent ? _parent->getAbsoluteScale() : glm::vec3(1, 1, 1)) * _scale3D;
+    }
+
+
+    void Transform::setScaleX(float x) {
+        setScale(glm::vec3(x, _scale3D.y, _scale3D.z));
+    }
+
+    void Transform::setScaleY(float y) {
+        setScale(glm::vec3(_scale3D.x, y, _scale3D.z));
+    }
+
+    void Transform::setScaleZ(float z) {
+        setScale(glm::vec3(_scale3D.x, _scale3D.y, z));
+    }
+
+    void Transform::setScale(float x, float y) {
+        setScale(glm::vec3(x, y, _scale3D.z));
+    }
+
+    void Transform::setScale(const glm::vec2& scale) {
+        setScale(glm::vec3(scale, _scale3D.z));
+    }
+
+    void Transform::setScale(float x, float y, float z) {
+        setScale(glm::vec3(x, y, z));
+    }
+
+    void Transform::setScale(const glm::vec3& scale) {
+        glm::vec3 oldScale = _scale3D;
+        _scale3D = scale;
         setRelativeMatDirty(true);
-        return _scale3D;
+
+        if (entity) {
+            ScaleChangedEvent e(entity, oldScale, _scale3D);
+            entity->getEventService().fire(e);
+        }
     }
 
 

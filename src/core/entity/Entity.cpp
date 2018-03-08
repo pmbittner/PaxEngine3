@@ -7,7 +7,8 @@
 #include <core/entity/Entity.h>
 #include <core/entity/EntityComponent.h>
 #include <core/service/Services.h>
-#include <lib/easylogging++.h>
+
+#include <easylogging++.h>
 #include <generated/EntityComponentTypeHierarchy.h>
 
 namespace PAX {
@@ -17,9 +18,12 @@ namespace PAX {
 
     Entity::Entity() {
         OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&_localEventService);
+        _transform.entity = this;
     }
 
     Entity::~Entity() {
+        _transform.entity = nullptr;
+
         for (const std::pair<EntityComponent* const, Reflection::TypeHierarchyNode*>& kv : _componentTypes) {
             Services::GetEntityComponentService().free(kv.second->type, kv.first);
         }

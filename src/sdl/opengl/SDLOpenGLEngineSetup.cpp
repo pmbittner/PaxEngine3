@@ -2,7 +2,7 @@
 // Created by Paul on 02.07.2017.
 //
 
-#include <lib/easylogging++.h>
+#include <easylogging++.h>
 #include <core/service/Services.h>
 #include <opengl/resource/OpenGLShaderLoader.h>
 #include <opengl/resource/NullOpenGLTextureLoader.h>

@@ -10,6 +10,7 @@
 #include <core/rendering/scenegraph/nodes/TransformationNode.h>
 #include <core/rendering/graphics/nodes/MeshNode.h>
 #include <core/rendering/graphics/nodes/TexturingNode.h>
+#include <core/entity/event/SizeChangedEvent.h>
 
 namespace PAX {
     PAX_ENTITYCOMPONENT(SpriteGraphics, SceneGraphGraphics, false)
@@ -26,14 +27,16 @@ namespace PAX {
 
         std::shared_ptr<Texture> _texture;
 
+        void onSizeChanged(SizeChangedEvent& event);
         virtual void registerFlags(Shader::Flags &flags);
-        virtual void initializeTransformation();
+        virtual const glm::vec2& getSpriteSize() const;
 
     public:
         SpriteGraphics(const std::shared_ptr<Texture> &texture);
 
-        void setSpriteScale(const glm::vec2& scale);
         virtual void setShader(std::shared_ptr<Shader> &shader);
+        virtual void attached(Entity *entity) override;
+        virtual void detached(Entity *entity) override;
     };
 }
 

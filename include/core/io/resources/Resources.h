@@ -8,9 +8,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
+#include <exception>
+
 #include <utility/datastructures/TypeMap.h>
 #include <utility/stdutils/CollectionUtils.h>
-#include <lib/easylogging++.h>
+#include <easylogging++.h>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
@@ -28,7 +30,23 @@ namespace PAX {
     template<typename T>
     using convertStringsToPath = typename convert<T>::type;
 
+    class ResourceAlreadyCachedException : public std::exception
+    {
+        std::string msg;
+
+    public:
+        ResourceAlreadyCachedException(const std::string& res) {
+            msg = std::string("The Resource ") + res + std::string(" is already cached!");
+        }
+
+        virtual const char* what() const throw()
+        {
+            return msg.c_str();
+        }
+    };
+
     class Resources {
+
         TypeMap<std::vector<IResourceLoader*>> _loaders;
         TypeMap<std::unordered_set<ResourceHandle*>> _resourcesInUse;
 
@@ -69,16 +87,20 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        TypedResourceHandle<Resource>* registerResource(ResourceLoader<Resource, Params...> *loader, Params... params) {
-            Resource *res = loader->load(params...);
+        inline std::shared_ptr<Resource> createSharedPointerFor(Resource *res, ResourceLoader<Resource, Params...> *loader) {
+            return std::shared_ptr<Resource>(res, /*deleter*/
+                                      [loader](Resource* r) {
+                                          loader->free(r);
+                                      });
+        }
 
+        template<typename Resource, typename... Params>
+        TypedResourceHandle<Resource>* registerResource(Resource *res, ResourceLoader<Resource, Params...> *loader, Params... params) {
+            // TODO: Avoid these two "new" statements with custom allocators! Much allocation! Much new! Much slow!
             TypedResourceHandle<Resource>* handle = new TypedResourceHandle<Resource>();
             handle->_signature = new Signature<Params...>(params...);
             handle->_loader = loader;
-            handle->_resource = std::shared_ptr<Resource>(res, /*deleter*/
-                                                          [loader](Resource* r) {
-                                                              loader->free(r);
-                                                          });
+            handle->_resource = createSharedPointerFor(res, loader);
 
             _resourcesInUse.get<Resource>().insert(handle);
 
@@ -92,10 +114,11 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        TypedResourceHandle<Resource>* load(Params... p) {
+        TypedResourceHandle<Resource>* loadAndRegisterResource(Params... p) {
             ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader) {
                 return registerResource<Resource, Params...>(
+                        loader->load(p...),
                         loader,
                         p...);
             }
@@ -103,7 +126,18 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& get(Params... p) {
+        std::shared_ptr<Resource> loadResource(Params... p) {
+            ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
+            if (loader)
+                return createSharedPointerFor(loader->load(p...), loader);
+            return nullptr;
+        }
+
+
+    private: ////////////////// The Internal functions for automatic string replacement: string -> path /////////////////////////////
+
+        template<typename Resource, typename... Params>
+        std::shared_ptr<Resource>& get_withCorrectPaths(Params... p) {
             TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
             if (handle) {
                 return handle->_resource;
@@ -114,17 +148,33 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& loadOrGetWithCorrectPaths(Params... p) {
-            std::shared_ptr<Resource> &res = get<Resource>(p...);
-            if (!res) {
-                TypedResourceHandle<Resource> *handle = load<Resource>(p...);
-                if (handle)
-                    return handle->_resource;
-                else
-                    LOG(WARNING) << "The Resource " << print<Resource>(p...) << " could not be loaded!";
-            }
+        std::shared_ptr<Resource> load_withCorrectPaths(Params... p) {
+            std::shared_ptr<Resource> res = loadResource<Resource>(p...);
+
+            if (res)
+                return res;
+            else
+                LOG(WARNING) << "The Resource " << print<Resource>(p...) << " could not be loaded!";
+
+            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
+            return shared_nullptr;
+        }
+
+        template<typename Resource, typename... Params>
+        bool cache_withCorrectPaths(Params... p) {
+            std::shared_ptr<Resource> &res = get_withCorrectPaths<Resource>(p...);
+            if (res)
+                throw ResourceAlreadyCachedException(print<Resource>(p...));
+            return loadAndRegisterResource<Resource>(p...) != nullptr;
+        }
+
+        template<typename Resource, typename... Params>
+        std::shared_ptr<Resource>& loadOrGet_withCorrectPaths(Params... p) {
+            std::shared_ptr<Resource> &res = get_withCorrectPaths<Resource>(p...);
+            if (!res)
+                return loadAndRegisterResource<Resource>(p...)->_resource;
             return res;
-        };
+        }
 
     public:
         template<typename Resource, typename... Params>
@@ -133,9 +183,42 @@ namespace PAX {
             loaders.push_back(loader);
         }
 
+        /**
+         * @return The resource, that is cached for the given parameters. Returns nullptr, if no resource is cached.
+         */
+        template<typename Resource, typename... Params>
+        std::shared_ptr<Resource>& get(Params... p) {
+            return get_withCorrectPaths<Resource, convertStringsToPath<Params>...>(p...);
+        }
+
+        /**
+         * Loads the resource of the given Type with the given parameters. This will only succeed if a
+         * ResourceLoader is registered for this type, that can load the given signature. The resulting resource
+         * will NOT be cached and already cached resources for this type and signature will be ignored!
+         */
+        template<typename Resource, typename... Params>
+        std::shared_ptr<Resource> load(Params... p) {
+            return load_withCorrectPaths<Resource, convertStringsToPath<Params>...>(p...);
+        }
+
+        /**
+         * Loads the resource of the given Type with the given parameters. This will only succeed if a
+         * ResourceLoader is registered for this type, that can load the given signature. The resulting resource
+         * will then be cached if there is not a resource cached for this type already. In this case a
+         * ResourceAlreadyCachedException will be thrown!
+         * @return True, when the resource was loaded correctly.
+         */
+        template<typename Resource, typename... Params>
+        bool cache(Params... p) {
+            return cache_withCorrectPaths<Resource, convertStringsToPath<Params>...>(p...);
+        }
+
+        /**
+         * Tries to get the resource with the given parameters from the cache. If this fails, the resource will be loaded
+         */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& loadOrGet(Params... p) {
-            return loadOrGetWithCorrectPaths<Resource, convertStringsToPath<Params>...>(p...);
+            return loadOrGet_withCorrectPaths<Resource, convertStringsToPath<Params>...>(p...);
         }
 
         void collectGarbage() {

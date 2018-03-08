@@ -13,18 +13,9 @@ namespace PAX {
         _scenegraph <<= _trafoNode <<= _textureNode <<= _spriteSheet <<= &_meshNode;
     }
 
-    void SpriteSheetGraphics::initializeTransformation() {
+    const glm::vec2& SpriteSheetGraphics::getSpriteSize() const {
         glm::ivec2 size = getSpriteSheetSize();
-        _trafoNode.setTransformation(
-                glm::scale(
-                        glm::mat4(1),
-                        glm::vec3(
-                                _texture->getWidth() / size.x,
-                                _texture->getHeight() / size.y,
-                                1
-                        )
-                )
-        );
+        return glm::vec2(_texture->getWidth() / size.x, _texture->getHeight() / size.y);
     }
 
     void SpriteSheetGraphics::registerFlags(Shader::Flags &flags) {
@@ -36,11 +27,11 @@ namespace PAX {
         _spriteSheet.setOffset(x, y);
     }
 
-    glm::ivec2 SpriteSheetGraphics::getSpritePosition() {
+    glm::ivec2 SpriteSheetGraphics::getSpritePosition() const {
         return _spriteSheet.getOffset();
     }
 
-    glm::ivec2 SpriteSheetGraphics::getSpriteSheetSize() {
+    glm::ivec2 SpriteSheetGraphics::getSpriteSheetSize() const {
         return _spriteSheet.getSize();
     }
 

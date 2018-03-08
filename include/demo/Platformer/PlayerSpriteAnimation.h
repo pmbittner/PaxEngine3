@@ -24,8 +24,8 @@ namespace PAX {
         int yIndex;
 
         int moving = 0;
-        VelocityBehaviour *v;
 
+        VelocityBehaviour *v;
         SpriteSheetGraphics *spriteSheet;
 
     public:
@@ -40,6 +40,7 @@ namespace PAX {
         }
 
         virtual void attached(Entity *entity) override {
+            Behaviour::attached(entity);
             v = entity->get<VelocityBehaviour>();
             spriteSheet = entity->get<SpriteSheetGraphics>();
             idleAnimation.start();
@@ -53,13 +54,13 @@ namespace PAX {
                     idleAnimation.stop();
                     walkingAnimation.start();
                     activeAnimation = &walkingAnimation;
-                    getOwner()->getTransform().scaleX() = moving;
+                    getOwner()->getTransform().setScaleX(getOwner()->getTransform().getScaleX() * moving);
                     yIndex = 1;
                 } else {
                     walkingAnimation.stop();
                     idleAnimation.start();
                     activeAnimation = &idleAnimation;
-                    getOwner()->getTransform().scaleX() = 1;
+                    getOwner()->getTransform().setScaleX(abs(getOwner()->getTransform().getScaleX()));
                     yIndex = 2;
                 }
             }

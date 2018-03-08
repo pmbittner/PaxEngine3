@@ -23,10 +23,4 @@
 #error "No or multiple operating systems declared!"
 #endif
 
-//#ifdef PAX_OS_WIN
-//#define PAX_GFX_DIRECTX
-//#else
-#define PAX_GFX_OPENGL
-//#endif
-
 #endif //PAXENGINE3_OSDEFINES_H

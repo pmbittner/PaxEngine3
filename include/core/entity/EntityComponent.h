@@ -46,7 +46,7 @@ namespace PAX {
         EntityComponent();
         virtual ~EntityComponent();
 
-        Entity* getOwner();
+        Entity* getOwner() const;
     };
 }
 

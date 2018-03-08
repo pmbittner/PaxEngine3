@@ -17,8 +17,8 @@ namespace PAX {
         SpriteSheetNode(int columns, int rows);
 
         void setOffset(int xOffset, int yOffset);
-        glm::ivec2 getOffset();
-        glm::ivec2 getSize();
+        glm::ivec2 getOffset() const;
+        glm::ivec2 getSize() const;
 
         virtual void render(RenderOptions &options) override;
         virtual void registerFlags(Shader::Flags &flags);

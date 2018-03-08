@@ -12,6 +12,7 @@
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
 #include <physics/box2d/Box2DPhysicsSystem.h>
+#include <core/entity/component/Size.h>
 
 #include "demo/OpenGL/OpenGLDemo.h"
 #include "PlayerControls.h"
@@ -64,7 +65,6 @@ namespace PAX {
                 spriteSheetShader->upload();
 
                 playerGraphics->setShader(spriteSheetShader);
-                playerGraphics->setSpriteScale({5, 5});
             }
 
             Entity* createPlayer() {
@@ -76,6 +76,8 @@ namespace PAX {
                 player->add(s.create<VelocityBehaviour>());
                 player->add(s.create<PlayerControls>());
                 player->add(s.create<PlayerSpriteAnimation>());
+
+                player->getTransform().setScale(5, 5);
 
                 return player;
             }
@@ -115,7 +117,7 @@ namespace PAX {
                     g->setShader(spriteShader);
                     block->add(g);
                     block->getTransform().x() = x;
-                    block->getTransform().scale2D() = {scale, scale};
+                    block->getTransform().setScale(scale, scale);
 
                     block->setParent(platform);
 

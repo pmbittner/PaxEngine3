@@ -20,11 +20,11 @@
 #include <utility/reflection/TypeHierarchy.h>
 #include <utility/macros/BuildType.h>
 
-#include <lib/easylogging++.h>
+#include <easylogging++.h>
 #include <generated/EntityComponentTypeHierarchy.h>
 
 #include "../event/EventHandler.h"
-#include "../event/EventService.h"
+#include "core/event/EventService.h"
 
 #include "event/EntityParentChangedEvent.h"
 #include "event/EntityComponentRemovedEvent.h"

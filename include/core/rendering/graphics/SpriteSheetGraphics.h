@@ -18,14 +18,14 @@ namespace PAX {
         SpriteSheetNode _spriteSheet;
 
         virtual void registerFlags(Shader::Flags &flags);
-        virtual void initializeTransformation() override;
+        virtual const glm::vec2& getSpriteSize() const override;
 
     public:
         SpriteSheetGraphics(const std::shared_ptr<Texture> &texture, int columns, int rows);
 
         void setSpritePosition(int x, int y);
-        glm::ivec2 getSpritePosition();
-        glm::ivec2 getSpriteSheetSize();
+        glm::ivec2 getSpritePosition() const;
+        glm::ivec2 getSpriteSheetSize() const;
 
         virtual void setShader(std::shared_ptr<Shader> &shader);
     };

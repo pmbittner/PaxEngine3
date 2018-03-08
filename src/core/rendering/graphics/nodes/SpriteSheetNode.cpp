@@ -13,11 +13,11 @@ namespace PAX {
         _offset = {xOffset, yOffset};
     }
 
-    glm::ivec2 SpriteSheetNode::getOffset() {
+    glm::ivec2 SpriteSheetNode::getOffset() const {
         return _offset;
     }
 
-    glm::ivec2 SpriteSheetNode::getSize() {
+    glm::ivec2 SpriteSheetNode::getSize() const {
         return _size;
     }
 

@@ -9,7 +9,11 @@
 #include <glm/glm.hpp>
 
 namespace PAX {
+    class Entity;
+
     class Transform {
+        friend class Entity;
+
     private:
         union {
             glm::vec2 _pos2D;
@@ -28,6 +32,7 @@ namespace PAX {
         glm::mat4 _worldTransform;
 
         Transform *_parent = nullptr;
+        Entity *entity = nullptr;
         std::vector<Transform*> _children;
 
         bool _relativeMatDirty;
@@ -46,21 +51,17 @@ namespace PAX {
         Transform* getParent();
 
         // Position
-        /*
-        void setX(float x);
-        void setY(float y);
-        void setZ(float z);
-        void setPosition(float x, float y);
-        void setPosition(float x, float y, float z);
-        void setPosition(glm::vec2 pos);
-        void setPosition(glm::vec3 pos);
-         */
 
-        float getX();
-        float getY();
-        float getZ();
-        glm::vec2 getPosition2D();
-        glm::vec3 getPosition();
+        float getX() const;
+        float getY() const;
+        float getZ() const;
+        glm::vec2 getPosition2D() const;
+        glm::vec3 getPosition() const;
+        float getAbsoluteX() const;
+        float getAbsoluteY() const;
+        float getAbsoluteZ() const;
+        glm::vec2 getAbsolutePosition2D() const;
+        glm::vec3 getAbsolutePosition() const;
 
         float& x();
         float& y();
@@ -69,37 +70,34 @@ namespace PAX {
         glm::vec3& position();
 
         // Rotation
-        /*
-        void setRotation(float rotation);
-        void setRotation(float x, float y, float z);
-        void setRotation(glm::vec3 rotation);
-         */
-        float getRotation2D();
-        glm::vec3 getRotation();
+        float getRotation2D() const;
+        glm::vec3 getRotation() const;
+        float getAbsoluteRotation2D() const;
+        glm::vec3 getAbsoluteRotation() const;
 
         float& rotation2D();
         glm::vec3& rotation();
 
         // Scale
-        /*
+        float getScaleX() const;
+        float getScaleY() const;
+        float getScaleZ() const;
+        glm::vec2 getScale2D() const;
+        glm::vec3 getScale() const;
+
+        float getAbsoluteScaleX() const;
+        float getAbsoluteScaleY() const;
+        float getAbsoluteScaleZ() const;
+        glm::vec2 getAbsoluteScale2D() const;
+        glm::vec3 getAbsoluteScale() const;
+
         void setScaleX(float x);
         void setScaleY(float y);
         void setScaleZ(float z);
         void setScale(float x, float y);
+        void setScale(const glm::vec2& scale);
         void setScale(float x, float y, float z);
-        void setScale(glm::vec3 scale);
-         */
-        float getScaleX();
-        float getScaleY();
-        float getScaleZ();
-        glm::vec2 getScale2D();
-        glm::vec3 getScale();
-
-        float& scaleX();
-        float& scaleY();
-        float& scaleZ();
-        glm::vec2& scale2D();
-        glm::vec3& scale();
+        void setScale(const glm::vec3& scale);
 
         // Mat
         const glm::mat4 &toRelativeMatrix();

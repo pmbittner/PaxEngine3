@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <functional>
-#include "../core/event/EventService.h"
+#include "core/event/EventService.h"
 #include "../core/world/event/EntitySpawnedEvent.h"
 
 namespace PAX {

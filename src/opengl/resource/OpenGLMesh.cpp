@@ -3,8 +3,8 @@
 //
 
 #include <stdexcept>
+#include <easylogging++.h>
 #include "../../../include/opengl/resource/OpenGLMesh.h"
-#include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
     namespace OpenGL {

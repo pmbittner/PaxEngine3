@@ -5,9 +5,9 @@
 
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
+#include <easylogging++.h>
 
 #include "../../../include/sdl/opengl/SDLOpenGLWindow.h"
-#include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
     namespace SDL {

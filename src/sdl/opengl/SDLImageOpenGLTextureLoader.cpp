@@ -9,7 +9,7 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-#include <lib/easylogging++.h>
+#include <easylogging++.h>
 #include <utility/io/FormatChecker.h>
 #include <assert.h>
 

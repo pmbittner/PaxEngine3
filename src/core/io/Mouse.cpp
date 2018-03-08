@@ -2,8 +2,8 @@
 // Created by Paul on 29.04.2017.
 //
 
+#include <easylogging++.h>
 #include "../../../include/core/io/Mouse.h"
-#include "../../../include/lib/easylogging++.h"
 
 namespace PAX {
     int Mouse::getX() {

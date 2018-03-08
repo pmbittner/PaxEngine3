@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <core/io/resources/Resources.h>
 #include <core/service/Services.h>
+#include <core/entity/component/Size.h>
 
 namespace PAX {
     Mesh *SpriteGraphics::QuadMesh = nullptr;
@@ -42,22 +43,20 @@ namespace PAX {
 
     SpriteGraphics::SpriteGraphics(const std::shared_ptr<Texture> &texture) : SceneGraphGraphics(),
                                                                               _texture(texture),
-                                                                        _trafoNode(),
-                                                                        _textureNode(texture),
-                                                                        _meshNode(GetMesh())
+                                                                              _trafoNode(),
+                                                                              _textureNode(texture),
+                                                                              _meshNode(GetMesh())
     {
         _scenegraph <<= _trafoNode <<= _textureNode <<= &_meshNode;
-        initializeTransformation();
     }
 
-    void SpriteGraphics::initializeTransformation() {
-        _trafoNode.setTransformation(glm::scale(glm::mat4(1), glm::vec3(_texture->getWidth(), _texture->getHeight(), 1)));
+    const glm::vec2& SpriteGraphics::getSpriteSize() const {
+        return glm::vec2(_texture->getWidth(), _texture->getHeight());
     }
 
-    void SpriteGraphics::setSpriteScale(const glm::vec2& scale) {
-        initializeTransformation();
+    void SpriteGraphics::onSizeChanged(SizeChangedEvent &event) {
         _trafoNode.setTransformation(
-                glm::scale(_trafoNode.getTransformation(), glm::vec3(scale, 1))
+                glm::scale(glm::mat4(1), event.size->getSizeUnscaled())
         );
     }
 
@@ -68,5 +67,25 @@ namespace PAX {
     void SpriteGraphics::setShader(std::shared_ptr<Shader> &shader) {
         _meshNode.cacheUniformsFor(shader);
         Graphics::setShader(shader);
+    }
+
+    void SpriteGraphics::attached(Entity *entity) {
+        SceneGraphGraphics::attached(entity);
+
+        entity->getEventService().add<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
+
+        glm::vec3 spriteSize = glm::vec3(getSpriteSize(), 0);
+        Size* size = entity->get<Size>();
+        if (size) {
+            size->setSize(spriteSize);
+        } else {
+            size = Services::GetEntityComponentService().create<Size>(spriteSize);
+            entity->add(size);
+        }
+    }
+
+    void SpriteGraphics::detached(Entity *entity) {
+        SceneGraphGraphics::detached(entity);
+        entity->getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
     }
 }

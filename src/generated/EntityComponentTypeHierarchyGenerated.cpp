@@ -4,6 +4,7 @@
 #include <core/entity/Entity.h>
 #include <core/entity/EntityComponent.h>
 #include <core/entity/component/Behaviour.h>
+#include <core/entity/component/Size.h>
 #include <core/entity/component/behaviours/NoClipControls.h>
 #include <core/rendering/Graphics.h>
 #include <core/rendering/camera/Camera.h>
@@ -42,6 +43,14 @@ namespace PAX {
             }
             static void BehaviourDetached(Entity* e, EntityComponent *c) {
                 EntityComponentRemovedEvent<Behaviour> event(static_cast<Behaviour*>(c), e);
+                e->_localEventService(event);
+            }
+            static void SizeAttached(Entity* e, EntityComponent *c) {
+                EntityComponentAddedEvent<Size> event(static_cast<Size*>(c), e);
+                e->_localEventService(event);
+            }
+            static void SizeDetached(Entity* e, EntityComponent *c) {
+                EntityComponentRemovedEvent<Size> event(static_cast<Size*>(c), e);
                 e->_localEventService(event);
             }
             static void NoClipControlsAttached(Entity* e, EntityComponent *c) {
@@ -171,6 +180,8 @@ namespace PAX {
             OnEntityComponentDetached.put(std::type_index(typeid(EntityComponent)), &EntityComponentTypeHierarchyEventBroker::EntityComponentDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(Behaviour)), &EntityComponentTypeHierarchyEventBroker::BehaviourAttached);
             OnEntityComponentDetached.put(std::type_index(typeid(Behaviour)), &EntityComponentTypeHierarchyEventBroker::BehaviourDetached);
+            OnEntityComponentAttached.put(std::type_index(typeid(Size)), &EntityComponentTypeHierarchyEventBroker::SizeAttached);
+            OnEntityComponentDetached.put(std::type_index(typeid(Size)), &EntityComponentTypeHierarchyEventBroker::SizeDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(NoClipControls)), &EntityComponentTypeHierarchyEventBroker::NoClipControlsAttached);
             OnEntityComponentDetached.put(std::type_index(typeid(NoClipControls)), &EntityComponentTypeHierarchyEventBroker::NoClipControlsDetached);
             OnEntityComponentAttached.put(std::type_index(typeid(Graphics)), &EntityComponentTypeHierarchyEventBroker::GraphicsAttached);
@@ -204,6 +215,7 @@ namespace PAX {
             
             Reflection::TypeHierarchy &h = Entity::EntityComponentTypes;
             h.add(std::type_index(typeid(Behaviour)), std::type_index(typeid(EntityComponent)));
+            h.add(std::type_index(typeid(Size)), std::type_index(typeid(EntityComponent)));
             h.add(std::type_index(typeid(NoClipControls)), std::type_index(typeid(Behaviour)));
             h.add(std::type_index(typeid(Graphics)), std::type_index(typeid(EntityComponent)));
             h.add(std::type_index(typeid(Camera)), std::type_index(typeid(EntityComponent)));
@@ -223,6 +235,7 @@ namespace PAX {
             TypeMap<bool> IsMultipleTemp;
             IsMultipleTemp.put(std::type_index(typeid(EntityComponent)), true);
             IsMultipleTemp.put(std::type_index(typeid(Behaviour)), true);
+            IsMultipleTemp.put(std::type_index(typeid(Size)), false);
             IsMultipleTemp.put(std::type_index(typeid(NoClipControls)), true);
             IsMultipleTemp.put(std::type_index(typeid(Graphics)), false);
             IsMultipleTemp.put(std::type_index(typeid(Camera)), false);
