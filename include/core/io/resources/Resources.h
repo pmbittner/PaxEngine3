@@ -96,7 +96,7 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         TypedResourceHandle<Resource>* registerResource(Resource *res, ResourceLoader<Resource, Params...> *loader, Params... params) {
-            // TODO: Avoid these two "new" statements with custom allocators! Much allocation! Much new! Much slow!
+            // TODO: Avoid these two "new" statements with custom allocators! Much new! Much slow!
             TypedResourceHandle<Resource>* handle = new TypedResourceHandle<Resource>();
             handle->_signature = new Signature<Params...>(params...);
             handle->_loader = loader;
@@ -109,7 +109,7 @@ namespace PAX {
 
         bool unregisterResource(const std::type_index type, ResourceHandle* handle) {
             auto deletedElementCount = _resourcesInUse.get(type).erase(handle);
-            delete handle;
+            delete handle; // deletes its signature
             return deletedElementCount;
         }
 
@@ -151,19 +151,15 @@ namespace PAX {
         std::shared_ptr<Resource> load_withCorrectPaths(Params... p) {
             std::shared_ptr<Resource> res = loadResource<Resource>(p...);
 
-            if (res)
-                return res;
-            else
+            if (!res)
                 LOG(WARNING) << "The Resource " << print<Resource>(p...) << " could not be loaded!";
 
-            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
-            return shared_nullptr;
+            return res;
         }
 
         template<typename Resource, typename... Params>
         bool cache_withCorrectPaths(Params... p) {
-            std::shared_ptr<Resource> &res = get_withCorrectPaths<Resource>(p...);
-            if (res)
+            if (get_withCorrectPaths<Resource>(p...))
                 throw ResourceAlreadyCachedException(print<Resource>(p...));
             return loadAndRegisterResource<Resource>(p...) != nullptr;
         }
@@ -177,10 +173,9 @@ namespace PAX {
         }
 
     public:
-        template<typename Resource, typename... Params>
-        void registerLoader(ResourceLoader<Resource, Params...>* loader) {
-            std::vector<IResourceLoader*> &loaders = _loaders.get<Resource>();
-            loaders.push_back(loader);
+        template<typename Resource>
+        void registerLoader(ResourceLoaderT<Resource>* loader) {
+            _loaders.get<Resource>().push_back(loader);
         }
 
         /**
