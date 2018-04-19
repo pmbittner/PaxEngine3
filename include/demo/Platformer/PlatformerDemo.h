@@ -14,7 +14,8 @@
 #include <physics/box2d/Box2DPhysicsSystem.h>
 #include <core/entity/component/Size.h>
 
-#include "demo/OpenGL/OpenGLDemo.h"
+#include <demo/OpenGL/OpenGLDemo.h>
+#include <GL/glew.h>
 #include "PlayerControls.h"
 #include "PlayerSpriteAnimation.h"
 #include "FollowEntityBehaviour.h"
@@ -190,15 +191,13 @@ namespace PAX {
             }
 
             virtual void initialize() override {
-                OpenGLDemo::initialize();
+                Demo::OpenGLDemo::initialize();
                 LOG(INFO) << "PlatformerDemo: initialize";
 #ifdef PAX_WITH_BOX2D
-                addSystem(&physics);
+                //addSystem(&physics);
 #endif
 
                 gatherResources();
-
-                //glActiveTexture(GL_TEXTURE0);
 
                 _world = new World();
                 _player = createPlayer();
@@ -207,7 +206,7 @@ namespace PAX {
                 _world->getMainLayer()->spawn(_player);
                 LOG(INFO) << "PlatformerDemo: spawn Camera";
                 _world->getMainLayer()->spawn(_camera);
-                createEnvironment();
+                //createEnvironment();
 
                 setActiveWorld(_world);
             }

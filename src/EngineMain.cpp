@@ -22,11 +22,13 @@
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
-    EngineSetup *setup = new SDL::OpenGL::SDLOpenGLEngineSetup;
-    Game *game = new Platformer::PlatformerDemo();
+    SDL::OpenGL::SDLOpenGLEngineSetup setup;
+
+    Platformer::PlatformerDemo game;
+    //Demo::OpenGLDemo game;
 
     Engine &engine = Engine::Instance();
-    engine.initialize(setup, game);
+    engine.initialize(&setup, &game);
     /*
     PAX::TEST::ENTITY::test();
     //*/
