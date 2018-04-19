@@ -1,18 +1,30 @@
-##### PaxEngine3 -- Cross-Platform 2D/3D Game Engine with Focus on 2D
+# PaxEngine3 -- Cross-Platform 2D/3D Game Engine with Focus on 2D
 
-### Build Instructions
+## Build Instructions
 
-## Windows
+### General
+Additional libraries are needed. Those have to be located in a directory called `lib` next to the git repository.
+**Ask Paul to get the necessary files for your operating system.**
 
-The project should build with MinGW as well as MSVC. Additional libraries are needed. Those have to be located in a directory called ```lib``` next to the git repository.
-Ask Paul to get the necessary files.
+The build folder has to have at least two levels of directories. That allows splitting builds for different configurations, compilers, release/debug:
 
-The build folder has to have at least two levels of directories. That is to allow split your builds for different configurations or compilers:
-
+    CMakeLists.txt
+    include/
+	src/
+	... other files and directories
 	build/
 	    mingw/
 		    MinGW build files here
 	    msvc/
 		    MSVC build files here
+			
+Otherwise, the program won't be able to find the `res` directory to load its resources (for now).
+(Detecting the resource folder at runtime is a feature for the future.)
 
-Otherwise, the program won't be able to find the ``res`` directory to load its resources (for now).
+### Windows
+The project should build with MinGW as well as MSVC. To execute the program some DLL-files have to be put into the executables directory.
+**Ask Paul to get the necessary files for your operating system.**
+
+### Linux
+Required packages: `libsdl2-dev`
+Optional packages: `libsdl2-image-dev`
