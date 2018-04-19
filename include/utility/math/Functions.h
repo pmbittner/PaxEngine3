@@ -11,6 +11,11 @@ namespace PAX {
         int sign(T val) {
             return (T(0) < val) - (val < T(0));
         }
+
+        template<typename T>
+        T clamp(T value, T min, T max) {
+            return std::max(std::min(value, max), min);
+        }
     }
 }
 
