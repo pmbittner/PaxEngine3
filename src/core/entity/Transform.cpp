@@ -90,11 +90,16 @@ namespace PAX {
     }
 
     glm::vec2 Transform::getAbsolutePosition2D() const {
-        return (_parent ? _parent->getAbsolutePosition2D() : glm::vec2(0)) + _pos2D;
+        glm::vec3 absolutePos = getAbsolutePosition();
+        return glm::vec2(absolutePos.x, absolutePos.y);
     }
 
     glm::vec3 Transform::getAbsolutePosition() const {
-        return (_parent ? _parent->getAbsolutePosition() : glm::vec3(0)) + _pos3D;
+        if (_parent) {
+            glm::vec4 absolutePos = (_parent->toWorldMatrix() * glm::vec4(_pos3D, 1));
+            return glm::vec3(absolutePos.x, absolutePos.y, absolutePos.z);
+        }
+        return _pos3D;
     }
 
 
