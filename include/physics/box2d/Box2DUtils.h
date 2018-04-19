@@ -13,6 +13,10 @@ namespace PAX {
         b2Vec2 toBox2D(const glm::vec2& glmvec) {
             return {glmvec.x, glmvec.y};
         }
+
+        b2Vec2 toBox2D(const glm::vec3& glmvec) {
+            return {glmvec.x, glmvec.y};
+        }
     }
 }
 
