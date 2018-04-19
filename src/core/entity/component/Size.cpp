@@ -54,4 +54,25 @@ namespace PAX {
     glm::vec3 Size::getSizeUnscaled() const {
         return _size;
     }
+
+    FloatBoundingBox3D Size::toBoundingBox() {
+        float w = getWidth() / 2.f;
+        float h = getHeight() / 2.f;
+        float d = getDepth() / 2.f;
+        float from[3] = {-w, -h, -d};
+        float to[3] = {w, h, d};
+        return FloatBoundingBox3D(from, to);
+    }
+
+    FloatBoundingBox3D Size::toAbsoluteBoundingBox() {
+        FloatBoundingBox3D box = toBoundingBox();
+        if (Entity *owner = getOwner()) {
+            for (Entity* child : owner->getChildren()) {
+                if (Size* s = child->get<Size>()) {
+                    box += s->toAbsoluteBoundingBox();
+                }
+            }
+        }
+        return box;
+    }
 }

@@ -8,6 +8,7 @@
 #include <core/entity/EntityComponent.h>
 #include <core/entity/event/ScaleChangedEvent.h>
 #include <glm/glm.hpp>
+#include <utility/math/BoundingBox.h>
 
 namespace PAX {
     PAX_ENTITYCOMPONENT(Size, EntityComponent, false)
@@ -32,6 +33,9 @@ namespace PAX {
         float getDepth() const;
         glm::vec3 getSize() const;
         glm::vec2 getSize2D() const;
+
+        FloatBoundingBox3D toBoundingBox();
+        FloatBoundingBox3D toAbsoluteBoundingBox();
 
         glm::vec3 getSizeUnscaled() const;
     };
