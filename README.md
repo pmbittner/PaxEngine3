@@ -1,4 +1,4 @@
-# PaxEngine3 - A Cross-Platform 2D/3D Game Engine with Focus on 2D and Software Architecture
+# PaxEngine3 - A Cross-Platform 2D/3D Game Engine with Focus on Extensibility
 
 ## Build Instructions
 
@@ -29,6 +29,6 @@ The project should build with MinGW as well as MSVC. To execute the program some
 **Ask Paul to get the necessary files for your operating system.**
 
 ### Linux
-Required packages: `libsdl2-dev`
+Required packages: `libsdl2-dev` `libglm-dev`
 
 Optional packages: `libsdl2-image-dev`
