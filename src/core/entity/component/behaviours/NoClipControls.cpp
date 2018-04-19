@@ -4,8 +4,8 @@
 
 #include <core/entity/component/behaviours/NoClipControls.h>
 
-#include <core/Entity/Entity.h>
-#include <core/Entity/Transform.h>
+#include <core/entity/Entity.h>
+#include <core/entity/Transform.h>
 #include <core/service/Services.h>
 
 #include <glm/gtx/norm.hpp>
