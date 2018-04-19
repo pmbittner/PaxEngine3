@@ -13,7 +13,7 @@ namespace PAX {
         _scenegraph <<= _trafoNode <<= _textureNode <<= _spriteSheet <<= &_meshNode;
     }
 
-    const glm::vec2& SpriteSheetGraphics::getSpriteSize() const {
+    glm::vec2 SpriteSheetGraphics::getSpriteSize() const {
         glm::ivec2 size = getSpriteSheetSize();
         return glm::vec2(_texture->getWidth() / size.x, _texture->getHeight() / size.y);
     }

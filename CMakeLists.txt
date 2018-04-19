@@ -53,12 +53,16 @@ set(LIB_DIR_RELATIVE ../lib)
 set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
 
 if (WIN32 AND ${COMPILER_IS_MSVC})
-    set(LIB_DIR_RELATIVE ../lib)
-    set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
+    if (${COMPILER_IS_MSVC})
+        set(LIB_DIR_RELATIVE ../lib)
+        set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
 
-    set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "/std:c++latest")
-else()
-    set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "-static")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
+        set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "/std:c++latest")
+    else()
+        set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "-static")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    endif()
+elseif(UNIX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 
@@ -280,6 +284,7 @@ include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${LIB_DIR_RELATIVE}/Easylogging/include)
 
 if (WIN32 AND ${COMPILER_IS_MSVC})
+
     include_directories(${LIB_DIR_RELATIVE}/win/include)
 
     set(GLEW_LIBRARY ${LIB_DIR}/win/lib/glew32.lib)
@@ -301,6 +306,7 @@ if (WIN32 AND ${COMPILER_IS_MSVC})
     endif()
 
 else()
+
     find_package(GLEW REQUIRED)
     include_directories(${GLEW_INCLUDE_DIRS})
 

@@ -18,7 +18,7 @@ namespace PAX {
         SpriteSheetNode _spriteSheet;
 
         virtual void registerFlags(Shader::Flags &flags);
-        virtual const glm::vec2& getSpriteSize() const override;
+        virtual glm::vec2 getSpriteSize() const override;
 
     public:
         SpriteSheetGraphics(const std::shared_ptr<Texture> &texture, int columns, int rows);

@@ -27,3 +27,5 @@ add_library(paxrendering
         scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.cpp
         graphics/SpriteGraphics.cpp
         graphics/SpriteSheetGraphics.cpp graphics/nodes/SpriteSheetNode.cpp)
+
+target_link_libraries(paxrendering paxcore)

@@ -13,4 +13,5 @@ add_library(paxsdl
         opengl/SDLImageOpenGLTextureLoader.cpp
 
         )
+
 target_link_libraries(paxsdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})# ${SDL2_TTF_LIBRARIES})

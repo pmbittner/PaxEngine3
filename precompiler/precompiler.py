@@ -102,7 +102,7 @@ if __name__ == "__main__":
     myPath = os.path.realpath(__file__)
 
     precompilationDirectory = os.path.dirname(myPath) + "/../include/"
-    targetFile = os.path.dirname(myPath) + "/../src/generated/EntityComponentTypeHierarchyGenerated.cpp"
+    targetFile = os.path.dirname(myPath) + "/../src/generated/EntityComponentTypeHierarchy.generated.cpp"
     genData = GenerationData()
     genData.includes.append("generated/EntityComponentTypeHierarchy.h")
     genData.includes.append("core/entity/event/EntityComponentAddedEvent.h")

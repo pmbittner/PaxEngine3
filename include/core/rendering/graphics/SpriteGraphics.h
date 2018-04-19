@@ -29,7 +29,7 @@ namespace PAX {
 
         void onSizeChanged(SizeChangedEvent& event);
         virtual void registerFlags(Shader::Flags &flags);
-        virtual const glm::vec2& getSpriteSize() const;
+        virtual glm::vec2 getSpriteSize() const;
 
     public:
         SpriteGraphics(const std::shared_ptr<Texture> &texture);

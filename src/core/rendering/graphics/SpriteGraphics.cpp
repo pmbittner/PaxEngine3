@@ -50,7 +50,7 @@ namespace PAX {
         _scenegraph <<= _trafoNode <<= _textureNode <<= &_meshNode;
     }
 
-    const glm::vec2& SpriteGraphics::getSpriteSize() const {
+    glm::vec2 SpriteGraphics::getSpriteSize() const {
         return glm::vec2(_texture->getWidth(), _texture->getHeight());
     }
 
