@@ -209,7 +209,8 @@ namespace PAX {
         }
 
         /**
-         * Tries to get the resource with the given parameters from the cache. If this fails, the resource will be loaded
+         * Tries to get the resource with the given parameters from the cache.
+         * If this fails, the resource will be loaded and cached.
          */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& loadOrGet(Params... p) {
