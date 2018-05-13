@@ -48,28 +48,42 @@ endif()
 
 ### FLAGS ###############################################
 set(PLATFORM_FLAGS)
+set(PLATFORM_FLAGS_DEBUG)
+set(PLATFORM_FLAGS_RELEASE)
 
 set(LIB_DIR_RELATIVE ../lib)
 set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
 
-if (WIN32 AND ${COMPILER_IS_MSVC})
+if (WIN32)
+    message("Set flags for WIN32")
     if (${COMPILER_IS_MSVC})
-        set(LIB_DIR_RELATIVE ../lib)
-        set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
+        message("    and MSVC")
 
-        set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "/std:c++latest")
-    else()
-        set(PLATFORM_FLAGS ${PLATFORM_FLAGS} "-static")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-    endif()
+        set(PLATFORM_FLAGS         "${PLATFORM_FLAGS} /std:c++latest")
+        set(PLATFORM_FLAGS_DEBUG   "${PLATFORM_FLAGS_DEBUG} /MTd")
+        set(PLATFORM_FLAGS_RELEASE "${PLATFORM_FLAGS_RELEASE} /MT")
+    else(${COMPILER_IS_MSVC}) # condition for nested if
+        message("    but not MSVC")
+        set(PLATFORM_FLAGS "${PLATFORM_FLAGS} -static -std=c++11")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
+    endif(${COMPILER_IS_MSVC}) # condition for nested if
 elseif(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
+    message("Set flags for UNIX")
+    set(PLATFORM_FLAGS "${PLATFORM_FLAGS} -std=c++11")
+else(WIN32) # condition for nested if
+    message(WARNING "Platform not specified. Correct behaviour not guaranteed.")
+endif(WIN32) # condition for nested if
+
 
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_FLAGS}")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_FLAGS}")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${PLATFORM_FLAGS_DEBUG}")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${PLATFORM_FLAGS_RELEASE}")
+
+message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
+message("CMAKE_CXX_FLAGS_DEBUG  : ${CMAKE_CXX_FLAGS_DEBUG}")
+message("CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
 
 ### PATHS ###############################################
 set(MAIN_FILE Default_main.cpp)
