@@ -10,7 +10,15 @@ namespace PAX {
             SpriteGraphics(texture),
             _spriteSheet(columns, rows)
     {
-        _scenegraph <<= _trafoNode <<= _textureNode <<= _spriteSheet <<= &_meshNode;
+        // put the spritesheet node in between the scenegraph root and the rest
+        auto children = _scenegraph.getChildren();
+
+        for (auto child : children) {
+            _scenegraph.removeChild(child);
+            _spriteSheet.addChild(child);
+        }
+
+        _scenegraph <<= &_spriteSheet;
     }
 
     glm::vec2 SpriteSheetGraphics::getSpriteSize() const {
