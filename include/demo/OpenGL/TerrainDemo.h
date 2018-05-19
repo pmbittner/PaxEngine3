@@ -12,13 +12,14 @@
 #include <demo/behaviours/Dance2D.h>
 #include <core/rendering/camera/FullPixelScreenProjection.h>
 #include <core/rendering/resource/Texture.h>
-#include "OpenGLDemo.h"
+#include <core/Game.h>
+#include <core/Engine.h>
 
 namespace PAX {
     namespace Demo {
-        class TerrainDemo : public OpenGLDemo {
+        class TerrainDemo : public Game {
         public:
-            TerrainDemo() : OpenGLDemo() {
+            TerrainDemo() : Game() {
 
             }
 
@@ -27,7 +28,7 @@ namespace PAX {
             }
 
             virtual void initialize() override {
-                OpenGLDemo::initialize();
+                Game::initialize();
 
                 EntityComponentService &componentAllocator = Services::GetEntityComponentService();
                 Window* window = Engine::Instance().getWindow();

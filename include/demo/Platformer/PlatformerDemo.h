@@ -14,15 +14,16 @@
 #include <physics/box2d/Box2DPhysicsSystem.h>
 #include <core/entity/component/Size.h>
 
-#include <demo/OpenGL/OpenGLDemo.h>
 #include <GL/glew.h>
+#include <opengl/rendernodes/OpenGLRenderPass.h>
+#include <sdl/opengl/SDLOpenGLRenderPass.h>
 #include "PlayerControls.h"
 #include "PlayerSpriteAnimation.h"
 #include "FollowEntityBehaviour.h"
 
 namespace PAX {
     namespace Platformer {
-        class PlatformerDemo : public Demo::OpenGLDemo {
+        class PlatformerDemo : public Game {
 #ifdef PAX_WITH_BOX2D
             Box2D::PhysicsSystem physics;
 #endif
@@ -61,6 +62,8 @@ namespace PAX {
                         Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.vert",
                         Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.frag"
                 );
+
+                std::cout << playerGraphics->getShaderFlags().VertexFlags << std::endl;
 
                 spriteShader->upload();
                 spriteSheetShader->upload();
@@ -176,7 +179,7 @@ namespace PAX {
             }
 
         public:
-            PlatformerDemo() : OpenGLDemo()
+            PlatformerDemo() : Game()
 #ifdef PAX_WITH_BOX2D
                     , physics({0, -10})
 #endif
@@ -193,7 +196,8 @@ namespace PAX {
             }
 
             virtual void initialize() override {
-                Demo::OpenGLDemo::initialize();
+                Game::initialize();
+
                 LOG(INFO) << "PlatformerDemo: initialize";
 #ifdef PAX_WITH_BOX2D
                 //addSystem(&physics);

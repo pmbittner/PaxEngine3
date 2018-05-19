@@ -24,7 +24,7 @@ namespace PAX {
                 return SDLWindow::flags() | SDL_WINDOW_OPENGL;
             }
 
-            bool SDLOpenGLWindow::create(std::string title, int width, int height) {
+            bool SDLOpenGLWindow::create(const std::string& title, int width, int height) {
                 glewExperimental = GL_TRUE;
 
                 SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -47,7 +47,6 @@ namespace PAX {
                     return true;
                 }
 
-                SDL_Window *win = this->getSDL_Window();
                 return false;
             }
         }

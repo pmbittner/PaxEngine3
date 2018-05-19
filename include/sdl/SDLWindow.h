@@ -27,12 +27,11 @@ namespace PAX {
         public:
             SDLWindow();
 
-            ~SDLWindow();
+            virtual ~SDLWindow();
 
-            virtual bool create(std::string title, int width, int height) override;
+            virtual bool create(const std::string& title, int width, int height);
 
             virtual glm::ivec2 getResolution() override;
-
             virtual void setFullscreen(bool fullscreen) override;
 
             SDL_Window *getSDL_Window();

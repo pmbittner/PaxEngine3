@@ -14,6 +14,7 @@ namespace PAX {
     class EnginePlugin {
     public:
         virtual void initialize(Engine& engine) {};
+        virtual void postInitialize(Engine& engine) {}
         virtual void registerServices(Services& services) {};
         virtual void registerResourceLoaders(Resources& resources) {};
         virtual void registerFactories(FactoryService& factoryService) {};

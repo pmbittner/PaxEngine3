@@ -38,9 +38,6 @@ namespace PAX {
             plugin->initialize(*this);
         }
 
-        //_window = setup->createWindow();
-        //PAX_assertNotNull(_window, "Engine::initialize: The given setup could not create a Window!");
-
         LOG(INFO) << "[ENGINE] Plugins: registering Services";
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerServices(_services);
@@ -63,10 +60,21 @@ namespace PAX {
         _services.initialize();
 
         LOG(INFO) << "[ENGINE] create Window";
-        _window = _services.GetFactory().create<Window>();
+        // load graphic settings
+        Util::CSVSettingsLoader settings(Services::GetPaths().RelativeResourcePath() + "config/initialWindow.paxconfig", '=', true);
+        std::string title = settings["PaxEngine3_DefaultTitle"];
+        int resX = settings.getInt("resolutionWidth");
+        int resY = settings.getInt("resolutionHeight");
+
+        _window = _services.GetFactory().create<Window>(title.c_str(), resX, resY);
 
         LOG(INFO) << "[ENGINE] initialize Renderer";
         _renderer.initialize();
+
+        LOG(INFO) << "[ENGINE] Plugins: postInitialize";
+        for (EnginePlugin *plugin : _plugins) {
+            plugin->postInitialize(*this);
+        }
 
         LOG(INFO) << "[ENGINE] initialize Game";
         _game->initialize();

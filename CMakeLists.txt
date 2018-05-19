@@ -253,7 +253,7 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/rendering/graphics/nodes/MeshNode.h
         include/core/rendering/graphics/SceneGraphGraphics.h
         include/demo/OpenGL/TerrainDemo.h
-        include/demo/OpenGL/OpenGLDemo.h
+        include/demo/SimpleDemo.h
         include/core/entity/component/behaviours/NoClipControls.h
         include/core/io/event/MouseMovedEvent.h
         include/utility/reflection/TemplateTypeToString.h

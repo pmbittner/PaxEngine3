@@ -20,8 +20,7 @@ namespace PAX {
             return SDL_WINDOW_RESIZABLE;
         }
 
-        bool SDLWindow::create(std::string title, int width, int height) {
-            LOG(INFO) << "Create SDL Window (" << title << ", (" << width << "/" << height << "))";
+        bool SDLWindow::create(const std::string& title, int width, int height) {
             _resolution.x = width;
             _resolution.y = height;
 
