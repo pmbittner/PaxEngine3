@@ -72,16 +72,17 @@ namespace PAX {
 
                 if (!parentNode)
                     parentNode = createChildOf(parentType, &_root);
-            } else if (!parentNode) {
+            } else {
                 if (node->parent != &_root) {
-                    // CONFLICT: Two supertypes but dont know which to use
-                    LOG(WARNING) << "TypeHierarchy::add: Ambiguity in types " << parentType.name() << " and " << node->parent->type.name() << "! Both are supertypes of " << type.name() << "!";
+                    // CONFLICT: Two supertypes but dont know which to use! node already has a parent!
+                    LOG(ERROR) << "TypeHierarchy::add: Ambiguity in types " << parentType.name() << " and " << node->parent->type.name() << "! Both are supertypes of " << type.name() << "! The new parent " << parentType.name() << " will be ignored!";
+                    return node;
                 }
 
-                Util::removeFromVector(node->parent->children, node);
-                parentNode = createChildOf(parentType, node->parent);
-            } else {
-                return node;
+                if (!parentNode) {
+                    Util::removeFromVector(node->parent->children, node);
+                    parentNode = createChildOf(parentType, node->parent);
+                }
             }
 
             parentNode->children.push_back(node);
