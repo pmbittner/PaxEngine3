@@ -12,7 +12,6 @@
 #include "core/rendering/RenderFactory.h"
 #include "core/event/EventService.h"
 #include "core/io/InputSystem.h"
-#include "core/EngineSetup.h"
 
 #include "Paths.h"
 #include "FactoryService.h"

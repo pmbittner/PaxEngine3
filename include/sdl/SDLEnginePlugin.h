@@ -12,7 +12,6 @@
 #include <sdl/utility/Path.h>
 #include <core/service/Services.h>
 //#include <SDL_ttf.h>
-#include "SDLEngineSetup.h"
 #include "SDLInputSystem.h"
 
 namespace PAX {

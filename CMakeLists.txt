@@ -166,8 +166,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/sdl/SDLInputSystem.h
         include/core/io/Window.h
         include/sdl/SDLWindow.h
-        include/core/EngineSetup.h
-        include/sdl/SDLEngineSetup.h
         include/core/rendering/camera/Camera.h
         include/sdl/SDLInputSystem.h
         include/test/trials/FriendTest.h
@@ -192,7 +190,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/time/Time.h
         include/sdl/opengl/SDLOpenGLWindow.h
         include/opengl/rendernodes/OpenGLRenderPass.h
-        include/sdl/opengl/SDLOpenGLEngineSetup.h
         include/core/rendering/Viewport.h
         include/opengl/OpenGLViewport.h
         include/core/rendering/graphics/nodes/TexturingNode.h

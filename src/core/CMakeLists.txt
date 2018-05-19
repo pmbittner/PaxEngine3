@@ -1,6 +1,5 @@
 set(CORE_SOURCE_FILES
         Engine.cpp
-        EngineSetup.cpp
         Game.cpp
 
         service/Services.cpp
