@@ -80,6 +80,8 @@ namespace PAX {
 
                 player->getTransform().setScale(5, 5);
 
+                Entity::EntityComponentTypes.prettyPrint();
+
                 return player;
             }
 
