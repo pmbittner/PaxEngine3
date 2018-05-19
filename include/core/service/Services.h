@@ -15,6 +15,7 @@
 #include "core/EngineSetup.h"
 
 #include "Paths.h"
+#include "FactoryService.h"
 
 namespace PAX {
     class Engine;
@@ -26,12 +27,12 @@ namespace PAX {
 
         TypeMap<void*> _registeredServices;
 
-        EventService _eventService;
         EntityComponentService _entityComponentService;
+        EventService _eventService;
+        FactoryService _factoryService;
         Resources _resources;
 
-        InputSystem* _inputSystem = nullptr;
-        RenderFactory* _renderFactory = nullptr;
+        std::shared_ptr<InputSystem> _inputSystem = nullptr;
 
         Paths _paths;
 
@@ -39,7 +40,7 @@ namespace PAX {
         Services();
         ~Services();
 
-        void initialize(EngineSetup *engineSetup);
+        void initialize();
 
     public:
         template<typename Service>
@@ -62,9 +63,9 @@ namespace PAX {
         static Services& Instance();
 
         static InputSystem* GetInput();
-        static RenderFactory* GetRenderFactory();
 
         static Resources& GetResources();
+        static FactoryService& GetFactory();
         static EntityComponentService& GetEntityComponentService();
         static EventService& GetEventService();
 

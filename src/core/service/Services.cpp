@@ -3,7 +3,6 @@
 //
 
 #include <core/service/Services.h>
-#include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
     Services* Services::_instance = nullptr;
@@ -13,17 +12,15 @@ namespace PAX {
     }
 
     Services::~Services() {
-        delete _renderFactory;
-        delete _inputSystem;
         _instance = nullptr;
     }
 
-    void Services::initialize(EngineSetup *engineSetup) {
-        _renderFactory = engineSetup->createRenderFactory();
-        PAX_assertNotNull(_renderFactory, "Engine::initialize: The given setup could not create a RenderFactory!");
+    void Services::initialize() {
+        //_renderFactory = engineSetup->createRenderFactory();
+        //PAX_assertNotNull(_renderFactory, "Engine::initialize: The given setup could not create a RenderFactory!");
 
-        _inputSystem = engineSetup->createInputSystem();
-        PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
+        _inputSystem = _factoryService.create<InputSystem>();
+        //PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
 
         _inputSystem->initialize();
     }
@@ -41,11 +38,12 @@ namespace PAX {
     }
 
     InputSystem* Services::GetInput() {
-        return Instance()._inputSystem;
+        // This may be wrong, but for now keep ownership.
+        return Instance()._inputSystem.get();
     }
 
-    RenderFactory * Services::GetRenderFactory() {
-        return Instance()._renderFactory;
+    FactoryService& Services::GetFactory() {
+        return Instance()._factoryService;
     }
 
     Resources& Services::GetResources() {

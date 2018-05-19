@@ -4,34 +4,37 @@
 
 #include <easylogging++.h>
 
-#include <test/ResourcesTest.h>
-#include <test/trials/AllocatorConstructorTest.h>
-#include <test/trials/InheritedTemplateTypeTest.h>
-#include <test/EntityTest.h>
 #include <demo/OpenGL/TerrainDemo.h>
-#include <utility/reflection/TemplateTypeToString.h>
 #include <demo/Platformer/PlatformerDemo.h>
+#include <sdl/opengl/SDLOpenGLEnginePlugin.h>
 
-#include "../include/EngineMain.h"
+#include <EngineMain.h>
 
-#include "../include/core/Engine.h"
-#include "../include/sdl/SDLEngineSetup.h"
-
-#include "../include/sdl/opengl/SDLOpenGLEngineSetup.h"
+#include <sdl/SDLEnginePlugin.h>
+#include <opengl/OpenGLEnginePlugin.h>
+#include <opengl/OpenGL2DEnginePlugin.h>
+#include <sdl/opengl/SDLOpenGLEngineSetup.h>
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
 
-    SDL::OpenGL::SDLOpenGLEngineSetup setup;
-
     Platformer::PlatformerDemo game;
-    //Demo::OpenGLDemo game;
+
+    PAX::SDL::SDLEnginePlugin               sdl;
+    PAX::OpenGL::OpenGLEnginePlugin         openGL;
+    PAX::OpenGL::OpenGL2DEnginePlugin       openGL2DFeatures;
+    PAX::SDL::OpenGL::SDLOpenGLEnginePlugin sdlOpenGLLink;
 
     Engine &engine = Engine::Instance();
-    engine.initialize(&setup, &game);
-    /*
-    PAX::TEST::ENTITY::test();
-    //*/
+    engine.initialize(
+            &game,
+            {
+                    &sdl,
+                    &openGL,
+                    &openGL2DFeatures,
+                    &sdlOpenGLLink
+            }
+    );
     exitcode = engine.run();
 
     return exitcode;

@@ -22,5 +22,5 @@ add_library(paxopengl
         resource/OpenGLShader.cpp
         resource/OpenGLShaderLoader.cpp
         resource/NullOpenGLTextureLoader.cpp
-        resource/OpenGLSpriteSheet.cpp utility/Error.cpp)
+        resource/OpenGLSpriteSheet.cpp utility/Error.cpp OpenGLEnginePlugin.cpp OpenGL2DEnginePlugin.cpp)
 target_link_libraries(paxopengl ${OPENGL_LIBRARIES} ${GLEW_LIBRARY}) #${FreeImage_LIBRARIES} #${SDL2_TTF_LIBRARIES})

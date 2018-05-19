@@ -32,12 +32,12 @@ namespace PAX {
         EventService _localEventService;
         WorldLayerLayout *_layout = nullptr;
 
-        WorldLayerSceneGraph *_sceneGraph;
-        SceneGraphGenerator *_sceneGraphGenerator;
+        std::shared_ptr<WorldLayerSceneGraph> _sceneGraph;
+        std::shared_ptr<SceneGraphGenerator> _sceneGraphGenerator;
         std::vector<Entity*> _entities;
 
     public:
-        WorldLayer(std::string name, float z = 0, SceneGraphGenerator *sceneGraphGenerator = Services::GetRenderFactory()->createDefaultSceneGraphGenerator());
+        WorldLayer(std::string name, float z = 0, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator = Services::GetFactory().create<SceneGraphGenerator>());
         ~WorldLayer();
 
         void spawn(Entity *entity);

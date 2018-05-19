@@ -11,12 +11,12 @@
 
 namespace PAX {
     class MeshNode : public SceneGraph, public Shaded {
-        Mesh *_mesh;
+        std::shared_ptr<Mesh> _mesh;
 
     public:
-        MeshNode(Mesh *mesh);
+        MeshNode(std::shared_ptr<Mesh> mesh);
 
-        Mesh *getMesh() const;
+        std::shared_ptr<Mesh> getMesh() const;
 
         virtual void render(RenderOptions &options) override;
         virtual void registerFlags(Shader::Flags &flags);

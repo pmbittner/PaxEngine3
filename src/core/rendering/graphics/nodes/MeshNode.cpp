@@ -6,7 +6,7 @@
 #include <core/rendering/camera/Camera.h>
 
 namespace PAX {
-    MeshNode::MeshNode(Mesh *mesh) : _mesh(mesh) {
+    MeshNode::MeshNode(std::shared_ptr<Mesh> mesh) : _mesh(mesh) {
         PAX_assertNotNull(mesh, "Mesh can't be null!")
     }
 
@@ -28,7 +28,7 @@ namespace PAX {
         SceneGraph::render(renderOptions);
     }
 
-    Mesh *MeshNode::getMesh() const {
+    std::shared_ptr<Mesh> MeshNode::getMesh() const {
         return _mesh;
     }
 

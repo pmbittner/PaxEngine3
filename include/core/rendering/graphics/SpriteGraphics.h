@@ -17,8 +17,8 @@ namespace PAX {
     class SpriteGraphics : public SceneGraphGraphics {
         PAX_ENTITYCOMPONENT_BODY
 
-        static Mesh* QuadMesh;
-        static Mesh *GetMesh();
+        static std::shared_ptr<Mesh> QuadMesh;
+        static std::shared_ptr<Mesh> GetMesh();
 
     protected:
         TransformationNode _trafoNode;

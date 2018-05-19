@@ -81,6 +81,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_FLAGS}")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${PLATFORM_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${PLATFORM_FLAGS_RELEASE}")
 
+set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
+
 message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
 message("CMAKE_CXX_FLAGS_DEBUG  : ${CMAKE_CXX_FLAGS_DEBUG}")
 message("CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
@@ -288,7 +290,13 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/demo/Platformer/FollowEntityBehaviour.h
         include/physics/box2d/Box2DPhysicsSystem.h
         include/physics/box2d/Box2DPhysics.h
-        include/physics/Physics.h include/physics/box2d/Box2DUtils.h include/core/entity/component/Size.h include/core/entity/event/SizeChangedEvent.h include/core/entity/event/ScaleChangedEvent.h include/utility/math/BoundingBox.h)
+        include/physics/Physics.h include/physics/box2d/Box2DUtils.h
+        include/core/entity/component/Size.h
+        include/core/entity/event/SizeChangedEvent.h
+        include/core/entity/event/ScaleChangedEvent.h
+        include/utility/math/BoundingBox.h
+        include/core/service/FactoryService.h
+        include/core/EnginePlugin.h include/opengl/OpenGLEnginePlugin.h include/sdl/opengl/SDLOpenGLEnginePlugin.h include/opengl/factory/OpenGLMeshFactory.h include/core/service/Factory.h include/opengl/OpenGL2DEnginePlugin.h)
 
 ### API INCLUDES ########################################
 

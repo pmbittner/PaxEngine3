@@ -3,19 +3,16 @@
 //
 
 #include <algorithm>
-#include "../../../include/core/world/WorldLayer.h"
-#include "../../../include/core/Engine.h"
+#include <core/world/WorldLayer.h>
 
 namespace PAX {
-    WorldLayer::WorldLayer(std::string name, float z, SceneGraphGenerator *sceneGraphGenerator) : _name(name), _sceneGraphGenerator(sceneGraphGenerator) {
+    WorldLayer::WorldLayer(std::string name, float z, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator) : _name(name), _sceneGraphGenerator(sceneGraphGenerator) {
         assert(sceneGraphGenerator);
-        _sceneGraph = Services::GetRenderFactory()->createSceneGraphNodeFor(this, z);
-        _sceneGraphGenerator->initialize(_sceneGraph, _localEventService);
+        _sceneGraph = Services::GetFactory().create<WorldLayerSceneGraph>(this, z);
+        _sceneGraphGenerator->initialize(_sceneGraph.get(), _localEventService);
     }
 
-    WorldLayer::~WorldLayer() {
-        delete _sceneGraphGenerator;
-    }
+    WorldLayer::~WorldLayer() {}
 
     void WorldLayer::spawn(Entity *entity) {
         assert(entity->_worldLayer == nullptr);
@@ -61,7 +58,8 @@ namespace PAX {
     }
 
     WorldLayerSceneGraph* WorldLayer::getSceneGraph() {
-        return _sceneGraph;
+        // May be wrong for now, but I am a noob with shared pointers.
+        return _sceneGraph.get();
     }
 
     std::string WorldLayer::getName() {

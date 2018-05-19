@@ -9,9 +9,9 @@
 #include <core/entity/component/Size.h>
 
 namespace PAX {
-    Mesh *SpriteGraphics::QuadMesh = nullptr;
+    std::shared_ptr<Mesh> SpriteGraphics::QuadMesh = nullptr;
 
-    Mesh* SpriteGraphics::GetMesh() {
+    std::shared_ptr<Mesh> SpriteGraphics::GetMesh() {
         if (!QuadMesh) {
             std::vector<glm::vec3> vertices = {
                     {-0.5f,  0.5f, 0},  // V0
@@ -32,7 +32,7 @@ namespace PAX {
                     {1, 0}
             };
 
-            QuadMesh = Services::GetRenderFactory()->createMesh(vertices, indices);
+            QuadMesh = Services::GetFactory().create<Mesh>(&vertices, &indices);
             QuadMesh->addAttribute(texCoords);
             QuadMesh->finalize();
             QuadMesh->upload();

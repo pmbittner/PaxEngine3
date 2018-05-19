@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_MAIN_H
 #define PAXENGINE3_MAIN_H
 
-#include "../core/rendering/Renderer.h"
-#include "io/Window.h"
-#include "EngineSetup.h"
-#include "core/service/Services.h"
+#include <core/service/Services.h>
+#include <core/io/Window.h>
+#include <core/rendering/Renderer.h>
 
 namespace PAX {
     class Game;
+    class EnginePlugin;
 
     class Engine {
     private:
@@ -21,7 +21,7 @@ namespace PAX {
         bool _running {false};
 
         // constraint: _targetFPS <= _targetUPS
-        double _targetFPS = 100;
+        double _targetFPS = 60;
         double _targetUPS = 100;
 
         double _actualFPS;
@@ -31,8 +31,9 @@ namespace PAX {
         Services _services;
         Renderer _renderer;
         Game *_game = nullptr;
+        std::vector<EnginePlugin*> _plugins;
 
-        Window *_window = nullptr;
+        std::shared_ptr<Window> _window = nullptr;
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
@@ -43,7 +44,7 @@ namespace PAX {
 
     public:
         /// Takes ownership of game
-        bool initialize(EngineSetup* setup, Game* game);
+        bool initialize(Game* game, const std::vector<EnginePlugin*> &plugins);
         int run();
         void stop();
 
