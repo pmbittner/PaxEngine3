@@ -206,7 +206,7 @@ namespace PAX {
                 _world->getMainLayer()->spawn(_player);
                 LOG(INFO) << "PlatformerDemo: spawn Camera";
                 _world->getMainLayer()->spawn(_camera);
-                //createEnvironment();
+                createEnvironment();
 
                 setActiveWorld(_world);
             }
