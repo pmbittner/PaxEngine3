@@ -37,7 +37,6 @@ namespace PAX {
         std::vector<Entity*> _entities;
 
     public:
-        WorldLayer();
         WorldLayer(std::string name, float z = 0, SceneGraphGenerator *sceneGraphGenerator = Services::GetRenderFactory()->createDefaultSceneGraphGenerator());
         ~WorldLayer();
 
