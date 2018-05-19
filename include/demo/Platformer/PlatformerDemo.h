@@ -63,8 +63,6 @@ namespace PAX {
                         Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.frag"
                 );
 
-                std::cout << playerGraphics->getShaderFlags().VertexFlags << std::endl;
-
                 spriteShader->upload();
                 spriteSheetShader->upload();
 
@@ -82,8 +80,6 @@ namespace PAX {
                 player->add(s.create<PlayerSpriteAnimation>());
 
                 player->getTransform().setScale(5, 5);
-
-                Entity::EntityComponentTypes.prettyPrint();
 
                 return player;
             }
@@ -122,6 +118,7 @@ namespace PAX {
                     SpriteGraphics* g = s.create<SpriteGraphics>(tex);
                     g->setShader(spriteShader);
                     block->add(g);
+
                     block->getTransform().x() = x;
                     block->getTransform().setScale(scale, scale);
 
@@ -129,6 +126,10 @@ namespace PAX {
 
                     tex = centerBlockTexture;
                 }
+
+                platform->add(s.create<Size>(glm::vec3(0, 0, 1)));
+                FloatBoundingBox3D platformBoundingBox = platform->get<Size>()->toAbsoluteBoundingBox();
+                platformBoundingBox.print();
 
                 return platform;
             }

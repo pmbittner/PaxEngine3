@@ -69,7 +69,11 @@ namespace PAX {
         if (Entity *owner = getOwner()) {
             for (Entity* child : owner->getChildren()) {
                 if (Size* s = child->get<Size>()) {
-                    box += s->toAbsoluteBoundingBox();
+                    FloatBoundingBox3D childBox = s->toAbsoluteBoundingBox();
+                    // add childs translation and ignore rotation
+                    glm::vec3 pos = child->getTransform().getPosition();
+                    childBox.translate(&pos[0]);
+                    box += childBox;
                 }
             }
         }
