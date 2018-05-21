@@ -69,6 +69,7 @@ if (WIN32)
 elseif(UNIX)
     message("Set flags for UNIX")
     set(PLATFORM_FLAGS "${PLATFORM_FLAGS} -std=c++11")
+    set(PLATFORM_FLAGS_DEBUG "${PLATFORM_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 else(WIN32) # condition for nested if
     message(WARNING "Platform not specified. Correct behaviour not guaranteed.")
 endif(WIN32) # condition for nested if
@@ -80,8 +81,6 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${PLATFORM_FLAGS}")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${PLATFORM_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${PLATFORM_FLAGS_RELEASE}")
-
-set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 
 message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
 message("CMAKE_CXX_FLAGS_DEBUG  : ${CMAKE_CXX_FLAGS_DEBUG}")
@@ -253,7 +252,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/rendering/graphics/nodes/MeshNode.h
         include/core/rendering/graphics/SceneGraphGraphics.h
         include/demo/OpenGL/TerrainDemo.h
-        include/demo/SimpleDemo.h
         include/core/entity/component/behaviours/NoClipControls.h
         include/core/io/event/MouseMovedEvent.h
         include/utility/reflection/TemplateTypeToString.h
@@ -287,13 +285,19 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/demo/Platformer/FollowEntityBehaviour.h
         include/physics/box2d/Box2DPhysicsSystem.h
         include/physics/box2d/Box2DPhysics.h
-        include/physics/Physics.h include/physics/box2d/Box2DUtils.h
+        include/physics/Physics.h
+        include/physics/box2d/Box2DUtils.h
         include/core/entity/component/Size.h
         include/core/entity/event/SizeChangedEvent.h
         include/core/entity/event/ScaleChangedEvent.h
         include/utility/math/BoundingBox.h
         include/core/service/FactoryService.h
-        include/core/EnginePlugin.h include/opengl/OpenGLEnginePlugin.h include/sdl/opengl/SDLOpenGLEnginePlugin.h include/opengl/factory/OpenGLMeshFactory.h include/core/service/Factory.h include/opengl/OpenGL2DEnginePlugin.h)
+        include/core/EnginePlugin.h
+        include/opengl/OpenGLEnginePlugin.h
+        include/sdl/opengl/SDLOpenGLEnginePlugin.h
+        include/opengl/factory/OpenGLMeshFactory.h
+        include/core/service/Factory.h
+        include/opengl/OpenGL2DEnginePlugin.h)
 
 ### API INCLUDES ########################################
 
