@@ -11,7 +11,7 @@ namespace PAX {
         }
 
         void OpenGLEnginePlugin::initialize(Engine &engine) {
-            LOG(INFO) << "    OpenGL2DEnginePlugin initialize";
+            LOG(INFO) << "    OpenGLEnginePlugin initialize";
         }
 
         void OpenGLEnginePlugin::registerResourceLoaders(Resources &resources) {
