@@ -137,7 +137,7 @@ namespace PAX {
             void createEnvironment() {
                 LOG(INFO) << "PlatformerDemo: create Environment";
                 EntityComponentService& s = Services::GetEntityComponentService();
-                glm::vec2 resolution = Engine::Instance().getWindow()->getResolution();
+                glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
                 std::string imgPath = Services::GetPaths().RelativeResourcePath() + "img/Platformer/";
 
