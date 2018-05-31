@@ -54,6 +54,13 @@ namespace PAX {
             }
         }
 
+        void translate(Type point[dimensions]) {
+            for (int i = 0; i < dimensions; ++i) {
+                from[i] += point[i];
+                to[i] += point[i];
+            }
+        }
+
         Type getLength(int i) {
             return to[i] - from[i];
         }
