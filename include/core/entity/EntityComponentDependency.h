@@ -19,7 +19,7 @@ namespace PAX {
         }
     };
 
-    // Entity::has always needs arguments
+    // Entity::has always needs arguments (see implementation of met
     template<>
     class EntityComponentDependency<> : public Dependency<Entity> {
 
