@@ -77,8 +77,11 @@ namespace PAX {
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
+                LOG(INFO) << "PlatformerDemo: Player add VelocityBehaviour";
                 player->add(s.create<VelocityBehaviour>());
+                LOG(INFO) << "PlatformerDemo: Player add PlayerControls";
                 player->add(s.create<PlayerControls>());
+                LOG(INFO) << "PlatformerDemo: Player add PlayerSpriteAnimation";
                 player->add(s.create<PlayerSpriteAnimation>());
 
                 player->getTransform().setScale(5, 5);

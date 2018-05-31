@@ -15,10 +15,9 @@
 #include "VelocityBehaviour.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(PlayerControls, Behaviour, false)
     class PlayerControls : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY
-        PAX_ENTITYCOMPONENT_DEPENDS_ON(Behaviour, VelocityBehaviour)
+        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+        PAX_ENTITYCOMPONENT_DEPENDS_ON(VelocityBehaviour)
 
         enum Direction {
             Left  = -1,

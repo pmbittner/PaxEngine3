@@ -11,9 +11,8 @@
 #include <utility/math/BoundingBox.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(Size, EntityComponent, false)
     class Size : public EntityComponent {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
 
         union {
             glm::vec2 _size2D;

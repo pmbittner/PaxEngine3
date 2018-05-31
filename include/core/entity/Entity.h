@@ -10,8 +10,6 @@
 #include <typeindex>
 #include <algorithm>
 
-#include "EntityComponentProperties.h"
-
 #include "Transform.h"
 
 #include <utility/datastructures/TypeMap.h>
@@ -35,7 +33,6 @@ namespace PAX {
     class World;
     class WorldLayer;
     class EntityComponent;
-
     namespace Generated {
         class EntityComponentTypeHierarchyEventBroker;
     }
@@ -97,13 +94,13 @@ namespace PAX {
         bool add(EntityComponent* component);
         bool remove(EntityComponent* component);
 
-        template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
         typename std::enable_if<!multi, bool>::type
         has() const {
             return _singleComponents.contains<ComponentClass>();
         }
 
-        template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
         typename std::enable_if<multi, bool>::type
         has() const {
             return _multipleComponents.contains<ComponentClass>();
@@ -120,7 +117,7 @@ namespace PAX {
             return true;
         }
 
-        template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
         typename std::enable_if<!multi, ComponentClass*>::type
         get() {
             if (_singleComponents.contains<ComponentClass>())
@@ -129,7 +126,7 @@ namespace PAX {
                 return nullptr;
         }
 
-        template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
         typename std::enable_if<multi, const std::vector<ComponentClass*>&>::type
         get() {
             if (_multipleComponents.contains<ComponentClass>())
@@ -138,7 +135,7 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyEntityComponentVector);
         }
 
-        template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
         typename std::enable_if<!multi, ComponentClass*>::type
         removeAll() {
             if (_singleComponents.contains<ComponentClass>()) {
@@ -149,7 +146,7 @@ namespace PAX {
             return nullptr;
         }
 
-        template <class ComponentClass, bool multi = EntityComponentProperties<ComponentClass>::IsMultiple()>
+        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
         typename std::enable_if<multi, const std::vector<ComponentClass*>&>::type
         removeAll() {
             if (_multipleComponents.contains<ComponentClass>()) {

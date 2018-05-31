@@ -10,13 +10,8 @@
 
 namespace PAX {
     namespace Box2D {
-        class Physics;
-    }
-
-    PAX_ENTITYCOMPONENT(Box2D::Physics, PAX::Physics, true)
-    namespace Box2D {
         class Physics : public PAX::Physics {
-            PAX_ENTITYCOMPONENT_BODY
+            PAX_ENTITYCOMPONENT_BODY(PAX::Physics, true)
 
             b2BodyDef _bodyDef;
             b2FixtureDef _fixtureDef;

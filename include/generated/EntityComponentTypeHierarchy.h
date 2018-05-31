@@ -15,9 +15,6 @@ namespace PAX {
             static TypeMap<void (*)(Entity*, EntityComponent*)> OnEntityComponentDetached;
             static TypeMap<bool> IsMultiple;
 
-            static bool checkMultiplicity(const std::type_index& type, TypeMap<bool> &isTypeMultiple);
-            static void createEntityComponentTypeHierarchy();
-
         public:
             static void initialize();
         };

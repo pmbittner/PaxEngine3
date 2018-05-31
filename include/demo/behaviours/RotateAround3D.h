@@ -9,9 +9,8 @@
 #include "../../core/entity/Entity.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(RotateAround3D, Behaviour, true)
     class RotateAround3D : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(Behaviour, true)
 
         glm::vec3 _impulse;
     public:

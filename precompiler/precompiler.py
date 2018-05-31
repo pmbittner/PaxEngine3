@@ -1,13 +1,13 @@
 import os
 import re
 
+import paxnamespace
+import paxfilewriter
+
 # Version with class/struct definition parser
 #EntityComponentRegex = ".*(PAX_ENTITYCOMPONENT)\((\s*[a-zA-Z]+\s*)(,\s*[a-zA-Z]+\s*)*\)\s+(class|struct)\s+(?P<Type>[a-zA-Z]+)\s*:\s*(?P<Parents>([a-zA-Z\s]+)(\s*,\s*([a-zA-Z\s]+))*).*"
-EntityComponentRegex = "PAX_ENTITYCOMPONENT\(\s*(?P<Type>[:a-zA-Z0-9]+)\s*,\s*(?P<Parent>[:a-zA-Z0-9]+)\s*,\s*(?P<IsMultiple>[a-zA-Z]+)\s*\)"
-
-
-def createindent(level):
-    return "    " * level
+#EntityComponentRegex = "PAX_ENTITYCOMPONENT\(\s*(?P<Type>[:a-zA-Z0-9]+)\s*,\s*(?P<Parent>[:a-zA-Z0-9]+)\s*,\s*(?P<IsMultiple>[a-zA-Z]+)\s*\)"
+EntityComponentBodyRegex = "(struct|class)\s(?P<Type>[:a-zA-Z0-9]+)\s:[a-zA-Z0-9\s,:]*\s{([a-zA-Z0-9\s,;\(\):=&\*])*PAX_ENTITYCOMPONENT_BODY\(\s*(?P<Parent>[:a-zA-Z0-9]+)\s*,\s*(?P<IsMultiple>[a-zA-Z]+)\s*\)"
 
 
 class EntityComponent:
@@ -15,28 +15,6 @@ class EntityComponent:
         self.name = name
         self.ismultiple = ismultiple
         self.nameWithoutNamespaces = name.replace("::", "__ns__")
-
-
-class FileWriter:
-    def __init__(self, file, linebreak="\n"):
-        self.file = file
-        self.lb = linebreak
-        self.indentCount = 0
-        self.indent = createindent(self.indentCount)
-
-    def incrementIndent(self):
-        self.indentCount += 1
-        self.indent = createindent(self.indentCount)
-
-    def decrementIndent(self):
-        self.indentCount -= 1
-        self.indent = createindent(self.indentCount)
-
-    def writeLine(self, text):
-        self.file.write(self.indent + text + self.lb)
-
-    def close(self):
-        self.file.close()
 
 
 class GenerationData:
@@ -60,7 +38,7 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
                 headerFile = open(file_path, "r")
                 code = headerFile.read()
 
-                if "PAX_ENTITYCOMPONENT" in code:
+                if "PAX_ENTITYCOMPONENT_BODY" in code:
                     m = entityComponentRegexPattern.search(code)
                     if m is not None:
                         ecType = m.group("Type").strip()
@@ -68,9 +46,22 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
                         ecIsMultiple = m.group("IsMultiple").strip()
                         print("Inheritance found:", ecType, "inherits", ecParent)
 
-                        ecomp = EntityComponent(ecType, ecIsMultiple)
+                        # Search for namespaces
+                        enamespace = paxnamespace.getNamespace(code, ecType)
+                        if (enamespace.startswith("PAX")):
+                            enamespace = enamespace[3:]
+                            if enamespace.startswith("::"):
+                                enamespace = enamespace[2:]
+
+                        ecFullQualifiedName = ecType
+                        if enamespace:
+                            ecFullQualifiedName = enamespace + "::" + ecFullQualifiedName
+
+                        ecomp = EntityComponent(ecFullQualifiedName, ecIsMultiple)
+                        ecomp.namespace = enamespace
+                        ecomp.fullQualifiedName = ecFullQualifiedName
                         entityComponents.append(ecomp)
-                        entityComponentInheritances.append((ecType, ecParent))
+                        entityComponentInheritances.append((ecFullQualifiedName, ecParent))
 
                         includes.append(file_path.replace(precompilationDirectory, ""))
 
@@ -98,7 +89,7 @@ def generateEventHandlers(file, ecomp):
 
 if __name__ == "__main__":
     print("PRECOMPILER Start")
-    entityComponentRegexPattern = re.compile(EntityComponentRegex, re.MULTILINE)
+    entityComponentRegexPattern = re.compile(EntityComponentBodyRegex, re.MULTILINE)
     myPath = os.path.realpath(__file__)
 
     precompilationDirectory = os.path.dirname(myPath) + "/../include/"
@@ -114,12 +105,12 @@ if __name__ == "__main__":
     print("Generating source file", targetFile)
     print()
 
-    outFile = FileWriter(open(targetFile, "w"))
+    outFile = paxfilewriter.FileWriter(open(targetFile, "w"))
 
     for include in genData.includes:
         outFile.writeLine("#include <" + include.replace("\\", "/") + ">")
 
-    knownTypes = ["EntityComponent"]
+    knownTypes = ["EntityComponent", "PAX::EntityComponent"]
     inheritancePairs = []
     sortedInheritancePairs = []
 
@@ -181,14 +172,8 @@ if __name__ == "__main__":
         print("Wrote inheritance", etype, "->", eparent)
 
     outFile.writeLine("")
-    outFile.writeLine("TypeMap<bool> IsMultipleTemp;")
     for entityComponent in genData.entityComponents:
-        outFile.writeLine("IsMultipleTemp.put(" + getCppTypeOf(entityComponent.name) + ", " + entityComponent.ismultiple + ");")
-    outFile.writeLine("for (const std::pair<std::type_index, bool>& entry : IsMultipleTemp) {")
-    outFile.incrementIndent()
-    outFile.writeLine("IsMultiple.put(entry.first, checkMultiplicity(entry.first, IsMultipleTemp));")
-    outFile.decrementIndent()
-    outFile.writeLine("}")
+        outFile.writeLine("IsMultiple.put(" + getCppTypeOf(entityComponent.name) + ", " + entityComponent.name + "::IsMultiple());")
 
     outFile.decrementIndent()
     outFile.writeLine("}")  # void createEntityComponentTypeHierarchy()

@@ -9,6 +9,8 @@ set(CORE_SOURCE_FILES
         entity/EntityComponent.cpp
         entity/Transform.cpp
         entity/component/behaviours/NoClipControls.cpp
+        entity/component/Behaviour.cpp
+        entity/component/Size.cpp
 
         world/World.cpp
         world/WorldLayer.cpp
@@ -20,8 +22,7 @@ set(CORE_SOURCE_FILES
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
 
-        time/Time.cpp
-        ../test/ResourceTest.cpp entity/component/Behaviour.cpp entity/component/Size.cpp)
+        time/Time.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

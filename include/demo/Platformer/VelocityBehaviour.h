@@ -11,9 +11,8 @@
 #include <core/time/Time.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(VelocityBehaviour, Behaviour, false)
     class VelocityBehaviour : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
 
     public:
         glm::vec2 velocity = glm::vec2(0);

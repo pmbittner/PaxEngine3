@@ -13,9 +13,8 @@
 #include <core/entity/event/SizeChangedEvent.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(SpriteGraphics, SceneGraphGraphics, false)
     class SpriteGraphics : public SceneGraphGraphics {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(SceneGraphGraphics, false)
 
         static std::shared_ptr<Mesh> QuadMesh;
         static std::shared_ptr<Mesh> GetMesh();

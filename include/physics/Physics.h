@@ -8,9 +8,8 @@
 #include <core/entity/EntityComponent.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(Physics, EntityComponent, true)
     class Physics : public EntityComponent {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
 
     public:
         Physics();

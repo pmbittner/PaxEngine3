@@ -8,9 +8,8 @@
 #include "core/rendering/Graphics.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(SceneGraphGraphics, Graphics, false)
     class SceneGraphGraphics : public Graphics {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(Graphics, false)
     protected:
         SceneGraph _scenegraph;
 

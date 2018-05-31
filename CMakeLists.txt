@@ -274,7 +274,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/rendering/graphics/SpriteGraphics.h
         include/core/rendering/resource/Shaded.h
         include/core/rendering/graphics/nodes/SpriteSheetNode.h
-        include/core/entity/EntityComponentProperties.h
         include/utility/macros/BuildType.h
         include/demo/Platformer/PlayerSpriteAnimation.h
         include/utility/reflection/TypeInfo.h

@@ -14,10 +14,8 @@
 #include "../RenderOptions.h"
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(Camera, EntityComponent, false)
     class Camera : public EntityComponent, public SceneGraph {
-
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
 
         glm::mat4 _viewMatrix;
         Viewport *_viewport;

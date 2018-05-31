@@ -11,10 +11,9 @@
 #include <utility/math/Functions.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(PlayerSpriteAnimation, Behaviour, false)
     class PlayerSpriteAnimation : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY
-        PAX_ENTITYCOMPONENT_DEPENDS_ON(Behaviour, SpriteSheetGraphics, VelocityBehaviour)
+        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+        PAX_ENTITYCOMPONENT_DEPENDS_ON(SpriteSheetGraphics, VelocityBehaviour)
 
         Animation<int> walkingAnimation;
         Animation<int> idleAnimation;

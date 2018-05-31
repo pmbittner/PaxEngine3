@@ -8,9 +8,8 @@
 #include <core/entity/component/Behaviour.h>
 
 namespace PAX {
-    PAX_ENTITYCOMPONENT(FollowEntityBehaviour, Behaviour, false)
     class FollowEntityBehaviour : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY
+        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
 
         Entity *target = nullptr;
 

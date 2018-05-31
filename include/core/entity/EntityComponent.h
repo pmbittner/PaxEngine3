@@ -6,31 +6,17 @@
 #define PAXENGINE3_ENTITYCOMPONENT_H
 
 #include <typeindex>
-
 #include "EntityComponentDependency.h"
-#include "EntityComponentProperties.h"
-
-#include <utility/macros/BuildType.h>
-
-#ifdef PAX_DEBUG
-#define PAX_EntityComponentProperties_DebugInfo void DEBUG_INFO___EntityComponentProperties_Missing___Use_The_Macros_In_EntityComponentH_to_Annotate_Your_Components() {}
-#else
-#define PAX_EntityComponentProperties_DebugInfo
-#endif
-
-#define PAX_ENTITYCOMPONENT(Type, Parent, bool_multiple) \
-class Type; \
-template<> \
-struct EntityComponentProperties<Type> { \
-    static constexpr bool IsMultiple() { return bool_multiple; } \
-};
 
 namespace PAX {
     class Entity;
+    class EntityComponent;
 
-    PAX_ENTITYCOMPONENT(EntityComponent, void, true)
     class EntityComponent {
         friend class Entity;
+
+    public:
+        static constexpr bool IsMultiple() { return true; }
 
     private:
         Entity *_owner = nullptr;
@@ -50,29 +36,23 @@ namespace PAX {
     };
 }
 
-#undef PAX_ENTITYCOMPONENT
-
-#define PAX_ENTITYCOMPONENT(Type, Parent, bool_multiple) \
-class Type; \
-template<> \
-struct EntityComponentProperties<Type> { \
-    static constexpr bool IsMultiple() { return PAX::EntityComponentProperties<Parent>::IsMultiple() && bool_multiple; } \
-    PAX_EntityComponentProperties_DebugInfo \
-};
-
-#define PAX_ENTITYCOMPONENT_BODY \
+#define PAX_ENTITYCOMPONENT_BODY(Parent, bool_multiple) \
+private: \
+    typedef Parent Super;\
 protected: \
     virtual const std::type_index& getClassType() const override { \
         static std::type_index myType = typeid(*this); \
         return myType; \
     } \
+public: \
+    static constexpr bool IsMultiple() { return Super::IsMultiple() && (bool_multiple); } \
 private:
 
-#define PAX_ENTITYCOMPONENT_DEPENDS_ON(Parent, ...) \
+#define PAX_ENTITYCOMPONENT_DEPENDS_ON(...) \
 protected: \
     virtual bool checkDependenciesFor(const Entity* entity) const override { \
         static PAX::EntityComponentDependency<__VA_ARGS__> dependencies; \
-        return Parent::checkDependenciesFor(entity) && dependencies.met(entity); \
+        return Super::checkDependenciesFor(entity) && dependencies.met(entity); \
     } \
 private:
 
