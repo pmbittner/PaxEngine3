@@ -103,6 +103,7 @@ if __name__ == "__main__":
 
         if len(sys.argv) > 4:
             className = sys.argv[4]
+            pluginHeaderIncludePath = className + ".h"
 
             if len(sys.argv) > 5:
                 pluginHeaderIncludePath = sys.argv[5]

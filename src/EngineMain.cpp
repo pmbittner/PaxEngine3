@@ -4,15 +4,14 @@
 
 #include <easylogging++.h>
 
-#include <demo/OpenGL/TerrainDemo.h>
 #include <demo/Platformer/PlatformerDemo.h>
 
 #include <EngineMain.h>
 
-#include <sdl/SDLEnginePlugin.h>
-#include <sdl/opengl/SDLOpenGLEnginePlugin.h>
-#include <opengl/OpenGLEnginePlugin.h>
-#include <opengl/OpenGL2DEnginePlugin.h>
+#include <sdl/include/SDLEnginePlugin.h>
+#include <sdl/include/opengl/SDLOpenGLEnginePlugin.h>
+#include <opengl/include/OpenGLEnginePlugin.h>
+#include <opengl/include/OpenGL2DEnginePlugin.h>
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;

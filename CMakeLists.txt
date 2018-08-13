@@ -97,6 +97,7 @@ endif()
 ### SOURCE FILES ########################################
 
 include_directories(include)
+include_directories(plugins)
 
 set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp)
 
@@ -144,9 +145,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/test/trials/TrafoUnionTest.h
         include/test/trials/PrivateHackTest.h
 
-        include/sdl/utility/Path.h
-        include/sdl/utility/SDLImageLoader.h
-
         include/demo/behaviours/RotateAround3D.h
         include/demo/behaviours/Dance2D.h
         include/demo/OpenGL/Cube.h
@@ -162,11 +160,8 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/entity/event/EntityComponentAddedEvent.h
         include/core/entity/event/EntityComponentEvent.h
         include/core/entity/event/EntityComponentRemovedEvent.h
-        include/sdl/SDLInputSystem.h
         include/core/io/Window.h
-        include/sdl/SDLWindow.h
         include/core/rendering/camera/Camera.h
-        include/sdl/SDLInputSystem.h
         include/test/trials/FriendTest.h
         include/test/trials/InheritanceTest.h
         include/utility/stdutils/CollectionUtils.h
@@ -176,8 +171,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/event/EventHandler.h
         include/core/entity/event/EntityParentChangedEvent.h
         include/test/trials/StaticMember.h
-        include/sdl/SDLRenderPass.h
-        include/sdl/SDLKeyboard.h
         include/test/trials/SpecializedFunctionWithDifferentReturType.h
         include/utility/macros/MacroIncludes.h
         include/core/system/BehaviourSystem.h
@@ -187,24 +180,14 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/io/event/MouseButtonReleasedEvent.h
         include/core/io/event/MouseButtonEvent.h
         include/core/time/Time.h
-        include/sdl/opengl/SDLOpenGLWindow.h
-        include/opengl/rendernodes/OpenGLRenderPass.h
         include/core/rendering/Viewport.h
-        include/opengl/OpenGLViewport.h
         include/core/rendering/graphics/nodes/TexturingNode.h
         include/core/rendering/resource/Mesh.h
         include/core/rendering/resource/Texture.h
-        include/opengl/resource/OpenGLTexture2D.h
-        include/opengl/resource/OpenGLMesh.h
-        include/opengl/resource/OpenGLShader.h
         include/core/rendering/camera/Projection.h
         include/core/rendering/camera/PerspectiveProjection.h
         include/core/rendering/RenderOptions.h
-        include/opengl/deprecated/test.h
-        include/opengl/rendernodes/OpenGLWorldLayerRenderPass.h
         include/core/rendering/RenderFactory.h
-        include/opengl/OpenGLRenderFactory.h
-        include/opengl/OpenGLMacros.h
         include/utility/io/CSVSettingsLoader.h
         include/utility/io/CSVRow.h
         include/utility/StringUtils.h
@@ -226,12 +209,8 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/rendering/event/ShaderChangedEvent.h
         include/core/rendering/scenegraph/nodes/ShadingNode.h
         include/core/rendering/event/GraphicsShaderChangedEvent.h
-        include/opengl/resource/OpenGLShaderLoader.h
-        include/opengl/io/FreeImageOpenGLTextureLoader.h
-        include/sdl/opengl/SDLImageOpenGLTextureLoader.h
         include/utility/io/FormatChecker.h
         include/core/rendering/scenegraph/SceneGraph.h
-        include/opengl/resource/NullOpenGLTextureLoader.h
         include/utility/math/Conversion.h
         include/generation/terrain/TerrainGenerator.h
         include/generation/terrain/Terrain.h
@@ -267,9 +246,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h
         include/core/world/scenegraph/WorldLayerSceneGraph.h
         include/core/world/scenegraph/WorldSceneGraph.h
-        include/sdl/SDLImageLoader.h
-        include/opengl/resource/OpenGLSpriteSheet.h
-        include/opengl/utility/Error.h
         include/core/rendering/graphics/SpriteSheetGraphics.h
         include/core/rendering/graphics/SpriteGraphics.h
         include/core/rendering/resource/Shaded.h
@@ -291,11 +267,7 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/utility/math/BoundingBox.h
         include/core/service/FactoryService.h
         include/core/EnginePlugin.h
-        include/opengl/OpenGLEnginePlugin.h
-        include/sdl/opengl/SDLOpenGLEnginePlugin.h
-        include/opengl/factory/OpenGLMeshFactory.h
         include/core/service/Factory.h
-        include/opengl/OpenGL2DEnginePlugin.h
         include/core/reflection/EntityComponentReflectionData.h)
 
 ### API INCLUDES ########################################
@@ -367,7 +339,7 @@ add_subdirectory(plugins)
 
 ### EXECUTABLES #########################################
 add_executable(PaxEngine3 ${SOURCE_FILES})
-target_link_libraries(PaxEngine3 ${EASYLOGGING_LIBRARY} paxphysics paxfbx paxgeneration paxutil paxsdl paxopengl paxcore)
+target_link_libraries(PaxEngine3 ${EASYLOGGING_LIBRARY} paxphysics paxfbx paxutil paxsdl paxopengl paxcore)
 
 #add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
 #target_link_libraries(ResourceTest paxio paxutil paxlib)

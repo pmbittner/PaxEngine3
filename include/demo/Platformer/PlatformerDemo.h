@@ -6,7 +6,7 @@
 #define PAXENGINE3_JUMPNRUNDEMO_H
 
 #include <core/rendering/camera/FullPixelScreenProjection.h>
-#include <opengl/OpenGLViewport.h>
+#include <opengl/include/OpenGLViewport.h>
 #include <core/io/resources/Path.h>
 #include <core/rendering/resource/SpriteSheet.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
@@ -14,9 +14,6 @@
 #include <physics/box2d/Box2DPhysicsSystem.h>
 #include <core/entity/component/Size.h>
 
-#include <GL/glew.h>
-#include <opengl/rendernodes/OpenGLRenderPass.h>
-#include <sdl/opengl/SDLOpenGLRenderPass.h>
 #include "PlayerControls.h"
 #include "PlayerSpriteAnimation.h"
 #include "FollowEntityBehaviour.h"

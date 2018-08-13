@@ -4,7 +4,7 @@
 
 #include <generation/terrain/TerrainGenerator.h>
 #include <generation/grid/GridGenerator.h>
-#include <opengl/resource/OpenGLMesh.h>
+#include <resource/OpenGLMesh.h>
 
 namespace PAX {
     void TerrainGenerator::randomizeHeights(Grid &grid) {

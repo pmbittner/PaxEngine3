@@ -1,7 +1,5 @@
 add_subdirectory(utility)
 add_subdirectory(physics)
 add_subdirectory(core)
-add_subdirectory(generation)
-add_subdirectory(opengl)
-add_subdirectory(sdl)
+#add_subdirectory(generation)
 add_subdirectory(fbx)
