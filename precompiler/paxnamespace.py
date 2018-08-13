@@ -15,7 +15,9 @@ def getNamespace(str_code, str_className):
     classPos = str_code.find(str_className)
 
     classDeclarationRegex = re.compile("(class|struct)\s" + str_className, re.MULTILINE)
-    namespaceDeclarationRegex = re.compile("namespace\s(?P<Name>[a-zA-Z0-9]+)\s{", re.MULTILINE)
+    # simple version: "namespace\s(?P<Name>[a-zA-Z0-9]+)\s{"
+    # advanced version, that allows :: in declaration too: "namespace\s(?P<Name>([a-zA-Z0-9]+(::[a-zA-Z0-9]+)*))\s{"
+    namespaceDeclarationRegex = re.compile("namespace\s(?P<Name>([a-zA-Z0-9]+(::[a-zA-Z0-9]+)*))\s{", re.MULTILINE)
 
     match = classDeclarationRegex.search(str_code)
     classDeclarationPosition = match.start()

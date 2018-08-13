@@ -278,7 +278,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/demo/Platformer/PlayerSpriteAnimation.h
         include/utility/reflection/TypeInfo.h
         include/utility/reflection/TypeHierarchy.h
-        include/generated/EntityComponentTypeHierarchy.h
         include/demo/Platformer/VelocityBehaviour.h
         include/utility/math/Functions.h
         include/demo/Platformer/FollowEntityBehaviour.h
@@ -296,7 +295,8 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/sdl/opengl/SDLOpenGLEnginePlugin.h
         include/opengl/factory/OpenGLMeshFactory.h
         include/core/service/Factory.h
-        include/opengl/OpenGL2DEnginePlugin.h)
+        include/opengl/OpenGL2DEnginePlugin.h
+        include/core/reflection/EntityComponentReflectionData.h)
 
 ### API INCLUDES ########################################
 
@@ -357,9 +357,12 @@ else()
     #include_directories(${SDL2_TTF_INCLUDE_DIR})
 endif()
 
-
 ### SUBDIRECTORIES ######################################
 add_subdirectory(src)
+
+
+### PLUGINS #############################################
+add_subdirectory(plugins)
 
 
 ### EXECUTABLES #########################################

@@ -5,11 +5,16 @@
 #ifndef PAXENGINE3_ENGINEPLUGIN_H
 #define PAXENGINE3_ENGINEPLUGIN_H
 
+#include <core/reflection/EntityComponentReflectionData.h>
+
 namespace PAX {
     class Engine;
     class Services;
     class Resources;
     class FactoryService;
+    namespace Reflection {
+        class TypeHierarchy;
+    }
 
     class EnginePlugin {
     public:
@@ -18,6 +23,8 @@ namespace PAX {
         virtual void registerServices(Services& services) {};
         virtual void registerResourceLoaders(Resources& resources) {};
         virtual void registerFactories(FactoryService& factoryService) {};
+
+        virtual void internal_initializeReflectionData(EntityComponentReflectionData& reflectionData) {};
     };
 }
 

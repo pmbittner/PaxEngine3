@@ -23,16 +23,19 @@ namespace PAX {
 
     protected:
         virtual const std::type_index& getClassType() const = 0;
-        virtual bool checkDependenciesFor(const Entity* entity) const;
 
         virtual void attached(Entity *entity);
         virtual void detached(Entity *entity);
+
+        virtual bool areDependenciesMetFor(const Entity* entity) const;
 
     public:
         EntityComponent();
         virtual ~EntityComponent();
 
         Entity* getOwner() const;
+
+        virtual bool isMultiple() const;
     };
 }
 
@@ -46,13 +49,14 @@ protected: \
     } \
 public: \
     static constexpr bool IsMultiple() { return Super::IsMultiple() && (bool_multiple); } \
+    virtual bool isMultiple() const override { return IsMultiple(); } \
 private:
 
 #define PAX_ENTITYCOMPONENT_DEPENDS_ON(...) \
 protected: \
-    virtual bool checkDependenciesFor(const Entity* entity) const override { \
+    virtual bool areDependenciesMetFor(const Entity* entity) const override { \
         static PAX::EntityComponentDependency<__VA_ARGS__> dependencies; \
-        return Super::checkDependenciesFor(entity) && dependencies.met(entity); \
+        return Super::areDependenciesMetFor(entity) && dependencies.met(entity); \
     } \
 private:
 

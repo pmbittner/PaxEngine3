@@ -12,6 +12,10 @@ namespace PAX {
         PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
 
         Entity *target = nullptr;
+        float speed = 0.09f;
+
+        int changingTheDemoLol = 0;
+        int howoftendoweneedtochange;
 
     public:
         FollowEntityBehaviour(Entity *target) : target(target) {}
@@ -20,7 +24,7 @@ namespace PAX {
             if (target) {
                 Transform &me = getOwner()->getTransform();
                 Transform &he = target->getTransform();
-                me.position2D() = he.position2D();
+                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed;
             }
         }
     };

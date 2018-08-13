@@ -45,7 +45,7 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
                         ecType = m.group("Type").strip()
                         ecParent = m.group("Parent").strip()
                         ecIsMultiple = m.group("IsMultiple").strip()
-                        print("Inheritance found:", ecType, "inherits", ecParent)
+                        #print("Inheritance found:", ecType, "inherits", ecParent)
 
                         # Search for namespaces
                         enamespace = paxnamespace.getNamespace(code, ecType)
@@ -74,16 +74,16 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
 
 
 def generateEventHandlers(file, ecomp):
-    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Attached(Entity* e, EntityComponent *c) {")
+    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Attached(PAX::Entity* e, PAX::EntityComponent *c) {")
     file.incrementIndent()
-    file.writeLine("EntityComponentAddedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
-    file.writeLine("e->_localEventService(event);")
+    file.writeLine("PAX::EntityComponentAddedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
+    file.writeLine("e->getEventService()(event);")
     file.decrementIndent()
     file.writeLine("}")
-    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Detached(Entity* e, EntityComponent *c) {")
+    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Detached(PAX::Entity* e, PAX::EntityComponent *c) {")
     file.incrementIndent()
-    file.writeLine("EntityComponentRemovedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
-    file.writeLine("e->_localEventService(event);")
+    file.writeLine("PAX::EntityComponentRemovedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
+    file.writeLine("e->getEventService()(event);")
     file.decrementIndent()
     file.writeLine("}")
 
@@ -93,12 +93,19 @@ if __name__ == "__main__":
     projectName = "PAX"
     precompilationDirectory = os.path.dirname(myPath) + "/../include/"
     targetFile = os.path.dirname(myPath) + "/../src/generated/EntityComponentTypeHierarchy.generated.cpp"
+    className = "Plugin"
+    pluginHeaderIncludePath = className + ".h"
 
     if len(sys.argv) > 1:
-        assert(len(sys.argv) == 1 + 3)
         projectName = sys.argv[1]
         precompilationDirectory = sys.argv[2]
         targetFile = sys.argv[3]
+
+        if len(sys.argv) > 4:
+            className = sys.argv[4]
+
+            if len(sys.argv) > 5:
+                pluginHeaderIncludePath = sys.argv[5]
 
     print("PRECOMPILER Start")
 
@@ -111,7 +118,8 @@ if __name__ == "__main__":
     entityComponentRegexPattern = re.compile(EntityComponentBodyRegex, re.MULTILINE)
 
     genData = GenerationData()
-    genData.includes.append("generated/EntityComponentTypeHierarchy.h")
+    genData.includes.append(pluginHeaderIncludePath)
+    #genData.includes.append("generated/EntityComponentTypeHierarchy.h")
     genData.includes.append("core/entity/event/EntityComponentAddedEvent.h")
     genData.includes.append("core/entity/event/EntityComponentRemovedEvent.h")
 
@@ -145,55 +153,49 @@ if __name__ == "__main__":
     outFile.writeLine("")
     outFile.writeLine("namespace " + projectName + " {")
     outFile.incrementIndent()
-    outFile.writeLine("namespace Generated {")
-    outFile.incrementIndent()
-
-    outFile.writeLine("TypeMap<void (*)(Entity*, EntityComponent*)> EntityComponentTypeHierarchy::OnEntityComponentAttached;")
-    outFile.writeLine("TypeMap<void (*)(Entity*, EntityComponent*)> EntityComponentTypeHierarchy::OnEntityComponentDetached;")
-    outFile.writeLine("TypeMap<bool> EntityComponentTypeHierarchy::IsMultiple;")
-    outFile.writeLine("")
 
     addEventHandlersToMapCalls = []
 
     # generate event handlers for attached & detached
     eventBrokerName = "EntityComponentTypeHierarchyEventBroker";
+    outFile.writeLine("namespace Generated {")
+    outFile.incrementIndent()
     outFile.writeLine("class " + eventBrokerName + " {")
     outFile.writeLine("public:")
     outFile.incrementIndent()
     for entityComponent in genData.entityComponents:
         generateEventHandlers(outFile, entityComponent)
-        addEventHandlersToMapCalls.append("OnEntityComponentAttached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Attached);")
-        addEventHandlersToMapCalls.append("OnEntityComponentDetached.put(" + getCppTypeOf(entityComponent.name) + ", &" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Detached);")
+        addEventHandlersToMapCalls.append("reflectionData.entityComponentAttachedHandlers.put(" + getCppTypeOf(entityComponent.name) + ", &Generated::" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Attached);")
+        addEventHandlersToMapCalls.append("reflectionData.entityComponentDetachedHandlers.put(" + getCppTypeOf(entityComponent.name) + ", &Generated::" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Detached);")
 
     outFile.decrementIndent()
-    outFile.writeLine("};")
+    outFile.writeLine("};")  # class <eventBrokerName>
+    outFile.decrementIndent()  # namespace Generated
+    outFile.writeLine("}")
     outFile.writeLine("")
 
     # generate type hierarchy method calls
-    outFile.writeLine("void EntityComponentTypeHierarchy::initialize() {")
+    outFile.writeLine("void " + className + "::internal_initializeReflectionData(PAX::EntityComponentReflectionData& reflectionData) {")
     outFile.incrementIndent()
 
     for call in addEventHandlersToMapCalls:
         outFile.writeLine(call)
 
     outFile.writeLine("")
-    outFile.writeLine("Reflection::TypeHierarchy &h = Entity::EntityComponentTypes;")
 
     for etype, eparent in sortedInheritancePairs:
-        outFile.writeLine("h.add(" + getCppTypeOf(etype) + ", " + getCppTypeOf(eparent) + ");")
-        print("Wrote inheritance", etype, "->", eparent)
+        outFile.writeLine("reflectionData.entityComponentTypeHierarchy.add(" + getCppTypeOf(etype) + ", " + getCppTypeOf(eparent) + ");")
+        print("\t", etype, "->", eparent)
 
     outFile.writeLine("")
     for entityComponent in genData.entityComponents:
-        outFile.writeLine("IsMultiple.put(" + getCppTypeOf(entityComponent.name) + ", " + entityComponent.name + "::IsMultiple());")
+        outFile.writeLine("reflectionData.isMultiple.put(" + getCppTypeOf(entityComponent.name) + ", " + entityComponent.name + "::IsMultiple());")
 
     outFile.decrementIndent()
     outFile.writeLine("}")  # void createEntityComponentTypeHierarchy()
     outFile.decrementIndent()
 
-    outFile.writeLine("}")  # namespace Generated
-    outFile.decrementIndent()
-    outFile.writeLine("}")  # namespace PAX
+    outFile.writeLine("}")  # namespace <projectName>
 
     outFile.close()
 

@@ -19,7 +19,7 @@
 #include <utility/macros/BuildType.h>
 
 #include <easylogging++.h>
-#include <generated/EntityComponentTypeHierarchy.h>
+#include <core/reflection/EntityComponentReflectionData.h>
 
 #include "../event/EventHandler.h"
 #include "core/event/EventService.h"
@@ -33,17 +33,13 @@ namespace PAX {
     class World;
     class WorldLayer;
     class EntityComponent;
-    namespace Generated {
-        class EntityComponentTypeHierarchyEventBroker;
-    }
 
     class Entity {
         friend class World;
         friend class WorldLayer;
-        friend class Generated::EntityComponentTypeHierarchyEventBroker;
 
     public:
-        static Reflection::TypeHierarchy EntityComponentTypes;
+        static EntityComponentReflectionData entityComponentReflectionData;
 
     private:
         static const std::vector<EntityComponent*> EmptyEntityComponentVector;

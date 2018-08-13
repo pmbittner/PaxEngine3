@@ -9,11 +9,10 @@
 #include <core/service/Services.h>
 
 #include <easylogging++.h>
-#include <generated/EntityComponentTypeHierarchy.h>
 
 namespace PAX {
     const std::vector<EntityComponent*> Entity::EmptyEntityComponentVector(0);
-    Reflection::TypeHierarchy Entity::EntityComponentTypes = Reflection::TypeHierarchy(Reflection::GetType<EntityComponent>());
+    EntityComponentReflectionData Entity::entityComponentReflectionData = EntityComponentReflectionData();
     std::type_index Entity::EntityComponentType = typeid(EntityComponent);
 
     Entity::Entity() {
@@ -85,11 +84,11 @@ namespace PAX {
     }
 
     void Entity::onEntityComponentAttached(EntityComponent *component, const std::type_index& type) {
-        Generated::EntityComponentTypeHierarchy::OnEntityComponentAttached.get(type)(this, component);
+        entityComponentReflectionData.entityComponentAttachedHandlers.get(type)(this, component);
     }
 
     void Entity::onEntityComponentDetached(EntityComponent *component, const std::type_index& type) {
-        Generated::EntityComponentTypeHierarchy::OnEntityComponentDetached.get(type)(this, component);
+        entityComponentReflectionData.entityComponentDetachedHandlers.get(type)(this, component);
     }
 
     bool Entity::isValid(EntityComponent *component) {
@@ -98,7 +97,7 @@ namespace PAX {
             return false;
         }
 
-        return component->checkDependenciesFor(this);
+        return component->areDependenciesMetFor(this);
     }
 
     bool Entity::addComponentAsTypeSingle(EntityComponent *component, const std::type_index &type) {
@@ -118,7 +117,7 @@ namespace PAX {
     bool Entity::addComponentAsAllOfItsTypes(EntityComponent *component, Reflection::TypeHierarchyNode *typeNode) {
         bool addSuccess;
 
-        if (Generated::EntityComponentTypeHierarchy::IsMultiple.get(typeNode->type))
+        if (entityComponentReflectionData.isMultiple.get(typeNode->type))
             addSuccess = addComponentAsTypeMultiple(component, typeNode->type);
         else
             addSuccess = addComponentAsTypeSingle(component, typeNode->type);
@@ -135,7 +134,7 @@ namespace PAX {
     bool Entity::add(EntityComponent *component) {
         if (isValid(component)) {
             registerComponent(component);
-            auto typeNode = EntityComponentTypes.getNodeOf(component->getClassType());
+            auto typeNode = entityComponentReflectionData.entityComponentTypeHierarchy.getNodeOf(component->getClassType());
             _componentTypes[component] = typeNode;
             return addComponentAsAllOfItsTypes(component, typeNode);
         }
@@ -170,7 +169,7 @@ namespace PAX {
     bool Entity::removeComponentAsAllOfItsTypes(EntityComponent *component, Reflection::TypeHierarchyNode *typeNode) {
         bool removeSuccess;
 
-        if (Generated::EntityComponentTypeHierarchy::IsMultiple.get(typeNode->type))
+        if (entityComponentReflectionData.isMultiple.get(typeNode->type))
             removeSuccess = removeComponentAsTypeMultiple(component, typeNode->type);
         else
             removeSuccess = removeComponentAsTypeSingle(component, typeNode->type);

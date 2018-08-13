@@ -1,5 +1,4 @@
 add_subdirectory(utility)
-add_subdirectory(generated)
 add_subdirectory(physics)
 add_subdirectory(core)
 add_subdirectory(generation)

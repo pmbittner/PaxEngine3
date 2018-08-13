@@ -1,2 +1,0 @@
-add_library(paxgenerated EntityComponentTypeHierarchy.generated.cpp)
-target_link_libraries(paxgenerated paxutil paxcore paxgeneration paxphysics)

@@ -5,11 +5,11 @@
 #include <chrono>
 #include <iostream>
 #include <easylogging++.h>
-#include <generated/EntityComponentTypeHierarchy.h>
 
 #include <core/Engine.h>
 #include <core/Game.h>
 #include <core/EnginePlugin.h>
+#include <core/generated/EngineInternalPlugin.h>
 
 #include <utility/Sleep.h>
 #include <core/time/Time.h>
@@ -23,7 +23,7 @@ namespace PAX {
     Engine::~Engine() {}
 
     bool Engine::initialize(Game *game, const std::vector<EnginePlugin*> &plugins) {
-        LOG(INFO) << "[ENGINE] initialize";
+        LOG(INFO) << "[Engine::initialize] start";
         //PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
         PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!");
 
@@ -31,35 +31,40 @@ namespace PAX {
         Time::DeltaF = static_cast<float>(Time::DeltaD);
 
         _game = game;
-        _plugins = plugins;
 
-        LOG(INFO) << "[ENGINE] Plugins: initializing";
+        _plugins.push_back(new EngineInternalPlugin());
+        // Copy plugins
+        _plugins.insert(std::end(_plugins), std::begin(plugins), std::end(plugins));
+
+        LOG(INFO) << "[Engine::initialize] Plugins: initializing reflection data";
+        for (EnginePlugin *plugin : _plugins) {
+            plugin->internal_initializeReflectionData(Entity::entityComponentReflectionData);
+        }
+
+        LOG(INFO) << "[Engine::initialize] Plugins: initializing";
         for (EnginePlugin *plugin : _plugins) {
             plugin->initialize(*this);
         }
 
-        LOG(INFO) << "[ENGINE] Plugins: registering Services";
+        LOG(INFO) << "[Engine::initialize] Plugins: registering Services";
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerServices(_services);
         }
 
-        LOG(INFO) << "[ENGINE] Plugins: registering ResourceLoaders";
+        LOG(INFO) << "[Engine::initialize] Plugins: registering ResourceLoaders";
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerResourceLoaders(_services.GetResources());
         }
 
-        LOG(INFO) << "[ENGINE] Plugins: registering Factories";
+        LOG(INFO) << "[Engine::initialize] Plugins: registering Factories";
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerFactories(_services.GetFactory());
         }
 
-        LOG(INFO) << "[ENGINE] initialize Reflection";
-        Generated::EntityComponentTypeHierarchy::initialize();
-
-        LOG(INFO) << "[ENGINE] initialize Services";
+        LOG(INFO) << "[Engine::initialize] initialize Services";
         _services.initialize();
 
-        LOG(INFO) << "[ENGINE] create Window";
+        LOG(INFO) << "[Engine::initialize] create Window";
         // load graphic settings
         Util::CSVSettingsLoader settings(Services::GetPaths().RelativeResourcePath() + "config/initialWindow.paxconfig", '=', true);
         std::string title = settings["PaxEngine3_DefaultTitle"];
@@ -68,18 +73,18 @@ namespace PAX {
 
         _window = _services.GetFactory().create<Window>(title.c_str(), resX, resY);
 
-        LOG(INFO) << "[ENGINE] initialize Renderer";
+        LOG(INFO) << "[Engine::initialize] initialize Renderer";
         _renderer.initialize();
 
-        LOG(INFO) << "[ENGINE] Plugins: postInitialize";
+        LOG(INFO) << "[Engine::initialize] Plugins: postInitialize";
         for (EnginePlugin *plugin : _plugins) {
             plugin->postInitialize(*this);
         }
 
-        LOG(INFO) << "[ENGINE] initialize Game";
+        LOG(INFO) << "[Engine::initialize] initialize Game";
         _game->initialize();
 
-        LOG(INFO) << "[ENGINE] done";
+        LOG(INFO) << "[Engine::initialize] done";
         return true;
     }
 

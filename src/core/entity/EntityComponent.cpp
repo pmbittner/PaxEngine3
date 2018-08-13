@@ -20,7 +20,11 @@ namespace PAX {
         return _owner;
     }
 
-    bool EntityComponent::checkDependenciesFor(const Entity *entity) const {
+    bool EntityComponent::areDependenciesMetFor(const Entity *entity) const {
         return true;
+    }
+
+    bool EntityComponent::isMultiple() const {
+        return IsMultiple();
     }
 }
