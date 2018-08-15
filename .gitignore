@@ -1,4 +1,4 @@
 bin
 lib/*
 .idea
-src/generated/*.generated.cpp
+*.generated.cpp
