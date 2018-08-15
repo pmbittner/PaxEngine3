@@ -235,8 +235,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/core/io/event/MouseMovedEvent.h
         include/utility/reflection/TemplateTypeToString.h
         include/utility/macros/CompilerDetection.h
-        include/fbx/FBXLoader.h
-        include/fbx/FBXModel.h
         include/core/animation/Animation.h
         include/core/rendering/resource/SpriteSheet.h
         include/demo/Platformer/PlatformerDemo.h
