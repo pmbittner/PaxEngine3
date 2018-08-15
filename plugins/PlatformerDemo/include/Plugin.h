@@ -10,6 +10,7 @@
 namespace PAX {
     namespace PlatformerDemo {
         class Plugin : public PAX::EnginePlugin {
+        PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
         public:
             virtual void initialize(PAX::Engine &engine) override;
 
@@ -20,8 +21,6 @@ namespace PAX {
             virtual void registerResourceLoaders(PAX::Resources &resources) override;
 
             virtual void registerFactories(PAX::FactoryService &factoryService) override;
-
-            virtual void internal_initializeReflectionData(PAX::EntityComponentReflectionData &reflectionData) override;
         };
     }
 }

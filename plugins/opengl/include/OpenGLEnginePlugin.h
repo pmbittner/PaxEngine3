@@ -17,6 +17,7 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLEnginePlugin : public EnginePlugin {
+        PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
             class OpenGLWorldLayerSceneGraphFactory : public Factory<WorldLayerSceneGraph, WorldLayer*, float> {
                 virtual std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
             } worldLayerSceneGraphFactory;
@@ -28,8 +29,6 @@ namespace PAX {
             virtual void initialize(Engine& engine) override;
             virtual void registerResourceLoaders(Resources& resources) override;
             virtual void registerFactories(FactoryService& factoryService) override;
-
-            virtual void internal_initializeReflectionData(EntityComponentReflectionData& reflectionData) override;
         };
     }
 }

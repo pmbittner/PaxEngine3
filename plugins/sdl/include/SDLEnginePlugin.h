@@ -16,6 +16,7 @@
 namespace PAX {
     namespace SDL {
         class SDLEnginePlugin : public EnginePlugin {
+        PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
             class SDLInputSystemFactory : public Factory<InputSystem> {
                 virtual std::shared_ptr<InputSystem> create() {
                     return std::make_shared<SDLInputSystem>();
@@ -35,8 +36,6 @@ namespace PAX {
             virtual void registerFactories(FactoryService& factoryService) override {
                 factoryService.registerFactory(&inputSystemFactory);
             };
-
-            virtual void internal_initializeReflectionData(EntityComponentReflectionData& reflectionData) override;
         };
     }
 }

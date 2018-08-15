@@ -28,4 +28,9 @@ namespace PAX {
     };
 }
 
+#define PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS \
+public: \
+virtual void internal_initializeReflectionData(PAX::EntityComponentReflectionData &reflectionData) override; \
+private:
+
 #endif //PAXENGINE3_ENGINEPLUGIN_H
