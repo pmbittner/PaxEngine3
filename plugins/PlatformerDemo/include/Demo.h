@@ -17,9 +17,9 @@
 
 #include <opengl/include/OpenGLViewport.h>
 
-#include "PlayerControls.h"
-#include "PlayerSpriteAnimation.h"
-#include "FollowEntityBehaviour.h"
+#include "behaviour/PlayerControls.h"
+#include "behaviour/PlayerSpriteAnimation.h"
+#include "behaviour/FollowEntityBehaviour.h"
 
 namespace PAX {
     namespace PlatformerDemo {

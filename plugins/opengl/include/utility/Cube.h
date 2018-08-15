@@ -6,11 +6,9 @@
 #define PAXENGINE3_CUBE_H
 
 #include <glm/gtc/type_ptr.hpp>
-#include "../../opengl/resource/OpenGLMesh.h"
-#include "../../core/entity/Entity.h"
-#include "../../opengl/resource/OpenGLTexture2D.h"
-#include "../../sdl/utility/Path.h"
-#include "opengl/deprecated/test.h"
+#include <core/entity/Entity.h>
+#include "../resource/OpenGLMesh.h"
+#include "../resource/OpenGLTexture2D.h"
 
 namespace PAX {
     namespace Demo {

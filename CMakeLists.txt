@@ -104,16 +104,8 @@ include_directories(plugins)
 #set(SOURCE_FILES ${SOURCE_FILES}
 set(HEADERS_FOR_CLION
         # Header files for CLion
-
-        include/demo/behaviours/RotateAround3D.h
-        include/demo/behaviours/Dance2D.h
         include/demo/OpenGL/Cube.h
-        include/demo/OpenGL/TerrainDemo.h
-        include/demo/Platformer/PlatformerDemo.h
-        include/demo/Platformer/PlayerControls.h
-        include/demo/Platformer/PlayerSpriteAnimation.h
-        include/demo/Platformer/VelocityBehaviour.h
-        include/demo/Platformer/FollowEntityBehaviour.h)
+        include/demo/OpenGL/TerrainDemo.h)
 
 ### API INCLUDES ########################################
 

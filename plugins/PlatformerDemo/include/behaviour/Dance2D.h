@@ -6,12 +6,12 @@
 #define PAXENGINE3_DANCE2D_H
 
 #include "utility/macros/MacroIncludes.h"
-#include "../../core/entity/component/Behaviour.h"
-#include "../../core/entity/Entity.h"
+#include <core/entity/component/Behaviour.h>
+#include <core/entity/Entity.h>
 
 namespace PAX {
     class Dance2D : public Behaviour {
-    PAX_ENTITYCOMPONENT_BODY(Behaviour, true)
+    PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, true)
 
         float _t = 0;
         float _speed = 0, _maxAngle = 0, _maxElongation = 0;

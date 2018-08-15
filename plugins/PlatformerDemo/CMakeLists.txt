@@ -14,10 +14,12 @@ include_directories(include)
 set(HEADERS_FOR_CLION
         include/Plugin.h
         include/Demo.h
-        include/FollowEntityBehaviour.h
-        include/PlayerControls.h
-        include/PlayerSpriteAnimation.h
-        include/VelocityBehaviour.h)
+        include/behaviour/FollowEntityBehaviour.h
+        include/behaviour/PlayerControls.h
+        include/behaviour/PlayerSpriteAnimation.h
+        include/behaviour/VelocityBehaviour.h
+        include/behaviour/RotateAround3D.h
+        include/behaviour/Dance2D.h)
 
 add_executable(PlatformerDemo src/main.cpp ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
 target_link_libraries(PlatformerDemo ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxcore)
