@@ -11,7 +11,7 @@
 #include <core/rendering/resource/SpriteSheet.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
-#include <physics/box2d/Box2DPhysicsSystem.h>
+#include <physics/include/box2d/Box2DPhysicsSystem.h>
 #include <core/entity/component/Size.h>
 
 #include "PlayerControls.h"

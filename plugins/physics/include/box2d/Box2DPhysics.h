@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_BOX2DPHYSICS_H
 #define PAXENGINE3_BOX2DPHYSICS_H
 
-#include <physics/Physics.h>
+#include "../Physics.h"
 #include <Box2D/Box2D.h>
 
 namespace PAX {

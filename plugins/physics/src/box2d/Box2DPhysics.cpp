@@ -2,8 +2,8 @@
 // Created by Paul on 21.01.2018.
 //
 
-#include <physics/box2d/Box2DPhysics.h>
-#include <physics/box2d/Box2DUtils.h>
+#include "../include/box2d/Box2DPhysics.h"
+#include "../include/box2d/Box2DUtils.h"
 
 namespace PAX {
     namespace Box2D {

@@ -257,10 +257,6 @@ set(SOURCE_FILES ${SOURCE_FILES}
         include/demo/Platformer/VelocityBehaviour.h
         include/utility/math/Functions.h
         include/demo/Platformer/FollowEntityBehaviour.h
-        include/physics/box2d/Box2DPhysicsSystem.h
-        include/physics/box2d/Box2DPhysics.h
-        include/physics/Physics.h
-        include/physics/box2d/Box2DUtils.h
         include/core/entity/component/Size.h
         include/core/entity/event/SizeChangedEvent.h
         include/core/entity/event/ScaleChangedEvent.h

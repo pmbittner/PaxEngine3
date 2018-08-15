@@ -1,5 +1,5 @@
 find_package(PythonInterp 3 REQUIRED)
-set(SCRIPT_DIR N:/Projekte/PaxEngine/PaxEngine3/dev/PaxEngine3/precompiler/pluginprecompiler.py)
+set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
 
 # TODO: Make it possible to have two plugins in one module. Now information is doubled!!!!!!
 add_custom_command(

@@ -110,11 +110,8 @@ if __name__ == "__main__":
 
     print("PRECOMPILER Start")
 
-    print()
     print("Reading from directory", precompilationDirectory)
-    print()
     print("Generating source file", targetFile)
-    print()
 
     entityComponentRegexPattern = re.compile(EntityComponentBodyRegex, re.MULTILINE)
 

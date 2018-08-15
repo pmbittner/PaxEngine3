@@ -1,5 +1,5 @@
 find_package(PythonInterp 3 REQUIRED)
-set(SCRIPT_DIR N:/Projekte/PaxEngine/PaxEngine3/dev/PaxEngine3/precompiler/pluginprecompiler.py)
+set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
 add_custom_command(
         OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/SDLEnginePlugin.generated.cpp
         COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::SDL ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/SDLEnginePlugin.generated.cpp SDLEnginePlugin
