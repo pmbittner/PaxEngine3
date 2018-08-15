@@ -5,26 +5,25 @@
 #ifndef PAXENGINE3_JUMPNRUNDEMO_H
 #define PAXENGINE3_JUMPNRUNDEMO_H
 
-#include <core/rendering/camera/FullPixelScreenProjection.h>
-#include <opengl/include/OpenGLViewport.h>
+#include <core/Game.h>
+#include <core/Engine.h>
+
+#include <core/entity/component/Size.h>
 #include <core/io/resources/Path.h>
+#include <core/rendering/camera/FullPixelScreenProjection.h>
 #include <core/rendering/resource/SpriteSheet.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
-#include <physics/include/box2d/Box2DPhysicsSystem.h>
-#include <core/entity/component/Size.h>
+
+#include <opengl/include/OpenGLViewport.h>
 
 #include "PlayerControls.h"
 #include "PlayerSpriteAnimation.h"
 #include "FollowEntityBehaviour.h"
 
 namespace PAX {
-    namespace Platformer {
-        class PlatformerDemo : public Game {
-#ifdef PAX_WITH_BOX2D
-            Box2D::PhysicsSystem physics;
-#endif
-
+    namespace PlatformerDemo {
+        class Demo : public Game {
             World *_world = nullptr;
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
@@ -40,7 +39,7 @@ namespace PAX {
 
 
             void gatherResources() {
-                LOG(INFO) << "PlatformerDemo: gatherResources";
+                LOG(INFO) << "Demo: gatherResources";
 
                 EntityComponentService& s = Services::GetEntityComponentService();
 
@@ -67,16 +66,16 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                LOG(INFO) << "PlatformerDemo: create Player";
+                LOG(INFO) << "Demo: create Player";
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
-                LOG(INFO) << "PlatformerDemo: Player add VelocityBehaviour";
+                LOG(INFO) << "Demo: Player add VelocityBehaviour";
                 player->add(s.create<VelocityBehaviour>());
-                LOG(INFO) << "PlatformerDemo: Player add PlayerControls";
+                LOG(INFO) << "Demo: Player add PlayerControls";
                 player->add(s.create<PlayerControls>());
-                LOG(INFO) << "PlatformerDemo: Player add PlayerSpriteAnimation";
+                LOG(INFO) << "Demo: Player add PlayerSpriteAnimation";
                 player->add(s.create<PlayerSpriteAnimation>());
 
                 player->getTransform().setScale(5, 5);
@@ -85,7 +84,7 @@ namespace PAX {
             }
 
             Entity* createCamera(Entity *player) {
-                LOG(INFO) << "PlatformerDemo: create Camera";
+                LOG(INFO) << "Demo: create Camera";
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 Entity *cam = new Entity();
@@ -100,7 +99,7 @@ namespace PAX {
             }
 
             Entity* createPlatform(int span) {
-                LOG(INFO) << "PlatformerDemo: createPlatform of size " << span;
+                LOG(INFO) << "Demo: createPlatform of size " << span;
 
                 int scale = 5;
                 EntityComponentService& s = Services::GetEntityComponentService();
@@ -135,7 +134,7 @@ namespace PAX {
             }
 
             void createEnvironment() {
-                LOG(INFO) << "PlatformerDemo: create Environment";
+                LOG(INFO) << "Demo: create Environment";
                 EntityComponentService& s = Services::GetEntityComponentService();
                 glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
@@ -180,15 +179,12 @@ namespace PAX {
             }
 
         public:
-            PlatformerDemo() : Game()
-#ifdef PAX_WITH_BOX2D
-                    , physics({0, -10})
-#endif
+            Demo() : Game()
             {
 
             }
 
-            ~PlatformerDemo() {
+            ~Demo() {
                 if (unregisterWorld(_world)) {
                     delete _world;
                 } else {
@@ -199,19 +195,16 @@ namespace PAX {
             virtual void initialize() override {
                 Game::initialize();
 
-                LOG(INFO) << "PlatformerDemo: initialize";
-#ifdef PAX_WITH_BOX2D
-                //addSystem(&physics);
-#endif
+                LOG(INFO) << "Demo: initialize";
 
                 gatherResources();
 
                 _world = new World();
                 _player = createPlayer();
                 _camera = createCamera(_player);
-                LOG(INFO) << "PlatformerDemo: spawn Player";
+                LOG(INFO) << "Demo: spawn Player";
                 _world->getMainLayer()->spawn(_player);
-                LOG(INFO) << "PlatformerDemo: spawn Camera";
+                LOG(INFO) << "Demo: spawn Camera";
                 _world->getMainLayer()->spawn(_camera);
                 createEnvironment();
 

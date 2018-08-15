@@ -4,3 +4,4 @@
 add_subdirectory(sdl)
 add_subdirectory(opengl)
 add_subdirectory(physics)
+add_subdirectory(PlatformerDemo)

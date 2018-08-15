@@ -8,14 +8,11 @@
 #include <core/entity/component/Behaviour.h>
 
 namespace PAX {
-    class FollowEntityBehaviour : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+    class FollowEntityBehaviour : public PAX::Behaviour {
+        PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
 
         Entity *target = nullptr;
         float speed = 0.09f;
-
-        int changingTheDemoLol = 0;
-        int howoftendoweneedtochange;
 
     public:
         FollowEntityBehaviour(Entity *target) : target(target) {}

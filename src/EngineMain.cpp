@@ -3,15 +3,8 @@
 //
 
 #include <easylogging++.h>
-
-#include <demo/Platformer/PlatformerDemo.h>
-
 #include <EngineMain.h>
 
-#include <sdl/include/SDLEnginePlugin.h>
-#include <sdl/include/opengl/SDLOpenGLEnginePlugin.h>
-#include <opengl/include/OpenGLEnginePlugin.h>
-#include <opengl/include/OpenGL2DEnginePlugin.h>
 
 int PAX::Engine_Main(int argc, char *argv[]) {
     int exitcode = 0;
@@ -22,6 +15,7 @@ int PAX::Engine_Main(int argc, char *argv[]) {
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
     PAX::OpenGL::OpenGL2DEnginePlugin       openGL2DFeatures;
     PAX::SDL::OpenGL::SDLOpenGLEnginePlugin sdlOpenGLLink;
+    PAX::Physics::Plugin                    physics;
 
     Engine &engine = Engine::Instance();
     engine.initialize(
@@ -30,7 +24,8 @@ int PAX::Engine_Main(int argc, char *argv[]) {
                     &sdl,
                     &openGL,
                     &openGL2DFeatures,
-                    &sdlOpenGLLink
+                    &sdlOpenGLLink,
+                    &physics
             }
     );
     exitcode = engine.run();

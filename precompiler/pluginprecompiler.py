@@ -49,10 +49,6 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
 
                         # Search for namespaces
                         enamespace = paxnamespace.getNamespace(code, ecType)
-                        if (enamespace.startswith("PAX")):
-                            enamespace = enamespace[3:]
-                            if enamespace.startswith("::"):
-                                enamespace = enamespace[2:]
 
                         ecFullQualifiedName = ecType
                         if enamespace:

@@ -16,7 +16,7 @@
 
 namespace PAX {
     class PlayerControls : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+        PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
         PAX_ENTITYCOMPONENT_DEPENDS_ON(VelocityBehaviour)
 
         enum Direction {

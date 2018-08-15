@@ -12,7 +12,7 @@
 
 namespace PAX {
     class PlayerSpriteAnimation : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+        PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
         PAX_ENTITYCOMPONENT_DEPENDS_ON(SpriteSheetGraphics, VelocityBehaviour)
 
         Animation<int> walkingAnimation;

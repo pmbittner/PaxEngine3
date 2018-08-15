@@ -1,3 +1,26 @@
+### LIBRARIES ########################################
+if (WIN32 AND ${COMPILER_IS_MSVC})
+    set(SDL2_LIBRARY ${LIB_DIR}/win/lib/SDL2-2.0.7/lib/x64/SDL2.lib)
+
+    if(WITH_SDL_IMAGE)
+        set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/x64/SDL2_image.lib)
+    endif()
+else()
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIR})
+
+    if(WITH_SDL_IMAGE)
+        find_package(SDL2_image REQUIRED)
+        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+    endif()
+
+    #find_package(SDL2_ttf REQUIRED)
+    #include_directories(${SDL2_TTF_INCLUDE_DIR})
+endif()
+
+
+### TARGET ###########################################
+
 find_package(PythonInterp 3 REQUIRED)
 set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
 add_custom_command(

@@ -8,12 +8,14 @@
 #include <core/entity/EntityComponent.h>
 
 namespace PAX {
-    class Physics : public EntityComponent {
+    namespace Physics {
+        class RigidBody : public EntityComponent {
         PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
 
-    public:
-        Physics();
-    };
+        public:
+            RigidBody();
+        };
+    }
 }
 
 #endif //PAXENGINE3_PHYSICS_H

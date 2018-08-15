@@ -9,13 +9,15 @@
 #include <Box2D/Common/b2Math.h>
 
 namespace PAX {
-    namespace Box2D {
-        b2Vec2 toBox2D(const glm::vec2& glmvec) {
-            return {glmvec.x, glmvec.y};
-        }
+    namespace Physics {
+        namespace Box2D {
+            b2Vec2 toBox2D(const glm::vec2 &glmvec) {
+                return {glmvec.x, glmvec.y};
+            }
 
-        b2Vec2 toBox2D(const glm::vec3& glmvec) {
-            return {glmvec.x, glmvec.y};
+            b2Vec2 toBox2D(const glm::vec3 &glmvec) {
+                return {glmvec.x, glmvec.y};
+            }
         }
     }
 }

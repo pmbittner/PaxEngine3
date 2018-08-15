@@ -8,19 +8,22 @@
 #include <core/system/EntityComponentSystem.h>
 #include <Box2D/Box2D.h>
 
-#include "Box2DPhysics.h"
+#include "Box2DRigidBody.h"
 
 namespace PAX {
-    namespace Box2D {
-        class PhysicsSystem : public EntityComponentSystem<Physics> {
-            b2World world;
+    namespace Physics {
+        namespace Box2D {
+            class PhysicsSystem : public EntityComponentSystem<PAX::Physics::Box2D::RigidBody> {
+                b2World world;
 
-        public:
-            PhysicsSystem(const glm::vec2& gravity);
+            public:
+                PhysicsSystem(const glm::vec2 &gravity);
 
-            virtual void initialize(Game *game) override;
-            virtual void update() override;
-        };
+                virtual void initialize(Game *game) override;
+
+                virtual void update() override;
+            };
+        }
     }
 }
 

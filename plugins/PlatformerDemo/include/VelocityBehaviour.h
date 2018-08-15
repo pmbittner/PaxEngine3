@@ -12,7 +12,7 @@
 
 namespace PAX {
     class VelocityBehaviour : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+        PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
 
     public:
         glm::vec2 velocity = glm::vec2(0);
