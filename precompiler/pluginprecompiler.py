@@ -21,6 +21,8 @@ class EntityComponent:
 class GenerationData:
     def __init__(self):
         self.includes = []
+        self.entityComponents = []
+        self.entityComponentInheritances = []
 
 
 def getCppTypeOf(var):
@@ -126,14 +128,6 @@ if __name__ == "__main__":
 
     knownTypes = ["EntityComponent", "PAX::EntityComponent"]
     inheritancePairs = []
-    sortedInheritancePairs = []
-
-    #for str_entitycomponent, str_parents in genData.entityComponentInheritances:
-    #    supertypes = str_parents.split(",")
-    #    for supertype in supertypes:
-    #        supertypeCut = supertype.replace("public", "").replace("private", "").replace("protected", "").strip()
-    #        if supertypeCut in genData.entityComponents:
-    #            inheritancePairs.append((str_entitycomponent, supertypeCut))
     sortedInheritancePairs = genData.entityComponentInheritances
 
     # sort inheritance pairs
@@ -145,13 +139,16 @@ if __name__ == "__main__":
                 knownTypes.append(etype)
 
     outFile.writeLine("")
-    outFile.writeLine("namespace " + projectName + " {")
-    outFile.incrementIndent()
+    # Check if projectName contains multiple namespaces like PAX::Many::Namespaces::lol
+    projectNamespaces = projectName.split("::")
+    for namespace in projectNamespaces:
+        outFile.writeLine("namespace " + namespace + " {")
+        outFile.incrementIndent()
 
     addEventHandlersToMapCalls = []
 
     # generate event handlers for attached & detached
-    eventBrokerName = "EntityComponentTypeHierarchyEventBroker";
+    eventBrokerName = "EntityComponentTypeHierarchyEventBroker"
     outFile.writeLine("namespace Generated {")
     outFile.incrementIndent()
     outFile.writeLine("class " + eventBrokerName + " {")
@@ -189,7 +186,9 @@ if __name__ == "__main__":
     outFile.writeLine("}")  # void createEntityComponentTypeHierarchy()
     outFile.decrementIndent()
 
-    outFile.writeLine("}")  # namespace <projectName>
+    for namespace in projectNamespaces:
+        outFile.writeLine("}")  # namespace <projectName>
+        outFile.decrementIndent()
 
     outFile.close()
 
