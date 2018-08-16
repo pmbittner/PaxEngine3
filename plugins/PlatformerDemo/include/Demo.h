@@ -28,12 +28,11 @@ namespace PAX {
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
 
-            SpriteSheetGraphics* playerGraphics;
+            SpriteSheetGraphics* playerGraphics = nullptr;
 
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
             std::shared_ptr<Texture> rightBlockTexture;
-            std::shared_ptr<Texture> spriteTest;
 
             std::shared_ptr<Shader> spriteShader, spriteSheetShader;
 
@@ -43,7 +42,7 @@ namespace PAX {
 
                 EntityComponentService& s = Services::GetEntityComponentService();
 
-                spriteTest = Services::GetResources().loadOrGet<Texture>(
+                std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().RelativeResourcePath() + "img/Platformer/GreenBot16.png"
                 );
 
@@ -66,21 +65,34 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                LOG(INFO) << "Demo: create Player";
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
-                LOG(INFO) << "Demo: Player add VelocityBehaviour";
                 player->add(s.create<VelocityBehaviour>());
-                LOG(INFO) << "Demo: Player add PlayerControls";
                 player->add(s.create<PlayerControls>());
-                LOG(INFO) << "Demo: Player add PlayerSpriteAnimation";
                 player->add(s.create<PlayerSpriteAnimation>());
 
                 player->getTransform().setScale(5, 5);
 
                 return player;
+            }
+
+            Entity* createNPC() {
+                EntityComponentService& s = Services::GetEntityComponentService();
+
+                Entity* npc = new Entity();
+                Graphics* g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
+                        Services::GetPaths().RelativeResourcePath() + "img/Platformer/GreenBot16.png"
+                ), 7, 4);
+                g->setShader(spriteSheetShader);
+                npc->add(g);
+                npc->add(s.create<VelocityBehaviour>());
+                npc->add(s.create<PlayerSpriteAnimation>());
+
+                npc->getTransform().setScale(5, 5);
+
+                return npc;
             }
 
             Entity* createCamera(Entity *player) {
@@ -90,7 +102,7 @@ namespace PAX {
                 Entity *cam = new Entity();
                 cam->add(s.create<Camera>(
                         new OpenGL::OpenGLViewport(),
-                        new FullPixelScreenProjection()
+                        new PixelScreenProjection()
                 ));
                 cam->getTransform().z() = 1;
                 cam->add(s.create<FollowEntityBehaviour>(player));
@@ -167,7 +179,7 @@ namespace PAX {
                     Entity *backgroundCam = new Entity();
                     backgroundCam->add(s.create<Camera>(
                             new OpenGL::OpenGLViewport(),
-                            new FullPixelScreenProjection()
+                            new PixelScreenProjection()
                     ));
                     backgroundCam->getTransform().z() = 1;
 
@@ -184,7 +196,7 @@ namespace PAX {
 
             }
 
-            ~Demo() {
+            ~Demo() override {
                 if (unregisterWorld(_world)) {
                     delete _world;
                 } else {
@@ -207,6 +219,10 @@ namespace PAX {
                 LOG(INFO) << "Demo: spawn Camera";
                 _world->getMainLayer()->spawn(_camera);
                 createEnvironment();
+
+                Entity* npc = createNPC();
+                npc->getTransform().position2D() = {-20, -120};
+                _world->getMainLayer()->spawn(npc);
 
                 setActiveWorld(_world);
             }
