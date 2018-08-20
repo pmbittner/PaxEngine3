@@ -43,19 +43,19 @@ namespace PAX {
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().RelativeResourcePath() + "img/Platformer/GreenBot16.png"
+                        Services::GetPaths().getRelativeResourcePath() + "img/Platformer/GreenBot16.png"
                 );
 
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.vert",
-                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.frag"
+                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.vert",
+                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.frag"
                 );
 
                 playerGraphics = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
                 spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
                         playerGraphics->getShaderFlags(),
-                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.vert",
-                        Services::GetPaths().RelativeResourcePath() + "shader/sprite/sprite.frag"
+                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.vert",
+                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.frag"
                 );
 
                 spriteShader->upload();
@@ -83,7 +83,7 @@ namespace PAX {
 
                 Entity* npc = new Entity();
                 Graphics* g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().RelativeResourcePath() + "img/Platformer/GreenBot16.png"
+                        Services::GetPaths().getRelativeResourcePath() + "img/Platformer/GreenBot16.png"
                 ), 7, 4);
                 g->setShader(spriteSheetShader);
                 npc->add(g);
@@ -150,7 +150,7 @@ namespace PAX {
                 EntityComponentService& s = Services::GetEntityComponentService();
                 glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
-                std::string imgPath = Services::GetPaths().RelativeResourcePath() + "img/Platformer/";
+                std::string imgPath = Services::GetPaths().getRelativeResourcePath() + "img/Platformer/";
 
                 centerBlockTexture = r.loadOrGet<Texture>(imgPath + "Block/Center.png");
                 leftBlockTexture   = r.loadOrGet<Texture>(imgPath + "Block/Left.png");
@@ -225,6 +225,8 @@ namespace PAX {
                 _world->getMainLayer()->spawn(npc);
 
                 setActiveWorld(_world);
+
+                std::cout << Services::GetPaths().getWorkingDirectory() << std::endl;
             }
         };
     }

@@ -8,7 +8,7 @@
 #include <core/entity/Transform.h>
 #include <core/service/Services.h>
 
-#include <glm/gtx/norm.hpp>
+#include <utility/lib/GlmIncludes.h>
 
 #include <utility/macros/MacroIncludes.h>
 #include <core/time/Time.h>

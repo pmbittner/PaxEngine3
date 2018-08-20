@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_LOGINCLUDES_H
 #define PAXENGINE3_LOGINCLUDES_H
 
+#include "GlmIncludes.h"
+
 #include <easylogging++.h>
 
 // Initialize easylogging

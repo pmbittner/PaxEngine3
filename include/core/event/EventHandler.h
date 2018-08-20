@@ -20,12 +20,12 @@ namespace PAX {
             _delegates.push_back(Delegate<Args...>(callee, &invoke<T, Method>));
         }
 
-/*
+#if __cplusplus >= 201703L
         template<auto Method, typename T>
-        void cpp17add(T* callee) {
+        void add(T* callee) {
             _delegates.push_back(Delegate<Args...>(callee, &invoke<T, Method>));
         }
-        //*/
+#endif
 
         template<class T, void (T::*Method)(Args...)>
         bool remove(T* callee) {
@@ -34,14 +34,14 @@ namespace PAX {
 
         void operator()(Args... args) {
             for (Delegate<Args...> delegate: _delegates)
-                delegate.method(delegate.callee, args...);
+                delegate.method(delegate.callee, std::forward<Args>(args)...);
         }
 
     private:
         template<class T, void (T::*Method)(Args...)>
         static void invoke(void* callee, Args... args) {
             T* object = static_cast<T*>(callee);
-            (object->*Method)(args...);
+            (object->*Method)(std::forward<Args>(args)...);
         };
     };
 }

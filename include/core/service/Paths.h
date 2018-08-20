@@ -24,15 +24,18 @@ namespace PAX {
         std::string _relativeResourcePath = std::string("..") + PathSeparator + std::string("..") + PathSeparator + std::string("res") + PathSeparator;
         std::string _absoluteResourcePath;
         std::string _executionDirectory;
+        std::string _workingDirectory;
 
     public:
+        Paths();
         ~Paths();
 
         void setExecutionDirectory(const std::string& executionDirectory);
 
-        const std::string& RelativeResourcePath();
-        const std::string& AbsoluteResourcePath();
-        const std::string& ExecutionDirectory();
+        const std::string& getRelativeResourcePath() const;
+        const std::string& getAbsoluteResourcePath() const;
+        const std::string& getExecutionDirectory() const;
+        const std::string& getWorkingDirectory() const;
     };
 }
 

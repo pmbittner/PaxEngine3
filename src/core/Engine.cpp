@@ -18,9 +18,9 @@
 namespace PAX {
     Engine *Engine::instance = nullptr;
 
-    Engine::Engine() {}
+    Engine::Engine() = default;
 
-    Engine::~Engine() {}
+    Engine::~Engine() = default;
 
     bool Engine::initialize(Game *game, const std::vector<EnginePlugin*> &plugins) {
         LOG(INFO) << "[Engine::initialize] start";
@@ -53,12 +53,12 @@ namespace PAX {
 
         LOG(INFO) << "[Engine::initialize] Plugins: registering ResourceLoaders";
         for (EnginePlugin *plugin : _plugins) {
-            plugin->registerResourceLoaders(_services.GetResources());
+            plugin->registerResourceLoaders(Services::GetResources());
         }
 
         LOG(INFO) << "[Engine::initialize] Plugins: registering Factories";
         for (EnginePlugin *plugin : _plugins) {
-            plugin->registerFactories(_services.GetFactory());
+            plugin->registerFactories(Services::GetFactory());
         }
 
         LOG(INFO) << "[Engine::initialize] initialize Services";
@@ -66,12 +66,12 @@ namespace PAX {
 
         LOG(INFO) << "[Engine::initialize] create Window";
         // load graphic settings
-        Util::CSVSettingsLoader settings(Services::GetPaths().RelativeResourcePath() + "config/initialWindow.paxconfig", '=', true);
+        Util::CSVSettingsLoader settings(Services::GetPaths().getRelativeResourcePath() + "config/initialWindow.paxconfig", '=', true);
         std::string title = settings["PaxEngine3_DefaultTitle"];
         int resX = settings.getInt("resolutionWidth");
         int resY = settings.getInt("resolutionHeight");
 
-        _window = _services.GetFactory().create<Window>(title.c_str(), resX, resY);
+        _window = Services::GetFactory().create<Window>(title.c_str(), resX, resY);
 
         LOG(INFO) << "[Engine::initialize] initialize Renderer";
         _renderer.initialize();
