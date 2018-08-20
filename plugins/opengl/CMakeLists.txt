@@ -1,4 +1,8 @@
 ### LIBRARIES ########################################
+if (UNIX)
+    set(OpenGL_GL_PREFERENCE "GLVND")
+endif()
+
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
