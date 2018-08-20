@@ -2,6 +2,8 @@
 // Created by Paul on 15.08.2018.
 //
 
+#define WITH_PAX_OPENGL2D
+
 #include <MainIncludes.h>
 
 namespace PAX {
@@ -19,7 +21,9 @@ int main(int argc, char* argv[]) {
 #include <sdl/include/SDLEnginePlugin.h>
 #include <sdl/include/opengl/SDLOpenGLEnginePlugin.h>
 #include <opengl/include/OpenGLEnginePlugin.h>
+#ifdef WITH_PAX_OPENGL2D
 #include <opengl/include/OpenGL2DEnginePlugin.h>
+#endif
 #include <PlaygroundDemo/include/Plugin.h>
 #include <assimp/include/Plugin.h>
 
@@ -30,7 +34,10 @@ int PAX::PlaygroundDemo_main(int argc, char *argv[]) {
 
     PAX::SDL::SDLEnginePlugin               sdl;
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
-    PAX::OpenGL::OpenGL2DEnginePlugin       openGL2DFeatures;
+#ifdef WITH_PAX_OPENGL2D
+    /// TODO: Make Plugin obsolete by enhancing the relevant factory by a parameter for dimensions
+    PAX::OpenGL::OpenGL2DEnginePlugin openGL2DFeatures;
+#endif
     PAX::SDL::OpenGL::SDLOpenGLEnginePlugin sdlOpenGLLink;
     PAX::Assimp::Plugin                     modelLoader;
     PAX::PlaygroundDemo::Plugin             demoPlugin;
@@ -41,7 +48,9 @@ int PAX::PlaygroundDemo_main(int argc, char *argv[]) {
             {
                     &sdl,
                     &openGL,
+#ifdef WITH_PAX_OPENGL2D
                     &openGL2DFeatures,
+#endif
                     &sdlOpenGLLink,
                     &modelLoader,
                     &demoPlugin
