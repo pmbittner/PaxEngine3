@@ -225,8 +225,6 @@ namespace PAX {
                 _world->getMainLayer()->spawn(npc);
 
                 setActiveWorld(_world);
-
-                std::cout << Services::GetPaths().getWorkingDirectory() << std::endl;
             }
         };
     }

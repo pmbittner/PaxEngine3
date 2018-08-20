@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
 }
 
 #include <Demo.h>
-#include <EngineMain.h>
 
 // Plugin Includes
 #include <sdl/include/SDLEnginePlugin.h>

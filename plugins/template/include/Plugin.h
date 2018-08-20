@@ -7,6 +7,7 @@
 
 #include <core/EnginePlugin.h>
 
+/// Don't forget to change the header include guards, if you copy this Plugin!
 namespace PaxTemplatePlugin {
     class Plugin : public PAX::EnginePlugin {
         PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS

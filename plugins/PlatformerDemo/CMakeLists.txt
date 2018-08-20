@@ -23,4 +23,4 @@ set(HEADERS_FOR_CLION
 
 add_executable(PlatformerDemo src/main.cpp ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
 target_link_libraries(PlatformerDemo ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxcore)
-set_target_properties(PlatformerDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/PlatformerDemo)
+set_target_properties(PlatformerDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Demo)
