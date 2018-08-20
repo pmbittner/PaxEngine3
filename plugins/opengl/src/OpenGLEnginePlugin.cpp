@@ -21,9 +21,9 @@ namespace PAX {
         }
 
         void OpenGLEnginePlugin::registerFactories(FactoryService &factoryService) {
-            Factory<Mesh, std::vector<glm::vec3> *, std::vector<std::vector<int>> *> *unambigousMeshType = &meshFactory;
-            factoryService.registerFactory<Mesh>(unambigousMeshType);
-
+            Factory<Mesh, std::vector<glm::vec3> *, std::vector<std::vector<int>> *> *meshFactoryWithUnambigousType = &meshFactory;
+            factoryService.registerFactory<Mesh>(meshFactoryWithUnambigousType);
+            factoryService.registerFactory<Viewport>(&viewportFactory);
             factoryService.registerFactory<WorldLayerSceneGraph>(&worldLayerSceneGraphFactory);
         }
     }

@@ -15,8 +15,6 @@
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
 
-#include <opengl/include/OpenGLViewport.h>
-
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
 #include "behaviour/FollowEntityBehaviour.h"
@@ -101,8 +99,8 @@ namespace PAX {
 
                 Entity *cam = new Entity();
                 cam->add(s.create<Camera>(
-                        new OpenGL::OpenGLViewport(),
-                        new PixelScreenProjection()
+                        Services::GetFactory().create<Viewport>(),
+                        std::make_shared<PixelScreenProjection>()
                 ));
                 cam->getTransform().z() = 1;
                 cam->add(s.create<FollowEntityBehaviour>(player));
@@ -178,8 +176,8 @@ namespace PAX {
 
                     Entity *backgroundCam = new Entity();
                     backgroundCam->add(s.create<Camera>(
-                            new OpenGL::OpenGLViewport(),
-                            new PixelScreenProjection()
+                            Services::GetFactory().create<Viewport>(),
+                            std::make_shared<PixelScreenProjection>()
                     ));
                     backgroundCam->getTransform().z() = 1;
 

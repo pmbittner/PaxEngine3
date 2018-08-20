@@ -11,6 +11,7 @@
 #include <core/world/scenegraph/WorldLayerSceneGraph.h>
 
 #include "factory/OpenGLMeshFactory.h"
+#include "factory/OpenGLViewportFactory.h"
 #include "rendernodes/OpenGLWorldLayerRenderPass.h"
 #include "resource/OpenGLShaderLoader.h"
 
@@ -24,6 +25,7 @@ namespace PAX {
 
             OpenGLShaderLoader shaderLoader;
             OpenGLMeshFactory meshFactory;
+            OpenGLViewportFactory viewportFactory;
 
         public:
             virtual void initialize(Engine& engine) override;

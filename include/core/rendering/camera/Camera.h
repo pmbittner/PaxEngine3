@@ -18,20 +18,20 @@ namespace PAX {
         PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
 
         glm::mat4 _viewMatrix;
-        Viewport *_viewport;
-        Projection *_projection;
+        std::shared_ptr<Viewport> _viewport;
+        std::shared_ptr<Projection> _projection;
 
         void onViewportWidthChanged(int oldWidth, int newWidth);
         void onViewportHeightChanged(int oldHeight, int newHeight);
 
     public:
-        Camera(Viewport *viewport, Projection *projection = new PerspectiveProjection());
+        Camera(std::shared_ptr<Viewport> viewport, std::shared_ptr<Projection> projection = std::make_shared<PerspectiveProjection>());
 
         virtual void render(RenderOptions &renderOptions) override;
 
         const glm::mat4 &getViewTransform();
-        Viewport* getViewport();
-        Projection* getProjection();
+        std::shared_ptr<Viewport> getViewport();
+        std::shared_ptr<Projection> getProjection();
     };
 }
 

@@ -55,7 +55,7 @@ set(HEADERS_FOR_CLION
         include/rendernodes/OpenGLRenderPass.h
         include/OpenGLViewport.h
         include/utility/Cube.h
-        )
+        include/factory/OpenGLViewportFactory.h)
 
 add_library(paxopengl
         ${HEADERS_FOR_CLION}
