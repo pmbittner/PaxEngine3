@@ -12,4 +12,4 @@ add_custom_command(
 
 include_directories(include)
 set(HEADERS_FOR_CLION include/Plugin.h include/FollowEntityBehaviour.h)
-add_library(TestPlugin ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
+add_library(TemplatePlugin ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
