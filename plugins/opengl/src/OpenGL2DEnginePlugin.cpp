@@ -6,8 +6,11 @@
 
 namespace PAX {
     namespace OpenGL {
-        std::shared_ptr<SceneGraphGenerator> OpenGL2DEnginePlugin::OpenGLDefaultSceneGraphGeneratorFactory::create() {
-            return std::make_shared<GroupByShadersAndSortByZSceneGraphGenerator>(); //new GroupByShadersSceneGraphGenerator();
+        std::shared_ptr<SceneGraphGenerator> OpenGL2DEnginePlugin::OpenGLDefaultSceneGraphGeneratorFactory::create(int dimensions) {
+            if (dimensions == 2)
+                return std::make_shared<GroupByShadersAndSortByZSceneGraphGenerator>();
+            else
+                return std::make_shared<GroupByShadersSceneGraphGenerator>();
         }
 
         void OpenGL2DEnginePlugin::initialize(Engine &engine) {

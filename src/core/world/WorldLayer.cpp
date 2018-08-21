@@ -6,8 +6,10 @@
 #include <core/world/WorldLayer.h>
 
 namespace PAX {
-    WorldLayer::WorldLayer(std::string name, float z, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator) : _name(name), _sceneGraphGenerator(sceneGraphGenerator) {
-        assert(sceneGraphGenerator);
+    WorldLayer::WorldLayer(const std::string& name, int dimensions, float z, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator) : _name(name), _dimensions(dimensions) {
+        if (!sceneGraphGenerator)
+            sceneGraphGenerator = Services::GetFactory().create<SceneGraphGenerator>(dimensions);
+        _sceneGraphGenerator = sceneGraphGenerator;
         _sceneGraph = Services::GetFactory().create<WorldLayerSceneGraph>(this, z);
         _sceneGraphGenerator->initialize(_sceneGraph.get(), _localEventService);
     }
@@ -58,7 +60,7 @@ namespace PAX {
     }
 
     WorldLayerSceneGraph* WorldLayer::getSceneGraph() {
-        // May be wrong for now, but I am a noob with shared pointers.
+        // Fixme: May be wrong for now, but I am a noob with shared pointers.
         return _sceneGraph.get();
     }
 

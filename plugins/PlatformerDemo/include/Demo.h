@@ -23,6 +23,7 @@ namespace PAX {
     namespace PlatformerDemo {
         class Demo : public Game {
             World *_world = nullptr;
+            WorldLayer *_mainLayer = nullptr;
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
 
@@ -160,11 +161,11 @@ namespace PAX {
 
                 Entity *p1 = createPlatform(5);
                 p1->getTransform().position2D() = {0, -200};
-                _world->getMainLayer()->spawn(p1);
+                _mainLayer->spawn(p1);
 
                 Entity *p2 = createPlatform(2);
                 p2->getTransform().position2D() = {300, 100};
-                _world->getMainLayer()->spawn(p2);
+                _mainLayer->spawn(p2);
 
                 {
                     Entity *background = new Entity();
@@ -209,19 +210,22 @@ namespace PAX {
 
                 gatherResources();
 
+                _mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 2);
+
                 _world = new World();
                 _player = createPlayer();
                 _camera = createCamera(_player);
                 LOG(INFO) << "Demo: spawn Player";
-                _world->getMainLayer()->spawn(_player);
+                _mainLayer->spawn(_player);
                 LOG(INFO) << "Demo: spawn Camera";
-                _world->getMainLayer()->spawn(_camera);
+                _mainLayer->spawn(_camera);
                 createEnvironment();
 
                 Entity* npc = createNPC();
                 npc->getTransform().position2D() = {-20, -120};
-                _world->getMainLayer()->spawn(npc);
+                _mainLayer->spawn(npc);
 
+                _world->addLayer(_mainLayer);
                 setActiveWorld(_world);
             }
         };

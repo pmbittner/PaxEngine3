@@ -6,8 +6,7 @@
 
 namespace PAX {
     World::World() {
-        addLayer(new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 0));
-        addLayer(new WorldLayer(PAX_WORLDLAYERNAME_GUI, 1));
+
     }
 
     World::~World() {
@@ -40,14 +39,6 @@ namespace PAX {
 
     WorldLayer* World::getWorldLayerWithName(const std::string &name) {
         return _layersByName[name];
-    }
-
-    WorldLayer* World::getMainLayer() {
-        return getWorldLayerWithName(PAX_WORLDLAYERNAME_MAIN);
-    }
-
-    WorldLayer* World::getGUILayer() {
-        return getWorldLayerWithName(PAX_WORLDLAYERNAME_GUI);
     }
 
     WorldSceneGraph* World::getSceneGraph() {

@@ -24,9 +24,6 @@ namespace PAX {
         void addLayer(WorldLayer *layer);
         void removeLayer(WorldLayer *layer);
         const std::vector<WorldLayer*>& getLayers();
-
-        WorldLayer* getMainLayer();
-        WorldLayer* getGUILayer();
         WorldLayer* getWorldLayerWithName(const std::string& name);
 
         WorldSceneGraph* getSceneGraph();

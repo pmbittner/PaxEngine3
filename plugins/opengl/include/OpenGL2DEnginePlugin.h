@@ -15,8 +15,8 @@ namespace PAX {
     namespace OpenGL {
         class OpenGL2DEnginePlugin : public EnginePlugin {
         PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
-            class OpenGLDefaultSceneGraphGeneratorFactory : public Factory<SceneGraphGenerator> {
-                virtual std::shared_ptr<SceneGraphGenerator> create() override;
+            class OpenGLDefaultSceneGraphGeneratorFactory : public Factory<SceneGraphGenerator, int> {
+                virtual std::shared_ptr<SceneGraphGenerator> create(int dimensions) override;
             } defaultSceneGraphGeneratorFactory;
 
         public:
