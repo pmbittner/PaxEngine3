@@ -18,7 +18,6 @@ int main(int argc, char* argv[]) {
 #include <sdl/include/SDLEnginePlugin.h>
 #include <sdl/include/opengl/SDLOpenGLEnginePlugin.h>
 #include <opengl/include/OpenGLEnginePlugin.h>
-#include <opengl/include/OpenGL2DEnginePlugin.h>
 #include <physics/include/Plugin.h>
 #include <PlatformerDemo/include/Plugin.h>
 
@@ -29,7 +28,6 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
 
     PAX::SDL::SDLEnginePlugin               sdl;
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
-    PAX::OpenGL::OpenGL2DEnginePlugin       openGL2DFeatures;
     PAX::SDL::OpenGL::SDLOpenGLEnginePlugin sdlOpenGLLink;
     PAX::Physics::Plugin                    physics;
     PAX::PlatformerDemo::Plugin             demoPlugin;
@@ -40,7 +38,6 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
             {
                     &sdl,
                     &openGL,
-                    &openGL2DFeatures,
                     &sdlOpenGLLink,
                     &physics,
                     &demoPlugin

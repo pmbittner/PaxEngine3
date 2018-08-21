@@ -23,6 +23,10 @@ namespace PAX {
                 virtual std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
             } worldLayerSceneGraphFactory;
 
+            class OpenGLDefaultSceneGraphGeneratorFactory : public Factory<SceneGraphGenerator, int> {
+                virtual std::shared_ptr<SceneGraphGenerator> create(int dimensions) override;
+            } defaultSceneGraphGeneratorFactory;
+
             OpenGLShaderLoader shaderLoader;
             OpenGLMeshFactory meshFactory;
             OpenGLViewportFactory viewportFactory;
