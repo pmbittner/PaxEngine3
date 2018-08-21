@@ -8,7 +8,7 @@
 #include <core/EnginePlugin.h>
 
 namespace PAX {
-    namespace Assimp {
+    namespace AssetImport {
         class Plugin : public PAX::EnginePlugin {
             PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
         public:

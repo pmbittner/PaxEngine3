@@ -1,6 +1,6 @@
 add_subdirectory(sdl)
 add_subdirectory(opengl)
 add_subdirectory(physics)
-add_subdirectory(assimp)
+add_subdirectory(assetimport)
 add_subdirectory(PlatformerDemo)
 add_subdirectory(PlaygroundDemo)
