@@ -2,7 +2,7 @@
 // Created by Paul on 20.12.2017.
 //
 
-#include <MainIncludes.h>
+#include <PaxEngineIncludes.h>
 #include <test/ResourcesTest.h>
 
 int main(int argc, char *argv[])

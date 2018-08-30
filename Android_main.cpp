@@ -1,7 +1,7 @@
 #define GL_GLEXT_PROTOTYPES 
 #include <SDL.h> // Needs to be included, so SDL_main will be found.
 
-#include "include/MainIncludes.h"
+#include "PaxEngineIncludes.h"
 #include "include/EngineMain.h"
 
 #define APPNAME "SDL"

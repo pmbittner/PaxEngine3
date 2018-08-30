@@ -2,7 +2,7 @@
 // Created by Paul on 15.08.2018.
 //
 
-#include <MainIncludes.h>
+#include <PaxEngineIncludes.h>
 
 namespace PAX {
     int PlaygroundDemo_main(int argc, char* argv[]);
@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
 }
 
 #include <Demo.h>
-#include <core/Engine.h>
 
 // Plugin Includes
 #include <sdl/include/SDLEnginePlugin.h>

@@ -2,7 +2,7 @@
 // Created by Paul on 15.08.2018.
 //
 
-#include <MainIncludes.h>
+#include <PaxEngineIncludes.h>
 
 namespace PAX {
     int PlatformerDemo_main(int argc, char* argv[]);

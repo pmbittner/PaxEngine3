@@ -9,4 +9,6 @@
 #include "utility/macros/MacroIncludes.h"
 #include "utility/lib/LibIncludes.h"
 
+#include "core/Engine.h"
+
 #endif //PAXENGINE3_MAININCLUDES_H
