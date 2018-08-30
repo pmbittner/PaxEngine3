@@ -29,4 +29,8 @@ namespace PAX {
     Path::operator std::string() const {
         return _path;
     }
+
+    const std::string& Path::toString() const {
+        return _path;
+    }
 }

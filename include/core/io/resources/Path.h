@@ -20,6 +20,8 @@ namespace PAX {
         bool operator==(const Path& other) const;
         operator const char*() const;
         operator std::string() const;
+
+        const std::string& toString() const;
     };
 }
 
