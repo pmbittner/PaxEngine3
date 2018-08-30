@@ -16,5 +16,5 @@ include_directories(${ASSIMP_DIRECTORY}/include)
 ##
 
 include_directories(include)
-set(HEADERS_FOR_CLION include/Plugin.h)
-add_library(paxassimp ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
+set(HEADERS_FOR_CLION include/Plugin.h include/AssimpResourceLoader.h)
+add_library(paxassimp ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp src/AssimpResourceLoader.cpp)

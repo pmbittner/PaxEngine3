@@ -41,27 +41,24 @@ namespace PAX {
 
                 }
 
-                virtual void initialize(Engine& engine) override {
-                    LOG(INFO) << "    SDLOpenGLEnginePlugin initialize";
-                }
+                virtual void initialize(Engine& engine) override {}
 
                 virtual void postInitialize(Engine& engine) {
-                    LOG(INFO) << "    SDLOpenGLEnginePlugin postInitialize";
-                    PAX::SDL::OpenGL::SDLOpenGLRenderPass *sdl = new PAX::SDL::OpenGL::SDLOpenGLRenderPass();
-                    PAX::OpenGL::OpenGLRenderPass *opengl = new PAX::OpenGL::OpenGLRenderPass();
+                    LOG(INFO) << "[SDLOpenGLEnginePlugin::postInitialize]";
+                    auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLRenderPass();
+                    auto *opengl = new PAX::OpenGL::OpenGLRenderPass();
                     sdl->addChild(opengl);
-                    LOG(INFO) << "        RenderPasses created";
 
                     Renderer &renderer = Engine::Instance().getRenderer();
 
                     renderer.setSceneGraphRoot(sdl);
                     renderer.setSceneGraphGenerationEntryPoint(opengl);
-                    LOG(INFO) << "        Renderer initialized";
 
+                    LOG(INFO) << "\tinitialize SDLOpenGLRenderPass";
                     sdl->initialize();
-                    LOG(INFO) << "        SDL initialized";
+                    LOG(INFO) << "\tinit OpenGL";
                     opengl->initialize();
-                    LOG(INFO) << "        OpenGL initialized";
+                    LOG(INFO) << "[SDLOpenGLEnginePlugin::postInitialize] Done";
                 }
 
                 virtual void registerResourceLoaders(Resources& resources) override {
@@ -84,7 +81,7 @@ namespace PAX {
                     Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::NullOpenGLTextureLoader());
 #endif
 
-                    LOG(INFO) << "    SDLOpenGLEnginePlugin: Register TextureLoader - " << loaderName;
+                    LOG(INFO) << "SDLOpenGLEnginePlugin: Register TextureLoader (" << loaderName << ")";
                 }
 
                 virtual void registerFactories(FactoryService &factoryService) override {

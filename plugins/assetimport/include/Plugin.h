@@ -6,11 +6,15 @@
 #define PAXENGINE3_PAXTEMPLATEPLUGIN_PLUGIN_H
 
 #include <core/EnginePlugin.h>
+#include "AssimpResourceLoader.h"
 
 namespace PAX {
     namespace AssetImport {
         class Plugin : public PAX::EnginePlugin {
             PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
+
+            AssimpResourceLoader assimpResourceLoader;
+
         public:
             virtual void initialize(PAX::Engine &engine) override;
             virtual void postInitialize(PAX::Engine &engine) override;

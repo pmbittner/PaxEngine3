@@ -8,24 +8,20 @@
 
 namespace PAX {
     namespace AssetImport {
-        void Plugin::initialize(PAX::Engine &engine) {
-            std::cout << "[PAX::AssetImport::Plugin::initialize]" << std::endl;
-        }
+        void Plugin::initialize(PAX::Engine &engine) {}
 
         void Plugin::postInitialize(PAX::Engine &engine) {
-            std::cout << "[PAX::AssetImport::Plugin::postInitialize]" << std::endl;
+            // Test if factory can be found
+            std::shared_ptr<Mesh> m = Services::GetResources().load<Mesh>("moin.3ds");
         }
 
-        void Plugin::registerFactories(PAX::FactoryService &factoryService) {
-            std::cout << "[PAX::AssetImport::Plugin::registerFactories]" << std::endl;
-        }
+        void Plugin::registerFactories(PAX::FactoryService &factoryService) {}
 
         void Plugin::registerResourceLoaders(PAX::Resources &resources) {
-            std::cout << "[PAX::AssetImport::Plugin::registerResourceLoaders]" << std::endl;
+            LOG(INFO) << "[PAX::AssetImport::Plugin::registerResourceLoaders] Register AssimpResourceLoader" << std::endl;
+            resources.registerLoader(&assimpResourceLoader);
         }
 
-        void Plugin::registerServices(PAX::Services &services) {
-            std::cout << "[PAX::AssetImport::Plugin::registerServices]" << std::endl;
-        }
+        void Plugin::registerServices(PAX::Services &services) {}
     }
 }

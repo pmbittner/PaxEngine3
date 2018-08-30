@@ -14,8 +14,6 @@ namespace PAX {
         }
 
         void OpenGLRenderPass::initialize() {
-            LOG(INFO) << "OPENGL INITIALIZATION";
-
             Window *window = Engine::Instance().getWindow();
             glm::vec2 res = window->getResolution();
 
@@ -34,7 +32,6 @@ namespace PAX {
             glViewport(0, 0, res.x, res.y);
 
             catchError("OpenGLRenderPass::initialize", false);
-            LOG(INFO) << "OPENGL INITIALIZATION DONE";
         }
 
         void OpenGLRenderPass::render(RenderOptions &renderOptions) {

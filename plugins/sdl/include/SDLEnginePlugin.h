@@ -25,7 +25,7 @@ namespace PAX {
 
         public:
             virtual void initialize(Engine& engine) override {
-                LOG(INFO) << "    SDLEnginePlugin initialize";
+                LOG(INFO) << "initialize SDL";
 
                 SDL_Init(SDL_INIT_EVERYTHING);
                 //TTF_Init();

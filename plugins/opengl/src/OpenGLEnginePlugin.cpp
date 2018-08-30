@@ -20,9 +20,7 @@ namespace PAX {
                 return std::make_shared<GroupByShadersSceneGraphGenerator>();
         }
 
-        void OpenGLEnginePlugin::initialize(Engine &engine) {
-            LOG(INFO) << "    OpenGLEnginePlugin initialize";
-        }
+        void OpenGLEnginePlugin::initialize(Engine &engine) {}
 
         void OpenGLEnginePlugin::registerResourceLoaders(Resources &resources) {
             resources.registerLoader<Shader>(static_cast<ResourceLoader<Shader, Path, Path> *>(&shaderLoader));

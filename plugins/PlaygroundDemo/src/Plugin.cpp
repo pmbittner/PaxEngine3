@@ -8,24 +8,14 @@
 
 namespace PAX {
     namespace PlaygroundDemo {
-        void Plugin::initialize(PAX::Engine &engine) {
-            std::cout << "[Pax::Platformer::Plugin::initialize]" << std::endl;
-        }
+        void Plugin::initialize(PAX::Engine &engine) {}
 
-        void Plugin::postInitialize(PAX::Engine &engine) {
-            std::cout << "[Pax::Platformer::Plugin::postInitialize]" << std::endl;
-        }
+        void Plugin::postInitialize(PAX::Engine &engine) {}
 
-        void Plugin::registerFactories(PAX::FactoryService &factoryService) {
-            std::cout << "[Pax::Platformer::Plugin::registerFactories]" << std::endl;
-        }
+        void Plugin::registerFactories(PAX::FactoryService &factoryService) {}
 
-        void Plugin::registerResourceLoaders(PAX::Resources &resources) {
-            std::cout << "[Pax::Platformer::Plugin::registerResourceLoaders]" << std::endl;
-        }
+        void Plugin::registerResourceLoaders(PAX::Resources &resources) {}
 
-        void Plugin::registerServices(PAX::Services &services) {
-            std::cout << "[Pax::Platformer::Plugin::registerServices]" << std::endl;
-        }
+        void Plugin::registerServices(PAX::Services &services) {}
     }
 }
