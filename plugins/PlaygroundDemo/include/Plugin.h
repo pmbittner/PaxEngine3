@@ -12,6 +12,8 @@ namespace PAX {
         class Plugin : public PAX::EnginePlugin {
         PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
         public:
+            Plugin() : EnginePlugin() {}
+
             virtual void initialize(PAX::Engine &engine) override;
 
             virtual void postInitialize(PAX::Engine &engine) override;

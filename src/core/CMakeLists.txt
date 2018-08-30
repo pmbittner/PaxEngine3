@@ -135,7 +135,7 @@ set(CORE_SOURCE_FILES
         reflection/EntityComponentReflectionData.cpp
 
         generated/EngineInternalPlugin.cpp
-        generated/EngineInternalPlugin.generated.cpp)
+        generated/EngineInternalPlugin.generated.cpp EnginePlugin.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

@@ -32,6 +32,11 @@ namespace PAX {
 
         _game = game;
 
+        // Check if all dependencies of plugins are met
+        for (const EnginePlugin* p : plugins) {
+            p->checkDependencies(plugins);
+        }
+
         _plugins.push_back(new EngineInternalPlugin());
         // Copy plugins
         _plugins.insert(std::end(_plugins), std::begin(plugins), std::end(plugins));

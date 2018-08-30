@@ -5,10 +5,14 @@
 #ifndef PAXENGINE3_ENGINEPLUGIN_H
 #define PAXENGINE3_ENGINEPLUGIN_H
 
+#include <sstream>
+
 #include <core/reflection/EntityComponentReflectionData.h>
+#include <utility/reflection/TemplateTypeToString.h>
 
 namespace PAX {
     class Engine;
+    class EnginePlugin;
     class Services;
     class Resources;
     class FactoryService;
@@ -16,15 +20,53 @@ namespace PAX {
         class TypeHierarchy;
     }
 
-    class EnginePlugin {
+    class EnginePluginDependencies {
     public:
-        virtual void initialize(Engine& engine) {};
+        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const = 0;
+    };
+
+    class EnginePlugin {
+        EnginePluginDependencies* dependencies = nullptr;
+
+    public:
+        explicit EnginePlugin(EnginePluginDependencies* dependencies = nullptr);
+
+        virtual void initialize(Engine& engine) {}
         virtual void postInitialize(Engine& engine) {}
-        virtual void registerServices(Services& services) {};
-        virtual void registerResourceLoaders(Resources& resources) {};
-        virtual void registerFactories(FactoryService& factoryService) {};
+        virtual void registerServices(Services& services) {}
+        virtual void registerResourceLoaders(Resources& resources) {}
+        virtual void registerFactories(FactoryService& factoryService) {}
 
         virtual void internal_initializeReflectionData(EntityComponentReflectionData& reflectionData) {};
+        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const;
+    };
+
+    template<class... Dependencies>
+    class EnginePluginTypedDependencies : public EnginePluginDependencies {
+        std::string pluginName;
+
+        template<class Dependency>
+        bool contains(const std::vector<EnginePlugin*> & plugins) const {
+            for (EnginePlugin* p : plugins) {
+                Dependency* d = dynamic_cast<Dependency*>(p);
+                if (d) {
+                    return true;
+                }
+            }
+
+            std::stringstream errorMessage;
+            errorMessage << "Dependency not met: " << pluginName << " requires the Plugin " << Reflection::GetTypeName<Dependency>();
+            throw std::runtime_error(errorMessage.str());
+        }
+
+    public:
+        explicit EnginePluginTypedDependencies(const std::string& pluginName) : pluginName(pluginName) {
+
+        }
+
+        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const override {
+            bool results[] = {contains<Dependencies>(plugins)...};
+        }
     };
 }
 

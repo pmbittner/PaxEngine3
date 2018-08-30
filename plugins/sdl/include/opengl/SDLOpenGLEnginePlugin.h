@@ -15,6 +15,10 @@
 
 #include "../../../opengl/include/rendernodes/OpenGLRenderPass.h"
 
+/// Dependencies
+#include "../SDLEnginePlugin.h"
+#include "../../../opengl/include/OpenGLEnginePlugin.h"
+
 namespace PAX {
     namespace SDL {
         namespace OpenGL {
@@ -29,6 +33,14 @@ namespace PAX {
                 } windowFactory;
 
             public:
+                SDLOpenGLEnginePlugin() :
+                EnginePlugin(
+                        new EnginePluginTypedDependencies<PAX::SDL::SDLEnginePlugin, PAX::OpenGL::OpenGLEnginePlugin>("SDLOpenGLEnginePlugin")
+                                )
+                {
+
+                }
+
                 virtual void initialize(Engine& engine) override {
                     LOG(INFO) << "    SDLOpenGLEnginePlugin initialize";
                 }
