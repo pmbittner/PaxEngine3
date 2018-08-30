@@ -6,7 +6,7 @@
 #define PAXENGINE3_RENDERFACTORY_H
 
 #include <core/world/scenegraph/WorldLayerSceneGraph.h>
-#include <core/rendering/resource/Mesh.h>
+#include <core/rendering/data/Mesh.h>
 
 namespace PAX {
     class SceneGraphGenerator;

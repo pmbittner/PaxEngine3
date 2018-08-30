@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SPRITEGRAPHICS_H
 #define PAXENGINE3_SPRITEGRAPHICS_H
 
-#include <core/rendering/resource/Texture.h>
+#include <core/rendering/data/Texture.h>
 #include <core/rendering/graphics/SceneGraphGraphics.h>
 #include <core/rendering/scenegraph/nodes/TransformationNode.h>
 #include <core/rendering/graphics/nodes/MeshNode.h>

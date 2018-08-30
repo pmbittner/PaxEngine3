@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_OPENGLSPRITESHEET_H
 #define PAXENGINE3_OPENGLSPRITESHEET_H
 
-#include <core/rendering/resource/SpriteSheet.h>
+#include <core/rendering/data/SpriteSheet.h>
 #include "OpenGLTexture2D.h"
 
 namespace PAX {

@@ -10,7 +10,7 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <GL/glew.h>
-#include <core/rendering/resource/Mesh.h>
+#include <core/rendering/data/Mesh.h>
 
 namespace PAX {
     namespace OpenGL {

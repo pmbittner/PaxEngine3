@@ -8,7 +8,7 @@
 #include <memory>
 
 #include <core/rendering/scenegraph/SceneGraph.h>
-#include <core/rendering/resource/Texture.h>
+#include <core/rendering/data/Texture.h>
 
 namespace PAX {
     class TexturingNode : public SceneGraph {

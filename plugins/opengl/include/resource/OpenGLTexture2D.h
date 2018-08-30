@@ -8,7 +8,7 @@
 #include <GL/glew.h>
 #include <string>
 
-#include <core/rendering/resource/Texture.h>
+#include <core/rendering/data/Texture.h>
 
 namespace PAX {
     namespace OpenGL {

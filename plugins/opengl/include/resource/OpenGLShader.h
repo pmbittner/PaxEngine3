@@ -9,7 +9,7 @@
 #include <iostream>
 #include <map>
 
-#include "../../../include/core/rendering/resource/Shader.h"
+#include <core/rendering/data/Shader.h>
 
 namespace PAX {
     namespace OpenGL {

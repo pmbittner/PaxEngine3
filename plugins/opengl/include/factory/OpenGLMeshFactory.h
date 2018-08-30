@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_OPENGLMESHFACTORY_H
 #define PAXENGINE3_OPENGLMESHFACTORY_H
 
-#include <core/rendering/resource/Mesh.h>
+#include <core/rendering/data/Mesh.h>
 #include <core/service/Factory.h>
 #include "../resource/OpenGLMesh.h"
 

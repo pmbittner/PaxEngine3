@@ -18,7 +18,7 @@ set(HEADERS_FOR_CLION
         ../../include/core/rendering/Renderer.h
         ../../include/core/rendering/Graphics.h
 
-        ../../include/core/rendering/resource/Shader.h
+        ../../include/core/rendering/data/Shader.h
 
         ../../include/core/rendering/scenegraph/SceneGraphGenerator.h
         ../../include/core/rendering/scenegraph/sort/GraphicsSort.h
@@ -51,8 +51,8 @@ set(HEADERS_FOR_CLION
         ../../include/core/time/Time.h
         ../../include/core/rendering/Viewport.h
         ../../include/core/rendering/graphics/nodes/TexturingNode.h
-        ../../include/core/rendering/resource/Mesh.h
-        ../../include/core/rendering/resource/Texture.h
+        ../../include/core/rendering/data/Mesh.h
+        ../../include/core/rendering/data/Texture.h
         ../../include/core/rendering/camera/Projection.h
         ../../include/core/rendering/camera/PerspectiveProjection.h
         ../../include/core/rendering/RenderOptions.h
@@ -85,7 +85,7 @@ set(HEADERS_FOR_CLION
         ../../include/core/entity/component/behaviours/NoClipControls.h
         ../../include/core/io/event/MouseMovedEvent.h
         ../../include/core/animation/Animation.h
-        ../../include/core/rendering/resource/SpriteSheet.h
+        ../../include/core/rendering/data/SpriteSheet.h
         ../../include/core/rendering/scenegraph/nodes/TransformationNode.h
         ../../include/core/io/resources/Path.h
         ../../include/core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h
@@ -93,7 +93,7 @@ set(HEADERS_FOR_CLION
         ../../include/core/world/scenegraph/WorldSceneGraph.h
         ../../include/core/rendering/graphics/SpriteSheetGraphics.h
         ../../include/core/rendering/graphics/SpriteGraphics.h
-        ../../include/core/rendering/resource/Shaded.h
+        ../../include/core/rendering/interface/Shaded.h
         ../../include/core/rendering/graphics/nodes/SpriteSheetNode.h
         ../../include/core/entity/component/Size.h
         ../../include/core/entity/event/SizeChangedEvent.h
@@ -103,7 +103,7 @@ set(HEADERS_FOR_CLION
         ../../include/core/reflection/EntityComponentReflectionData.h
         ../../include/core/service/FactoryService.h
         ../../include/utility/lib/GlmIncludes.h
-        )
+        ../../include/core/rendering/data/SkeletalMesh.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

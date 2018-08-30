@@ -10,7 +10,7 @@
 #endif
 
 #include <easylogging++.h>
-#include <utility/io/FormatChecker.h>
+#include <utility/io/FileTypeChecker.h>
 #include <assert.h>
 
 namespace PAX {
@@ -24,14 +24,14 @@ namespace PAX {
         }
 
         bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(Path path) {
-            Util::FormatChecker formats({
+            Util::FileTypeChecker formats({
                     "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
             });
 
             return formats.check(path);
         }
 
-        PAX::Texture *PAX::OpenGL::SDLImageOpenGLTextureLoader::load(Path path) {
+        std::shared_ptr<PAX::Texture> PAX::OpenGL::SDLImageOpenGLTextureLoader::load(Path path) {
 #ifdef PAX_WITH_SDLIMAGE
             SDL_Surface* tex = NULL;
 
@@ -64,23 +64,15 @@ namespace PAX {
 
             SDL_FreeSurface(tex);
 
-            return ogltexture;
+            return std::shared_ptr<OpenGLTexture2D>(ogltexture, [](OpenGLTexture2D* tex){
+                GLuint texId = tex->getID();
+                glDeleteTextures(1, &texId);
+                delete tex;
+            });
 #else
             assert(false);
             return nullptr;
 #endif
-        }
-
-        bool PAX::OpenGL::SDLImageOpenGLTextureLoader::free(Texture *res) {
-            if (res) {
-                OpenGLTexture2D* tex = static_cast<OpenGLTexture2D*>(res);
-                GLuint id = tex->getID();
-                glDeleteTextures(1, &id);
-                delete res;
-                return true;
-            }
-
-            return false;
         }
     }
 }

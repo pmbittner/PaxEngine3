@@ -2,7 +2,7 @@
 // Created by Paul on 08.10.2017.
 //
 
-#include <core/rendering/resource/Shader.h>
+#include <core/rendering/data/Shader.h>
 
 namespace PAX {
     Shader::Flags::Flags() {

@@ -9,6 +9,8 @@
 #include <ostream>
 #include <tuple>
 
+#include <utility/stdutils/OstreamOverloads.h>
+
 namespace PAX {
     namespace Util {
         template<class Tuple, std::size_t N>

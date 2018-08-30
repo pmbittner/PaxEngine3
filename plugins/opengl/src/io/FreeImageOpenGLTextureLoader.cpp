@@ -30,7 +30,7 @@ namespace PAX {
             return true;
         }
 
-        PAX::Texture *PAX::OpenGL::FreeImageOpenGLTextureLoader::load(const char *path) {
+        std::shared_ptr<PAX::Texture> PAX::OpenGL::FreeImageOpenGLTextureLoader::load(const char *path) {
 #ifdef PAX_WITH_FREEIMAGE
             GLenum image_format = GL_RGB;		//format the image is in
             GLint internal_format = GL_RGB;		//format to store the image in
@@ -85,19 +85,10 @@ namespace PAX {
             FreeImage_Unload(dib);
 
             //return success
-            return new OpenGLTexture2D(gl_texID, width, height);
+            return std::make_shared<OpenGLTexture2D>(gl_texID, width, height);
 #else
-            return new OpenGLTexture2D(0);
+            return nullptr;
 #endif
-        }
-
-        bool PAX::OpenGL::FreeImageOpenGLTextureLoader::free(Texture *res) {
-            if (res) {
-                delete res;
-                return true;
-            }
-
-            return false;
         }
     }
 }

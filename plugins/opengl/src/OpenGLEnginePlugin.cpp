@@ -5,6 +5,7 @@
 #include <OpenGLEnginePlugin.h>
 #include <core/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
 #include <core/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h>
+#include <core/rendering/data/Shader.h>
 
 namespace PAX {
     namespace OpenGL {

@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SPRITESHEETNODE_H
 #define PAXENGINE3_SPRITESHEETNODE_H
 
-#include <core/rendering/resource/Shaded.h>
+#include <core/rendering/interface/Shaded.h>
 #include <core/rendering/scenegraph/SceneGraph.h>
 
 namespace PAX {

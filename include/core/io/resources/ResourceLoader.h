@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_RESOURCELOADER_H
 #define PAXENGINE3_RESOURCELOADER_H
 
+#include <memory>
+// This is just for use in subclasses, where Path is needed almost every time.
 #include "Path.h"
 
 namespace PAX {
@@ -15,15 +17,13 @@ namespace PAX {
 
     template<typename Resource>
     class ResourceLoaderT : public IResourceLoader {
-    public:
-        virtual bool free(Resource *res) = 0;
     };
 
     template<typename Resource, typename... Params>
     class ResourceLoader : public ResourceLoaderT<Resource> {
     public:
         virtual bool canLoad(Params...) = 0;
-        virtual Resource *load(Params...) = 0;
+        virtual std::shared_ptr<Resource> load(Params...) = 0;
     };
 }
 

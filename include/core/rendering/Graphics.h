@@ -10,7 +10,7 @@
 #include <core/event/EventHandler.h>
 #include <core/rendering/event/GraphicsShaderChangedEvent.h>
 #include <core/rendering/scenegraph/SceneGraph.h>
-#include "resource/Shader.h"
+#include "data/Shader.h"
 
 namespace PAX {
     class Graphics : public EntityComponent, public Renderable {

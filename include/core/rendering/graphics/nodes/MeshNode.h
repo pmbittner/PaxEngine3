@@ -6,8 +6,8 @@
 #define PAXENGINE3_MESHGRAPHICS_H
 
 #include <core/rendering/Graphics.h>
-#include <core/rendering/resource/Mesh.h>
-#include <core/rendering/resource/Shaded.h>
+#include <core/rendering/data/Mesh.h>
+#include <core/rendering/interface/Shaded.h>
 
 namespace PAX {
     class MeshNode : public SceneGraph, public Shaded {

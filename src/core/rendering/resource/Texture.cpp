@@ -2,7 +2,7 @@
 // Created by Paul on 13.10.2017.
 //
 
-#include <core/rendering/resource/Texture.h>
+#include <core/rendering/data/Texture.h>
 
 namespace PAX {
     int PAX::Texture::getWidth() {

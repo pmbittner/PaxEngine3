@@ -13,11 +13,11 @@
 
 namespace PAX {
     namespace Util {
-        class FormatChecker {
+        class FileTypeChecker {
             std::vector<std::string> _formats;
 
         public:
-            FormatChecker(std::vector<const char*> formats) {
+            FileTypeChecker(const std::vector<const char*> & formats) {
                 for (std::string format : formats) {
                     std::transform(format.begin(), format.end(), format.begin(), ::tolower);
                     _formats.push_back(format);

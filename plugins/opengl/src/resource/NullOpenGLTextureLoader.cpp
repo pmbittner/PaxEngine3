@@ -21,7 +21,7 @@ namespace PAX {
             return true;
         }
 
-        PAX::Texture *NullOpenGLTextureLoader::load(const char *path) {
+        std::shared_ptr<PAX::Texture> NullOpenGLTextureLoader::load(const char *path) {
             if (!_texture) {
                 int w = 16;
                 int h = w;
@@ -70,7 +70,7 @@ namespace PAX {
                 GLuint id;
                 glGenTextures(1, &id);
 
-                _texture = new OpenGLTexture2D(id, w, h);
+                _texture = std::make_shared<OpenGLTexture2D>(id, w, h);
 
                 _texture->bind();
 
@@ -83,15 +83,6 @@ namespace PAX {
             }
 
             return _texture;
-        }
-
-        bool NullOpenGLTextureLoader::free(Texture *res) {
-            if (res) {
-                delete res;
-                return true;
-            }
-
-            return false;
         }
     }
 }

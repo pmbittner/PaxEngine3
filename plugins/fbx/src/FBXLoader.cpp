@@ -3,7 +3,7 @@
 //
 
 #include <fbx/FBXLoader.h>
-#include <utility/io/FormatChecker.h>
+#include <utility/io/FileTypeChecker.h>
 
 namespace PAX {
     FBXLoader::FBXLoader() {

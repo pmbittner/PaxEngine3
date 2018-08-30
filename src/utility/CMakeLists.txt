@@ -12,7 +12,7 @@ set(HEADERS_FOR_CLION
         ../../include/utility/Dependency.h
         ../../include/utility/datastructures/TypeMap.h
         ../../include/utility/Signature.h
-        ../../include/utility/io/FormatChecker.h
+        ../../include/utility/io/FileTypeChecker.h
         ../../include/utility/math/Conversion.h
         ../../include/utility/reflection/TemplateTypeToString.h
         ../../include/utility/macros/CompilerDetection.h
@@ -20,7 +20,7 @@ set(HEADERS_FOR_CLION
         ../../include/utility/reflection/TypeInfo.h
         ../../include/utility/reflection/TypeHierarchy.h
         ../../include/utility/math/Functions.h
-        ../../include/utility/math/BoundingBox.h)
+        ../../include/utility/math/BoundingBox.h ../../include/utility/stdutils/OstreamOverloads.h)
 
 add_library(paxutil ${HEADERS_FOR_CLION} StringUtils.cpp io/CSVSettingsLoader.cpp io/CSVRow.cpp math/Conversion.cpp reflection/TypeHierarchy.cpp)
 target_link_libraries(paxutil)

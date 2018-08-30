@@ -7,7 +7,7 @@
 
 #include <stack>
 #include <core/entity/Transform.h>
-#include <core/rendering/resource/Shader.h>
+#include <core/rendering/data/Shader.h>
 #include <utility/macros/MacroIncludes.h>
 
 namespace PAX {

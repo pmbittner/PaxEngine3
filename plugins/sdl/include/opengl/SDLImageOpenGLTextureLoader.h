@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SDLIMAGEOPENGLTEXTURELOADER_H
 #define PAXENGINE3_SDLIMAGEOPENGLTEXTURELOADER_H
 
-#include <core/rendering/resource/Texture.h>
+#include <core/rendering/data/Texture.h>
 #include <core/io/resources/ResourceLoader.h>
 
 namespace PAX {
@@ -15,9 +15,8 @@ namespace PAX {
             SDLImageOpenGLTextureLoader();
             ~SDLImageOpenGLTextureLoader();
 
-            bool free(Texture *res) override;
             bool canLoad(Path path) override;
-            Texture *load(Path path) override;
+            std::shared_ptr<Texture> load(Path path) override;
         };
     }
 }
