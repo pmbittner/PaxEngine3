@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_RESOLUTIONCHANGEDEVENT_H
 #define PAXENGINE3_RESOLUTIONCHANGEDEVENT_H
 
-#include <glm/vec2.hpp>
+#include <utility/lib/GlmIncludes.h>
 #include "../../event/Event.h"
 
 namespace PAX {

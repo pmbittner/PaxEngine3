@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_GLMINCLUDES_H
 #define PAXENGINE3_GLMINCLUDES_H
 
+#include "../macros/PlatformIncludes.h"
+
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>

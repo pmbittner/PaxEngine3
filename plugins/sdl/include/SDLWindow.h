@@ -7,7 +7,7 @@
 
 #include <SDL2/SDL_video.h>
 #include <string>
-#include <glm/vec2.hpp>
+#include <utility/lib/GlmIncludes.h>
 
 #include <core/io/Window.h>
 

@@ -16,11 +16,6 @@
 
 #define PAX_assertNotNull(value, str_message) if (value == nullptr) throw std::invalid_argument(str_message);
 
-/// PLATFORM
-#ifdef PAX_COMPILER_MSVC
-#define NOMINMAX
-#endif
-
 
 /** MATH **/
 

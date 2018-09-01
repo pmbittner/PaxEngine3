@@ -5,11 +5,13 @@
 #ifndef PAXENGINE3_CAMERA_H
 #define PAXENGINE3_CAMERA_H
 
+#include <utility/lib/GlmIncludes.h>
 #include <glm/detail/type_mat4x4.hpp>
 
-#include "../scenegraph/SceneGraph.h"
-#include "../../entity/EntityComponent.h"
 #include "PerspectiveProjection.h"
+
+#include "../../entity/EntityComponent.h"
+#include "../scenegraph/SceneGraph.h"
 #include "../Viewport.h"
 #include "../RenderOptions.h"
 

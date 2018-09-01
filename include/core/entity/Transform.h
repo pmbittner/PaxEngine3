@@ -6,7 +6,7 @@
 #define PAXENGINE3_TRANSFORM_H
 
 #include <vector>
-#include <glm/glm.hpp>
+#include <utility/lib/GlmIncludes.h>
 
 namespace PAX {
     class Entity;

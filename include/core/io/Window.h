@@ -6,7 +6,7 @@
 #define PAXENGINE3_WINDOW_H
 
 #include <string>
-#include <glm/glm.hpp>
+#include <utility/lib/GlmIncludes.h>
 
 #include "../event/EventHandler.h"
 #include "event/ResolutionChangedEvent.h"

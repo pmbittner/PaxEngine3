@@ -2,9 +2,9 @@
 // Created by Gordon on 16.05.2017.
 //
 
-#include "../../../../include/core/rendering/camera/Camera.h"
-#include "../../../../include/core/entity/Entity.h"
-#include "utility/macros/MacroIncludes.h"
+#include <core/rendering/camera/Camera.h>
+#include <core/entity/Entity.h>
+#include <utility/macros/MacroIncludes.h>
 
 namespace PAX {
     Camera::Camera(std::shared_ptr<Viewport> viewport, std::shared_ptr<Projection> projection) : _viewport(viewport), _projection(projection) {

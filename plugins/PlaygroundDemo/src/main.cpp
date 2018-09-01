@@ -29,7 +29,7 @@ int PAX::PlaygroundDemo_main(int argc, char *argv[]) {
     PAX::SDL::SDLEnginePlugin               sdl;
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
     PAX::SDL::OpenGL::SDLOpenGLEnginePlugin sdlOpenGLLink;
-    PAX::AssetImport::Plugin                     modelLoader;
+    PAX::AssetImport::Plugin                modelLoader;
     PAX::PlaygroundDemo::Plugin             demoPlugin;
 
     PAX::Engine &engine = PAX::Engine::Instance();

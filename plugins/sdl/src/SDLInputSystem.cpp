@@ -2,9 +2,9 @@
 // Created by Paul on 11.05.2017.
 //
 
+#include <SDLInputSystem.h>
 #include <SDL2/SDL_events.h>
 #include "SDLWindow.h"
-#include <SDLInputSystem.h>
 #include <core/Engine.h>
 
 namespace PAX {
