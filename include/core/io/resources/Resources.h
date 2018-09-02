@@ -75,8 +75,9 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        TypedResourceHandle<Resource>* getHandle(Params... params) {
-            Signature<Params...> s(std::forward<Params>(params)...);
+        TypedResourceHandle<Resource>* getHandle(Params... p) {
+            //std::cout << "[Resources::getHandle] " << print<Resource, Params...>(p...) << std::endl << std::endl;
+            Signature<Params...> s(p...);
 
             std::unordered_set<ResourceHandle*> &handles = _resourcesInUse.get<Resource>();
             for (ResourceHandle *handle : handles) {
@@ -89,10 +90,11 @@ namespace PAX {
         }
 
         template<typename Resource, typename... Params>
-        TypedResourceHandle<Resource>* registerResource(std::shared_ptr<Resource> &res, ResourceLoader<Resource, Params...> *loader, Params... params) {
+        TypedResourceHandle<Resource>* registerResource(const std::shared_ptr<Resource> &res, ResourceLoader<Resource, Params...> *loader, Params... p) {
+            //std::cout << "[Resources::registerResource] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             // TODO: Avoid these two "new" statements with custom allocators! Much new! Much slow!
             TypedResourceHandle<Resource>* handle = new TypedResourceHandle<Resource>();
-            handle->_signature = new Signature<Params...>(std::forward(params)...);
+            handle->_signature = new Signature<Params...>(p...);
             handle->_loader = loader;
             handle->_resource = res;
 
@@ -109,20 +111,21 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource> loadResource(Params... p) {
-            ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(std::forward<Params>(p)...);
+            ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader)
-                return loader->load(std::forward<Params>(p)...);
+                return loader->load(p...);
             return nullptr;
         }
 
         template<typename Resource, typename... Params>
         TypedResourceHandle<Resource>* loadAndRegisterResource(Params... p) {
-            ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(std::forward<Params>(p)...);
+            //std::cout << "[Resources::loadAndRegisterResource] " << print<Resource, Params...>(p...) << std::endl << std::endl;
+            ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader) {
                 return registerResource<Resource, Params...>(
-                        loader->load(std::forward<Params>(p)...),
+                        loader->load(p...),
                         loader,
-                        std::forward<Params>(p)...);
+                        p...);
             }
             return nullptr;
         }
@@ -132,7 +135,8 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& get_withCorrectPaths(Params... p) {
-            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(std::forward<Params>(p)...);
+            //std::cout << "[Resources::get_withCorrectPaths] " << print<Resource, Params...>(p...) << std::endl << std::endl;
+            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
             if (handle) {
                 return handle->_resource;
             }
@@ -143,10 +147,10 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource> load_withCorrectPaths(Params... p) {
-            std::shared_ptr<Resource> res = loadResource<Resource>(std::forward<Params>(p)...);
+            std::shared_ptr<Resource> res = loadResource<Resource>(p...);
 
             if (!res)
-                LOG(WARNING) << "The Resource " << print<Resource>(std::forward<Params>(p)...) << " could not be loaded!";
+                LOG(WARNING) << "The Resource " << print<Resource>(p...) << " could not be loaded!";
 
             return res;
         }
@@ -154,15 +158,16 @@ namespace PAX {
         template<typename Resource, typename... Params>
         bool cache_withCorrectPaths(Params... p) {
             if (get_withCorrectPaths<Resource>(p...))
-                throw ResourceAlreadyCachedException(print<Resource>(std::forward<Params>(p)...));
-            return loadAndRegisterResource<Resource>(std::forward<Params>(p)...) != nullptr;
+                throw ResourceAlreadyCachedException(print<Resource>(p...));
+            return loadAndRegisterResource<Resource>(p...) != nullptr;
         }
 
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& loadOrGet_withCorrectPaths(Params... p) {
-            std::shared_ptr<Resource> &res = get_withCorrectPaths<Resource>(std::forward<Params>(p)...);
+            //std::cout << "[Resources::loadOrGet_withCorrectPaths] " << print<Resource, Params...>(p...) << std::endl << std::endl;
+            std::shared_ptr<Resource> &res = get_withCorrectPaths<Resource>(p...);
             if (!res)
-                return loadAndRegisterResource<Resource>(std::forward<Params>(p)...)->_resource;
+                return loadAndRegisterResource<Resource>(p...)->_resource;
             return res;
         }
 
@@ -178,7 +183,8 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& loadOrGet(Params... p) {
-            return loadOrGet_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(std::forward<Params>(p)...);
+            //std::cout << "[Resources::loadOrGet] " << print<Resource, Params...>(p...) << std::endl << std::endl;
+            return loadOrGet_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
         }
 
         /**
@@ -188,7 +194,7 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource> load(Params... p) {
-            return load_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(std::forward<Params>(p)...);
+            return load_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
         }
 
         /**
@@ -196,7 +202,7 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& get(Params... p) {
-            return get_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(std::forward<Params>(p)...);
+            return get_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
         }
 
         /**
@@ -208,7 +214,7 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         bool cache(Params... p) {
-            return cache_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(std::forward<Params>(p)...);
+            return cache_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
         }
 
         void collectGarbage() {

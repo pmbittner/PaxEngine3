@@ -19,24 +19,24 @@ namespace PAX {
         protected:
             std::string _name, _vertexPath, _fragmentPath;
 
-            GLuint _shaderProgram = -1;
-            GLuint _vertexShader = -1;
-            GLuint _fragmentShader = -1;
+            GLuint _shaderProgram;
+            GLuint _vertexShader;
+            GLuint _fragmentShader;
 
             std::map<std::string, GLint> _uniformLocations;
 
-            static std::string loadCodeFromFile(std::string filename);
+            static std::string loadCodeFromFile(const std::string & filename);
             static bool compileShaderAndPrintErrors(GLuint shader);
-            static bool setupShaderFromCodeString(GLuint shader, std::string code);
+            static bool setupShaderFromCodeString(GLuint shader, const std::string & code);
 
-            void insertFlags(std::string& shader, std::string& flags);
+            void insertFlags(std::string& shader, const std::string& flags);
 
         public:
-            OpenGLShader(std::string name, std::string vertexPath, std::string fragmentPath, Flags flags = Flags());
+            OpenGLShader(const std::string & name, const std::string & vertexPath, const std::string & fragmentPath, const Flags & flags = Flags());
             ~OpenGLShader();
 
-            bool loadVertexShaderFromCode(std::string code);
-            bool loadFragmentShaderFromCode(std::string code);
+            bool loadVertexShaderFromCode(const std::string & code);
+            bool loadFragmentShaderFromCode(const std::string & code);
 
             bool linkShader();
 

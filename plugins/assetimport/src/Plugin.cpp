@@ -10,10 +10,7 @@ namespace PAX {
     namespace AssetImport {
         void Plugin::initialize(PAX::Engine &engine) {}
 
-        void Plugin::postInitialize(PAX::Engine &engine) {
-            // Test if factory can be found
-            std::shared_ptr<Mesh> m = Services::GetResources().load<Mesh>("moin.3ds");
-        }
+        void Plugin::postInitialize(PAX::Engine &engine) {}
 
         void Plugin::registerFactories(PAX::FactoryService &factoryService) {}
 

@@ -33,7 +33,7 @@ namespace PAX {
             return !hasErrors;
         }
 
-        bool OpenGLShader::setupShaderFromCodeString(GLuint shader, std::string code) {
+        bool OpenGLShader::setupShaderFromCodeString(GLuint shader, const std::string & code) {
             const char* shader_src = code.c_str();
             glShaderSource(shader,1,&shader_src, NULL);
 
@@ -52,14 +52,14 @@ namespace PAX {
             return compiled;
         }
 
-        std::string OpenGLShader::loadCodeFromFile(std::string filename)
+        std::string OpenGLShader::loadCodeFromFile(const std::string & filename)
         {
             std::string code;
 
             std::ifstream codeFile;
             codeFile.open(filename);
             if (!codeFile.is_open()) {
-                std::cerr << "Unable to open shader file " << filename << std::endl;
+                std::cerr << "[OpenGLShader::loadCodeFromFile] Unable to open shader file [ " << filename << " ] " << std::endl;
                 throw std::runtime_error("Unable to open shader file " + filename);
             }
 
@@ -73,7 +73,7 @@ namespace PAX {
             return code;
         }
 
-        void OpenGLShader::insertFlags(std::string& shader, std::string& flags) {
+        void OpenGLShader::insertFlags(std::string& shader, const std::string& flags) {
             std::size_t foundversion = shader.find("#version");
 
             if (foundversion != std::string::npos) {
@@ -88,7 +88,12 @@ namespace PAX {
         }
 
 
-        OpenGLShader::OpenGLShader(std::string name, std::string vertexPath, std::string fragmentPath, Flags flags) : Shader(flags), _name(name), _vertexPath(vertexPath), _fragmentPath(fragmentPath) {
+        OpenGLShader::OpenGLShader(
+                const std::string & name,
+                const std::string & vertexPath,
+                const std::string & fragmentPath,
+                const Flags & flags)
+                : Shader(flags), _name(name), _vertexPath(vertexPath), _fragmentPath(fragmentPath) {
             _shaderProgram  = glCreateProgram();
             _vertexShader   = 0;
             _fragmentShader = 0;
@@ -132,7 +137,7 @@ namespace PAX {
             return true;
         }
 
-        bool OpenGLShader::loadVertexShaderFromCode(std::string code) {
+        bool OpenGLShader::loadVertexShaderFromCode(const std::string & code) {
             if (_vertexShader == 0) {
                 _vertexShader = glCreateShader(GL_VERTEX_SHADER);
             }
@@ -148,7 +153,7 @@ namespace PAX {
             return result;
         }
 
-        bool OpenGLShader::loadFragmentShaderFromCode(std::string code) {
+        bool OpenGLShader::loadFragmentShaderFromCode(const std::string & code) {
             if (_fragmentShader==0) {
                 _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
             }

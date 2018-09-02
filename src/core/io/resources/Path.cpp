@@ -19,7 +19,7 @@ namespace PAX {
     }
 
     bool Path::operator==(const Path &other) const {
-        return _path.compare(other._path) == 0;
+        return _path == other._path;
     }
 
     Path::operator const char*() const {
@@ -33,4 +33,9 @@ namespace PAX {
     const std::string& Path::toString() const {
         return _path;
     }
+}
+
+std::ostream& operator<<(std::ostream& os, const PAX::Path & p)
+{
+    return os << p.toString();
 }

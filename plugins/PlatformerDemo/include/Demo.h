@@ -11,7 +11,7 @@
 #include <core/entity/component/Size.h>
 #include <core/io/resources/Path.h>
 #include <core/rendering/camera/FullPixelScreenProjection.h>
-#include <core/rendering/resource/SpriteSheet.h>
+#include <core/rendering/data/SpriteSheet.h>
 #include <core/rendering/graphics/SpriteGraphics.h>
 #include <core/rendering/graphics/SpriteSheetGraphics.h>
 

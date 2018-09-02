@@ -25,4 +25,6 @@ namespace PAX {
     };
 }
 
+std::ostream& operator<<(std::ostream& os, const PAX::Path & p);
+
 #endif //PAXENGINE3_PATH_H
