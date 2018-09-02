@@ -16,6 +16,12 @@ namespace PAX {
     public:
         Path(const std::string& path);
         Path(const char* path);
+        Path(const Path& other);
+
+        static void convertToCurrentPlatform(std::string & p);
+        static void convertToWin(std::string & p);
+        static void convertToUnix(std::string & p);
+        static std::string simplify(std::string path);
 
         bool operator==(const Path& other) const;
         operator const char*() const;
