@@ -6,7 +6,7 @@
 
 void PAX::WorldLayerSceneGraphSort::sort(std::vector<WorldLayerSceneGraph*> &nodes) {
     int l = 0;
-    int r = nodes.size() - 1;
+    size_t r = nodes.size() - 1;
     int i, j;
     WorldLayerSceneGraph *temp = nullptr;
 

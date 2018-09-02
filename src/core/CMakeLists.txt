@@ -103,7 +103,7 @@ set(HEADERS_FOR_CLION
         ../../include/core/reflection/EntityComponentReflectionData.h
         ../../include/core/service/FactoryService.h
         ../../include/utility/lib/GlmIncludes.h
-        ../../include/core/rendering/data/SkeletalMesh.h ../../include/core/rendering/graphics/MeshGraphics.h)
+        ../../include/core/rendering/data/SkeletalMesh.h ../../include/core/rendering/graphics/MeshGraphics.h ../../include/core/rendering/data/Material.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

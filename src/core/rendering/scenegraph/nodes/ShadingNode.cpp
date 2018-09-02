@@ -34,7 +34,7 @@ void PAX::ShadingNode::render(RenderOptions &renderOptions) {
     bool isShaded = _shader != nullptr;
 
     if (isShaded)
-        renderOptions.getShaderOptions().useShader(this, _shader.get(), _priority);
+        renderOptions.getShaderOptions().useShader(this, _shader, _priority);
 
     SceneGraph::render(renderOptions);
 

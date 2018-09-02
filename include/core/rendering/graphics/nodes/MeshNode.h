@@ -2,8 +2,8 @@
 // Created by Paul on 07.12.2017.
 //
 
-#ifndef PAXENGINE3_MESHGRAPHICS_H
-#define PAXENGINE3_MESHGRAPHICS_H
+#ifndef PAXENGINE3_MESHNODE_H
+#define PAXENGINE3_MESHNODE_H
 
 #include <core/rendering/Graphics.h>
 #include <core/rendering/data/Mesh.h>
@@ -24,4 +24,4 @@ namespace PAX {
     };
 }
 
-#endif //PAXENGINE3_MESHGRAPHICS_H
+#endif //PAXENGINE3_MESHNODE_H

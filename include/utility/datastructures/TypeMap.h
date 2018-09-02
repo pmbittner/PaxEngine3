@@ -29,11 +29,13 @@ namespace PAX {
 
         template<typename Key>
         inline ValueType& get() {
-            return _map[Reflection::GetType<Key>()];
+            return _map.at(Reflection::GetType<Key>());
+            //return _map[Reflection::GetType<Key>()];
         }
 
         ValueType& get(const std::type_index &index) {
-            return _map[index];
+            return _map.at(index);
+            //return _map[index];
         }
 
         ValueType& operator[](const std::type_index &index) {

@@ -14,6 +14,10 @@
 #include <core/rendering/graphics/nodes/TexturingNode.h>
 #include <core/rendering/data/Texture.h>
 #include <core/entity/component/behaviours/NoClipControls.h>
+#include <core/rendering/graphics/MeshGraphics.h>
+#include <core/rendering/data/Material.h>
+
+#include "TestBehaviour.h"
 
 namespace PAX {
     namespace PlaygroundDemo {
@@ -21,6 +25,7 @@ namespace PAX {
             World *_world;
             std::shared_ptr<Shader> texShader;
             std::shared_ptr<Mesh> cube;
+            std::shared_ptr<Material> cubeMaterial;
 
             void prepareAssets() {
                 texShader = Services::GetResources().loadOrGet<Shader>(
@@ -32,31 +37,20 @@ namespace PAX {
                 cube = Util::createCube(true /*with tex coords*/);
                 cube->finalize();
                 cube->upload();
+
+                std::shared_ptr<Texture> texture = Services::GetResources().loadOrGet<Texture>(
+                        Services::GetPaths().getAbsoluteResourcePath() + "img/PaxEngine3_128.png"
+                );
+                cubeMaterial = std::make_shared<Material>();
+                cubeMaterial->diffuse.texture = texture;
             }
 
             Entity* createCube() {
                 Entity* cubeEntity = new Entity();
                 EntityComponentService& es = Services::GetEntityComponentService();
-
-                std::shared_ptr<Texture> texture = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getAbsoluteResourcePath() + "img/PaxEngine3_128.png"
-                );
-                // TODO: Make this easier
-                SceneGraphGraphics* g = es.create<SceneGraphGraphics>();
-                MeshNode* cubeMeshNode = new MeshNode(cube);
-                cubeMeshNode->cacheUniformsFor(texShader);
-                //*
-                TexturingNode* texNode = new TexturingNode(texture);
-                texNode->addChild(cubeMeshNode);
-                g->getSceneGraph().addChild(texNode);
-                /*/
-                g->getSceneGraph().addChild(cubeMeshNode);
-                //*/
-
+                MeshGraphics* g = es.create<MeshGraphics>(cube, cubeMaterial);
                 g->setShader(texShader);
-
                 cubeEntity->add(g);
-
                 return cubeEntity;
             }
         public:

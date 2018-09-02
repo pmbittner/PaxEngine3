@@ -22,7 +22,7 @@ namespace PAX {
             GLuint _vao, _ibo, _vbo;
             GLenum _faceMode;
 
-            int _numberOfVertices, _numberOfFaces, _verticesPerFace;
+            size_t _numberOfVertices, _numberOfFaces, _verticesPerFace;
             std::vector<std::vector<float>> _vertices;
             std::vector<std::vector<int>> _indices;
             std::vector<std::pair<int, int>> _attributes; //offset and length

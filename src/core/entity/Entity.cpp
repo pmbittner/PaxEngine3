@@ -110,7 +110,7 @@ namespace PAX {
     };
 
     bool Entity::addComponentAsTypeMultiple(EntityComponent *component, const std::type_index &type) {
-        _multipleComponents.get(type).push_back(component);
+        _multipleComponents[type].push_back(component);
         return true;
     }
 

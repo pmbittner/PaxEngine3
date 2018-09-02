@@ -19,7 +19,7 @@ namespace PAX {
             activateShader(_shaders.top());
     }
 
-    bool ShaderOptions::useShader(void *caller, Shader *shader, ShaderPriority priority) {
+    bool ShaderOptions::useShader(void *caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority) {
         PAX_assertNotNull(shader, "Shader can't be null!");
 
         if (_shaders.empty() || _shaders.top()._priority == ShaderPriority::MUTABLE) {
@@ -42,7 +42,7 @@ namespace PAX {
         deactivateCurrentShader();
     }
 
-    Shader *ShaderOptions::getShader() {
+    const std::shared_ptr<Shader>& ShaderOptions::getShader() {
         if (_shaders.empty())
             return nullptr;
         return _shaders.top()._shader;

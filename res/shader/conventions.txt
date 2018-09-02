@@ -1,0 +1,12 @@
+Naming conventions for vertex shader:
+    mat4 projection
+    mat4 view
+    mat4 modelview
+    mat4 transposedInvModelView
+
+Naming conventions for material values:
+    vec3  material_diffuse_color
+    vec3  material_specular_color
+    vec3  material_ambient_color
+    float material_specular_exponent
+    float material_transparency

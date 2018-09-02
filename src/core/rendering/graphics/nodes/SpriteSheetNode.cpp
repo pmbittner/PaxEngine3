@@ -33,7 +33,7 @@ namespace PAX {
     }
 
     void SpriteSheetNode::render(RenderOptions &options) {
-        Shader* shader = options.getShaderOptions().getShader();
+        const std::shared_ptr<Shader> shader = options.getShaderOptions().getShader();
         shader->setUniform("spriteSheet.offset", _offset);
         shader->setUniform("spriteSheet.size", _size);
         SceneGraph::render(options);

@@ -61,7 +61,7 @@ namespace PAX {
 
         template<typename Resource, typename... Params>
         ResourceLoader<Resource, Params...>* getLoader(Params... params) {
-            std::vector<IResourceLoader *> &possibleLoaders = _loaders.get<Resource>();
+            std::vector<IResourceLoader *> &possibleLoaders = _loaders[Reflection::GetType<Resource>()];
             for (IResourceLoader *possibleLoader : possibleLoaders) {
                 auto *loader = dynamic_cast<ResourceLoader<Resource, Params...> *>(possibleLoader);
                 if (loader) {
@@ -79,7 +79,7 @@ namespace PAX {
             //std::cout << "[Resources::getHandle] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             Signature<Params...> s(p...);
 
-            std::unordered_set<ResourceHandle*> &handles = _resourcesInUse.get<Resource>();
+            std::unordered_set<ResourceHandle*> &handles = _resourcesInUse[Reflection::GetType<Resource>()];
             for (ResourceHandle *handle : handles) {
                 if (s.equals(handle->_signature)) {
                     return reinterpret_cast<TypedResourceHandle<Resource>*>(handle);
@@ -98,7 +98,7 @@ namespace PAX {
             handle->_loader = loader;
             handle->_resource = res;
 
-            _resourcesInUse.get<Resource>().insert(handle);
+            _resourcesInUse[Reflection::GetType<Resource>()].insert(handle);
 
             return handle;
         }
@@ -174,7 +174,7 @@ namespace PAX {
     public:
         template<typename Resource>
         void registerLoader(ResourceLoaderT<Resource>* loader) {
-            _loaders.get<Resource>().push_back(loader);
+            _loaders[Reflection::GetType<Resource>()].push_back(loader);
         }
 
         /**

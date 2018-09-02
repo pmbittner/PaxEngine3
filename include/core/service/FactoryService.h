@@ -21,7 +21,7 @@ namespace PAX {
         template<typename Resource, typename... Params>
         Factory<Resource, Params...>* getFactory() {
             //LOG(INFO) << "[FactoryService] getFactory for " << Reflection::GetTypeName<Resource>() << std::endl;
-            std::vector<IFactory *> &possibleFactories = _factories.get<Resource>();
+            std::vector<IFactory *> &possibleFactories = _factories[Reflection::GetType<Resource>()];
             for (IFactory *possibleFactory : possibleFactories) {
                 Factory<Resource, Params...> *factory = dynamic_cast<Factory<Resource, Params...> *>(possibleFactory);
                 //LOG(INFO) << "[FactoryService]     check Loader " << possibleFactory << " == " << factory << std::endl;
@@ -35,7 +35,7 @@ namespace PAX {
     public:
         template<typename Resource>
         void registerFactory(FactoryT<Resource>* loader) {
-            _factories.get<Resource>().push_back(loader);
+            _factories[Reflection::GetType<Resource>()].push_back(loader);
         }
 
         /**

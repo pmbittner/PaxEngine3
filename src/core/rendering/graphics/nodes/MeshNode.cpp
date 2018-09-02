@@ -11,7 +11,7 @@ namespace PAX {
     }
 
     void MeshNode::render(RenderOptions &renderOptions) {
-        Shader *shader = renderOptions.getShaderOptions().getShader();
+        const std::shared_ptr<Shader> shader = renderOptions.getShaderOptions().getShader();
 
         Camera *cam = renderOptions.getCamera();
         glm::mat4 model = renderOptions.getTransformation();

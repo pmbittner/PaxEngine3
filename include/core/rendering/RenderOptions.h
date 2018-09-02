@@ -9,6 +9,7 @@
 #include <core/entity/Transform.h>
 #include <core/rendering/data/Shader.h>
 #include <utility/macros/MacroIncludes.h>
+#include <memory>
 
 namespace PAX {
     class Camera;
@@ -20,9 +21,9 @@ namespace PAX {
 
     class ShaderOptions {
         struct ShaderUsage {
-            Shader *_shader;
+            std::shared_ptr<Shader> _shader = nullptr;
             ShaderPriority _priority = ShaderPriority::MUTABLE;
-            void* _owner;
+            void* _owner = nullptr;
         };
 
         std::stack<ShaderUsage> _shaders;
@@ -31,10 +32,10 @@ namespace PAX {
         void deactivateCurrentShader();
 
     public:
-        bool useShader(void* caller, Shader *shader, ShaderPriority priority = ShaderPriority::MUTABLE);
+        bool useShader(void* caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority = ShaderPriority::MUTABLE);
         void unuseShader(void* caller);
 
-        Shader* getShader();
+        const std::shared_ptr<Shader>& getShader();
     };
 
     class RenderOptions {

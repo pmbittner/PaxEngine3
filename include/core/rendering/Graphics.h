@@ -6,6 +6,7 @@
 #define PAXENGINE3_GRAPHICS_H
 
 #include <typeindex>
+
 #include <core/entity/EntityComponent.h>
 #include <core/event/EventHandler.h>
 #include <core/rendering/event/GraphicsShaderChangedEvent.h>
