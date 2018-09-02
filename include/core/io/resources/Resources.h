@@ -114,6 +114,8 @@ namespace PAX {
             ResourceLoader<Resource, Params...> *loader = getLoader<Resource>(p...);
             if (loader)
                 return loader->load(p...);
+            else
+                LOG(WARNING) << "[Resources::loadResource] No ResourceLoader could be found for Resource " << print<Resource>(p...) << "!";
             return nullptr;
         }
 
@@ -150,7 +152,7 @@ namespace PAX {
             std::shared_ptr<Resource> res = loadResource<Resource>(p...);
 
             if (!res)
-                LOG(WARNING) << "The Resource " << print<Resource>(p...) << " could not be loaded!";
+                LOG(WARNING) << "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!";
 
             return res;
         }
