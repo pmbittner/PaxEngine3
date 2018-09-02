@@ -15,9 +15,16 @@
 
 namespace PAX {
     namespace AssetImport {
+        static void traverseAiTree(const aiScene* scene, aiNode* node) {
+            std::cout << "[Pax::AssetImport::traverseAiTree] " << node->mName.C_Str() << std::endl;
+
+            for (unsigned int i = 0; i < node->mNumChildren; ++i)
+                traverseAiTree(scene, node->mChildren[i]);
+        }
+
         bool AssimpResourceLoader::canLoad(Path p) {
             static Util::FileTypeChecker formatChecker({
-                "3ds"
+                "obj"
             });
             return formatChecker.check(p);
         }
@@ -26,17 +33,21 @@ namespace PAX {
             Assimp::Importer importer;
 
             // TODO: Find optimal default value and make this configurable
+            // Hint aiProcess_MakeLeftHanded is needed for DirectX
             unsigned int postProcessingFlags = aiProcessPreset_TargetRealtime_Fast;
             const aiScene* scene = importer.ReadFile(p.toString(), postProcessingFlags);
 
             if (!scene) {
                 // Import failed
                 std::stringstream errorStream;
-                errorStream << "[PAX::AssetImport::AssimpResourceLoader::load] " << importer.GetErrorString();
+                errorStream << "[PAX::AssetImport::AssimpResourceLoader::load] Import failed: " << importer.GetErrorString();
+
+                std::cerr << errorStream.str() << std::endl;
                 throw std::runtime_error(errorStream.str());
             }
 
             // Now traverse the imported scene
+            traverseAiTree(scene, scene->mRootNode);
 
             // sample test code
             std::vector<glm::vec3> vertices({

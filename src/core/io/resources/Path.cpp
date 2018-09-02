@@ -32,6 +32,8 @@ namespace PAX {
     std::string Path::simplify(std::string A) {
         convertToUnix(A);
 
+        /// Implemntation copied from https://www.geeksforgeeks.org/simplify-directory-path-unix-like/
+
         // stack to store the file's names.
         std::stack<std::string> st;
 

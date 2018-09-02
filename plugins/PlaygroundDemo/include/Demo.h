@@ -71,9 +71,9 @@ namespace PAX {
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 3);
 
-                //std::shared_ptr<Mesh> tree = Services::GetResources().load<Mesh>(
-                //        Services::GetPaths().getAbsoluteResourcePath() + "mesh/lowpolytree.obj"
-                //        );
+                std::shared_ptr<Mesh> tree = Services::GetResources().load<Mesh>(
+                        Services::GetPaths().getAbsoluteResourcePath() + "mesh/lowpolytree/lowpolytree.obj"
+                        );
 
                 EntityComponentService& es = Services::GetEntityComponentService();
                 Entity* cam = new Entity();
