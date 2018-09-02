@@ -5,10 +5,11 @@
 #ifndef PAXENGINE3_SHADER_H
 #define PAXENGINE3_SHADER_H
 
-#include <glm/glm.hpp>
 #include <string>
 #include <vector>
 #include <ostream>
+
+#include <utility/lib/GlmIncludes.h>
 
 namespace PAX {
     class Shader {
