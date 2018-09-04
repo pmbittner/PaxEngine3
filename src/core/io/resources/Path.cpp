@@ -17,6 +17,39 @@ namespace PAX {
 
     Path::Path(const PAX::Path &other) : _path(other._path) {}
 
+    bool Path::isFile() {
+        auto dotPos = _path.find_last_of('.');
+        if (dotPos != std::string::npos) {
+            // the dot has to be followed or preceeded by text
+            // otherwise it will be the current directory "."
+            bool notCurrDir =
+                    (
+                        (dotPos > 0              && _path[dotPos - 1] != '.') ||
+                        (dotPos < _path.size()-1 && _path[dotPos + 1] != '.')
+                    ) && _path.size() > 1;
+
+            if (notCurrDir) {
+                auto lastSlashPos = _path.find_last_of(Paths::PathSeparator);
+                return lastSlashPos == std::string::npos || lastSlashPos < dotPos;
+            }
+        }
+        return false;
+    }
+
+    bool Path::isDirectory() {
+        return !isFile();
+    }
+
+    Path Path::getDirectory() {
+        if (isDirectory()) {
+            // Use copy constructor to avoid unnecessary simplification
+            return Path(*this);
+        } else {
+            std::string dir = _path.substr(0, _path.find_last_of(Paths::PathSeparator));
+            return Path(dir);
+        }
+    }
+
     void Path::convertToCurrentPlatform(std::string &p) {
         Util::str_replace(p, Paths::PathSeparator_Unix, Paths::PathSeparator);
     }
@@ -32,7 +65,8 @@ namespace PAX {
     std::string Path::simplify(std::string A) {
         convertToUnix(A);
 
-        /// Implemntation copied from https://www.geeksforgeeks.org/simplify-directory-path-unix-like/
+        /// Implementation copied from https://www.geeksforgeeks.org/simplify-directory-path-unix-like/
+        /// And fixed by me
 
         // stack to store the file's names.
         std::stack<std::string> st;
@@ -73,22 +107,22 @@ namespace PAX {
             }
 
             // if dir has ".." just pop the topmost
-            // element if the stack is not empty
-            // otherwise ignore.
-            if (dir.compare("..") == 0) {
-                if (!st.empty())
-                    st.pop();
+            // element if the stack is not empty and a regular directory
+            if (dir == ".." && !st.empty() && st.top() != "..") {
+                st.pop();
             }
 
                 // if dir has "." then simply continue
                 // with the process.
-            else if (dir.compare(".") == 0)
+            else if (dir == ".") {
                 continue;
-
+            }
                 // pushes if it encounters directory's
                 // name("a", "b").
-            else if (dir.length() != 0)
+            else if (dir.length() != 0) {
                 st.push(dir);
+            }
+
         }
 
         // a temporary stack  (st1) which will contain
