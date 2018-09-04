@@ -32,8 +32,8 @@ namespace PAX {
         virtual void render(RenderOptions &renderOptions) override;
 
         const glm::mat4 &getViewTransform();
-        std::shared_ptr<Viewport> getViewport();
-        std::shared_ptr<Projection> getProjection();
+        std::shared_ptr<Viewport> getViewport() const;
+        std::shared_ptr<Projection> getProjection() const;
     };
 }
 

@@ -51,6 +51,8 @@ endif()
 set(LIB_DIR_RELATIVE ../lib)
 set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
 
+set(USED_CPP_STANDARD c++11)
+
 if (WIN32)
     message("Set flags for WIN32")
     if (${COMPILER_IS_MSVC})
@@ -74,11 +76,11 @@ if (WIN32)
         endforeach()
     else(${COMPILER_IS_MSVC}) # condition for nested if
         message("    but not MSVC")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -std=c++11")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -std=${USED_CPP_STANDARD}")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
     endif(${COMPILER_IS_MSVC}) # condition for nested if
 elseif(UNIX)
     message("Set flags for UNIX")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${USED_CPP_STANDARD}")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
 else(WIN32) # condition for nested if
     message(WARNING "Platform not specified. Correct behaviour not guaranteed.")

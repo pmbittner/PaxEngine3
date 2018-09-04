@@ -25,6 +25,6 @@ namespace PAX {
     }
 
     void Graphics::render(RenderOptions &renderOptions) {
-        renderOptions.setTransformation(getOwner()->getTransform().toWorldMatrix());
+        renderOptions.setTransformationMatrix(getOwner()->getTransform().toWorldMatrix());
     }
 }

@@ -32,9 +32,9 @@ namespace PAX {
                     {1, 0}
             };
 
+            std::cout << "[SpriteGraphics::GetMesh] create QuadMesh" << std::endl;
             QuadMesh = Services::GetFactory().create<Mesh>(&vertices, &indices);
-            QuadMesh->addAttribute(texCoords);
-            QuadMesh->finalize();
+            QuadMesh->addAttribute(Mesh::UVs, texCoords);
             QuadMesh->upload();
         }
 

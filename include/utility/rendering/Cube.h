@@ -39,14 +39,7 @@ namespace PAX {
                     {6,1,2}
             };
 
-            glm::vec3 objCenter(0, 0, 0);
-            std::vector<glm::vec3> normals;
-            for (glm::vec3 &vertex : vertices) {
-                normals.push_back(glm::normalize(vertex - objCenter));
-            }
-
             std::shared_ptr<Mesh> mesh = Services::GetFactory().create<Mesh>(&vertices, &faces);
-            //mesh->addAttribute(normals);
 
             if (withTexCoords) {
                 float relativeWidth = 1;//(float)texture.Width / (float)texture.ActualWidth;
@@ -63,7 +56,16 @@ namespace PAX {
                         {relativeWidth,0}
                 };
 
-                mesh->addAttribute(texCoords);
+                mesh->addAttribute(Mesh::UVs, texCoords);
+            }
+
+            { // Create normals
+                glm::vec3 objCenter(0, 0, 0);
+                std::vector<glm::vec3> normals;
+                for (glm::vec3 &vertex : vertices) {
+                    normals.push_back(glm::normalize(vertex - objCenter));
+                }
+                //mesh->addAttribute(Mesh::Normals, normals);
             }
 
             return mesh;

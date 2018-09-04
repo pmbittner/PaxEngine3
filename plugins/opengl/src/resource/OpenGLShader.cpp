@@ -218,6 +218,10 @@ namespace PAX {
         } \
         return false;
 
+        bool OpenGLShader::setUniform(const std::string &uniformName, const bool &value) {
+            PAX_OPENGL_LOADUNIFORM(glUniform1f, value)
+        }
+
         bool OpenGLShader::setUniform(const std::string &uniformName, const float& value) {
             PAX_OPENGL_LOADUNIFORM(glUniform1f, value)
         }

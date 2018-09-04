@@ -103,7 +103,7 @@ set(HEADERS_FOR_CLION
         ../../include/core/reflection/EntityComponentReflectionData.h
         ../../include/core/service/FactoryService.h
         ../../include/utility/lib/GlmIncludes.h
-        ../../include/core/rendering/data/SkeletalMesh.h ../../include/core/rendering/graphics/MeshGraphics.h ../../include/core/rendering/data/Material.h)
+        ../../include/core/rendering/data/SkeletalMesh.h ../../include/core/rendering/graphics/AssetGraphics.h ../../include/core/rendering/data/Material.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -135,7 +135,7 @@ set(CORE_SOURCE_FILES
         reflection/EntityComponentReflectionData.cpp
 
         generated/EngineInternalPlugin.cpp
-        generated/EngineInternalPlugin.generated.cpp EnginePlugin.cpp)
+        generated/EngineInternalPlugin.generated.cpp EnginePlugin.cpp ../../include/core/rendering/data/Asset.h)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

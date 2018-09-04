@@ -42,6 +42,8 @@ namespace PAX {
         Camera *_camera = nullptr;
         ShaderOptions _shaderOptions;
         glm::mat4 _currentTransform;
+        glm::mat4 _currentView;
+        glm::mat4 _currentProjection;
 
     public:
         RenderOptions();
@@ -49,8 +51,15 @@ namespace PAX {
         Camera *getCamera() const;
         void setCamera(Camera *camera);
 
-        glm::mat4& getTransformation();
-        void setTransformation(const glm::mat4& transform);
+        glm::mat4& getTransformationMatrix();
+        void setTransformationMatrix(const glm::mat4& transform);
+
+        glm::mat4& getProjectionMatrix();
+        void setProjectionMatrix(const glm::mat4& projection);
+
+        glm::mat4& getViewMatrix();
+        void setViewMatrix(const glm::mat4& view);
+
 
         ShaderOptions& getShaderOptions();
     };

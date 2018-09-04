@@ -20,6 +20,8 @@ namespace PAX {
 
     void Camera::render(RenderOptions &renderOptions) {
         renderOptions.setCamera(this);
+        renderOptions.setViewMatrix(getViewTransform());
+        renderOptions.setProjectionMatrix(_projection->toMatrix());
 
         _viewport->apply();
         SceneGraph::render(renderOptions);
@@ -56,11 +58,11 @@ namespace PAX {
         _projection->setResolutionHeight(newHeight);
     }
 
-    std::shared_ptr<Viewport> Camera::getViewport() {
+    std::shared_ptr<Viewport> Camera::getViewport() const {
         return _viewport;
     }
 
-    std::shared_ptr<Projection> Camera::getProjection() {
+    std::shared_ptr<Projection> Camera::getProjection() const {
         return _projection;
     }
 }

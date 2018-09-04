@@ -18,10 +18,10 @@ namespace PAX {
     }
 
     void TransformationNode::render(RenderOptions &options) {
-        glm::mat4 oldTransform = options.getTransformation();
+        const glm::mat4 parentTransform = options.getTransformationMatrix();
 
-        options.setTransformation(oldTransform * _transformation);
+        options.setTransformationMatrix(parentTransform * _transformation);
         SceneGraph::render(options);
-        options.setTransformation(oldTransform);
+        options.setTransformationMatrix(parentTransform);
     }
 }

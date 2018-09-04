@@ -9,4 +9,5 @@ Naming conventions for material values:
     vec3  material_specular_color
     vec3  material_ambient_color
     float material_specular_exponent
-    float material_transparency
+    float material_opacity
+    bool  material_hasDiffuseTexture

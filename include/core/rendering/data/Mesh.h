@@ -5,20 +5,61 @@
 #ifndef PAXENGINE3_MESH_H
 #define PAXENGINE3_MESH_H
 
+#include <unordered_map>
+
 #include "../interface/Renderable.h"
+#include "../interface/Shaded.h"
+
+#include <iostream>
+#include <utility/reflection/TemplateTypeToString.h>
 
 namespace PAX {
-    class Mesh : public Renderable {
+    class Mesh : public Renderable, public Shaded {
     public:
-        virtual void addAttribute(std::vector<float> &attrib) = 0;
-        virtual void addAttribute(std::vector<glm::vec2> &attrib) = 0;
-        virtual void addAttribute(std::vector<glm::vec3> &attrib) = 0;
-        virtual void addAttribute(std::vector<glm::vec4> &attrib) = 0;
+        using AttributeName = int;
 
-        virtual void finalize() = 0;
-        virtual void upload() = 0;
+        static const AttributeName Unspecified; // -1
+        static const AttributeName Vertices; // 0
+        static const AttributeName Normals; // 1
+        static const AttributeName UVs; // 2
+        static const AttributeName Tangents; // 3
+        static const AttributeName Bitangents; // 4
 
-        virtual void destroy() = 0;
+    private:
+        std::string _name;
+        bool _uploaded = false;
+        std::vector<AttributeName> _attributeNames;
+
+        void addAttribName(AttributeName name);
+
+    protected:
+        virtual void addAttribute(const std::vector<float> &attrib) = 0;
+        virtual void addAttribute(const std::vector<glm::vec2> &attrib) = 0;
+        virtual void addAttribute(const std::vector<glm::vec3> &attrib) = 0;
+        virtual void addAttribute(const std::vector<glm::vec4> &attrib) = 0;
+
+    public:
+        virtual ~Mesh();
+
+        void setName(const std::string & name);
+        const std::string & getName() const;
+
+        /// \tparam T One of float, glm::vec2, glm::vec3, glm::vec4
+        /// \param attribName The name of the attribute, for example UVs
+        /// \param attrib The actual attribute data
+        template<typename T>
+        void addAttribute(AttributeName attribName, const std::vector<T> &attrib) {
+            addAttribName(attribName);
+            addAttribute(attrib);
+        }
+
+        virtual bool hasAttribute(AttributeName attribName);
+        virtual int getAttributeLocation(AttributeName attribName);
+
+        virtual void upload();
+        bool isUploaded();
+
+        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader);
     };
 }
 

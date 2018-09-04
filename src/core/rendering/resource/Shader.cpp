@@ -39,6 +39,10 @@ namespace PAX {
             cacheUniform(uniformName);
     }
 
+    bool Shader::setUniform(const std::string &uniformName, const bool &value) {
+        return false;
+    }
+
     bool Shader::setUniform(const std::string &uniformName, const float& value) {
         return false;
     }

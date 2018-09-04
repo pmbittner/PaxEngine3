@@ -20,6 +20,6 @@ set(HEADERS_FOR_CLION
         ../../include/test/trials/InvisibleMixinTest.h
         ../../include/test/ResourcesTest.h
         ../../include/test/trials/AllocatorConstructorTest.h
-        ../../include/test/trials/InheritedTemplateTypeTest.h)
+        ../../include/test/trials/InheritedTemplateTypeTest.h PathTest.cpp)
 
 add_executable(ResTest ResourceTest.cpp ${HEADERS_FOR_CLION})

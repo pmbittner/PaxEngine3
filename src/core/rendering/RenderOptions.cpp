@@ -60,12 +60,28 @@ namespace PAX {
         RenderOptions::_camera = camera;
     }
 
-    glm::mat4 & PAX::RenderOptions::getTransformation() {
+    glm::mat4 & PAX::RenderOptions::getTransformationMatrix() {
         return _currentTransform;
     }
 
-    void PAX::RenderOptions::setTransformation(const glm::mat4 &transform) {
+    void PAX::RenderOptions::setTransformationMatrix(const glm::mat4 &transform) {
         _currentTransform = transform;
+    }
+
+    glm::mat4& RenderOptions::getProjectionMatrix() {
+        return _currentProjection;
+    }
+
+    void RenderOptions::setProjectionMatrix(const glm::mat4 &projection) {
+        _currentProjection = projection;
+    }
+
+    glm::mat4& RenderOptions::getViewMatrix() {
+        return _currentView;
+    }
+
+    void RenderOptions::setViewMatrix(const glm::mat4 &view) {
+        _currentView = view;
     }
 
     ShaderOptions& PAX::RenderOptions::getShaderOptions() {

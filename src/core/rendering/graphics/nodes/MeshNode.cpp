@@ -13,13 +13,11 @@ namespace PAX {
     void MeshNode::render(RenderOptions &renderOptions) {
         const std::shared_ptr<Shader> shader = renderOptions.getShaderOptions().getShader();
 
-        Camera *cam = renderOptions.getCamera();
-        glm::mat4 model = renderOptions.getTransformation();
-        const glm::mat4 &view = cam->getViewTransform();
-        glm::mat4 modelview = view * model;
+        const glm::mat4 &view = renderOptions.getViewMatrix();
+        glm::mat4 modelview = view * renderOptions.getTransformationMatrix();
 
         shader->setUniform("modelview", modelview);
-        shader->setUniform("projection", cam->getProjection()->toMatrix());
+        shader->setUniform("projection", renderOptions.getProjectionMatrix());
         shader->setUniform("view", view);
         shader->setUniform("transposedInvModelView", glm::inverse(modelview), true /* transpose */);
 
@@ -33,13 +31,10 @@ namespace PAX {
     }
 
     void MeshNode::cacheUniformsFor(std::shared_ptr<Shader> &shader) {
-        shader->cacheUniforms({
-                                     "projection",
-                                     "view",
-                                     "modelview",
-                                     "transposedInvModelView"
-                             });
+        _mesh->cacheUniformsFor(shader);
     }
 
-    void MeshNode::registerFlags(Shader::Flags &flags) {}
+    void MeshNode::registerFlags(Shader::Flags &flags) {
+        _mesh->registerFlags(flags);
+    }
 }

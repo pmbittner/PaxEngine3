@@ -19,20 +19,25 @@ namespace PAX {
         }
 
         void OpenGLMesh::initialize(std::vector<glm::vec3> &vertices) {
-            _numberOfVertices = vertices.size();
-            _numberOfFaces = _indices.size();
-            _verticesPerFace = _indices.at(0).size();
+            _numberOfVertices = static_cast<GLsizei>(vertices.size());
+            _numberOfFaces = static_cast<GLsizei>(_indices.size());
+            _verticesPerFace = static_cast<GLsizei>(_indices.at(0).size());
 
-            this->_vertices.resize(_numberOfVertices);
+            this->_vertices.resize(size_t(_numberOfVertices));
 
             if (_numberOfVertices < _verticesPerFace) {
                 throw std::runtime_error("Insufficient number of vertices. At least vertices for one face have to be given");
             }
 
-            addAttribute(vertices);
+            Mesh::addAttribute(Mesh::Vertices, vertices);
         }
 
         OpenGLMesh::~OpenGLMesh() {
+            if (isUploaded()) {
+                glDeleteBuffers(1, &_vbo);
+                glDeleteBuffers(1, &_ibo);
+                glDeleteVertexArrays(1, &_vao);
+            }
         }
 
         void OpenGLMesh::render(RenderOptions &renderOptions) {
@@ -43,10 +48,10 @@ namespace PAX {
             glBindVertexArray(0);
         }
 
-        void OpenGLMesh::addAttribute(std::vector<float> &attrib)
+        void OpenGLMesh::addAttribute(const std::vector<float> &attrib)
         {
             //check if this object was finalized
-            if (_finalized) {
+            if (isUploaded()) {
                 throw std::runtime_error("Trying to add _attributes to finalized OGLObject");
             }
 
@@ -56,7 +61,7 @@ namespace PAX {
             }
 
             //update offset index
-            _attributes.push_back(std::pair<int,int>(_currentOffset,1));
+            _attributes.emplace_back(std::pair<int,int>(_currentOffset,1));
             _currentOffset += 1;
 
             //add the attribute at the end of each vertex
@@ -66,10 +71,10 @@ namespace PAX {
         }
 
 
-        void OpenGLMesh::addAttribute(std::vector<glm::vec2> &attrib)
+        void OpenGLMesh::addAttribute(const std::vector<glm::vec2> &attrib)
         {
             //check if this object was finalized
-            if (_finalized) {
+            if (isUploaded()) {
                 throw std::runtime_error("Trying to add _attributes to finalized OGLObject");
             }
 
@@ -79,7 +84,7 @@ namespace PAX {
             }
 
             //update offset index
-            _attributes.push_back(std::pair<int,int>(_currentOffset,2));
+            _attributes.emplace_back(std::pair<int,int>(_currentOffset,2));
             _currentOffset+=2;
 
             //add the attribute at the end of each vertex
@@ -89,10 +94,10 @@ namespace PAX {
             }
         }
 
-        void OpenGLMesh::addAttribute(std::vector<glm::vec3> &attrib)
+        void OpenGLMesh::addAttribute(const std::vector<glm::vec3> &attrib)
         {
             //check if this object was finalized
-            if (_finalized) {
+            if (isUploaded()) {
                 throw std::runtime_error("Trying to add _attributes to finalized OGLObject");
             }
 
@@ -102,7 +107,7 @@ namespace PAX {
             }
 
             //update offset index
-            _attributes.push_back(std::pair<int,int>(_currentOffset,3));
+            _attributes.emplace_back(std::pair<int,int>(_currentOffset,3));
             _currentOffset+=3;
 
             //add the attribute at the end of each vertex
@@ -113,10 +118,10 @@ namespace PAX {
             }
         }
 
-        void OpenGLMesh::addAttribute(std::vector< glm::vec4 > &attrib)
+        void OpenGLMesh::addAttribute(const std::vector< glm::vec4 > &attrib)
         {
             //check if this object was finalized
-            if (_finalized) {
+            if (isUploaded()) {
                 throw std::runtime_error("Trying to add _attributes to finalized OGLObject");
             }
 
@@ -126,7 +131,7 @@ namespace PAX {
             }
 
             //update offset index
-            _attributes.push_back(std::pair<int,int>(_currentOffset,4));
+            _attributes.emplace_back(std::pair<int,int>(_currentOffset,4));
             _currentOffset+=4;
 
             //add the attribute at the end of each vertex
@@ -138,34 +143,32 @@ namespace PAX {
             }
         }
 
-        void OpenGLMesh::finalize()
+        void OpenGLMesh::upload()
         {
-            _finalized = true;
-            _vertexData = new GLfloat[_currentOffset*_vertices.size()];
-            _indexData = new GLint[_verticesPerFace*_indices.size()];
+            Mesh::upload();
 
+            /// finalize
+            GLfloat* vertexData = new GLfloat[_currentOffset*_vertices.size()];
+            GLint* indexData = new GLint[_verticesPerFace*_indices.size()];
 
             for (size_t i = 0; i < _vertices.size(); i++) {
                 for (int o = 0; o < _currentOffset; o ++) {
-                    _vertexData[i*_currentOffset+o] = _vertices.at(i).at(o);
+                    vertexData[i*_currentOffset+o] = _vertices.at(i).at(o);
                 }
             }
 
             //create an index array
             for (size_t i =0; i< _indices.size(); i++) {
                 for (size_t j= 0; j < _verticesPerFace; j++) {
-                    _indexData[i*_verticesPerFace+j] = _indices.at(i).at(j);
+                    indexData[i*_verticesPerFace+j] = _indices.at(i).at(j);
                 }
             }
 
             //empty unnecessary vectors (we do need the _attributes vector later!)
             _vertices.clear();
             _indices.clear();
-        }
 
-        void OpenGLMesh::upload()
-        {
-            assert(_finalized);
+            /// upload
 
             //create a Vertex Array Object
             glGenVertexArrays(1,&_vao);
@@ -176,7 +179,7 @@ namespace PAX {
             glBindBuffer(GL_ARRAY_BUFFER,_vbo);
 
             // upload data to OpenGL
-            glBufferData(GL_ARRAY_BUFFER,_numberOfVertices*_currentOffset*sizeof(GLfloat), _vertexData, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER,_numberOfVertices*_currentOffset*sizeof(GLfloat), vertexData, GL_STATIC_DRAW);
             //define and enable the vertex attribute pointers
             for (size_t i = 0; i < _attributes.size(); i++) {
                 glVertexAttribPointer(i,_attributes.at(i).second,GL_FLOAT, GL_FALSE,(_attributes.size() == 1)? 0: (_currentOffset/*-_attributes.at(i).second*/)*sizeof(GLfloat),
@@ -190,28 +193,19 @@ namespace PAX {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 
             //upload the index data to OpenGL
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfFaces*_verticesPerFace* sizeof(GLint), _indexData, GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfFaces*_verticesPerFace* sizeof(GLint), indexData, GL_STATIC_DRAW);
 
             //unbind buffers
             glBindVertexArray(0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-        }
 
-        void OpenGLMesh::destroy() {
-            if (_finalized) {
-                glDeleteBuffers(1, &_vbo);
-                glDeleteBuffers(1, &_ibo);
-                glDeleteVertexArrays(1, &_vao);
-            }
+            delete[] vertexData;
+            delete[] indexData;
         }
 
         GLuint OpenGLMesh::getID() {
             return _vao;
-        }
-
-        bool OpenGLMesh::isFinalized() {
-            return _finalized;
         }
     }
 }

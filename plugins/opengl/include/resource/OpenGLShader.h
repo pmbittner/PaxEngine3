@@ -48,6 +48,8 @@ namespace PAX {
             virtual void cacheUniform(const std::string& uniformName) override;
             virtual bool hasUniform(const std::string& uniformName) override;
 
+            virtual bool setUniform(const std::string& uniformName, const bool& value) override;
+
             virtual bool setUniform(const std::string& uniformName, const float& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::vec2& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::vec3& value) override;

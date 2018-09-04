@@ -47,6 +47,8 @@ namespace PAX {
 
         virtual bool upload() = 0;
 
+        virtual bool setUniform(const std::string& uniformName, const bool& value);
+
         virtual bool setUniform(const std::string& uniformName, const float& value);
         virtual bool setUniform(const std::string& uniformName, const glm::vec2& value);
         virtual bool setUniform(const std::string& uniformName, const glm::vec3& value);
