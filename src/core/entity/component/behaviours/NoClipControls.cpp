@@ -98,11 +98,11 @@ namespace PAX {
 
         float dt = Time::DeltaF * rotspeed;
         float dx = e.oldX - e.mouse->getX();
-        float dy = 0;//e.oldY - e.mouse->getY();
+        float dy = e.oldY - e.mouse->getY();
 
         theta = theta + dx * dt;
         //lastTheta = theta;
-        phi = lastPhi - dy * dt;
+        phi = phi + dy * dt;
         phi = static_cast<float>(
                 (std::max)(
                         (std::min)(
@@ -114,6 +114,7 @@ namespace PAX {
         );
 
         t.rotation().y = theta;
+        t.rotation().x = phi;
 
         updateMovement();
     }
