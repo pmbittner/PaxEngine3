@@ -64,10 +64,10 @@ namespace PAX {
 
         Transform& getTransform();
         void setParent(Entity *parent);
-        Entity* getParent();
-        const std::vector<Entity*>& getChildren();
+        Entity* getParent() const;
+        const std::vector<Entity*>& getChildren() const;
         EventService& getEventService();
-        WorldLayer* getWorldLayer();
+        WorldLayer* getWorldLayer() const;
 
     private:
         bool isValid(EntityComponent* component);

@@ -55,15 +55,15 @@ namespace PAX {
         OnParentChanged(e);
     }
 
-    Entity* Entity::getParent() {
+    Entity* Entity::getParent() const {
         return _parent;
     }
 
-    const std::vector<Entity*>& Entity::getChildren() {
+    const std::vector<Entity*>& Entity::getChildren() const {
         return _children;
     }
 
-    WorldLayer* Entity::getWorldLayer() {
+    WorldLayer* Entity::getWorldLayer() const {
         return _worldLayer;
     }
 
