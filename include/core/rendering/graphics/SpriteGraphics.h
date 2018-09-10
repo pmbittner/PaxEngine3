@@ -8,8 +8,8 @@
 #include <core/rendering/data/Texture.h>
 #include <core/rendering/graphics/SceneGraphGraphics.h>
 #include <core/rendering/scenegraph/nodes/TransformationNode.h>
-#include <core/rendering/graphics/nodes/MeshNode.h>
-#include <core/rendering/graphics/nodes/TexturingNode.h>
+#include <core/rendering/scenegraph/nodes/MeshNode.h>
+#include <core/rendering/scenegraph/nodes/TexturingNode.h>
 #include <core/entity/event/SizeChangedEvent.h>
 
 namespace PAX {

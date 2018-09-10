@@ -11,8 +11,6 @@
 #include <core/rendering/camera/PerspectiveProjection.h>
 #include <utility/rendering/Cube.h>
 #include <core/rendering/graphics/SceneGraphGraphics.h>
-#include <core/rendering/graphics/nodes/MeshNode.h>
-#include <core/rendering/graphics/nodes/TexturingNode.h>
 #include <core/rendering/data/Texture.h>
 #include <core/entity/component/behaviours/NoClipControls.h>
 #include <core/rendering/graphics/AssetGraphics.h>

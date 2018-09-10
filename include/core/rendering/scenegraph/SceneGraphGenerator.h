@@ -36,6 +36,8 @@ namespace PAX {
         void addCamera(Camera *g);
         void removeCamera(Camera *g);
 
+
+
         virtual void addGraphics(Graphics *g) = 0;
         virtual void removeGraphics(Graphics *g) = 0;
     };

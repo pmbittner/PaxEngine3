@@ -2,7 +2,7 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include "core/rendering/graphics/nodes/TexturingNode.h"
+#include <core/rendering/scenegraph/nodes/TexturingNode.h>
 #include <easylogging++.h>
 
 namespace PAX {

@@ -2,7 +2,7 @@
 // Created by Paul on 07.12.2017.
 //
 
-#include <core/rendering/graphics/nodes/MeshNode.h>
+#include <core/rendering/scenegraph/nodes/MeshNode.h>
 #include <core/rendering/camera/Camera.h>
 
 namespace PAX {

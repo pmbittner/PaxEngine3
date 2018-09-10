@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SPRITESHEETGRAPHICS_H
 #define PAXENGINE3_SPRITESHEETGRAPHICS_H
 
-#include <core/rendering/graphics/nodes/SpriteSheetNode.h>
+#include <core/rendering/scenegraph/nodes/SpriteSheetNode.h>
 #include "core/rendering/Graphics.h"
 #include "SpriteGraphics.h"
 

@@ -2,7 +2,7 @@
 // Created by Paul on 11.01.2018.
 //
 
-#include <core/rendering/graphics/nodes/SpriteSheetNode.h>
+#include <core/rendering/scenegraph/nodes/SpriteSheetNode.h>
 
 namespace PAX {
     SpriteSheetNode::SpriteSheetNode(int columns, int rows) : SceneGraph(), _size(columns, rows) {
