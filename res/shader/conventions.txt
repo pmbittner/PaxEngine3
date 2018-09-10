@@ -11,3 +11,11 @@ Naming conventions for material values:
     float material_specular_exponent
     float material_opacity
     bool  material_hasDiffuseTexture
+
+SpriteSheet:
+    definition SPRITE_SHEET
+
+    struct SpriteSheet {
+        ivec2 offset;
+        ivec2 size;
+    };

@@ -17,10 +17,9 @@ namespace PAX {
 
         public:
             void sort(std::vector<Graphics*> &graphics) {
-
-                int l = 0;
-                int r = graphics.size() - 1;
-                int i, j;
+                size_t l = 0;
+                size_t r = graphics.size() - 1;
+                size_t i, j;
                 float tempZ;
                 Graphics* temp;
 
@@ -40,14 +39,14 @@ namespace PAX {
          * Renderables far away will be rendered first.
          * This is the comparator to use for 2D applications.
          */
-        typedef GraphicsSort<std::less<float>> BackToFrontGraphicsSort;
+        typedef GraphicsSort<std::less<>> BackToFrontGraphicsSort;
 
         /**
          * This Comparator puts Renderables with smaller Z in front of Renderables with greater Z,
          * meaning Renderables in front will be rendered first.
          * This is the comparator to use for 3D applications.
          */
-        typedef GraphicsSort<std::greater<float>> FrontToBackGraphicsSort;
+        typedef GraphicsSort<std::greater<>> FrontToBackGraphicsSort;
     }
 }
 

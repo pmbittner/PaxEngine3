@@ -61,10 +61,6 @@ namespace PAX {
         );
     }
 
-    void SpriteGraphics::registerFlags(Shader::Flags &flags) {
-        _meshNode.registerFlags(flags);
-    }
-
     void SpriteGraphics::setShader(std::shared_ptr<Shader> &shader) {
         _meshNode.cacheUniformsFor(shader);
         Graphics::setShader(shader);

@@ -8,15 +8,16 @@
 #include <paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h>
 #include <paxcore/rendering/Graphics.h>
 #include "SpriteGraphics.h"
+#include "../interface/ShaderFlagsConfigurator.h"
 
 namespace PAX {
-    class SpriteSheetGraphics : public SpriteGraphics {
+    class SpriteSheetGraphics : public SpriteGraphics, public ShaderFlagsConfigurator {
         PAX_ENTITYCOMPONENT_BODY(SpriteGraphics, false)
 
     protected:
         SpriteSheetNode _spriteSheet;
 
-        virtual void registerFlags(Shader::Flags &flags);
+        virtual void registerFlags(Shader::Flags &flags) override;
         virtual glm::vec2 getSpriteSize() const override;
 
     public:
@@ -26,7 +27,7 @@ namespace PAX {
         glm::ivec2 getSpritePosition() const;
         glm::ivec2 getSpriteSheetSize() const;
 
-        virtual void setShader(std::shared_ptr<Shader> &shader);
+        virtual void setShader(std::shared_ptr<Shader> &shader) override;
     };
 }
 

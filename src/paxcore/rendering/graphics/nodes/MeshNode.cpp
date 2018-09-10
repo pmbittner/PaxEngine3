@@ -33,8 +33,4 @@ namespace PAX {
     void MeshNode::cacheUniformsFor(std::shared_ptr<Shader> &shader) {
         _mesh->cacheUniformsFor(shader);
     }
-
-    void MeshNode::registerFlags(Shader::Flags &flags) {
-        _mesh->registerFlags(flags);
-    }
 }

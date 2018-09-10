@@ -66,16 +66,6 @@ namespace PAX {
         }
     }
 
-    void Asset::registerFlags(PAX::Shader::Flags &flags) {
-        for (Part & p : _meshes) {
-            p._material->registerFlags(flags);
-            p._mesh->registerFlags(flags);
-        }
-        for (auto & child : _children) {
-            child->registerFlags(flags);
-        }
-    }
-
     void Asset::print(const std::string& indent) const {
         std::string indentpp = indent + "    ";
         std::cout << "\n" << indent << "[\n";

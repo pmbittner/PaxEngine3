@@ -103,7 +103,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/reflection/EntityComponentReflectionData.h
         ../../include/paxcore/service/FactoryService.h
         ../../include/paxutil/lib/GlmIncludes.h
-        ../../include/paxcore/rendering/data/SkeletalMesh.h ../../include/paxcore/rendering/graphics/AssetGraphics.h ../../include/paxcore/rendering/data/Material.h ../../include/paxcore/rendering/light/Light.h ../../include/paxcore/rendering/light/PointLight.h ../../include/paxcore/rendering/light/DirectionalLight.h ../../include/paxcore/rendering/light/SpotLight.h)
+        ../../include/paxcore/rendering/data/SkeletalMesh.h ../../include/paxcore/rendering/graphics/AssetGraphics.h ../../include/paxcore/rendering/data/Material.h ../../include/paxcore/rendering/light/Light.h ../../include/paxcore/rendering/light/PointLight.h ../../include/paxcore/rendering/light/DirectionalLight.h ../../include/paxcore/rendering/light/SpotLight.h ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

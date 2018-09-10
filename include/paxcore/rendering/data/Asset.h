@@ -45,9 +45,8 @@ namespace PAX {
          */
         void addChild(const std::shared_ptr<Asset> & asset);
 
-        virtual void render(RenderOptions &renderOptions);
-        virtual void registerFlags(Shader::Flags &flags);
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader);
+        virtual void render(RenderOptions &renderOptions) override;
+        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) override;
 
         virtual void print(const std::string& indent = "") const;
     };

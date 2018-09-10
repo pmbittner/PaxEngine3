@@ -12,8 +12,7 @@
 namespace PAX {
     class Shaded {
     public:
-        virtual void registerFlags(Shader::Flags &flags) {};
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) {};
+        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) = 0;
     };
 }
 

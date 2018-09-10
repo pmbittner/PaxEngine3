@@ -6,6 +6,7 @@
 #define PAXENGINE3_LIGHT_H
 
 #include <paxcore/entity/EntityComponent.h>
+#include "../interface/Shaded.h"
 
 namespace PAX {
     class Light : public EntityComponent {

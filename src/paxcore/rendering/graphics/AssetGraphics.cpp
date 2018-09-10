@@ -9,10 +9,6 @@ namespace PAX {
 
     }
 
-    void AssetGraphics::registerFlags(PAX::Shader::Flags &flags) {
-        _asset->registerFlags(flags);
-    }
-
     void AssetGraphics::setShader(std::shared_ptr <PAX::Shader> &shader) {
         Super::setShader(shader);
         _asset->cacheUniformsFor(shader);

@@ -19,7 +19,6 @@ namespace PAX {
         AssetGraphics(const std::shared_ptr<Asset> & asset);
 
         virtual void setShader(std::shared_ptr<Shader> &shader) override;
-        virtual void registerFlags(Shader::Flags & flags) override;
         void render(RenderOptions &renderOptions) override;
     };
 }

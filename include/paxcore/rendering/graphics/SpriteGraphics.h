@@ -27,7 +27,6 @@ namespace PAX {
         std::shared_ptr<Texture> _texture;
 
         void onSizeChanged(SizeChangedEvent& event);
-        virtual void registerFlags(Shader::Flags &flags);
         virtual glm::vec2 getSpriteSize() const;
 
     public:

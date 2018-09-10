@@ -19,8 +19,7 @@ namespace PAX {
         std::shared_ptr<Mesh> getMesh() const;
 
         virtual void render(RenderOptions &options) override;
-        virtual void registerFlags(Shader::Flags &flags);
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader);
+        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) override;
     };
 }
 
