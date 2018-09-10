@@ -106,10 +106,10 @@ namespace PAX {
         phi = static_cast<float>(
                 (std::max)(
                         (std::min)(
-                                PAX_HALF_PI,
+                                M_PI_2,
                                 static_cast<double>(phi)
                         ),
-                        -PAX_HALF_PI
+                        -M_PI_2
                 )
         );
 

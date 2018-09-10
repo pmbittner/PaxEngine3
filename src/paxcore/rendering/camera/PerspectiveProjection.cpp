@@ -2,8 +2,8 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <paxutil/macros/MacroIncludes.h>
 #include <paxcore/rendering/camera/PerspectiveProjection.h>
+#include <paxutil/math/Angles.h>
 
 namespace PAX {
     PerspectiveProjection::PerspectiveProjection() {
@@ -13,13 +13,13 @@ namespace PAX {
     }
 
     void PerspectiveProjection::calcMatrix() {
-        float resX = static_cast<float>(getResolutionWidth());
-        float resY = static_cast<float>(getResolutionHeight());
+        auto resX = static_cast<float>(getResolutionWidth());
+        auto resY = static_cast<float>(getResolutionHeight());
         float near = getNearPlane();
         float far = getFarPlane();
 
         float aspectRatio = resX / resY;
-        float yScale = (1.0f / tan(0.5f * PAX_ToRadians(getFOV()))) * aspectRatio;
+        float yScale = static_cast<float>(1.0f / tan(0.5 * Math::toRadians(getFOV()))) * aspectRatio;
         float xScale = yScale / aspectRatio;
         float frustumLength = far - near;
 

@@ -20,7 +20,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/reflection/TypeInfo.h
         ../../include/paxutil/reflection/TypeHierarchy.h
         ../../include/paxutil/math/Functions.h
-        ../../include/paxutil/math/BoundingBox.h ../../include/paxutil/stdutils/OstreamOverloads.h ../../include/paxutil/macros/PlatformIncludes.h ../../include/paxutil/stdutils/makeunique.h)
+        ../../include/paxutil/math/BoundingBox.h ../../include/paxutil/stdutils/OstreamOverloads.h ../../include/paxutil/macros/PlatformIncludes.h ../../include/paxutil/stdutils/makeunique.h ../../include/paxutil/math/Angles.h math/Angles.cpp ../../include/paxutil/macros/MathDefines.h)
 
 add_library(paxutil ${HEADERS_FOR_CLION} StringUtils.cpp io/CSVSettingsLoader.cpp io/CSVRow.cpp math/Conversion.cpp reflection/TypeHierarchy.cpp)
 target_link_libraries(paxutil)

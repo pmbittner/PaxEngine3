@@ -6,6 +6,7 @@
 #define PAXENGINE3_NOCLIPCONTROLS_H
 
 #include <paxutil/lib/GlmIncludes.h>
+#include <paxutil/math/MathDefines.h>
 
 #include <paxcore/entity/component/Behaviour.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
@@ -14,8 +15,6 @@
 #include <paxcore/io/event/MouseButtonPressedEvent.h>
 #include <paxcore/io/event/MouseMovedEvent.h>
 #include <paxcore/io/Keys.h>
-
-#include <paxutil/macros/MacroIncludes.h>
 
 namespace PAX {
     class NoClipControls : public Behaviour {
@@ -29,7 +28,7 @@ namespace PAX {
         float lastTheta, lastPhi;
 
         float speed = 1.f;
-        float rotspeed = PAX_PI / 8;
+        float rotspeed = M_PI / 8;
 
         void updateMovement();
         void updateAxis(Key key, int direction);
