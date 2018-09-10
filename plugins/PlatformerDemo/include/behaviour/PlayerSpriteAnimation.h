@@ -5,10 +5,10 @@
 #ifndef PAXENGINE3_PLAYERSPRITEANIMATION_H
 #define PAXENGINE3_PLAYERSPRITEANIMATION_H
 
-#include <core/entity/component/Behaviour.h>
-#include <core/rendering/graphics/SpriteSheetGraphics.h>
-#include <core/animation/Animation.h>
-#include <utility/math/Functions.h>
+#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
+#include <paxcore/animation/Animation.h>
+#include <paxutil/math/Functions.h>
 
 namespace PAX {
     class PlayerSpriteAnimation : public Behaviour {

@@ -15,10 +15,10 @@ int main(int argc, char* argv[]) {
 #include <Demo.h>
 
 // Plugin Includes
-#include <sdl/include/SDLEnginePlugin.h>
-#include <sdl/include/opengl/SDLOpenGLEnginePlugin.h>
-#include <opengl/include/OpenGLEnginePlugin.h>
-#include <physics/include/Plugin.h>
+#include <paxsdl/include/SDLEnginePlugin.h>
+#include <paxsdl/include/opengl/SDLOpenGLEnginePlugin.h>
+#include <paxopengl/include/OpenGLEnginePlugin.h>
+#include <paxphysics/include/Plugin.h>
 #include <PlatformerDemo/include/Plugin.h>
 
 int PAX::PlatformerDemo_main(int argc, char *argv[]) {

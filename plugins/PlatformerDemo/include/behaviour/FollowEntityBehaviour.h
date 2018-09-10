@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_FOLLOWENTITYBEHAVIOUR_H
 #define PAXENGINE3_FOLLOWENTITYBEHAVIOUR_H
 
-#include <core/entity/component/Behaviour.h>
+#include <paxcore/entity/component/Behaviour.h>
 
 namespace PAX {
     class FollowEntityBehaviour : public PAX::Behaviour {

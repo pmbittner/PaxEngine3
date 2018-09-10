@@ -5,16 +5,16 @@
 #ifndef PAXENGINE3_PLAYGROUNDDEMO_H
 #define PAXENGINE3_PLAYGROUNDDEMO_H
 
-#include <core/Game.h>
+#include <paxcore/Game.h>
 
-#include <core/rendering/camera/Camera.h>
-#include <core/rendering/camera/PerspectiveProjection.h>
-#include <utility/rendering/Cube.h>
-#include <core/rendering/graphics/SceneGraphGraphics.h>
-#include <core/rendering/data/Texture.h>
-#include <core/entity/component/behaviours/NoClipControls.h>
-#include <core/rendering/graphics/AssetGraphics.h>
-#include <core/rendering/data/Material.h>
+#include <paxcore/rendering/camera/Camera.h>
+#include <paxcore/rendering/camera/PerspectiveProjection.h>
+#include <paxutil/rendering/Cube.h>
+#include <paxcore/rendering/graphics/SceneGraphGraphics.h>
+#include <paxcore/rendering/data/Texture.h>
+#include <paxcore/entity/component/behaviours/NoClipControls.h>
+#include <paxcore/rendering/graphics/AssetGraphics.h>
+#include <paxcore/rendering/data/Material.h>
 
 #include "TestBehaviour.h"
 

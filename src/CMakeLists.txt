@@ -1,3 +1,3 @@
-add_subdirectory(utility)
-add_subdirectory(core)
-add_subdirectory(test)
+add_subdirectory(paxutil)
+add_subdirectory(paxcore)
+add_subdirectory(paxtest)

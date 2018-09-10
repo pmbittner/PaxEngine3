@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_PLAYERCONTROLS_H
 #define PAXENGINE3_PLAYERCONTROLS_H
 
-#include <core/entity/Entity.h>
-#include <core/entity/EntityComponent.h>
-#include <core/entity/component/Behaviour.h>
-#include <core/service/Services.h>
-#include <core/io/event/KeyPressedEvent.h>
-#include <core/io/event/KeyReleasedEvent.h>
-#include <core/time/Time.h>
+#include <paxcore/entity/Entity.h>
+#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/service/Services.h>
+#include <paxcore/io/event/KeyPressedEvent.h>
+#include <paxcore/io/event/KeyReleasedEvent.h>
+#include <paxcore/time/Time.h>
 #include "VelocityBehaviour.h"
 
 namespace PAX {

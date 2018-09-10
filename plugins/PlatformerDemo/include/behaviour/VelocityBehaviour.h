@@ -6,9 +6,9 @@
 #define PAXENGINE3_VELOCITYBEHAVIOUR_H
 
 
-#include <core/entity/EntityComponent.h>
-#include <core/entity/component/Behaviour.h>
-#include <core/time/Time.h>
+#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/time/Time.h>
 
 namespace PAX {
     class VelocityBehaviour : public Behaviour {

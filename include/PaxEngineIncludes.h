@@ -5,10 +5,10 @@
 #ifndef PAXENGINE3_MAININCLUDES_H
 #define PAXENGINE3_MAININCLUDES_H
 
-#include "utility/macros/PlatformIncludes.h"
-#include "utility/macros/MacroIncludes.h"
-#include "utility/lib/LibIncludes.h"
+#include "paxutil/macros/PlatformIncludes.h"
+#include "paxutil/macros/MacroIncludes.h"
+#include "paxutil/lib/LibIncludes.h"
 
-#include "core/Engine.h"
+#include "paxcore/Engine.h"
 
 #endif //PAXENGINE3_MAININCLUDES_H

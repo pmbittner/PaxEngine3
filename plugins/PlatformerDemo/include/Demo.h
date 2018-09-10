@@ -5,15 +5,15 @@
 #ifndef PAXENGINE3_JUMPNRUNDEMO_H
 #define PAXENGINE3_JUMPNRUNDEMO_H
 
-#include <core/Game.h>
-#include <core/Engine.h>
+#include <paxcore/Game.h>
+#include <paxcore/Engine.h>
 
-#include <core/entity/component/Size.h>
-#include <core/io/resources/Path.h>
-#include <core/rendering/camera/FullPixelScreenProjection.h>
-#include <core/rendering/data/SpriteSheet.h>
-#include <core/rendering/graphics/SpriteGraphics.h>
-#include <core/rendering/graphics/SpriteSheetGraphics.h>
+#include <paxcore/entity/component/Size.h>
+#include <paxcore/io/resources/Path.h>
+#include <paxcore/rendering/camera/FullPixelScreenProjection.h>
+#include <paxcore/rendering/data/SpriteSheet.h>
+#include <paxcore/rendering/graphics/SpriteGraphics.h>
+#include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"

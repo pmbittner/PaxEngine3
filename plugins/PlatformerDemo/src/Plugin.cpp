@@ -4,7 +4,7 @@
 
 #include "../include/Plugin.h"
 
-#include <core/Engine.h>
+#include <paxcore/Engine.h>
 
 namespace PAX {
     namespace PlatformerDemo {

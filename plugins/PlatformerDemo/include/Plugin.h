@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PAXPLATFORMERDEMO_PLUGIN_H
 #define PAXENGINE3_PAXPLATFORMERDEMO_PLUGIN_H
 
-#include <core/EnginePlugin.h>
+#include <paxcore/EnginePlugin.h>
 
 namespace PAX {
     namespace PlatformerDemo {

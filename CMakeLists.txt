@@ -167,5 +167,5 @@ add_subdirectory(plugins)
 #target_link_libraries(PaxEngine3 ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxcore)
 #set_target_properties( yourexe PROPERTIES RUNTIME_OUTPUT_DIRECTORY E:/parsec/bin/ )
 
-#add_executable(ResourceTest src/test/ResourceTest.cpp include/utility/stdutils/TuplePrinter.h include/utility/stdutils/Templates.h)
+#add_executable(ResourceTest src/test/ResourceTest.cpp include/paxutil/stdutils/TuplePrinter.h include/paxutil/stdutils/Templates.h)
 #target_link_libraries(ResourceTest paxio paxutil paxlib)

@@ -32,7 +32,7 @@ def getCppTypeOf(var):
 def scanFilesForEntityComponentInheritance(generationData, dir):
     entityComponents = []
     entityComponentInheritances = []
-    includes = ["core/entity/Entity.h"]
+    includes = ["paxcore/entity/Entity.h"]
 
     for root, subdirs, files in os.walk(dir):
         for filename in files:
@@ -116,8 +116,8 @@ if __name__ == "__main__":
     genData = GenerationData()
     genData.includes.append(pluginHeaderIncludePath)
     #genData.includes.append("generated/EntityComponentTypeHierarchy.h")
-    genData.includes.append("core/entity/event/EntityComponentAddedEvent.h")
-    genData.includes.append("core/entity/event/EntityComponentRemovedEvent.h")
+    genData.includes.append("paxcore/entity/event/EntityComponentAddedEvent.h")
+    genData.includes.append("paxcore/entity/event/EntityComponentRemovedEvent.h")
 
     scanFilesForEntityComponentInheritance(genData, precompilationDirectory)
 
