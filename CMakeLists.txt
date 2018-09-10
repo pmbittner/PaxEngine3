@@ -4,16 +4,10 @@ project(PaxEngine3)
 ### OPTIONS #############################################
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
 option(WITH_BOX2D "True if 2D physics with Box2D should be integrated" ON)
-option(WITH_FBX "True if fbxsdk should be used to support loading FBX files" OFF)
 
 if(WITH_SDL_IMAGE)
     message("Building with: SDL_Image")
     add_definitions(-DPAX_WITH_SDLIMAGE)
-endif()
-
-if (WITH_FBX)
-    message("Building with: libfbx")
-    add_definitions(-DPAX_WITH_FBX)
 endif()
 
 if (WITH_BOX2D)
@@ -124,10 +118,6 @@ if (WIN32 AND ${COMPILER_IS_MSVC})
 
     set(EASYLOGGING_LIBRARY ${LIB_DIR}/Easylogging/bin/msvc/easylogging.lib)
 
-    if (WITH_FBX)
-        set(FBX_LIBRARY debug ${LIB_DIR}/win/lib/libfbxsdk-mtd.lib optimized ${lib_dir}/lib/libfbxsdk-mt.lib)
-    endif()
-
     if (WITH_BOX2D)
         include_directories(${LIB_DIR}/Box2D)
         set(BOX2D_LIBRARY ${LIB_DIR}/Box2D/bin/msvc/box2d.lib)
@@ -142,10 +132,6 @@ else()
 
     link_directories(${LIB_DIR}/Easylogging/bin/mingw)
     set(EASYLOGGING_LIBRARY easylogging)
-
-    if (WITH_FBX)
-       message(WARNING "FBX loading is not supported yet!" )
-    endif()
 
     if (WITH_BOX2D)
         include_directories(${LIB_DIR}/Box2D)
