@@ -39,14 +39,14 @@ namespace PAX {
          * Renderables far away will be rendered first.
          * This is the comparator to use for 2D applications.
          */
-        typedef GraphicsSort<std::less<>> BackToFrontGraphicsSort;
+        typedef GraphicsSort<std::less<float>> BackToFrontGraphicsSort; // keep float as argument for compatibility
 
         /**
          * This Comparator puts Renderables with smaller Z in front of Renderables with greater Z,
          * meaning Renderables in front will be rendered first.
          * This is the comparator to use for 3D applications.
          */
-        typedef GraphicsSort<std::greater<>> FrontToBackGraphicsSort;
+        typedef GraphicsSort<std::greater<float>> FrontToBackGraphicsSort; // keep float as argument for compatibility
     }
 }
 
