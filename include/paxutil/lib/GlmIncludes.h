@@ -14,7 +14,7 @@
 
 #include <ostream>
 
-template <template <typename, glm::precision> class matType, typename T, glm::precision P>
+template <template <typename, glm::qualifier> class matType, typename T, glm::qualifier P>
 std::ostream& operator<<(std::ostream& os, matType<T, P> const & x)
 {
     return os << glm::to_string(x);
