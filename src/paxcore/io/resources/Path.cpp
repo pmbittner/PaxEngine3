@@ -80,11 +80,6 @@ namespace PAX {
         // contains resultant simplifies string.
         std::string res;
 
-        // every string starts from root directory.
-#ifndef PAX_OS_WIN
-        res.append("");
-#endif
-
         // stores length of input string.
         size_t len_A = A.length();
 
@@ -148,6 +143,12 @@ namespace PAX {
         }
 
         convertToCurrentPlatform(res);
+
+        // every string starts from root directory.
+#ifndef PAX_OS_WIN
+        if (!Util::startsWith(res, ".."))
+            res.append("/");
+#endif
 
         return res;
     }
