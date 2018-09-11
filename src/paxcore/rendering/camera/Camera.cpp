@@ -31,8 +31,8 @@ namespace PAX {
         Entity *owner = getOwner();
 
         if (owner) {
-            Transform &transform = owner->getTransform();
-            _viewMatrix = transform.toWorldMatrix();
+            Transformation &transform = owner->getTransformation();
+            _viewMatrix = transform.getWorldMatrix();
             // extracting upper left 3x3 part of the mat4
             glm::mat3 rotationMatrix(_viewMatrix);
             // invert the rotation (rotationMatrix is orthogonal => transpose = inverse)

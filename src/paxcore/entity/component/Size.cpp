@@ -32,23 +32,23 @@ namespace PAX {
     }
 
     float Size::getWidth() const {
-        return (getOwner() ? getOwner()->getTransform().getAbsoluteScaleX() : 1) * _size.x;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().x : 1) * _size.x;
     }
 
     float Size::getHeight() const {
-        return (getOwner() ? getOwner()->getTransform().getAbsoluteScaleY() : 1) * _size.y;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().y : 1) * _size.y;
     }
 
     float Size::getDepth() const {
-        return (getOwner() ? getOwner()->getTransform().getAbsoluteScaleZ() : 1) * _size.z;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().z : 1) * _size.z;
     }
 
     glm::vec3 Size::getSize() const {
-        return (getOwner() ? getOwner()->getTransform().getAbsoluteScale() : glm::vec3(1)) * _size;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale() : glm::vec3(1)) * _size;
     }
 
     glm::vec2 Size::getSize2D() const {
-        return (getOwner() ? getOwner()->getTransform().getAbsoluteScale2D() : glm::vec2(1)) * _size2D;
+        return (getOwner() ? glm::vec2(getOwner()->getTransformation().getAbsoluteScale()) : glm::vec2(1)) * _size2D;
     }
 
     glm::vec3 Size::getSizeUnscaled() const {
@@ -71,7 +71,7 @@ namespace PAX {
                 if (Size* s = child->get<Size>()) {
                     FloatBoundingBox3D childBox = s->toAbsoluteBoundingBox();
                     // add childs translation and ignore rotation
-                    glm::vec3 pos = child->getTransform().getPosition();
+                    glm::vec3 pos = child->getTransformation().position();
                     childBox.translate(&pos[0]);
                     box += childBox;
                 }

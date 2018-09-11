@@ -24,8 +24,8 @@ namespace PAX {
             float position = anim * _maxElongation;
             float rotation = anim * _maxAngle;
 
-            Transform &t = getOwner()->getTransform();
-            t.rotation2D() = rotation;
+            Transformation &t = getOwner()->getTransformation();
+            t.setRotation(0, 0, rotation);
             //t.setX(position);
 
             _t = fmod(_t + _speed, 2*M_PI);

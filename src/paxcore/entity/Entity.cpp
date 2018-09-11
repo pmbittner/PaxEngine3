@@ -17,12 +17,9 @@ namespace PAX {
 
     Entity::Entity() {
         OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&_localEventService);
-        _transform.entity = this;
     }
 
     Entity::~Entity() {
-        _transform.entity = nullptr;
-
         for (const std::pair<EntityComponent* const, Reflection::TypeHierarchyNode*>& kv : _componentTypes) {
             Services::GetEntityComponentService().free(kv.second->type, kv.first);
         }
@@ -32,7 +29,7 @@ namespace PAX {
         _singleComponents.clear();
     }
 
-    Transform& Entity::getTransform() {
+    Transformation& Entity::getTransformation() {
         return _transform;
     }
 
@@ -44,7 +41,7 @@ namespace PAX {
             Util::removeFromVector(parent->_children, this);
         }
 
-        Transform *parentTransform = nullptr;
+        Transformation *parentTransform = nullptr;
         if (_parent) {
             parentTransform = &_parent->_transform;
             _parent->_children.push_back(this);

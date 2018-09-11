@@ -18,8 +18,9 @@ set(HEADERS_FOR_CLION
         ../../include/paxtest/trials/StaticMember.h
         ../../include/paxtest/trials/SpecializedFunctionWithDifferentReturType.h
         ../../include/paxtest/trials/InvisibleMixinTest.h
-        ../../include/paxtest/ResourcesTest.h
         ../../include/paxtest/trials/AllocatorConstructorTest.h
-        ../../include/paxtest/trials/InheritedTemplateTypeTest.h)
+        ../../include/paxtest/trials/InheritedTemplateTypeTest.h
+        )
 
-add_executable(ResTest ResourceTest.cpp ${HEADERS_FOR_CLION})
+add_executable(NewTrafoTest newTrafoTest.cpp ${HEADERS_FOR_CLION})
+target_link_libraries(NewTrafoTest paxutil)

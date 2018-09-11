@@ -20,4 +20,16 @@ std::ostream& operator<<(std::ostream& os, matType<T, P> const & x)
     return os << glm::to_string(x);
 }
 
+template <template <int, typename, glm::qualifier> class matType, int dims, typename T, glm::qualifier P>
+std::ostream& operator<<(std::ostream& os, matType<dims, T, P> const & x)
+{
+    return os << glm::to_string(x);
+}
+
+template <template <int, int, typename, glm::qualifier> class matType, int dims0, int dims1, typename T, glm::qualifier P>
+std::ostream& operator<<(std::ostream& os, matType<dims0, dims1, T, P> const & x)
+{
+    return os << glm::to_string(x);
+}
+
 #endif //PAXENGINE3_GLMINCLUDES_H

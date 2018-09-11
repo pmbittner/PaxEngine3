@@ -21,11 +21,14 @@
 namespace PAX {
     namespace PlaygroundDemo {
         class Demo : public Game {
-            World *_world;
+            World *_world = nullptr;
+
             std::shared_ptr<Shader> redShader;
             std::shared_ptr<Shader> texShader;
             std::shared_ptr<Shader> simpleMatShader;
+
             std::shared_ptr<Mesh> cube;
+
             std::shared_ptr<Material> cubeMaterial;
 
             void prepareAssets() {
@@ -33,16 +36,17 @@ namespace PAX {
                         Services::GetPaths().getAbsoluteResourcePath() + "shader/test/PlainTexture.vert",
                         Services::GetPaths().getAbsoluteResourcePath() + "shader/test/PlainTexture.frag"
                 );
-                texShader->upload();
                 simpleMatShader = Services::GetResources().loadOrGet<Shader>(
                         Services::GetPaths().getAbsoluteResourcePath() + "shader/material/simple/simplemat.vert",
                         Services::GetPaths().getAbsoluteResourcePath() + "shader/material/simple/simplemat.frag"
                 );
-                simpleMatShader->upload();
                 redShader = Services::GetResources().loadOrGet<Shader>(
                         Services::GetPaths().getAbsoluteResourcePath() + "shader/test/red/red.vert",
                         Services::GetPaths().getAbsoluteResourcePath() + "shader/test/red/red.frag"
                 );
+
+                texShader->upload();
+                simpleMatShader->upload();
                 redShader->upload();
 
                 cube = Util::createCube(true /*with tex coords*/);
@@ -94,6 +98,10 @@ namespace PAX {
 
                 prepareAssets();
 
+                bool withCube = true;
+                bool withTree = true;
+                bool withTank = false;
+
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 3);
 
@@ -107,21 +115,26 @@ namespace PAX {
                     cam->add(es.create<NoClipControls>());
                     mainLayer->spawn(cam);
                 }
-                Entity* cube1 = createCube(redShader);
-                Entity* cube2 = createCube(texShader);
-                Entity* tree  = createFromFile("mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
-                Entity* tank  = createFromFile("mesh/ltp/LTP.obj", simpleMatShader);
-                mainLayer->spawn(cube1);
-                mainLayer->spawn(cube2);
-                mainLayer->spawn(tree);
-                mainLayer->spawn(tank);
 
-                cam->getTransform().position()   = {0, 0,  0};
-                cube1->getTransform().position() = {0, 0,  2};
-                cube2->getTransform().position() = {0, 0, -2};
-                tree->getTransform().position()  = {-3, 0, -5};
+                cam->getTransformation().position() = {0, 0, 0};
 
-                tank->getTransform().position() = {1, -2, -5};
+                if (withCube) {
+                    Entity* cube = createCube(texShader);
+                    cube->getTransformation().position() = {0, 0, -2};
+                    mainLayer->spawn(cube);
+                }
+
+                if (withTree) {
+                    Entity* tree  = createFromFile("mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
+                    tree->getTransformation().position() = {-3, 0, -5};
+                    mainLayer->spawn(tree);
+                }
+
+                if (withTank) {
+                    Entity* tank  = createFromFile("mesh/ltp/LTP.obj", simpleMatShader);
+                    tank->getTransformation().position() = {1, -2, -5};
+                    mainLayer->spawn(tank);
+                }
 
                 _world->addLayer(mainLayer);
                 setActiveWorld(_world);

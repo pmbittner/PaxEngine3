@@ -6,7 +6,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/Entity.h
         ../../include/paxcore/entity/EntityComponent.h
         ../../include/paxcore/entity/component/allocators/EntityComponentPool.h
-        ../../include/paxcore/entity/Transform.h
 
         ../../include/paxcore/system/EngineSystem.h
         ../../include/paxcore/system/EntityComponentSystem.h
@@ -114,7 +113,6 @@ set(CORE_SOURCE_FILES
 
         entity/Entity.cpp
         entity/EntityComponent.cpp
-        entity/Transform.cpp
         entity/component/behaviours/NoClipControls.cpp
         entity/component/Behaviour.cpp
         entity/component/Size.cpp

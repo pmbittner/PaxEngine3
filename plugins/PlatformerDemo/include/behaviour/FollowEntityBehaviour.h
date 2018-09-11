@@ -19,8 +19,8 @@ namespace PAX {
 
         virtual void update() override {
             if (target) {
-                Transform &me = getOwner()->getTransform();
-                Transform &he = target->getTransform();
+                Transformation &me = getOwner()->getTransformation();
+                Transformation &he = target->getTransformation();
                 me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed;
             }
         }

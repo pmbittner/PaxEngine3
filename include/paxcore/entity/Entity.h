@@ -10,7 +10,7 @@
 #include <typeindex>
 #include <algorithm>
 
-#include "Transform.h"
+#include <paxutil/math/Transformation.h>
 
 #include <paxutil/datastructures/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
@@ -45,7 +45,7 @@ namespace PAX {
         static const std::vector<EntityComponent*> EmptyEntityComponentVector;
         static std::type_index EntityComponentType;
 
-        Transform _transform;
+        Transformation _transform;
 
         TypeMap<EntityComponent*> _singleComponents;
         TypeMap<std::vector<EntityComponent*>> _multipleComponents;
@@ -62,7 +62,7 @@ namespace PAX {
         Entity();
         ~Entity();
 
-        Transform& getTransform();
+        Transformation& getTransformation();
         void setParent(Entity *parent);
         Entity* getParent() const;
         const std::vector<Entity*>& getChildren() const;

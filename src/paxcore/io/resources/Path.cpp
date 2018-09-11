@@ -147,7 +147,7 @@ namespace PAX {
         // every string starts from root directory.
 #ifndef PAX_OS_WIN
         if (!Util::startsWith(res, ".."))
-            res.append("/");
+            res = "/" + res;
 #endif
 
         return res;

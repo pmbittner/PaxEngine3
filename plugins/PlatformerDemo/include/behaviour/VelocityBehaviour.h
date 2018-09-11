@@ -18,7 +18,7 @@ namespace PAX {
         glm::vec2 velocity = glm::vec2(0);
 
         virtual void update() override {
-            Transform& t = getOwner()->getTransform();
+            Transformation& t = getOwner()->getTransformation();
             t.position2D() += velocity * Time::DeltaF;
         }
     };

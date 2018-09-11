@@ -10,6 +10,8 @@
 #include <paxcore/animation/Animation.h>
 #include <paxutil/math/Functions.h>
 
+#include "VelocityBehaviour.h"
+
 namespace PAX {
     class PlayerSpriteAnimation : public Behaviour {
         PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
@@ -49,19 +51,22 @@ namespace PAX {
             int oldMoving = moving;
             moving = Math::sign(v->velocity.x);
             if (oldMoving != moving) {
+                Transformation & t = getOwner()->getTransformation();
+                float scaleX = 0;
                 if (moving) {
                     idleAnimation.stop();
                     walkingAnimation.start();
                     activeAnimation = &walkingAnimation;
-                    getOwner()->getTransform().setScaleX(getOwner()->getTransform().getScaleX() * moving);
+                    scaleX = t.getScale().x * moving;
                     yIndex = 1;
                 } else {
                     walkingAnimation.stop();
                     idleAnimation.start();
                     activeAnimation = &idleAnimation;
-                    getOwner()->getTransform().setScaleX(abs(getOwner()->getTransform().getScaleX()));
+                    scaleX = abs(t.getScale().x);
                     yIndex = 2;
                 }
+                t.setScale(glm::vec3(scaleX, t.getScale().y, t.getScale().z));
             }
 
             activeAnimation->update();

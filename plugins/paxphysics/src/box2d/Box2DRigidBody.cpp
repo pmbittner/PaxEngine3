@@ -17,7 +17,7 @@ namespace PAX {
             }
 
             void RigidBody::createFor(b2World &world) {
-                _bodyDef.position = toBox2D(getOwner()->getTransform().position2D());
+                _bodyDef.position = toBox2D(getOwner()->getTransformation().position2D());
                 _body = world.CreateBody(&_bodyDef);
                 _body->CreateFixture(&_fixtureDef);
 

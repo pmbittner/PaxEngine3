@@ -5,7 +5,7 @@
 #include <paxcore/entity/component/behaviours/NoClipControls.h>
 
 #include <paxcore/entity/Entity.h>
-#include <paxcore/entity/Transform.h>
+#include <paxutil/math/Transformation.h>
 #include <paxcore/service/Services.h>
 
 #include <paxutil/lib/GlmIncludes.h>
@@ -14,7 +14,7 @@
 #include <paxcore/time/Time.h>
 
 namespace PAX {
-    NoClipControls::NoClipControls() {
+    NoClipControls::NoClipControls() : velocity(0), relativeMovement(0) {
         EventService& e = Services::GetEventService();
         e.add<KeyPressedEvent, NoClipControls, &NoClipControls::onKeyPressed>(this);
         e.add<KeyReleasedEvent, NoClipControls, &NoClipControls::onKeyReleased>(this);
@@ -31,19 +31,20 @@ namespace PAX {
     }
 
     void NoClipControls::updateMovement() {
-        glm::vec3 lookDir(sin(theta) * cos(phi), sin(phi), cos(theta) * cos(phi));
-        glm::vec3 upDir (sin(theta)* sin(phi)*-1,cos(phi),cos(theta)*sin(phi)*-1);
+        Transformation & t = getOwner()->getTransformation();
+        glm::vec3 lookDir = t.getLookDirection();
+        glm::vec3 upDir = t.getUpDirection();
 
         glm::vec3 verticalVelocity = glm::vec3(0, relativeMovement.y, 0);
-        glm::vec3 forwardVelocity = lookDir * relativeMovement.z;
-        glm::vec3 sidewardVelocity = glm::cross(upDir, lookDir) * relativeMovement.x;
+        glm::vec3 forwardVelocity = lookDir * -relativeMovement.z;
+        glm::vec3 sidewardVelocity = glm::cross(lookDir, upDir) * relativeMovement.x;
 
-        velocity = Time::DeltaF * speed * glm::normalize(forwardVelocity + sidewardVelocity + verticalVelocity);
+        velocity = speed * Time::DeltaF * glm::normalize(forwardVelocity + sidewardVelocity + verticalVelocity);
     }
 
     void NoClipControls::update() {
         if (glm::length2(velocity) > 0) {
-            getOwner()->getTransform().position() += velocity;
+            getOwner()->getTransformation().position() += velocity;
         }
     }
 
@@ -83,6 +84,10 @@ namespace PAX {
         if (e.button == MouseButton::RIGHT) {
             lastPhi = phi;
             lastTheta = theta;
+
+            lastMouseX = e.mouse->getX();
+            lastMouseY = e.mouse->getY();
+
             Services::GetEventService().add<MouseMovedEvent, NoClipControls, &NoClipControls::onMouseDragged>(this);
         }
     }
@@ -94,15 +99,12 @@ namespace PAX {
     }
 
     void NoClipControls::onMouseDragged(MouseMovedEvent &e) {
-        Transform& t = getOwner()->getTransform();
+        Transformation& t = getOwner()->getTransformation();
 
-        float dt = Time::DeltaF * rotspeed;
-        float dx = e.oldX - e.mouse->getX();
-        float dy = e.oldY - e.mouse->getY();
-
-        theta = theta + dx * dt;
-        //lastTheta = theta;
-        phi = phi + dy * dt;
+        float dx = lastMouseX - e.mouse->getX();
+        float dy = lastMouseY - e.mouse->getY();
+        theta = lastTheta - dx * mousesensivity;
+        phi   = lastPhi   + dy * mousesensivity;
         phi = static_cast<float>(
                 (std::max)(
                         (std::min)(
@@ -113,8 +115,7 @@ namespace PAX {
                 )
         );
 
-        t.rotation().y = theta;
-        t.rotation().x = phi;
+        t.setRotation(theta, phi);
 
         updateMovement();
     }

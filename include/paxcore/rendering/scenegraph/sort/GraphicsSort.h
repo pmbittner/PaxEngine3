@@ -25,8 +25,8 @@ namespace PAX {
 
                 for (i = l + 1; i <= r; ++i) {
                     temp = graphics[i];
-                    tempZ = temp->getOwner()->getTransform().z();
-                    for (j = i; j > l && isSmaller(tempZ, graphics[j-1]->getOwner()->getTransform().z()); --j) {
+                    tempZ = temp->getOwner()->getTransformation().z();
+                    for (j = i; j > l && isSmaller(tempZ, graphics[j-1]->getOwner()->getTransformation().z()); --j) {
                         graphics[j] = graphics[j - 1];
                     }
                     graphics[j] = temp;

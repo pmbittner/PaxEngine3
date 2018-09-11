@@ -6,6 +6,7 @@
 #define PAXENGINE3_ANGLES_H
 
 #include "MathDefines.h"
+#include "../lib/GlmIncludes.h"
 
 namespace PAX {
     namespace Math {
@@ -18,6 +19,10 @@ namespace PAX {
         constexpr T toDegrees(T radians) {
             return T(radians * 180 / M_PI);
         }
+
+        glm::vec3 sphericalCoordinatesToDirection(float theta, float phi);
+        glm::vec2 lookDirToSphericalCoordinates(const glm::vec3 & lookdir);
+        glm::vec3 sphericalCoordinatesToUpDirection(float theta, float phi);
     }
 }
 

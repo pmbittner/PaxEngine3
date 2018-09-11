@@ -3,7 +3,7 @@
 //
 
 #include <cassert>
-#include <paxcore/entity/Transform.h>
+#include <paxutil/math/Transformation.h>
 #include <paxcore/rendering/RenderOptions.h>
 
 namespace PAX {

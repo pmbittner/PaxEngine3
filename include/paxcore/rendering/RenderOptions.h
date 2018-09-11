@@ -6,7 +6,7 @@
 #define PAXENGINE3_RENDEROPTIONS_H
 
 #include <stack>
-#include <paxcore/entity/Transform.h>
+#include <paxutil/math/Transformation.h>
 #include <paxcore/rendering/data/Shader.h>
 #include <paxutil/macros/MacroIncludes.h>
 #include <memory>

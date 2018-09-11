@@ -25,10 +25,11 @@ namespace PAX {
         glm::vec3 velocity;
 
         float theta = 0, phi = 0;
-        float lastTheta, lastPhi;
+        float lastTheta = 0, lastPhi = 0;
+        int lastMouseX = 0, lastMouseY = 0;
 
         float speed = 1.f;
-        float rotspeed = M_PI / 8;
+        float mousesensivity = float(M_PI / 400.0); // radians per pixel
 
         void updateMovement();
         void updateAxis(Key key, int direction);

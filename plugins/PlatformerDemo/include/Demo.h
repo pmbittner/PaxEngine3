@@ -72,7 +72,7 @@ namespace PAX {
                 player->add(s.create<PlayerControls>());
                 player->add(s.create<PlayerSpriteAnimation>());
 
-                player->getTransform().setScale(5, 5);
+                player->getTransformation().setScale({5, 5, 1});
 
                 return player;
             }
@@ -89,7 +89,7 @@ namespace PAX {
                 npc->add(s.create<VelocityBehaviour>());
                 npc->add(s.create<PlayerSpriteAnimation>());
 
-                npc->getTransform().setScale(5, 5);
+                npc->getTransformation().setScale({5, 5, 1});
 
                 return npc;
             }
@@ -103,7 +103,7 @@ namespace PAX {
                         Services::GetFactory().create<Viewport>(),
                         std::make_shared<PixelScreenProjection>()
                 ));
-                cam->getTransform().z() = 1;
+                cam->getTransformation().z() = 1;
                 cam->add(s.create<FollowEntityBehaviour>(player));
 
                 return cam;
@@ -129,8 +129,8 @@ namespace PAX {
                     g->setShader(spriteShader);
                     block->add(g);
 
-                    block->getTransform().x() = x;
-                    block->getTransform().setScale(scale, scale);
+                    block->getTransformation().x() = x;
+                    block->getTransformation().setScale({scale, scale, 1});
 
                     block->setParent(platform);
 
@@ -160,11 +160,11 @@ namespace PAX {
                 int y = resolution.y - 2*h;
 
                 Entity *p1 = createPlatform(5);
-                p1->getTransform().position2D() = {0, -200};
+                p1->getTransformation().position2D() = {0, -200};
                 _mainLayer->spawn(p1);
 
                 Entity *p2 = createPlatform(2);
-                p2->getTransform().position2D() = {300, 100};
+                p2->getTransformation().position2D() = {300, 100};
                 _mainLayer->spawn(p2);
 
                 {
@@ -180,7 +180,7 @@ namespace PAX {
                             Services::GetFactory().create<Viewport>(),
                             std::make_shared<PixelScreenProjection>()
                     ));
-                    backgroundCam->getTransform().z() = 1;
+                    backgroundCam->getTransformation().z() = 1;
 
                     WorldLayer *bg = new WorldLayer("Background", -10);
                     bg->spawn(background);
@@ -222,7 +222,7 @@ namespace PAX {
                 createEnvironment();
 
                 Entity* npc = createNPC();
-                npc->getTransform().position2D() = {-20, -120};
+                npc->getTransformation().position2D() = {-20, -120};
                 _mainLayer->spawn(npc);
 
                 _world->addLayer(_mainLayer);
