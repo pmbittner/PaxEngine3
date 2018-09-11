@@ -3,10 +3,6 @@
 ## Build Instructions
 
 ### General
-Additional libraries are needed. Those have to be located in a directory called `lib` next to the git repository.
-
-**Ask Paul to get the necessary files for your operating system.**
-
 The build folder has to have at least two levels of directories. That allows splitting builds for different configurations, compilers, release/debug:
 
     CMakeLists.txt
@@ -19,16 +15,99 @@ The build folder has to have at least two levels of directories. That allows spl
 		    MinGW build files here
 	    msvc/
 		    MSVC build files here
-			
-Otherwise, the program won't be able to find the `res` directory to load its resources (for now).
+
+Otherwise, the program won't be able to find the 'res' directory to load its resources (for now).
 (Detecting the resource folder at runtime is a feature for the future.)
 
-### Windows
-The project should build with MinGW as well as MSVC. To execute the program some DLL-files have to be put into the executables directory.
+### Libraries
+Additional libraries may be needed by some plugins or the engine core itself. Some of them may have to be build manually.
 
-**Ask Paul to get the necessary files for your operating system.**
+#### Libraries to install
 
-### Linux
-Required packages: `libsdl2-dev` `libglm-dev`
+Required: glm
 
-Optional packages: `libsdl2-image-dev`
+The following libraries are needed by the resprective plugins:
+
+paxopengl: requires glew 2.0.0 or higher
+
+paxsdl: requires SDL2, optional SDL2-image for texture loading
+
+##### Windows and MinGW
+**Ask Paul to get the necessary files for your compiler.**
+##### Windows and MSVC
+The files have to be placed in a directory called 'lib' next to the git repository.
+
+Include files have to be in "lib/win/include".
+
+Libraries have to be in "lib/win/libs".
+
+SDL2 and SDL2_image have their own subdiectories.
+
+**Ask Paul to get the necessary files for your compiler.**
+
+##### Linux
+The package names are `libsdl2-dev`, `libglm-dev`, `libsdl2-image-dev`
+
+
+#### Libraries to build manually
+These libraries have to be located in a directory called 'lib' next to the git repository like the files for MSVC.
+##### Easylogging
+Has to be located in directory 'lib/Easylogging'. Build files have to be located in
+
+'lib/Easyloging/build/mingw' for MinGW and Unix build and
+
+'lib/Easyloging/build/msvc' for MSVC.
+
+##### Assimp (required by paxassetimport)
+Check out their git repository and build manually. The build director names
+currently are:
+
+    cmake-build-release-msvc
+    cmake-build-release-mingw
+    cmake-build-debug-mingw
+    build (on Linux)
+
+Before building a few adjustments have to be made to their CMakeLists.txt. First we want to build static libraries.
+Hence, set the option `BUILD_SHARED_LIBS` to `OFF`. For `MSVC` we have to set a compiler flag additionally. So append the compile option `/MT`
+Change the lines
+
+    ELSEIF(MSVC)
+      # enable multi-core compilation with MSVC
+      ADD_COMPILE_OPTIONS(/MP)
+
+to
+
+    ELSEIF(MSVC)
+      # enable multi-core compilation with MSVC
+      ADD_COMPILE_OPTIONS(/MP /MT)
+
+Fow now we let assimp build its own version of zlib to avoid version conflicts. Therefore, set `ASSIMP_BUILD_ZLIB` to `ON`.
+For the same reason, the option `SYSTEM_IRRXML` has to be `OFF`.
+
+##### Box2D (required by paxphysics)
+We created a custom CMake-Project for Box2D, as the original one just delivers a makefile and does not split include and src files
+into seperate directories.
+
+**Ask Paul to get the necessary files.**
+
+
+#### DLLs on Windows
+Both MinGW and MSVC require certain DLLs:
+
+Dont know anymore who actually requires this one: zlib1.dll
+
+For SDL2: SDL2.dll
+
+For Glew: glew32.dll
+
+For SDL2-Image: SDL2_image.dll
+libjpeg-9.dll
+libtiff-5.dll
+libwebp-7.dll
+libpng16-16.dll
+
+For Assimp: assimp-vc140-mt.dll
+assimp-vc140-mtd.dll
+
+**Ask Paul to get the necessary files.**
+
