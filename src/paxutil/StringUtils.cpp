@@ -28,6 +28,14 @@ namespace PAX {
             return s;
         }
 
+        bool startsWith(const std::string& s, const std::string& prefix) {
+            return s.find(prefix) == 0;
+        }
+
+        bool endsWith(const std::string& s, const std::string& suffix) {
+            return s.size() >= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
+        }
+
         std::string getExtension(std::string path) {
             auto dotIndex = path.find_last_of('.');
 

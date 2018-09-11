@@ -29,6 +29,10 @@ namespace PAX {
         // trim from both ends (copying)
         std::string trimmed(std::string s);
 
+        bool startsWith(const std::string& s, const std::string& prefix);
+
+        bool endsWith(const std::string& s, const std::string& suffix);
+
         std::string getExtension(std::string path);
 
         void str_replace(std::string& string, const char& from, const char& to);
