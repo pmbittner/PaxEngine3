@@ -100,7 +100,7 @@ namespace PAX {
 
                 bool withCube = true;
                 bool withTree = true;
-                bool withTank = false;
+                bool withTank = true;
 
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 3);
