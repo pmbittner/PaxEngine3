@@ -3,6 +3,7 @@
 //
 
 #include <paxutil/math/Transformation.h>
+#include <glm/gtx/matrix_decompose.hpp>
 
 namespace PAX {
     const Math::Basis Transformation::Basis = Math::OpenGLBasis;
