@@ -19,13 +19,12 @@ namespace PAX {
     }
 
     bool Shader::Flags::operator==(const Flags &other) const {
-        return
-                VertexFlags.compare(other.VertexFlags)
+        return   (VertexFlags.compare(other.VertexFlags)
                 | GeometryFlags.compare(other.GeometryFlags)
                 | FragmentFlags.compare(other.FragmentFlags)
                 | TessControlFlags.compare(other.TessControlFlags)
                 | TessEvaluationFlags.compare(other.TessEvaluationFlags)
-                | ComputeFlags.compare(other.ComputeFlags) == 0;
+                | ComputeFlags.compare(other.ComputeFlags)) == 0;
     }
 
 

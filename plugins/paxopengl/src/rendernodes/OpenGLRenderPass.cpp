@@ -22,6 +22,8 @@ namespace PAX {
             glEnable(GL_MULTISAMPLE);
             glEnable(GL_BACK);
 
+            //glEnable(GL_CULL_FACE);
+
             // ----- enable alpha blending
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

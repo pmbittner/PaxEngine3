@@ -23,7 +23,7 @@ namespace PAX {
         Delegate(void* callee, void (*method)(void*, Args...)) : callee(callee), method(method) {}
 
         bool operator==(const Delegate& other) {
-            return callee == callee && method == method;
+            return callee == other.callee && method == other.method;
         }
     };
 }

@@ -6,7 +6,6 @@
 #define PAXENGINE3_TRANSFORM_H
 
 #include <paxutil/lib/GlmIncludes.h>
-#include <glm/gtx/matrix_decompose.hpp>
 #include <paxutil/math/Angles.h>
 #include <paxutil/math/Basis.h>
 
