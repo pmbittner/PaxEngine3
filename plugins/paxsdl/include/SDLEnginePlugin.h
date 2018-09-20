@@ -10,7 +10,6 @@
 #include <paxcore/EnginePlugin.h>
 #include <paxcore/service/Paths.h>
 #include <paxcore/service/Services.h>
-#include "utility/Path.h"
 #include "SDLInputSystem.h"
 
 namespace PAX {
@@ -29,8 +28,6 @@ namespace PAX {
 
                 SDL_Init(SDL_INIT_EVERYTHING);
                 //TTF_Init();
-
-                Services::GetPaths().setExecutionDirectory(getBasePath());
             };
 
             virtual void registerFactories(FactoryService& factoryService) override {

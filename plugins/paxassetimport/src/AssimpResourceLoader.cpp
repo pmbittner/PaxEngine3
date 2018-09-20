@@ -141,7 +141,7 @@ namespace PAX {
 
                 if (ret == aiReturn_SUCCESS) {
                     Path dir = importData._path.getDirectory();
-                    std::string pathToTex = dir.toString() + Paths::PathSeparator + texPath.C_Str();
+                    std::string pathToTex = dir.toString() + Path::PathSeparator + texPath.C_Str();
                     paxmaterial->diffuse.texture = Services::GetResources().load<Texture>(pathToTex);
                 }
             }

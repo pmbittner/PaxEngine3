@@ -71,7 +71,9 @@ namespace PAX {
 
         LOG(INFO) << "[Engine::initialize] create Window";
         // load graphic settings
-        Util::CSVSettingsLoader settings(Services::GetPaths().getRelativeResourcePath() + "config/initialWindow.paxconfig", '=', true);
+        // TODO: Make this less ugly and hard coded
+        Services::GetPaths().setAbsoluteResourceDirectory(Services::GetPaths().getWorkingDirectory() + "/../../res");
+        Util::CSVSettingsLoader settings(Services::GetPaths().getResourcePath() + "/config/initialWindow.paxconfig", '=', true);
         std::string title = settings["PaxEngine3_DefaultTitle"];
         int resX = settings.getInt("resolutionWidth");
         int resY = settings.getInt("resolutionHeight");

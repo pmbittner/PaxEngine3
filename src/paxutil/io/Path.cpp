@@ -11,6 +11,10 @@ namespace PAX {
     constexpr char Path::PathSeparator_Unix;
     constexpr char Path::PathSeparator;
 
+    Path::Path() : _path(".") {
+
+    }
+
     Path::Path(const char *path) : _path(path) {
         simplify(_path);
     }
@@ -183,6 +187,9 @@ namespace PAX {
             res = "/" + res;
 #endif
 
+        if (res.empty())
+            res = ".";
+
         path = res;
     }
 
@@ -205,6 +212,55 @@ namespace PAX {
     const std::string& Path::toString() const {
         return _path;
     }
+
+    Path& Path::operator=(const char *path) {
+        _path = path;
+        simplify(_path);
+        return *this;
+    }
+
+    Path& Path::operator=(const std::string &path) {
+        _path = path;
+        simplify(_path);
+        return *this;
+    }
+
+    Path& Path::operator=(const PAX::Path &other) {
+        _path = other._path;
+        return *this;
+    }
+
+    Path Path::operator+(const char *path) const {
+        return Path(_path + PathSeparator + std::string(path));
+    }
+
+    Path Path::operator+(const std::string &path) const {
+        return Path(_path + PathSeparator + path);
+    }
+
+    Path& Path::operator+=(const char *path) {
+        _path += PathSeparator + path;
+        simplify(_path);
+        return *this;
+    }
+
+    Path& Path::operator+=(const std::string &path) {
+        _path += PathSeparator + path;
+        simplify(_path);
+        return *this;
+    }
+
+    /*
+    Path Path::operator+(const PAX::Path &other) {
+        return Path(_path + other._path);
+    }
+
+    Path& Path::operator+=(const PAX::Path &other) {
+        _path += other._path;
+        simplify(_path);
+        return *this;
+    }
+     */
 }
 
 std::ostream& operator<<(std::ostream& os, const PAX::Path & p)

@@ -33,16 +33,16 @@ namespace PAX {
 
             void prepareAssets() {
                 texShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getAbsoluteResourcePath() + "shader/test/PlainTexture.vert",
-                        Services::GetPaths().getAbsoluteResourcePath() + "shader/test/PlainTexture.frag"
+                        Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.vert",
+                        Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.frag"
                 );
                 simpleMatShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getAbsoluteResourcePath() + "shader/material/simple/simplemat.vert",
-                        Services::GetPaths().getAbsoluteResourcePath() + "shader/material/simple/simplemat.frag"
+                        Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.vert",
+                        Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.frag"
                 );
                 redShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getAbsoluteResourcePath() + "shader/test/red/red.vert",
-                        Services::GetPaths().getAbsoluteResourcePath() + "shader/test/red/red.frag"
+                        Services::GetPaths().getResourcePath() + "/shader/test/red/red.vert",
+                        Services::GetPaths().getResourcePath() + "/shader/test/red/red.frag"
                 );
 
                 texShader->upload();
@@ -53,7 +53,7 @@ namespace PAX {
                 cube->upload();
 
                 std::shared_ptr<Texture> texture = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getAbsoluteResourcePath() + "img/PaxEngine3_128.png"
+                        Services::GetPaths().getResourcePath() + "/img/PaxEngine3_128.png"
                 );
                 cubeMaterial = std::make_shared<Material>("CubeMaterial_createdInCode");
                 cubeMaterial->diffuse.texture = texture;
@@ -74,7 +74,7 @@ namespace PAX {
             Entity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
                 EntityComponentService& es = Services::GetEntityComponentService();
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
-                        Services::GetPaths().getAbsoluteResourcePath() + relativeResourcePath
+                        Services::GetPaths().getResourcePath() + relativeResourcePath
                 );
                 Entity* treeEntity = new Entity();
                 AssetGraphics* g = es.create<AssetGraphics>(tree);

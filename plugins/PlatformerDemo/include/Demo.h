@@ -42,19 +42,19 @@ namespace PAX {
                 EntityComponentService& s = Services::GetEntityComponentService();
 
                 std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getRelativeResourcePath() + "img/Platformer/GreenBot16.png"
+                        Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
                 );
 
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.vert",
-                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.frag"
+                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
+                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
                 );
 
                 playerGraphics = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
                 spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
                         playerGraphics->getShaderFlags(),
-                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.vert",
-                        Services::GetPaths().getRelativeResourcePath() + "shader/sprite/sprite.frag"
+                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
+                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
                 );
 
                 spriteShader->upload();
@@ -82,7 +82,7 @@ namespace PAX {
 
                 Entity* npc = new Entity();
                 Graphics* g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getRelativeResourcePath() + "img/Platformer/GreenBot16.png"
+                        Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
                 ), 7, 4);
                 g->setShader(spriteSheetShader);
                 npc->add(g);
@@ -149,11 +149,11 @@ namespace PAX {
                 EntityComponentService& s = Services::GetEntityComponentService();
                 glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
-                std::string imgPath = Services::GetPaths().getRelativeResourcePath() + "img/Platformer/";
+                Path imgPath = Services::GetPaths().getResourcePath() + "/img/Platformer";
 
-                centerBlockTexture = r.loadOrGet<Texture>(imgPath + "Block/Center.png");
-                leftBlockTexture   = r.loadOrGet<Texture>(imgPath + "Block/Left.png");
-                rightBlockTexture  = r.loadOrGet<Texture>(imgPath + "Block/Right.png");
+                centerBlockTexture = r.loadOrGet<Texture>(imgPath + "/Block/Center.png");
+                leftBlockTexture   = r.loadOrGet<Texture>(imgPath + "/Block/Left.png");
+                rightBlockTexture  = r.loadOrGet<Texture>(imgPath + "/Block/Right.png");
 
                 int w = centerBlockTexture->getWidth();
                 int h = centerBlockTexture->getHeight();
@@ -170,7 +170,7 @@ namespace PAX {
                 {
                     Entity *background = new Entity();
                     SpriteGraphics* backgroundGraphics = s.create<SpriteGraphics>(
-                            r.loadOrGet<Texture>(imgPath + "bg.png")
+                            r.loadOrGet<Texture>(imgPath + "/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
                     background->add(backgroundGraphics);
@@ -227,6 +227,11 @@ namespace PAX {
 
                 _world->addLayer(_mainLayer);
                 setActiveWorld(_world);
+
+                // test info
+                std::cout << "\n"
+                << "WorkingDirectory == " << Services::GetPaths().getWorkingDirectory() << "\n\n"
+                << "    ResourcePath == " << Services::GetPaths().getResourcePath() << "\n\n" << std::endl;
             }
         };
     }

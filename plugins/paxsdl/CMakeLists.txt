@@ -45,7 +45,6 @@ set(HEADERS_FOR_CLION
         include/SDLImageLoader.h
         include/SDLInputSystem.h
 
-        include/utility/Path.h
         include/utility/SDLImageLoader.h
         )
 
@@ -55,8 +54,6 @@ add_library(paxsdl
         src/SDLKeyboard.cpp
         src/SDLWindow.cpp
         src/SDLRenderPass.cpp
-
-        src/utility/Path.cpp
 
         src/opengl/SDLOpenGLWindow.cpp
         src/opengl/SDLOpenGLRenderPass.cpp

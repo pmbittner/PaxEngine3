@@ -20,12 +20,15 @@ namespace PAX {
                 PathSeparator_Unix;
 #endif
 
+        static bool isAbsolute(const std::string & path);
+
     private:
         std::string _path;
 
     public:
-        Path(const char* path);
-        Path(const std::string& path);
+        Path();
+        /*implicit*/ Path(const char* path);
+        /*implicit*/ Path(const std::string& path);
         Path(const Path& other);
 
         /// A Path is considered to be a file, if it contains a dot, indicating a file ending, after the last slash/backslash.
@@ -38,14 +41,25 @@ namespace PAX {
         static void convertToWin(std::string & path);
         static void convertToUnix(std::string & path);
         static void simplify(std::string & path);
-        static bool isAbsolute(const std::string & path);
-
-        bool operator==(const Path& other) const;
-        operator const char*() const;
-        operator std::string() const;
 
         const char* c_str() const;
         const std::string& toString() const;
+
+        bool operator==(const Path& other) const;
+        /*implicit*/ operator const char*() const;
+        /*implicit*/ operator std::string() const;
+
+        Path& operator=(const char* path);
+        Path& operator=(const std::string& path);
+        Path& operator=(const Path& other);
+        Path operator+(const char* path) const;
+        Path operator+(const std::string& path) const;
+        Path& operator+=(const char* path);
+        Path& operator+=(const std::string& path);
+
+        // I do not know yet, if I want to support these.
+        //Path operator+(const Path& other) const;
+        //Path& operator+=(const Path& other);
     };
 }
 

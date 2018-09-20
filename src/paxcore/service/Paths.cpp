@@ -14,39 +14,35 @@
 #endif
 
 namespace PAX {
-    Paths::Paths() {
+    std::string Paths::GetCurrentWorkingDirectory() {
         char cCurrentPath[FILENAME_MAX];
 
         if (PAX_GetCurrentDir(cCurrentPath, sizeof(cCurrentPath))) {
             cCurrentPath[sizeof(cCurrentPath) - 1] = '\0'; /* not really required */
-            _workingDirectory = std::string(cCurrentPath);
+            return cCurrentPath;
         } else {
-            _workingDirectory = "Working Directory could not be obtained!";
+            return "Working Directory could not be obtained!";
         }
+    }
 
-
+    Paths::Paths() : _workingDirectory(GetCurrentWorkingDirectory())
+    {
+        // Initialize after _workingDirectory is initialized, as this cannot be guaranteed, if this is also placed
+        // inside the initializer list.
+        _absoluteResourcePath = _workingDirectory;
     }
 
     Paths::~Paths() = default;
 
-    void Paths::setExecutionDirectory(const std::string& executionDirectory) {
-        _executionDirectory = executionDirectory;
-        _absoluteResourcePath = _executionDirectory + _relativeResourcePath;
+    void Paths::setAbsoluteResourceDirectory(const std::string& resourceDirectory) {
+        _absoluteResourcePath = resourceDirectory;
     }
 
-    const std::string& Paths::getRelativeResourcePath() const {
-        return _relativeResourcePath;
-    }
-
-    const std::string& Paths::getAbsoluteResourcePath() const {
+    const Path& Paths::getResourcePath() const {
         return _absoluteResourcePath;
     }
 
-    const std::string& Paths::getExecutionDirectory() const {
-        return _executionDirectory;
-    }
-
-    const std::string& Paths::getWorkingDirectory() const {
+    const Path& Paths::getWorkingDirectory() const {
         return _workingDirectory;
     }
 }

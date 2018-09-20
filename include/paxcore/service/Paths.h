@@ -10,23 +10,24 @@
 #include "paxutil/io/Path.h"
 
 namespace PAX {
+    class Engine;
     class Paths {
+        friend Engine;
+
     private:
-        std::string _relativeResourcePath = std::string("..") + Path::PathSeparator + std::string("..") + Path::PathSeparator + std::string("res") + Path::PathSeparator;
-        std::string _absoluteResourcePath;
-        std::string _executionDirectory;
-        std::string _workingDirectory;
+        static std::string GetCurrentWorkingDirectory();
+
+        Path _absoluteResourcePath;
+        Path _workingDirectory;
+
+        void setAbsoluteResourceDirectory(const std::string& resourceDirectory);
 
     public:
         Paths();
         ~Paths();
 
-        void setExecutionDirectory(const std::string& executionDirectory);
-
-        const std::string& getRelativeResourcePath() const;
-        const std::string& getAbsoluteResourcePath() const;
-        const std::string& getExecutionDirectory() const;
-        const std::string& getWorkingDirectory() const;
+        const Path& getResourcePath() const;
+        const Path& getWorkingDirectory() const;
     };
 }
 
