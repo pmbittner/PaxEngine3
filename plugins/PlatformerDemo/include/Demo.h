@@ -9,7 +9,7 @@
 #include <paxcore/Engine.h>
 
 #include <paxcore/entity/component/Size.h>
-#include <paxcore/io/resources/Path.h>
+#include <paxutil/io/Path.h>
 #include <paxcore/rendering/camera/FullPixelScreenProjection.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>

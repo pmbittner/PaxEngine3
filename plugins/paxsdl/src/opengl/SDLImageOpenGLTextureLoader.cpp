@@ -28,7 +28,7 @@ namespace PAX {
                     "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
             });
 
-            return formats.check(path);
+            return formats.check(path.toString());
         }
 
         std::shared_ptr<PAX::Texture> PAX::OpenGL::SDLImageOpenGLTextureLoader::load(Path path) {
@@ -41,7 +41,7 @@ namespace PAX {
                 LOG(ERROR) << "could not init SDL_Image: " << IMG_GetError();
             }
 
-            if((tex = IMG_Load(path)) == NULL) {
+            if((tex = IMG_Load(path.c_str())) == NULL) {
                 LOG(ERROR) << "Loading texture " << path << " failed in SDLImageOpenGLTextureLoader.";
             }
 

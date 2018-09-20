@@ -18,7 +18,7 @@
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
-#include "Path.h"
+#include "paxutil/io/Path.h"
 
 namespace PAX {
     template<typename T> struct ConvertStringsToPath {

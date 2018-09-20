@@ -119,7 +119,7 @@ namespace PAX {
                 cam->getTransformation().position() = {0, 0, 0};
 
                 if (withCube) {
-                    Entity* cube = createCube(texShader);
+                    Entity* cube = createCube(redShader);
                     cube->getTransformation().position() = {0, 0, -2};
                     mainLayer->spawn(cube);
                 }

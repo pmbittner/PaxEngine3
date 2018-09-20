@@ -2,22 +2,28 @@
 // Created by Paul on 06.01.2018.
 //
 
-#include <paxcore/io/resources/Path.h>
+#include <paxutil/io/Path.h>
 #include <iostream>
 #include <stack>
 
 namespace PAX {
+    constexpr char Path::PathSeparator_Win;
+    constexpr char Path::PathSeparator_Unix;
+    constexpr char Path::PathSeparator;
+
+    Path::Path(const char *path) : _path(path) {
+        simplify(_path);
+    }
+
     Path::Path(const std::string& path) : Path(path.c_str()) {
 
     }
 
-    Path::Path(const char *path) : _path(simplify(path)) {
-
+    Path::Path(const PAX::Path &other) : _path(other._path) {
+        // do not call other constructors to avoid unnecessary simplification
     }
 
-    Path::Path(const PAX::Path &other) : _path(other._path) {}
-
-    bool Path::isFile() {
+    bool Path::isFile() const {
         auto dotPos = _path.find_last_of('.');
         if (dotPos != std::string::npos) {
             // the dot has to be followed or preceeded by text
@@ -29,44 +35,71 @@ namespace PAX {
                     ) && _path.size() > 1;
 
             if (notCurrDir) {
-                auto lastSlashPos = _path.find_last_of(Paths::PathSeparator);
+                auto lastSlashPos = _path.find_last_of(PathSeparator);
                 return lastSlashPos == std::string::npos || lastSlashPos < dotPos;
             }
         }
         return false;
     }
 
-    bool Path::isDirectory() {
+    bool Path::isDirectory() const {
         return !isFile();
     }
 
-    Path Path::getDirectory() {
+    bool Path::isAbsolute() const {
+        isAbsolute(_path);
+    }
+
+    bool Path::isAbsolute(const std::string &path) {
+#ifdef PAX_OS_WIN
+        // Absolute paths on win are of the form
+        // Drive:/
+        for (int i = 0; i < path.size(); ++i) {
+            if (path[i] == Path::PathSeparator_Win)
+                break;
+            else if (path[i] == '.')
+                break;
+            else if (path[i] == ':')
+                return true;
+        }
+
+        return false;
+#else
+        return Util::startsWith(path, "/");
+#endif
+    }
+
+    Path Path::getDirectory() const {
         if (isDirectory()) {
             // Use copy constructor to avoid unnecessary simplification
             return Path(*this);
         } else {
-            std::string dir = _path.substr(0, _path.find_last_of(Paths::PathSeparator));
+            std::string dir = _path.substr(0, _path.find_last_of(PathSeparator));
             return Path(dir);
         }
     }
 
-    void Path::convertToCurrentPlatform(std::string &p) {
-        Util::str_replace(p, Paths::PathSeparator_Unix, Paths::PathSeparator);
+    void Path::convertToCurrentPlatform(std::string &path) {
+        Util::str_replace(path, PathSeparator_Unix, PathSeparator);
     }
 
-    void Path::convertToWin(std::string& p) {
-        Util::str_replace(p, Paths::PathSeparator_Unix, Paths::PathSeparator_Win);
+    void Path::convertToWin(std::string& path) {
+        Util::str_replace(path, PathSeparator_Unix, PathSeparator_Win);
     }
 
-    void Path::convertToUnix(std::string& p) {
-        Util::str_replace(p, Paths::PathSeparator_Win, Paths::PathSeparator_Unix);
+    void Path::convertToUnix(std::string& path) {
+        Util::str_replace(path, PathSeparator_Win, PathSeparator_Unix);
     }
 
-    std::string Path::simplify(std::string A) {
-        convertToUnix(A);
+    void Path::simplify(std::string & path) {
+#ifndef PAX_OS_WIN
+        bool absolute = isAbsolute(path);
+#endif
+
+        convertToUnix(path);
 
         /// Implementation copied from https://www.geeksforgeeks.org/simplify-directory-path-unix-like/
-        /// And fixed by me
+        /// And fixed by Paul
 
         // stack to store the file's names.
         std::stack<std::string> st;
@@ -81,7 +114,7 @@ namespace PAX {
         std::string res;
 
         // stores length of input string.
-        size_t len_A = A.length();
+        size_t len_A = path.length();
 
         for (int i = 0; i < len_A; i++) {
 
@@ -91,13 +124,13 @@ namespace PAX {
             dir.clear();
 
             // skip all the multiple '/' Eg. "/////""
-            while (A[i] == '/')
+            while (path[i] == '/')
                 i++;
 
             // stores directory's name("a", "b" etc.)
             // or commands("."/"..") into dir
-            while (i < len_A && A[i] != '/') {
-                dir.push_back(A[i]);
+            while (i < len_A && path[i] != '/') {
+                dir.push_back(path[i]);
                 i++;
             }
 
@@ -146,11 +179,11 @@ namespace PAX {
 
         // every string starts from root directory.
 #ifndef PAX_OS_WIN
-        if (!Util::startsWith(res, ".."))
+        if (absolute)
             res = "/" + res;
 #endif
 
-        return res;
+        path = res;
     }
 
     bool Path::operator==(const Path &other) const {
@@ -163,6 +196,10 @@ namespace PAX {
 
     Path::operator std::string() const {
         return _path;
+    }
+
+    const char* Path::c_str() const {
+        return _path.c_str();
     }
 
     const std::string& Path::toString() const {

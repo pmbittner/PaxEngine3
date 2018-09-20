@@ -24,3 +24,6 @@ set(HEADERS_FOR_CLION
 
 add_executable(NewTrafoTest newTrafoTest.cpp ${HEADERS_FOR_CLION})
 target_link_libraries(NewTrafoTest paxutil)
+
+add_executable(ArbitraryTest arbitraryTest.cpp)
+target_link_libraries(ArbitraryTest paxutil)

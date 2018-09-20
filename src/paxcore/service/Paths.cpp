@@ -14,10 +14,6 @@
 #endif
 
 namespace PAX {
-    constexpr char Paths::PathSeparator_Win;
-    constexpr char Paths::PathSeparator_Unix;
-    constexpr char Paths::PathSeparator;
-
     Paths::Paths() {
         char cCurrentPath[FILENAME_MAX];
 

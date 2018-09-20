@@ -29,5 +29,15 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Basis.h
         ../../include/paxutil/math/Transformation.h)
 
-add_library(paxutil ${HEADERS_FOR_CLION} StringUtils.cpp io/CSVSettingsLoader.cpp io/CSVRow.cpp math/Conversion.cpp reflection/TypeHierarchy.cpp math/Angles.cpp math/Transformation.cpp)
+set(SOURCE_FILES
+        StringUtils.cpp
+        io/CSVSettingsLoader.cpp
+        io/CSVRow.cpp
+        io/Path.cpp
+        reflection/TypeHierarchy.cpp
+        math/Conversion.cpp
+        math/Angles.cpp
+        math/Transformation.cpp)
+
+add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

@@ -7,7 +7,7 @@
 
 #include <memory>
 // This is just for use in subclasses, where Path is needed almost every time.
-#include "Path.h"
+#include "paxutil/io/Path.h"
 
 namespace PAX {
     class IResourceLoader {
