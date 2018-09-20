@@ -22,10 +22,10 @@ namespace PAX {
     public:
         std::tuple<S...> _values;
 
-        Signature(std::tuple<S...> values)
+        explicit Signature(std::tuple<S...> values)
                 : _values(values) {}
 
-        Signature(S... values)
+        explicit Signature(S... values)
                 : Signature<S...>(std::forward_as_tuple(values...)) {}
 
         Signature(Signature<S...> &toCopy)
@@ -47,7 +47,7 @@ namespace PAX {
         }
 
         virtual bool equals(ISignature *other) const override {
-            Signature<S...> *concreteSignature = dynamic_cast<Signature<S...>*>(other);
+            auto *concreteSignature = dynamic_cast<Signature<S...>*>(other);
 
             if (concreteSignature) {
                 return Signature<S...>::equals(*concreteSignature);

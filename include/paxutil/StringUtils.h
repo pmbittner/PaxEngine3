@@ -33,7 +33,7 @@ namespace PAX {
 
         bool endsWith(const std::string& s, const std::string& suffix);
 
-        std::string getExtension(std::string path);
+        std::string getExtension(const std::string & path);
 
         void str_replace(std::string& string, const char& from, const char& to);
     }

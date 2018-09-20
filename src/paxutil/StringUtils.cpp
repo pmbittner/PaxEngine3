@@ -36,7 +36,7 @@ namespace PAX {
             return s.size() >= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
         }
 
-        std::string getExtension(std::string path) {
+        std::string getExtension(const std::string & path) {
             auto dotIndex = path.find_last_of('.');
 
             if (dotIndex == std::string::npos)

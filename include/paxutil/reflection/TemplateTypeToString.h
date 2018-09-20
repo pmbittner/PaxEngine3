@@ -28,7 +28,7 @@ namespace PAX {
 
             template<typename T>
             struct GetTypeNameHelper {
-                static const char *GetTypeName(void) {
+                static const char *GetTypeName() {
                     static const size_t size = sizeof(__FUNCTION__) - FRONT_SIZE - BACK_SIZE;
                     static char typeName[size] = {};
                     memcpy(typeName, __FUNCTION__ + FRONT_SIZE, size - 1u);
@@ -40,7 +40,7 @@ namespace PAX {
 
 
         template<typename T>
-        const char *GetTypeName(void) {
+        const char *GetTypeName() {
 #if defined(PAX_COMPILER_MSVC) || defined(PAX_COMPILER_CLANG)
             return internal::GetTypeNameHelper<T>::GetTypeName();
 #else
