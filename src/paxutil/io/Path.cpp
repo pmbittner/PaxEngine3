@@ -51,7 +51,7 @@ namespace PAX {
     }
 
     bool Path::isAbsolute() const {
-        isAbsolute(_path);
+        return isAbsolute(_path);
     }
 
     bool Path::isAbsolute(const std::string &path) {
@@ -59,12 +59,15 @@ namespace PAX {
         // Absolute paths on win are of the form
         // Drive:/
         for (int i = 0; i < path.size(); ++i) {
-            if (path[i] == Path::PathSeparator_Win)
+            if (path[i] == Path::PathSeparator) {
                 break;
-            else if (path[i] == '.')
+            }
+            else if (path[i] == '.') {
                 break;
-            else if (path[i] == ':')
+            }
+            else if (path[i] == ':') {
                 return true;
+            }
         }
 
         return false;
@@ -172,14 +175,12 @@ namespace PAX {
             // if it's the last element no need
             // to append "/"
             if (st1.size() != 1)
-                res.append(temp + "/");
+                res.append(temp + PathSeparator);
             else
                 res.append(temp);
 
             st1.pop();
         }
-
-        convertToCurrentPlatform(res);
 
         // every string starts from root directory.
 #ifndef PAX_OS_WIN
