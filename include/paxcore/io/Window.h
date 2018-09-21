@@ -12,15 +12,22 @@
 #include "event/ResolutionChangedEvent.h"
 
 namespace PAX {
+    class InputSystem;
+
     class Window {
+        friend class InputSystem;
+
         bool _fullscreen;
+
+    protected:
+        glm::ivec2 _resolution;
 
     public:
         virtual ~Window() {};
 
         EventHandler<ResolutionChangedEvent&> OnResolutionChanged;
 
-        virtual glm::ivec2 getResolution() = 0;
+        virtual glm::ivec2 getResolution();
 
         virtual void setFullscreen(bool fullscreen);
         bool isFullscreen();

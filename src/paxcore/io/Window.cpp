@@ -12,4 +12,8 @@ namespace PAX {
     bool Window::isFullscreen() {
         return _fullscreen;
     }
+
+    glm::ivec2 Window::getResolution() {
+        return _resolution;
+    }
 }

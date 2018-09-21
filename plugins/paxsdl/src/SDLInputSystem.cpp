@@ -43,7 +43,7 @@ namespace PAX {
 
                     case SDL_MOUSEBUTTONDOWN: {
                         _mbPressed.button = static_cast<MouseButton>(_currentEvent.button.button); // mapping is 1:1
-                        setMouseLocation(_mouse, _currentEvent.button.x, _currentEvent.button.y);
+                        setMouseScreenPosition(_mouse, _currentEvent.button.x, _currentEvent.button.y);
                         _mbPressed.clicks = _currentEvent.button.clicks;
                         Services::GetEventService()(_mbPressed);
                         break;
@@ -51,25 +51,24 @@ namespace PAX {
 
                     case SDL_MOUSEBUTTONUP: {
                         _mbReleased.button = static_cast<MouseButton>(_currentEvent.button.button); // mapping is 1:1
-                        setMouseLocation(_mouse, _currentEvent.button.x, _currentEvent.button.y);
+                        setMouseScreenPosition(_mouse, _currentEvent.button.x, _currentEvent.button.y);
                         Services::GetEventService()(_mbReleased);
                         break;
                     }
 
                     case SDL_MOUSEWHEEL: {
-                        char dir = _currentEvent.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1;
+                        int dir = _currentEvent.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1;
                         _mWheel.ticksX = dir * _currentEvent.wheel.x;
                         _mWheel.ticksY = dir * _currentEvent.wheel.y;
                         Services::GetEventService()(_mWheel);
                     }
 
                     case SDL_MOUSEMOTION: {
-                        _mMoved.oldX = _mouse.getX();
-                        _mMoved.oldY = _mouse.getY();
+                        _mMoved.oldScreenPos = _mouse.getScreenPosition();
 
                         int x, y;
                         SDL_GetMouseState(&x, &y);
-                        setMouseLocation(_mouse, x, y);
+                        setMouseScreenPosition(_mouse, x, y);
 
                         Services::GetEventService()(_mMoved);
                         break;
@@ -78,10 +77,10 @@ namespace PAX {
                     case SDL_WINDOWEVENT: {
                         switch (_currentEvent.window.event) {
                             case SDL_WINDOWEVENT_RESIZED: {
-                                SDLWindow *window = static_cast<SDLWindow*>(Engine::Instance().getWindow());
+                                Window *window = Engine::Instance().getWindow();
                                 glm::ivec2 newRes = {_currentEvent.window.data1, _currentEvent.window.data2};
                                 ResolutionChangedEvent e(window->getResolution(), newRes);
-                                window->_resolution = newRes;
+                                setWindowResolution(*window, newRes);
                                 window->OnResolutionChanged(e);
                                 break;
                             }

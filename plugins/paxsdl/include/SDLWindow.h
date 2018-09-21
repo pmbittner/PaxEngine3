@@ -20,7 +20,6 @@ namespace PAX {
 
         protected:
             SDL_Window *_window = nullptr;
-            glm::ivec2 _resolution;
 
             virtual Uint32 flags();
 
@@ -30,8 +29,6 @@ namespace PAX {
             virtual ~SDLWindow();
 
             virtual bool create(const std::string& title, int width, int height);
-
-            virtual glm::ivec2 getResolution() override;
             virtual void setFullscreen(bool fullscreen) override;
 
             SDL_Window *getSDL_Window();

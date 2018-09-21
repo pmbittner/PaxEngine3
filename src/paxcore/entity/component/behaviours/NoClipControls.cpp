@@ -85,8 +85,8 @@ namespace PAX {
             lastPhi = phi;
             lastTheta = theta;
 
-            lastMouseX = e.mouse->getX();
-            lastMouseY = e.mouse->getY();
+            lastMouseX = e.mouse->getScreenPosition().x;
+            lastMouseY = e.mouse->getScreenPosition().y;
 
             Services::GetEventService().add<MouseMovedEvent, NoClipControls, &NoClipControls::onMouseDragged>(this);
         }
@@ -101,8 +101,8 @@ namespace PAX {
     void NoClipControls::onMouseDragged(MouseMovedEvent &e) {
         Transformation& t = getOwner()->getTransformation();
 
-        float dx = lastMouseX - e.mouse->getX();
-        float dy = lastMouseY - e.mouse->getY();
+        float dx = lastMouseX - e.mouse->getScreenPosition().x;
+        float dy = lastMouseY - e.mouse->getScreenPosition().y;
         theta = lastTheta - dx * mousesensivity;
         phi   = lastPhi   + dy * mousesensivity;
         phi = static_cast<float>(

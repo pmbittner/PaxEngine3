@@ -21,7 +21,7 @@ namespace PAX {
         }
 
         void onMousePressed(MouseButtonPressedEvent& e) {
-            std::cout << e.mouse->getX() << ", " << e.mouse->getY() << std::endl;
+            std::cout << e.mouse->getScreenPosition() << std::endl;
         }
 
         void onMouseReleased(MouseButtonReleasedEvent& e) {

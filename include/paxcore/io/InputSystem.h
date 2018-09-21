@@ -5,9 +5,12 @@
 #ifndef PAXENGINE3_INPUTSYSTEM_H
 #define PAXENGINE3_INPUTSYSTEM_H
 
+#include <paxutil/lib/GlmIncludes.h>
+
 #include "../system/EngineSystem.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Window.h"
 
 namespace PAX {
     class InputSystem : public EngineSystem {
@@ -16,9 +19,13 @@ namespace PAX {
         virtual Mouse* getMouse() = 0;
 
     protected:
-        inline void setMouseLocation(Mouse& mouse, int x, int y) {
-            mouse.x = x;
-            mouse.y = y;
+        inline void setMouseScreenPosition(Mouse& mouse, int x, int y) {
+            mouse.screenPos.x = x;
+            mouse.screenPos.y = y;
+        }
+
+        inline void setWindowResolution(Window& window, const glm::ivec2 & res) {
+            window._resolution = res;
         }
     };
 }

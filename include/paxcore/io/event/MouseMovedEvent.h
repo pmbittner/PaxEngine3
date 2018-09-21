@@ -6,11 +6,12 @@
 #define PAXENGINE3_MOUSEMOVEDEVENT_H
 
 #include "MouseEvent.h"
+#include <paxutil/lib/GlmIncludes.h>
 
 namespace PAX {
     struct MouseMovedEvent : public MouseEvent {
     public:
-        int oldX = 0, oldY = 0;
+        glm::ivec2 oldScreenPos;
     };
 }
 
