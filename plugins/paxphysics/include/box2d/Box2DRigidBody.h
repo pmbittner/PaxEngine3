@@ -25,7 +25,7 @@ namespace PAX {
 
                 void createFor(b2World &world);
 
-                virtual void attached(Entity *entity) override;
+                virtual void attached(Entity &entity) override;
             };
         }
     }

@@ -13,14 +13,14 @@ namespace PAX {
 
     }
 
-    void EntityComponent::attached(Entity *entity) {}
-    void EntityComponent::detached(Entity *entity) {}
+    void EntityComponent::attached(Entity &entity) {}
+    void EntityComponent::detached(Entity &entity) {}
 
     Entity* EntityComponent::getOwner() const {
         return _owner;
     }
 
-    bool EntityComponent::areDependenciesMetFor(const Entity *entity) const {
+    bool EntityComponent::areDependenciesMetFor(const Entity &entity) const {
         return true;
     }
 

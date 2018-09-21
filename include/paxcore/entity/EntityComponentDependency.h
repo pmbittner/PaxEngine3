@@ -14,12 +14,12 @@ namespace PAX {
     template<class... EntityComponentTypes>
     class EntityComponentDependency : public Dependency<Entity> {
     public:
-        virtual bool met(const Entity *entity) const override {
-            return entity->has<EntityComponentTypes...>();
+        virtual bool met(const Entity &entity) const override {
+            return entity.has<EntityComponentTypes...>();
         }
     };
 
-    // Entity::has always needs arguments (see implementation of met
+    // Entity::has always needs arguments (see implementation of met)
     template<>
     class EntityComponentDependency<> : public Dependency<Entity> {
 

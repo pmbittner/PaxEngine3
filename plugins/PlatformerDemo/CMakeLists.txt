@@ -18,7 +18,7 @@ set(HEADERS_FOR_CLION
         include/behaviour/PlayerControls.h
         include/behaviour/PlayerSpriteAnimation.h
         include/behaviour/VelocityBehaviour.h
-        include/behaviour/Dance2D.h)
+        include/behaviour/Dance2D.h include/behaviour/DragNDrop.h)
 
 add_executable(PlatformerDemo src/main.cpp ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
 target_link_libraries(PlatformerDemo ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxcore)

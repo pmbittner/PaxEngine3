@@ -12,7 +12,7 @@ namespace PAX {
 
             }
 
-            void RigidBody::attached(Entity *entity) {
+            void RigidBody::attached(Entity &entity) {
                 PAX::Physics::RigidBody::attached(entity);
             }
 

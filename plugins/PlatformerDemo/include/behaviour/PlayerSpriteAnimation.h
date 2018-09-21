@@ -40,10 +40,10 @@ namespace PAX {
 
         }
 
-        virtual void attached(Entity *entity) override {
+        virtual void attached(Entity &entity) override {
             Behaviour::attached(entity);
-            v = entity->get<VelocityBehaviour>();
-            spriteSheet = entity->get<SpriteSheetGraphics>();
+            v = entity.get<VelocityBehaviour>();
+            spriteSheet = entity.get<SpriteSheetGraphics>();
             idleAnimation.start();
         }
 

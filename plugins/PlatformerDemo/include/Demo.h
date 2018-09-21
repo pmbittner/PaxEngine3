@@ -14,6 +14,7 @@
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
+#include <PlatformerDemo/include/behaviour/DragNDrop.h>
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
@@ -88,6 +89,7 @@ namespace PAX {
                 npc->add(g);
                 npc->add(s.create<VelocityBehaviour>());
                 npc->add(s.create<PlayerSpriteAnimation>());
+                npc->add(s.create<DragNDrop>());
 
                 npc->getTransformation().setScale({5, 5, 1});
 

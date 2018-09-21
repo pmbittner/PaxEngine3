@@ -23,7 +23,7 @@ namespace PAX {
     public:
         Size(const glm::vec3& size);
 
-        virtual void attached(Entity* entity);
+        virtual void attached(Entity& entity) override;
 
         void setSize(const glm::vec3& size);
         void setSize2D(const glm::vec2& size);

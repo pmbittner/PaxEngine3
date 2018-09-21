@@ -66,23 +66,23 @@ namespace PAX {
         Graphics::setShader(shader);
     }
 
-    void SpriteGraphics::attached(Entity *entity) {
+    void SpriteGraphics::attached(Entity &entity) {
         SceneGraphGraphics::attached(entity);
 
-        entity->getEventService().add<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
+        entity.getEventService().add<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
 
         glm::vec3 spriteSize = glm::vec3(getSpriteSize(), 0);
-        Size* size = entity->get<Size>();
+        Size* size = entity.get<Size>();
         if (size) {
             size->setSize(spriteSize);
         } else {
             size = Services::GetEntityComponentService().create<Size>(spriteSize);
-            entity->add(size);
+            entity.add(size);
         }
     }
 
-    void SpriteGraphics::detached(Entity *entity) {
+    void SpriteGraphics::detached(Entity &entity) {
         SceneGraphGraphics::detached(entity);
-        entity->getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
+        entity.getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
     }
 }

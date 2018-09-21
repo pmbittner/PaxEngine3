@@ -24,10 +24,10 @@ namespace PAX {
     protected:
         virtual const std::type_index& getClassType() const = 0;
 
-        virtual void attached(Entity *entity);
-        virtual void detached(Entity *entity);
+        virtual void attached(Entity &entity);
+        virtual void detached(Entity &entity);
 
-        virtual bool areDependenciesMetFor(const Entity* entity) const;
+        virtual bool areDependenciesMetFor(const Entity& entity) const;
 
     public:
         EntityComponent();
@@ -54,7 +54,7 @@ private:
 
 #define PAX_ENTITYCOMPONENT_DEPENDS_ON(...) \
 protected: \
-    virtual bool areDependenciesMetFor(const Entity* entity) const override { \
+    virtual bool areDependenciesMetFor(const Entity& entity) const override { \
         static PAX::EntityComponentDependency<__VA_ARGS__> dependencies; \
         return Super::areDependenciesMetFor(entity) && dependencies.met(entity); \
     } \

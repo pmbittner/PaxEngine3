@@ -70,14 +70,14 @@ namespace PAX {
 
     void Entity::registerComponent(EntityComponent *component) {
         component->_owner = this;
-        component->attached(this);
+        component->attached(*this);
     }
 
     void Entity::unregisterComponent(EntityComponent *component) {
         _componentTypes.erase(component);
 
         component->_owner = nullptr;
-        component->detached(this);
+        component->detached(*this);
     }
 
     void Entity::onEntityComponentAttached(EntityComponent *component, const std::type_index& type) {
@@ -94,7 +94,7 @@ namespace PAX {
             return false;
         }
 
-        return component->areDependenciesMetFor(this);
+        return component->areDependenciesMetFor(*this);
     }
 
     bool Entity::addComponentAsTypeSingle(EntityComponent *component, const std::type_index &type) {

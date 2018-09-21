@@ -62,16 +62,16 @@ namespace PAX {
         PlayerControls() {}
         ~PlayerControls() {}
 
-        virtual void attached(Entity *entity) override {
+        virtual void attached(Entity &entity) override {
             Behaviour::attached(entity);
             EventService& e = Services::GetEventService();
             e.add<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
             e.add<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);
 
-            velocityBehaviour = entity->get<VelocityBehaviour>();
+            velocityBehaviour = entity.get<VelocityBehaviour>();
         }
 
-        virtual void detached(Entity *entity) override {
+        virtual void detached(Entity &entity) override {
             Behaviour::detached(entity);
             EventService& e = Services::GetEventService();
             e.remove<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);

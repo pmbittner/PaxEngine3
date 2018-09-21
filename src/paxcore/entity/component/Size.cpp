@@ -10,11 +10,11 @@ namespace PAX {
         setSize(size);
     }
 
-    void Size::attached(Entity *entity) {
+    void Size::attached(Entity &entity) {
         EntityComponent::attached(entity);
 
-        SizeChangedEvent e(entity, glm::vec3(0), this);
-        entity->getEventService().fire(e);
+        SizeChangedEvent e(&entity, glm::vec3(0), this);
+        entity.getEventService().fire(e);
     }
 
     void Size::setSize(const glm::vec3 &size) {

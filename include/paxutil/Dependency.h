@@ -9,7 +9,7 @@ namespace PAX {
     template<class T>
     class Dependency {
     public:
-        virtual bool met(const T *t) const {
+        virtual bool met(const T &t) const {
             // empty dependency is always fullfilled
             return true;
         }
