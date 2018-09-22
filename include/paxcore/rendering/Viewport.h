@@ -6,7 +6,7 @@
 #define PAXENGINE3_VIEWPORT_H
 
 #include <paxcore/io/event/ResolutionChangedEvent.h>
-#include "../event/EventHandler.h"
+#include "paxutil/event/EventHandler.h"
 
 namespace PAX {
     class Viewport {

@@ -72,11 +72,11 @@ namespace PAX {
         entity.getEventService().add<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
 
         glm::vec3 spriteSize = glm::vec3(getSpriteSize(), 0);
-        Size* size = entity.get<Size>();
+        std::shared_ptr<Size> size = entity.get<Size>();
         if (size) {
             size->setSize(spriteSize);
         } else {
-            size = Services::GetEntityComponentService().create<Size>(spriteSize);
+            size = Services::GetEntityComponentAllocationService().create<Size>(spriteSize);
             entity.add(size);
         }
     }

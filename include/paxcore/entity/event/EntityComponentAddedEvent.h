@@ -12,7 +12,9 @@ namespace PAX {
     template <class EntityComponentType>
     struct EntityComponentAddedEvent : public EntityComponentEvent<EntityComponentType> {
     public:
-        EntityComponentAddedEvent(EntityComponentType * component, Entity *entity) : EntityComponentEvent<EntityComponentType>(component, entity) {}
+        EntityComponentAddedEvent(
+                const std::shared_ptr<EntityComponentType> & component, Entity* entity)
+                : EntityComponentEvent<EntityComponentType>(component, entity) {}
     };
 }
 

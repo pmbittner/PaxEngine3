@@ -11,7 +11,7 @@
 #include "GameSystem.h"
 #include "../Engine.h"
 #include "../Game.h"
-#include <paxcore/event/EventService.h>
+#include <paxutil/event/EventService.h>
 #include "../world/event/EntitySpawnedEvent.h"
 #include "../world/event/EntityDespawnedEvent.h"
 #include "../world/event/ActiveWorldChangedEvent.h"

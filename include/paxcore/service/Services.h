@@ -7,11 +7,11 @@
 
 #include <paxcore/io/resources/Resources.h>
 #include <paxutil/datastructures/TypeMap.h>
-#include <paxcore/entity/EntityComponentService.h>
 
 #include <paxcore/rendering/RenderFactory.h>
-#include <paxcore/event/EventService.h>
+#include <paxutil/event/EventService.h>
 #include <paxcore/io/InputSystem.h>
+#include <paxutil/memory/AllocationService.h>
 
 #include "Paths.h"
 #include "FactoryService.h"
@@ -26,7 +26,7 @@ namespace PAX {
 
         TypeMap<void*> _registeredServices;
 
-        EntityComponentService _entityComponentService;
+        AllocationService _entityComponentAllocationService;
         EventService _eventService;
         FactoryService _factoryService;
         Resources _resources;
@@ -65,7 +65,7 @@ namespace PAX {
 
         static Resources& GetResources();
         static FactoryService& GetFactory();
-        static EntityComponentService& GetEntityComponentService();
+        static AllocationService& GetEntityComponentAllocationService();
         static EventService& GetEventService();
 
         static Paths& GetPaths();

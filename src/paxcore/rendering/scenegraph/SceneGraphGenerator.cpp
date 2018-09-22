@@ -21,13 +21,13 @@ namespace PAX {
         eventService.add<EntityComponentRemovedEvent<Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
     }
 
-    void SceneGraphGenerator::addCamera(Camera *c) {
-        _root->addChild(c);
+    void SceneGraphGenerator::addCamera(const std::shared_ptr<Camera> & c) {
+        _root->addChild(c.get());
         c->addChild(&_sceneRoot);
     }
 
-    void SceneGraphGenerator::removeCamera(Camera *c) {
-        _root->removeChild(c);
+    void SceneGraphGenerator::removeCamera(const std::shared_ptr<Camera> & c) {
+        _root->removeChild(c.get());
         c->removeChild(&_sceneRoot);
     }
 

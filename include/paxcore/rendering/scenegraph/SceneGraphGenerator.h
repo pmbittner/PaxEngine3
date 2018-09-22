@@ -33,11 +33,11 @@ namespace PAX {
         void onEntityComponentAddedEvent(EntityComponentAddedEvent<Camera>& e);
         void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera>& e);
 
-        void addCamera(Camera *g);
-        void removeCamera(Camera *g);
+        void addCamera(const std::shared_ptr<Camera> & g);
+        void removeCamera(const std::shared_ptr<Camera> & g);
 
-        virtual void addGraphics(Graphics *g) = 0;
-        virtual void removeGraphics(Graphics *g) = 0;
+        virtual void addGraphics(const std::shared_ptr<Graphics> & g) = 0;
+        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) = 0;
     };
 }
 

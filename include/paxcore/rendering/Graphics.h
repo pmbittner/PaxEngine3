@@ -8,7 +8,7 @@
 #include <typeindex>
 
 #include <paxcore/entity/EntityComponent.h>
-#include <paxcore/event/EventHandler.h>
+#include <paxutil/event/EventHandler.h>
 #include <paxcore/rendering/event/GraphicsShaderChangedEvent.h>
 #include <paxcore/rendering/scenegraph/SceneGraph.h>
 #include "data/Shader.h"

@@ -26,8 +26,8 @@ namespace PAX {
 
         int moving = 0;
 
-        VelocityBehaviour *v;
-        SpriteSheetGraphics *spriteSheet;
+        std::shared_ptr<VelocityBehaviour> v = nullptr;
+        std::shared_ptr<SpriteSheetGraphics> spriteSheet = nullptr;
 
     public:
         PlayerSpriteAnimation() :

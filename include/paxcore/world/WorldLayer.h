@@ -16,7 +16,7 @@
 #include "scenegraph/WorldLayerSceneGraph.h"
 #include "../rendering/scenegraph/SceneGraphGenerator.h"
 
-#include <paxcore/event/EventService.h>
+#include <paxutil/event/EventService.h>
 #include "event/EntitySpawnedEvent.h"
 #include "event/EntityDespawnedEvent.h"
 

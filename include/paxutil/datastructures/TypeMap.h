@@ -7,7 +7,7 @@
 
 #include <typeindex>
 #include <unordered_map>
-#include <paxutil/reflection/TypeInfo.h>
+#include <paxutil/reflection/TypeHandle.h>
 
 namespace PAX {
     template<typename ValueType, class Map = std::unordered_map<std::type_index, ValueType>>

@@ -6,8 +6,8 @@
 #define PAXENGINE3_ENGINEPLUGIN_H
 
 #include <sstream>
+#include <vector>
 
-#include <paxcore/reflection/EntityComponentReflectionData.h>
 #include <paxutil/reflection/TemplateTypeToString.h>
 
 namespace PAX {
@@ -37,7 +37,7 @@ namespace PAX {
         virtual void registerResourceLoaders(Resources& resources) {}
         virtual void registerFactories(FactoryService& factoryService) {}
 
-        virtual void internal_initializeReflectionData(EntityComponentReflectionData& reflectionData) {};
+        virtual void internal_initializeReflectionData() {};
         virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const;
     };
 
@@ -72,7 +72,7 @@ namespace PAX {
 
 #define PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS \
 public: \
-virtual void internal_initializeReflectionData(PAX::EntityComponentReflectionData &reflectionData) override; \
+virtual void internal_initializeReflectionData() override; \
 private:
 
 #endif //PAXENGINE3_ENGINEPLUGIN_H

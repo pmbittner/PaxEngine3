@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_BOX2DUTILS_H
 #define PAXENGINE3_BOX2DUTILS_H
 
-#include <glm/vec2.hpp>
+#include <paxutil/lib/GlmIncludes.h>
 #include <Box2D/Common/b2Math.h>
 
 namespace PAX {

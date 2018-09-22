@@ -50,8 +50,8 @@ namespace PAX {
         return Instance()._resources;
     }
 
-    EntityComponentService& Services::GetEntityComponentService() {
-        return Instance()._entityComponentService;
+    AllocationService& Services::GetEntityComponentAllocationService() {
+        return Instance()._entityComponentAllocationService;
     }
 
     Paths& Services::GetPaths() {

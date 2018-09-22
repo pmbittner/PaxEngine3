@@ -5,15 +5,15 @@
 #ifndef PAXENGINE3_ENTITYEVENT_H
 #define PAXENGINE3_ENTITYEVENT_H
 
-#include "../../event/Event.h"
+#include "paxutil/event/Event.h"
 
 namespace PAX {
     class Entity;
 
     struct EntityEvent : public Event {
     public:
-        Entity* entity;
-        EntityEvent(Entity *entity) : entity(entity) {}
+        Entity* entity = nullptr;
+        explicit EntityEvent(Entity *entity) : entity(entity) {}
     };
 }
 

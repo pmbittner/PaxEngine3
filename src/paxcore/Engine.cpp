@@ -43,7 +43,7 @@ namespace PAX {
 
         LOG(INFO) << "[Engine::initialize] Plugins: initializing reflection data";
         for (EnginePlugin *plugin : _plugins) {
-            plugin->internal_initializeReflectionData(Entity::entityComponentReflectionData);
+            plugin->internal_initializeReflectionData();
         }
 
         LOG(INFO) << "[Engine::initialize] Plugins: initializing";

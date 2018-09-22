@@ -38,8 +38,8 @@ namespace PAX {
         GroupByShadersSceneGraphGenerator();
         ~GroupByShadersSceneGraphGenerator();
 
-        virtual void addGraphics(Graphics *g) override final;
-        virtual void removeGraphics(Graphics *g) override final;
+        virtual void addGraphics(const std::shared_ptr<Graphics> & g) override final;
+        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) override final;
     };
 }
 

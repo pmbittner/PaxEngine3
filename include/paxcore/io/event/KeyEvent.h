@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_KEYEVENT_H
 #define PAXENGINE3_KEYEVENT_H
 
-#include <paxcore/event/Event.h>
+#include <paxutil/event/Event.h>
 #include <paxcore/io/Keyboard.h>
 
 namespace PAX {

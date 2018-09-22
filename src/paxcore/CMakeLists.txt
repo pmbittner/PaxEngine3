@@ -5,7 +5,6 @@ set(HEADERS_FOR_CLION
 
         ../../include/paxcore/entity/Entity.h
         ../../include/paxcore/entity/EntityComponent.h
-        ../../include/paxcore/entity/component/allocators/EntityComponentPool.h
 
         ../../include/paxcore/system/EngineSystem.h
         ../../include/paxcore/system/EntityComponentSystem.h
@@ -26,20 +25,18 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/WorldLayer.h
         ../../include/paxcore/world/WorldLayerLayout.h
 
-        ../../include/paxcore/event/Event.h
-        ../../include/paxcore/event/EventService.h
+        ../../include/paxutil/event/Event.h
+        ../../include/paxutil/event/EventService.h
         ../../include/paxcore/entity/event/EntityEvent.h
         ../../include/paxcore/world/event/EntitySpawnedEvent.h
         ../../include/paxcore/world/event/EntityDespawnedEvent.h
-        ../../include/paxcore/event/EventListener.h
-        ../../include/paxcore/entity/EntityComponentAllocator.h
         ../../include/paxcore/entity/event/EntityComponentAddedEvent.h
         ../../include/paxcore/entity/event/EntityComponentEvent.h
         ../../include/paxcore/entity/event/EntityComponentRemovedEvent.h
         ../../include/paxcore/io/Window.h
         ../../include/paxcore/rendering/camera/Camera.h
-        ../../include/paxcore/event/Delegate.h
-        ../../include/paxcore/event/EventHandler.h
+        ../../include/paxutil/event/Delegate.h
+        ../../include/paxutil/event/EventHandler.h
         ../../include/paxcore/entity/event/EntityParentChangedEvent.h
         ../../include/paxcore/system/BehaviourSystem.h
         ../../include/paxcore/entity/component/Behaviour.h
@@ -58,7 +55,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/RenderFactory.h
         ../../include/paxcore/rendering/camera/FullPixelScreenProjection.h
         ../../include/paxcore/io/event/ResolutionChangedEvent.h
-        ../../include/paxcore/entity/EntityComponentDependency.h
         ../../include/paxcore/io/resources/Resources.h
         ../../include/paxcore/io/resources/ResourceLoader.h
         ../../include/paxcore/io/resources/ResourceHandle.h
@@ -70,8 +66,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/event/GraphicsShaderChangedEvent.h
         ../../include/paxcore/rendering/scenegraph/SceneGraph.h
         ../../include/paxcore/rendering/data/CPUMesh.h
-        ../../include/paxcore/entity/component/allocators/EntityComponentMallocAllocator.h
-        ../../include/paxcore/entity/EntityComponentService.h
         ../../include/paxcore/io/event/KeyEvent.h
         ../../include/paxcore/io/event/KeyPressedEvent.h
         ../../include/paxcore/io/event/KeyReleasedEvent.h
@@ -99,10 +93,17 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/event/ScaleChangedEvent.h
         ../../include/paxcore/EnginePlugin.h
         ../../include/paxcore/service/Factory.h
-        ../../include/paxcore/reflection/EntityComponentReflectionData.h
         ../../include/paxcore/service/FactoryService.h
         ../../include/paxutil/lib/GlmIncludes.h
-        ../../include/paxcore/rendering/data/SkeletalMesh.h ../../include/paxcore/rendering/graphics/AssetGraphics.h ../../include/paxcore/rendering/data/Material.h ../../include/paxcore/rendering/light/Light.h ../../include/paxcore/rendering/light/PointLight.h ../../include/paxcore/rendering/light/DirectionalLight.h ../../include/paxcore/rendering/light/SpotLight.h ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h)
+        ../../include/paxcore/rendering/data/Asset.h
+        ../../include/paxcore/rendering/data/SkeletalMesh.h
+        ../../include/paxcore/rendering/graphics/AssetGraphics.h
+        ../../include/paxcore/rendering/data/Material.h
+        ../../include/paxcore/rendering/light/Light.h
+        ../../include/paxcore/rendering/light/PointLight.h
+        ../../include/paxcore/rendering/light/DirectionalLight.h
+        ../../include/paxcore/rendering/light/SpotLight.h
+        ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -122,7 +123,7 @@ set(CORE_SOURCE_FILES
         world/scenegraph/WorldSceneGraph.cpp
         world/scenegraph/WorldLayerSceneGraph.cpp
 
-        event/EventService.cpp
+        ../paxutil/event/EventService.cpp
 
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp
@@ -130,10 +131,9 @@ set(CORE_SOURCE_FILES
 
         time/Time.cpp
 
-        reflection/EntityComponentReflectionData.cpp
-
         generated/EngineInternalPlugin.cpp
-        generated/EngineInternalPlugin.generated.cpp EnginePlugin.cpp ../../include/paxcore/rendering/data/Asset.h)
+        generated/EngineInternalPlugin.generated.cpp
+        EnginePlugin.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

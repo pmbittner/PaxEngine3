@@ -28,7 +28,7 @@ namespace PAX {
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
 
-            SpriteSheetGraphics* playerGraphics = nullptr;
+            std::shared_ptr<SpriteSheetGraphics> playerGraphics = nullptr;
 
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
@@ -40,7 +40,7 @@ namespace PAX {
             void gatherResources() {
                 LOG(INFO) << "Demo: gatherResources";
 
-                EntityComponentService& s = Services::GetEntityComponentService();
+                AllocationService& s = Services::GetEntityComponentAllocationService();
 
                 std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
@@ -65,7 +65,7 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                EntityComponentService& s = Services::GetEntityComponentService();
+                AllocationService& s = Services::GetEntityComponentAllocationService();
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
@@ -79,10 +79,10 @@ namespace PAX {
             }
 
             Entity* createNPC() {
-                EntityComponentService& s = Services::GetEntityComponentService();
+                AllocationService& s = Services::GetEntityComponentAllocationService();
 
                 Entity* npc = new Entity();
-                Graphics* g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
+                std::shared_ptr<Graphics> g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
                 ), 7, 4);
                 g->setShader(spriteSheetShader);
@@ -98,7 +98,7 @@ namespace PAX {
 
             Entity* createCamera(Entity *player) {
                 LOG(INFO) << "Demo: create Camera";
-                EntityComponentService& s = Services::GetEntityComponentService();
+                AllocationService& s = Services::GetEntityComponentAllocationService();
 
                 Entity *cam = new Entity();
                 cam->add(s.create<Camera>(
@@ -115,7 +115,7 @@ namespace PAX {
                 LOG(INFO) << "Demo: createPlatform of size " << span;
 
                 int scale = 5;
-                EntityComponentService& s = Services::GetEntityComponentService();
+                AllocationService& s = Services::GetEntityComponentAllocationService();
 
                 Entity* platform = new Entity();
                 int w = centerBlockTexture->getWidth() * scale;
@@ -127,7 +127,7 @@ namespace PAX {
                         tex = rightBlockTexture;
 
                     Entity *block = new Entity();
-                    SpriteGraphics* g = s.create<SpriteGraphics>(tex);
+                    std::shared_ptr<SpriteGraphics> g = s.create<SpriteGraphics>(tex);
                     g->setShader(spriteShader);
                     block->add(g);
 
@@ -148,7 +148,7 @@ namespace PAX {
 
             void createEnvironment() {
                 LOG(INFO) << "Demo: create Environment";
-                EntityComponentService& s = Services::GetEntityComponentService();
+                AllocationService& s = Services::GetEntityComponentAllocationService();
                 glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
                 Path imgPath = Services::GetPaths().getResourcePath() + "/img/Platformer";
@@ -171,7 +171,7 @@ namespace PAX {
 
                 {
                     Entity *background = new Entity();
-                    SpriteGraphics* backgroundGraphics = s.create<SpriteGraphics>(
+                    std::shared_ptr<SpriteGraphics> backgroundGraphics = s.create<SpriteGraphics>(
                             r.loadOrGet<Texture>(imgPath + "/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);

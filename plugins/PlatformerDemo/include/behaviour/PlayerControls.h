@@ -25,7 +25,7 @@ namespace PAX {
             Right =  1
         };
 
-        VelocityBehaviour* velocityBehaviour = nullptr;
+        std::shared_ptr<VelocityBehaviour> velocityBehaviour = nullptr;
         float speed = 150;
 
         void onKeyPressed(KeyPressedEvent& e) {

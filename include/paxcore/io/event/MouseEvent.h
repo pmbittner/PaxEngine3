@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_MOUSEEVENT_H
 #define PAXENGINE3_MOUSEEVENT_H
 
-#include <paxcore/event/Event.h>
+#include <paxutil/event/Event.h>
 #include <paxcore/io/Mouse.h>
 
 namespace PAX {

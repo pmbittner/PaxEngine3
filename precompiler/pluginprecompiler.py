@@ -72,15 +72,15 @@ def scanFilesForEntityComponentInheritance(generationData, dir):
 
 
 def generateEventHandlers(file, ecomp):
-    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Attached(PAX::Entity* e, PAX::EntityComponent *c) {")
+    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Attached(PAX::Entity* e, const std::shared_ptr<PAX::EntityComponent> & c) {")
     file.incrementIndent()
-    file.writeLine("PAX::EntityComponentAddedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
+    file.writeLine("PAX::EntityComponentAddedEvent<" + ecomp.name + "> event(std::dynamic_pointer_cast<" + ecomp.name + ">(c), e);")
     file.writeLine("e->getEventService()(event);")
     file.decrementIndent()
     file.writeLine("}")
-    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Detached(PAX::Entity* e, PAX::EntityComponent *c) {")
+    file.writeLine("static void " + ecomp.nameWithoutNamespaces + "Detached(PAX::Entity* e, const std::shared_ptr<PAX::EntityComponent> & c) {")
     file.incrementIndent()
-    file.writeLine("PAX::EntityComponentRemovedEvent<" + ecomp.name + "> event(static_cast<" + ecomp.name + "*>(c), e);")
+    file.writeLine("PAX::EntityComponentRemovedEvent<" + ecomp.name + "> event(std::dynamic_pointer_cast<" + ecomp.name + ">(c), e);")
     file.writeLine("e->getEventService()(event);")
     file.decrementIndent()
     file.writeLine("}")
@@ -116,6 +116,8 @@ if __name__ == "__main__":
     genData = GenerationData()
     genData.includes.append(pluginHeaderIncludePath)
     #genData.includes.append("generated/EntityComponentTypeHierarchy.h")
+    genData.includes.append("memory")
+    genData.includes.append("paxcore/entity/EntityComponent.h")
     genData.includes.append("paxcore/entity/event/EntityComponentAddedEvent.h")
     genData.includes.append("paxcore/entity/event/EntityComponentRemovedEvent.h")
 
@@ -156,8 +158,8 @@ if __name__ == "__main__":
     outFile.incrementIndent()
     for entityComponent in genData.entityComponents:
         generateEventHandlers(outFile, entityComponent)
-        addEventHandlersToMapCalls.append("reflectionData.entityComponentAttachedHandlers.put(" + getCppTypeOf(entityComponent.name) + ", &Generated::" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Attached);")
-        addEventHandlersToMapCalls.append("reflectionData.entityComponentDetachedHandlers.put(" + getCppTypeOf(entityComponent.name) + ", &Generated::" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Detached);")
+        addEventHandlersToMapCalls.append("reflectionData.propertyAttachedHandlers.put(" + getCppTypeOf(entityComponent.name) + ", &Generated::" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Attached);")
+        addEventHandlersToMapCalls.append("reflectionData.propertyDetachedHandlers.put(" + getCppTypeOf(entityComponent.name) + ", &Generated::" + eventBrokerName + "::" + entityComponent.nameWithoutNamespaces + "Detached);")
 
     outFile.decrementIndent()
     outFile.writeLine("};")  # class <eventBrokerName>
@@ -166,8 +168,9 @@ if __name__ == "__main__":
     outFile.writeLine("")
 
     # generate type hierarchy method calls
-    outFile.writeLine("void " + className + "::internal_initializeReflectionData(PAX::EntityComponentReflectionData& reflectionData) {")
+    outFile.writeLine("void " + className + "::internal_initializeReflectionData() {")
     outFile.incrementIndent()
+    outFile.writeLine("PAX::PropertyReflectionData<PAX::Entity>& reflectionData = PAX::Entity::ReflectionData;")
 
     for call in addEventHandlersToMapCalls:
         outFile.writeLine(call)
@@ -175,7 +178,7 @@ if __name__ == "__main__":
     outFile.writeLine("")
 
     for etype, eparent in sortedInheritancePairs:
-        outFile.writeLine("reflectionData.entityComponentTypeHierarchy.add(" + getCppTypeOf(etype) + ", " + getCppTypeOf(eparent) + ");")
+        outFile.writeLine("reflectionData.propertyTypeHierarchy.add(" + getCppTypeOf(etype) + ", " + getCppTypeOf(eparent) + ");")
         print("\t", etype, "->", eparent)
 
     outFile.writeLine("")

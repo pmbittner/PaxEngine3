@@ -8,10 +8,12 @@
 #include <typeindex>
 
 namespace PAX {
+    typedef std::type_index TypeHandle;
     namespace Reflection {
+
         template<typename Type>
-        inline std::type_index GetType() {
-            return std::type_index(typeid(Type));
+        inline TypeHandle GetType() {
+            return TypeHandle(typeid(Type));
         }
     }
 }

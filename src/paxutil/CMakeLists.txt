@@ -17,7 +17,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/reflection/TemplateTypeToString.h
         ../../include/paxutil/macros/CompilerDetection.h
         ../../include/paxutil/macros/BuildType.h
-        ../../include/paxutil/reflection/TypeInfo.h
+        ../../include/paxutil/reflection/TypeHandle.h
         ../../include/paxutil/reflection/TypeHierarchy.h
         ../../include/paxutil/math/Functions.h
         ../../include/paxutil/math/BoundingBox.h
@@ -27,7 +27,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Angles.h
         ../../include/paxutil/math/MathDefines.h
         ../../include/paxutil/math/Basis.h
-        ../../include/paxutil/math/Transformation.h)
+        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyReflectionData.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h)
 
 set(SOURCE_FILES
         StringUtils.cpp
@@ -37,7 +37,7 @@ set(SOURCE_FILES
         reflection/TypeHierarchy.cpp
         math/Conversion.cpp
         math/Angles.cpp
-        math/Transformation.cpp)
+        math/Transformation.cpp property/PropertyContainer.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

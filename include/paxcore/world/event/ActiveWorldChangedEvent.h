@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_ACTIVEWORLDCHANGEDEVENT_H
 #define PAXENGINE3_ACTIVEWORLDCHANGEDEVENT_H
 
-#include "../../event/Event.h"
+#include "paxutil/event/Event.h"
 #include "../World.h"
 
 namespace PAX {
