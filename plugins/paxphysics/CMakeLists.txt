@@ -16,6 +16,7 @@ set(HEADERS_FOR_CLION
         include/box2d/Box2DRigidBody.h
         include/RigidBody.h
         include/box2d/Box2DUtils.h
+        include/box2d/Box2DWorld.h
         )
 set(PAXPHYSICS_SOURCE src/RigidBody.cpp src/Plugin.cpp)
 set(PAXPHYSICS_LINK_LIBRARIES)

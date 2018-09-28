@@ -61,23 +61,23 @@ namespace PAX {
 
             Entity* createCube(std::shared_ptr<Shader> & shader) {
                 Entity* cubeEntity = new Entity();
-                EntityComponentService& es = Services::GetEntityComponentService();
+                AllocationService& es = Services::GetEntityComponentAllocationService();
                 std::shared_ptr<Asset> a = std::make_shared<Asset>(std::vector<Asset::Part>{
                         Asset::Part(cube, cubeMaterial)
                 });
-                AssetGraphics* g = es.create<AssetGraphics>(a);
+                const std::shared_ptr<AssetGraphics>& g = es.create<AssetGraphics>(a);
                 g->setShader(shader);
                 cubeEntity->add(g);
                 return cubeEntity;
             }
 
             Entity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
-                EntityComponentService& es = Services::GetEntityComponentService();
+                AllocationService& es = Services::GetEntityComponentAllocationService();
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
                         Services::GetPaths().getResourcePath() + relativeResourcePath
                 );
                 Entity* treeEntity = new Entity();
-                AssetGraphics* g = es.create<AssetGraphics>(tree);
+                const std::shared_ptr<AssetGraphics>& g = es.create<AssetGraphics>(tree);
                 g->setShader(shader);
                 treeEntity->add(g);
                 return treeEntity;
@@ -106,7 +106,7 @@ namespace PAX {
                 WorldLayer* mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 3);
 
 
-                EntityComponentService& es = Services::GetEntityComponentService();
+                AllocationService& es = Services::GetEntityComponentAllocationService();
                 Entity* cam = new Entity();
                 {
                     std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();

@@ -103,7 +103,11 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/PointLight.h
         ../../include/paxcore/rendering/light/DirectionalLight.h
         ../../include/paxcore/rendering/light/SpotLight.h
-        ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h)
+        ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
+        ../../include/paxcore/world/WorldLayerProperty.h
+        ../../include/paxcore/world/event/WorldLayerPropertyAddedEvent.h
+        ../../include/paxcore/world/event/WorldLayerPropertyRemovedEvent.h
+        ../../include/paxcore/world/event/WorldLayerEvent.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

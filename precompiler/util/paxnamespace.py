@@ -9,7 +9,8 @@ class CppScope:
     def getName(self):
         return self.name
 
-
+# Returns a string containing the full namespace of the given class name. The class has to be defined
+# in the given code.
 def getNamespace(str_code, str_className):
     scopestack = []
     classPos = str_code.find(str_className)

@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <paxcore/service/Services.h>
 
+#include <paxutil/property/PropertyContainer.h>
+
 #include "WorldLayerLayout.h"
 #include "../entity/Entity.h"
 
@@ -24,7 +26,7 @@ namespace PAX {
 #define PAX_WORLDLAYERNAME_MAIN "MainLayer"
 #define PAX_WORLDLAYERNAME_GUI "GuiLayer"
 
-    class WorldLayer {
+    class WorldLayer : public PropertyContainer<WorldLayer> {
         friend class SceneGraphGenerator;
 
         std::string _name;
