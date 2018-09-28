@@ -12,12 +12,12 @@
 namespace PAX {
     template<typename ValueType, class Map = std::unordered_map<std::type_index, ValueType>>
     class TypeMap {
-        using iterator = typename Map::iterator;
-        using const_iterator = typename Map::const_iterator;
-
         Map _map;
 
     public:
+        using iterator = typename Map::iterator;
+        using const_iterator = typename Map::const_iterator;
+
         template<typename Value>
         inline bool contains() const {
             return _map.find(Reflection::GetType<Value>()) != _map.end();
@@ -30,12 +30,10 @@ namespace PAX {
         template<typename Key>
         inline ValueType& get() {
             return _map.at(Reflection::GetType<Key>());
-            //return _map[Reflection::GetType<Key>()];
         }
 
         ValueType& get(const std::type_index &index) {
             return _map.at(index);
-            //return _map[index];
         }
 
         ValueType& operator[](const std::type_index &index) {
@@ -43,12 +41,12 @@ namespace PAX {
         }
 
         template<typename Key>
-        bool put(ValueType value) {
+        bool put(const ValueType & value) {
             _map[Reflection::GetType<Key>()] = value;
             return true;
         }
 
-        bool put(const std::type_index &index, ValueType value) {
+        bool put(const std::type_index &index, const ValueType & value) {
             _map[index] = value;
             return true;
         }
@@ -63,21 +61,8 @@ namespace PAX {
             return _map.erase(index);
         }
 
-        template<typename Key>
-        bool remove(ValueType value) {
-            std::type_index type = Reflection::GetType<Key>();
-
-            if (_map[type]) {
-                if (_map[type] != value)
-                    return false;
-
-                auto iterator = _map.find(type);
-                _map.erase(iterator);
-
-                return true;
-            }
-
-            return false;
+        bool empty() const {
+            return _map.empty();
         }
 
         void clear() {

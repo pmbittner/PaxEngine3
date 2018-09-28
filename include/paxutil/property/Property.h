@@ -17,26 +17,25 @@ namespace PAX {
         friend class PropertyContainer<C>;
 
     public:
-        typedef C Container;
-
+        using Container = C;
         static constexpr bool IsMultiple() { return true; }
 
     private:
-        Container* owner = nullptr;
+        C* owner = nullptr;
 
     protected:
         virtual const TypeHandle& getClassType() const = 0;
 
-        virtual void attached(Container &) {}
-        virtual void detached(Container &) {}
+        virtual void attached(C &) {}
+        virtual void detached(C &) {}
 
-        virtual bool areDependenciesMetFor(const Container&) const { return true; }
+        virtual bool areDependenciesMetFor(const C&) const { return true; }
 
     public:
         Property() : owner(nullptr) {}
         virtual ~Property() = default;
 
-        Container* getOwner() const { return owner; }
+        C* getOwner() const { return owner; }
 
         virtual bool isMultiple() const { return IsMultiple(); }
     };

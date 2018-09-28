@@ -27,15 +27,28 @@ namespace PAX {
 
         TypeMap<std::shared_ptr<Prop>> _singleProperties;
         TypeMap<std::vector<std::shared_ptr<Prop>>> _multipleProperties;
-        std::unordered_map<Prop*, Reflection::TypeHierarchyNode*> _propertyTypes; // necessary for remove
 
     public:
         PropertyContainer() = default;
 
         virtual ~PropertyContainer() {
-            _propertyTypes.clear();
+            // unattach everything to
+            // 1.) invoke detach events
+            // 2.) delete shared pointers
+            while (!_singleProperties.empty()) {
+                const auto & it = _singleProperties.begin();
+                remove(it->second);
+            }
+
+            while (!_multipleProperties.empty()) {
+                const auto & it = _multipleProperties.begin();
+                if (!it->second.empty())
+                    remove(it->second.front());
+                else
+                    std::cerr << "[~PropertyContainer<" << Reflection::GetTypeName<C>() << ">] invalid state" << std::endl;
+            }
+
             _multipleProperties.clear();
-            _singleProperties.clear();
         }
 
     private:
@@ -56,108 +69,74 @@ namespace PAX {
         }
 
         void unregisterComponent(const std::shared_ptr<Prop> & component) {
-            _propertyTypes.erase(component);
-
             component->owner = nullptr;
             component->detached(*static_cast<C*>(this));
         }
 
-        void onEntityComponentAttached(const std::shared_ptr<Prop> & component, const TypeHandle& type) {
-            ReflectionData.propertyAttachedHandlers.get(type)(static_cast<C*>(this), component);
-        }
+        bool addComponentAsType(const std::shared_ptr<Prop> & component, Reflection::TypeHierarchyNode* currentTypeNode) {
+            const TypeHandle & currentType = currentTypeNode->type;
 
-        void onEntityComponentDetached(const std::shared_ptr<Prop> & component, const TypeHandle& type) {
-            ReflectionData.propertyDetachedHandlers.get(type)(static_cast<C*>(this), component);
-        }
-
-        bool addComponentAsTypeSingle(const std::shared_ptr<Prop> & component, const TypeHandle& type) {
-            if (_singleProperties.contains(type)) {
-                std::cerr << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::addComponentAsTypeSingle] Trying to add instance of " << type.name() << ", that does not allow multiple instances!" << std::endl;
-                return false;
+            if (ReflectionData.isMultiple.get(currentType)) {
+                _multipleProperties[currentType].push_back(component);
+            } else {
+                if (_singleProperties.contains(currentType)) {
+                    std::cerr << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::addComponentAsTypeSingle] Trying to add instance of " << currentType.name() << ", that does not allow multiple instances!" << std::endl;
+                    return false;
+                }
+                _singleProperties.put(currentType, component);
             }
-            _singleProperties.put(type, component);
-            return true;
-        }
 
-        bool addComponentAsTypeMultiple(const std::shared_ptr<Prop> & component, const TypeHandle& type) {
-            _multipleProperties[type].push_back(component);
-            return true;
-        }
+            ReflectionData.propertyAttachedHandlers.get(currentType)(static_cast<C*>(this), component);
 
-        bool addComponentAsAllOfItsTypes(const std::shared_ptr<Prop> & component, Reflection::TypeHierarchyNode* typeNode) {
-            bool addSuccess;
-
-            if (ReflectionData.isMultiple.get(typeNode->type))
-                addSuccess = addComponentAsTypeMultiple(component, typeNode->type);
+            if (currentTypeNode->parent->type == RootPropertyTypeHandle)
+                return true;
             else
-                addSuccess = addComponentAsTypeSingle(component, typeNode->type);
-
-            if (addSuccess) {
-                onEntityComponentAttached(component, typeNode->type);
-                if (typeNode->parent->type == RootPropertyTypeHandle)
-                    return true;
-                return addComponentAsAllOfItsTypes(component, typeNode->parent);
-            }
-            return false;
+                return addComponentAsType(component, currentTypeNode->parent);
         }
 
+        bool removeComponentAsType(const std::shared_ptr<Prop> & component, Reflection::TypeHierarchyNode* currentTypeNode) {
+            const TypeHandle & currentType = currentTypeNode->type;
 
-        bool removeComponentAsTypeSingle(const std::shared_ptr<Prop> & component, const TypeHandle& type) {
-            if (_singleProperties.get(type) != component) { // The given component is not the component, that is registered in this Entity for the given type
-                std::cerr << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::removeComponentAsTypeSingle] Failed! Another component was found" << std::endl;
-                return false;
+            if (ReflectionData.isMultiple.get(currentType)) {
+                std::vector<std::shared_ptr<Prop>> &result = _multipleProperties.get(currentType);
+                if (!Util::removeFromVector(result, component)) {
+                    return false;
+                } else {
+                    // Remove vector if no components of type ComponentClass remain
+                    if (result.empty())
+                        _multipleProperties.erase(currentType);
+                }
+            } else {
+                // The given component is not the component, that is registered in this Entity for the given type
+                if (_singleProperties.get(currentType) != component)
+                    return false;
+                else
+                    _singleProperties.erase(currentType);
             }
 
-            _singleProperties.erase(type);
-            return true;
-        }
+            ReflectionData.propertyDetachedHandlers.get(currentType)(static_cast<C*>(this), component);
 
-        bool removeComponentAsTypeMultiple(const std::shared_ptr<Prop> & component, const TypeHandle& type) {
-            std::vector<Prop*> &result = _multipleProperties.get(type);
-            if (!Util::removeFromVector(result, component)) {
-                return false;
-            }
-
-            // Remove vector if no components of type ComponentClass remain
-            if (result.empty()) {
-                _multipleProperties.erase(type);
-            }
-
-            return true;
-        }
-
-        bool removeComponentAsAllOfItsTypes(const std::shared_ptr<Prop> & component, Reflection::TypeHierarchyNode* typeNode) {
-            bool removeSuccess;
-
-            if (ReflectionData.isMultiple.get(typeNode->type))
-                removeSuccess = removeComponentAsTypeMultiple(component, typeNode->type);
+            if (currentTypeNode->parent->type == RootPropertyTypeHandle)
+                return true;
             else
-                removeSuccess = removeComponentAsTypeSingle(component, typeNode->type);
-
-            if (removeSuccess) {
-                onEntityComponentDetached(component, typeNode->type);
-                if (typeNode->parent->type == RootPropertyTypeHandle)
-                    return true;
-                return removeComponentAsAllOfItsTypes(component, typeNode->parent);
-            }
-
-            return false;
+                return removeComponentAsType(component, currentTypeNode->parent);
         }
 
     public:
         bool add(const std::shared_ptr<Prop> & component) {
             if (isValid(component)) {
-                registerComponent(component);
                 auto typeNode = ReflectionData.propertyTypeHierarchy.getNodeOf(component->getClassType());
-                _propertyTypes[component.get()] = typeNode;
-                return addComponentAsAllOfItsTypes(component, typeNode);
+                bool ret = addComponentAsType(component, typeNode);
+                registerComponent(component);
+                return ret;
             }
 
             return false;
         }
 
         bool remove(const std::shared_ptr<Prop> & component) {
-            bool ret  = removeComponentAsAllOfItsTypes(component, _propertyTypes[component]);
+            auto typeNode = ReflectionData.propertyTypeHierarchy.getNodeOf(component->getClassType());
+            bool ret  = removeComponentAsType(component, typeNode);
             unregisterComponent(component);
             return ret;
         }
