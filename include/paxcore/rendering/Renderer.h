@@ -6,6 +6,7 @@
 #define PAXENGINE3_RENDERER_H
 
 #include "scenegraph/SceneGraphGenerator.h"
+#include "RenderOptions.h"
 
 namespace PAX {
     class Renderer {
@@ -13,6 +14,8 @@ namespace PAX {
         SceneGraph* _generationEntryPoint = nullptr;
 
     public:
+        EventHandler<RenderOptions&> OnTransformationChanged;
+
         void setSceneGraphRoot(SceneGraph *root);
         SceneGraph* getSceneGraphRoot();
 

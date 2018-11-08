@@ -18,6 +18,10 @@ namespace PAX {
             _keyReleased.keyboard = &_keyboard;
         }
 
+        void SDLInputSystem::terminate() {
+
+        }
+
         void SDLInputSystem::update() {
             _keyboard.setKeyStates(SDL_GetKeyboardState(nullptr));
 

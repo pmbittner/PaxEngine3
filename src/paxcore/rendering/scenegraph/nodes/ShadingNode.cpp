@@ -34,10 +34,10 @@ void PAX::ShadingNode::render(RenderOptions &renderOptions) {
     bool isShaded = _shader != nullptr;
 
     if (isShaded)
-        renderOptions.getShaderOptions().useShader(this, _shader, _priority);
+        renderOptions.getShaderOptions().pushShader(this, _shader, _priority);
 
     SceneGraph::render(renderOptions);
 
     if (isShaded)
-        renderOptions.getShaderOptions().unuseShader(this);
+        renderOptions.getShaderOptions().popShader(this);
 }

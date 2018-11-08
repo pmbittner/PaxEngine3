@@ -16,7 +16,7 @@ namespace PAX {
     public:
         /**
          * Compiling flags for shader files like macros in C/C++.
-         * They have to be complete meaning, that no prefixes (like "#define") or linebreaks will be added automatically.
+         * They have to be complete, meaning that no prefixes (like "#define") or linebreaks will be added automatically.
          *
          */
         struct Flags {
@@ -39,7 +39,7 @@ namespace PAX {
         virtual void bind() = 0;
         virtual void unbind() = 0;
 
-        Shader(Flags flags);
+        Shader(const Flags & flags);
 
         void cacheUniforms(const std::vector<std::string>& uniformNames);
         virtual void cacheUniform(const std::string& uniformName) = 0;

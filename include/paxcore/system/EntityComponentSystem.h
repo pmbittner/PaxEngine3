@@ -2,16 +2,18 @@
 // Created by Paul on 29.04.2017.
 //
 
-#ifndef PAXENGINE3_IGAMESYSTEM_H
-#define PAXENGINE3_IGAMESYSTEM_H
+#ifndef PAXENGINE3_ENTITYCOMPONENTSYSTEM_H
+#define PAXENGINE3_ENTITYCOMPONENTSYSTEM_H
 
 #include <tuple>
 #include <map>
 
+#include <paxutil/event/EventService.h>
+
 #include "GameSystem.h"
 #include "../Engine.h"
 #include "../Game.h"
-#include <paxutil/event/EventService.h>
+
 #include "../world/event/EntitySpawnedEvent.h"
 #include "../world/event/EntityDespawnedEvent.h"
 #include "../world/event/ActiveWorldChangedEvent.h"
@@ -118,6 +120,10 @@ namespace PAX {
                 addWorld(world);
         }
 
+        virtual void terminate(Game * game) override {
+            _entities.clear();
+        }
+
         // EVENT LISTENERS /////////////////
 
         void onWorldRegistered(WorldEvent &event) {
@@ -156,4 +162,4 @@ namespace PAX {
     };
 }
 
-#endif //PAXENGINE3_IGAMESYSTEM_H
+#endif //PAXENGINE3_ENTITYCOMPONENTSYSTEM_H

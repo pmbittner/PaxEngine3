@@ -239,7 +239,7 @@ namespace PAX {
     }
 
     bool Engine::dispose() {
-        //delete _game; // takes way too long :(
+        _game->terminate();
         return true;
     }
 }

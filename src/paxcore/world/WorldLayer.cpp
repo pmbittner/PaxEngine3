@@ -12,6 +12,8 @@ namespace PAX {
         _sceneGraphGenerator = sceneGraphGenerator;
         _sceneGraph = Services::GetFactory().create<WorldLayerSceneGraph>(this, z);
         _sceneGraphGenerator->initialize(_sceneGraph.get(), _localEventService);
+
+        _sceneGraph->worldLayer = this;
     }
 
     WorldLayer::~WorldLayer() {}
@@ -51,7 +53,7 @@ namespace PAX {
         }
     }
 
-    const std::vector<Entity*>& WorldLayer::getEntities() {
+    const std::vector<Entity*>& WorldLayer::getEntities() const {
         return _entities;
     }
 
@@ -59,12 +61,11 @@ namespace PAX {
         return _localEventService;
     }
 
-    WorldLayerSceneGraph* WorldLayer::getSceneGraph() {
-        // Fixme: May be wrong for now, but I am a noob with shared pointers.
-        return _sceneGraph.get();
+    const std::shared_ptr<WorldLayerSceneGraph>& WorldLayer::getSceneGraph() const {
+        return _sceneGraph;
     }
 
-    std::string WorldLayer::getName() {
+    const std::string& WorldLayer::getName() const {
         return _name;
     }
 }

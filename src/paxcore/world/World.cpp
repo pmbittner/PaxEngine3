@@ -21,7 +21,7 @@ namespace PAX {
         _layersByName[layer->getName()] = layer;
         _layers.push_back(layer);
 
-        _sceneGraph.addChild(layer->getSceneGraph());
+        _sceneGraph.addChild(layer->getSceneGraph().get());
         layer->getEventService().setParent(&_localEventService);
     }
 
@@ -29,7 +29,7 @@ namespace PAX {
         _layersByName.erase(layer->getName());
         Util::removeFromVector(_layers, layer);
 
-        _sceneGraph.removeChild(layer->getSceneGraph());
+        _sceneGraph.removeChild(layer->getSceneGraph().get());
         layer->getEventService().setParent(nullptr);
     }
 

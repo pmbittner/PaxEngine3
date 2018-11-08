@@ -12,7 +12,7 @@ namespace PAX {
         }
 
         void OpenGLWorldLayerRenderPass::render(RenderOptions &renderOptions) {
-            // Clear Depth buffer for each WorldLayer to not let them interfere. Each one should be unconditionally rendered on top of the previous
+            // Clear Depth buffer for each WorldLayer to not let them interfere. Each one should be unconditionally rendered on top of the previous.
             glClear(GL_DEPTH_BUFFER_BIT);
             WorldLayerSceneGraph::render(renderOptions);
         }

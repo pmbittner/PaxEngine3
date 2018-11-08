@@ -15,12 +15,22 @@ namespace PAX {
     void Game::initialize() {
         assert(!_initialized);
 
-        addSystem(new BehaviourSystem);
+        _behaviourSystem = new BehaviourSystem();
+        addSystem(_behaviourSystem);
 
         for (GameSystem *gameSystem : _systems)
             gameSystem->initialize(this);
 
         _initialized = true;
+    }
+
+    void Game::terminate() {
+        assert(_initialized);
+
+        for (GameSystem *gameSystem : _systems)
+            gameSystem->terminate(this);
+
+        delete _behaviourSystem;
     }
 
     void Game::update() {
@@ -92,6 +102,7 @@ namespace PAX {
     }
 
     void Game::removeSystem(GameSystem *system) {
-        Util::removeFromVector(_systems, system);
+        if (Util::removeFromVector(_systems, system))
+            system->terminate(this);
     }
 }

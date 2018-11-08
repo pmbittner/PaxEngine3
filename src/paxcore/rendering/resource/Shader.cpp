@@ -29,7 +29,7 @@ namespace PAX {
 
 
 
-    Shader::Shader(Flags flags) : _flags(flags) {
+    Shader::Shader(const Flags & flags) : _flags(flags) {
 
     }
 

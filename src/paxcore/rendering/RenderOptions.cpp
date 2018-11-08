@@ -5,21 +5,10 @@
 #include <cassert>
 #include <paxutil/math/Transformation.h>
 #include <paxcore/rendering/RenderOptions.h>
+#include <paxcore/rendering/Renderer.h>
 
 namespace PAX {
-    void ShaderOptions::activateShader(ShaderUsage &usage) {
-        usage._shader->bind();
-    }
-
-    void ShaderOptions::deactivateCurrentShader() {
-        _shaders.top()._shader->unbind();
-        _shaders.pop();
-
-        if (!_shaders.empty())
-            activateShader(_shaders.top());
-    }
-
-    bool ShaderOptions::useShader(void *caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority) {
+    bool ShaderOptions::pushShader(void *caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority) {
         PAX_assertNotNull(shader, "Shader can't be null!");
 
         if (_shaders.empty() || _shaders.top()._priority == ShaderPriority::MUTABLE) {
@@ -29,7 +18,7 @@ namespace PAX {
             usage._shader = shader;
             _shaders.push(usage);
 
-            activateShader(usage);
+            shader->bind();
 
             return true;
         }
@@ -37,9 +26,16 @@ namespace PAX {
         return false;
     }
 
-    void ShaderOptions::unuseShader(void *caller) {
-        assert(caller == _shaders.top()._owner);
-        deactivateCurrentShader();
+    bool ShaderOptions::popShader(void *caller) {
+        if(caller == _shaders.top()._owner) {
+            _shaders.top()._shader->unbind();
+            _shaders.pop();
+
+            if (!_shaders.empty())
+                _shaders.top()._shader->bind();
+        }
+
+        return true;
     }
 
     const std::shared_ptr<Shader>& ShaderOptions::getShader() {
@@ -49,8 +45,7 @@ namespace PAX {
         return _shaders.top()._shader;
     }
 
-    RenderOptions::RenderOptions() {
-        _camera = nullptr;
+    RenderOptions::RenderOptions(const Renderer& renderer) : _renderer(renderer), _camera(nullptr), _worldLayer(nullptr) {
     }
 
     PAX::Camera *PAX::RenderOptions::getCamera() const {
@@ -60,6 +55,14 @@ namespace PAX {
     void PAX::RenderOptions::setCamera(PAX::Camera *camera) {
         RenderOptions::_camera = camera;
     }
+    
+    WorldLayer* RenderOptions::getWorldLayer() const {
+        return _worldLayer;
+    }
+    
+    void RenderOptions::setWorldLayer(PAX::WorldLayer *worldLayer) {
+        _worldLayer = worldLayer;
+    }
 
     glm::mat4 & PAX::RenderOptions::getTransformationMatrix() {
         return _currentTransform;
@@ -67,6 +70,7 @@ namespace PAX {
 
     void PAX::RenderOptions::setTransformationMatrix(const glm::mat4 &transform) {
         _currentTransform = transform;
+        _renderer.OnTransformationChanged(*this);
     }
 
     glm::mat4& RenderOptions::getProjectionMatrix() {

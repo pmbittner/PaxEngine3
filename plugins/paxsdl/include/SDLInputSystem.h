@@ -37,6 +37,7 @@ namespace PAX {
 
         public:
             virtual void initialize() override;
+            virtual void terminate() override;
             virtual void update() override;
 
             virtual SDLKeyboard *getKeyboard() override;

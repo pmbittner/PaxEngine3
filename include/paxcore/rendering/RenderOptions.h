@@ -6,13 +6,16 @@
 #define PAXENGINE3_RENDEROPTIONS_H
 
 #include <stack>
+#include <memory>
+
 #include <paxutil/math/Transformation.h>
 #include <paxcore/rendering/data/Shader.h>
 #include <paxutil/macros/MacroIncludes.h>
-#include <memory>
 
 namespace PAX {
     class Camera;
+    class Renderer;
+    class WorldLayer;
 
     enum class ShaderPriority {
         MUTABLE,
@@ -28,28 +31,33 @@ namespace PAX {
 
         std::stack<ShaderUsage> _shaders;
 
-        void activateShader(ShaderUsage & usage);
-        void deactivateCurrentShader();
-
     public:
-        bool useShader(void* caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority = ShaderPriority::MUTABLE);
-        void unuseShader(void* caller);
+        bool pushShader(void* caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority = ShaderPriority::MUTABLE);
+        bool popShader(void* caller);
 
         const std::shared_ptr<Shader>& getShader();
     };
 
     class RenderOptions {
+        const Renderer& _renderer;
+
         Camera *_camera = nullptr;
+        WorldLayer *_worldLayer = nullptr;
+        
         ShaderOptions _shaderOptions;
+        
         glm::mat4 _currentTransform;
         glm::mat4 _currentView;
         glm::mat4 _currentProjection;
 
     public:
-        RenderOptions();
+        RenderOptions(const Renderer& renderer);
 
         Camera *getCamera() const;
         void setCamera(Camera *camera);
+
+        WorldLayer *getWorldLayer() const;
+        void setWorldLayer(WorldLayer *worldLayer);
 
         glm::mat4& getTransformationMatrix();
         void setTransformationMatrix(const glm::mat4& transform);

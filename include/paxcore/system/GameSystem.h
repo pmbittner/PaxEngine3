@@ -13,6 +13,7 @@ namespace PAX {
     class GameSystem : public System {
     public:
         virtual void initialize(Game *game) = 0;
+        virtual void terminate(Game * game) = 0;
     };
 }
 

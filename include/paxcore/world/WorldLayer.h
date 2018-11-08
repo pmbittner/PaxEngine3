@@ -51,10 +51,10 @@ namespace PAX {
         void spawn(Entity *entity);
         void despawn(Entity *entity);
 
-        const std::vector<Entity*>& getEntities();
+        const std::vector<Entity*>& getEntities() const;
 
-        std::string getName();
-        WorldLayerSceneGraph* getSceneGraph();
+        const std::string& getName() const;
+        const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
         EventService& getEventService();
     };
 }

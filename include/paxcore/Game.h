@@ -7,13 +7,16 @@
 
 #include <vector>
 
-#include "system/GameSystem.h"
-#include "system/EngineSystem.h"
 #include "world/World.h"
 #include "world/event/ActiveWorldChangedEvent.h"
 #include "world/event/WorldEvent.h"
 
+#include "system/GameSystem.h"
+#include "system/EngineSystem.h"
+
 namespace PAX {
+    class BehaviourSystem;
+
     class Game : private EngineSystem {
     private:
         bool _initialized {false};
@@ -21,6 +24,9 @@ namespace PAX {
 
         std::vector<World*> _worlds;
         World *_activeWorld = nullptr;
+
+        // Default systems
+        BehaviourSystem* _behaviourSystem = nullptr;
 
     public:
         Game();
@@ -31,6 +37,7 @@ namespace PAX {
         EventHandler<WorldEvent&> WorldUnregistered;
 
         virtual void initialize() override;
+        virtual void terminate() override;
         virtual void update() override;
 
         bool isRegistered(World *world);

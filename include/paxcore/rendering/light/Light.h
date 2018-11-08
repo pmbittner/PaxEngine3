@@ -5,8 +5,9 @@
 #ifndef PAXENGINE3_LIGHT_H
 #define PAXENGINE3_LIGHT_H
 
+#include <paxutil/lib/GlmIncludes.h>
 #include <paxcore/entity/EntityComponent.h>
-#include "../interface/Shaded.h"
+#include <paxcore/rendering/data/Shader.h>
 
 namespace PAX {
     class Light : public EntityComponent {
@@ -22,6 +23,9 @@ namespace PAX {
          */
         Light(const glm::vec4 & color = glm::vec4(1));
         virtual ~Light() = 0;
+
+        // TODO: Make this pure virtual and implement it in the subclasses.
+        virtual void uploadTo(const std::shared_ptr<Shader>& shader, int index) {}
 
         virtual void setColor(const glm::vec4 & color);
         const glm::vec4 & getColor() const;

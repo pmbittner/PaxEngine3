@@ -32,7 +32,7 @@ namespace PAX {
             return PAX::Util::removeFromVector(_delegates, Delegate<Args...>(callee, &invoke<T, Method>));
         }
 
-        void operator()(Args... args) {
+        void operator()(Args... args) const {
             for (Delegate<Args...> delegate: _delegates)
                 delegate.method(delegate.callee, std::forward<Args>(args)...);
         }

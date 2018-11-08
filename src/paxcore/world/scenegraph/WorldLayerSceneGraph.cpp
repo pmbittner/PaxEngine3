@@ -9,6 +9,12 @@ namespace PAX {
 
     }
 
+    void WorldLayerSceneGraph::render(PAX::RenderOptions &renderOptions) {
+        renderOptions.setWorldLayer(worldLayer);
+        SceneGraph::render(renderOptions);
+        renderOptions.setWorldLayer(nullptr);
+    }
+
     float WorldLayerSceneGraph::getZ() {
         return _z;
     }
