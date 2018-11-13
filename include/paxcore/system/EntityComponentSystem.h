@@ -6,7 +6,7 @@
 #define PAXENGINE3_ENTITYCOMPONENTSYSTEM_H
 
 #include <tuple>
-#include <map>
+#include <unordered_map>
 
 #include <paxutil/event/EventService.h>
 
@@ -21,41 +21,45 @@
 namespace PAX {
     template<typename... RequiredEntityComponents>
     class EntityComponentSystem : public GameSystem {
-        std::map<World*, std::vector<Entity*>> _entities;
+        std::unordered_map<World*, std::unordered_map<WorldLayer*, std::vector<Entity*>>> _entities;
         World* _activeWorld = nullptr;
 
         /* two functions are needed for unfolding the variadic template parameter RequiredEntityComponents */
 
         template<typename EntityComponent>
-        void addListener(EventService &e) {
+        void addEntityComponentListeners(EventService &e) {
             e.add<EntityComponentAddedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentsAdded>(this);
             e.add<EntityComponentRemovedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentRemoved>(this);
         }
 
         template<typename EntityComponentType1, typename EntityComponentType2, typename... OtherEntityComponentTypes>
-        void addListener(EventService &e) {
-            addListener<EntityComponentType1>(e);
-            addListener<EntityComponentType2, OtherEntityComponentTypes...>(e);
+        void addEntityComponentListeners(EventService &e) {
+            addEntityComponentListeners<EntityComponentType1>(e);
+            addEntityComponentListeners<EntityComponentType2, OtherEntityComponentTypes...>(e);
         }
 
         template<typename EntityComponent>
-        void removeListener(EventService &e) {
+        void removeEntityComponentListeners(EventService &e) {
             e.remove<EntityComponentAddedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentsAdded>(this);
             e.remove<EntityComponentRemovedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentRemoved>(this);
         }
 
         template<typename EntityComponentType1, typename EntityComponentType2, typename... OtherEntityComponentTypes>
-        void removeListener(EventService &e) {
-            removeListener<EntityComponentType1>(e);
-            removeListener<EntityComponentType2, OtherEntityComponentTypes...>(e);
+        void removeEntityComponentListeners(EventService &e) {
+            removeEntityComponentListeners<EntityComponentType1>(e);
+            removeEntityComponentListeners<EntityComponentType2, OtherEntityComponentTypes...>(e);
         }
 
     public:
-        const std::vector<Entity*>& getEntities() {
+        const std::unordered_map<WorldLayer*, std::vector<Entity*>>& getEntities() {
             return _entities[_activeWorld];
         }
 
-        bool isValid(Entity* e) {
+        const std::vector<Entity*> & getEntities(WorldLayer * layer) {
+            return _entities[_activeWorld][layer];
+        }
+
+        inline bool isValid(Entity* e) const {
             return e->has<RequiredEntityComponents...>();
         }
 
@@ -79,7 +83,7 @@ namespace PAX {
                     EventService &e = _activeWorld->getEventService();
                     e.remove<EntitySpawnedEvent, EntityComponentSystem, &EntityComponentSystem::onEntitySpawned>(this);
                     e.remove<EntityDespawnedEvent, EntityComponentSystem, &EntityComponentSystem::onEntityDespawned>(this);
-                    removeListener<RequiredEntityComponents...>(e);
+                    removeEntityComponentListeners<RequiredEntityComponents...>(e);
                 }
 
                 _activeWorld = world;
@@ -89,14 +93,14 @@ namespace PAX {
                     EventService &e = _activeWorld->getEventService();
                     e.add<EntitySpawnedEvent, EntityComponentSystem, &EntityComponentSystem::onEntitySpawned>(this);
                     e.add<EntityDespawnedEvent, EntityComponentSystem, &EntityComponentSystem::onEntityDespawned>(this);
-                    addListener<RequiredEntityComponents...>(e);
+                    addEntityComponentListeners<RequiredEntityComponents...>(e);
                 }
             }
         }
 
         void add(Entity *entity, World *world) {
             if (world)
-                _entities[world].push_back(entity);
+                _entities[world][entity->getWorldLayer()].push_back(entity);
         }
 
         void tryAdd(Entity *entity, World* world) {
@@ -104,9 +108,12 @@ namespace PAX {
                 add(entity, world);
         }
 
-        void remove(Entity *entity, World* world) {
-            if (world)
-                Util::removeFromVector(_entities[world], entity);
+        bool remove(Entity *entity, World* world, WorldLayer* layer) {
+            if (world) {
+                return Util::removeFromVector(_entities[world][layer], entity);
+            }
+
+            return false;
         }
 
     public:
@@ -150,14 +157,14 @@ namespace PAX {
         void onEntityDespawned(EntityDespawnedEvent &e) {
             Entity *entity = e.entity;
             if (isValid(entity))
-                remove(entity, _activeWorld);
+                remove(entity, _activeWorld, e.oldWorldLayer);
         }
 
         template<typename EntityComponentType>
         void onEntityComponentRemoved(EntityComponentRemovedEvent<EntityComponentType> &e) {
             Entity *entity = e.entity;
             if (!isValid(entity))
-                remove(entity, _activeWorld);
+                remove(entity, _activeWorld, e.entity->getWorldLayer());
         }
     };
 }

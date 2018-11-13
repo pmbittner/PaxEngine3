@@ -15,6 +15,9 @@
 #include <paxcore/entity/component/behaviours/NoClipControls.h>
 #include <paxcore/rendering/graphics/AssetGraphics.h>
 #include <paxcore/rendering/data/Material.h>
+#include <paxcore/rendering/light/DirectionalLight.h>
+#include <paxcore/rendering/light/AmbientLight.h>
+#include <paxcore/system/LightSystem.h>
 
 #include "TestBehaviour.h"
 
@@ -61,7 +64,7 @@ namespace PAX {
 
             Entity* createCube(std::shared_ptr<Shader> & shader) {
                 Entity* cubeEntity = new Entity();
-                AllocationService& es = Services::GetEntityComponentAllocationService();
+                AllocationService& es = Services::GetDefaultAllocationService();
                 std::shared_ptr<Asset> a = std::make_shared<Asset>(std::vector<Asset::Part>{
                         Asset::Part(cube, cubeMaterial)
                 });
@@ -72,7 +75,7 @@ namespace PAX {
             }
 
             Entity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
-                AllocationService& es = Services::GetEntityComponentAllocationService();
+                AllocationService& es = Services::GetDefaultAllocationService();
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
                         Services::GetPaths().getResourcePath() + relativeResourcePath
                 );
@@ -95,6 +98,7 @@ namespace PAX {
 
             virtual void initialize() override {
                 Game::initialize();
+                this->addSystem(new LightSystem());
 
                 prepareAssets();
 
@@ -106,7 +110,7 @@ namespace PAX {
                 WorldLayer* mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 3);
 
 
-                AllocationService& es = Services::GetEntityComponentAllocationService();
+                AllocationService& es = Services::GetDefaultAllocationService();
                 Entity* cam = new Entity();
                 {
                     std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();
@@ -135,6 +139,13 @@ namespace PAX {
                     tank->getTransformation().position() = {1, -2, -5};
                     mainLayer->spawn(tank);
                 }
+
+                // Spawn a light
+                Entity* lightEntity = new Entity();
+                lightEntity->add(es.create<DirectionalLight>(glm::vec3(1, 0, 0), glm::vec4(1, 0.5f, 0, 1)));
+                mainLayer->spawn(lightEntity);
+
+                mainLayer->add(es.create<AmbientLight>());
 
                 _world->addLayer(mainLayer);
                 setActiveWorld(_world);

@@ -14,6 +14,8 @@ namespace PAX {
     public:
         PointLight(const glm::vec4 & color = glm::vec4(1)) : Super(color) {}
         virtual ~PointLight() {}
+
+        virtual void uploadTo(const std::shared_ptr<Shader>& shader, int index) override;
     };
 }
 

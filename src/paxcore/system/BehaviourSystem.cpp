@@ -7,9 +7,11 @@
 
 namespace PAX {
     void BehaviourSystem::update() {
-        for (Entity *e : getEntities()) {
-            for (const auto & b : e->get<Behaviour>())
-                b->update();
+        for (const auto& worldLayer : getEntities()) {
+            for (Entity* e : worldLayer.second) {
+                for (const auto &b : e->get<Behaviour>())
+                    b->update();
+            }
         }
     }
 }

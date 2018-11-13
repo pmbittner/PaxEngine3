@@ -21,6 +21,8 @@ namespace PAX {
         SpotLight(const glm::vec3 & direction, float openingAngleInDegrees, const glm::vec4 & color = glm::vec4(1));
         virtual ~SpotLight();
 
+        virtual void uploadTo(const std::shared_ptr<Shader>& shader, int index) override;
+
         virtual void setDirection(const glm::vec3 & direction);
         const glm::vec3 & getDirection() const;
 

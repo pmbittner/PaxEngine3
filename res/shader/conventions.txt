@@ -4,6 +4,9 @@ Naming conventions for vertex shader:
     mat4 modelview
     mat4 transposedInvModelView
 
+Naming conventions for Light values:
+
+
 Naming conventions for material values:
     vec3  material_diffuse_color
     vec3  material_specular_color

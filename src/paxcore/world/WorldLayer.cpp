@@ -48,7 +48,7 @@ namespace PAX {
             entity->_worldLayer = nullptr;
             entity->_localEventService.setParent(nullptr);
 
-            EntityDespawnedEvent e(entity);
+            EntityDespawnedEvent e(entity, this);
             _localEventService(e);
         }
     }

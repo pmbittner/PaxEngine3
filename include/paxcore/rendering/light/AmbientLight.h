@@ -16,7 +16,7 @@ namespace PAX {
     public:
         AmbientLight(const glm::vec3 & color = {0.2, 0.2, 0.2});
 
-        virtual void uploadTo(const std::shared_ptr<Shader>& shader) = 0;
+        virtual void uploadTo(const std::shared_ptr<Shader>& shader);
 
         void setColor(const glm::vec3 & color);
         const glm::vec3& getColor() const;

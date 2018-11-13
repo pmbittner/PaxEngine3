@@ -65,7 +65,7 @@ namespace PAX {
 
         static Resources& GetResources();
         static FactoryService& GetFactory();
-        static AllocationService& GetEntityComponentAllocationService();
+        static AllocationService& GetDefaultAllocationService();
         static EventService& GetEventService();
 
         static Paths& GetPaths();

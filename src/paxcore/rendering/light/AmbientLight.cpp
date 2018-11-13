@@ -8,6 +8,10 @@ namespace PAX {
     AmbientLight::AmbientLight(const glm::vec3 &color) {
         setColor(color);
     }
+
+    void AmbientLight::uploadTo(const std::shared_ptr<PAX::Shader> &shader) {
+        shader->setUniform("lights.ambient.color", this->getColor());
+    }
     
     void AmbientLight::setColor(const glm::vec3 &color) {
         this->color = color;

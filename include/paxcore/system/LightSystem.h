@@ -5,20 +5,29 @@
 #ifndef PAXENGINE3_LIGHTSYSTEM_H
 #define PAXENGINE3_LIGHTSYSTEM_H
 
+#include <memory>
+
 #include <paxcore/rendering/RenderOptions.h>
 #include <paxcore/rendering/light/Light.h>
-#include "GameSystem.h"
+#include "EntityComponentSystem.h"
 
 namespace PAX {
-    class LightSystem : public GameSystem {
+    class LightSystem : public EntityComponentSystem<Light> {
 
-        void findNearestLights(const glm::vec3 & pos, std::vector<Light*>& out) const;
+        /**
+         * Find the maxLights nearest lights to the given pos in the given worldLayer.
+         * @param pos The pos whose nearest lights should be found.
+         * @param out Expected to be empty.
+         * @param worldLayer The WorldLayer from which lights should be considered.
+         */
+        void findNearestLights(const glm::vec3 & pos, unsigned int maxLights, std::vector<Light*>& out, WorldLayer* worldLayer);
 
     public:
         LightSystem();
 
         virtual void initialize(Game *game) override;
         virtual void terminate(Game *game) override;
+        virtual void update() override;
 
         void onRendererTransformationChanged(RenderOptions& renderOptions);
     };

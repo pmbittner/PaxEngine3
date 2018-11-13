@@ -15,6 +15,10 @@ namespace PAX {
 
     }
 
+    void SpotLight::uploadTo(const std::shared_ptr<PAX::Shader> &shader, int index) {
+
+    }
+
     void SpotLight::setDirection(const glm::vec3 &direction) {
         _direction = direction;
     }

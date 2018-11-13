@@ -76,7 +76,7 @@ namespace PAX {
         if (size) {
             size->setSize(spriteSize);
         } else {
-            size = Services::GetEntityComponentAllocationService().create<Size>(spriteSize);
+            size = Services::GetDefaultAllocationService().create<Size>(spriteSize);
             entity.add(size);
         }
     }

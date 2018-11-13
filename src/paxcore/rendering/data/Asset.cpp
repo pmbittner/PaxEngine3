@@ -41,9 +41,11 @@ namespace PAX {
         renderOptions.setTransformationMatrix(worldTransform);
         glm::mat4 modelview = renderOptions.getViewMatrix() * worldTransform;
 
-        shader->setUniform("modelview", modelview);
+        // TODO: Upload projection and view as early as possible and nicht erst hier.
         shader->setUniform("projection", renderOptions.getProjectionMatrix());
         shader->setUniform("view", renderOptions.getViewMatrix());
+        shader->setUniform("model", worldTransform);
+        shader->setUniform("modelview", modelview);
         shader->setUniform("transposedInvModelView", glm::inverse(modelview), true /* transpose */);
 
         for (Part & p : _meshes) {
