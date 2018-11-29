@@ -1,9 +1,9 @@
 ### LIBRARIES ########################################
 if (WIN32 AND ${COMPILER_IS_MSVC})
-    set(SDL2_LIBRARY ${LIB_DIR}/win/lib/SDL2-2.0.7/lib/x64/SDL2.lib)
+    set(SDL2_LIBRARY ${LIB_DIR}/win/lib/SDL2-2.0.7/lib/${PAX_OS_ARCHITECTURE}/SDL2.lib)
 
     if(WITH_SDL_IMAGE)
-        set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/x64/SDL2_image.lib)
+        set(SDL2_IMAGE_LIBRARY ${LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/${PAX_OS_ARCHITECTURE}/SDL2_image.lib)
     endif()
 else()
     find_package(SDL2 REQUIRED)

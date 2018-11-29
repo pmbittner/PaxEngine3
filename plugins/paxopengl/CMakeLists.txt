@@ -7,7 +7,7 @@ find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
 if (WIN32 AND ${COMPILER_IS_MSVC})
-    set(GLEW_LIBRARY ${LIB_DIR}/win/lib/glew32.lib)
+    set(GLEW_LIBRARY ${LIB_DIR}/win/lib/glew-2.1.0/lib/Release/${PAX_OS_ARCHITECTURE}/glew32.lib)
 else()
     find_package(GLEW REQUIRED)
     include_directories(${GLEW_INCLUDE_DIRS})

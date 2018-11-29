@@ -40,6 +40,13 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     message("Compiler set to MSVC")
 endif()
 
+### DETECT ARCHITECTURE #################################
+include(cmake/TargetArch.cmake)
+set(PAX_OS_ARCHITECTURE x64) # This is the default value
+target_architecture(PAX_OS_ARCHITECTURE)
+simplifyArchitecture(PAX_OS_ARCHITECTURE)
+message("PAX_OS_ARCHITECTURE is ${PAX_OS_ARCHITECTURE}")
+
 ### FLAGS ###############################################
 
 set(LIB_DIR_RELATIVE ../lib)
