@@ -33,9 +33,9 @@ namespace PAX {
 
     }
 
-    void Shader::cacheUniforms(const std::vector<std::string> &uniformNames) {
-        for (const std::string& uniformName: uniformNames)
-            cacheUniform(uniformName);
+    void Shader::initialize() {
+        upload();
+        detectUniforms();
     }
 
     bool Shader::setUniform(const std::string &uniformName, const bool &value) {

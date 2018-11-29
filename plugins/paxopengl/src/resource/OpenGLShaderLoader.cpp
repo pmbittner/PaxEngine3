@@ -14,9 +14,13 @@ bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::Flags flags, Path vertexSh
 }
 
 std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Path vertexShaderPath, Path fragmentShaderPath) {
-    return std::make_shared<OpenGLShader>(vertexShaderPath, vertexShaderPath, fragmentShaderPath);
+    auto shader = std::make_shared<OpenGLShader>(vertexShaderPath, vertexShaderPath, fragmentShaderPath);
+    shader->initialize();
+    return shader;
 }
 
 std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) {
-    return std::make_shared<OpenGLShader>(vertexShaderPath, vertexShaderPath, fragmentShaderPath, flags);
+    auto shader = std::make_shared<OpenGLShader>(vertexShaderPath, vertexShaderPath, fragmentShaderPath, flags);
+    shader->initialize();
+    return shader;
 }

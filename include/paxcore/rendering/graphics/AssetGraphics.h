@@ -18,7 +18,6 @@ namespace PAX {
     public:
         AssetGraphics(const std::shared_ptr<Asset> & asset);
 
-        virtual void setShader(std::shared_ptr<Shader> &shader) override;
         void render(RenderOptions &renderOptions) override;
     };
 }

@@ -9,8 +9,8 @@
 #include <paxcore/system/BehaviourSystem.h>
 
 namespace PAX {
-    Game::Game() {}
-    Game::~Game() {}
+    Game::Game() = default;
+    Game::~Game() = default;
 
     void Game::initialize() {
         assert(!_initialized);
@@ -93,7 +93,7 @@ namespace PAX {
     }
 
     void Game::addSystem(GameSystem *system) {
-        if (std::find(_systems.begin(), _systems.end(), system) == _systems.end()) {
+        if (!Util::vectorContains(_systems, system)) {
             _systems.push_back(system);
 
             if (_initialized)

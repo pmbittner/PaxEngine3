@@ -15,9 +15,7 @@ namespace PAX {
     const Mesh::AttributeName Mesh::Tangents = Mesh::UVs + 1;
     const Mesh::AttributeName Mesh::Bitangents = Mesh::Tangents + 1;
 
-    Mesh::~Mesh() {
-
-    }
+    Mesh::~Mesh() = default;
 
     void Mesh::setName(const std::string &name) {
         _name = name;
@@ -36,7 +34,7 @@ namespace PAX {
     }
 
     int Mesh::getAttributeLocation(PAX::Mesh::AttributeName attribName) {
-        for (int i = 0; i < _attributeNames.size(); ++i) {
+        for (size_t i = 0; i < _attributeNames.size(); ++i) {
             if (_attributeNames[i] == attribName)
                 return i;
         }
@@ -49,14 +47,5 @@ namespace PAX {
 
     bool Mesh::isUploaded() {
         return _uploaded;
-    }
-
-    void Mesh::cacheUniformsFor(std::shared_ptr <PAX::Shader> &shader) {
-        shader->cacheUniforms({
-                                      "projection",
-                                      "view",
-                                      "modelview",
-                                      "transposedInvModelView"
-                              });
     }
 }

@@ -61,11 +61,6 @@ namespace PAX {
         );
     }
 
-    void SpriteGraphics::setShader(std::shared_ptr<Shader> &shader) {
-        _meshNode.cacheUniformsFor(shader);
-        Graphics::setShader(shader);
-    }
-
     void SpriteGraphics::attached(Entity &entity) {
         SceneGraphGraphics::attached(entity);
 

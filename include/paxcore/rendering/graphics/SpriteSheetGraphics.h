@@ -26,8 +26,6 @@ namespace PAX {
         void setSpritePosition(int x, int y);
         glm::ivec2 getSpritePosition() const;
         glm::ivec2 getSpriteSheetSize() const;
-
-        virtual void setShader(std::shared_ptr<Shader> &shader) override;
     };
 }
 

@@ -8,13 +8,12 @@
 #include <unordered_map>
 
 #include "../interface/Renderable.h"
-#include "../interface/Shaded.h"
 
 #include <iostream>
 #include <paxutil/reflection/TemplateTypeToString.h>
 
 namespace PAX {
-    class Mesh : public Renderable, public Shaded {
+    class Mesh : public Renderable {
     public:
         using AttributeName = int;
 
@@ -58,8 +57,6 @@ namespace PAX {
 
         virtual void upload();
         bool isUploaded();
-
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader);
     };
 }
 

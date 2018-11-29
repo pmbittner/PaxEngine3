@@ -48,10 +48,6 @@ namespace PAX {
                         Services::GetPaths().getResourcePath() + "/shader/test/red/red.frag"
                 );
 
-                texShader->upload();
-                simpleMatShader->upload();
-                redShader->upload();
-
                 cube = Util::createCube(true /*with tex coords*/);
                 cube->upload();
 
@@ -142,10 +138,16 @@ namespace PAX {
 
                 // Spawn a light
                 Entity* lightEntity = new Entity();
-                lightEntity->add(es.create<DirectionalLight>(glm::vec3(1, 0, 0), glm::vec4(1, 0.5f, 0, 1)));
+                lightEntity->add(
+                        es.create<DirectionalLight>(
+                                glm::vec3(1, 0, 0),
+                                //glm::vec4(1, 0.7f, 0.2, 20)
+                                glm::vec4(1, 1, 1, 20)
+                        )
+                );
                 mainLayer->spawn(lightEntity);
 
-                mainLayer->add(es.create<AmbientLight>());
+                mainLayer->add(es.create<AmbientLight>(glm::vec3(0.6, 0, 0.3)));
 
                 _world->addLayer(mainLayer);
                 setActiveWorld(_world);

@@ -5,12 +5,11 @@
 #ifndef PAXENGINE3_SPRITESHEETNODE_H
 #define PAXENGINE3_SPRITESHEETNODE_H
 
-#include <paxcore/rendering/interface/Shaded.h>
 #include <paxcore/rendering/interface/ShaderFlagsConfigurator.h>
 #include <paxcore/rendering/scenegraph/SceneGraph.h>
 
 namespace PAX {
-    class SpriteSheetNode : public SceneGraph, public Shaded, public ShaderFlagsConfigurator {
+    class SpriteSheetNode : public SceneGraph, public ShaderFlagsConfigurator {
         glm::ivec2 _offset;
         glm::ivec2 _size;
 
@@ -23,7 +22,6 @@ namespace PAX {
 
         virtual void render(RenderOptions &options) override;
         virtual void registerFlags(Shader::Flags &flags) override;
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader);
     };
 }
 

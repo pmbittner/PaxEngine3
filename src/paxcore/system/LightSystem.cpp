@@ -8,17 +8,20 @@
 #include <paxcore/rendering/light/AmbientLight.h>
 
 namespace PAX {
-    LightSystem::LightSystem() {}
+    LightSystem::LightSystem() = default;
 
     void LightSystem::initialize(PAX::Game *game) {
+        EntityComponentSystem::initialize(game);
         Engine::Instance().getRenderer().OnTransformationChanged.add<LightSystem, &LightSystem::onRendererTransformationChanged>(this);
     }
 
     void LightSystem::terminate(PAX::Game *game) {
+        EntityComponentSystem::terminate(game);
         Engine::Instance().getRenderer().OnTransformationChanged.remove<LightSystem, &LightSystem::onRendererTransformationChanged>(this);
     }
 
-    void LightSystem::update() {}
+    void LightSystem::update() {
+    }
 
     static void sortLights(const glm::vec3 &pos, std::vector<Light*> &lights) {
         std::sort(lights.begin(), lights.end(), [pos](Light* & light1, Light* light2) {
@@ -28,6 +31,7 @@ namespace PAX {
 
     void LightSystem::findNearestLights(const glm::vec3 &pos, unsigned int maxLights, std::vector<Light*> &out, WorldLayer* worldLayer) {
         const std::vector<Entity*> & lightEntities = getEntities(worldLayer);
+        //LOG(INFO) << "[LightSystem::findNearestLights] found " << lightEntities.size() << " lights on layer " << worldLayer->getName();
 
         for (Entity* lightEntity : lightEntities) {
             if (out.size() < maxLights) {
@@ -71,6 +75,7 @@ namespace PAX {
             }
 
             // TODO: Fix this, as we assume here, that only directional lights are in the world.
+            //LOG(INFO) << "[LightSystem::onRendererTransformationChanged] set lights.num_directional_lights to " << static_cast<int>(nearestLights.size());
             shader->setUniform("lights.num_directional_lights", static_cast<int>(nearestLights.size()));
         }
     }

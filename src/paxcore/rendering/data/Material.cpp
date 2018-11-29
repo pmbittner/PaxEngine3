@@ -18,14 +18,3 @@ void PAX::Material::applyTo(const std::shared_ptr <PAX::Shader> &shader) {
     if (diffuse.texture)
         diffuse.texture->bind();
 }
-
-void PAX::Material::cacheUniformsFor(std::shared_ptr<PAX::Shader> &shader) {
-    shader->cacheUniforms({
-        "material_diffuse_color",
-        "material_specular_color",
-        "material_specular_exponent",
-        "material_ambient_color",
-        "material_opacity",
-        "material_hasDiffuseTexture"
-    });
-}

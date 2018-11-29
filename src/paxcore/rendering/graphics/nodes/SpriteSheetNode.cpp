@@ -25,13 +25,6 @@ namespace PAX {
         flags.VertexFlags += "\n#define SPRITE_SHEET\n";
     }
 
-    void SpriteSheetNode::cacheUniformsFor(std::shared_ptr<Shader> &shader) {
-        shader->cacheUniforms({
-                                      "spriteSheet.offset",
-                                      "spriteSheet.size",
-                              });
-    }
-
     void SpriteSheetNode::render(RenderOptions &options) {
         const std::shared_ptr<Shader> shader = options.getShaderOptions().getShader();
         shader->setUniform("spriteSheet.offset", _offset);

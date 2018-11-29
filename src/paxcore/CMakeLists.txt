@@ -86,7 +86,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/scenegraph/WorldSceneGraph.h
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h
         ../../include/paxcore/rendering/graphics/SpriteGraphics.h
-        ../../include/paxcore/rendering/interface/Shaded.h
         ../../include/paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h
         ../../include/paxcore/entity/component/Size.h
         ../../include/paxcore/entity/event/SizeChangedEvent.h

@@ -5,7 +5,7 @@ in ShaderData
   vec3 eyeDirection;
   vec3 normal;
   vec2 textureCoord;
-} fs_in;
+} lightProperties;
 
 out vec4 out_Color;
 
@@ -15,7 +15,7 @@ out vec4 out_Color;
 #define BLINN_PHONG_SHADING 1
 
 struct AmbientLight {
-    vec4 color;
+    vec3 color;
 };
 
 struct DirectionalLight {
@@ -43,9 +43,9 @@ uniform sampler2D diffuseTexture;
 
 
 void main(void) {
-/*
-    vec3 E = normalize(fs_in.eyeDirection);
-    vec3 N = normalize(fs_in.normal);
+//*
+    vec3 E = normalize(lightProperties.eyeDirection);
+    vec3 N = normalize(lightProperties.normal);
 
     vec3 ambientTerm = vec3(0);
     vec3 diffuseTerm = vec3(0);
@@ -53,7 +53,7 @@ void main(void) {
     vec3 L, H;
     float dotLN;
 
-    ambientTerm += lights.ambient.color.xyz * lights.ambient.color.w;
+    ambientTerm += lights.ambient.color.xyz;
 
     for (int i = 0; i < lights.num_directional_lights; i++) {
         L = normalize(-lights.directionals[i].direction);
@@ -64,12 +64,13 @@ void main(void) {
 
             // TODO: Use specular color here instead of plain color
             //#if PHONG_SHADING
-            //vec3 reflectDir = reflect(-L, N);
-            //specularTerm += lights.directionals[i].color * pow(max(dot(reflectDir, E), 0), material_specular_exponent / 4.0) * dotLN;
+            vec3 reflectDir = reflect(-L, N);
+            // Sometimes I experienced negative terms here. Dont know why
+            specularTerm += max(vec3(0, 0, 0), lights.directionals[i].color.xyz * pow(max(dot(reflectDir, E), 0), material_specular_exponent * 0.25) * dotLN);
 
             //#elif BLINN_PHONG_SHADING
-            H = normalize(E + L);
-            specularTerm += lights.directionals[i].color.xyz * pow(max(dot(H, N), 0), material_specular_exponent) * dotLN;
+            //H = normalize(E + L);
+            //specularTerm += lights.directionals[i].color.w * lights.directionals[i].color.xyz * pow(max(dot(H, N), 0), material_specular_exponent) * dotLN;
             //#endif
         }
     }
@@ -85,13 +86,13 @@ void main(void) {
     out_Color = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
 
     if (material_hasDiffuseTexture) {
-        vec4 texColor = texture(diffuseTexture, fs_in.textureCoord);
+        vec4 texColor = texture(diffuseTexture, lightProperties.textureCoord);
         out_Color.rgb *= texColor.rgb;
     }
 
     // DEBUG
-    out_Color = vec4(lights.directionals[0].color.xyz, 1);
-    */
+    //out_Color = vec4(lights.directionals[0].color.xyz, 1);
+    /*/
     vec4 clr = vec4(material_diffuse_color, 0);
     if (material_hasDiffuseTexture) {
         clr = texture(diffuseTexture, fs_in.textureCoord);
@@ -99,4 +100,5 @@ void main(void) {
     clr.w = material_opacity;
 
     out_Color = clr;
+    //*/
 }

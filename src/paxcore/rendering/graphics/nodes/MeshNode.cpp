@@ -16,9 +16,9 @@ namespace PAX {
         const glm::mat4 &view = renderOptions.getViewMatrix();
         glm::mat4 modelview = view * renderOptions.getTransformationMatrix();
 
-        shader->setUniform("modelview", modelview);
-        shader->setUniform("projection", renderOptions.getProjectionMatrix());
-        shader->setUniform("view", view);
+        shader->setUniform("modelview", modelview, false);
+        shader->setUniform("projection", renderOptions.getProjectionMatrix(), false);
+        shader->setUniform("view", view, false);
         shader->setUniform("transposedInvModelView", glm::inverse(modelview), true /* transpose */);
 
         _mesh->render(renderOptions);
@@ -28,9 +28,5 @@ namespace PAX {
 
     std::shared_ptr<Mesh> MeshNode::getMesh() const {
         return _mesh;
-    }
-
-    void MeshNode::cacheUniformsFor(std::shared_ptr<Shader> &shader) {
-        _mesh->cacheUniformsFor(shader);
     }
 }

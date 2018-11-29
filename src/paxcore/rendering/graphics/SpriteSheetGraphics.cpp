@@ -42,9 +42,4 @@ namespace PAX {
     glm::ivec2 SpriteSheetGraphics::getSpriteSheetSize() const {
         return _spriteSheet.getSize();
     }
-
-    void SpriteSheetGraphics::setShader(std::shared_ptr<Shader> &shader) {
-        _spriteSheet.cacheUniformsFor(shader);
-        SpriteGraphics::setShader(shader);
-    }
 }

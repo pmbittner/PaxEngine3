@@ -39,7 +39,6 @@ set(HEADERS_FOR_CLION
         include/io/FreeImageOpenGLTextureLoader.h
         include/OpenGLRenderFactory.h
         include/OpenGLMacros.h
-        include/deprecated/test.h
         include/rendernodes/OpenGLWorldLayerRenderPass.h
         include/resource/OpenGLTexture2D.h
         include/resource/OpenGLMesh.h

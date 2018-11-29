@@ -32,7 +32,6 @@ namespace PAX {
     public:
         SpriteGraphics(const std::shared_ptr<Texture> &texture);
 
-        virtual void setShader(std::shared_ptr<Shader> &shader);
         virtual void attached(Entity &entity) override;
         virtual void detached(Entity &entity) override;
     };

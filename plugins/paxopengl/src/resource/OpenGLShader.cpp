@@ -198,13 +198,65 @@ namespace PAX {
             return _shaderProgram;
         }
 
-        void OpenGLShader::cacheUniform(const std::string &uniformName) {
+        void OpenGLShader::detectUniforms() {
+            // iterate through all active uniforms
+            GLint numUniforms = -1;
+            glGetProgramiv(_shaderProgram, GL_ACTIVE_UNIFORMS, &numUniforms);
+            //LOG(INFO) << "[OpenGLShader::detectUniforms] Found " << numUniforms << " uniforms in shader " << _name;
+            for (int i = 0; i < numUniforms; i++) {
+
+                // get uniform informtion
+                GLsizei name_len = -1;
+                GLint size = -1;
+                GLenum type = GL_ZERO;
+                GLchar c_name[100];
+                glGetActiveUniform(_shaderProgram, GLuint(i), sizeof(c_name) - 1, &name_len, &size, &type, c_name);
+                c_name[name_len] = 0;
+                std::string nameS = c_name;
+
+
+                // check if it's an array
+                bool isArray = size > 1;
+                if (isArray) {
+                    std::size_t pos = nameS.find_last_of('[');
+                    nameS = nameS.substr(0, pos);
+                }
+
+                // check single uniform and possible further array indices
+                for (int j = 0; j < size; j++) {
+
+                    std::string uniformName = isArray
+                                              ? nameS + "[" + std::to_string(j) + "]"
+                                              : nameS;
+
+                    // get uniform location
+                    GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
+
+                    // check if uniform location is valid
+                    if (location > -1) {
+
+                        // store uniform type
+                        //uniformTypes[uniformName] = type;
+
+                        // store uniform location
+                        //LOG(INFO) << "[OpenGLShader::detectUniforms]     Found " << uniformName;
+                        _uniformLocations[uniformName] = location;
+                    }
+
+                        // stop for-loop if invalid index was found
+                    else
+                        break;
+                }
+            }
+
+        /*
             if (!hasUniform(uniformName)) {
                 GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
                 if (PAX_OPENGL_doesUniformExist(location)) {
                     _uniformLocations[uniformName] = location;
                 }
             }
+            */
         }
 
         bool OpenGLShader::hasUniform(const std::string &uniformName) {
@@ -215,7 +267,7 @@ namespace PAX {
         if (hasUniform(uniformName)) { \
             funcname(_uniformLocations[uniformName], __VA_ARGS__); \
             return true; \
-        } \
+        } else { /*LOG(ERROR) << "The uniform " << uniformName << " does not exist!";*/ } \
         return false;
 
         bool OpenGLShader::setUniform(const std::string &uniformName, const bool &value) {

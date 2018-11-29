@@ -31,6 +31,9 @@ namespace PAX {
 
             void insertFlags(std::string& shader, const std::string& flags);
 
+            virtual bool upload() override;
+            virtual void detectUniforms() override;
+
         public:
             OpenGLShader(const std::string & name, const std::string & vertexPath, const std::string & fragmentPath, const Flags & flags = Flags());
             ~OpenGLShader();
@@ -40,12 +43,10 @@ namespace PAX {
 
             bool linkShader();
 
-            virtual bool upload() override;
 
             virtual void bind() override;
             virtual void unbind() override;
 
-            virtual void cacheUniform(const std::string& uniformName) override;
             virtual bool hasUniform(const std::string& uniformName) override;
 
             virtual bool setUniform(const std::string& uniformName, const bool& value) override;
@@ -60,9 +61,9 @@ namespace PAX {
             virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value) override;
 
-            virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose = false) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose = false) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose = false) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose) override;
+            virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose) override;
 
             GLuint getID();
         };

@@ -42,11 +42,11 @@ namespace PAX {
         glm::mat4 modelview = renderOptions.getViewMatrix() * worldTransform;
 
         // TODO: Upload projection and view as early as possible and nicht erst hier.
-        shader->setUniform("projection", renderOptions.getProjectionMatrix());
-        shader->setUniform("view", renderOptions.getViewMatrix());
-        shader->setUniform("model", worldTransform);
-        shader->setUniform("modelview", modelview);
-        shader->setUniform("transposedInvModelView", glm::inverse(modelview), true /* transpose */);
+        shader->setUniform("projection", renderOptions.getProjectionMatrix(), false);
+        shader->setUniform("view", renderOptions.getViewMatrix(), false);
+        shader->setUniform("model", worldTransform, false);
+        shader->setUniform("modelview", modelview, false);
+        shader->setUniform("transposedInvModel", glm::inverse(worldTransform), true /* transpose */);
 
         for (Part & p : _meshes) {
             p._material->applyTo(renderOptions.getShaderOptions().getShader());
@@ -56,16 +56,6 @@ namespace PAX {
             child->render(renderOptions);
 
         renderOptions.setTransformationMatrix(parentTransform);
-    }
-
-    void Asset::cacheUniformsFor(std::shared_ptr<PAX::Shader> &shader) {
-        for (Part & p : _meshes) {
-            p._material->cacheUniformsFor(shader);
-            p._mesh->cacheUniformsFor(shader);
-        }
-        for (auto & child : _children) {
-            child->cacheUniformsFor(shader);
-        }
     }
 
     void Asset::print(const std::string& indent) const {

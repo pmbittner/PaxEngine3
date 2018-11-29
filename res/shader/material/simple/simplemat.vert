@@ -9,19 +9,19 @@ out ShaderData
   vec3 eyeDirection;
   vec3 normal;
   vec2 textureCoord;
-} vs_out;
+} lightProperties;
 
 uniform mat4 projection;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 modelview;
-uniform mat4 transposedInvModelView;
+uniform mat4 transposedInvModel;
 
 
 void main(void) {
-    vs_out.eyeDirection = inverse(view)[3].xyz - (model * vec4(position, 1.0)).xyz;
-    vs_out.normal = (transposedInvModelView * vec4(normal, 0)).xyz;
-    vs_out.textureCoord = uv;
+    lightProperties.eyeDirection = -view[3].xyz - (model * vec4(position, 1.0)).xyz;
+    lightProperties.normal = (transposedInvModel * vec4(normal, 0)).xyz;
+    lightProperties.textureCoord = uv;
 
     gl_Position = projection * modelview * vec4(position, 1.0);
 }

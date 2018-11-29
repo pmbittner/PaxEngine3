@@ -8,13 +8,12 @@
 #include <memory>
 
 #include "../interface/Renderable.h"
-#include "../interface/Shaded.h"
 #include "Mesh.h"
 #include "Material.h"
 #include <paxcore/rendering/scenegraph/nodes/TransformationNode.h>
 
 namespace PAX {
-    class Asset : public Renderable, public Shaded {
+    class Asset : public Renderable {
     public:
         // I know this name is stupid, but I didn't come up with a better one.
         struct Part {
@@ -46,9 +45,8 @@ namespace PAX {
         void addChild(const std::shared_ptr<Asset> & asset);
 
         virtual void render(RenderOptions &renderOptions) override;
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) override;
 
-        virtual void print(const std::string& indent = "") const;
+        virtual void print(const std::string& indent) const;
     };
 }
 

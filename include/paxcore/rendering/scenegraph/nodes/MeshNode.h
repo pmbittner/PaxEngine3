@@ -7,10 +7,9 @@
 
 #include <paxcore/rendering/Graphics.h>
 #include <paxcore/rendering/data/Mesh.h>
-#include <paxcore/rendering/interface/Shaded.h>
 
 namespace PAX {
-    class MeshNode : public SceneGraph, public Shaded {
+    class MeshNode : public SceneGraph {
         std::shared_ptr<Mesh> _mesh;
 
     public:
@@ -19,7 +18,6 @@ namespace PAX {
         std::shared_ptr<Mesh> getMesh() const;
 
         virtual void render(RenderOptions &options) override;
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) override;
     };
 }
 

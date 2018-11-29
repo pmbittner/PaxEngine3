@@ -9,11 +9,6 @@ namespace PAX {
 
     }
 
-    void AssetGraphics::setShader(std::shared_ptr <PAX::Shader> &shader) {
-        Super::setShader(shader);
-        _asset->cacheUniformsFor(shader);
-    }
-
     void AssetGraphics::render(PAX::RenderOptions &renderOptions) {
         Super::render(renderOptions);
         _asset->render(renderOptions);

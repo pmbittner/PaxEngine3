@@ -21,6 +21,7 @@
 namespace PAX {
     template<typename... RequiredEntityComponents>
     class EntityComponentSystem : public GameSystem {
+    private:
         std::unordered_map<World*, std::unordered_map<WorldLayer*, std::vector<Entity*>>> _entities;
         World* _activeWorld = nullptr;
 
@@ -99,8 +100,9 @@ namespace PAX {
         }
 
         void add(Entity *entity, World *world) {
-            if (world)
+            if (world) {
                 _entities[world][entity->getWorldLayer()].push_back(entity);
+            }
         }
 
         void tryAdd(Entity *entity, World* world) {

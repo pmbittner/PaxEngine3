@@ -10,10 +10,9 @@
 #include <paxutil/lib/GlmIncludes.h>
 #include "Texture.h"
 #include "Shader.h"
-#include "../interface/Shaded.h"
 
 namespace PAX {
-    struct Material : public Shaded {
+    struct Material {
         const std::string name;
 
         struct {
@@ -36,7 +35,6 @@ namespace PAX {
         Material(const std::string& name);
 
         void applyTo(const std::shared_ptr<Shader> & shader);
-        virtual void cacheUniformsFor(std::shared_ptr<Shader> &shader) override;
     };
 }
 #endif //PAXENGINE3_MATERIAL_H

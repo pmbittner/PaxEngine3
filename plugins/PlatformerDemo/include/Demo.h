@@ -40,7 +40,7 @@ namespace PAX {
             void gatherResources() {
                 LOG(INFO) << "Demo: gatherResources";
 
-                AllocationService& s = Services::GetEntityComponentAllocationService();
+                AllocationService& s = Services::GetDefaultAllocationService();
 
                 std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
@@ -58,14 +58,11 @@ namespace PAX {
                         Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
                 );
 
-                spriteShader->upload();
-                spriteSheetShader->upload();
-
                 playerGraphics->setShader(spriteSheetShader);
             }
 
             Entity* createPlayer() {
-                AllocationService& s = Services::GetEntityComponentAllocationService();
+                AllocationService& s = Services::GetDefaultAllocationService();
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
@@ -79,7 +76,7 @@ namespace PAX {
             }
 
             Entity* createNPC() {
-                AllocationService& s = Services::GetEntityComponentAllocationService();
+                AllocationService& s = Services::GetDefaultAllocationService();
 
                 Entity* npc = new Entity();
                 std::shared_ptr<Graphics> g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
@@ -98,7 +95,7 @@ namespace PAX {
 
             Entity* createCamera(Entity *player) {
                 LOG(INFO) << "Demo: create Camera";
-                AllocationService& s = Services::GetEntityComponentAllocationService();
+                AllocationService& s = Services::GetDefaultAllocationService();
 
                 Entity *cam = new Entity();
                 cam->add(s.create<Camera>(
@@ -115,7 +112,7 @@ namespace PAX {
                 LOG(INFO) << "Demo: createPlatform of size " << span;
 
                 int scale = 5;
-                AllocationService& s = Services::GetEntityComponentAllocationService();
+                AllocationService& s = Services::GetDefaultAllocationService();
 
                 Entity* platform = new Entity();
                 int w = centerBlockTexture->getWidth() * scale;
@@ -148,7 +145,7 @@ namespace PAX {
 
             void createEnvironment() {
                 LOG(INFO) << "Demo: create Environment";
-                AllocationService& s = Services::GetEntityComponentAllocationService();
+                AllocationService& s = Services::GetDefaultAllocationService();
                 glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
                 Path imgPath = Services::GetPaths().getResourcePath() + "/img/Platformer";

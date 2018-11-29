@@ -35,17 +35,18 @@ namespace PAX {
     protected:
         Flags _flags;
 
+        virtual void detectUniforms() = 0;
+        virtual bool upload() = 0;
+
     public:
         virtual void bind() = 0;
         virtual void unbind() = 0;
 
         Shader(const Flags & flags);
 
-        void cacheUniforms(const std::vector<std::string>& uniformNames);
-        virtual void cacheUniform(const std::string& uniformName) = 0;
-        virtual bool hasUniform(const std::string& uniformName) = 0;
+        virtual void initialize();
 
-        virtual bool upload() = 0;
+        virtual bool hasUniform(const std::string& uniformName) = 0;
 
         virtual bool setUniform(const std::string& uniformName, const bool& value);
 
@@ -59,9 +60,9 @@ namespace PAX {
         virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value);
         virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value);
 
-        virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose = false);
-        virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose = false);
-        virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose = false);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose);
+        virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose);
     };
 }
 
