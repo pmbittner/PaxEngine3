@@ -3,21 +3,7 @@
 ## Build Instructions
 
 ### General
-The build folder has to have at least two levels of directories. That allows splitting builds for different configurations, compilers, release/debug:
-
-    CMakeLists.txt
-    include/
-	src/
-	res/
-	... other files and directories
-	build/
-	    mingw/
-		    MinGW build files here
-	    msvc/
-		    MSVC build files here
-
-Otherwise, the program won't be able to find the 'res' directory to load its resources (for now).
-(Detecting the resource folder at runtime is a feature for the future.)
+Create a directory `bin` at the root level of the repository.
 
 ### Libraries
 Additional libraries may be needed by some plugins or the engine core itself. Some of them may have to be build manually.
@@ -41,7 +27,7 @@ Include files have to be in "lib/win/include".
 
 Libraries have to be in "lib/win/libs".
 
-SDL2 and SDL2_image have their own subdiectories.
+SDL2 and SDL2_image have their own subdirectories.
 
 **Ask Paul to get the necessary files for your compiler.**
 
@@ -59,7 +45,7 @@ Has to be located in directory 'lib/Easylogging'. Build files have to be located
 'lib/Easyloging/build/msvc' for MSVC.
 
 ##### Assimp (required by paxassetimport)
-Check out their git repository and build manually. The build director names
+Check out their git repository and build manually. The build directory names
 currently are:
 
     cmake-build-release-msvc
