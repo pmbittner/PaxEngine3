@@ -14,7 +14,7 @@ namespace PAX {
         }
 
         void OpenGLRenderPass::initialize() {
-            Window *window = Engine::Instance().getWindow();
+            const std::shared_ptr<Window> window = Services::GetWindowService().getWindow();
             glm::ivec2 res = window->getResolution();
 
             glEnable(GL_TEXTURE_2D);

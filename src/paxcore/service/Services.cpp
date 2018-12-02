@@ -8,6 +8,7 @@ namespace PAX {
     Services* Services::_instance = nullptr;
 
     Services::Services() {
+        assert(!_instance);
         _instance = this;
     }
 
@@ -16,17 +17,21 @@ namespace PAX {
     }
 
     void Services::initialize() {
-        //_renderFactory = engineSetup->createRenderFactory();
-        //PAX_assertNotNull(_renderFactory, "Engine::initialize: The given setup could not create a RenderFactory!");
+        static Path relativePathToConfig = "../";
+
+        _globalSettings.parse(relativePathToConfig + "core.paxconfig");
+        Path relativeResDir = relativePathToConfig + _globalSettings.getOrDefault<Path>("core_resourceDirectory");
+        _paths.setAbsoluteResourceDirectory(Services::GetPaths().getWorkingDirectory() + relativeResDir);
+
+        _windowService.initialize();
 
         _inputSystem = _factoryService.create<InputSystem>();
-        //PAX_assertNotNull(_inputSystem, "Engine::initialize: The given setup could not create an InputSystem");
-
         _inputSystem->initialize();
     }
 
     void Services::terminate() {
         _inputSystem->terminate();
+        _windowService.terminate();
     }
 
     void Services::update() {
@@ -41,9 +46,9 @@ namespace PAX {
         return Instance()._eventService;
     }
 
-    InputSystem* Services::GetInput() {
+    InputSystem& Services::GetInput() {
         // This may be wrong, but for now keep ownership.
-        return Instance()._inputSystem.get();
+        return *(Instance()._inputSystem.get());
     }
 
     FactoryService& Services::GetFactory() {
@@ -60,5 +65,13 @@ namespace PAX {
 
     Paths& Services::GetPaths() {
         return Instance()._paths;
+    }
+
+    Settings& Services::GetGlobalSettings() {
+        return Instance()._globalSettings;
+    }
+
+    WindowService& Services::GetWindowService() {
+        return Instance()._windowService;
     }
 }

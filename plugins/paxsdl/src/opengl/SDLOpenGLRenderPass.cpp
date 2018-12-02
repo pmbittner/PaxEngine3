@@ -16,8 +16,9 @@ namespace PAX {
 
             void SDLOpenGLRenderPass::render(RenderOptions &renderOptions) {
                 SceneGraph::render(renderOptions);
-                //LOG(INFO) << "SDL_Bufferflip";
-                SDLWindow *window = static_cast<SDLWindow *>(Engine::Instance().getWindow());
+
+                // Unpack the shared pointer and static cast, as its validity was alread checked in SDLRenderPass::initialize
+                SDLWindow *window = static_cast<SDLWindow *>(Services::GetWindowService().getWindow().get());
                 SDL_GL_SwapWindow(window->getSDL_Window());
             }
         }

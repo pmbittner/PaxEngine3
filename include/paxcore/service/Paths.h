@@ -10,9 +10,9 @@
 #include "paxutil/io/Path.h"
 
 namespace PAX {
-    class Engine;
+    class Services;
     class Paths {
-        friend Engine;
+        friend Services;
 
     private:
         static std::string GetCurrentWorkingDirectory();

@@ -7,35 +7,51 @@
 
 #include <string>
 #include <algorithm>
+#include <vector>
 #include <cctype>
 #include <locale>
 
-#define PAX_UTIL_STRING_EQUALS !strcmp
+//#define PAX_UTIL_STRING_EQUALS !strcmp
 #define PAX_UTIL_STRING_NEQUALS strcmp
 
-#define PAX_UTIL_BOOL_TO_YESNO(boolValue) boolValue ? "yes" : "no"
+//#define PAX_UTIL_BOOL_TO_YESNO(boolValue) boolValue ? "yes" : "no"
 
 namespace PAX {
     namespace Util {
-        // trim from start (in place)
-        void ltrim(std::string &s);
+        namespace String {
+            /// trim from start (in place)
+            void ltrim(std::string &s);
 
-        // trim from end (in place)
-        void rtrim(std::string &s);
+            // trim from end (in place)
+            void rtrim(std::string &s);
 
-        // trim from both ends (in place)
-        void trim(std::string &s);
+            /// trim from both ends (in place)
+            void trim(std::string &s);
 
-        // trim from both ends (copying)
-        std::string trimmed(std::string s);
+            /// trim from both ends (copying)
+            std::string trimmed(std::string s);
 
-        bool startsWith(const std::string& s, const std::string& prefix);
+            bool startsWith(const std::string &s, const std::string &prefix);
 
-        bool endsWith(const std::string& s, const std::string& suffix);
+            bool endsWith(const std::string &s, const std::string &suffix);
 
-        std::string getExtension(const std::string & path);
+            /// Split the given *subject* string at occurences of *separator*.
+            std::vector<std::string> split(const char separator, const std::string &subject, bool keepEmptySubstrings = true);
 
-        void str_replace(std::string& string, const char& from, const char& to);
+            std::string getExtension(const std::string &path);
+
+            void replace(std::string &string, const char &from, const char &to);
+
+            /// Convert the string **str* to T.
+            template<typename T>
+            T tryParse(const std::string &str) { return T(str); }
+            template<> bool tryParse<bool>(const std::string &str);
+            template<> int tryParse<int>(const std::string &str);
+            template<> unsigned long tryParse<unsigned long>(const std::string &str);
+            template<> float tryParse<float>(const std::string &str);
+            template<> double tryParse<double>(const std::string &str);
+            template<> std::string tryParse<std::string>(const std::string &str);
+        }
     }
 }
 #endif //PAXENGINE3_STRINGUTILS_H

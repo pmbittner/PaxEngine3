@@ -146,7 +146,7 @@ namespace PAX {
             void createEnvironment() {
                 LOG(INFO) << "Demo: create Environment";
                 AllocationService& s = Services::GetDefaultAllocationService();
-                glm::ivec2 resolution = Engine::Instance().getWindow()->getResolution();
+                glm::ivec2 resolution = Services::GetWindowService().getWindow()->getResolution();
                 Resources &r = Services::GetResources();
                 Path imgPath = Services::GetPaths().getResourcePath() + "/img/Platformer";
 

@@ -20,8 +20,12 @@ namespace PAX {
         }
 
         void SDLRenderPass::initialize() {
-            PAX::Window *window = PAX::Engine::Instance().getWindow();
-            SDL_Window *sdlWindow = static_cast<PAX::SDL::SDLWindow *>(window)->getSDL_Window();
+            const auto& windowAsSDLType = std::dynamic_pointer_cast<PAX::SDL::SDLWindow>(Services::GetWindowService().getWindow());
+            if (!windowAsSDLType) {
+                throw std::logic_error("[SDLRenderPass::initialize] Invalid Window found: Expected SDLWindow!");
+            }
+
+            SDL_Window* sdlWindow = windowAsSDLType->getSDL_Window();
 
             _renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (_renderer == nullptr) {

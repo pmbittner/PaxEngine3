@@ -16,4 +16,6 @@ namespace PAX {
     glm::ivec2 Window::getResolution() {
         return _resolution;
     }
+
+    void Window::dispose() {}
 }

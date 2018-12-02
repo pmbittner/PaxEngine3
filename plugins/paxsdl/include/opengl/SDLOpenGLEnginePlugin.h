@@ -8,7 +8,6 @@
 #include <paxcore/EnginePlugin.h>
 #include <paxcore/io/Window.h>
 #include <paxcore/service/FactoryService.h>
-#include <paxutil/io/CSVSettingsLoader.h>
 #include "SDLOpenGLWindow.h"
 #include "SDLImageOpenGLTextureLoader.h"
 #include "SDLOpenGLRenderPass.h"

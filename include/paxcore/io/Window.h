@@ -31,6 +31,8 @@ namespace PAX {
 
         virtual void setFullscreen(bool fullscreen);
         bool isFullscreen();
+
+        virtual void dispose();
     };
 }
 

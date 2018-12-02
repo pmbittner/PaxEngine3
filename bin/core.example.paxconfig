@@ -1,0 +1,8 @@
+core_resourceDirectory = ../res
+
+core_windowTitle = PaxEngine3
+
+core_resolutionWidth = 800
+core_resolutionHeight = 600
+
+core_startInFullscreen = true

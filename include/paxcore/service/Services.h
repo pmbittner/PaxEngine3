@@ -12,9 +12,11 @@
 #include <paxutil/event/EventService.h>
 #include <paxcore/io/InputSystem.h>
 #include <paxutil/memory/AllocationService.h>
+#include <paxutil/io/Settings.h>
 
 #include "Paths.h"
 #include "FactoryService.h"
+#include "WindowService.h"
 
 namespace PAX {
     class Engine;
@@ -30,6 +32,8 @@ namespace PAX {
         EventService _eventService;
         FactoryService _factoryService;
         Resources _resources;
+        Settings _globalSettings;
+        WindowService _windowService;
 
         std::shared_ptr<InputSystem> _inputSystem = nullptr;
 
@@ -62,14 +66,14 @@ namespace PAX {
 
         static Services& Instance();
 
-        static InputSystem* GetInput();
-
+        static InputSystem& GetInput();
         static Resources& GetResources();
         static FactoryService& GetFactory();
         static AllocationService& GetDefaultAllocationService();
         static EventService& GetEventService();
-
         static Paths& GetPaths();
+        static Settings& GetGlobalSettings();
+        static WindowService & GetWindowService();
 
         void update();
     };

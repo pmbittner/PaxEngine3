@@ -106,7 +106,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/WorldLayerProperty.h
         ../../include/paxcore/world/event/WorldLayerPropertyAddedEvent.h
         ../../include/paxcore/world/event/WorldLayerPropertyRemovedEvent.h
-        ../../include/paxcore/world/event/WorldLayerEvent.h ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h)
+        ../../include/paxcore/world/event/WorldLayerEvent.h ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -136,7 +136,7 @@ set(CORE_SOURCE_FILES
 
         generated/EngineInternalPlugin.cpp
         generated/EngineInternalPlugin.generated.cpp
-        EnginePlugin.cpp system/LightSystem.cpp)
+        EnginePlugin.cpp system/LightSystem.cpp service/WindowService.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

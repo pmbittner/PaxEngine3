@@ -59,8 +59,8 @@ namespace PAX {
         Path& operator+=(const std::string& path);
 
         // I do not know yet, if I want to support these.
-        //Path operator+(const Path& other) const;
-        //Path& operator+=(const Path& other);
+        Path operator+(const Path& other) const;
+        Path& operator+=(const Path& other);
     };
 }
 

@@ -5,8 +5,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/lib/LibIncludes.h
         ../../include/paxutil/stdutils/CollectionUtils.h
         ../../include/paxutil/macros/MacroIncludes.h
-        ../../include/paxutil/io/CSVSettingsLoader.h
-        ../../include/paxutil/io/CSVRow.h
         ../../include/paxutil/StringUtils.h
         ../../include/paxutil/reflection/MemberCheck.h
         ../../include/paxutil/Dependency.h
@@ -27,17 +25,15 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Angles.h
         ../../include/paxutil/math/MathDefines.h
         ../../include/paxutil/math/Basis.h
-        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyReflectionData.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h)
+        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyReflectionData.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h ../../include/paxutil/io/Settings.h)
 
 set(SOURCE_FILES
         StringUtils.cpp
-        io/CSVSettingsLoader.cpp
-        io/CSVRow.cpp
         io/Path.cpp
         reflection/TypeHierarchy.cpp
         math/Conversion.cpp
         math/Angles.cpp
-        math/Transformation.cpp property/PropertyContainer.cpp)
+        math/Transformation.cpp property/PropertyContainer.cpp io/Settings.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

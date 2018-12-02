@@ -13,7 +13,7 @@
 
 #include <paxutil/Sleep.h>
 #include <paxcore/time/Time.h>
-#include <paxutil/io/CSVSettingsLoader.h>
+#include <paxutil/io/Settings.h>
 
 namespace PAX {
     Engine *Engine::instance = nullptr;
@@ -68,17 +68,6 @@ namespace PAX {
 
         LOG(INFO) << "[Engine::initialize] initialize Services";
         _services.initialize();
-
-        LOG(INFO) << "[Engine::initialize] create Window";
-        // load graphic settings
-        // TODO: Make this less ugly and hard coded
-        Services::GetPaths().setAbsoluteResourceDirectory(Services::GetPaths().getWorkingDirectory() + "/../../res");
-        Util::CSVSettingsLoader settings(Services::GetPaths().getResourcePath() + "/config/initialWindow.paxconfig", '=', true);
-        std::string title = settings["PaxEngine3_DefaultTitle"];
-        int resX = settings.getInt("resolutionWidth");
-        int resY = settings.getInt("resolutionHeight");
-
-        _window = Services::GetFactory().create<Window>(title.c_str(), resX, resY);
 
         LOG(INFO) << "[Engine::initialize] initialize Renderer";
         _renderer.initialize();
@@ -217,10 +206,6 @@ namespace PAX {
 
     Game *Engine::getGame() {
         return _game;
-    }
-
-    Window *Engine::getWindow() {
-        return _window.get();
     }
 
     Renderer &Engine::getRenderer() {

@@ -72,7 +72,7 @@ namespace PAX {
 
         return false;
 #else
-        return Util::startsWith(path, "/");
+        return Util::String::startsWith(path, "/");
 #endif
     }
 
@@ -87,15 +87,15 @@ namespace PAX {
     }
 
     void Path::convertToCurrentPlatform(std::string &path) {
-        Util::str_replace(path, PathSeparator_Unix, PathSeparator);
+        Util::String::replace(path, PathSeparator_Unix, PathSeparator);
     }
 
     void Path::convertToWin(std::string& path) {
-        Util::str_replace(path, PathSeparator_Unix, PathSeparator_Win);
+        Util::String::replace(path, PathSeparator_Unix, PathSeparator_Win);
     }
 
     void Path::convertToUnix(std::string& path) {
-        Util::str_replace(path, PathSeparator_Win, PathSeparator_Unix);
+        Util::String::replace(path, PathSeparator_Win, PathSeparator_Unix);
     }
 
     void Path::simplify(std::string & path) {
@@ -251,17 +251,13 @@ namespace PAX {
         return *this;
     }
 
-    /*
-    Path Path::operator+(const PAX::Path &other) {
-        return Path(_path + other._path);
+    Path Path::operator+(const PAX::Path &other) const {
+        return operator+(other._path);
     }
 
     Path& Path::operator+=(const PAX::Path &other) {
-        _path += other._path;
-        simplify(_path);
-        return *this;
+        return operator+=(other._path);
     }
-     */
 }
 
 std::ostream& operator<<(std::ostream& os, const PAX::Path & p)

@@ -1,4 +1,19 @@
-bin
+# Binaries
+!bin/
+bin/*
+!bin/core.example.paxconfig
+
+# libraries
 lib/*
+
+# Project data
 .idea
+
+# Generated code
 *.generated.cpp
+
+# Python temp files
+__pycache__
+
+# Build
+build

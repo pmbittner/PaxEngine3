@@ -8,7 +8,7 @@
 
 namespace PAX {
     Viewport::Viewport() : _x(0), _y(0), _resizePolicy(ResizePolicy::Relative) {
-        Window *w = Engine::Instance().getWindow();
+        const std::shared_ptr<Window> & w = Services::GetWindowService().getWindow();
         _w = w->getResolution().x;
         _h = w->getResolution().y;
 
@@ -17,7 +17,7 @@ namespace PAX {
 
     Viewport::Viewport(int x, int y, int w, int h, ResizePolicy resizePolicy) : _x(x), _y(y), _w(w), _h(h), _resizePolicy(resizePolicy) {
         if (_resizePolicy != ResizePolicy::Absolute) {
-            Engine::Instance().getWindow()->OnResolutionChanged.add<Viewport, &Viewport::onWindowResolutionChanged>(this);
+            Services::GetWindowService().getWindow()->OnResolutionChanged.add<Viewport, &Viewport::onWindowResolutionChanged>(this);
         }
     }
 
@@ -34,6 +34,8 @@ namespace PAX {
 
                 break;
             }
+
+            default: break;
         }
     }
 

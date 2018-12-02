@@ -33,7 +33,6 @@ namespace PAX {
         Game *_game = nullptr;
         std::vector<EnginePlugin*> _plugins;
 
-        std::shared_ptr<Window> _window = nullptr;
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
@@ -50,7 +49,6 @@ namespace PAX {
         int run();
         void stop();
 
-        Window* getWindow();
         Game* getGame();
         Renderer& getRenderer();
 
