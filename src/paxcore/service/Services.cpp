@@ -20,7 +20,7 @@ namespace PAX {
         static Path relativePathToConfig = "../";
 
         _globalSettings.parse(relativePathToConfig + "core.paxconfig");
-        Path relativeResDir = relativePathToConfig + _globalSettings.getOrDefault<Path>("core_resourceDirectory");
+        Path relativeResDir = relativePathToConfig + _globalSettings.getOrDefault<Path>("core_resourceDirectory", "ResourceDirectoryIsNotSet");
         _paths.setAbsoluteResourceDirectory(Services::GetPaths().getWorkingDirectory() + relativeResDir);
 
         _windowService.initialize();
