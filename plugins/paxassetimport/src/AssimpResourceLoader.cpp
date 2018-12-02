@@ -52,6 +52,41 @@ namespace PAX {
             return {color.r, color.g, color.b};
         }
 
+        static Texture::WrapMode getTextureWrapMode(aiMaterial* aimaterial, bool horizontal, long aiTextureType = aiTextureType_DIFFUSE) {
+            Texture::WrapMode wrapMode = Texture::WrapMode::Repeat;
+            int aiWrapMode;
+            aiReturn aiWrapReturn;
+            if (horizontal) {
+                aiWrapReturn = aimaterial->Get(AI_MATKEY_MAPPINGMODE_U(aiTextureType, 0), aiWrapMode);
+            } else {
+                aiWrapReturn = aimaterial->Get(AI_MATKEY_MAPPINGMODE_V(aiTextureType, 0), aiWrapMode);
+            }
+
+            if (aiWrapReturn == aiReturn_SUCCESS) {
+                switch (aiWrapMode) {
+                    case aiTextureMapMode_Clamp: {
+                        wrapMode = Texture::WrapMode::ClampToEdge;
+                        break;
+                    }
+
+                    case aiTextureMapMode_Mirror: {
+                        wrapMode = Texture::WrapMode::MirrorRepeat;
+                        break;
+                    }
+
+                    case aiTextureMapMode_Decal: {
+                        wrapMode = Texture::WrapMode::ClampToBorder;
+                        break;
+                    }
+
+                        // aiTextureMapMode_Wrap
+                    default: break;
+                }
+            }
+
+            return wrapMode;
+        }
+
         static std::shared_ptr<Mesh> aiMeshToPaxMesh(aiMesh* assimpMesh, ImportData & importData) {
             std::vector<glm::vec3> vertices(assimpMesh->mNumVertices);
             std::vector<glm::ivec3> faces;
@@ -143,6 +178,13 @@ namespace PAX {
                     Path dir = importData._path.getDirectory();
                     std::string pathToTex = dir.toString() + Path::PathSeparator + texPath.C_Str();
                     paxmaterial->diffuse.texture = Services::GetResources().load<Texture>(pathToTex);
+
+                    if (paxmaterial->diffuse.texture) {
+                        Texture::WrapMode wrapS = getTextureWrapMode(aimaterial, true);
+                        Texture::WrapMode wrapT = getTextureWrapMode(aimaterial, false);
+
+                        paxmaterial->diffuse.texture->setWrapMode(wrapS, wrapT);
+                    }
                 }
             }
 

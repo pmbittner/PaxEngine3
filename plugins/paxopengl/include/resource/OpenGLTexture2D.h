@@ -21,6 +21,8 @@ namespace PAX {
 
             GLuint getID();
 
+            virtual void setWrapMode(WrapMode horizontal, WrapMode vertical) override;
+
             virtual void bind() override;
             virtual void unbind() override;
         };
