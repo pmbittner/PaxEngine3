@@ -38,7 +38,7 @@ namespace PAX {
         }
 
         _plugins.push_back(new EngineInternalPlugin());
-        // Copy plugins
+        // Copy plugins to member list
         _plugins.insert(std::end(_plugins), std::begin(plugins), std::end(plugins));
 
         LOG(INFO) << "[Engine::initialize] Plugins: initializing reflection data";
@@ -97,7 +97,7 @@ namespace PAX {
 
 
     int Engine::run() {
-#define DEF_NOW std::chrono::high_resolution_clock::now()
+        using clock = std::chrono::high_resolution_clock;
         using namespace std::chrono;
         _running = true;
 
@@ -113,7 +113,7 @@ namespace PAX {
         nanoseconds SPU_ns = duration_cast<nanoseconds>(SPU);
 
         high_resolution_clock::time_point loopStartTime;
-        high_resolution_clock::time_point lastLoopStartTime = DEF_NOW;
+        high_resolution_clock::time_point lastLoopStartTime = clock::now();
         // time the last frame took.
         duration<double> dt(0);
         int timeLeft = 0;
@@ -125,13 +125,13 @@ namespace PAX {
         high_resolution_clock::time_point nextUpdateTime(lastLoopStartTime);
         // How many SPFs we are behind execution e.g. slower than desired.
         duration<double> lag(0);
-        duration<double> update_duration;
+        duration<double> update_duration(0);
         // num of updates each frame
         short updatesPerRender = 0;
 
         /** RENDER VARS **/
         high_resolution_clock::time_point renderStartTime(lastLoopStartTime);
-        duration<double> render_duration;
+        duration<double> render_duration(0);
         duration<double> timeTilNextRender(0);
 
         /** FPS & UPS COUNTER **/
@@ -142,7 +142,7 @@ namespace PAX {
 
         while (_running) {
             // calculate delta time
-            loopStartTime = DEF_NOW;
+            loopStartTime = clock::now();
             dt = loopStartTime - lastLoopStartTime;
             lastLoopStartTime = loopStartTime;
 
@@ -163,16 +163,16 @@ namespace PAX {
             }
 
             updates += updatesPerRender;
-            update_duration = DEF_NOW - loopStartTime;
+            update_duration = clock::now() - loopStartTime;
 
             // RENDER
-            renderStartTime = DEF_NOW;
+            renderStartTime = clock::now();
             render();
             ++frames;
-            render_duration = DEF_NOW - renderStartTime;
+            render_duration = clock::now() - renderStartTime;
 
             // count fps
-            fpsUpsTimeStamp = DEF_NOW;
+            fpsUpsTimeStamp = clock::now();
             if (fpsUpsTimeStamp >= lastSecond + seconds(1)) {
                 duration<double> sPassed = fpsUpsTimeStamp - lastSecond;
                 _actualFPS = frames / sPassed.count();
@@ -195,9 +195,8 @@ namespace PAX {
                 PAX::ThreadSleep(timeLeft);
             }
         }
-#undef DEF_NOW
 
-        dispose();
+        terminate();
 
         return 0;
     }
@@ -238,8 +237,9 @@ namespace PAX {
         return *instance;
     }
 
-    bool Engine::dispose() {
+    bool Engine::terminate() {
         _game->terminate();
+        _services.terminate();
         return true;
     }
 }

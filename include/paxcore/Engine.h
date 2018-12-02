@@ -42,6 +42,8 @@ namespace PAX {
         void update();
         void render();
 
+        bool terminate();
+
     public:
         /// Takes ownership of game
         bool initialize(Game* game, const std::vector<EnginePlugin*> &plugins);
@@ -53,7 +55,6 @@ namespace PAX {
         Renderer& getRenderer();
 
         double getFPS();
-        bool dispose();
 
         static Engine& Instance();
     };

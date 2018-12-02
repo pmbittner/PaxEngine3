@@ -40,6 +40,7 @@ namespace PAX {
         ~Services();
 
         void initialize();
+        void terminate();
 
     public:
         template<typename Service>

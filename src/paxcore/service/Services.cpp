@@ -25,6 +25,10 @@ namespace PAX {
         _inputSystem->initialize();
     }
 
+    void Services::terminate() {
+        _inputSystem->terminate();
+    }
+
     void Services::update() {
         _inputSystem->update();
     }
