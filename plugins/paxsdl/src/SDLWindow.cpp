@@ -12,6 +12,12 @@ namespace PAX {
         }
 
         SDLWindow::~SDLWindow() {
+
+        }
+
+        void SDLWindow::dispose() {
+            setFullscreen(false);
+
             if (_window)
                 SDL_DestroyWindow(_window);
         }

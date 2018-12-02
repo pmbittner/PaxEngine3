@@ -24,15 +24,22 @@ namespace PAX {
 
         public:
             virtual void initialize(Engine& engine) override {
+                EnginePlugin::initialize(engine);
+
                 LOG(INFO) << "initialize SDL";
 
                 SDL_Init(SDL_INIT_EVERYTHING);
                 //TTF_Init();
-            };
+            }
+
+            virtual void terminate(Engine& engine) override {
+                SDL_Quit();
+                EnginePlugin::terminate(engine);
+            }
 
             virtual void registerFactories(FactoryService& factoryService) override {
                 factoryService.registerFactory(&inputSystemFactory);
-            };
+            }
         };
     }
 }

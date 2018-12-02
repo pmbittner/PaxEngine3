@@ -224,6 +224,11 @@ namespace PAX {
 
     bool Engine::terminate() {
         _game->terminate();
+
+        for (auto i = _plugins.rbegin(); i != _plugins.rend(); ++i) {
+            (*i)->terminate(*this);
+        }
+
         _services.terminate();
         return true;
     }

@@ -28,6 +28,8 @@ namespace PAX {
 
             virtual ~SDLWindow();
 
+            virtual void dispose() override;
+
             virtual bool create(const std::string& title, int width, int height);
             virtual void setFullscreen(bool fullscreen) override;
 

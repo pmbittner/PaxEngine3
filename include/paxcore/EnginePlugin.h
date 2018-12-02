@@ -32,6 +32,7 @@ namespace PAX {
         explicit EnginePlugin(EnginePluginDependencies* dependencies = nullptr);
 
         virtual void initialize(Engine& engine) {}
+        virtual void terminate(Engine& engine) {}
         virtual void postInitialize(Engine& engine) {}
         virtual void registerServices(Services& services) {}
         virtual void registerResourceLoaders(Resources& resources) {}

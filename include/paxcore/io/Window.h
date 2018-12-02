@@ -17,7 +17,7 @@ namespace PAX {
     class Window {
         friend class InputSystem;
 
-        bool _fullscreen;
+        bool _fullscreen = false;
 
     protected:
         glm::ivec2 _resolution;

@@ -92,9 +92,16 @@ namespace PAX {
 
             }
 
+            void onKeyDown(KeyPressedEvent & keyPressedEvent) {
+                if (keyPressedEvent.button == PAX::Key::ESCAPE)
+                    Engine::Instance().stop();
+            }
+
             virtual void initialize() override {
                 Game::initialize();
                 this->addSystem(new LightSystem());
+
+                Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
                 prepareAssets();
 

@@ -89,6 +89,11 @@ namespace PAX {
                                 break;
                             }
 
+                            case SDL_WINDOWEVENT_CLOSE: {
+                                Engine::Instance().stop();
+                                break;
+                            }
+
                             default:
                                 break;
 

@@ -67,7 +67,7 @@ namespace PAX {
 
             template<>
             bool tryParse<bool>(const std::string &str) {
-                return strcmp(str.c_str(), "0") != 0 && strcmp(str.c_str(), "false") != 0;
+                return str == "true" || str == "TRUE" || str == "True" || str == "1" || str == "on" || str == "ON" || str == "yes" || str == "y";
             }
 
             template<>
