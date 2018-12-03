@@ -22,4 +22,8 @@ namespace PAX {
     void WorldLayerSceneGraph::setZ(float z) {
         _z = z;
     }
+
+    WorldLayer* WorldLayerSceneGraph::getWorldLayer() {
+        return worldLayer;
+    }
 }

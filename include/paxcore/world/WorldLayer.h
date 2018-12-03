@@ -57,6 +57,8 @@ namespace PAX {
         const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
         const std::vector<std::shared_ptr<Camera>> & getCameras() const;
         EventService& getEventService();
+
+        int getDimensions() const;
     };
 }
 

@@ -73,4 +73,8 @@ namespace PAX {
     const std::string& WorldLayer::getName() const {
         return _name;
     }
+
+    int WorldLayer::getDimensions() const {
+        return _dimensions;
+    }
 }

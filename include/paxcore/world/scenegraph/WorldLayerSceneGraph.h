@@ -23,6 +23,8 @@ namespace PAX {
 
         void setZ(float z);
         float getZ();
+
+        WorldLayer* getWorldLayer();
     };
 }
 
