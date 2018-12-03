@@ -3,7 +3,7 @@
 ## Build Instructions
 
 ### General
-Create a directory `bin` at the root level of the repository.
+The engine needs a `core.paxconfig`. You can just copy the `core.example.config` in place and rename it.
 
 ### Libraries
 Additional libraries may be needed by some plugins or the engine core itself. Some of them may have to be build manually.
