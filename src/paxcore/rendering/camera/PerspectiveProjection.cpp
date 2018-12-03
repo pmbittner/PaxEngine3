@@ -13,8 +13,8 @@ namespace PAX {
     }
 
     void PerspectiveProjection::calcMatrix() {
-        auto resX = static_cast<float>(getResolutionWidth());
-        auto resY = static_cast<float>(getResolutionHeight());
+        auto resX = static_cast<float>(getResolution().x);
+        auto resY = static_cast<float>(getResolution().y);
         float near = getNearPlane();
         float far = getFarPlane();
 

@@ -22,7 +22,9 @@ namespace PAX {
         const glm::ivec2 & getScreenPosition() const;
         bool isButtonDown(MouseButton button);
 
-        static glm::ivec2 toViewportScreenCoordinates(const glm::ivec2 & screenPos, Camera& camera);
+        static glm::ivec2 ScreenPosToViewportPos(const glm::ivec2 &, Camera&);
+        static glm::ivec2 ViewportPosToWorldPos(const glm::ivec2&, Camera&);
+        static glm::ivec2 ScreenPosToWorldPos(const glm::ivec2 &, Camera&);
     };
 }
 

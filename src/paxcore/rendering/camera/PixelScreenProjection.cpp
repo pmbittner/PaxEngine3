@@ -12,8 +12,8 @@ namespace PAX {
     }
 
     void PixelScreenProjection::calcMatrix() {
-        float resX = static_cast<float>(getResolutionWidth());
-        float resY = static_cast<float>(getResolutionHeight());
+        float resX = static_cast<float>(getResolution().x);
+        float resY = static_cast<float>(getResolution().y);
         float near = getNearPlane();
         float far = getFarPlane();
         float invFrustumLength = 1.0f / (far - near);

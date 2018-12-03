@@ -12,7 +12,7 @@ namespace PAX {
     private:
         bool _dirty = true;
         float _fov = 90, _near = 0.1f, _far = 1000;
-        unsigned int _resWidth = 1, _resHeight = 1;
+        glm::ivec2 _resolution;
 
     protected:
         glm::mat4 _matrix;
@@ -37,11 +37,8 @@ namespace PAX {
         float getFarPlane();
         void setFarPlane(float farPlane);
 
-        unsigned int getResolutionWidth();
-        void setResolutionWidth(unsigned int resolutionWidth);
-
-        unsigned int getResolutionHeight();
-        void setResolutionHeight(unsigned int resolutionHeight);
+        const glm::ivec2 & getResolution();
+        void setResolution(const glm::ivec2 & res);
     };
 }
 

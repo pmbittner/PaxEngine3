@@ -233,11 +233,6 @@ namespace PAX {
 
                 _world->addLayer(_mainLayer);
                 setActiveWorld(_world);
-
-                // test info
-                std::cout << "\n"
-                << "WorkingDirectory == " << Services::GetPaths().getWorkingDirectory() << "\n\n"
-                << "    ResourcePath == " << Services::GetPaths().getResourcePath() << "\n\n" << std::endl;
             }
         };
     }

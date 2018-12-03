@@ -41,19 +41,11 @@ namespace PAX {
         return _far;
     }
 
-    void Projection::setResolutionHeight(unsigned int resolutionHeight) {
-        _resHeight = resolutionHeight;
+    const glm::ivec2& Projection::getResolution() {
+        return _resolution;
     }
 
-    unsigned int Projection::getResolutionHeight() {
-        return _resHeight;
-    }
-
-    void Projection::setResolutionWidth(unsigned int resolutionWidth) {
-        _resWidth = resolutionWidth;
-    }
-
-    unsigned int Projection::getResolutionWidth() {
-        return _resWidth;
+    void Projection::setResolution(const glm::ivec2 &res) {
+        _resolution = res;
     }
 }

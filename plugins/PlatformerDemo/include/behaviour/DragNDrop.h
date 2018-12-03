@@ -21,7 +21,7 @@ namespace PAX {
         }
 
         void onMousePressed(MouseButtonPressedEvent& e) {
-            std::cout << e.mouse->getScreenPosition() << std::endl;
+            //std::cout << "[DragNDrop::onMousePressed]" << e.mouse->getScreenPosition() << std::endl;
         }
 
         void onMouseReleased(MouseButtonReleasedEvent& e) {

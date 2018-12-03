@@ -14,8 +14,7 @@ namespace PAX {
         viewport->WidthChanged.add<Camera, &Camera::onViewportWidthChanged>(this);
         viewport->HeightChanged.add<Camera, &Camera::onViewportHeightChanged>(this);
 
-        projection->setResolutionWidth(viewport->getWidth());
-        projection->setResolutionHeight(viewport->getHeight());
+        projection->setResolution({viewport->getWidth(), viewport->getHeight()});
     }
 
     void Camera::render(RenderOptions &renderOptions) {
@@ -51,11 +50,11 @@ namespace PAX {
     }
 
     void Camera::onViewportWidthChanged(int oldWidth, int newWidth) {
-        _projection->setResolutionWidth(newWidth);
+        _projection->setResolution({newWidth, _projection->getResolution().y});
     }
 
     void Camera::onViewportHeightChanged(int oldHeight, int newHeight) {
-        _projection->setResolutionHeight(newHeight);
+        _projection->setResolution({_projection->getResolution().x, newHeight});
     }
 
     std::shared_ptr<Viewport> Camera::getViewport() const {
