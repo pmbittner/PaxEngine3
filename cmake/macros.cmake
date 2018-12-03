@@ -1,5 +1,0 @@
-if(NOT COMMAND find_host_program)
-    macro(find_host_program)
-        find_program(${ARGN})
-    endmacro()
-endif()

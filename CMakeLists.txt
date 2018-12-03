@@ -15,92 +15,24 @@ if (WITH_BOX2D)
     add_definitions(-DPAX_WITH_BOX2D)
 endif()
 
+### DEFINITIONS #########################################
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+set(PAX_LIB_DIR_RELATIVE ../lib)
+set(PAX_LIB_DIR ${CMAKE_SOURCE_DIR}/${PAX_LIB_DIR_RELATIVE})
+
 ### DETECT COMPILER #####################################
-set(COMPILER_IS_CLANG FALSE)
-set(COMPILER_IS_GCC FALSE)
-set(COMPILER_IS_INTEL FALSE)
-set(COMPILER_IS_MSVC FALSE)
-
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # using Clang
-    set(COMPILER_IS_CLANG TRUE)
-    message("Compiler set to CLANG")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    # using GCC
-    set(COMPILER_IS_GCC TRUE)
-    message("Compiler set to GCC")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-    # using Intel C++
-    set(COMPILER_IS_INTEL TRUE)
-    message("Compiler set to INTEL")
-
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    # using Visual Studio C++
-    set(COMPILER_IS_MSVC TRUE)
-    message("Compiler set to MSVC")
-endif()
+include(cmake/PaxCompilerDetection.cmake)
 
 ### DETECT ARCHITECTURE #################################
-include(cmake/TargetArch.cmake)
-set(PAX_OS_ARCHITECTURE x64) # This is the default value
-target_architecture(PAX_OS_ARCHITECTURE)
-simplifyArchitecture(PAX_OS_ARCHITECTURE)
-message("PAX_OS_ARCHITECTURE is ${PAX_OS_ARCHITECTURE}")
+include(cmake/PaxArchitectureDetection.cmake)
 
 ### FLAGS ###############################################
+include(cmake/PaxFlagsDefinition.cmake)
+set(CMAKE_CXX_STANDARD ${PAX_CPP_STANDARD})
 
-set(LIB_DIR_RELATIVE ../lib)
-set(LIB_DIR ${CMAKE_SOURCE_DIR}/${LIB_DIR_RELATIVE})
-
-set(USED_CPP_STANDARD c++11)
-
-if (WIN32)
-    message("Set flags for WIN32")
-    if (${COMPILER_IS_MSVC})
-        message("    and MSVC")
-
-        set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} /std:c++latest")
-        set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-
-        # Replace each occurence of /MD with /MT for static linking an avoid warnings for multiple definition
-        set(CompilerFlags
-                CMAKE_CXX_FLAGS
-                CMAKE_CXX_FLAGS_DEBUG
-                CMAKE_CXX_FLAGS_RELEASE
-                CMAKE_C_FLAGS
-                CMAKE_C_FLAGS_DEBUG
-                CMAKE_C_FLAGS_RELEASE
-                )
-        foreach(CompilerFlag ${CompilerFlags})
-            string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
-        endforeach()
-    else(${COMPILER_IS_MSVC}) # condition for nested if
-        message("    but not MSVC")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -std=${USED_CPP_STANDARD}")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
-    endif(${COMPILER_IS_MSVC}) # condition for nested if
-elseif(UNIX)
-    message("Set flags for UNIX")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=${USED_CPP_STANDARD}")
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-else(WIN32) # condition for nested if
-    message(WARNING "Platform not specified. Correct behaviour not guaranteed.")
-endif(WIN32) # condition for nested if
-
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
-message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
-message("CMAKE_CXX_FLAGS_DEBUG  : ${CMAKE_CXX_FLAGS_DEBUG}")
-message("CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
-
-### PATHS ###############################################
-#set(MAIN_FILE Default_main.cpp)
-
-#if (ANDROID)
-#        set(MAIN_FILE Android_main.cpp)
-#endif()
+#message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
+#message("CMAKE_CXX_FLAGS_DEBUG  : ${CMAKE_CXX_FLAGS_DEBUG}")
+#message("CMAKE_CXX_FLAGS_RELEASE: ${CMAKE_CXX_FLAGS_RELEASE}")
 
 
 ### SOURCE FILES ########################################
@@ -118,16 +50,16 @@ set(HEADERS_FOR_CLION
 
 ### API INCLUDES ########################################
 
-include_directories(${LIB_DIR_RELATIVE}/Easylogging/include)
+include_directories(${PAX_LIB_DIR_RELATIVE}/Easylogging/include)
 
-if (WIN32 AND ${COMPILER_IS_MSVC})
-    include_directories(${LIB_DIR_RELATIVE}/win/include)
+if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
+    include_directories(${PAX_LIB_DIR_RELATIVE}/win/include)
 
-    set(EASYLOGGING_LIBRARY ${LIB_DIR}/Easylogging/bin/msvc/easylogging.lib)
+    set(EASYLOGGING_LIBRARY ${PAX_LIB_DIR}/Easylogging/bin/msvc/easylogging.lib)
 
     if (WITH_BOX2D)
-        include_directories(${LIB_DIR}/Box2D)
-        set(BOX2D_LIBRARY ${LIB_DIR}/Box2D/bin/msvc/box2d.lib)
+        include_directories(${PAX_LIB_DIR}/Box2D)
+        set(BOX2D_LIBRARY ${PAX_LIB_DIR}/Box2D/bin/msvc/box2d.lib)
     endif()
 
 else()
@@ -137,12 +69,12 @@ else()
     find_package(SDL2 REQUIRED)
     include_directories(${SDL2_INCLUDE_DIR})
 
-    link_directories(${LIB_DIR}/Easylogging/bin/mingw)
+    link_directories(${PAX_LIB_DIR}/Easylogging/bin/mingw)
     set(EASYLOGGING_LIBRARY easylogging)
 
     if (WITH_BOX2D)
-        include_directories(${LIB_DIR}/Box2D)
-        link_directories(${LIB_DIR}/Box2D/bin/mingw)
+        include_directories(${PAX_LIB_DIR}/Box2D)
+        link_directories(${PAX_LIB_DIR}/Box2D/bin/mingw)
         set(BOX2D_LIBRARY box2d)
     endif()
 endif()
