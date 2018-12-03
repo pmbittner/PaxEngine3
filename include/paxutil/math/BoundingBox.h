@@ -30,6 +30,7 @@ namespace PAX {
         }
 
         bool contains(Type point[dimensions]) {
+            // If the point lays outside in any dimension, return false.
             for (int i = 0; i < dimensions; ++i) {
                 if (point[i] < from[i] || to[i] < point[i])
                     return false;

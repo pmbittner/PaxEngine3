@@ -17,7 +17,9 @@ namespace PAX {
 
     glm::ivec2 Mouse::ScreenPosToViewportPos(const glm::ivec2 & screenPos, Camera &camera) {
         const auto& vp = camera.getViewport();
-        return screenPos - glm::ivec2(vp->getX(), vp->getY());
+        glm::ivec2 vpPos = screenPos - glm::ivec2(vp->getX(), vp->getY());
+        vpPos.y = vp->getHeight() - vpPos.y;
+        return vpPos;
     }
 
     glm::ivec2 Mouse::ViewportPosToWorldPos(const glm::ivec2 & viewportPos, PAX::Camera &camera) {

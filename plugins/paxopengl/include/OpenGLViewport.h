@@ -13,7 +13,7 @@ namespace PAX {
         public:
             OpenGLViewport();
 
-            OpenGLViewport(int x, int y, int w, int h);
+            OpenGLViewport(int x, int y, int w, int h, ResizePolicy resizePolicy);
 
             virtual void apply() override;
         };

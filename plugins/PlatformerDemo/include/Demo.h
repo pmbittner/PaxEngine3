@@ -86,7 +86,6 @@ namespace PAX {
                 npc->add(g);
                 npc->add(s.create<VelocityBehaviour>());
                 npc->add(s.create<PlayerSpriteAnimation>());
-                npc->add(s.create<DragNDrop>());
 
                 npc->getTransformation().setScale({5, 5, 1});
 
@@ -158,13 +157,18 @@ namespace PAX {
                 int h = centerBlockTexture->getHeight();
                 int y = resolution.y - 2*h;
 
-                Entity *p1 = createPlatform(5);
-                p1->getTransformation().position2D() = {0, -200};
-                _mainLayer->spawn(p1);
+                {
+                    Entity *p1 = createPlatform(5);
+                    p1->getTransformation().position2D() = {0, -200};
+                    _mainLayer->spawn(p1);
+                }
 
-                Entity *p2 = createPlatform(2);
-                p2->getTransformation().position2D() = {300, 100};
-                _mainLayer->spawn(p2);
+                {
+                    Entity *p2 = createPlatform(2);
+                    p2->getTransformation().position2D() = {300, 100};
+                    p2->add(s.create<DragNDrop>());
+                    _mainLayer->spawn(p2);
+                }
 
                 {
                     Entity *background = new Entity();

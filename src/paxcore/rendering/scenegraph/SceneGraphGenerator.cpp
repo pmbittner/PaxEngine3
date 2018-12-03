@@ -24,11 +24,15 @@ namespace PAX {
     void SceneGraphGenerator::addCamera(const std::shared_ptr<Camera> & c) {
         _root->addChild(c.get());
         c->addChild(&_sceneRoot);
+
+        _cameras.push_back(c);
     }
 
     void SceneGraphGenerator::removeCamera(const std::shared_ptr<Camera> & c) {
         _root->removeChild(c.get());
         c->removeChild(&_sceneRoot);
+
+        Util::removeFromVector(_cameras, c);
     }
 
     void SceneGraphGenerator::onEntitySpawnedEvent(EntitySpawnedEvent& e) {
@@ -61,5 +65,9 @@ namespace PAX {
 
     void SceneGraphGenerator::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera> &e) {
         addCamera(e._component);
+    }
+
+    const std::vector<std::shared_ptr<Camera>>& SceneGraphGenerator::getCameras() const {
+        return _cameras;
     }
 }

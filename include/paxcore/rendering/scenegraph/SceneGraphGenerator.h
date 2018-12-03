@@ -19,6 +19,7 @@ namespace PAX {
 
     protected:
         SceneGraph _sceneRoot;
+        std::vector<std::shared_ptr<Camera>> _cameras;
 
     public:
         SceneGraphGenerator();
@@ -35,6 +36,8 @@ namespace PAX {
 
         void addCamera(const std::shared_ptr<Camera> & g);
         void removeCamera(const std::shared_ptr<Camera> & g);
+
+        const std::vector<std::shared_ptr<Camera>> & getCameras() const;
 
         virtual void addGraphics(const std::shared_ptr<Graphics> & g) = 0;
         virtual void removeGraphics(const std::shared_ptr<Graphics> & g) = 0;

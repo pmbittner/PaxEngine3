@@ -9,6 +9,7 @@ namespace PAX {
     WorldLayer::WorldLayer(const std::string& name, int dimensions, float z, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator) : _name(name), _dimensions(dimensions) {
         if (!sceneGraphGenerator)
             sceneGraphGenerator = Services::GetFactory().create<SceneGraphGenerator>(dimensions);
+
         _sceneGraphGenerator = sceneGraphGenerator;
         _sceneGraph = Services::GetFactory().create<WorldLayerSceneGraph>(this, z);
         _sceneGraphGenerator->initialize(_sceneGraph.get(), _localEventService);
@@ -63,6 +64,10 @@ namespace PAX {
 
     const std::shared_ptr<WorldLayerSceneGraph>& WorldLayer::getSceneGraph() const {
         return _sceneGraph;
+    }
+
+    const std::vector<std::shared_ptr<Camera>>& WorldLayer::getCameras() const {
+        return _sceneGraphGenerator->getCameras();
     }
 
     const std::string& WorldLayer::getName() const {
