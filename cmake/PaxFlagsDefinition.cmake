@@ -9,7 +9,7 @@ set(PAX_CPP_STANDARD 11)
 
 if (WIN32)
     message("Set flags for WIN32")
-    if (${COMPILER_IS_MSVC})
+    if (${PAX_COMPILER_IS_MSVC})
         message("    and MSVC")
 
         set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} /std:c++latest")
@@ -28,10 +28,10 @@ if (WIN32)
         foreach(CompilerFlag ${CompilerFlags})
             string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
         endforeach()
-    else(${COMPILER_IS_MSVC}) # condition for nested if
+    else(${PAX_COMPILER_IS_MSVC}) # condition for nested if
         message("    but not MSVC")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static -std=c++${PAX_CPP_STANDARD}")# "-static-libgcc -static-libstdc++") #this may be wrong for unix
-    endif(${COMPILER_IS_MSVC}) # condition for nested if
+    endif(${PAX_COMPILER_IS_MSVC}) # condition for nested if
 elseif(UNIX)
     message("Set flags for UNIX")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${PAX_CPP_STANDARD}")
