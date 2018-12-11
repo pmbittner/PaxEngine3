@@ -29,12 +29,6 @@ namespace PAX {
             return {Mouse::ScreenPosToWorldPos(mouse->getScreenPosition(), *cams[0].get()), 0};
         }
 
-        void onMouseDragged(MouseMovedEvent& e) {
-            if (dragged) {
-                getOwner()->getTransformation().position() = getMouseWorldPos(e.mouse) - relativeMousePos;
-            }
-        }
-
         void onMousePressed(MouseButtonPressedEvent& e) {
             glm::vec3 mouseWorldpos = getMouseWorldPos(e.mouse);
             glm::vec3 pos = getOwner()->getTransformation().position();
@@ -54,7 +48,6 @@ namespace PAX {
 
         virtual void attached(Entity& entity) override {
             EventService& e = Services::GetEventService();
-            e.add<MouseMovedEvent, DragNDrop, &DragNDrop::onMouseDragged>(this);
             e.add<MouseButtonPressedEvent, DragNDrop, &DragNDrop::onMousePressed>(this);
             e.add<MouseButtonReleasedEvent, DragNDrop, &DragNDrop::onMouseReleased>(this);
 
@@ -63,11 +56,18 @@ namespace PAX {
 
         virtual void detached(Entity& entity) override {
             EventService& e = Services::GetEventService();
-            e.remove<MouseMovedEvent, DragNDrop, &DragNDrop::onMouseDragged>(this);
             e.remove<MouseButtonPressedEvent, DragNDrop, &DragNDrop::onMousePressed>(this);
             e.remove<MouseButtonReleasedEvent, DragNDrop, &DragNDrop::onMouseReleased>(this);
 
             size = nullptr;
+        }
+
+        virtual void update() override {
+            Super::update();
+
+            if (dragged) {
+                getOwner()->getTransformation().position() = getMouseWorldPos(Services::GetInput().getMouse()) - relativeMousePos;
+            }
         }
     };
 }
