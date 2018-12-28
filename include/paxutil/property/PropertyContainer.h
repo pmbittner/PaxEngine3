@@ -141,14 +141,14 @@ namespace PAX {
             return ret;
         }
 
-        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        typename std::enable_if<!multi, bool>::type
+        template <class ComponentClass>
+        typename std::enable_if<!ComponentClass::IsMultiple(), bool>::type
         has() const {
             return _singleProperties.template contains<ComponentClass>();
         }
 
-        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        typename std::enable_if<multi, bool>::type
+        template <class ComponentClass>
+        typename std::enable_if<ComponentClass::IsMultiple(), bool>::type
         has() const {
             return _multipleProperties.template contains<ComponentClass>();
         }
@@ -164,8 +164,8 @@ namespace PAX {
             return true;
         }
 
-        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        typename std::enable_if<!multi, const std::shared_ptr<ComponentClass> &>::type
+        template <class ComponentClass>
+        typename std::enable_if<!ComponentClass::IsMultiple(), const std::shared_ptr<ComponentClass> &>::type
         get() {
             if (_singleProperties.template contains<ComponentClass>())
                 return reinterpret_cast<std::shared_ptr<ComponentClass>&>(_singleProperties.template get<ComponentClass>());
@@ -175,8 +175,8 @@ namespace PAX {
             }
         }
 
-        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        typename std::enable_if<multi, const std::vector<std::shared_ptr<ComponentClass>>&>::type
+        template <class ComponentClass>
+        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<std::shared_ptr<ComponentClass>>&>::type
         get() {
             if (_multipleProperties.template contains<ComponentClass>())
                 return reinterpret_cast<std::vector<std::shared_ptr<ComponentClass>>&>(_multipleProperties.template get<ComponentClass>());
@@ -184,8 +184,8 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<std::shared_ptr<ComponentClass>>*>(&EmptyPropertyVector);
         }
 
-        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        typename std::enable_if<!multi, const std::shared_ptr<ComponentClass> &>::type
+        template <class ComponentClass>
+        typename std::enable_if<!ComponentClass::IsMultiple(), const std::shared_ptr<ComponentClass> &>::type
         removeAll() {
             if (_singleProperties.template contains<ComponentClass>()) {
                 const auto & component = reinterpret_cast<std::shared_ptr<ComponentClass>&>(_singleProperties.template get<ComponentClass>());
@@ -195,8 +195,8 @@ namespace PAX {
             return nullptr;
         }
 
-        template <class ComponentClass, bool multi = ComponentClass::IsMultiple()>
-        typename std::enable_if<multi, const std::vector<std::shared_ptr<ComponentClass>>&>::type
+        template <class ComponentClass>
+        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<std::shared_ptr<ComponentClass>>&>::type
         removeAll() {
             if (_multipleProperties.template contains<ComponentClass>()) {
                 // Copy to be able to return all removed instances
