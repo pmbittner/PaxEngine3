@@ -145,7 +145,7 @@ namespace PAX {
             //Compile Shader
             bool result = setupShaderFromCodeString(out_id, code);
             if (!result) {
-                LOG(ERROR) << "Shader Compilation - Invalid vertex shader: " << _name;
+                LOG(ERROR) << "Shader Compilation - Invalid shader file: " << _name;
             }
 
             //Attach shader to the program
