@@ -23,9 +23,9 @@ namespace PAX {
         void OpenGLEnginePlugin::initialize(Engine &engine) {}
 
         void OpenGLEnginePlugin::registerResourceLoaders(Resources &resources) {
-            resources.registerLoader<Shader>(static_cast<ResourceLoader<Shader, Path, Path> *>(&shaderLoader));
-            resources.registerLoader<Shader>(
-                    static_cast<ResourceLoader<Shader, Shader::Flags, Path, Path> *>(&shaderLoader));
+            resources.registerLoader<Shader>(static_cast<ResourceLoader<Shader, Shader::FileInfo> *>(&shaderLoader));
+            //resources.registerLoader<Shader>(
+            //        static_cast<ResourceLoader<Shader, Shader::Flags, Path, Path> *>(&shaderLoader));
         }
 
         void OpenGLEnginePlugin::registerFactories(FactoryService &factoryService) {

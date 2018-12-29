@@ -5,22 +5,22 @@
 #include <resource/OpenGLShaderLoader.h>
 #include <resource/OpenGLShader.h>
 
-bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Path vertexShaderPath, Path fragmentShaderPath) {
+bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) {
     return true;
 }
 
-bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) {
+bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo, Shader::Flags flags) {
     return true;
 }
 
-std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Path vertexShaderPath, Path fragmentShaderPath) {
-    auto shader = std::make_shared<OpenGLShader>(vertexShaderPath, vertexShaderPath, fragmentShaderPath);
+std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Shader::FileInfo fileInfo) {
+    auto shader = std::make_shared<OpenGLShader>(fileInfo.VertexPath, fileInfo);
     shader->initialize();
     return shader;
 }
 
-std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) {
-    auto shader = std::make_shared<OpenGLShader>(vertexShaderPath, vertexShaderPath, fragmentShaderPath, flags);
+std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Shader::FileInfo fileInfo, Shader::Flags flags) {
+    auto shader = std::make_shared<OpenGLShader>(fileInfo.VertexPath, fileInfo, flags);
     shader->initialize();
     return shader;
 }

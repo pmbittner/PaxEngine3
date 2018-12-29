@@ -47,15 +47,19 @@ namespace PAX {
                 );
 
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
-                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
+                        Shader::FileInfo(
+                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
+                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
+                        )
                 );
 
                 playerGraphics = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
                 spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
-                        playerGraphics->getShaderFlags(),
-                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
-                        Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
+                        Shader::FileInfo(
+                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
+                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
+                        ),
+                        playerGraphics->getShaderFlags()
                 );
 
                 playerGraphics->setShader(spriteSheetShader);

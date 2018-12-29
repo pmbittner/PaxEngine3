@@ -10,13 +10,13 @@
 
 namespace PAX {
     namespace OpenGL {
-        class OpenGLShaderLoader : public ResourceLoader<Shader, Path, Path>, public ResourceLoader<Shader, Shader::Flags, Path, Path> {
+        class OpenGLShaderLoader : public ResourceLoader<Shader, Shader::FileInfo>, public ResourceLoader<Shader, Shader::FileInfo, Shader::Flags> {
         public:
-            virtual bool canLoad(Path vertexShaderPath, Path fragmentShaderPath) override;
-            virtual std::shared_ptr<Shader> load(Path vertexShaderPath, Path fragmentShaderPath) override;
+            virtual bool canLoad(Shader::FileInfo) override;
+            virtual std::shared_ptr<Shader> load(Shader::FileInfo) override;
 
-            virtual bool canLoad(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) override;
-            virtual std::shared_ptr<Shader> load(Shader::Flags flags, Path vertexShaderPath, Path fragmentShaderPath) override;
+            virtual bool canLoad(Shader::FileInfo, Shader::Flags flags) override;
+            virtual std::shared_ptr<Shader> load(Shader::FileInfo, Shader::Flags flags) override;
         };
     }
 }

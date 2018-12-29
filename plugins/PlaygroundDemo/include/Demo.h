@@ -36,16 +36,22 @@ namespace PAX {
 
             void prepareAssets() {
                 texShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.vert",
-                        Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.frag"
+                        Shader::FileInfo(
+                                Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.vert",
+                                Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.frag"
+                        )
                 );
                 simpleMatShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.vert",
-                        Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.frag"
+                        Shader::FileInfo(
+                                Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.vert",
+                                Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.frag"
+                        )
                 );
                 redShader = Services::GetResources().loadOrGet<Shader>(
-                        Services::GetPaths().getResourcePath() + "/shader/test/red/red.vert",
-                        Services::GetPaths().getResourcePath() + "/shader/test/red/red.frag"
+                        Shader::FileInfo(
+                                Services::GetPaths().getResourcePath() + "/shader/test/red/red.vert",
+                                Services::GetPaths().getResourcePath() + "/shader/test/red/red.frag"
+                        )
                 );
 
                 cube = Util::createCube(true /*with tex coords*/);

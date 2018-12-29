@@ -10,6 +10,7 @@
 #include <ostream>
 
 #include <paxutil/lib/GlmIncludes.h>
+#include <paxutil/io/Path.h>
 
 namespace PAX {
     class Shader {
@@ -32,7 +33,21 @@ namespace PAX {
             bool operator==(const Flags& other) const;
         };
 
+        struct FileInfo {
+            Path VertexPath;
+            Path GeometryPath;
+            Path FragmentPath;
+            Path TessControlPath;
+            Path TessEvaluationPath;
+            Path ComputePath;
+
+            FileInfo();
+            FileInfo(const Path& vertexPath, const Path& fragmentPath);
+            bool operator==(const FileInfo& other) const;
+        };
+
     protected:
+        FileInfo _fileInfo;
         Flags _flags;
 
         virtual void detectUniforms() = 0;
@@ -42,20 +57,20 @@ namespace PAX {
         virtual void bind() = 0;
         virtual void unbind() = 0;
 
-        Shader(const Flags & flags);
+        Shader(const FileInfo& fileInfo, const Flags & flags);
 
         virtual void initialize();
 
         virtual bool hasUniform(const std::string& uniformName) = 0;
 
-        virtual bool setUniform(const std::string& uniformName, const bool& value);
+        virtual bool setUniform(const std::string& uniformName, bool value);
 
-        virtual bool setUniform(const std::string& uniformName, const float& value);
+        virtual bool setUniform(const std::string& uniformName, float value);
         virtual bool setUniform(const std::string& uniformName, const glm::vec2& value);
         virtual bool setUniform(const std::string& uniformName, const glm::vec3& value);
         virtual bool setUniform(const std::string& uniformName, const glm::vec4& value);
 
-        virtual bool setUniform(const std::string& uniformName, const int& value);
+        virtual bool setUniform(const std::string& uniformName, int value);
         virtual bool setUniform(const std::string& uniformName, const glm::ivec2& value);
         virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value);
         virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value);
@@ -67,5 +82,6 @@ namespace PAX {
 }
 
 std::ostream &operator<<(std::ostream &os, PAX::Shader::Flags const &flags);
+std::ostream &operator<<(std::ostream &os, PAX::Shader::FileInfo const &fileInfo);
 
 #endif //PAXENGINE3_SHADER_H

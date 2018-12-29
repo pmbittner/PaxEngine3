@@ -90,10 +90,9 @@ namespace PAX {
 
         OpenGLShader::OpenGLShader(
                 const std::string & name,
-                const std::string & vertexPath,
-                const std::string & fragmentPath,
+                const FileInfo & fileInfo,
                 const Flags & flags)
-                : Shader(flags), _name(name), _vertexPath(vertexPath), _fragmentPath(fragmentPath) {
+                : Shader(fileInfo, flags), _name(name) {
             _shaderProgram  = glCreateProgram();
             _vertexShader   = 0;
             _fragmentShader = 0;
@@ -109,21 +108,23 @@ namespace PAX {
 
         bool OpenGLShader::upload() {
             if (!_uploaded) {
-                std::string vertexCode = loadCodeFromFile(_vertexPath);
+                std::string vertexCode = loadCodeFromFile(_fileInfo.VertexPath);
                 insertFlags(vertexCode, _flags.VertexFlags);
 
-                if (!loadVertexShaderFromCode(vertexCode)) {
-                    LOG(ERROR) << "Shader Compilation - Vertex file: " << _vertexPath;
+                if (!loadShaderFromCode(GL_VERTEX_SHADER, vertexCode, _vertexShader)) {
+                    LOG(ERROR) << "Shader Compilation - Vertex file: " << _fileInfo.VertexPath;
                     return false;
                 }
 
-                std::string fragmentCode = loadCodeFromFile(_fragmentPath);
+
+                std::string fragmentCode = loadCodeFromFile(_fileInfo.FragmentPath);
                 insertFlags(fragmentCode, _flags.FragmentFlags);
 
-                if (!loadFragmentShaderFromCode(fragmentCode)) {
-                    LOG(ERROR) << "Shader Compilation - Fragment file: " << _fragmentPath;
+                if (!loadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, _fragmentShader)) {
+                    LOG(ERROR) << "Shader Compilation - Fragment file: " << _fileInfo.FragmentPath;
                     return false;
                 }
+
 
                 glBindAttribLocation(_shaderProgram, 0, "position");
                 if (linkShader()) {
@@ -137,34 +138,18 @@ namespace PAX {
             return true;
         }
 
-        bool OpenGLShader::loadVertexShaderFromCode(const std::string & code) {
-            if (_vertexShader == 0) {
-                _vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        bool OpenGLShader::loadShaderFromCode(GLenum type, const std::string & code, GLuint& out_id) {
+            if (out_id == 0) {
+                out_id = glCreateShader(type);
             }
             //Compile Shader
-            bool result = setupShaderFromCodeString(_vertexShader,code);
+            bool result = setupShaderFromCodeString(out_id, code);
             if (!result) {
                 LOG(ERROR) << "Shader Compilation - Invalid vertex shader: " << _name;
             }
 
             //Attach shader to the program
-            glAttachShader(_shaderProgram,_vertexShader);
-
-            return result;
-        }
-
-        bool OpenGLShader::loadFragmentShaderFromCode(const std::string & code) {
-            if (_fragmentShader==0) {
-                _fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-            }
-            //Compile Shader
-            bool result = setupShaderFromCodeString(_fragmentShader,code);
-            if (!result) {
-                LOG(ERROR) << "Shader Compilation - Invalid fragment shader: " << _name;
-            }
-
-            //Attach shader to the program
-            glAttachShader(_shaderProgram,_fragmentShader);
+            glAttachShader(_shaderProgram, out_id);
 
             return result;
         }
@@ -270,11 +255,11 @@ namespace PAX {
         } else { /*LOG(ERROR) << "The uniform " << uniformName << " does not exist!";*/ } \
         return false;
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, const bool &value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, bool value) {
             PAX_OPENGL_LOADUNIFORM(glUniform1f, value)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, const float& value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, float value) {
             PAX_OPENGL_LOADUNIFORM(glUniform1f, value)
         }
 
@@ -290,7 +275,7 @@ namespace PAX {
             PAX_OPENGL_LOADUNIFORM(glUniform4f, value.x, value.y, value.z, value.w)
         }
 
-        bool OpenGLShader::setUniform(const std::string &uniformName, const int &value) {
+        bool OpenGLShader::setUniform(const std::string &uniformName, int value) {
             PAX_OPENGL_LOADUNIFORM(glUniform1i, value);
         }
 

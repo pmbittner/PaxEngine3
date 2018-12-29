@@ -16,8 +16,11 @@ namespace PAX {
         class OpenGLShader : public Shader {
             bool _uploaded = false;
 
+        private:
+            bool loadShaderFromCode(GLenum type, const std::string & code, GLuint& out_id);
+
         protected:
-            std::string _name, _vertexPath, _fragmentPath;
+            std::string _name;
 
             GLuint _shaderProgram;
             GLuint _vertexShader;
@@ -35,11 +38,8 @@ namespace PAX {
             virtual void detectUniforms() override;
 
         public:
-            OpenGLShader(const std::string & name, const std::string & vertexPath, const std::string & fragmentPath, const Flags & flags = Flags());
+            OpenGLShader(const std::string & name, const FileInfo& fileInfo, const Flags & flags = Flags());
             ~OpenGLShader();
-
-            bool loadVertexShaderFromCode(const std::string & code);
-            bool loadFragmentShaderFromCode(const std::string & code);
 
             bool linkShader();
 
@@ -49,14 +49,14 @@ namespace PAX {
 
             virtual bool hasUniform(const std::string& uniformName) override;
 
-            virtual bool setUniform(const std::string& uniformName, const bool& value) override;
+            virtual bool setUniform(const std::string& uniformName, bool value) override;
 
-            virtual bool setUniform(const std::string& uniformName, const float& value) override;
+            virtual bool setUniform(const std::string& uniformName, float value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::vec2& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::vec3& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::vec4& value) override;
 
-            virtual bool setUniform(const std::string& uniformName, const int& value) override;
+            virtual bool setUniform(const std::string& uniformName, int value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::ivec2& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value) override;
             virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value) override;
