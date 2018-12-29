@@ -43,7 +43,7 @@ namespace PAX {
 
 #define PAX_PROPERTY_BODY(Parent, bool_multiple) \
 private: \
-    typedef Parent Super;\
+    using Super = Parent;\
 protected: \
     virtual const TypeHandle& getClassType() const override { \
         static TypeHandle myType = typeid(*this); \

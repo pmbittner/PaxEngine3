@@ -157,7 +157,7 @@ namespace PAX {
         bool has() const {
             bool X[] = { has<FirstComponentClass>(), has<SecondComponentClass>(), has<FurtherComponentClasses>()... };
 
-            int len = sizeof...(FurtherComponentClasses) + 2;
+            constexpr int len = sizeof...(FurtherComponentClasses) + 2;
             for (int i = 0; i < len; ++i)
                 if (!X[i]) return false;
 
