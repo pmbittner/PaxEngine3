@@ -32,7 +32,7 @@ namespace PAX {
         /**
          * Works the same as addChild but returns itself to allow chains like
          *
-         * scenegraph <<= node <<= childOfNode <<= &childOfChildOfNode
+         * scenegraph <<= node <<= childOfNode <<= childOfChildOfNode
          * @param child The child to be added to the scenegraph.
          * @return this
          */
