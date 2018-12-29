@@ -8,7 +8,6 @@
 #include <paxcore/io/resources/Resources.h>
 #include <paxutil/datastructures/TypeMap.h>
 
-#include <paxcore/rendering/RenderFactory.h>
 #include <paxutil/event/EventService.h>
 #include <paxcore/io/InputSystem.h>
 #include <paxutil/memory/AllocationService.h>

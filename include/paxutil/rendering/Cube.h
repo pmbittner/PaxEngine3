@@ -8,6 +8,7 @@
 #include <paxutil/lib/GlmIncludes.h>
 #include <paxcore/entity/Entity.h>
 #include <paxcore/service/Services.h>
+#include <paxcore/rendering/data/Mesh.h>
 
 namespace PAX {
     namespace Util {

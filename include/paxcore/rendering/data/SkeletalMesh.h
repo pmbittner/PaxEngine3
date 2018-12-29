@@ -1,8 +1,0 @@
-//
-// Created by Paul on 30.08.2018.
-//
-
-#ifndef PAXENGINE3_SKELETALMESH_H
-#define PAXENGINE3_SKELETALMESH_H
-
-#endif //PAXENGINE3_SKELETALMESH_H

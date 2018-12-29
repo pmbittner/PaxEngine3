@@ -37,7 +37,6 @@ set(HEADERS_FOR_CLION
         include/resource/NullOpenGLTextureLoader.h
         include/resource/OpenGLShaderLoader.h
         include/io/FreeImageOpenGLTextureLoader.h
-        include/OpenGLRenderFactory.h
         include/OpenGLMacros.h
         include/rendernodes/OpenGLWorldLayerRenderPass.h
         include/resource/OpenGLTexture2D.h
@@ -50,7 +49,6 @@ set(HEADERS_FOR_CLION
 add_library(paxopengl
         ${HEADERS_FOR_CLION}
         src/OpenGLViewport.cpp
-        src/OpenGLRenderFactory.cpp
         src/io/FreeImageOpenGLTextureLoader.cpp
         src/rendernodes/OpenGLWorldLayerRenderPass.cpp
         src/rendernodes/OpenGLRenderPass.cpp

@@ -52,7 +52,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/camera/Projection.h
         ../../include/paxcore/rendering/camera/PerspectiveProjection.h
         ../../include/paxcore/rendering/RenderOptions.h
-        ../../include/paxcore/rendering/RenderFactory.h
         ../../include/paxcore/rendering/camera/FullPixelScreenProjection.h
         ../../include/paxcore/io/event/ResolutionChangedEvent.h
         ../../include/paxcore/io/resources/Resources.h
@@ -95,7 +94,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/service/FactoryService.h
         ../../include/paxutil/lib/GlmIncludes.h
         ../../include/paxcore/rendering/data/Asset.h
-        ../../include/paxcore/rendering/data/SkeletalMesh.h
         ../../include/paxcore/rendering/graphics/AssetGraphics.h
         ../../include/paxcore/rendering/data/Material.h
         ../../include/paxcore/rendering/light/Light.h
