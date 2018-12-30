@@ -11,7 +11,8 @@
 
 namespace PAX {
     class Dance2D : public Behaviour {
-    PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, true)
+    PAX_PROPERTY_DERIVES(PAX::Behaviour)
+    PAX_PROPERTY_IS_MULTIPLE
 
         float _t = 0;
         float _speed = 0, _maxAngle = 0, _maxElongation = 0;

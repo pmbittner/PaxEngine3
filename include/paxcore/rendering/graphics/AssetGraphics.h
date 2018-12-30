@@ -10,7 +10,8 @@
 
 namespace PAX {
     class AssetGraphics : public Graphics {
-        PAX_ENTITYCOMPONENT_BODY(Graphics, false)
+    PAX_PROPERTY_DERIVES(Graphics)
+    PAX_PROPERTY_IS_SINGLE
 
     protected:
         std::shared_ptr<Asset> _asset;

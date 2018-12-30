@@ -29,8 +29,8 @@ namespace PAX {
 
         template<typename EntityComponent>
         void addEntityComponentListeners(EventService &e) {
-            e.add<EntityComponentAddedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentsAdded>(this);
-            e.add<EntityComponentRemovedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentRemoved>(this);
+            e.add<PropertyAttachedEvent<Entity, EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentsAdded>(this);
+            e.add<PropertyDetachedEvent<Entity, EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentRemoved>(this);
         }
 
         template<typename EntityComponentType1, typename EntityComponentType2, typename... OtherEntityComponentTypes>
@@ -41,8 +41,8 @@ namespace PAX {
 
         template<typename EntityComponent>
         void removeEntityComponentListeners(EventService &e) {
-            e.remove<EntityComponentAddedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentsAdded>(this);
-            e.remove<EntityComponentRemovedEvent<EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentRemoved>(this);
+            e.remove<PropertyAttachedEvent<Entity, EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentsAdded>(this);
+            e.remove<PropertyDetachedEvent<Entity, EntityComponent>, EntityComponentSystem, &EntityComponentSystem::onEntityComponentRemoved>(this);
         }
 
         template<typename EntityComponentType1, typename EntityComponentType2, typename... OtherEntityComponentTypes>
@@ -152,8 +152,8 @@ namespace PAX {
         }
 
         template<typename EntityComponentType>
-        void onEntityComponentsAdded(EntityComponentAddedEvent<EntityComponentType> &e) {
-            tryAdd(e.entity, _activeWorld);
+        void onEntityComponentsAdded(PropertyAttachedEvent<Entity, EntityComponentType> &e) {
+            tryAdd(e.container, _activeWorld);
         }
 
         void onEntityDespawned(EntityDespawnedEvent &e) {
@@ -163,10 +163,10 @@ namespace PAX {
         }
 
         template<typename EntityComponentType>
-        void onEntityComponentRemoved(EntityComponentRemovedEvent<EntityComponentType> &e) {
-            Entity *entity = e.entity;
+        void onEntityComponentRemoved(PropertyDetachedEvent<Entity, EntityComponentType> &e) {
+            Entity *entity = e.container;
             if (!isValid(entity))
-                remove(entity, _activeWorld, e.entity->getWorldLayer());
+                remove(entity, _activeWorld, entity->getWorldLayer());
         }
     };
 }

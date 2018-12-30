@@ -71,9 +71,13 @@ namespace PAX {
     };
 }
 
+#ifdef PAX_PYTHON_PRECOMPILED
 #define PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS \
 public: \
 virtual void internal_initializeReflectionData() override; \
 private:
+#else
+#define PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
+#endif
 
 #endif //PAXENGINE3_ENGINEPLUGIN_H

@@ -15,7 +15,8 @@
 
 namespace PAX {
     class Graphics : public EntityComponent, public Renderable {
-        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
+    PAX_PROPERTY_DERIVES(EntityComponent)
+    PAX_PROPERTY_IS_SINGLE
     protected:
         std::shared_ptr<Shader> _shader = nullptr;
 

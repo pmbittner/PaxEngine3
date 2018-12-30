@@ -10,8 +10,6 @@
 #include "../camera/Camera.h"
 #include "../../world/event/EntitySpawnedEvent.h"
 #include "../../world/event/EntityDespawnedEvent.h"
-#include "../../entity/event/EntityComponentAddedEvent.h"
-#include "../../entity/event/EntityComponentRemovedEvent.h"
 
 namespace PAX {
     class SceneGraphGenerator {
@@ -29,10 +27,10 @@ namespace PAX {
 
         void onEntitySpawnedEvent(EntitySpawnedEvent& e);
         void onEntityDespawnedEvent(EntityDespawnedEvent& e);
-        void onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>& e);
-        void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>& e);
-        void onEntityComponentAddedEvent(EntityComponentAddedEvent<Camera>& e);
-        void onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera>& e);
+        void onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Graphics>& e);
+        void onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Graphics>& e);
+        void onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Camera>& e);
+        void onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Camera>& e);
 
         void addCamera(const std::shared_ptr<Camera> & g);
         void removeCamera(const std::shared_ptr<Camera> & g);

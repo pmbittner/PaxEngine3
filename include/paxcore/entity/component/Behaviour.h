@@ -9,7 +9,8 @@
 
 namespace PAX {
     class Behaviour : public EntityComponent {
-    PAX_ENTITYCOMPONENT_BODY(EntityComponent, true)
+    PAX_PROPERTY_DERIVES(EntityComponent)
+    PAX_PROPERTY_IS_MULTIPLE
     public:
         virtual void update();
     };

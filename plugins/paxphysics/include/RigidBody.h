@@ -10,7 +10,8 @@
 namespace PAX {
     namespace Physics {
         class RigidBody : public EntityComponent {
-        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
+        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_IS_SINGLE
 
         public:
             RigidBody();

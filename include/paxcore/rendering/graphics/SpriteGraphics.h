@@ -14,7 +14,8 @@
 
 namespace PAX {
     class SpriteGraphics : public SceneGraphGraphics {
-        PAX_ENTITYCOMPONENT_BODY(SceneGraphGraphics, false)
+    PAX_PROPERTY_DERIVES(SceneGraphGraphics)
+    PAX_PROPERTY_IS_SINGLE
 
         static std::shared_ptr<Mesh> QuadMesh;
         static std::shared_ptr<Mesh> GetMesh();

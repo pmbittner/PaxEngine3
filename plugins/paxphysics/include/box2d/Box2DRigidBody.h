@@ -12,7 +12,8 @@ namespace PAX {
     namespace Physics {
         namespace Box2D {
             class RigidBody : public PAX::Physics::RigidBody {
-            PAX_ENTITYCOMPONENT_BODY(PAX::Physics::RigidBody, true)
+            PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody)
+            PAX_PROPERTY_IS_MULTIPLE
 
                 b2BodyDef _bodyDef;
                 b2FixtureDef _fixtureDef;

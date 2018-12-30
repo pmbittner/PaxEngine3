@@ -1,12 +1,19 @@
-find_package(PythonInterp 3 REQUIRED)
-set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
-add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
-        COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::AssetImport ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
-        COMMENT "Precompiling Assimp Model Loader (via Python)"
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-        VERBATIM
-)
+set(PAX_ASSIMP_SOURCE_FILES
+        src/Plugin.cpp
+        src/AssimpResourceLoader.cpp)
+
+if (PAX_RUN_PYTHON_PRECOMPILER)
+    find_package(PythonInterp 3 REQUIRED)
+    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
+    add_custom_command(
+            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
+            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::AssetImport ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
+            COMMENT "Precompiling Assimp Model Loader (via Python)"
+            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
+            VERBATIM
+    )
+    set(PAX_ASSIMP_SOURCE_FILES ${PAX_ASSIMP_SOURCE_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
+endif (PAX_RUN_PYTHON_PRECOMPILER)
 
 # Assimp
 
@@ -100,5 +107,5 @@ link_directories(${ASSIMP_LINK_DIRECTORIES})
 
 include_directories(include)
 set(HEADERS_FOR_CLION include/Plugin.h include/AssimpResourceLoader.h)
-add_library(paxassimp ${HEADERS_FOR_CLION} src/Plugin.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp src/AssimpResourceLoader.cpp)
+add_library(paxassimp ${HEADERS_FOR_CLION} ${PAX_ASSIMP_SOURCE_FILES})
 target_link_libraries(paxassimp ${ASSIMP_LIBRARIES})

@@ -15,10 +15,10 @@ namespace PAX {
 
         eventService.add<EntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntitySpawnedEvent>(this);
         eventService.add<EntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntityDespawnedEvent>(this);
-        eventService.add<EntityComponentAddedEvent<Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
-        eventService.add<EntityComponentRemovedEvent<Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
-        eventService.add<EntityComponentAddedEvent<Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
-        eventService.add<EntityComponentRemovedEvent<Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
+        eventService.add<PropertyAttachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
+        eventService.add<PropertyDetachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
+        eventService.add<PropertyAttachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
+        eventService.add<PropertyDetachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphGenerator::addCamera(const std::shared_ptr<Camera> & c) {
@@ -51,20 +51,20 @@ namespace PAX {
             removeCamera(entity->get<Camera>());
     }
 
-    void SceneGraphGenerator::onEntityComponentAddedEvent(EntityComponentAddedEvent<Graphics>& e) {
-        addGraphics(e._component);
+    void SceneGraphGenerator::onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Graphics>& e) {
+        addGraphics(e._property);
     }
 
-    void SceneGraphGenerator::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Graphics>& e) {
-        removeGraphics(e._component);
+    void SceneGraphGenerator::onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Graphics>& e) {
+        removeGraphics(e._property);
     }
 
-    void SceneGraphGenerator::onEntityComponentAddedEvent(EntityComponentAddedEvent<Camera> &e) {
-        addCamera(e._component);
+    void SceneGraphGenerator::onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Camera> &e) {
+        addCamera(e._property);
     }
 
-    void SceneGraphGenerator::onEntityComponentRemovedEvent(EntityComponentRemovedEvent<Camera> &e) {
-        addCamera(e._component);
+    void SceneGraphGenerator::onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Camera> &e) {
+        addCamera(e._property);
     }
 
     const std::vector<std::shared_ptr<Camera>>& SceneGraphGenerator::getCameras() const {

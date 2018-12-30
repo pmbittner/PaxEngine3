@@ -9,7 +9,8 @@
 
 namespace PAX {
     class PointLight : public Light {
-        PAX_ENTITYCOMPONENT_BODY(Light, false)
+    PAX_PROPERTY_DERIVES(Light)
+    PAX_PROPERTY_IS_SINGLE
 
     public:
         PointLight(const glm::vec4 & color = glm::vec4(1)) : Super(color) {}

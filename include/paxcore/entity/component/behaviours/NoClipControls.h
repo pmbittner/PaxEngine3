@@ -18,8 +18,8 @@
 
 namespace PAX {
     class NoClipControls : public Behaviour {
-
-        PAX_ENTITYCOMPONENT_BODY(Behaviour, false)
+    PAX_PROPERTY_DERIVES(Behaviour)
+    PAX_PROPERTY_IS_SINGLE
 
         glm::vec3 relativeMovement;
         glm::vec3 velocity;

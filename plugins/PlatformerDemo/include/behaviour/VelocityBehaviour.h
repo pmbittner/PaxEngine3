@@ -12,7 +12,8 @@
 
 namespace PAX {
     class VelocityBehaviour : public Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
+    PAX_PROPERTY_DERIVES(PAX::Behaviour)
+    PAX_PROPERTY_IS_SINGLE
 
     public:
         glm::vec2 velocity = glm::vec2(0);

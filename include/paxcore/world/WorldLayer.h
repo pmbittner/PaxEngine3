@@ -32,7 +32,7 @@ namespace PAX {
         std::string _name;
         const int _dimensions;
 
-        EventService _localEventService;
+        //EventService _localEventService;
         WorldLayerLayout *_layout = nullptr;
 
         std::shared_ptr<WorldLayerSceneGraph> _sceneGraph;
@@ -56,7 +56,7 @@ namespace PAX {
         const std::string& getName() const;
         const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
         const std::vector<std::shared_ptr<Camera>> & getCameras() const;
-        EventService& getEventService();
+        //EventService& getEventService();
 
         int getDimensions() const;
     };

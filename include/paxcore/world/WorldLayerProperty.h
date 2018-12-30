@@ -12,8 +12,4 @@ namespace PAX {
     typedef Property<WorldLayer> WorldLayerProperty;
 }
 
-#define PAX_WORLDLAYERPROPERTY_BODY(Parent, bool_multiple) PAX_PROPERTY_BODY(Parent, bool_multiple)
-
-#define PAX_WORLDLAYERPROPERTY_DEPENDS_ON(...) PAX_PROPERTY_DEPENDS_ON(__VA_ARGS__)
-
 #endif //PAXENGINE3_WORLDLAYERPROPERTY_H

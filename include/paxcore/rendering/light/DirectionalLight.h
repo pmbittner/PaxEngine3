@@ -9,7 +9,8 @@
 
 namespace PAX {
     class DirectionalLight : public Light {
-    PAX_ENTITYCOMPONENT_BODY(Light, false)
+    PAX_PROPERTY_DERIVES(Light)
+    PAX_PROPERTY_IS_SINGLE
 
         glm::vec3 _direction;
 

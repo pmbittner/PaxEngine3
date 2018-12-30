@@ -30,9 +30,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/event/EntityEvent.h
         ../../include/paxcore/world/event/EntitySpawnedEvent.h
         ../../include/paxcore/world/event/EntityDespawnedEvent.h
-        ../../include/paxcore/entity/event/EntityComponentAddedEvent.h
-        ../../include/paxcore/entity/event/EntityComponentEvent.h
-        ../../include/paxcore/entity/event/EntityComponentRemovedEvent.h
         ../../include/paxcore/io/Window.h
         ../../include/paxcore/rendering/camera/Camera.h
         ../../include/paxutil/event/Delegate.h
@@ -102,9 +99,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/SpotLight.h
         ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
         ../../include/paxcore/world/WorldLayerProperty.h
-        ../../include/paxcore/world/event/WorldLayerPropertyAddedEvent.h
-        ../../include/paxcore/world/event/WorldLayerPropertyRemovedEvent.h
-        ../../include/paxcore/world/event/WorldLayerEvent.h ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h)
+        ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -133,22 +128,24 @@ set(CORE_SOURCE_FILES
         time/Time.cpp
 
         generated/EngineInternalPlugin.cpp
-        generated/EngineInternalPlugin.generated.cpp
         EnginePlugin.cpp system/LightSystem.cpp service/WindowService.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)
 
 ### PRECOMPILING ########################################
-find_package(PythonInterp 3 REQUIRED)
-set(SCRIPT_DIR ${PROJECT_SOURCE_DIR}/precompiler/pluginprecompiler.py)
-add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/generated/EngineInternalPlugin.generated.cpp
-        COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX ${PROJECT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/generated/EngineInternalPlugin.generated.cpp EngineInternalPlugin paxcore/generated/EngineInternalPlugin.h
-        COMMENT "Precompiling ${PROJECT_NAME} (via Python)"
-        DEPENDS ${PROJECT_SOURCE_DIR}/include/
-        VERBATIM
-)
+if (PAX_RUN_PYTHON_PRECOMPILER)
+    find_package(PythonInterp 3 REQUIRED)
+    set(SCRIPT_DIR ${PROJECT_SOURCE_DIR}/precompiler/pluginprecompiler.py)
+    add_custom_command(
+            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/generated/EngineInternalPlugin.generated.cpp
+            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX ${PROJECT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/generated/EngineInternalPlugin.generated.cpp EngineInternalPlugin paxcore/generated/EngineInternalPlugin.h
+            COMMENT "Precompiling ${PROJECT_NAME} (via Python)"
+            DEPENDS ${PROJECT_SOURCE_DIR}/include/
+            VERBATIM
+    )
+    set(CORE_SOURCE_FILES ${CORE_SOURCE_FILES} generated/EngineInternalPlugin.generated.cpp)
+endif(PAX_RUN_PYTHON_PRECOMPILER)
 
 add_library(paxcore ${HEADERS_FOR_CLION} ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore paxrendering paxio paxutil)

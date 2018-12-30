@@ -13,19 +13,36 @@ else()
     include_directories(${GLEW_INCLUDE_DIRS})
 endif()
 
+set(PAX_OPENGL_SOURCE_FILES
+        src/OpenGLViewport.cpp
+        src/io/FreeImageOpenGLTextureLoader.cpp
+        src/rendernodes/OpenGLWorldLayerRenderPass.cpp
+        src/rendernodes/OpenGLRenderPass.cpp
+        src/resource/OpenGLTexture2D.cpp
+        src/resource/OpenGLMesh.cpp
+        src/resource/OpenGLShader.cpp
+        src/resource/OpenGLShaderLoader.cpp
+        src/resource/NullOpenGLTextureLoader.cpp
+        src/resource/OpenGLSpriteSheet.cpp
+        src/utility/Error.cpp
+        src/OpenGLEnginePlugin.cpp
+        )
 
 ### TARGET ###########################################
-find_package(PythonInterp 3 REQUIRED)
-set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
+if (PAX_RUN_PYTHON_PRECOMPILER)
+    find_package(PythonInterp 3 REQUIRED)
+    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
 
-# TODO: Make it possible to have two plugins in one module. Now information is doubled!!!!!!
-add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/OpenGLEnginePlugin.generated.cpp
-        COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::OpenGL ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/OpenGLEnginePlugin.generated.cpp OpenGLEnginePlugin
-        COMMENT "Precompiling PAX::OpenGL (via Python)"
-        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-        VERBATIM
-)
+    # TODO: Make it possible to have two plugins in one module. Now information is doubled!!!!!!
+    add_custom_command(
+            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/OpenGLEnginePlugin.generated.cpp
+            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::OpenGL ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/OpenGLEnginePlugin.generated.cpp OpenGLEnginePlugin
+            COMMENT "Precompiling PAX::OpenGL (via Python)"
+            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
+            VERBATIM
+    )
+    set(PAX_OPENGL_SOURCE_FILES ${PAX_OPENGL_SOURCE_FILES} src/OpenGLEnginePlugin.generated.cpp)
+endif (PAX_RUN_PYTHON_PRECOMPILER)
 
 include_directories(include)
 
@@ -48,19 +65,7 @@ set(HEADERS_FOR_CLION
 
 add_library(paxopengl
         ${HEADERS_FOR_CLION}
-        src/OpenGLViewport.cpp
-        src/io/FreeImageOpenGLTextureLoader.cpp
-        src/rendernodes/OpenGLWorldLayerRenderPass.cpp
-        src/rendernodes/OpenGLRenderPass.cpp
-        src/resource/OpenGLTexture2D.cpp
-        src/resource/OpenGLMesh.cpp
-        src/resource/OpenGLShader.cpp
-        src/resource/OpenGLShaderLoader.cpp
-        src/resource/NullOpenGLTextureLoader.cpp
-        src/resource/OpenGLSpriteSheet.cpp
-        src/utility/Error.cpp
-        src/OpenGLEnginePlugin.cpp
-        src/OpenGLEnginePlugin.generated.cpp
+        ${PAX_OPENGL_SOURCE_FILES}
         )
 
 target_link_libraries(paxopengl ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})

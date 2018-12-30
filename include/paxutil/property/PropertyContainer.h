@@ -11,6 +11,8 @@
 #include "../datastructures/TypeMap.h"
 #include "../reflection/TemplateTypeToString.h"
 
+#include "../event/EventService.h"
+
 #include "Property.h"
 #include "PropertyReflectionData.h"
 
@@ -19,11 +21,13 @@ namespace PAX {
     class PropertyContainer {
     public:
         typedef Property<C> Prop;
-        static PropertyReflectionData<C> ReflectionData;
+        //static PropertyReflectionData<C> ReflectionData;
 
     private:
         static const std::vector<std::shared_ptr<Prop>> EmptyPropertyVector;
         static const TypeHandle RootPropertyTypeHandle;
+
+        EventService _localEventService;
 
         TypeMap<std::shared_ptr<Prop>> _singleProperties;
         TypeMap<std::vector<std::shared_ptr<Prop>>> _multipleProperties;
@@ -73,70 +77,23 @@ namespace PAX {
             component->detached(*static_cast<C*>(this));
         }
 
-        bool addComponentAsType(const std::shared_ptr<Prop> & component, Reflection::TypeHierarchyNode* currentTypeNode) {
-            const TypeHandle & currentType = currentTypeNode->type;
-
-            if (ReflectionData.isMultiple.get(currentType)) {
-                _multipleProperties[currentType].push_back(component);
-            } else {
-                if (_singleProperties.contains(currentType)) {
-                    std::cerr << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::addComponentAsTypeSingle] Trying to add instance of " << currentType.name() << ", that does not allow multiple instances!" << std::endl;
-                    return false;
-                }
-                _singleProperties.put(currentType, component);
-            }
-
-            ReflectionData.propertyAttachedHandlers.get(currentType)(static_cast<C*>(this), component);
-
-            if (currentTypeNode->parent->type == RootPropertyTypeHandle)
-                return true;
-            else
-                return addComponentAsType(component, currentTypeNode->parent);
-        }
-
-        bool removeComponentAsType(const std::shared_ptr<Prop> & component, Reflection::TypeHierarchyNode* currentTypeNode) {
-            const TypeHandle & currentType = currentTypeNode->type;
-
-            if (ReflectionData.isMultiple.get(currentType)) {
-                std::vector<std::shared_ptr<Prop>> &result = _multipleProperties.get(currentType);
-                if (!Util::removeFromVector(result, component)) {
-                    return false;
-                } else {
-                    // Remove vector if no components of type ComponentClass remain
-                    if (result.empty())
-                        _multipleProperties.erase(currentType);
-                }
-            } else {
-                // The given component is not the component, that is registered in this Entity for the given type
-                if (_singleProperties.get(currentType) != component)
-                    return false;
-                else
-                    _singleProperties.erase(currentType);
-            }
-
-            ReflectionData.propertyDetachedHandlers.get(currentType)(static_cast<C*>(this), component);
-
-            if (currentTypeNode->parent->type == RootPropertyTypeHandle)
-                return true;
-            else
-                return removeComponentAsType(component, currentTypeNode->parent);
-        }
-
     public:
+        EventService& getEventService() {
+            return _localEventService;
+        }
+
         bool add(const std::shared_ptr<Prop> & component) {
             if (isValid(component)) {
-                auto typeNode = ReflectionData.propertyTypeHierarchy.getNodeOf(component->getClassType());
-                bool ret = addComponentAsType(component, typeNode);
+                component->addTo(*this, component);
                 registerComponent(component);
-                return ret;
+                return true;
             }
 
             return false;
         }
 
         bool remove(const std::shared_ptr<Prop> & component) {
-            auto typeNode = ReflectionData.propertyTypeHierarchy.getNodeOf(component->getClassType());
-            bool ret  = removeComponentAsType(component, typeNode);
+            bool ret = component->removeFrom(*this, component);
             unregisterComponent(component);
             return ret;
         }
@@ -211,10 +168,45 @@ namespace PAX {
 
             return EmptyPropertyVector;
         }
+
+        bool addAsMultiple(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+            _multipleProperties[type].push_back(component);
+            return true;
+        }
+
+        bool addAsSingle(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+            if (_singleProperties.contains(type)) {
+                std::cerr << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::addComponentAsTypeSingle] Trying to add instance of " << type.name() << ", that does not allow multiple instances!" << std::endl;
+                return false;
+            } else
+                _singleProperties.put(type, component);
+
+            return true;
+        }
+
+        bool removeAsMultiple(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+            std::vector<std::shared_ptr<Prop>> &result = _multipleProperties.get(type);
+            if (!Util::removeFromVector(result, component))
+                return false;
+
+            // Remove vector if no components remain
+            if (result.empty())
+                _multipleProperties.erase(type);
+
+            return true;
+        }
+
+        bool removeAsSingle(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+            // The given component is not the component, that is registered for the given type.
+            if (_singleProperties.get(type) != component)
+                return false;
+            else
+                _singleProperties.erase(type);
+        }
     };
 
-    template <class C>
-    PropertyReflectionData<C> PropertyContainer<C>::ReflectionData = PropertyReflectionData<C>();
+    //template <class C>
+    //PropertyReflectionData<C> PropertyContainer<C>::ReflectionData = PropertyReflectionData<C>();
 
     template <class C>
     const std::vector<std::shared_ptr<Property<C>>> PropertyContainer<C>::EmptyPropertyVector(0);

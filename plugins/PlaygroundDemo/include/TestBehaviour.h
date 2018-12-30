@@ -11,7 +11,8 @@
 
 namespace PAX {
     class TestBehaviour : public Behaviour {
-    PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
+    PAX_PROPERTY_DERIVES(PAX::Behaviour)
+    PAX_PROPERTY_IS_SINGLE
 
     public:
         TestBehaviour() {}

@@ -12,7 +12,7 @@
 
 namespace PAX {
     Entity::Entity() {
-        OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&_localEventService);
+        OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&getEventService());
     }
 
     Entity::~Entity() {
@@ -52,9 +52,5 @@ namespace PAX {
 
     WorldLayer* Entity::getWorldLayer() const {
         return _worldLayer;
-    }
-
-    EventService& Entity::getEventService() {
-        return _localEventService;
     }
 }

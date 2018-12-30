@@ -12,7 +12,7 @@ namespace PAX {
 
         _sceneGraphGenerator = sceneGraphGenerator;
         _sceneGraph = Services::GetFactory().create<WorldLayerSceneGraph>(this, z);
-        _sceneGraphGenerator->initialize(_sceneGraph.get(), _localEventService);
+        _sceneGraphGenerator->initialize(_sceneGraph.get(), getEventService());
 
         _sceneGraph->worldLayer = this;
     }
@@ -31,10 +31,10 @@ namespace PAX {
             _entities.push_back(entity);
 
             entity->_worldLayer = this;
-            entity->_localEventService.setParent(&_localEventService);
+            entity->getEventService().setParent(&getEventService());
 
             EntitySpawnedEvent e(entity);
-            _localEventService(e);
+            getEventService()(e);
         }
     }
 
@@ -47,19 +47,15 @@ namespace PAX {
             _entities.erase(entityIter);
 
             entity->_worldLayer = nullptr;
-            entity->_localEventService.setParent(nullptr);
+            entity->getEventService().setParent(nullptr);
 
             EntityDespawnedEvent e(entity, this);
-            _localEventService(e);
+            getEventService()(e);
         }
     }
 
     const std::vector<Entity*>& WorldLayer::getEntities() const {
         return _entities;
-    }
-
-    EventService& WorldLayer::getEventService() {
-        return _localEventService;
     }
 
     const std::shared_ptr<WorldLayerSceneGraph>& WorldLayer::getSceneGraph() const {

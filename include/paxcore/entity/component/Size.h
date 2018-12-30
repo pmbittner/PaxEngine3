@@ -13,7 +13,8 @@
 
 namespace PAX {
     class Size : public EntityComponent {
-        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
+        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_IS_SINGLE
 
         union {
             glm::vec2 _size2D;

@@ -17,7 +17,8 @@
 
 namespace PAX {
     class Camera : public EntityComponent, public SceneGraph {
-        PAX_ENTITYCOMPONENT_BODY(EntityComponent, false)
+    PAX_PROPERTY_DERIVES(EntityComponent)
+    PAX_PROPERTY_IS_SINGLE
 
         glm::mat4 _viewMatrix;
         std::shared_ptr<Viewport> _viewport;

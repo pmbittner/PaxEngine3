@@ -9,7 +9,8 @@
 
 namespace PAX {
     class SceneGraphGraphics : public Graphics {
-        PAX_ENTITYCOMPONENT_BODY(Graphics, false)
+    PAX_PROPERTY_DERIVES(Graphics)
+    PAX_PROPERTY_IS_SINGLE
     protected:
         SceneGraph _scenegraph;
 

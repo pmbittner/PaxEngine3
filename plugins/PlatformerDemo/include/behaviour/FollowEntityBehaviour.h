@@ -9,7 +9,8 @@
 
 namespace PAX {
     class FollowEntityBehaviour : public PAX::Behaviour {
-        PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
+    PAX_PROPERTY_DERIVES(PAX::Behaviour)
+    PAX_PROPERTY_IS_SINGLE
 
         Entity *target = nullptr;
         float speed = 0.09f;

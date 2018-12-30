@@ -15,6 +15,11 @@ if (WITH_BOX2D)
     add_definitions(-DPAX_WITH_BOX2D)
 endif()
 
+set(PAX_RUN_PYTHON_PRECOMPILER FALSE)
+if (PAX_RUN_PYTHON_PRECOMPILER)
+    add_definitions(-DPAX_PYTHON_PRECOMPILED)
+endif(PAX_RUN_PYTHON_PRECOMPILER)
+
 ### DEFINITIONS #########################################
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(PAX_LIB_DIR_RELATIVE ../lib)

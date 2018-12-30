@@ -5,8 +5,9 @@
 #ifndef PAXENGINE3_PROPERTY_H
 #define PAXENGINE3_PROPERTY_H
 
+#include <memory>
 #include "../reflection/TypeHandle.h"
-#include "PropertyDependencies.h"
+#include "PropertyAnnotations.h"
 
 namespace PAX {
     template<class C>
@@ -26,6 +27,14 @@ namespace PAX {
     protected:
         virtual const TypeHandle& getClassType() const = 0;
 
+        virtual bool addTo(PropertyContainer<C>& container, const std::shared_ptr<Property<C>> & me) {
+            return me.get() == this;
+        }
+
+        virtual bool removeFrom(PropertyContainer<C>& container, const std::shared_ptr<Property<C>> & me) {
+            return me.get() == this;
+        }
+
         virtual void attached(C &) {}
         virtual void detached(C &) {}
 
@@ -40,26 +49,5 @@ namespace PAX {
         virtual bool isMultiple() const { return IsMultiple(); }
     };
 }
-
-#define PAX_PROPERTY_BODY(Parent, bool_multiple) \
-private: \
-    using Super = Parent;\
-protected: \
-    virtual const TypeHandle& getClassType() const override { \
-        static TypeHandle myType = typeid(*this); \
-        return myType; \
-    } \
-public: \
-    static constexpr bool IsMultiple() { return Super::IsMultiple() && (bool_multiple); } \
-    virtual bool isMultiple() const override { return IsMultiple(); } \
-private:
-
-#define PAX_PROPERTY_DEPENDS_ON(...) \
-protected: \
-    virtual bool areDependenciesMetFor(const Container& container) const override { \
-        static PAX::PropertyDependencies<Container, __VA_ARGS__> dependencies; \
-        return Super::areDependenciesMetFor(container) && dependencies.met(container); \
-    } \
-private:
 
 #endif //PAXENGINE3_PROPERTY_H
