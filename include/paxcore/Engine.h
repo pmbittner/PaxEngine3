@@ -20,7 +20,7 @@ namespace PAX {
         // GAME LOOP VARS ////////////////////////////////////////////////////////////
         bool _running {false};
 
-        // constraint: _targetFPS <= _targetUPS
+        //constraint: core_targetFPS <= core_targetUPS
         double _targetFPS = 60;
         double _targetUPS = 100;
 
@@ -32,7 +32,6 @@ namespace PAX {
         Renderer _renderer;
         Game *_game = nullptr;
         std::vector<EnginePlugin*> _plugins;
-
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
@@ -53,6 +52,7 @@ namespace PAX {
         Renderer& getRenderer();
 
         double getFPS();
+        double getUPS();
 
         static Engine& Instance();
     };

@@ -6,3 +6,7 @@ core_resolutionWidth = 800
 core_resolutionHeight = 600
 
 core_startInFullscreen = false
+
+# constraint: core_targetFPS <= core_targetUPS
+core_targetFPS = 60
+core_targetUPS = 100

@@ -69,6 +69,9 @@ namespace PAX {
         LOG(INFO) << "[Engine::initialize] initialize Services";
         _services.initialize();
 
+        _targetFPS = Services::GetGlobalSettings().get<int>("core_targetFPS");
+        _targetUPS = Services::GetGlobalSettings().get<int>("core_targetUPS");
+
         LOG(INFO) << "[Engine::initialize] initialize Renderer";
         _renderer.initialize();
 
@@ -214,6 +217,10 @@ namespace PAX {
 
     double Engine::getFPS() {
         return _actualFPS;
+    }
+
+    double Engine::getUPS() {
+        return _actualUPS;
     }
 
     Engine &Engine::Instance() {

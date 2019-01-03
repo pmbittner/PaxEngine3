@@ -18,6 +18,7 @@
 #include <paxtiles/include/paxtiles/Tile.h>
 #include <paxtiles/include/paxtiles/TileMap.h>
 #include <paxtiles/include/paxtiles/TileMapProperty.h>
+#include <PlatformerDemo/include/behaviour/ProfileGameLoopBehaviour.h>
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
@@ -48,7 +49,7 @@ namespace PAX {
             } depthFor;
 
             static constexpr float GlobalScale = 5;
-            glm::vec3 GlobalScaleVec3 = {GlobalScale, GlobalScale, 1};
+            glm::vec3 GlobalScaleVec3;
 
             void gatherResources() {
                 LOG(INFO) << "Demo: gatherResources";
@@ -104,6 +105,7 @@ namespace PAX {
                 npc->add(g);
                 npc->add(s.create<VelocityBehaviour>());
                 npc->add(s.create<PlayerSpriteAnimation>());
+                npc->add(s.create<ProfileGameLoopBehaviour>());
 
                 npc->getTransformation().setScale(GlobalScaleVec3);
                 npc->getTransformation().position().z = depthFor.characters;
@@ -220,6 +222,7 @@ namespace PAX {
 
                     Tile grass = {6, 6};
                     Tile plant = {6, 0};
+                    Tile dreck = {6, 5};
                     Tile u  = {3, 5};
                     Tile d  = {2, 0};
                     Tile l  = {5, 2};
@@ -234,7 +237,7 @@ namespace PAX {
                                 ul, u, u, u, ur
                             },
                             {
-                                l, grass, grass, plant, r
+                                l, grass, grass, dreck, r
                             },
                             {
                                 l, grass, plant, grass, r
@@ -275,7 +278,7 @@ namespace PAX {
 
             virtual void initialize() override {
                 Game::initialize();
-
+                GlobalScaleVec3 = {GlobalScale, GlobalScale, 1};
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
                 
                 LOG(INFO) << "Demo: initialize";
@@ -287,9 +290,7 @@ namespace PAX {
                 _world = new World();
                 _player = createPlayer();
                 _camera = createCamera(_player);
-                LOG(INFO) << "Demo: spawn Player";
                 _mainLayer->spawn(_player);
-                LOG(INFO) << "Demo: spawn Camera";
                 _mainLayer->spawn(_camera);
                 createEnvironment();
 

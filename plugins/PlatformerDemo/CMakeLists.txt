@@ -27,7 +27,7 @@ set(HEADERS_FOR_CLION
         include/behaviour/PlayerControls.h
         include/behaviour/PlayerSpriteAnimation.h
         include/behaviour/VelocityBehaviour.h
-        include/behaviour/Dance2D.h include/behaviour/DragNDrop.h)
+        include/behaviour/Dance2D.h include/behaviour/DragNDrop.h include/behaviour/ProfileGameLoopBehaviour.h)
 
 add_executable(PlatformerDemo ${PAX_PLATFORMERDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION} )
 target_link_libraries(PlatformerDemo ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxtiles paxcore)
