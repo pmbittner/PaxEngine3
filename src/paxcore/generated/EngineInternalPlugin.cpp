@@ -3,6 +3,8 @@
 //
 
 #include <paxcore/generated/EngineInternalPlugin.h>
+#include <paxcore/rendering/loader/SpriteSheetLoader.h>
+#include <paxcore/io/resources/Resources.h>
 
 namespace PAX {
     void EngineInternalPlugin::initialize(PAX::Engine &engine) {}
@@ -11,7 +13,10 @@ namespace PAX {
 
     void EngineInternalPlugin::registerFactories(PAX::FactoryService &factoryService) {}
 
-    void EngineInternalPlugin::registerResourceLoaders(PAX::Resources &resources) {}
+    void EngineInternalPlugin::registerResourceLoaders(PAX::Resources &resources) {
+        static SpriteSheetLoader spriteSheetLoader;
+        resources.registerLoader(&spriteSheetLoader);
+    }
 
     void EngineInternalPlugin::registerServices(PAX::Services &services) {}
 }

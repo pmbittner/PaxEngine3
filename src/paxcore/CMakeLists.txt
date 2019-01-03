@@ -99,7 +99,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/SpotLight.h
         ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
         ../../include/paxcore/world/WorldLayerProperty.h
-        ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h)
+        ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h ../../include/paxcore/rendering/loader/SpriteSheetLoader.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

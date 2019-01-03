@@ -1,6 +1,7 @@
 add_subdirectory(paxsdl)
 add_subdirectory(paxopengl)
 add_subdirectory(paxphysics)
+add_subdirectory(paxtiles)
 add_subdirectory(paxassetimport)
 add_subdirectory(PlatformerDemo)
 add_subdirectory(PlaygroundDemo)

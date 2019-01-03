@@ -6,7 +6,7 @@
 #include <paxcore/rendering/camera/Camera.h>
 
 namespace PAX {
-    MeshNode::MeshNode(std::shared_ptr<Mesh> mesh) : _mesh(mesh) {
+    MeshNode::MeshNode(const std::shared_ptr<Mesh> & mesh) : _mesh(mesh) {
         PAX_assertNotNull(mesh, "Mesh can't be null!")
     }
 

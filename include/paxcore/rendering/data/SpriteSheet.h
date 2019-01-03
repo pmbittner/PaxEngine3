@@ -6,18 +6,25 @@
 #define PAXENGINE3_SPRITESHEET_H
 
 #include <vector>
+#include <memory>
+#include <paxutil/lib/GlmIncludes.h>
 #include "Texture.h"
 
 namespace PAX {
     class SpriteSheet {
     protected:
-        std::vector<Texture*> _textures;
+        std::shared_ptr<Texture> texture;
+        glm::ivec2 dimensions;
 
     public:
-        SpriteSheet(int textureCount);
+        SpriteSheet(const std::shared_ptr<Texture>& texture, int columns, int rows);
 
-        int getTextureCount();
-        Texture* getTextureAt(int index);
+        const std::shared_ptr<Texture> getTexture();
+
+        /// \return dimensions = (columns, rows)
+        glm::ivec2 getDimensions();
+
+        glm::vec2 getScale();
     };
 }
 

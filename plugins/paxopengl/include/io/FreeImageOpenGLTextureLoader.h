@@ -15,7 +15,7 @@ namespace PAX {
             FreeImageOpenGLTextureLoader();
             ~FreeImageOpenGLTextureLoader();
 
-            bool canLoad(const char * path) override;
+            bool canLoad(const char * path) const override;
             std::shared_ptr<Texture> load(const char * path) override;
         };
     }

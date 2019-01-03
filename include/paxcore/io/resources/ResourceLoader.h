@@ -22,7 +22,7 @@ namespace PAX {
     template<typename Resource, typename... Params>
     class ResourceLoader : public ResourceLoaderT<Resource> {
     public:
-        virtual bool canLoad(Params...) = 0;
+        virtual bool canLoad(Params...) const = 0;
         virtual std::shared_ptr<Resource> load(Params...) = 0;
     };
 }

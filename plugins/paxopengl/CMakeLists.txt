@@ -23,7 +23,6 @@ set(PAX_OPENGL_SOURCE_FILES
         src/resource/OpenGLShader.cpp
         src/resource/OpenGLShaderLoader.cpp
         src/resource/NullOpenGLTextureLoader.cpp
-        src/resource/OpenGLSpriteSheet.cpp
         src/utility/Error.cpp
         src/OpenGLEnginePlugin.cpp
         )
@@ -49,7 +48,6 @@ include_directories(include)
 set(HEADERS_FOR_CLION
         include/OpenGLEnginePlugin.h
         include/factory/OpenGLMeshFactory.h
-        include/resource/OpenGLSpriteSheet.h
         include/utility/Error.h
         include/resource/NullOpenGLTextureLoader.h
         include/resource/OpenGLShaderLoader.h

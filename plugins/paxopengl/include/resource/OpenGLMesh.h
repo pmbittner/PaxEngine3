@@ -27,6 +27,7 @@ namespace PAX {
             void initialize(std::vector<glm::vec3> &vertices);
 
         public:
+            // TODO: Make 2d vertices possible
             OpenGLMesh(std::vector<glm::vec3> &vertices, std::vector<std::vector<int>> &faces, GLenum faceMode = GL_TRIANGLES);
             OpenGLMesh(std::vector<glm::vec3> &vertices, std::vector<glm::ivec3> &faces, GLenum faceMode = GL_TRIANGLES);
             virtual ~OpenGLMesh();

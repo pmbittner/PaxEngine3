@@ -14,7 +14,7 @@ namespace PAX {
         public:
             AssimpResourceLoader() = default;
 
-            virtual bool canLoad(Path p) override;
+            virtual bool canLoad(Path p) const override;
             virtual std::shared_ptr<Asset> load(Path p) override;
         };
     }

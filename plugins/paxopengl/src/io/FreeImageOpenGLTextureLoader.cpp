@@ -26,7 +26,7 @@ namespace PAX {
 #endif
         }
 
-        bool PAX::OpenGL::FreeImageOpenGLTextureLoader::canLoad(const char *path) {
+        bool PAX::OpenGL::FreeImageOpenGLTextureLoader::canLoad(const char *path) const {
             return true;
         }
 

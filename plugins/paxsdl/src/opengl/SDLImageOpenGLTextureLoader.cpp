@@ -23,7 +23,7 @@ namespace PAX {
 
         }
 
-        bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(Path path) {
+        bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(Path path) const {
             Util::FileTypeChecker formats({
                     "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
             });

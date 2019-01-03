@@ -11,7 +11,7 @@
 
 namespace PAX {
     namespace OpenGL {
-        class NullOpenGLTextureLoader : public ResourceLoader<Texture, const char*> {
+        class NullOpenGLTextureLoader : public ResourceLoader<Texture, Path> {
         private:
             // Cache texture here, so that it will never be deleted.
             std::shared_ptr<OpenGLTexture2D> _texture = nullptr;
@@ -20,8 +20,8 @@ namespace PAX {
             NullOpenGLTextureLoader();
             ~NullOpenGLTextureLoader();
 
-            bool canLoad(const char * path) override;
-            std::shared_ptr<Texture> load(const char * path) override;
+            bool canLoad(Path path) const override;
+            std::shared_ptr<Texture> load(Path path) override;
         };
     }
 }

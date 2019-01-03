@@ -15,6 +15,9 @@
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <PlatformerDemo/include/behaviour/DragNDrop.h>
+#include <paxtiles/include/paxtiles/Tile.h>
+#include <paxtiles/include/paxtiles/TileMap.h>
+#include <paxtiles/include/paxtiles/TileMapProperty.h>
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
@@ -75,6 +78,7 @@ namespace PAX {
                 player->add(s.create<PlayerSpriteAnimation>());
 
                 player->getTransformation().setScale({5, 5, 1});
+                player->getTransformation().position().z = 0;
 
                 return player;
             }
@@ -92,6 +96,7 @@ namespace PAX {
                 npc->add(s.create<PlayerSpriteAnimation>());
 
                 npc->getTransformation().setScale({5, 5, 1});
+                npc->getTransformation().position().z = 0;
 
                 return npc;
             }
@@ -105,7 +110,7 @@ namespace PAX {
                         Services::GetFactory().create<Viewport>(),
                         std::make_shared<PixelScreenProjection>()
                 ));
-                cam->getTransformation().z() = 1;
+                cam->getTransformation().z() = 100;
                 cam->add(s.create<FollowEntityBehaviour>(player));
 
                 return cam;
@@ -150,12 +155,12 @@ namespace PAX {
                 LOG(INFO) << "Demo: create Environment";
                 AllocationService& s = Services::GetDefaultAllocationService();
                 glm::ivec2 resolution = Services::GetWindowService().getWindow()->getResolution();
-                Resources &r = Services::GetResources();
-                Path imgPath = Services::GetPaths().getResourcePath() + "/img/Platformer";
+                Resources &res = Services::GetResources();
+                Path imgPath = Services::GetPaths().getResourcePath() + "/img";
 
-                centerBlockTexture = r.loadOrGet<Texture>(imgPath + "/Block/Center.png");
-                leftBlockTexture   = r.loadOrGet<Texture>(imgPath + "/Block/Left.png");
-                rightBlockTexture  = r.loadOrGet<Texture>(imgPath + "/Block/Right.png");
+                centerBlockTexture = res.loadOrGet<Texture>(imgPath + "/Platformer/Block/Center.png");
+                leftBlockTexture   = res.loadOrGet<Texture>(imgPath + "/Platformer/Block/Left.png");
+                rightBlockTexture  = res.loadOrGet<Texture>(imgPath + "/Platformer/Block/Right.png");
 
                 int w = centerBlockTexture->getWidth();
                 int h = centerBlockTexture->getHeight();
@@ -177,7 +182,7 @@ namespace PAX {
                 {
                     Entity *background = new Entity();
                     std::shared_ptr<SpriteGraphics> backgroundGraphics = s.create<SpriteGraphics>(
-                            r.loadOrGet<Texture>(imgPath + "/bg.png")
+                            res.loadOrGet<Texture>(imgPath + "/Platformer/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
                     background->add(backgroundGraphics);
@@ -193,6 +198,47 @@ namespace PAX {
                     bg->spawn(background);
                     bg->spawn(backgroundCam);
                     _world->addLayer(bg);
+                }
+
+                {
+                    // create tile sheet test
+                    using namespace Tiles;
+
+                    TileMapProperty::initialize();
+
+                    Tile grass = {6, 6};
+                    Tile plant = {6, 0};
+                    Tile u  = {3, 5};
+                    Tile d  = {2, 0};
+                    Tile l  = {5, 2};
+                    Tile r  = {0, 2};
+                    Tile ul = {1, 1};
+                    Tile ur = {2, 1};
+                    Tile dl = {1, 2};
+                    Tile dr = {2, 2};
+
+                    // TODO: Find out why this is y flipped
+                    // TODO: CHeck out why z ordering does not work for the TileMap
+                    std::vector<std::vector<Tile>> tiles = {
+                            { // row 0
+                                ul, u, u, ur
+                            },
+                            {
+                                l, grass, grass, r
+                            },
+                            {
+                                l, grass, plant, r
+                            },
+                            {
+                                dl, d, d, dr
+                            }
+                    };
+
+                    TileMap tileMap;
+                    tileMap.create(tiles, res.load<SpriteSheet>(imgPath + "/RPG/demotilesheet.png", 24, 12));
+                    const auto& tileMapProperty = Services::GetDefaultAllocationService().create<TileMapProperty>(tileMap);
+                    auto& entity = tileMapProperty->getTileMapEntity();
+                    _mainLayer->add(tileMapProperty);
                 }
             }
 

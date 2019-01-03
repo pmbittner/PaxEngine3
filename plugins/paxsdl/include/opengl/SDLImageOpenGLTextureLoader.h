@@ -15,7 +15,7 @@ namespace PAX {
             SDLImageOpenGLTextureLoader();
             ~SDLImageOpenGLTextureLoader();
 
-            bool canLoad(Path path) override;
+            bool canLoad(Path path) const override;
             std::shared_ptr<Texture> load(Path path) override;
         };
     }

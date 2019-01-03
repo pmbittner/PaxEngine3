@@ -176,7 +176,7 @@ namespace PAX {
 
                 if (ret == aiReturn_SUCCESS) {
                     Path dir = importData._path.getDirectory();
-                    std::string pathToTex = dir.toString() + Path::PathSeparator + texPath.C_Str();
+                    Path pathToTex = dir + std::string(texPath.C_Str());
                     paxmaterial->diffuse.texture = Services::GetResources().load<Texture>(pathToTex);
 
                     if (paxmaterial->diffuse.texture) {
@@ -216,7 +216,7 @@ namespace PAX {
             return asset;
         }
 
-        bool AssimpResourceLoader::canLoad(Path p) {
+        bool AssimpResourceLoader::canLoad(Path p) const {
             static Util::FileTypeChecker formatChecker({
                 "obj"
             });

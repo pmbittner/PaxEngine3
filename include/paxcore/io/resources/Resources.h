@@ -21,28 +21,15 @@
 #include "paxutil/io/Path.h"
 
 namespace PAX {
-    template<typename T> struct ConvertStringsToPath {
-        using type = T;
-    };
-    template<> struct ConvertStringsToPath<char const*> {
-        using type = Path;
-    };
-    template<> struct ConvertStringsToPath<std::string> {
-        using type = Path;
-    };
-
-    template<typename T>
-    using ConvertStringsToPathType = typename ConvertStringsToPath<T>::type;
-
     class ResourceAlreadyCachedException : public std::exception {
         std::string msg;
 
     public:
-        ResourceAlreadyCachedException(const std::string& res) {
+        explicit ResourceAlreadyCachedException(const std::string& res) {
             msg = std::string("The Resource ") + res + std::string(" is already cached!");
         }
 
-        virtual const char* what() const throw()
+        const char* what() const noexcept override
         {
             return msg.c_str();
         }
@@ -57,21 +44,6 @@ namespace PAX {
             std::stringstream ss;
             ss << Reflection::GetTypeName<Resource>() << "(" << Signature<Params...>(std::forward<Params>(params)...).toString() << ")";
             return ss.str();
-        }
-
-        template<typename Resource, typename... Params>
-        ResourceLoader<Resource, Params...>* getLoader(Params... params) {
-            std::vector<IResourceLoader *> &possibleLoaders = _loaders[Reflection::GetType<Resource>()];
-            for (IResourceLoader *possibleLoader : possibleLoaders) {
-                auto *loader = dynamic_cast<ResourceLoader<Resource, Params...> *>(possibleLoader);
-                if (loader) {
-                    if (loader->canLoad(std::forward<Params>(params)...)) {
-                        return loader;
-                    }
-                }
-            }
-
-            return nullptr;
         }
 
         template<typename Resource, typename... Params>
@@ -93,7 +65,7 @@ namespace PAX {
         TypedResourceHandle<Resource>* registerResource(const std::shared_ptr<Resource> &res, ResourceLoader<Resource, Params...> *loader, Params... p) {
             //std::cout << "[Resources::registerResource] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             // TODO: Avoid these two "new" statements with custom allocators! Much new! Much slow!
-            TypedResourceHandle<Resource>* handle = new TypedResourceHandle<Resource>();
+            auto* handle = new TypedResourceHandle<Resource>();
             handle->_signature = new Signature<Params...>(p...);
             handle->_loader = loader;
             handle->_resource = res;
@@ -132,51 +104,25 @@ namespace PAX {
             return nullptr;
         }
 
-
-    private: ////////////////// The Internal functions for automatic string replacement: string -> path /////////////////////////////
-
-        template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& get_withCorrectPaths(Params... p) {
-            //std::cout << "[Resources::get_withCorrectPaths] " << print<Resource, Params...>(p...) << std::endl << std::endl;
-            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
-            if (handle) {
-                return handle->_resource;
-            }
-
-            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
-            return shared_nullptr;
-        }
-
-        template<typename Resource, typename... Params>
-        std::shared_ptr<Resource> load_withCorrectPaths(Params... p) {
-            std::shared_ptr<Resource> res = loadResource<Resource>(p...);
-
-            if (!res)
-                LOG(WARNING) << "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!";
-
-            return res;
-        }
-
-        template<typename Resource, typename... Params>
-        bool cache_withCorrectPaths(Params... p) {
-            if (get_withCorrectPaths<Resource>(p...))
-                throw ResourceAlreadyCachedException(print<Resource>(p...));
-            return loadAndRegisterResource<Resource>(p...) != nullptr;
-        }
-
-        template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& loadOrGet_withCorrectPaths(Params... p) {
-            //std::cout << "[Resources::loadOrGet_withCorrectPaths] " << print<Resource, Params...>(p...) << std::endl << std::endl;
-            std::shared_ptr<Resource> &res = get_withCorrectPaths<Resource>(p...);
-            if (!res)
-                return loadAndRegisterResource<Resource>(p...)->_resource;
-            return res;
-        }
-
     public:
         template<typename Resource>
         void registerLoader(ResourceLoaderT<Resource>* loader) {
             _loaders[Reflection::GetType<Resource>()].push_back(loader);
+        }
+
+        template<typename Resource, typename... Params>
+        ResourceLoader<Resource, Params...>* getLoader(Params... params) {
+            std::vector<IResourceLoader *> &possibleLoaders = _loaders[Reflection::GetType<Resource>()];
+            for (IResourceLoader *possibleLoader : possibleLoaders) {
+                auto *loader = dynamic_cast<ResourceLoader<Resource, Params...> *>(possibleLoader);
+                if (loader) {
+                    if (loader->canLoad(std::forward<Params>(params)...)) {
+                        return loader;
+                    }
+                }
+            }
+
+            return nullptr;
         }
 
         /**
@@ -186,7 +132,10 @@ namespace PAX {
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& loadOrGet(Params... p) {
             //std::cout << "[Resources::loadOrGet] " << print<Resource, Params...>(p...) << std::endl << std::endl;
-            return loadOrGet_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
+            std::shared_ptr<Resource> &res = get<Resource>(p...);
+            if (!res)
+                return loadAndRegisterResource<Resource>(p...)->_resource;
+            return res;
         }
 
         /**
@@ -196,7 +145,12 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource> load(Params... p) {
-            return load_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
+            std::shared_ptr<Resource> res = loadResource<Resource>(p...);
+
+            if (!res)
+                LOG(WARNING) << "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!";
+
+            return res;
         }
 
         /**
@@ -204,7 +158,14 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource>& get(Params... p) {
-            return get_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
+            //std::cout << "[Resources::get_withCorrectPaths] " << print<Resource, Params...>(p...) << std::endl << std::endl;
+            TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
+            if (handle) {
+                return handle->_resource;
+            }
+
+            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
+            return shared_nullptr;
         }
 
         /**
@@ -216,7 +177,9 @@ namespace PAX {
          */
         template<typename Resource, typename... Params>
         bool cache(Params... p) {
-            return cache_withCorrectPaths<Resource, ConvertStringsToPathType<Params>...>(p...);
+            if (get<Resource>(p...))
+                throw ResourceAlreadyCachedException(print<Resource>(p...));
+            return loadAndRegisterResource<Resource>(p...) != nullptr;
         }
 
         void collectGarbage() {

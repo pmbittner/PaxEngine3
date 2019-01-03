@@ -13,7 +13,7 @@ namespace PAX {
         std::shared_ptr<Mesh> _mesh;
 
     public:
-        MeshNode(std::shared_ptr<Mesh> mesh);
+        MeshNode(const std::shared_ptr<Mesh> & mesh);
 
         std::shared_ptr<Mesh> getMesh() const;
 

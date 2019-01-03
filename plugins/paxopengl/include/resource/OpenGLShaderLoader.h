@@ -12,10 +12,10 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLShaderLoader : public ResourceLoader<Shader, Shader::FileInfo>, public ResourceLoader<Shader, Shader::FileInfo, Shader::Flags> {
         public:
-            virtual bool canLoad(Shader::FileInfo) override;
+            virtual bool canLoad(Shader::FileInfo) const override;
             virtual std::shared_ptr<Shader> load(Shader::FileInfo) override;
 
-            virtual bool canLoad(Shader::FileInfo, Shader::Flags flags) override;
+            virtual bool canLoad(Shader::FileInfo, Shader::Flags flags) const override;
             virtual std::shared_ptr<Shader> load(Shader::FileInfo, Shader::Flags flags) override;
         };
     }

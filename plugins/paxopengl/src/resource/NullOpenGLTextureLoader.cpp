@@ -17,11 +17,11 @@ namespace PAX {
 
         }
 
-        bool NullOpenGLTextureLoader::canLoad(const char *path) {
+        bool NullOpenGLTextureLoader::canLoad(Path path) const {
             return true;
         }
 
-        std::shared_ptr<PAX::Texture> NullOpenGLTextureLoader::load(const char *path) {
+        std::shared_ptr<PAX::Texture> NullOpenGLTextureLoader::load(Path path) {
             if (!_texture) {
                 int w = 16;
                 int h = w;

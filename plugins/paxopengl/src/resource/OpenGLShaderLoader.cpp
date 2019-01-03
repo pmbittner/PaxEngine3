@@ -5,11 +5,11 @@
 #include <resource/OpenGLShaderLoader.h>
 #include <resource/OpenGLShader.h>
 
-bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) {
+bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) const {
     return true;
 }
 
-bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo, Shader::Flags flags) {
+bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo, Shader::Flags flags) const {
     return true;
 }
 

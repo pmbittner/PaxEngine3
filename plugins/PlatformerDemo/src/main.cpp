@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 #include <paxopengl/include/OpenGLEnginePlugin.h>
 #include <paxphysics/include/Plugin.h>
 #include <PlatformerDemo/include/Plugin.h>
+#include <paxtiles/include/Plugin.h>
 
 int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     int exitcode = 0;
@@ -30,6 +31,7 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
     PAX::SDL::OpenGL::SDLOpenGLEnginePlugin sdlOpenGLLink;
     PAX::Physics::Plugin                    physics;
+    PAX::Tiles::Plugin                      tiles;
     PAX::PlatformerDemo::Plugin             demoPlugin;
 
     PAX::Engine &engine = PAX::Engine::Instance();
@@ -40,6 +42,7 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
                     &openGL,
                     &sdlOpenGLLink,
                     &physics,
+                    &tiles,
                     &demoPlugin
             }
     );
