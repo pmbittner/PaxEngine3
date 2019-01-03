@@ -62,8 +62,8 @@ namespace PAX {
         }
 
         void TileMap::create(const std::vector<std::vector<Tile>> & tiles, const std::shared_ptr<SpriteSheet> & spriteSheet) {
-            this->columns = tiles.size();
-            this->rows    = tiles.at(0).size();
+            this->rows    = tiles.size();
+            this->columns = tiles.at(0).size();
             this->spriteSheet = spriteSheet;
             createMesh(tiles);
         }

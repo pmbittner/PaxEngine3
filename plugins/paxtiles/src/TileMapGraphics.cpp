@@ -12,12 +12,12 @@ namespace PAX {
 
         void TileMapGraphics::attached(PAX::Entity &entity) {
             Transformation & t = entity.getTransformation();
-            t.setScale(t.getScale() * glm::vec3(tilemap.getSpriteSheet()->getScale(), 1));
+            t.setScale(t.getScale() * glm::vec3(tilemap.getSpriteSheet()->getCellSize(), 1));
         }
 
         void TileMapGraphics::detached(PAX::Entity &entity) {
             Transformation & t = entity.getTransformation();
-            t.setScale(t.getScale() / glm::vec3(tilemap.getSpriteSheet()->getScale(), 1));
+            t.setScale(t.getScale() / glm::vec3(tilemap.getSpriteSheet()->getCellSize(), 1));
         }
 
         const TileMap & TileMapGraphics::getTileMap() {

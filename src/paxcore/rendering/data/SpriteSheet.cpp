@@ -17,7 +17,7 @@ namespace PAX {
         return dimensions;
     }
 
-    glm::vec2 SpriteSheet::getScale() {
+    glm::vec2 SpriteSheet::getCellSize() {
         return {
                 texture->getWidth() / static_cast<float>(dimensions.x),
                 texture->getHeight() / static_cast<float>(dimensions.y)};

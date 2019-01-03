@@ -39,7 +39,6 @@ namespace PAX {
 
             std::shared_ptr<Shader> spriteShader, spriteSheetShader;
 
-
             struct {
                 float
                 camera = 10,
@@ -47,6 +46,9 @@ namespace PAX {
                 platforms = 0,
                 tilemap = -1;
             } depthFor;
+
+            static constexpr float GlobalScale = 5;
+            glm::vec3 GlobalScaleVec3 = {GlobalScale, GlobalScale, 1};
 
             void gatherResources() {
                 LOG(INFO) << "Demo: gatherResources";
@@ -85,7 +87,7 @@ namespace PAX {
                 player->add(s.create<PlayerControls>());
                 player->add(s.create<PlayerSpriteAnimation>());
 
-                player->getTransformation().setScale({5, 5, 1});
+                player->getTransformation().setScale(GlobalScaleVec3);
                 player->getTransformation().position().z = depthFor.characters;
 
                 return player;
@@ -103,7 +105,7 @@ namespace PAX {
                 npc->add(s.create<VelocityBehaviour>());
                 npc->add(s.create<PlayerSpriteAnimation>());
 
-                npc->getTransformation().setScale({5, 5, 1});
+                npc->getTransformation().setScale(GlobalScaleVec3);
                 npc->getTransformation().position().z = depthFor.characters;
 
                 return npc;
@@ -127,15 +129,14 @@ namespace PAX {
             Entity* createPlatform(int span) {
                 LOG(INFO) << "Demo: createPlatform of size " << span;
 
-                int scale = 5;
                 AllocationService& s = Services::GetDefaultAllocationService();
 
                 Entity* platform = new Entity();
-                int w = centerBlockTexture->getWidth() * scale;
-                int xMax = (span-1)*(w/2);
+                float w = centerBlockTexture->getWidth() * GlobalScale;
+                float xMax = (span-1)*(w/2);
 
                 std::shared_ptr<Texture> tex = leftBlockTexture;
-                for (int x = -xMax; x <= xMax; x += w) {
+                for (float x = -xMax; x <= xMax; x += w) {
                     if (x >= xMax)
                         tex = rightBlockTexture;
 
@@ -146,7 +147,7 @@ namespace PAX {
 
                     block->getTransformation().x() = x;
                     block->getTransformation().z() = 0;
-                    block->getTransformation().setScale({scale, scale, 1});
+                    block->getTransformation().setScale(GlobalScaleVec3);
 
                     block->setParent(platform);
 
@@ -230,16 +231,16 @@ namespace PAX {
 
                     std::vector<std::vector<Tile>> tiles = {
                             { // row 0
-                                ul, u, u, ur
+                                ul, u, u, u, ur
                             },
                             {
-                                l, grass, grass, r
+                                l, grass, grass, plant, r
                             },
                             {
-                                l, grass, plant, r
+                                l, grass, plant, grass, r
                             },
                             {
-                                dl, d, d, dr
+                                dl, d, d, d, dr
                             }
                     };
 
@@ -248,6 +249,7 @@ namespace PAX {
                     const auto& tileMapProperty = Services::GetDefaultAllocationService().create<TileMapProperty>(tileMap);
                     auto& entity = tileMapProperty->getTileMapEntity();
                     entity.getTransformation().z() = depthFor.tilemap;
+                    entity.getTransformation().setScale(entity.getTransformation().getScale() * GlobalScaleVec3);
                     _mainLayer->add(tileMapProperty);
                 }
             }
