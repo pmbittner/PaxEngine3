@@ -19,6 +19,7 @@ namespace PAX {
             std::vector<glm::vec2>  uv;
 
             glm::vec3 vertexOffset = -glm::vec3(columns, rows, 0) / 2.f;
+            glm::vec3 flipY = {1, -1, 1};
 
             // use vec2 to cast to float
             glm::vec2 spriteSheetSize = spriteSheet->getDimensions();
@@ -35,10 +36,10 @@ namespace PAX {
                 for (unsigned long column = 0; column < columns; ++column) {
                     const Tile & currentTile = tiles[row][column];
 
-                    vertices.emplace_back(vertexOffset + glm::vec3(column    , row    , 0));
-                    vertices.emplace_back(vertexOffset + glm::vec3(column    , row + 1, 0));
-                    vertices.emplace_back(vertexOffset + glm::vec3(column + 1, row + 1, 0));
-                    vertices.emplace_back(vertexOffset + glm::vec3(column + 1, row    , 0));
+                    vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column    , row    , 0)));
+                    vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column    , row + 1, 0)));
+                    vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column + 1, row + 1, 0)));
+                    vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column + 1, row    , 0)));
 
                     faces.emplace_back(glm::ivec3(index, index + 2, index + 1));
                     faces.emplace_back(glm::ivec3(index, index + 3, index + 2));

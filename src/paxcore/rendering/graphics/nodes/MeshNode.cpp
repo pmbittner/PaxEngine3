@@ -11,7 +11,7 @@ namespace PAX {
     }
 
     void MeshNode::render(RenderOptions &renderOptions) {
-        const std::shared_ptr<Shader> shader = renderOptions.getShaderOptions().getShader();
+        Shader* shader = renderOptions.getShaderOptions().getShader();
 
         const glm::mat4 &view = renderOptions.getViewMatrix();
         glm::mat4 modelview = view * renderOptions.getTransformationMatrix();

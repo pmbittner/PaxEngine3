@@ -23,7 +23,7 @@ add_library(paxrendering
         resource/Shader.cpp
         resource/Texture.cpp
         scenegraph/nodes/TransformationNode.cpp
-        scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.cpp
+        scenegraph/generators/SortByZSceneGraphGenerator.cpp
         graphics/SpriteGraphics.cpp
         graphics/SpriteSheetGraphics.cpp graphics/nodes/SpriteSheetNode.cpp data/Material.cpp graphics/AssetGraphics.cpp data/Asset.cpp data/Mesh.cpp light/Light.cpp light/DirectionalLight.cpp light/SpotLight.cpp light/AmbientLight.cpp light/PointLight.cpp data/SpriteSheet.cpp loader/SpriteSheetLoader.cpp)
 

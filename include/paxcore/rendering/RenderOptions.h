@@ -24,7 +24,7 @@ namespace PAX {
 
     class ShaderOptions {
         struct ShaderUsage {
-            std::shared_ptr<Shader> _shader = nullptr;
+            Shader* _shader = nullptr;
             ShaderPriority _priority = ShaderPriority::MUTABLE;
             void* _owner = nullptr;
         };
@@ -32,10 +32,10 @@ namespace PAX {
         std::stack<ShaderUsage> _shaders;
 
     public:
-        bool pushShader(void* caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority = ShaderPriority::MUTABLE);
+        bool pushShader(void* caller, Shader* shader, ShaderPriority priority = ShaderPriority::MUTABLE);
         bool popShader(void* caller);
 
-        const std::shared_ptr<Shader>& getShader();
+        Shader* getShader();
     };
 
     class RenderOptions {
@@ -67,7 +67,6 @@ namespace PAX {
 
         glm::mat4& getViewMatrix();
         void setViewMatrix(const glm::mat4& view);
-
 
         ShaderOptions& getShaderOptions();
     };

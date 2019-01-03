@@ -77,7 +77,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/data/SpriteSheet.h
         ../../include/paxcore/rendering/scenegraph/nodes/TransformationNode.h
         ../../include/paxutil/io/Path.h
-        ../../include/paxcore/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h
+        ../../include/paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h
         ../../include/paxcore/world/scenegraph/WorldLayerSceneGraph.h
         ../../include/paxcore/world/scenegraph/WorldSceneGraph.h
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h

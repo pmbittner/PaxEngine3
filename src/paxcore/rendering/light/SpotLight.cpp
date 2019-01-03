@@ -15,7 +15,7 @@ namespace PAX {
 
     }
 
-    void SpotLight::uploadTo(const std::shared_ptr<PAX::Shader> &shader, int index) {
+    void SpotLight::uploadTo(PAX::Shader * shader, int index) {
 
     }
 

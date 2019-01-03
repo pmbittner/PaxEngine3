@@ -16,7 +16,9 @@ namespace PAX {
         SceneGraph *_root = nullptr;
 
     protected:
-        SceneGraph _sceneRoot;
+        SceneGraph sceneRoot;
+
+    private:
         std::vector<std::shared_ptr<Camera>> _cameras;
 
     public:

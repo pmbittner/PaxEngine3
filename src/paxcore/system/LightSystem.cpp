@@ -56,7 +56,7 @@ namespace PAX {
 
     void LightSystem::onRendererTransformationChanged(PAX::RenderOptions &renderOptions) {
         // upload the nearest lights to the current shader
-        auto& shader = renderOptions.getShaderOptions().getShader();
+        Shader* shader = renderOptions.getShaderOptions().getShader();
 
         if (shader) {
             if (WorldLayer* worldLayer = renderOptions.getWorldLayer()) {

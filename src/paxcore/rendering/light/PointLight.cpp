@@ -5,7 +5,7 @@
 #include <paxcore/rendering/light/PointLight.h>
 
 namespace PAX {
-    void PointLight::uploadTo(const std::shared_ptr <PAX::Shader> &shader, int index) {
+    void PointLight::uploadTo(PAX::Shader * shader, int index) {
 
     }
 }

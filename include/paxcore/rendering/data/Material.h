@@ -34,7 +34,7 @@ namespace PAX {
 
         Material(const std::string& name);
 
-        void applyTo(const std::shared_ptr<Shader> & shader);
+        void applyTo(Shader* shader);
     };
 }
 #endif //PAXENGINE3_MATERIAL_H

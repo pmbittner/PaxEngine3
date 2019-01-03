@@ -23,14 +23,14 @@ namespace PAX {
 
     void SceneGraphGenerator::addCamera(const std::shared_ptr<Camera> & c) {
         _root->addChild(c.get());
-        c->addChild(&_sceneRoot);
+        c->addChild(&sceneRoot);
 
         _cameras.push_back(c);
     }
 
     void SceneGraphGenerator::removeCamera(const std::shared_ptr<Camera> & c) {
         _root->removeChild(c.get());
-        c->removeChild(&_sceneRoot);
+        c->removeChild(&sceneRoot);
 
         Util::removeFromVector(_cameras, c);
     }

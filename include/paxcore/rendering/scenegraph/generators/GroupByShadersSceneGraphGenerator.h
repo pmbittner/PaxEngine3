@@ -30,16 +30,12 @@ namespace PAX {
         void registerGraphics(Graphics *graphics);
         void unregisterGraphicsFromShader(Graphics *graphics, Shader* shader);
 
-    protected:
-        virtual void attach(ShadingNode &shadingNode, Graphics* g);
-        virtual void detach(ShadingNode &shadingNode, Graphics* g);
-
     public:
         GroupByShadersSceneGraphGenerator();
-        ~GroupByShadersSceneGraphGenerator();
+        virtual ~GroupByShadersSceneGraphGenerator();
 
-        virtual void addGraphics(const std::shared_ptr<Graphics> & g) override final;
-        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) override final;
+        virtual void addGraphics(const std::shared_ptr<Graphics> & g) override;
+        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) override;
     };
 }
 

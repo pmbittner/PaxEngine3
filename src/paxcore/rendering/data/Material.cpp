@@ -7,7 +7,7 @@
 
 PAX::Material::Material(const std::string &name) : name(name) {}
 
-void PAX::Material::applyTo(const std::shared_ptr <PAX::Shader> &shader) {
+void PAX::Material::applyTo(PAX::Shader* shader) {
     shader->setUniform("material_diffuse_color", diffuse.color);
     shader->setUniform("material_specular_color", specular.color);
     shader->setUniform("material_specular_exponent", specular.exponent);

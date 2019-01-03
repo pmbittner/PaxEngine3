@@ -12,23 +12,32 @@
 namespace PAX {
     /**
      * This is the default SceneGraphGenerator for 2D scenes.
-     * It sorts the the graphics objects in the scene by their z-coordinate. and groups shaders and sorts them
-     * by their z position to fasten rendering. Therefore it will built the following structure:
+     * It sorts the the graphics objects in the scene by their z-coordinate.
      *
      *                    Root
      *                      |
+     *                 SortingNode
      *         _____________|_______________
      *        |             |               |
      *   ShaderNode1   ShaderNode2 ... ShaderNodeN
      *        |             |               |
-     *   SortingNode1  SortingNode2    SortingNodeN
-     *        |             |               |
      *    Graphics      Graphics        Graphics
      */
-    class GroupByShadersAndSortByZSceneGraphGenerator : public GroupByShadersSceneGraphGenerator {
+    class SortByZSceneGraphGenerator : public SceneGraphGenerator {
+        class SortingNode : public TypedSceneGraph<Graphics> {
+            Sort::BackToFrontGraphicsSort sorter;
+
+        public:
+            SortingNode();
+            virtual void render(RenderOptions &renderOptions) override;
+        } sortingNode;
+
     public:
-        virtual void attach(ShadingNode &shadingNode, Graphics* g);
-        virtual void detach(ShadingNode &shadingNode, Graphics* g);
+        SortByZSceneGraphGenerator();
+        virtual ~SortByZSceneGraphGenerator();
+
+        virtual void addGraphics(const std::shared_ptr<Graphics> & g) override;
+        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) override;
     };
 }
 

@@ -21,7 +21,6 @@ namespace PAX {
         TileMapProperty::TileMapProperty(const TileMap & tilemap) {
             auto graphics = Services::GetDefaultAllocationService().create<TileMapGraphics>(tilemap);
             graphics->setShader(tileMapShader);
-            entity.getTransformation().position().z = -1;
             entity.add(graphics);
             entity.getTransformation().setScale(entity.getTransformation().getScale() * glm::vec3{tilemap.getColumns(), tilemap.getRows(), 1});
         }

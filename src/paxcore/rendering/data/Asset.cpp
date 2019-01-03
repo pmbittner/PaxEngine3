@@ -34,7 +34,7 @@ namespace PAX {
     }
 
     void Asset::render(PAX::RenderOptions &renderOptions) {
-        const std::shared_ptr<Shader> shader = renderOptions.getShaderOptions().getShader();
+        Shader* shader = renderOptions.getShaderOptions().getShader();
         const glm::mat4 parentTransform = renderOptions.getTransformationMatrix();
 
         glm::mat4 worldTransform = parentTransform * _transformation;

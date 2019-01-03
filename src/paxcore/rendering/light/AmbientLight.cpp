@@ -9,7 +9,7 @@ namespace PAX {
         setColor(color);
     }
 
-    void AmbientLight::uploadTo(const std::shared_ptr<PAX::Shader> &shader) {
+    void AmbientLight::uploadTo(PAX::Shader* shader) {
         shader->setUniform("lights.ambient.color", this->getColor());
     }
     

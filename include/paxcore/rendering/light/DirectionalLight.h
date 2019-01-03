@@ -18,7 +18,7 @@ namespace PAX {
         DirectionalLight(const glm::vec3 & direction, const glm::vec4 & color = glm::vec4(1));
         virtual ~DirectionalLight();
 
-        virtual void uploadTo(const std::shared_ptr<Shader>& shader, int index) override;
+        virtual void uploadTo(Shader * shader, int index) override;
 
         virtual void setDirection(const glm::vec3 & direction);
         const glm::vec3 & getDirection() const;

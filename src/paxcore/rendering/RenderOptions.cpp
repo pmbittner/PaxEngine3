@@ -8,7 +8,7 @@
 #include <paxcore/rendering/Renderer.h>
 
 namespace PAX {
-    bool ShaderOptions::pushShader(void *caller, const std::shared_ptr<Shader>& shader, ShaderPriority priority) {
+    bool ShaderOptions::pushShader(void *caller, Shader* shader, ShaderPriority priority) {
         PAX_assertNotNull(shader, "Shader can't be null!");
 
         if (_shaders.empty() || _shaders.top()._priority == ShaderPriority::MUTABLE) {
@@ -38,10 +38,9 @@ namespace PAX {
         return true;
     }
 
-    const std::shared_ptr<Shader>& ShaderOptions::getShader() {
-        static std::shared_ptr<Shader> nullShader = nullptr;
+    Shader* ShaderOptions::getShader() {
         if (_shaders.empty())
-            return nullShader;
+            return nullptr;
         return _shaders.top()._shader;
     }
 

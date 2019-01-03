@@ -4,7 +4,7 @@
 
 #include <OpenGLEnginePlugin.h>
 #include <paxcore/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
-#include <paxcore/rendering/scenegraph/generators/GroupByShadersAndSortByZSceneGraphGenerator.h>
+#include <paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h>
 #include <paxcore/rendering/data/Shader.h>
 
 namespace PAX {
@@ -15,7 +15,7 @@ namespace PAX {
 
         std::shared_ptr<SceneGraphGenerator> OpenGLEnginePlugin::OpenGLDefaultSceneGraphGeneratorFactory::create(int dimensions) {
             if (dimensions == 2)
-                return std::make_shared<GroupByShadersAndSortByZSceneGraphGenerator>();
+                return std::make_shared<SortByZSceneGraphGenerator>();
             else
                 return std::make_shared<GroupByShadersSceneGraphGenerator>();
         }

@@ -25,7 +25,7 @@ namespace PAX {
         Light(const glm::vec4 & color = glm::vec4(1));
         virtual ~Light() = 0;
 
-        virtual void uploadTo(const std::shared_ptr<Shader>& shader, int index) = 0;
+        virtual void uploadTo(Shader * shader, int index) = 0;
 
         virtual void setColor(const glm::vec4 & color);
         const glm::vec4 & getColor() const;

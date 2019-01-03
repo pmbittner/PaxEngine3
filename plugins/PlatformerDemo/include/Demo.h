@@ -40,6 +40,14 @@ namespace PAX {
             std::shared_ptr<Shader> spriteShader, spriteSheetShader;
 
 
+            struct {
+                float
+                camera = 10,
+                characters = 2,
+                platforms = 0,
+                tilemap = -1;
+            } depthFor;
+
             void gatherResources() {
                 LOG(INFO) << "Demo: gatherResources";
 
@@ -78,7 +86,7 @@ namespace PAX {
                 player->add(s.create<PlayerSpriteAnimation>());
 
                 player->getTransformation().setScale({5, 5, 1});
-                player->getTransformation().position().z = 0;
+                player->getTransformation().position().z = depthFor.characters;
 
                 return player;
             }
@@ -96,7 +104,7 @@ namespace PAX {
                 npc->add(s.create<PlayerSpriteAnimation>());
 
                 npc->getTransformation().setScale({5, 5, 1});
-                npc->getTransformation().position().z = 0;
+                npc->getTransformation().position().z = depthFor.characters;
 
                 return npc;
             }
@@ -110,7 +118,7 @@ namespace PAX {
                         Services::GetFactory().create<Viewport>(),
                         std::make_shared<PixelScreenProjection>()
                 ));
-                cam->getTransformation().z() = 100;
+                cam->getTransformation().z() = depthFor.camera;
                 cam->add(s.create<FollowEntityBehaviour>(player));
 
                 return cam;
@@ -137,12 +145,15 @@ namespace PAX {
                     block->add(g);
 
                     block->getTransformation().x() = x;
+                    block->getTransformation().z() = 0;
                     block->getTransformation().setScale({scale, scale, 1});
 
                     block->setParent(platform);
 
                     tex = centerBlockTexture;
                 }
+
+                platform->getTransformation().z() = depthFor.platforms;
 
                 platform->add(s.create<Size>(glm::vec3(0, 0, 1)));
                 FloatBoundingBox3D platformBoundingBox = platform->get<Size>()->toAbsoluteBoundingBox();
@@ -179,7 +190,7 @@ namespace PAX {
                     _mainLayer->spawn(p2);
                 }
 
-                {
+                { // create background in its own layer
                     Entity *background = new Entity();
                     std::shared_ptr<SpriteGraphics> backgroundGraphics = s.create<SpriteGraphics>(
                             res.loadOrGet<Texture>(imgPath + "/Platformer/bg.png")
@@ -217,8 +228,6 @@ namespace PAX {
                     Tile dl = {1, 2};
                     Tile dr = {2, 2};
 
-                    // TODO: Find out why this is y flipped
-                    // TODO: CHeck out why z ordering does not work for the TileMap
                     std::vector<std::vector<Tile>> tiles = {
                             { // row 0
                                 ul, u, u, ur
@@ -238,6 +247,7 @@ namespace PAX {
                     tileMap.create(tiles, res.load<SpriteSheet>(imgPath + "/RPG/demotilesheet.png", 24, 12));
                     const auto& tileMapProperty = Services::GetDefaultAllocationService().create<TileMapProperty>(tileMap);
                     auto& entity = tileMapProperty->getTileMapEntity();
+                    entity.getTransformation().z() = depthFor.tilemap;
                     _mainLayer->add(tileMapProperty);
                 }
             }
