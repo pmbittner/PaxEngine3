@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PAXTEMPLATEPLUGIN_PLUGIN_H
 #define PAXENGINE3_PAXTEMPLATEPLUGIN_PLUGIN_H
 
-#include <core/EnginePlugin.h>
+#include <paxcore/EnginePlugin.h>
 
 /// Don't forget to change the header include guards, if you copy this Plugin!
 namespace PaxTemplatePlugin {
