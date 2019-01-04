@@ -3,7 +3,7 @@
 ## Build Instructions
 
 ### General
-The engine needs a `core.paxconfig`. You can just copy the `core.example.config` in place and rename it.
+The engine needs a `core.paxconfig`. You can just copy the `core.example.paxconfig` in place and rename it.
 
 ### Libraries
 Additional libraries may be needed by some plugins or the engine core itself. Some of them may have to be build manually.
@@ -12,7 +12,7 @@ Additional libraries may be needed by some plugins or the engine core itself. So
 
 Required: glm
 
-The following libraries are needed by the resprective plugins:
+The following libraries are needed by the respective plugins:
 
 paxopengl: requires glew 2.0.0 or higher
 
@@ -72,7 +72,7 @@ For the same reason, the option `SYSTEM_IRRXML` has to be `OFF`.
 
 ##### Box2D (required by paxphysics)
 We created a custom CMake-Project for Box2D, as the original one just delivers a makefile and does not split include and src files
-into seperate directories.
+into separate directories.
 
 **Ask Paul to get the necessary files.**
 
