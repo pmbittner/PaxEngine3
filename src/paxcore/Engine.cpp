@@ -27,9 +27,6 @@ namespace PAX {
         //PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
         PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!");
 
-        Time::DeltaD = 1.0 / _targetUPS;
-        Time::DeltaF = static_cast<float>(Time::DeltaD);
-
         _game = game;
 
         // Check if all dependencies of plugins are met
@@ -72,6 +69,9 @@ namespace PAX {
         _targetFPS = Services::GetGlobalSettings().get<int>("core_targetFPS");
         _targetUPS = Services::GetGlobalSettings().get<int>("core_targetUPS");
 
+        Time::DeltaD = 1.0 / _targetUPS;
+        Time::DeltaF = static_cast<float>(Time::DeltaD);
+
         LOG(INFO) << "[Engine::initialize] initialize Renderer";
         _renderer.initialize();
 
@@ -89,8 +89,9 @@ namespace PAX {
 
 
     int Engine::run() {
-        using clock = std::chrono::high_resolution_clock;
         using namespace std::chrono;
+        using clock = high_resolution_clock;
+
         _running = true;
 
         _actualFPS = _targetFPS;
@@ -111,7 +112,7 @@ namespace PAX {
         int timeLeft = 0;
 
         /** UPDATE VARS **/
-        const long MAX_UPDATES = 1 << 4;
+        constexpr long MAX_UPDATES = 1 << 4;
 
         // How long do all updates in one frame take together
         high_resolution_clock::time_point nextUpdateTime(lastLoopStartTime);
@@ -151,6 +152,7 @@ namespace PAX {
 
             // lag is to great to be catched up
             if (lag >= SPU_ns) {
+                std::cerr << "[Engine::run] Debug: update lag to great!" << std::endl;
                 nextUpdateTime = loopStartTime - SPU_ns;
             }
 
@@ -169,22 +171,32 @@ namespace PAX {
                 duration<double> sPassed = fpsUpsTimeStamp - lastSecond;
                 _actualFPS = frames / sPassed.count();
                 _actualUPS = updates / sPassed.count();
-                //std::cout << "FPS: " << _actualFPS << std::endl;
-                //std::cout << "UPS: " << _actualUPS << std::endl;
+
+                /*
+                std::cout << "[Engine::run] updatesPerRender = " << updatesPerRender << std::endl;
+                std::cout << "[Engine::run] updates          = " << updates << std::endl;
+                std::cout << "[Engine::run] update_duration  = " << update_duration.count() << std::endl;
+                std::cout << "[Engine::run] UPS              = " << _actualUPS << std::endl;
+                std::cout << "[Engine::run] frames           = " << frames << std::endl;
+                std::cout << "[Engine::run] render_duration  = " << render_duration.count() << std::endl;
+                std::cout << "[Engine::run] FPS              = " << _actualFPS << std::endl << std::endl;
+                //*/
+
                 frames = 0;
                 updates = 0;
+
                 lastSecond = fpsUpsTimeStamp;
             }
 
             // Wait if your computer is faster than roadrunner to not kill it.
-            timeTilNextRender = SPF - update_duration - render_duration;
-            timeLeft = (int) (1000 * timeTilNextRender.count());
+            timeTilNextRender = SPF - update_duration - render_duration; // this is just an estimation
+            timeLeft = static_cast<int>(1000.0 * timeTilNextRender.count());
             /*
             std::cout << "rt " << timeTilNextRender.count() << std::endl;
             std::cout << "ut " << timeTilNextUpdate.count() <<  " ... " << lag.count() << " / " << SPU.count() << std::endl;
             //*/
             if (timeLeft > 0) {
-                PAX::ThreadSleep(timeLeft);
+                PAX::ThreadSleep(static_cast<unsigned int>(timeLeft));
             }
         }
 

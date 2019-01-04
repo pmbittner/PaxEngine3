@@ -5,12 +5,10 @@
 #include <paxcore/world/World.h>
 
 namespace PAX {
-    World::World() {
-
-    }
+    World::World() = default;
 
     World::~World() {
-        for (std::pair<const std::string, WorldLayer*> entry : _layersByName) {
+        for (const auto & entry : _layersByName) {
             delete entry.second;
         }
         _layersByName.clear();

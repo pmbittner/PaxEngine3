@@ -14,7 +14,7 @@
 #endif
 
 namespace PAX {
-    void ThreadSleep(int milliseconds) {
+    void ThreadSleep(unsigned int milliseconds) {
 #if defined(PAX_OS_LINUX) || defined(PAX_OS_ANDROID)
         // usleep takes sleep time in microseconds (1 millionth of a second, 1 thousandth of a millisecond)
         usleep(milliseconds * 1000);

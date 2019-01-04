@@ -263,29 +263,19 @@ namespace PAX {
 
             }
 
-            ~Demo() override {
-                if (unregisterWorld(_world)) {
-                    delete _world;
-                } else {
-                    LOG(ERROR) << "The world of JumpNRun could not be deleted!";
-                }
-            }
-
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
                 if (keyPressedEvent.button == PAX::Key::ESCAPE)
                     Engine::Instance().stop();
             }
 
-            virtual void initialize() override {
+            void initialize() override {
                 Game::initialize();
                 GlobalScaleVec3 = {GlobalScale, GlobalScale, 1};
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
-                
-                LOG(INFO) << "Demo: initialize";
 
                 gatherResources();
 
-                _mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 2);
+                _mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 
                 _world = new World();
                 _player = createPlayer();
@@ -300,6 +290,14 @@ namespace PAX {
 
                 _world->addLayer(_mainLayer);
                 setActiveWorld(_world);
+            }
+
+            void terminate() override {
+                if (unregisterWorld(_world, true)) {
+                    delete _world;
+                } else {
+                    LOG(ERROR) << "The world of JumpNRun could not be deleted!";
+                }
             }
         };
     }

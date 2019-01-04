@@ -38,7 +38,7 @@ bool MethodName(PropertyContainer<Container>& c, const std::shared_ptr<Property<
 private: \
     using Super = Parent; \
 protected: \
-    virtual const TypeHandle& getClassType() const override { \
+    const TypeHandle& getClassType() const override { \
         static TypeHandle myType = typeid(*this); \
         return myType; \
     } \

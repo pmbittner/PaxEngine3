@@ -17,7 +17,11 @@ namespace PAX {
         _sceneGraph->worldLayer = this;
     }
 
-    WorldLayer::~WorldLayer() {}
+    WorldLayer::~WorldLayer() {
+        while (!_entities.empty()) {
+            despawn(_entities.end() - 1);
+        }
+    }
 
     void WorldLayer::spawn(Entity *entity) {
         assert(entity->_worldLayer == nullptr);
@@ -38,19 +42,25 @@ namespace PAX {
         }
     }
 
+    void WorldLayer::despawn(const std::vector<PAX::Entity *, std::allocator<PAX::Entity *>>::iterator & entityIter) {
+        Entity* const entity = *entityIter;
+
+        for (Entity *child : entity->getChildren())
+            despawn(child);
+
+        _entities.erase(entityIter);
+
+        entity->_worldLayer = nullptr;
+        entity->getEventService().setParent(nullptr);
+
+        EntityDespawnedEvent e(entity, this);
+        getEventService()(e);
+    }
+
     void WorldLayer::despawn(Entity *entity) {
         auto entityIter = std::find(_entities.begin(), _entities.end(), entity);
         if (entityIter != _entities.end()) {
-            for (Entity *child : entity->getChildren())
-                despawn(child);
-
-            _entities.erase(entityIter);
-
-            entity->_worldLayer = nullptr;
-            entity->getEventService().setParent(nullptr);
-
-            EntityDespawnedEvent e(entity, this);
-            getEventService()(e);
+            despawn(entityIter);
         }
     }
 

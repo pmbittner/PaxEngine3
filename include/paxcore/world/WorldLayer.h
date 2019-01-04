@@ -23,21 +23,17 @@
 #include "event/EntityDespawnedEvent.h"
 
 namespace PAX {
-#define PAX_WORLDLAYERNAME_MAIN "MainLayer"
-#define PAX_WORLDLAYERNAME_GUI "GuiLayer"
-
     class WorldLayer : public PropertyContainer<WorldLayer> {
         friend class SceneGraphGenerator;
 
         std::string _name;
         const int _dimensions;
 
-        //EventService _localEventService;
-        WorldLayerLayout *_layout = nullptr;
-
         std::shared_ptr<WorldLayerSceneGraph> _sceneGraph;
         std::shared_ptr<SceneGraphGenerator> _sceneGraphGenerator;
         std::vector<Entity*> _entities;
+
+        void despawn(const std::vector<Entity*>::iterator&);
 
     public:
         /// \param name The name of this WorldLayer functions as an identifier. Therefore it should be unique.
@@ -46,7 +42,7 @@ namespace PAX {
         /// \param sceneGraphGenerator The generator, that will be used for correctly arranging cameras and graphics components of this layers entities into its scene graph.
         ///                            If this is nullptr, the factory will be queried to create one (Services
         WorldLayer(const std::string& name, int dimensions, float z = 0, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator = nullptr);
-        ~WorldLayer();
+        virtual ~WorldLayer();
 
         void spawn(Entity *entity);
         void despawn(Entity *entity);

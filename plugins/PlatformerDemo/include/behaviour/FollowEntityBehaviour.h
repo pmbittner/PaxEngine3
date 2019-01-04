@@ -13,7 +13,7 @@ namespace PAX {
     PAX_PROPERTY_IS_SINGLE
 
         Entity *target = nullptr;
-        float speed = 0.09f;
+        float speed = 2.5f;
 
     public:
         FollowEntityBehaviour(Entity *target) : target(target) {}
@@ -22,7 +22,7 @@ namespace PAX {
             if (target) {
                 Transformation &me = getOwner()->getTransformation();
                 Transformation &he = target->getTransformation();
-                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed;
+                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * Time::DeltaF;
             }
         }
     };

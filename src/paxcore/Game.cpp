@@ -50,10 +50,14 @@ namespace PAX {
         }
     }
 
-    bool Game::unregisterWorld(World *world) {
+    bool Game::unregisterWorld(World *world, bool force) {
         if (world == _activeWorld) {
-            LOG(WARNING) << "Trying to unregister the active World " << world;
-            return false;
+            if (force) {
+                setActiveWorld(nullptr);
+            } else {
+                LOG(WARNING) << "Trying to unregister the active World " << world;
+                return false;
+            }
         }
 
         if (Util::removeFromVector(_worlds, world)) {
@@ -75,18 +79,18 @@ namespace PAX {
     }
 
     void Game::setActiveWorld(World *world) {
-        assert(world);
-
-        if(!isRegistered(world))
+        if(world != nullptr && !isRegistered(world))
             registerWorld(world);
 
         World *oldActive = _activeWorld;
 
-        if (_activeWorld)
-            _activeWorld->getEventService().setParent(nullptr);
+        if (oldActive)
+            oldActive->getEventService().setParent(nullptr);
 
         _activeWorld = world;
-        _activeWorld->getEventService().setParent(&Services::GetEventService());
+
+        if (_activeWorld)
+            _activeWorld->getEventService().setParent(&Services::GetEventService());
 
         ActiveWorldChangedEvent e(oldActive, _activeWorld);
         ActiveWorldChanged(e);

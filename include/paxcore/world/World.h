@@ -19,7 +19,7 @@ namespace PAX {
 
     public:
         World();
-        ~World();
+        virtual ~World();
 
         void addLayer(WorldLayer *layer);
         void removeLayer(WorldLayer *layer);
