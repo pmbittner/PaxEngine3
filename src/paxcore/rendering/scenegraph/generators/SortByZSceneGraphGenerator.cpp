@@ -38,11 +38,11 @@ namespace PAX {
 
     SortByZSceneGraphGenerator::~SortByZSceneGraphGenerator() = default;
 
-    void SortByZSceneGraphGenerator::addGraphics(const std::shared_ptr<PAX::Graphics> &g) {
-        sortingNode.addChild(g.get());
+    void SortByZSceneGraphGenerator::addGraphics(PAX::Graphics * g) {
+        sortingNode.addChild(g);
     }
 
-    void SortByZSceneGraphGenerator::removeGraphics(const std::shared_ptr<PAX::Graphics> &g) {
-        sortingNode.removeChild(g.get());
+    void SortByZSceneGraphGenerator::removeGraphics(PAX::Graphics * g) {
+        sortingNode.removeChild(g);
     }
 }

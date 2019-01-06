@@ -10,10 +10,10 @@
 namespace PAX {
     template <typename C, class Prop>
     struct PropertyAttachedEvent : public PropertyContainerEvent<C> {
-        const std::shared_ptr<Prop> & _property;
+        Prop* property;
 
-        PropertyAttachedEvent(const std::shared_ptr<Prop> & prop, PropertyContainer<C>* container)
-                : PropertyContainerEvent<C>(container), _property(prop) {}
+        PropertyAttachedEvent(Prop* prop, PropertyContainer<C>* container)
+                : PropertyContainerEvent<C>(container), property(prop) {}
     };
 }
 

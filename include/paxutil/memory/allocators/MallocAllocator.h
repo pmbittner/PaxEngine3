@@ -9,20 +9,14 @@
 #include <cstdlib>
 
 namespace PAX {
-    template<class Prop>
-    class MallocAllocator : public Allocator<Prop> {
-        static void del(Prop* p) {
-            p->~Prop();
-            free(p);
-        }
-
+    class MallocAllocator : public Allocator {
     public:
-        virtual Prop* allocate() override {
-            return static_cast<Prop*>(malloc(sizeof(Prop)));
+        void* allocate(size_t size) override {
+            return malloc(size);
         }
 
-        virtual void (*getDeleter(void))(Prop*) override {
-            return &del;
+        void destroy(void * t) override {
+            free(t);
         }
     };
 }

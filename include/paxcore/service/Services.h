@@ -27,7 +27,7 @@ namespace PAX {
 
         TypeMap<void*> _registeredServices;
 
-        AllocationService _entityComponentAllocationService;
+        AllocationService allocationService;
         EventService _eventService;
         FactoryService _factoryService;
         Resources _resources;

@@ -8,18 +8,11 @@
 #include <utility>
 
 namespace PAX {
-    template<class Prop>
     class Allocator {
     public:
         virtual ~Allocator() = default;
-
-        template<typename... Args>
-        Prop* construct(Prop* component, Args... args) {
-            return new (component) Prop(std::forward<Args>(args)...);
-        }
-
-        virtual Prop* allocate() = 0;
-        virtual void (*getDeleter(void))(Prop*) = 0;
+        virtual void* allocate(size_t size) = 0;
+        virtual void destroy(void * size) = 0;
     };
 }
 

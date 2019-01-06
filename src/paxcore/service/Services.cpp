@@ -60,7 +60,7 @@ namespace PAX {
     }
 
     AllocationService& Services::GetDefaultAllocationService() {
-        return Instance()._entityComponentAllocationService;
+        return Instance().allocationService;
     }
 
     Paths& Services::GetPaths() {

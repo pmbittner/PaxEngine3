@@ -27,13 +27,8 @@ namespace PAX {
     protected:
         virtual const TypeHandle& getClassType() const = 0;
 
-        virtual bool addTo(PropertyContainer<C>& container, const std::shared_ptr<Property<C>> & me) {
-            return me.get() == this;
-        }
-
-        virtual bool removeFrom(PropertyContainer<C>& container, const std::shared_ptr<Property<C>> & me) {
-            return me.get() == this;
-        }
+        virtual bool addTo(C& container) { return true; }
+        virtual bool removeFrom(C& container) { return true; }
 
         virtual void attached(C &) {}
         virtual void detached(C &) {}

@@ -68,7 +68,7 @@ namespace PAX {
         FloatBoundingBox3D box = toBoundingBox();
         if (Entity *owner = getOwner()) {
             for (Entity* child : owner->getChildren()) {
-                if (const std::shared_ptr<Size> & s = child->get<Size>()) {
+                if (Size * s = child->get<Size>()) {
                     FloatBoundingBox3D childBox = s->toAbsoluteBoundingBox();
                     // add childs translation and ignore rotation
                     glm::vec3 pos = child->getTransformation().position();

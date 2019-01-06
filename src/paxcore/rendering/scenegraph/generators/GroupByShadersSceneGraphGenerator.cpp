@@ -6,13 +6,8 @@
 #include <paxcore/rendering/scenegraph/nodes/SortingNode.h>
 
 namespace PAX {
-    GroupByShadersSceneGraphGenerator::GroupByShadersSceneGraphGenerator() {
-
-    }
-
-    GroupByShadersSceneGraphGenerator::~GroupByShadersSceneGraphGenerator() {
-
-    }
+    GroupByShadersSceneGraphGenerator::GroupByShadersSceneGraphGenerator() = default;
+    GroupByShadersSceneGraphGenerator::~GroupByShadersSceneGraphGenerator() = default;
 
     void GroupByShadersSceneGraphGenerator::registerGraphics(Graphics *graphics) {
         std::shared_ptr<Shader> &shader = graphics->getShader();
@@ -42,12 +37,12 @@ namespace PAX {
         graphics->OnShaderChanged.remove<GroupByShadersSceneGraphGenerator, &GroupByShadersSceneGraphGenerator::onShaderChanged>(this);
     }
 
-    void GroupByShadersSceneGraphGenerator::addGraphics(const std::shared_ptr<Graphics> & g) {
-        registerGraphics(g.get());
+    void GroupByShadersSceneGraphGenerator::addGraphics(Graphics * g) {
+        registerGraphics(g);
     }
 
-    void GroupByShadersSceneGraphGenerator::removeGraphics(const std::shared_ptr<Graphics> & g) {
-        unregisterGraphicsFromShader(g.get(), g->getShader().get());
+    void GroupByShadersSceneGraphGenerator::removeGraphics(Graphics * g) {
+        unregisterGraphicsFromShader(g, g->getShader().get());
     }
 
     void GroupByShadersSceneGraphGenerator::onShaderChanged(GraphicsShaderChangedEvent &e) {

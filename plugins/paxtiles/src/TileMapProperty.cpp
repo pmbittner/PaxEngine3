@@ -19,7 +19,7 @@ namespace PAX {
         }
 
         TileMapProperty::TileMapProperty(const TileMap & tilemap) {
-            auto graphics = Services::GetDefaultAllocationService().create<TileMapGraphics>(tilemap);
+            auto graphics = Entity::GetPropertyAllocator().create<TileMapGraphics>(tilemap);
             graphics->setShader(tileMapShader);
             entity.add(graphics);
         }

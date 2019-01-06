@@ -26,8 +26,6 @@ namespace PAX {
     private:
         Transformation _transform;
 
-        //EventService _localEventService;
-
         Entity *_parent = nullptr;
         std::vector<Entity*> _children;
 
@@ -43,7 +41,6 @@ namespace PAX {
         void setParent(Entity *parent);
         Entity* getParent() const;
         const std::vector<Entity*>& getChildren() const;
-        //EventService& getEventService();
         WorldLayer* getWorldLayer() const;
     };
 }

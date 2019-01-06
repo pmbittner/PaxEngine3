@@ -1,0 +1,14 @@
+//
+// Created by paul on 06.01.19.
+//
+
+#include <behaviour/VelocityBehaviour.h>
+
+namespace PAX {
+    PAX_PROPERTY_OPTIONAL_CPP(VelocityBehaviour, Entity)
+
+    void VelocityBehaviour::update() {
+        Transformation& t = getOwner()->getTransformation();
+        t.position2D() += velocity * Time::DeltaF;
+    }
+}

@@ -14,12 +14,16 @@
 namespace PAX {
     class SceneGraphGenerator {
         SceneGraph *_root = nullptr;
+        std::vector<Camera*> _cameras;
+
+        void addCamera(Camera * g);
+        void removeCamera(Camera * g);
 
     protected:
         SceneGraph sceneRoot;
 
-    private:
-        std::vector<std::shared_ptr<Camera>> _cameras;
+        virtual void addGraphics(Graphics * g) = 0;
+        virtual void removeGraphics(Graphics * g) = 0;
 
     public:
         SceneGraphGenerator();
@@ -34,13 +38,7 @@ namespace PAX {
         void onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Camera>& e);
         void onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Camera>& e);
 
-        void addCamera(const std::shared_ptr<Camera> & g);
-        void removeCamera(const std::shared_ptr<Camera> & g);
-
-        const std::vector<std::shared_ptr<Camera>> & getCameras() const;
-
-        virtual void addGraphics(const std::shared_ptr<Graphics> & g) = 0;
-        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) = 0;
+        const std::vector<Camera*> & getCameras() const;
     };
 }
 

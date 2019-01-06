@@ -37,7 +37,7 @@ namespace PAX {
             if (out.size() < maxLights) {
                 // We use flat pointers to avoid shared pointer overhead.
                 // We do this because the references are only held temporarily and only for a very short time.
-                out.push_back(lightEntity->get<Light>().get());
+                out.push_back(lightEntity->get<Light>());
 
                 if (out.size() == maxLights) {
                     sortLights(pos, out);
@@ -47,7 +47,7 @@ namespace PAX {
 
                 // If we are nearer to pos, than the current farthest away light
                 if (glm::length2(lightPos - pos) < glm::length2(out[maxLights-1]->getOwner()->getTransformation().position() - pos)) {
-                    out[maxLights - 1] = lightEntity->get<Light>().get();
+                    out[maxLights - 1] = lightEntity->get<Light>();
                     sortLights(pos, out);
                 }
             }

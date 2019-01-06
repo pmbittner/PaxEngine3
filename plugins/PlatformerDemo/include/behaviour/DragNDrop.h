@@ -20,14 +20,14 @@ namespace PAX {
     PAX_PROPERTY_IS_SINGLE
     PAX_PROPERTY_DEPENDS_ON(PAX::Size)
 
-        std::shared_ptr<Size> size;
+        Size* size;
 
         bool dragged = false;
         glm::vec3 relativeMousePos;
 
         glm::vec3 getMouseWorldPos(Mouse* mouse) {
-            const std::vector<std::shared_ptr<Camera>> cams = getOwner()->getWorldLayer()->getCameras();
-            return {Mouse::ScreenPosToWorldPos(mouse->getScreenPosition(), *cams[0].get()), 0};
+            const std::vector<Camera*> cams = getOwner()->getWorldLayer()->getCameras();
+            return {Mouse::ScreenPosToWorldPos(mouse->getScreenPosition(), *cams[0]), 0};
         }
 
         void onMousePressed(MouseButtonPressedEvent& e) {

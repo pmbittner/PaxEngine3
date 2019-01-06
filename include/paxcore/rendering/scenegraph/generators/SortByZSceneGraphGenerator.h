@@ -29,15 +29,16 @@ namespace PAX {
 
         public:
             SortingNode();
-            virtual void render(RenderOptions &renderOptions) override;
+            void render(RenderOptions &renderOptions) override;
         } sortingNode;
+
+    protected:
+        void addGraphics(Graphics * g) override;
+        void removeGraphics(Graphics * g) override;
 
     public:
         SortByZSceneGraphGenerator();
-        virtual ~SortByZSceneGraphGenerator();
-
-        virtual void addGraphics(const std::shared_ptr<Graphics> & g) override;
-        virtual void removeGraphics(const std::shared_ptr<Graphics> & g) override;
+        ~SortByZSceneGraphGenerator() override;
     };
 }
 

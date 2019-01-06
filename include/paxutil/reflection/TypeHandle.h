@@ -8,14 +8,8 @@
 #include <typeindex>
 
 namespace PAX {
-    typedef std::type_index TypeHandle;
-    namespace Reflection {
-
-        template<typename Type>
-        inline TypeHandle GetType() {
-            return TypeHandle(typeid(Type));
-        }
-    }
+    using TypeHandle = std::type_index;
+#define paxtypeof(T) TypeHandle(typeid(T))
 }
 
 #endif //PAXENGINE3_TYPEINFO_H

@@ -32,7 +32,7 @@ namespace PAX {
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
 
-            std::shared_ptr<SpriteSheetGraphics> playerGraphics = nullptr;
+            SpriteSheetGraphics * playerGraphics = nullptr;
 
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
@@ -52,10 +52,6 @@ namespace PAX {
             glm::vec3 GlobalScaleVec3;
 
             void gatherResources() {
-                LOG(INFO) << "Demo: gatherResources";
-
-                AllocationService& s = Services::GetDefaultAllocationService();
-
                 std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
                 );
@@ -67,7 +63,7 @@ namespace PAX {
                         )
                 );
 
-                playerGraphics = s.create<SpriteSheetGraphics>(spriteTest, 7, 4);
+                playerGraphics = Entity::GetPropertyAllocator().create<SpriteSheetGraphics>(spriteTest, 7, 4);
                 spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
                                 Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
@@ -80,7 +76,7 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                AllocationService& s = Services::GetDefaultAllocationService();
+                AllocationService& s = Entity::GetPropertyAllocator();
 
                 Entity* player = new Entity();
                 player->add(playerGraphics);
@@ -95,10 +91,10 @@ namespace PAX {
             }
 
             Entity* createNPC() {
-                AllocationService& s = Services::GetDefaultAllocationService();
+                AllocationService& s = Entity::GetPropertyAllocator();
 
                 Entity* npc = new Entity();
-                std::shared_ptr<Graphics> g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
+                Graphics * g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
                 ), 7, 4);
                 g->setShader(spriteSheetShader);
@@ -115,7 +111,7 @@ namespace PAX {
 
             Entity* createCamera(Entity *player) {
                 LOG(INFO) << "Demo: create Camera";
-                AllocationService& s = Services::GetDefaultAllocationService();
+                AllocationService& s = Entity::GetPropertyAllocator();
 
                 Entity *cam = new Entity();
                 cam->add(s.create<Camera>(
@@ -129,9 +125,7 @@ namespace PAX {
             }
 
             Entity* createPlatform(int span) {
-                LOG(INFO) << "Demo: createPlatform of size " << span;
-
-                AllocationService& s = Services::GetDefaultAllocationService();
+                AllocationService& s = Entity::GetPropertyAllocator();
 
                 Entity* platform = new Entity();
                 float w = centerBlockTexture->getWidth() * GlobalScale;
@@ -143,7 +137,7 @@ namespace PAX {
                         tex = rightBlockTexture;
 
                     Entity *block = new Entity();
-                    std::shared_ptr<SpriteGraphics> g = s.create<SpriteGraphics>(tex);
+                    SpriteGraphics * g = s.create<SpriteGraphics>(tex);
                     g->setShader(spriteShader);
                     block->add(g);
 
@@ -160,14 +154,13 @@ namespace PAX {
 
                 platform->add(s.create<Size>(glm::vec3(0, 0, 1)));
                 FloatBoundingBox3D platformBoundingBox = platform->get<Size>()->toAbsoluteBoundingBox();
-                platformBoundingBox.print();
 
                 return platform;
             }
 
             void createEnvironment() {
                 LOG(INFO) << "Demo: create Environment";
-                AllocationService& s = Services::GetDefaultAllocationService();
+                AllocationService& s = Entity::GetPropertyAllocator();
                 glm::ivec2 resolution = Services::GetWindowService().getWindow()->getResolution();
                 Resources &res = Services::GetResources();
                 Path imgPath = Services::GetPaths().getResourcePath() + "/img";
@@ -195,7 +188,7 @@ namespace PAX {
 
                 { // create background in its own layer
                     Entity *background = new Entity();
-                    std::shared_ptr<SpriteGraphics> backgroundGraphics = s.create<SpriteGraphics>(
+                    SpriteGraphics * backgroundGraphics = s.create<SpriteGraphics>(
                             res.loadOrGet<Texture>(imgPath + "/Platformer/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
@@ -249,7 +242,7 @@ namespace PAX {
 
                     TileMap tileMap;
                     tileMap.create(tiles, res.load<SpriteSheet>(imgPath + "/RPG/demotilesheet.png", 24, 12));
-                    const auto& tileMapProperty = Services::GetDefaultAllocationService().create<TileMapProperty>(tileMap);
+                    TileMapProperty * tileMapProperty = Entity::GetPropertyAllocator().create<TileMapProperty>(tileMap);
                     auto& entity = tileMapProperty->getTileMapEntity();
                     entity.getTransformation().z() = depthFor.tilemap;
                     entity.getTransformation().setScale(entity.getTransformation().getScale() * GlobalScaleVec3);
@@ -257,8 +250,17 @@ namespace PAX {
                 }
             }
 
+            void testStuff() {
+                Entity e;
+                PropertyContainerPrefab<Entity> prefab({
+                    "VelocityBehaviour"
+                });
+                prefab.createProperties(e);
+                std::cout << "[PAX::PlatformerDemo::Demo::testStuff] " << e.get<VelocityBehaviour>()->test << std::endl;
+            }
+
         public:
-            Demo() : Game()
+            Demo() : Game(), GlobalScaleVec3(GlobalScale, GlobalScale, 1)
             {
 
             }
@@ -270,10 +272,11 @@ namespace PAX {
 
             void initialize() override {
                 Game::initialize();
-                GlobalScaleVec3 = {GlobalScale, GlobalScale, 1};
+
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
                 gatherResources();
+                testStuff();
 
                 _mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 

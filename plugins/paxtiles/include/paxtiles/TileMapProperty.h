@@ -18,7 +18,7 @@ namespace PAX {
             static std::shared_ptr<Shader> tileMapShader;
 
         public:
-            TileMapProperty(const TileMap & tilemap);
+            explicit TileMapProperty(const TileMap & tilemap);
 
             static void initialize();
 

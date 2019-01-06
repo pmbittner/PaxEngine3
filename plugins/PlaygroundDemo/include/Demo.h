@@ -66,23 +66,21 @@ namespace PAX {
 
             Entity* createCube(std::shared_ptr<Shader> & shader) {
                 Entity* cubeEntity = new Entity();
-                AllocationService& es = Services::GetDefaultAllocationService();
                 std::shared_ptr<Asset> a = std::make_shared<Asset>(std::vector<Asset::Part>{
                         Asset::Part(cube, cubeMaterial)
                 });
-                const std::shared_ptr<AssetGraphics>& g = es.create<AssetGraphics>(a);
+                AssetGraphics * g = Entity::GetPropertyAllocator().create<AssetGraphics>(a);
                 g->setShader(shader);
                 cubeEntity->add(g);
                 return cubeEntity;
             }
 
             Entity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
-                AllocationService& es = Services::GetDefaultAllocationService();
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
                         Services::GetPaths().getResourcePath() + relativeResourcePath
                 );
                 Entity* treeEntity = new Entity();
-                const std::shared_ptr<AssetGraphics>& g = es.create<AssetGraphics>(tree);
+                AssetGraphics * g = Entity::GetPropertyAllocator().create<AssetGraphics>(tree);
                 g->setShader(shader);
                 treeEntity->add(g);
                 return treeEntity;
@@ -116,10 +114,10 @@ namespace PAX {
                 bool withTank = true;
 
                 _world = new World();
-                WorldLayer* mainLayer = new WorldLayer(PAX_WORLDLAYERNAME_MAIN, 3);
+                WorldLayer* mainLayer = new WorldLayer("PlaygroundDemoMainLayer", 3);
 
 
-                AllocationService& es = Services::GetDefaultAllocationService();
+                AllocationService& es = Entity::GetPropertyAllocator();
                 Entity* cam = new Entity();
                 {
                     std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();

@@ -20,7 +20,7 @@ namespace PAX {
 
         template<typename Value>
         inline bool contains() const {
-            return _map.find(Reflection::GetType<Value>()) != _map.end();
+            return _map.find(paxtypeof(Value)) != _map.end();
         }
 
         inline bool contains(const std::type_index &index) const {
@@ -29,7 +29,7 @@ namespace PAX {
 
         template<typename Key>
         inline ValueType& get() {
-            return _map.at(Reflection::GetType<Key>());
+            return _map.at(paxtypeof(Key));
         }
 
         ValueType& get(const std::type_index &index) {
@@ -42,7 +42,7 @@ namespace PAX {
 
         template<typename Key>
         bool put(const ValueType & value) {
-            _map[Reflection::GetType<Key>()] = value;
+            _map[paxtypeof(Key)] = value;
             return true;
         }
 
@@ -54,7 +54,7 @@ namespace PAX {
         /// Returns the number of erased elements
         template<typename Key>
         size_t erase() {
-            return _map.erase(Reflection::GetType<Key>());
+            return _map.erase(paxtypeof(Key));
         }
 
         size_t erase(const std::type_index &index) {

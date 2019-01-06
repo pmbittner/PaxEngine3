@@ -6,85 +6,85 @@
 #define PAXENGINE3_PROPERTYCONTAINER_H
 
 #include <vector>
-#include <memory>
+#include <iostream>
 
+#include "../memory/AllocationService.h"
 #include "../datastructures/TypeMap.h"
-#include "../reflection/TemplateTypeToString.h"
-
 #include "../event/EventService.h"
 
 #include "Property.h"
-#include "PropertyReflectionData.h"
 
 namespace PAX {
     template<class C>
     class PropertyContainer {
-    public:
         typedef Property<C> Prop;
-        //static PropertyReflectionData<C> ReflectionData;
 
-    private:
-        static const std::vector<std::shared_ptr<Prop>> EmptyPropertyVector;
-        static const TypeHandle RootPropertyTypeHandle;
+        static const std::vector<Prop*> EmptyPropertyVector;
+        static AllocationService propertyAllocator;
 
         EventService _localEventService;
 
-        TypeMap<std::shared_ptr<Prop>> _singleProperties;
-        TypeMap<std::vector<std::shared_ptr<Prop>>> _multipleProperties;
+        TypeMap<Prop*> _singleProperties;
+        TypeMap<std::vector<Prop*>> _multipleProperties;
 
     public:
         PropertyContainer() = default;
 
         virtual ~PropertyContainer() {
-            // unattach everything to
-            // 1.) invoke detach events
-            // 2.) delete shared pointers
+            // 1.) Unattach everything to invoke detach events and not delete something twice.
+            // 2.) Delete components as they should not be reused.
+
             while (!_singleProperties.empty()) {
-                const auto & it = _singleProperties.begin();
-                remove(it->second);
+                Prop* propToRemove = _singleProperties.begin()->second;
+                remove(propToRemove);
+                propertyAllocator.destroy(propToRemove->getClassType(), propToRemove);
             }
 
             while (!_multipleProperties.empty()) {
                 const auto & it = _multipleProperties.begin();
-                if (!it->second.empty())
-                    remove(it->second.front());
-                else
-                    std::cerr << "[~PropertyContainer<" << Reflection::GetTypeName<C>() << ">] invalid state" << std::endl;
+                if (!it->second.empty()) {
+                    Prop * propToRemove = it->second.front();
+                    if (remove(propToRemove)) {
+                        propertyAllocator.destroy(propToRemove->getClassType(), propToRemove);
+                    } else {
+                        std::cerr << "[PropertyContainer::~PropertyContainer] Invalid state: Removing property of type" << propToRemove->getClassType().name() << " unsuccessful!";
+                    }
+                }
             }
 
             _multipleProperties.clear();
         }
 
     private:
-        bool isValid(const std::shared_ptr<Prop> & component) {
-            if (component->owner) {
-                std::cerr
-                << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::isValid] The given component of type "
-                << component->getClassType().name() << " is already assigned to an Entity!";
+        bool isValid(Prop* component) {
+            if (component->owner)
                 return false;
-            }
 
             return component->areDependenciesMetFor(*static_cast<C*>(this));
         }
 
-        void registerComponent(const std::shared_ptr<Prop> & component) {
+        void registerComponent(Prop* component) {
             component->owner = static_cast<C*>(this);
             component->attached(*static_cast<C*>(this));
         }
 
-        void unregisterComponent(const std::shared_ptr<Prop> & component) {
+        void unregisterComponent(Prop* component) {
             component->owner = nullptr;
             component->detached(*static_cast<C*>(this));
         }
 
     public:
+        static AllocationService& GetPropertyAllocator() {
+            return propertyAllocator;
+        }
+
         EventService& getEventService() {
             return _localEventService;
         }
 
-        bool add(const std::shared_ptr<Prop> & component) {
+        bool add(Prop* component) {
             if (isValid(component)) {
-                component->addTo(*this, component);
+                component->addTo(*static_cast<C*>(this));
                 registerComponent(component);
                 return true;
             }
@@ -92,8 +92,8 @@ namespace PAX {
             return false;
         }
 
-        bool remove(const std::shared_ptr<Prop> & component) {
-            bool ret = component->removeFrom(*this, component);
+        bool remove(Prop* component) {
+            bool ret = component->removeFrom(*static_cast<C*>(this));
             unregisterComponent(component);
             return ret;
         }
@@ -101,13 +101,13 @@ namespace PAX {
         template <class ComponentClass>
         typename std::enable_if<!ComponentClass::IsMultiple(), bool>::type
         has() const {
-            return _singleProperties.template contains<ComponentClass>();
+            return _singleProperties.contains(paxtypeof(ComponentClass));
         }
 
         template <class ComponentClass>
         typename std::enable_if<ComponentClass::IsMultiple(), bool>::type
         has() const {
-            return _multipleProperties.template contains<ComponentClass>();
+            return _multipleProperties.contains(paxtypeof(ComponentClass));
         }
 
         template<class FirstComponentClass, class SecondComponentClass, class... FurtherComponentClasses>
@@ -122,30 +122,30 @@ namespace PAX {
         }
 
         template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), const std::shared_ptr<ComponentClass> &>::type
+        typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
         get() {
-            if (_singleProperties.template contains<ComponentClass>())
-                return reinterpret_cast<std::shared_ptr<ComponentClass>&>(_singleProperties.template get<ComponentClass>());
+            if (_singleProperties.contains(paxtypeof(ComponentClass)))
+                return static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
             else {
-                static std::shared_ptr<ComponentClass> nullComponent = nullptr;
+                static ComponentClass* nullComponent = nullptr;
                 return nullComponent;
             }
         }
 
         template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<std::shared_ptr<ComponentClass>>&>::type
+        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
         get() {
-            if (_multipleProperties.template contains<ComponentClass>())
-                return reinterpret_cast<std::vector<std::shared_ptr<ComponentClass>>&>(_multipleProperties.template get<ComponentClass>());
+            if (_multipleProperties.contains(paxtypeof(ComponentClass)))
+                return reinterpret_cast<std::vector<ComponentClass*>&>(_multipleProperties.get(paxtypeof(ComponentClass)));
             else
-                return *reinterpret_cast<const std::vector<std::shared_ptr<ComponentClass>>*>(&EmptyPropertyVector);
+                return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
 
         template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), const std::shared_ptr<ComponentClass> &>::type
+        typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
         removeAll() {
-            if (_singleProperties.template contains<ComponentClass>()) {
-                const auto & component = reinterpret_cast<std::shared_ptr<ComponentClass>&>(_singleProperties.template get<ComponentClass>());
+            if (_singleProperties.contains(paxtypeof(ComponentClass))) {
+                const auto & component = static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
                 if (remove(component))
                     return component;
             }
@@ -153,11 +153,11 @@ namespace PAX {
         }
 
         template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<std::shared_ptr<ComponentClass>>&>::type
+        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
         removeAll() {
-            if (_multipleProperties.template contains<ComponentClass>()) {
+            if (_multipleProperties.contains(paxtypeof(ComponentClass))) {
                 // Copy to be able to return all removed instances
-                const auto & components = reinterpret_cast<std::vector<std::shared_ptr<ComponentClass>>>(_multipleProperties.template get<ComponentClass>());
+                const auto & components = reinterpret_cast<std::vector<ComponentClass*>>(_multipleProperties.get(paxtypeof(ComponentClass)));
                 for (const auto& component : components) {
                     if (!remove(component))
                         return EmptyPropertyVector;
@@ -169,14 +169,13 @@ namespace PAX {
             return EmptyPropertyVector;
         }
 
-        bool addAsMultiple(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+        bool addAsMultiple(const std::type_info & type, Prop* component) {
             _multipleProperties[type].push_back(component);
             return true;
         }
 
-        bool addAsSingle(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+        bool addAsSingle(const std::type_info & type, Prop* component) {
             if (_singleProperties.contains(type)) {
-                std::cerr << "[PropertyContainer<" << Reflection::GetTypeName<C>() << ">::addComponentAsTypeSingle] Trying to add instance of " << type.name() << ", that does not allow multiple instances!" << std::endl;
                 return false;
             } else
                 _singleProperties.put(type, component);
@@ -184,8 +183,8 @@ namespace PAX {
             return true;
         }
 
-        bool removeAsMultiple(const std::type_info & type, const std::shared_ptr<Prop> & component) {
-            std::vector<std::shared_ptr<Prop>> &result = _multipleProperties.get(type);
+        bool removeAsMultiple(const std::type_info & type, Prop* component) {
+            std::vector<Prop*> &result = _multipleProperties.get(type);
             if (!Util::removeFromVector(result, component))
                 return false;
 
@@ -196,7 +195,7 @@ namespace PAX {
             return true;
         }
 
-        bool removeAsSingle(const std::type_info & type, const std::shared_ptr<Prop> & component) {
+        bool removeAsSingle(const std::type_info & type, Prop* component) {
             // The given component is not the component, that is registered for the given type.
             if (_singleProperties.get(type) != component)
                 return false;
@@ -205,14 +204,11 @@ namespace PAX {
         }
     };
 
-    //template <class C>
-    //PropertyReflectionData<C> PropertyContainer<C>::ReflectionData = PropertyReflectionData<C>();
+    template <class C>
+    AllocationService PropertyContainer<C>::propertyAllocator;
 
     template <class C>
-    const std::vector<std::shared_ptr<Property<C>>> PropertyContainer<C>::EmptyPropertyVector(0);
-
-    template <class C>
-    const TypeHandle PropertyContainer<C>::RootPropertyTypeHandle = typeid(Property<C>);
+    const std::vector<Property<C>*> PropertyContainer<C>::EmptyPropertyVector(0);
 }
 
 #endif //PAXENGINE3_PROPERTYCONTAINER_H

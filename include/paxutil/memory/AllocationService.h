@@ -15,46 +15,61 @@
 #include "allocators/MallocAllocator.h"
 
 namespace PAX {
-    class AllocationService {
-        TypeMap<void*> _allocators;
+    template<class Object, class AllocType>
+    class TypedAllocator : public AllocType {
+    public:
+        void destroy(void * size) override {
+            // static_cast is used, as we ensure, that size is always of type object, but dynamic_cast would be correct here.
+            static_cast<Object*>(size)->~Object();
+            AllocType::destroy(size);
+        };
+    };
 
-        template<class Object>
-        Allocator<Object>* getAllocatorFor() {
-            if (_allocators.contains<Object>())
-                return static_cast<Allocator<Object> *>(_allocators.get<Object>());
-            return nullptr;
-        }
+    class AllocationService {
+        TypeMap<Allocator*> _allocators;
 
     public:
         AllocationService() = default;
 
-        template<class Object>
-        bool registerAllocator(Allocator<Object> *provider) {
-            return _allocators.put<Object>(provider);
+        bool registerAllocator(const TypeHandle& type, Allocator * provider) {
+            return _allocators.put(type, provider);
         }
 
-        template<class Object>
-        size_t unregisterAllocator() {
-            return _allocators.erase<Object>();
+        size_t unregisterAllocator(const TypeHandle & type) {
+            return _allocators.erase(type);
         }
 
         /**
          * This will return a new instance of the given Objecterty type.
-         * If no provider for the given type is registered, a ObjectertyMallocAllocator will be registered as default.
+         * If no provider for the given type is registered, a MallocAllocator will be registered as default.
          */
         template<class Object, typename... Args>
-        std::shared_ptr<Object> create(Args... args) {
-            Allocator<Object>* allocator = getAllocatorFor<Object>();
+        Object* create(Args&&... args) {
+            TypeHandle objectType = paxtypeof(Object);
+            Allocator* allocator;
 
-            if (!allocator) {
-                allocator = new MallocAllocator<Object>();
-                registerAllocator<Object>(allocator);
+            if (_allocators.contains(objectType)) {
+                allocator = _allocators.get(objectType);
+            } else {
+                allocator = new TypedAllocator<Object, MallocAllocator>();
+                registerAllocator(paxtypeof(Object), allocator);
             }
 
-            Object* memory = allocator->allocate();
-            allocator->construct(memory, std::forward<Args>(args)...);
+            void* memory = allocator->allocate(sizeof(Object));
+            Object * object = new (memory) Object(std::forward<Args>(args)...);
 
-            return std::shared_ptr<Object>(memory, allocator->getDeleter());
+            return object;
+        }
+
+        bool destroy(const TypeHandle& type, void* object) {
+            // FIXME: Per default, the allocators will not call the destructor on object!
+            //        This works for now because the default allocator does that with a trick.
+            if (_allocators.contains(type)) {
+                _allocators.get(type)->destroy(object);
+                return true;
+            }
+
+            return false;
         }
     };
 }

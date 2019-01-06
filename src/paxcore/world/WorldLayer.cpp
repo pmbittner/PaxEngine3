@@ -72,7 +72,7 @@ namespace PAX {
         return _sceneGraph;
     }
 
-    const std::vector<std::shared_ptr<Camera>>& WorldLayer::getCameras() const {
+    const std::vector<Camera*>& WorldLayer::getCameras() const {
         return _sceneGraphGenerator->getCameras();
     }
 
