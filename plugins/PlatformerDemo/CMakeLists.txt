@@ -2,7 +2,7 @@ project(PlatformerDemo)
 
 set(PAX_PLATFORMERDEMO_SOURCE_FILES
         src/main.cpp
-        src/Plugin.cpp src/behaviour/VelocityBehaviour.cpp)
+        src/Plugin.cpp src/behaviour/VelocityBehaviour.cpp src/behaviour/DragNDrop.cpp src/behaviour/ProfileGameLoopBehaviour.cpp src/behaviour/Dance2D.cpp src/behaviour/PlayerSpriteAnimation.cpp src/behaviour/PlayerControls.cpp src/behaviour/FollowEntityBehaviour.cpp)
 
 if (PAX_RUN_PYTHON_PRECOMPILER)
     find_package(PythonInterp 3 REQUIRED)

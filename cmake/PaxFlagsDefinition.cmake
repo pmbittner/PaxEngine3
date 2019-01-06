@@ -5,7 +5,7 @@
 # CMAKE_CXX_FLAGS_DEBUG
 # CMAKE_CXX_FLAGS_RELEASE
 
-set(PAX_CPP_STANDARD 14)
+set(PAX_CPP_STANDARD 17)
 
 if (WIN32)
     message("Set flags for WIN32")

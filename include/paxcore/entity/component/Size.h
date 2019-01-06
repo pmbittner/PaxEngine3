@@ -13,6 +13,7 @@
 
 namespace PAX {
     class Size : public EntityComponent {
+        PAX_PROPERTY(Size)
         PAX_PROPERTY_DERIVES(EntityComponent)
         PAX_PROPERTY_IS_SINGLE
 

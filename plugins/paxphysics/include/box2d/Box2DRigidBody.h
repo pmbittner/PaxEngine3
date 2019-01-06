@@ -12,8 +12,9 @@ namespace PAX {
     namespace Physics {
         namespace Box2D {
             class RigidBody : public PAX::Physics::RigidBody {
-            PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody)
-            PAX_PROPERTY_IS_MULTIPLE
+                PAX_PROPERTY(PAX::Physics::Box2D::RigidBody)
+                PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody)
+                PAX_PROPERTY_IS_MULTIPLE
 
                 b2BodyDef _bodyDef;
                 b2FixtureDef _fixtureDef;
@@ -22,11 +23,11 @@ namespace PAX {
                 b2Fixture *_fixture;
 
             public:
-                RigidBody(const b2BodyDef &bodyDef);
+                explicit RigidBody(const b2BodyDef &bodyDef);
 
                 void createFor(b2World &world);
 
-                virtual void attached(Entity &entity) override;
+                void attached(Entity &entity) override;
             };
         }
     }

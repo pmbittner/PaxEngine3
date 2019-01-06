@@ -9,7 +9,9 @@
 
 namespace PAX {
     using TypeHandle = std::type_index;
-#define paxtypeof(T) TypeHandle(typeid(T))
 }
+
+#define paxtypeid(T) typeid(T)
+#define paxtypeof(T) PAX::TypeHandle(paxtypeid(T))
 
 #endif //PAXENGINE3_TYPEINFO_H

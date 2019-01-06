@@ -9,8 +9,9 @@
 
 namespace PAX {
     class AmbientLight : public WorldLayerProperty {
-    PAX_PROPERTY_DERIVES(WorldLayerProperty)
-    PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY(AmbientLight)
+        PAX_PROPERTY_DERIVES(WorldLayerProperty)
+        PAX_PROPERTY_IS_SINGLE
 
         glm::vec3 color;
 

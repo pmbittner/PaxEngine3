@@ -11,8 +11,9 @@
 
 namespace PAX {
     class Light : public EntityComponent {
-    PAX_PROPERTY_DERIVES(EntityComponent)
-    PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY(Light)
+        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_IS_SINGLE
 
         // fourth channel describes intensity
         glm::vec4 _color;

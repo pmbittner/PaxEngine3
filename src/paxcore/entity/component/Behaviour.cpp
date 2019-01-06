@@ -5,6 +5,8 @@
 #include <paxcore/entity/component/Behaviour.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::Behaviour)
+
     void Behaviour::update() {
 
     }

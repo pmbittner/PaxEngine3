@@ -11,8 +11,9 @@
 namespace PAX {
     namespace Tiles {
         class TileMapProperty : public WorldLayerProperty {
+            PAX_PROPERTY(TileMapProperty)
             PAX_PROPERTY_DERIVES(WorldLayerProperty)
-            PAX_PROPERTY_IS_SINGLE
+            PAX_PROPERTY_IS_MULTIPLE
 
             Entity entity;
             static std::shared_ptr<Shader> tileMapShader;

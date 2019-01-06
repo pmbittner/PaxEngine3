@@ -126,10 +126,7 @@ namespace PAX {
         get() {
             if (_singleProperties.contains(paxtypeof(ComponentClass)))
                 return static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
-            else {
-                static ComponentClass* nullComponent = nullptr;
-                return nullComponent;
-            }
+            return nullptr;
         }
 
         template <class ComponentClass>

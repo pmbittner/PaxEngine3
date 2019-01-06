@@ -5,6 +5,8 @@
 #include <paxcore/rendering/light/AmbientLight.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::AmbientLight)
+
     AmbientLight::AmbientLight(const glm::vec3 &color) {
         setColor(color);
     }

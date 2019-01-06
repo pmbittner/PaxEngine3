@@ -12,8 +12,9 @@ namespace PAX {
     //                  they differ in behaviour greatly, although they share
     //                  the direction property.
     class SpotLight : public Light {
-    PAX_PROPERTY_DERIVES(Light)
-    PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY(SpotLight)
+        PAX_PROPERTY_DERIVES(Light)
+        PAX_PROPERTY_IS_SINGLE
 
         glm::vec3 _direction;
         float _openingAngleInRadians;

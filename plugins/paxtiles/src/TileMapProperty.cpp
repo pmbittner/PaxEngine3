@@ -7,6 +7,8 @@
 
 namespace PAX {
     namespace Tiles {
+        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapProperty)
+
         std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
 
         void TileMapProperty::initialize() {

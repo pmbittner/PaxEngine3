@@ -14,9 +14,10 @@
 
 namespace PAX {
     class PlayerSpriteAnimation : public Behaviour {
-    PAX_PROPERTY_DERIVES(PAX::Behaviour)
-    PAX_PROPERTY_IS_SINGLE
-    PAX_PROPERTY_DEPENDS_ON(SpriteSheetGraphics, VelocityBehaviour)
+        PAX_PROPERTY(PlayerSpriteAnimation)
+        PAX_PROPERTY_DERIVES(PAX::Behaviour)
+        PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY_DEPENDS_ON(SpriteSheetGraphics, VelocityBehaviour)
 
         Animation<int> walkingAnimation;
         Animation<int> idleAnimation;

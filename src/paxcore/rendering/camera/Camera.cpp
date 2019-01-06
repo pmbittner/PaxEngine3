@@ -7,6 +7,8 @@
 #include <paxutil/macros/MacroIncludes.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::Camera)
+
     Camera::Camera(std::shared_ptr<Viewport> viewport, std::shared_ptr<Projection> projection) : _viewport(viewport), _projection(projection) {
         PAX_assertNotNull(viewport, "Viewport can't be null!");
         PAX_assertNotNull(projection, "Projection can't be null!");

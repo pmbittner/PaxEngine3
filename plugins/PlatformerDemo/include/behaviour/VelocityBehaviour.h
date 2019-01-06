@@ -11,19 +11,11 @@
 #include <paxcore/time/Time.h>
 #include <paxutil/property/PropertyContainerPrefab.h>
 
-template<class T, char const * name>
-class Register {
-
-};
-
-constexpr char velocityName[]  = "VelocityBehaviour";
-
 namespace PAX {
-
-    class VelocityBehaviour : public Behaviour, private Register<VelocityBehaviour, velocityName> {
-    PAX_PROPERTY_DERIVES(PAX::Behaviour)
-    PAX_PROPERTY_IS_SINGLE
-    PAX_PROPERTY_OPTIONAL(VelocityBehaviour, Entity)
+    class VelocityBehaviour : public Behaviour {
+        PAX_PROPERTY(VelocityBehaviour)
+        PAX_PROPERTY_DERIVES(PAX::Behaviour)
+        PAX_PROPERTY_IS_SINGLE
 
     public:
         glm::vec2 velocity = glm::vec2(0);

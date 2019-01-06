@@ -11,6 +11,7 @@
 
 namespace PAX {
     class ProfileGameLoopBehaviour : public Behaviour {
+        PAX_PROPERTY(ProfileGameLoopBehaviour)
         PAX_PROPERTY_DERIVES(Behaviour)
         PAX_PROPERTY_IS_SINGLE
 

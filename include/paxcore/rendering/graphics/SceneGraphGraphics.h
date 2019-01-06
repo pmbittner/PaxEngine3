@@ -9,8 +9,10 @@
 
 namespace PAX {
     class SceneGraphGraphics : public Graphics {
-    PAX_PROPERTY_DERIVES(Graphics)
-    PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY(PAX::SceneGraphGraphics)
+        PAX_PROPERTY_DERIVES(Graphics)
+        PAX_PROPERTY_IS_SINGLE
+
     protected:
         SceneGraph _scenegraph;
 

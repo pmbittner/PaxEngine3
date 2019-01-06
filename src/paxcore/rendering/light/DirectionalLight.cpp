@@ -5,6 +5,8 @@
 #include <paxcore/rendering/light/DirectionalLight.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::DirectionalLight)
+
     DirectionalLight::DirectionalLight(const glm::vec3 &direction, const glm::vec4 &color) : Super(color) {
         setDirection(direction);
     }

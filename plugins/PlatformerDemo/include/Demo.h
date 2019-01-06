@@ -251,12 +251,19 @@ namespace PAX {
             }
 
             void testStuff() {
+                auto& dick = PropertyFactory<Entity>::getMap();
+                for (const auto & entry : dick) {
+                    std::cout << "Registered Type: " << entry.first << std::endl;
+                }
+
+                /*
                 Entity e;
                 PropertyContainerPrefab<Entity> prefab({
-                    "VelocityBehaviour"
+                    "PAX::VelocityBehaviour"
                 });
                 prefab.createProperties(e);
                 std::cout << "[PAX::PlatformerDemo::Demo::testStuff] " << e.get<VelocityBehaviour>()->test << std::endl;
+                 //*/
             }
 
         public:

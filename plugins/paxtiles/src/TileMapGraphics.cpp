@@ -6,6 +6,8 @@
 
 namespace PAX {
     namespace Tiles {
+        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapGraphics)
+
         TileMapGraphics::TileMapGraphics(const TileMap& tileMap) : Super(), tilemap(tileMap), meshNode(tilemap.getMesh()) {
 
         }

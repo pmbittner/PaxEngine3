@@ -6,79 +6,65 @@
 #define PAXENGINE3_PROPERTYANNOTATIONS_H
 
 #include "PropertyDependencies.h"
-#include "paxutil/property/event/PropertyAttachedEvent.h"
-#include "paxutil/property/event/PropertyDetachedEvent.h"
+#include "PropertyFactory.h"
+#include "event/PropertyAttachedEvent.h"
+#include "event/PropertyDetachedEvent.h"
 
 /// Generators
 
-#define PAX_GENERATE_PROPERTY_ISMULTIPLE(bool_val) \
-public:\
-    static constexpr bool IsMultiple() { return Super::IsMultiple() && (bool_val); } \
-    bool isMultiple() const override { return IsMultiple(); } \
-private:
+//#define ENABLE_PROPERTY_CREATE_BY_NAME
 
-#define PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(MethodName, ContainerMethodName, EventType) \
-bool MethodName(Container& c) override { \
-    if (Super::MethodName(c)) { \
-        using This = std::remove_pointer<decltype(this)>::type; \
-        if (!c.ContainerMethodName(typeid(This), this)) return false; \
-        auto event = EventType<Container, This>(this, &c); \
+// TODO: Find a way to make add and remove methods in PropertyContainer private.
+#define PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, methodName, asMultiple, asSingle, EventType) \
+bool Type::methodName(Container& c) { \
+    if (Super::methodName(c)) { \
+        if constexpr (This::IsMultiple()) { \
+            if (!c.asMultiple(paxtypeid(This), this)) return false; \
+        } else { \
+            if (!c.asSingle(paxtypeid(This), this)) return false; \
+        } \
+        EventType<Container, This> event(this, &c); \
         c.getEventService()(event); \
         return true; \
     } \
     return false; \
 }
 
-/// HEADER
-#define PAX_GENERATE_PROPERTY_ADD_AND_REMOVE_HEADER() \
-bool addTo(Container& c) override; \
-bool removeFrom(Container& c) override;
+#ifdef ENABLE_PROPERTY_CREATE_BY_NAME
+    #define PAX_GENERATE_CREATE_BY_NAME_HEADER static PAX::PropertyRegister<This, Container> PropertyNameRegister;
+    #define PAX_GENERATE_CREATE_BY_NAME_SOURCE(Type) PAX::PropertyRegister<Type, Type::Container> Type::PropertyNameRegister(#Type);
+#else
+    #define PAX_GENERATE_CREATE_BY_NAME_HEADER
+    #define PAX_GENERATE_CREATE_BY_NAME_SOURCE(Type)
+#endif
 
-/// SOURCE
+///// Annotations
 
-#define PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE_SINGLE(Type) \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(Type::addTo, addAsSingle, PAX::PropertyAttachedEvent) \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(Type::removeFrom, removeAsSingle, PAX::PropertyDetachedEvent)
-
-/// Annotations
-
-// TODO: Find a way to make add and remove methods in PropertyContainer private.
-
-#define PAX_PROPERTY_OPTIONAL(Typename, Container) \
-private:\
+/// Mandatory
+#define PAX_PROPERTY(Typename) \
+protected: \
     using This = Typename; \
-    static PropertyRegister<This, Container> PropertyNameRegister;
-
-#define PAX_PROPERTY_OPTIONAL_CPP(Typename, Container) \
-    PropertyRegister<Typename, Container> Typename::PropertyNameRegister = PropertyRegister<Typename, Container>(#Typename);
-
+    const PAX::TypeHandle& getClassType() const override; \
+    bool addTo(Container& c) override; \
+    bool removeFrom(Container& c) override; \
+private: \
+    PAX_GENERATE_CREATE_BY_NAME_HEADER
 
 #define PAX_PROPERTY_DERIVES(Parent) \
-private: \
+public: \
     using Super = Parent; \
-protected: \
-    const TypeHandle& getClassType() const override { \
-        static TypeHandle myType = typeid(*this); \
-        return myType; \
-    } \
 private:
 
-
-#define PAX_PROPERTY_IS_SINGLE \
-    PAX_GENERATE_PROPERTY_ISMULTIPLE(false) \
-protected: \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(addTo, addAsSingle, PAX::PropertyAttachedEvent) \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(removeFrom, removeAsSingle, PAX::PropertyDetachedEvent) \
+#define PAX_PROPERTY_SETMULTIPLE(bool_val) \
+public:\
+    static constexpr bool IsMultiple() { return Super::IsMultiple() && (bool_val); } \
+    bool isMultiple() const override { return IsMultiple(); } \
 private:
 
+#define PAX_PROPERTY_IS_MULTIPLE PAX_PROPERTY_SETMULTIPLE(true)
+#define PAX_PROPERTY_IS_SINGLE PAX_PROPERTY_SETMULTIPLE(false)
 
-#define PAX_PROPERTY_IS_MULTIPLE \
-    PAX_GENERATE_PROPERTY_ISMULTIPLE(true) \
-protected: \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(addTo, addAsMultiple, PAX::PropertyAttachedEvent) \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE(removeFrom, removeAsMultiple, PAX::PropertyDetachedEvent) \
-private:
-
+/// Optional
 
 #define PAX_PROPERTY_DEPENDS_ON(...) \
 protected: \
@@ -87,5 +73,16 @@ protected: \
         return Super::areDependenciesMetFor(container) && dependencies.met(container); \
     } \
 private:
+
+///// SOURCE
+
+#define PAX_PROPERTY_SOURCE(Type) \
+    PAX_GENERATE_CREATE_BY_NAME_SOURCE(Type) \
+    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, addTo, addAsMultiple, addAsSingle, PAX::PropertyAttachedEvent) \
+    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, removeFrom, removeAsMultiple, removeAsSingle, PAX::PropertyDetachedEvent) \
+    const PAX::TypeHandle& Type::getClassType() const { \
+        static PAX::TypeHandle myType = typeid(This); \
+        return myType; \
+    }
 
 #endif //PAXENGINE3_PROPERTYANNOTATIONS_H

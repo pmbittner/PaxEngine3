@@ -5,7 +5,7 @@
 #include <behaviour/VelocityBehaviour.h>
 
 namespace PAX {
-    PAX_PROPERTY_OPTIONAL_CPP(VelocityBehaviour, Entity)
+    PAX_PROPERTY_SOURCE(PAX::VelocityBehaviour)
 
     void VelocityBehaviour::update() {
         Transformation& t = getOwner()->getTransformation();

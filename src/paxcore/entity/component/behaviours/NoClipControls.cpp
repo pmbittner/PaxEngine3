@@ -14,6 +14,8 @@
 #include <paxcore/time/Time.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::NoClipControls)
+
     NoClipControls::NoClipControls() : velocity(0), relativeMovement(0) {
         EventService& e = Services::GetEventService();
         e.add<KeyPressedEvent, NoClipControls, &NoClipControls::onKeyPressed>(this);

@@ -6,6 +6,8 @@
 #include <paxcore/entity/Entity.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::Graphics)
+
     void Graphics::registerFlags(Shader::Flags &flags) {}
 
     Shader::Flags Graphics::getShaderFlags() {

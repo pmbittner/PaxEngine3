@@ -5,6 +5,8 @@
 #include <paxcore/rendering/light/Light.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::Light)
+
     Light::Light(const glm::vec4 &color) {
         setColor(color);
     }

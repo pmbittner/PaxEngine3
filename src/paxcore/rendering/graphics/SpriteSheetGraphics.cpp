@@ -6,6 +6,8 @@
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::SpriteSheetGraphics)
+
     SpriteSheetGraphics::SpriteSheetGraphics(const std::shared_ptr <Texture> &texture, int columns, int rows) :
             SpriteGraphics(texture),
             _spriteSheet(columns, rows)

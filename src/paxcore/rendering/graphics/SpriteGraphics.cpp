@@ -10,6 +10,8 @@
 #include <paxcore/entity/component/Size.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::SpriteGraphics)
+
     std::shared_ptr<Mesh> SpriteGraphics::QuadMesh = nullptr;
 
     std::shared_ptr<Mesh> SpriteGraphics::GetMesh() {

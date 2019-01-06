@@ -6,6 +6,8 @@
 #include <paxutil/math/Angles.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::SpotLight)
+
     SpotLight::SpotLight(const glm::vec3 &direction, float openingAngleInDegrees, const glm::vec4 &color) : Super(color) {
         setDirection(direction);
         setOpeningAngleInDegrees(openingAngleInDegrees);

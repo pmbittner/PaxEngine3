@@ -6,6 +6,8 @@
 
 namespace PAX {
     namespace Physics {
+        PAX_PROPERTY_SOURCE(PAX::Physics::RigidBody)
+
         RigidBody::RigidBody() {
 
         }

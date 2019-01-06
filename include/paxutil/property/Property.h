@@ -5,9 +5,7 @@
 #ifndef PAXENGINE3_PROPERTY_H
 #define PAXENGINE3_PROPERTY_H
 
-#include <memory>
 #include "../reflection/TypeHandle.h"
-#include "PropertyAnnotations.h"
 
 namespace PAX {
     template<class C>
@@ -44,5 +42,7 @@ namespace PAX {
         virtual bool isMultiple() const { return IsMultiple(); }
     };
 }
+
+#include "PropertyAnnotations.h"
 
 #endif //PAXENGINE3_PROPERTY_H

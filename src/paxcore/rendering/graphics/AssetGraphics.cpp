@@ -5,6 +5,8 @@
 #include <paxcore/rendering/graphics/AssetGraphics.h>
 
 namespace PAX {
+    PAX_PROPERTY_SOURCE(PAX::AssetGraphics)
+
     AssetGraphics::AssetGraphics(const std::shared_ptr<PAX::Asset> &asset) : _asset(asset) {
 
     }

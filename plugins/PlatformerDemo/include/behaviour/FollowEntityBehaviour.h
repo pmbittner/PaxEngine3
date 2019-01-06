@@ -9,22 +9,17 @@
 
 namespace PAX {
     class FollowEntityBehaviour : public PAX::Behaviour {
-    PAX_PROPERTY_DERIVES(PAX::Behaviour)
-    PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY(FollowEntityBehaviour)
+        PAX_PROPERTY_DERIVES(PAX::Behaviour)
+        PAX_PROPERTY_IS_SINGLE
 
         Entity *target = nullptr;
         float speed = 2.5f;
 
     public:
-        FollowEntityBehaviour(Entity *target) : target(target) {}
+        explicit FollowEntityBehaviour(Entity *target) : target(target) {}
 
-        virtual void update() override {
-            if (target) {
-                Transformation &me = getOwner()->getTransformation();
-                Transformation &he = target->getTransformation();
-                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * Time::DeltaF;
-            }
-        }
+        void update() override;
     };
 }
 

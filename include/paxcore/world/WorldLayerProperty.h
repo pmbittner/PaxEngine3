@@ -9,7 +9,7 @@
 #include "WorldLayer.h"
 
 namespace PAX {
-    typedef Property<WorldLayer> WorldLayerProperty;
+    using WorldLayerProperty = Property<WorldLayer>;
 }
 
 #endif //PAXENGINE3_WORLDLAYERPROPERTY_H

@@ -9,8 +9,10 @@
 
 namespace PAX {
     class Behaviour : public EntityComponent {
-    PAX_PROPERTY_DERIVES(EntityComponent)
-    PAX_PROPERTY_IS_MULTIPLE
+        PAX_PROPERTY(Behaviour)
+        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_IS_MULTIPLE
+
     public:
         virtual void update();
     };

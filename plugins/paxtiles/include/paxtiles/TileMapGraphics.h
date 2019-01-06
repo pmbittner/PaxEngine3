@@ -12,8 +12,9 @@
 namespace PAX {
     namespace Tiles {
         class TileMapGraphics : public Graphics {
+            PAX_PROPERTY(TileMapGraphics)
             PAX_PROPERTY_DERIVES(Graphics)
-            PAX_PROPERTY_IS_SINGLE
+            PAX_PROPERTY_IS_MULTIPLE
 
             TileMap tilemap;
             MeshNode meshNode;

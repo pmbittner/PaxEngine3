@@ -16,9 +16,10 @@
 
 namespace PAX {
     class PlayerControls : public Behaviour {
-    PAX_PROPERTY_DERIVES(PAX::Behaviour)
-    PAX_PROPERTY_IS_SINGLE
-    PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour)
+        PAX_PROPERTY(PlayerControls)
+        PAX_PROPERTY_DERIVES(PAX::Behaviour)
+        PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour)
 
         enum Direction {
             Left  = -1,

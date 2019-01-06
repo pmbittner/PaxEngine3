@@ -16,9 +16,10 @@
 
 namespace PAX {
     class DragNDrop : public Behaviour {
-    PAX_PROPERTY_DERIVES(PAX::Behaviour)
-    PAX_PROPERTY_IS_SINGLE
-    PAX_PROPERTY_DEPENDS_ON(PAX::Size)
+        PAX_PROPERTY(DragNDrop)
+        PAX_PROPERTY_DERIVES(PAX::Behaviour)
+        PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY_DEPENDS_ON(PAX::Size)
 
         Size* size;
 
