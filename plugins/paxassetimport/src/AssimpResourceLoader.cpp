@@ -13,6 +13,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <paxcore/rendering/factory/MeshFactory.h>
 
 namespace PAX {
     namespace AssetImport {
@@ -103,7 +104,7 @@ namespace PAX {
                         );
             }
 
-            std::shared_ptr<Mesh> paxmesh = Services::GetFactory().create<Mesh>(&vertices, &faces);
+            std::shared_ptr<Mesh> paxmesh = Services::GetFactoryService().get<MeshFactory>()->create(vertices, faces);
             paxmesh->setName(assimpMesh->mName.C_Str());
 
             if (assimpMesh->HasNormals()) {
@@ -224,6 +225,8 @@ namespace PAX {
         }
 
         std::shared_ptr<Asset> AssimpResourceLoader::load(Path p) {
+            PAX_assertNotNull(Services::GetFactoryService().get<MeshFactory>(), "[AssimpResourceLoader::load] MeshFactory is required, but is not registered!")
+
             Assimp::Importer importer;
 
             // TODO: Find optimal default value and make this configurable

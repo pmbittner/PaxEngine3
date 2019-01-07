@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_RENDERER_H
 #define PAXENGINE3_RENDERER_H
 
-#include "scenegraph/SceneGraphGenerator.h"
+#include "paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h"
 #include "RenderOptions.h"
 
 namespace PAX {

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <paxcore/service/Services.h>
+#include <paxcore/rendering/factory/MeshFactory.h>
 
 namespace PAX {
     namespace Tiles {
@@ -55,7 +56,9 @@ namespace PAX {
                 }
             }
 
-            mesh = Services::GetFactory().create<Mesh>(&vertices, &faces);
+            MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
+            PAX_assertNotNull(meshFactory, "MeshFactory can't be null!");
+            mesh = meshFactory->create(vertices, faces);
             PAX_assertNotNull(mesh, "Mesh can't be null!");
             mesh->addAttribute(Mesh::UVs, uv);
             mesh->upload();

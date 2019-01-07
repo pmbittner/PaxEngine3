@@ -4,16 +4,31 @@
 
 #include <algorithm>
 #include <paxcore/world/WorldLayer.h>
+#include <paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h>
+#include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
 
 namespace PAX {
-    WorldLayer::WorldLayer(const std::string& name, int dimensions, float z, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator) : _name(name), _dimensions(dimensions) {
-        if (!sceneGraphGenerator)
-            sceneGraphGenerator = Services::GetFactory().create<SceneGraphGenerator>(dimensions);
+    WorldLayer::WorldLayer(const std::string& name, int dimensions, float z, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator) : _name(name), _dimensions(dimensions) {
+        if (sceneGraphGenerator) {
+            _sceneGraphGenerator = sceneGraphGenerator;
+        } else {
+            SceneGraphGeneratorFactory * sceneGraphGeneratorFactory = Services::GetFactoryService().get<SceneGraphGeneratorFactory>();
 
-        _sceneGraphGenerator = sceneGraphGenerator;
-        _sceneGraph = Services::GetFactory().create<WorldLayerSceneGraph>(this, z);
+            if (sceneGraphGeneratorFactory) {
+                _sceneGraphGenerator = sceneGraphGeneratorFactory->create(dimensions);
+            } else {
+                throw std::runtime_error("[WorldLayer::WorldLayer] Could not create SceneGraphGenerator because no factory is registered at the FactoryService!");
+            }
+        }
+
+        WorldLayerSceneGraphFactory * sceneGraphGeneratorFactory = Services::GetFactoryService().get<WorldLayerSceneGraphFactory>();
+        if (sceneGraphGeneratorFactory) {
+            _sceneGraph = sceneGraphGeneratorFactory->create(this, z);
+        } else {
+            throw std::runtime_error("[WorldLayer::WorldLayer] Could not create SceneGraph because no factory is registered at the FactoryService!");
+        }
+
         _sceneGraphGenerator->initialize(_sceneGraph.get(), getEventService());
-
         _sceneGraph->worldLayer = this;
     }
 

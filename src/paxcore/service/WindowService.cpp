@@ -4,6 +4,7 @@
 
 #include <paxcore/service/WindowService.h>
 #include <paxcore/service/Services.h>
+#include <paxcore/io/WindowFactory.h>
 
 namespace PAX {
     WindowService::WindowService() = default;
@@ -14,7 +15,9 @@ namespace PAX {
         int resX = globalSettings.getOrDefault<int>("core_resolutionWidth", 800);
         int resY = globalSettings.getOrDefault<int>("core_resolutionHeight", 600);
 
-        _window = Services::GetFactory().create<Window>(title.c_str(), resX, resY);
+        WindowFactory* windowFactory = Services::GetFactoryService().get<WindowFactory>();
+        PAX_assertNotNull(windowFactory, "[WindowService::initialize] No WindowFactory registered in FactoryService!");
+        _window = windowFactory->create(title.c_str(), resX, resY);
 
         if (globalSettings.getOrDefault<bool>("core_startInFullscreen")) {
             _window->setFullscreen(true);

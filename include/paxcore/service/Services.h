@@ -6,7 +6,7 @@
 #define PAXENGINE3_SERVICES_H
 
 #include <paxcore/io/resources/Resources.h>
-#include <paxutil/datastructures/TypeMap.h>
+#include <paxutil/reflection/TypeMap.h>
 
 #include <paxutil/event/EventService.h>
 #include <paxcore/io/InputSystem.h>
@@ -46,20 +46,14 @@ namespace PAX {
         void terminate();
 
     public:
-        template<typename Service>
-        bool registerService(Service *service) {
-            return _registeredServices.put<Service>(service);
-        }
-
-        template<typename Service>
-        size_t unregisterService() {
-            return _registeredServices.erase<Service>();
-        }
+        void registerService(const TypeHandle & type, void *service);
+        size_t unregisterService(const TypeHandle & type);
 
         template<typename Service>
         Service* get() {
-            if (_registeredServices.contains<Service>())
-                return static_cast<Service*>(_registeredServices.get<Service>());
+            const auto & service = _registeredServices.find(paxtypeid(Service));
+            if (service != _registeredServices.end())
+                return service->second;
             return nullptr;
         }
 
@@ -67,7 +61,7 @@ namespace PAX {
 
         static InputSystem& GetInput();
         static Resources& GetResources();
-        static FactoryService& GetFactory();
+        static FactoryService& GetFactoryService();
         static AllocationService& GetDefaultAllocationService();
         static EventService& GetEventService();
         static Paths& GetPaths();

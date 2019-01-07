@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "../datastructures/TypeMap.h"
+#include "paxutil/reflection/TypeMap.h"
 #include "../reflection/TypeHierarchy.h"
 
 namespace PAX {

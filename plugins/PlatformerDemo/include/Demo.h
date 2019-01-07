@@ -19,6 +19,7 @@
 #include <paxtiles/include/paxtiles/TileMap.h>
 #include <paxtiles/include/paxtiles/TileMapProperty.h>
 #include <PlatformerDemo/include/behaviour/ProfileGameLoopBehaviour.h>
+#include <paxcore/rendering/factory/ViewportFactory.h>
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
@@ -115,7 +116,7 @@ namespace PAX {
 
                 Entity *cam = new Entity();
                 cam->add(s.create<Camera>(
-                        Services::GetFactory().create<Viewport>(),
+                        Services::GetFactoryService().get<ViewportFactory>()->create(),
                         std::make_shared<PixelScreenProjection>()
                 ));
                 cam->getTransformation().z() = depthFor.camera;
@@ -196,7 +197,7 @@ namespace PAX {
 
                     Entity *backgroundCam = new Entity();
                     backgroundCam->add(s.create<Camera>(
-                            Services::GetFactory().create<Viewport>(),
+                            Services::GetFactoryService().get<ViewportFactory>()->create(),
                             std::make_shared<PixelScreenProjection>()
                     ));
                     backgroundCam->getTransformation().z() = 1;

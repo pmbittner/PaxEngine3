@@ -29,11 +29,10 @@ namespace PAX {
         }
 
         void OpenGLEnginePlugin::registerFactories(FactoryService &factoryService) {
-            Factory<Mesh, std::vector<glm::vec3> *, std::vector<std::vector<int>> *> *meshFactoryWithUnambigousType = &meshFactory;
-            factoryService.registerFactory<Mesh>(meshFactoryWithUnambigousType);
-            factoryService.registerFactory<Viewport>(static_cast<Factory<Viewport>*>(&viewportFactory));
-            factoryService.registerFactory<WorldLayerSceneGraph>(&worldLayerSceneGraphFactory);
-            factoryService.registerFactory(&defaultSceneGraphGeneratorFactory);
+            factoryService.set(paxtypeid(MeshFactory), &meshFactory);
+            factoryService.set(paxtypeid(ViewportFactory), &viewportFactory);
+            factoryService.set(paxtypeid(WorldLayerSceneGraphFactory), &worldLayerSceneGraphFactory);
+            factoryService.set(paxtypeid(SceneGraphGeneratorFactory), &defaultSceneGraphGeneratorFactory);
         }
     }
 }

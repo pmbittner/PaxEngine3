@@ -6,7 +6,7 @@
 #define PAXENGINE3_EVENTSERVICE_H
 
 #include "Delegate.h"
-#include <paxutil/datastructures/TypeMap.h>
+#include <paxutil/reflection/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
 
 namespace PAX {
@@ -32,11 +32,12 @@ namespace PAX {
         void add(Listener* listener) {
             PAX_ES_MAP_VALUES* listenerList;
 
-            if (_listeners.contains<EventClass>())
-                listenerList = static_cast<PAX_ES_MAP_VALUES*>(_listeners.get<EventClass>());
+            const auto & listenerListIt = _listeners.find(paxtypeid(EventClass));
+            if (listenerListIt != _listeners.end())
+                listenerList = static_cast<PAX_ES_MAP_VALUES*>(listenerListIt->second);
             else {
                 listenerList = new PAX_ES_MAP_VALUES;
-                _listeners.put<EventClass>(listenerList);
+                _listeners[paxtypeid(EventClass)] = listenerList;
             }
 
             listenerList->push_back(PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
@@ -44,8 +45,9 @@ namespace PAX {
 
         template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass&)>
         bool remove(Listener *listener) {
-            if (_listeners.contains<EventClass>()) {
-                PAX_ES_MAP_VALUES* vec = static_cast<PAX_ES_MAP_VALUES*>(_listeners.get<EventClass>());
+            const auto & listenerListIt = _listeners.find(paxtypeid(EventClass));
+            if (listenerListIt != _listeners.end()) {
+                PAX_ES_MAP_VALUES* vec = static_cast<PAX_ES_MAP_VALUES*>(listenerListIt->second);
                 return PAX::Util::removeFromVector(*vec, PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
             }
 
@@ -59,8 +61,9 @@ namespace PAX {
 
         template<typename EventClass>
         void fire(EventClass& event) {
-            if (_listeners.contains<EventClass>()) {
-                PAX_ES_MAP_VALUES *values = static_cast<PAX_ES_MAP_VALUES *>(_listeners.get<EventClass>());
+            const auto & listener = _listeners.find(paxtypeid(EventClass));
+            if (listener != _listeners.end()) {
+                PAX_ES_MAP_VALUES *values = static_cast<PAX_ES_MAP_VALUES *>(listener->second);
                 for (PAX_ES_DELEGATE &delegate : *values) {
                     delegate.method(delegate.callee, event);
                 }

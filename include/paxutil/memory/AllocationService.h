@@ -10,7 +10,7 @@
 #include <unordered_set>
 #include <memory>
 
-#include "../datastructures/TypeMap.h"
+#include "paxutil/reflection/TypeMap.h"
 #include "Allocator.h"
 #include "allocators/MallocAllocator.h"
 
@@ -31,8 +31,8 @@ namespace PAX {
     public:
         AllocationService() = default;
 
-        bool registerAllocator(const TypeHandle& type, Allocator * provider) {
-            return _allocators.put(type, provider);
+        void registerAllocator(const TypeHandle& type, Allocator * provider) {
+            _allocators[type] = provider;
         }
 
         size_t unregisterAllocator(const TypeHandle & type) {
@@ -48,11 +48,12 @@ namespace PAX {
             TypeHandle objectType = paxtypeof(Object);
             Allocator* allocator;
 
-            if (_allocators.contains(objectType)) {
-                allocator = _allocators.get(objectType);
-            } else {
+            const auto & allocIt = _allocators.find(objectType);
+            if (allocIt == _allocators.end()) {
                 allocator = new TypedAllocator<Object, MallocAllocator>();
-                registerAllocator(paxtypeof(Object), allocator);
+                registerAllocator(objectType, allocator);
+            } else {
+                allocator = allocIt->second;
             }
 
             void* memory = allocator->allocate(sizeof(Object));
@@ -64,8 +65,9 @@ namespace PAX {
         bool destroy(const TypeHandle& type, void* object) {
             // FIXME: Per default, the allocators will not call the destructor on object!
             //        This works for now because the default allocator does that with a trick.
-            if (_allocators.contains(type)) {
-                _allocators.get(type)->destroy(object);
+            const auto& allocator = _allocators.find(type);
+            if (allocator != _allocators.end()) {
+                allocator->second->destroy(object);
                 return true;
             }
 

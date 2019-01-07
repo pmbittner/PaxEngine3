@@ -9,7 +9,7 @@
 #include <iostream>
 
 #include "../memory/AllocationService.h"
-#include "../datastructures/TypeMap.h"
+#include "paxutil/reflection/TypeMap.h"
 #include "../event/EventService.h"
 
 #include "Property.h"
@@ -101,13 +101,13 @@ namespace PAX {
         template <class ComponentClass>
         typename std::enable_if<!ComponentClass::IsMultiple(), bool>::type
         has() const {
-            return _singleProperties.contains(paxtypeof(ComponentClass));
+            return _singleProperties.count(paxtypeid(ComponentClass)) > 0;
         }
 
         template <class ComponentClass>
         typename std::enable_if<ComponentClass::IsMultiple(), bool>::type
         has() const {
-            return _multipleProperties.contains(paxtypeof(ComponentClass));
+            return _multipleProperties.count(paxtypeid(ComponentClass)) > 0;
         }
 
         template<class FirstComponentClass, class SecondComponentClass, class... FurtherComponentClasses>
@@ -124,16 +124,18 @@ namespace PAX {
         template <class ComponentClass>
         typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
         get() {
-            if (_singleProperties.contains(paxtypeof(ComponentClass)))
-                return static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
+            const auto& property = _singleProperties.find(paxtypeid(ComponentClass));
+            if (property != _singleProperties.end())
+                return static_cast<ComponentClass*>(property->second);
             return nullptr;
         }
 
         template <class ComponentClass>
         typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
         get() {
-            if (_multipleProperties.contains(paxtypeof(ComponentClass)))
-                return reinterpret_cast<std::vector<ComponentClass*>&>(_multipleProperties.get(paxtypeof(ComponentClass)));
+            const auto& properties = _multipleProperties.find(paxtypeid(ComponentClass));
+            if (properties != _multipleProperties.end())
+                return reinterpret_cast<std::vector<ComponentClass*>&>(properties->second);
             else
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
@@ -141,26 +143,29 @@ namespace PAX {
         template <class ComponentClass>
         typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
         removeAll() {
-            if (_singleProperties.contains(paxtypeof(ComponentClass))) {
-                const auto & component = static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
-                if (remove(component))
-                    return component;
+            const auto& propertyIt = _singleProperties.contains(paxtypeid(ComponentClass));
+            if (propertyIt != _singleProperties.end()) {
+                ComponentClass* property = static_cast<ComponentClass*>(propertyIt->second);
+                if (remove(property))
+                    return property;
             }
+
             return nullptr;
         }
 
         template <class ComponentClass>
         typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
         removeAll() {
-            if (_multipleProperties.contains(paxtypeof(ComponentClass))) {
+            const auto& propertiesIt = _multipleProperties.contains(paxtypeid(ComponentClass));
+            if (propertiesIt != _multipleProperties.end()) {
                 // Copy to be able to return all removed instances
-                const auto & components = reinterpret_cast<std::vector<ComponentClass*>>(_multipleProperties.get(paxtypeof(ComponentClass)));
-                for (const auto& component : components) {
+                auto properties = reinterpret_cast<std::vector<ComponentClass*>>(_multipleProperties.get(paxtypeid(ComponentClass)));
+                for (ComponentClass* component : properties) {
                     if (!remove(component))
                         return EmptyPropertyVector;
                 }
 
-                return components;
+                return properties;
             }
 
             return EmptyPropertyVector;
@@ -172,16 +177,16 @@ namespace PAX {
         }
 
         bool addAsSingle(const std::type_info & type, Prop* component) {
-            if (_singleProperties.contains(type)) {
+            if (_singleProperties.count(type)) {
                 return false;
             } else
-                _singleProperties.put(type, component);
+                _singleProperties[type] = component;
 
             return true;
         }
 
         bool removeAsMultiple(const std::type_info & type, Prop* component) {
-            std::vector<Prop*> &result = _multipleProperties.get(type);
+            std::vector<Prop*> &result = _multipleProperties.at(type);
             if (!Util::removeFromVector(result, component))
                 return false;
 
@@ -194,7 +199,7 @@ namespace PAX {
 
         bool removeAsSingle(const std::type_info & type, Prop* component) {
             // The given component is not the component, that is registered for the given type.
-            if (_singleProperties.get(type) != component)
+            if (_singleProperties.at(type) != component)
                 return false;
             else
                 _singleProperties.erase(type);

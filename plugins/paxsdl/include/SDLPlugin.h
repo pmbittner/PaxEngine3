@@ -10,20 +10,21 @@
 #include <paxcore/EnginePlugin.h>
 #include <paxcore/service/Paths.h>
 #include <paxcore/service/Services.h>
+#include <paxcore/io/InputSystemFactory.h>
 #include "SDLInputSystem.h"
 
 namespace PAX {
     namespace SDL {
-        class SDLEnginePlugin : public EnginePlugin {
+        class SDLPlugin : public EnginePlugin {
         PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
-            class SDLInputSystemFactory : public Factory<InputSystem> {
-                virtual std::shared_ptr<InputSystem> create() {
+            class SDLInputSystemFactory : public InputSystemFactory {
+                std::shared_ptr<InputSystem> create() override {
                     return std::make_shared<SDLInputSystem>();
                 }
             } inputSystemFactory;
 
         public:
-            virtual void initialize(Engine& engine) override {
+            void initialize(Engine& engine) override {
                 EnginePlugin::initialize(engine);
 
                 LOG(INFO) << "initialize SDL";
@@ -32,13 +33,13 @@ namespace PAX {
                 //TTF_Init();
             }
 
-            virtual void terminate(Engine& engine) override {
+            void terminate(Engine& engine) override {
                 SDL_Quit();
                 EnginePlugin::terminate(engine);
             }
 
-            virtual void registerFactories(FactoryService& factoryService) override {
-                factoryService.registerFactory(&inputSystemFactory);
+            void registerFactories(FactoryService& factoryService) override {
+                factoryService.set(paxtypeid(InputSystemFactory), &inputSystemFactory);
             }
         };
     }

@@ -3,6 +3,7 @@
 //
 
 #include <paxcore/service/Services.h>
+#include <paxcore/io/InputSystemFactory.h>
 
 namespace PAX {
     Services* Services::_instance = nullptr;
@@ -25,8 +26,13 @@ namespace PAX {
 
         _windowService.initialize();
 
-        _inputSystem = _factoryService.create<InputSystem>();
-        _inputSystem->initialize();
+        InputSystemFactory* inputSystemFactory = _factoryService.get<InputSystemFactory>();
+        if (inputSystemFactory) {
+            _inputSystem = inputSystemFactory->create();
+            _inputSystem->initialize();
+        } else {
+            LOG(WARNING) << "No InputSystem was created because no InputSystemFactory is registered at Services::GetFactoryService()";
+        }
     }
 
     void Services::terminate() {
@@ -36,6 +42,14 @@ namespace PAX {
 
     void Services::update() {
         _inputSystem->update();
+    }
+
+    void Services::registerService(const TypeHandle & type, void *service) {
+        _registeredServices[type] = service;
+    }
+
+    size_t Services::unregisterService(const TypeHandle & type) {
+        return _registeredServices.erase(type);
     }
 
     Services& Services::Instance() {
@@ -51,7 +65,7 @@ namespace PAX {
         return *(Instance()._inputSystem.get());
     }
 
-    FactoryService& Services::GetFactory() {
+    FactoryService& Services::GetFactoryService() {
         return Instance()._factoryService;
     }
 

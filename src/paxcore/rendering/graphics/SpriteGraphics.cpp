@@ -8,6 +8,7 @@
 #include <paxcore/io/resources/Resources.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/entity/component/Size.h>
+#include <paxcore/rendering/factory/MeshFactory.h>
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::SpriteGraphics)
@@ -16,29 +17,36 @@ namespace PAX {
 
     std::shared_ptr<Mesh> SpriteGraphics::GetMesh() {
         if (!QuadMesh) {
-            std::vector<glm::vec3> vertices = {
-                    {-0.5f,  0.5f, 0},  // V0
-                    {-0.5f, -0.5f, 0},  // V1
-                    { 0.5f, -0.5f, 0},  // V2
-                    { 0.5f,  0.5f, 0}   // V3
-            };
+            MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
 
-            std::vector<std::vector<int>> indices = {
-                    {0, 1, 3},  // Top    left  triangle (V0,V1,V3)
-                    {3, 1, 2}   // Bottom right triangle (V3,V1,V2)
-            };
+            if (meshFactory) {
+                std::vector<glm::vec3> vertices = {
+                        {-0.5f, 0.5f,  0},  // V0
+                        {-0.5f, -0.5f, 0},  // V1
+                        {0.5f,  -0.5f, 0},  // V2
+                        {0.5f,  0.5f,  0}   // V3
+                };
 
-            std::vector<glm::vec2> texCoords = {
-                    {0, 0},
-                    {0, 1},
-                    {1, 1},
-                    {1, 0}
-            };
+                std::vector<glm::ivec3> indices = {
+                        {0, 1, 3},  // Top    left  triangle (V0,V1,V3)
+                        {3, 1, 2}   // Bottom right triangle (V3,V1,V2)
+                };
 
-            std::cout << "[SpriteGraphics::GetMesh] create QuadMesh" << std::endl;
-            QuadMesh = Services::GetFactory().create<Mesh>(&vertices, &indices);
-            QuadMesh->addAttribute(Mesh::UVs, texCoords);
-            QuadMesh->upload();
+                std::vector<glm::vec2> texCoords = {
+                        {0, 0},
+                        {0, 1},
+                        {1, 1},
+                        {1, 0}
+                };
+
+                std::cout << "[SpriteGraphics::GetMesh] create QuadMesh" << std::endl;
+
+                QuadMesh = meshFactory->create(vertices, indices);
+                QuadMesh->addAttribute(Mesh::UVs, texCoords);
+                QuadMesh->upload();
+            } else {
+                throw std::runtime_error("[PAX::SpriteGraphics::GetMesh] could not create sprite mesh because no MeshFactory is registered at the FactoryService!");
+            }
         }
 
         return QuadMesh;

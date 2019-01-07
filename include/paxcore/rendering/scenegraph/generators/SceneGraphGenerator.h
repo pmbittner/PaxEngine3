@@ -5,11 +5,11 @@
 #ifndef PAXENGINE3_SCENEGRAPHBUILDER_H
 #define PAXENGINE3_SCENEGRAPHBUILDER_H
 
-#include "SceneGraph.h"
-#include "../Graphics.h"
-#include "../camera/Camera.h"
-#include "../../world/event/EntitySpawnedEvent.h"
-#include "../../world/event/EntityDespawnedEvent.h"
+#include "paxcore/rendering/scenegraph/SceneGraph.h"
+#include "paxcore/rendering/Graphics.h"
+#include "paxcore/rendering/camera/Camera.h"
+#include "paxcore/world/event/EntitySpawnedEvent.h"
+#include "paxcore/world/event/EntityDespawnedEvent.h"
 
 namespace PAX {
     class SceneGraphGenerator {

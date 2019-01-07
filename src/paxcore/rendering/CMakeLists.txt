@@ -12,7 +12,7 @@ add_library(paxrendering
         camera/PixelScreenProjection.cpp
         camera/FullPixelScreenProjection.cpp
 
-        scenegraph/SceneGraphGenerator.cpp
+        scenegraph/generators/SceneGraphGenerator.cpp
         scenegraph/generators/GroupByShadersSceneGraphGenerator.cpp
         scenegraph/nodes/SortingNode.cpp
         scenegraph/nodes/ShadingNode.cpp

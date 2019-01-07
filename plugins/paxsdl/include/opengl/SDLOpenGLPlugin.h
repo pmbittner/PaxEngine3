@@ -8,6 +8,7 @@
 #include <paxcore/EnginePlugin.h>
 #include <paxcore/io/Window.h>
 #include <paxcore/service/FactoryService.h>
+#include <paxcore/io/WindowFactory.h>
 #include "SDLOpenGLWindow.h"
 #include "SDLImageOpenGLTextureLoader.h"
 #include "SDLOpenGLRenderPass.h"
@@ -15,15 +16,15 @@
 #include "../../../paxopengl/include/rendernodes/OpenGLRenderPass.h"
 
 /// Dependencies
-#include "../SDLEnginePlugin.h"
+#include "paxsdl/include/SDLPlugin.h"
 #include "../../../paxopengl/include/OpenGLEnginePlugin.h"
 
 namespace PAX {
     namespace SDL {
         namespace OpenGL {
-            class SDLOpenGLEnginePlugin : public EnginePlugin {
-                class SDLOpenGLWindowFactory : public Factory<Window, const char*, int, int> {
-                    virtual std::shared_ptr<Window> create(const char* title, int resX, int resY) {
+            class SDLOpenGLPlugin : public EnginePlugin {
+                class SDLOpenGLWindowFactory : public WindowFactory {
+                    std::shared_ptr<Window> create(const char* title, int resX, int resY) override {
                         std::shared_ptr<SDLOpenGLWindow> window = std::make_shared<SDLOpenGLWindow>();
                         std::string t(title);
                         window->create(t, resX, resY);
@@ -32,18 +33,18 @@ namespace PAX {
                 } windowFactory;
 
             public:
-                SDLOpenGLEnginePlugin() :
+                SDLOpenGLPlugin() :
                 EnginePlugin(
-                        new EnginePluginTypedDependencies<PAX::SDL::SDLEnginePlugin, PAX::OpenGL::OpenGLEnginePlugin>("SDLOpenGLEnginePlugin")
+                        new EnginePluginTypedDependencies<PAX::SDL::SDLPlugin, PAX::OpenGL::OpenGLEnginePlugin>("SDLOpenGLPlugin")
                                 )
                 {
 
                 }
 
-                virtual void initialize(Engine& engine) override {}
+                void initialize(Engine& engine) override {}
 
-                virtual void postInitialize(Engine& engine) {
-                    LOG(INFO) << "[SDLOpenGLEnginePlugin::postInitialize]";
+                void postInitialize(Engine& engine) override {
+                    LOG(INFO) << "[SDLOpenGLPlugin::postInitialize]";
                     auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLRenderPass();
                     auto *opengl = new PAX::OpenGL::OpenGLRenderPass();
                     sdl->addChild(opengl);
@@ -57,10 +58,10 @@ namespace PAX {
                     sdl->initialize();
                     LOG(INFO) << "\tinit OpenGL";
                     opengl->initialize();
-                    LOG(INFO) << "[SDLOpenGLEnginePlugin::postInitialize] Done";
+                    LOG(INFO) << "[SDLOpenGLPlugin::postInitialize] Done";
                 }
 
-                virtual void registerResourceLoaders(Resources& resources) override {
+                void registerResourceLoaders(Resources& resources) override {
                     std::string loaderName;
 
 #ifdef PAX_WITH_FREEIMAGE
@@ -80,11 +81,11 @@ namespace PAX {
                     Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::NullOpenGLTextureLoader());
 #endif
 
-                    LOG(INFO) << "SDLOpenGLEnginePlugin: Register TextureLoader (" << loaderName << ")";
+                    LOG(INFO) << "SDLOpenGLPlugin: Register TextureLoader (" << loaderName << ")";
                 }
 
-                virtual void registerFactories(FactoryService &factoryService) override {
-                    factoryService.registerFactory(&windowFactory);
+                void registerFactories(FactoryService &factoryService) override {
+                    factoryService.set(paxtypeid(WindowFactory), &windowFactory);
                 }
             };
         }

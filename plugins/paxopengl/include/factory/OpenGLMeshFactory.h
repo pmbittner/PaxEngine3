@@ -6,24 +6,22 @@
 #define PAXENGINE3_OPENGLMESHFACTORY_H
 
 #include <paxcore/rendering/data/Mesh.h>
-#include <paxcore/service/Factory.h>
+#include <paxcore/rendering/factory/MeshFactory.h>
 #include "../resource/OpenGLMesh.h"
 
 namespace PAX {
     namespace OpenGL {
-        class OpenGLMeshFactory :
-                public Factory<Mesh, std::vector<glm::vec3>*, std::vector<std::vector<int>>*>,
-                public Factory<Mesh, std::vector<glm::vec3>*, std::vector<glm::ivec3>*>
-        {
+        class OpenGLMeshFactory : public MeshFactory {
         public:
+            std::shared_ptr<Mesh> create(const std::vector<glm::vec3> & vertices, const std::vector<glm::ivec3> & faces) override {
+                return std::make_shared<OpenGLMesh>(vertices, faces);
+            }
 
+            /*
             virtual std::shared_ptr<Mesh> create(std::vector<glm::vec3> *vertices, std::vector<std::vector<int>> *faces) override {
                 return std::make_shared<OpenGLMesh>(*vertices, *faces);
             }
-
-            virtual std::shared_ptr<Mesh> create(std::vector<glm::vec3> *vertices, std::vector<glm::ivec3> *faces) override {
-                return std::make_shared<OpenGLMesh>(*vertices, *faces);
-            }
+            //*/
         };
     }
 }

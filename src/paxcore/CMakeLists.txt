@@ -18,7 +18,7 @@ set(HEADERS_FOR_CLION
 
         ../../include/paxcore/rendering/data/Shader.h
 
-        ../../include/paxcore/rendering/scenegraph/SceneGraphGenerator.h
+        ../../include/paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h
         ../../include/paxcore/rendering/scenegraph/sort/GraphicsSort.h
 
         ../../include/paxcore/world/World.h
@@ -87,7 +87,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/event/SizeChangedEvent.h
         ../../include/paxcore/entity/event/ScaleChangedEvent.h
         ../../include/paxcore/EnginePlugin.h
-        ../../include/paxcore/service/Factory.h
         ../../include/paxcore/service/FactoryService.h
         ../../include/paxutil/lib/GlmIncludes.h
         ../../include/paxcore/rendering/data/Asset.h
@@ -99,7 +98,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/SpotLight.h
         ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
         ../../include/paxcore/world/WorldLayerProperty.h
-        ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h ../../include/paxcore/rendering/loader/SpriteSheetLoader.h)
+        ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h ../../include/paxcore/rendering/loader/SpriteSheetLoader.h ../../include/paxcore/rendering/factory/MeshFactory.h ../../include/paxcore/rendering/factory/ViewportFactory.h ../../include/paxcore/io/InputSystemFactory.h ../../include/paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h ../../include/paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h ../../include/paxcore/io/WindowFactory.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

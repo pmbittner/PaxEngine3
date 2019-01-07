@@ -16,7 +16,7 @@
 #include "../entity/Entity.h"
 
 #include "scenegraph/WorldLayerSceneGraph.h"
-#include "../rendering/scenegraph/SceneGraphGenerator.h"
+#include "paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h"
 
 #include <paxutil/event/EventService.h>
 #include "event/EntitySpawnedEvent.h"
@@ -41,7 +41,7 @@ namespace PAX {
         /// \param z An index for ordering the layers. Layers with greater z will be rendered behind layers with smaller z.
         /// \param sceneGraphGenerator The generator, that will be used for correctly arranging cameras and graphics components of this layers entities into its scene graph.
         ///                            If this is nullptr, the factory will be queried to create one (Services
-        WorldLayer(const std::string& name, int dimensions, float z = 0, std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator = nullptr);
+        WorldLayer(const std::string& name, int dimensions, float z = 0, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator = nullptr);
         virtual ~WorldLayer();
 
         void spawn(Entity *entity);

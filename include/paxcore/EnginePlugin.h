@@ -9,13 +9,13 @@
 #include <vector>
 
 #include <paxutil/reflection/TemplateTypeToString.h>
+#include <paxcore/service/FactoryService.h>
 
 namespace PAX {
     class Engine;
     class EnginePlugin;
     class Services;
     class Resources;
-    class FactoryService;
     namespace Reflection {
         class TypeHierarchy;
     }

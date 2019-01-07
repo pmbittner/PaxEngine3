@@ -60,7 +60,7 @@ namespace PAX {
 
         LOG(INFO) << "[Engine::initialize] Plugins: registering Factories";
         for (EnginePlugin *plugin : _plugins) {
-            plugin->registerFactories(Services::GetFactory());
+            plugin->registerFactories(Services::GetFactoryService());
         }
 
         LOG(INFO) << "[Engine::initialize] initialize Services";

@@ -18,6 +18,7 @@
 #include <paxcore/rendering/light/DirectionalLight.h>
 #include <paxcore/rendering/light/AmbientLight.h>
 #include <paxcore/system/LightSystem.h>
+#include <paxcore/rendering/factory/ViewportFactory.h>
 
 #include "TestBehaviour.h"
 
@@ -122,7 +123,7 @@ namespace PAX {
                 {
                     std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();
                     proj->setFOV(90);
-                    cam->add(es.create<Camera>(Services::GetFactory().create<Viewport>(), proj));
+                    cam->add(es.create<Camera>(Services::GetFactoryService().get<ViewportFactory>()->create(), proj));
                     cam->add(es.create<NoClipControls>());
                     mainLayer->spawn(cam);
                 }

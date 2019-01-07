@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SORTBYZANDGROUPBYSHADERSSCENEGRAPHGENERATOR_H
 #define PAXENGINE3_SORTBYZANDGROUPBYSHADERSSCENEGRAPHGENERATOR_H
 
-#include <paxcore/rendering/scenegraph/SceneGraphGenerator.h>
+#include <paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h>
 #include <paxcore/rendering/scenegraph/nodes/SortingNode.h>
 #include "GroupByShadersSceneGraphGenerator.h"
 

@@ -47,7 +47,7 @@ include_directories(../paxopengl/include/)
 include_directories(include)
 
 set(HEADERS_FOR_CLION
-        include/opengl/SDLOpenGLEnginePlugin.h
+        include/opengl/SDLOpenGLPlugin.h
         include/opengl/SDLImageOpenGLTextureLoader.h
         include/opengl/SDLOpenGLWindow.h
         include/SDLInputSystem.h

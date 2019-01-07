@@ -12,7 +12,7 @@
 
 #include <utility> // std::forward
 
-#include <paxutil/datastructures/TypeMap.h>
+#include <paxutil/reflection/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
 #include <easylogging++.h>
 
@@ -76,7 +76,7 @@ namespace PAX {
         }
 
         bool unregisterResource(const std::type_index type, ResourceHandle* handle) {
-            auto deletedElementCount = _resourcesInUse.get(type).erase(handle);
+            auto deletedElementCount = _resourcesInUse.at(type).erase(handle);
             delete handle; // deletes its signature
             return deletedElementCount > 0;
         }

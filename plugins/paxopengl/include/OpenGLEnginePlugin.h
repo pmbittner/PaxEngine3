@@ -9,6 +9,8 @@
 #include <paxcore/service/Services.h>
 #include <paxcore/world/WorldLayer.h>
 #include <paxcore/world/scenegraph/WorldLayerSceneGraph.h>
+#include <paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h>
+#include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
 
 #include "factory/OpenGLMeshFactory.h"
 #include "factory/OpenGLViewportFactory.h"
@@ -19,12 +21,12 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLEnginePlugin : public EnginePlugin {
         PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
-            class OpenGLWorldLayerSceneGraphFactory : public Factory<WorldLayerSceneGraph, WorldLayer*, float> {
-                virtual std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
+            class OpenGLWorldLayerSceneGraphFactory : public WorldLayerSceneGraphFactory {
+                std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
             } worldLayerSceneGraphFactory;
 
-            class OpenGLDefaultSceneGraphGeneratorFactory : public Factory<SceneGraphGenerator, int> {
-                virtual std::shared_ptr<SceneGraphGenerator> create(int dimensions) override;
+            class OpenGLDefaultSceneGraphGeneratorFactory : public SceneGraphGeneratorFactory {
+                std::shared_ptr<SceneGraphGenerator> create(int dimensions) override;
             } defaultSceneGraphGeneratorFactory;
 
             OpenGLShaderLoader shaderLoader;

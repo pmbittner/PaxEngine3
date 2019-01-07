@@ -9,6 +9,7 @@
 #include <paxcore/entity/Entity.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/data/Mesh.h>
+#include <paxcore/rendering/factory/MeshFactory.h>
 
 namespace PAX {
     namespace Util {
@@ -25,7 +26,7 @@ namespace PAX {
                     {0.5f,0.5f,0.5f}
             };
 
-            std::vector<std::vector<int>> faces = {
+            std::vector<glm::ivec3> faces = {
                     {0,1,3},
                     {3,1,2},
                     {4,5,7},
@@ -40,7 +41,9 @@ namespace PAX {
                     {6,1,2}
             };
 
-            std::shared_ptr<Mesh> mesh = Services::GetFactory().create<Mesh>(&vertices, &faces);
+            MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
+            PAX_assertNotNull(meshFactory, "[PAX::Util::createCube] MeshFactory is required, but is not registered!")
+            std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
 
             if (withTexCoords) {
                 float relativeWidth = 1;//(float)texture.Width / (float)texture.ActualWidth;

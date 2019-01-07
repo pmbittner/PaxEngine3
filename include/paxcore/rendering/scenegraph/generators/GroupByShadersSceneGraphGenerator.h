@@ -6,7 +6,7 @@
 #define PAXENGINE3_GROUPBYSHADERSSCENEGRAPHGENERATOR_H
 
 #include <paxcore/rendering/scenegraph/nodes/ShadingNode.h>
-#include <paxcore/rendering/scenegraph/SceneGraphGenerator.h>
+#include <paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h>
 
 namespace PAX {
     /**

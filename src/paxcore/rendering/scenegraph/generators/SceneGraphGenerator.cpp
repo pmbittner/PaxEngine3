@@ -2,7 +2,7 @@
 // Created by Paul on 08.05.2017.
 //
 
-#include <paxcore/rendering/scenegraph/SceneGraphGenerator.h>
+#include <paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h>
 #include <paxcore/world/WorldLayer.h>
 
 namespace PAX {

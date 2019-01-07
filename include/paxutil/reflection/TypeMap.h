@@ -6,10 +6,20 @@
 #define PAXENGINE3_TYPEMAP_H
 
 #include <typeindex>
+#include <map>
 #include <unordered_map>
 #include <paxutil/reflection/TypeHandle.h>
 
 namespace PAX {
+#define PAX_TYPE_MAP_LIGHTWEIGHT
+
+#ifdef PAX_TYPE_MAP_LIGHTWEIGHT
+    template<typename ValueType>
+    using TypeMap = std::map<TypeHandle, ValueType>;
+
+    template<typename ValueType>
+    using UnorderedTypeMap = std::unordered_map<TypeHandle, ValueType>;
+#else
     template<typename ValueType, class Map = std::unordered_map<std::type_index, ValueType>>
     class TypeMap {
         Map _map;
@@ -76,6 +86,7 @@ namespace PAX {
         const_iterator cbegin() const { return _map.cbegin(); }
         const_iterator cend() const { return _map.cend(); }
     };
+#endif
 }
 
 #endif //PAXENGINE3_TYPEMAP_H
