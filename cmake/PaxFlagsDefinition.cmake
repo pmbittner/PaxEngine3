@@ -12,7 +12,7 @@ if (WIN32)
     if (${PAX_COMPILER_IS_MSVC})
         message("    and MSVC")
 
-        set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} /std:c++latest")
+        set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} /std:c++${PAX_CPP_STANDARD}")
         set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
         set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 

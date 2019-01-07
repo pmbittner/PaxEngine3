@@ -7,12 +7,25 @@
 
 #include <vector>
 #include <iostream>
+#include <type_traits>
 
+#include "../macros/CompilerDetection.h"
 #include "../memory/AllocationService.h"
 #include "../datastructures/TypeMap.h"
 #include "../event/EventService.h"
 
 #include "Property.h"
+
+// We have to create this workaround, because MSVC can't handle constexpr functions in enable_if.
+#ifdef PAX_COMPILER_MSVC
+#define PAX_GENERATE_PropertyContainerFunctionTemplateHeader(rettype, neg) \
+template <class ComponentClass, bool mult = ComponentClass::IsMultiple()> \
+typename std::enable_if<neg mult, rettype>::type
+#else
+#define PAX_GENERATE_PropertyContainerFunctionTemplateHeader(rettype, neg) \
+template <class ComponentClass> \
+typename std::enable_if<neg ComponentClass::IsMultiple(), rettype>::type
+#endif
 
 namespace PAX {
     template<class C>
@@ -98,14 +111,13 @@ namespace PAX {
             return ret;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), bool>::type
+
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(bool, !)
         has() const {
             return _singleProperties.contains(paxtypeof(ComponentClass));
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), bool>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(bool, )
         has() const {
             return _multipleProperties.contains(paxtypeof(ComponentClass));
         }
@@ -121,16 +133,14 @@ namespace PAX {
             return true;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)
         get() {
             if (_singleProperties.contains(paxtypeof(ComponentClass)))
                 return static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
             return nullptr;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(const std::vector<ComponentClass*>&, )
         get() {
             if (_multipleProperties.contains(paxtypeof(ComponentClass)))
                 return reinterpret_cast<std::vector<ComponentClass*>&>(_multipleProperties.get(paxtypeof(ComponentClass)));
@@ -138,8 +148,7 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)
         removeAll() {
             if (_singleProperties.contains(paxtypeof(ComponentClass))) {
                 const auto & component = static_cast<ComponentClass*>(_singleProperties.get(paxtypeof(ComponentClass)));
@@ -149,8 +158,7 @@ namespace PAX {
             return nullptr;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(const std::vector<ComponentClass*>&, )
         removeAll() {
             if (_multipleProperties.contains(paxtypeof(ComponentClass))) {
                 // Copy to be able to return all removed instances
@@ -197,7 +205,7 @@ namespace PAX {
             if (_singleProperties.get(type) != component)
                 return false;
             else
-                _singleProperties.erase(type);
+                return _singleProperties.erase(type) != 0;
         }
     };
 
@@ -207,5 +215,7 @@ namespace PAX {
     template <class C>
     const std::vector<Property<C>*> PropertyContainer<C>::EmptyPropertyVector(0);
 }
+
+#undef PAX_GENERATE_PropertyContainerFunctionTemplateHeader
 
 #endif //PAXENGINE3_PROPERTYCONTAINER_H
