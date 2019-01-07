@@ -7,12 +7,25 @@
 
 #include <vector>
 #include <iostream>
+#include <type_traits>
 
+#include "../macros/CompilerDetection.h"
 #include "../memory/AllocationService.h"
 #include "paxutil/reflection/TypeMap.h"
 #include "../event/EventService.h"
 
 #include "Property.h"
+
+// We have to create this workaround, because MSVC can't handle constexpr functions in enable_if.
+#ifdef PAX_COMPILER_MSVC
+#define PAX_GENERATE_PropertyContainerFunctionTemplateHeader(rettype, neg) \
+template <class ComponentClass, bool mult = ComponentClass::IsMultiple()> \
+typename std::enable_if<neg mult, rettype>::type
+#else
+#define PAX_GENERATE_PropertyContainerFunctionTemplateHeader(rettype, neg) \
+template <class ComponentClass> \
+typename std::enable_if<neg ComponentClass::IsMultiple(), rettype>::type
+#endif
 
 namespace PAX {
     template<class C>
@@ -98,14 +111,13 @@ namespace PAX {
             return ret;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), bool>::type
+
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(bool, !)
         has() const {
             return _singleProperties.count(paxtypeid(ComponentClass)) > 0;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), bool>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(bool, )
         has() const {
             return _multipleProperties.count(paxtypeid(ComponentClass)) > 0;
         }
@@ -121,8 +133,7 @@ namespace PAX {
             return true;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)
         get() {
             const auto& property = _singleProperties.find(paxtypeid(ComponentClass));
             if (property != _singleProperties.end())
@@ -130,8 +141,7 @@ namespace PAX {
             return nullptr;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(const std::vector<ComponentClass*>&, )
         get() {
             const auto& properties = _multipleProperties.find(paxtypeid(ComponentClass));
             if (properties != _multipleProperties.end())
@@ -140,8 +150,7 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<!ComponentClass::IsMultiple(), ComponentClass*>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)
         removeAll() {
             const auto& propertyIt = _singleProperties.contains(paxtypeid(ComponentClass));
             if (propertyIt != _singleProperties.end()) {
@@ -153,8 +162,7 @@ namespace PAX {
             return nullptr;
         }
 
-        template <class ComponentClass>
-        typename std::enable_if<ComponentClass::IsMultiple(), const std::vector<ComponentClass*>&>::type
+        PAX_GENERATE_PropertyContainerFunctionTemplateHeader(const std::vector<ComponentClass*>&, )
         removeAll() {
             const auto& propertiesIt = _multipleProperties.contains(paxtypeid(ComponentClass));
             if (propertiesIt != _multipleProperties.end()) {
@@ -202,7 +210,7 @@ namespace PAX {
             if (_singleProperties.at(type) != component)
                 return false;
             else
-                _singleProperties.erase(type);
+                return _singleProperties.erase(type) != 0;
         }
     };
 
@@ -212,5 +220,7 @@ namespace PAX {
     template <class C>
     const std::vector<Property<C>*> PropertyContainer<C>::EmptyPropertyVector(0);
 }
+
+#undef PAX_GENERATE_PropertyContainerFunctionTemplateHeader
 
 #endif //PAXENGINE3_PROPERTYCONTAINER_H
