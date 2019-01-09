@@ -44,6 +44,9 @@ namespace PAX {
  *
  *     // The provide function may become tricky. This needs some more research perhaps.
  *     // This won't work with polymorphism either (regarding IContentProvider).
+ *     // Maybe just don't use xml or fetch all resource names and types first.
+ *     // Or again another registering process for types at a given TypeRegister = IContentProvider is necessary.
+ *     // Maybe this will be done in form of method pointers like in the Event System.
  *
  *     template<typename T>
  *     T* provide() {
@@ -69,14 +72,28 @@ namespace PAX {
  * -> make all constructors private! That way we can ensure, that the generated functions will be used
  *    and that all properties are then constructed the right way.
  *
+ * // This method may even be generatable, too.
  * SpriteGraphics * SpriteGraphics::constructFromProvider(IContentProvider & provider) {
  *     auto& tex = provider.provide<Texture>();
  *     return SpriteGraphics::create(tex);
  * }
+ * >>>>>>>> STUPID IDEA for generating above function >>>>>>>>>>>>>
+ * #define Generate_above_function(...) \
+ * Type * Type::ConstructFromProvider(IContentProvider & provider) {
+ *     template<typename...T> struct VariadicCreator {
+ *         SpriteGraphics* asdf() {
+ *             return SpriteGraphics::create(provider.provide<T>()...);
+ *         }
+ *     };
+ *     VariadicCreator<__VA_VARGS__> wizard;
+ *     return wizard.asdf();
+ * }
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
  *
  * And then use some macro magic to generate this. This will allow constructing properties in code, too.
  * SpriteGraphics * SpriteGraphics::create(const std::shared_ptr<Texture> & tex) {
  *     SpriteGraphics * memory = Entity::GetAllocator().reserve(sizeof(SpriteGraphics)); // this needs refactoring, too
+ *     // And this avoids unnecessary templates in allocator too *-*. Then the AllocationService will just become a TypeRegister! Hypetrain whoopwhoop
  *     return new (memory) SpriteGraphics(tex); // use std::forward here ?
  * }
  *
