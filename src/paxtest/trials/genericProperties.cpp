@@ -5,17 +5,21 @@
 #include "TestProperties.h"
 
 int main(int argc, char** argv) {
-    {
-        using namespace PAX;
+    using namespace PAX;
 
-        ExampleContainer e;
-        //*
-        PropertyContainerPrefab<ExampleContainer> p({
-            "PAX::Bla"
-        });
-        p.createProperties(e);
-        //*/
-        e.get<Bla>()->bla();
+    ExampleContainer e;
+
+    PropertyContainerPrefab<ExampleContainer> p({
+        "PAX::Bla"
+    });
+    p.createProperties(e);
+
+    Bla* b = e.get<Bla>();
+
+    if (b) {
+        b->bla();
+    } else {
+        std::cerr << "Could not create PAX::Bla by name" << std::endl;
     }
 
     return 0;

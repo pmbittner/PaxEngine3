@@ -88,6 +88,20 @@ namespace PAX {
                 player->getTransformation().setScale(GlobalScaleVec3);
                 player->getTransformation().position().z = depthFor.characters;
 
+                /*
+                 * <Entity>
+                 *      <Transformation>
+                 *          <Scale>
+                 *              5
+                 *          </Scale>
+                 *          <Position x="0" y="0" z="3">
+                 *      </>
+                 *      <Properties>
+                 *          <VelocityBehaviour/>
+                 *      </Properties>
+                 * <\>
+                 */
+
                 return player;
             }
 
