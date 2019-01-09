@@ -62,6 +62,26 @@ namespace PAX {
             return object;
         }
 
+        /**
+         * This should become standard later.
+         */
+        template<class Object>
+        void* createNoArgs() {
+            TypeHandle objectType = paxtypeof(Object);
+            Allocator* allocator;
+
+            const auto & allocIt = _allocators.find(objectType);
+            if (allocIt == _allocators.end()) {
+                allocator = new TypedAllocator<Object, MallocAllocator>();
+                registerAllocator(objectType, allocator);
+            } else {
+                allocator = allocIt->second;
+            }
+
+            void* memory = allocator->allocate(sizeof(Object));
+            return memory;
+        }
+
         bool destroy(const TypeHandle& type, void* object) {
             // FIXME: Per default, the allocators will not call the destructor on object!
             //        This works for now because the default allocator does that with a trick.

@@ -20,7 +20,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxtest/trials/InvisibleMixinTest.h
         ../../include/paxtest/trials/AllocatorConstructorTest.h
         ../../include/paxtest/trials/InheritedTemplateTypeTest.h
-        ../../include/paxutil/property/PropertyFactory.h)
+        ../../include/paxutil/property/construction/PropertyFactory.h)
 
 add_executable(NewTrafoTest newTrafoTest.cpp ${HEADERS_FOR_CLION})
 target_link_libraries(NewTrafoTest paxutil)
@@ -28,5 +28,5 @@ target_link_libraries(NewTrafoTest paxutil)
 add_executable(PathTest pathTest.cpp)
 target_link_libraries(PathTest paxutil)
 
-add_executable(GenericPropertiesTest trials/genericProperties.cpp trials/TestProperties.cpp trials/TestProperties.h)
+add_executable(GenericPropertiesTest trials/genericProperties.cpp trials/TestProperties.cpp trials/TestProperties.h trials/HandyMacroTricks.h)
 target_link_libraries(GenericPropertiesTest paxutil)

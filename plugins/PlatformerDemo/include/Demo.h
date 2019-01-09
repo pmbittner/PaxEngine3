@@ -88,20 +88,6 @@ namespace PAX {
                 player->getTransformation().setScale(GlobalScaleVec3);
                 player->getTransformation().position().z = depthFor.characters;
 
-                /*
-                 * <Entity>
-                 *      <Transformation>
-                 *          <Scale>
-                 *              5
-                 *          </Scale>
-                 *          <Position x="0" y="0" z="3">
-                 *      </>
-                 *      <Properties>
-                 *          <VelocityBehaviour/>
-                 *      </Properties>
-                 * <\>
-                 */
-
                 return player;
             }
 
@@ -265,22 +251,6 @@ namespace PAX {
                 }
             }
 
-            void testStuff() {
-                auto& dick = PropertyFactory<Entity>::getMap();
-                for (const auto & entry : dick) {
-                    std::cout << "Registered Type: " << entry.first << std::endl;
-                }
-
-                /*
-                Entity e;
-                PropertyContainerPrefab<Entity> prefab({
-                    "PAX::VelocityBehaviour"
-                });
-                prefab.createProperties(e);
-                std::cout << "[PAX::PlatformerDemo::Demo::testStuff] " << e.get<VelocityBehaviour>()->test << std::endl;
-                 //*/
-            }
-
         public:
             Demo() : Game(), GlobalScaleVec3(GlobalScale, GlobalScale, 1)
             {
@@ -298,7 +268,6 @@ namespace PAX {
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
                 gatherResources();
-                testStuff();
 
                 _mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 

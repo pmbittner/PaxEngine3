@@ -9,7 +9,7 @@
 #include <paxcore/entity/EntityComponent.h>
 #include <paxcore/entity/component/Behaviour.h>
 #include <paxcore/time/Time.h>
-#include <paxutil/property/PropertyContainerPrefab.h>
+#include <paxutil/property/construction/PropertyContainerPrefab.h>
 
 namespace PAX {
     class VelocityBehaviour : public Behaviour {

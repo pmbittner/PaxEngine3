@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PROPERTYCONTAINERPREFAB_H
 #define PAXENGINE3_PROPERTYCONTAINERPREFAB_H
 
-#include "PropertyFactory.h"
+#include "paxutil/property/construction/PropertyFactory.h"
 
 namespace PAX {
     template<class C>

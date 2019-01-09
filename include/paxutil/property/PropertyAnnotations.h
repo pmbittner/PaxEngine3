@@ -6,7 +6,7 @@
 #define PAXENGINE3_PROPERTYANNOTATIONS_H
 
 #include "PropertyDependencies.h"
-#include "PropertyFactory.h"
+#include "paxutil/property/construction/PropertyFactory.h"
 #include "event/PropertyAttachedEvent.h"
 #include "event/PropertyDetachedEvent.h"
 
