@@ -26,11 +26,12 @@ namespace PAX {
             return std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - StartTime).count();
         }
 
-    public:
+    protected:
         void attached(Entity& entity) override {
             start();
         }
 
+    public:
         void update() override {
             if (time() > secondsBetweenPrints) {
                 Engine &e = Engine::Instance();
