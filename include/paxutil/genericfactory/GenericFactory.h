@@ -10,7 +10,7 @@
 namespace PAX {
     class IGenericFactory {
     public:
-        virtual ~IGenericFactory() {}
+        virtual ~IGenericFactory() = default;
     };
 
     template<typename Resource>
