@@ -37,7 +37,7 @@ namespace PAX {
     Type::Type args
 
     PAX_PROPERTY_SOURCE_GENERATE_constructFromProvider(Bla, int, std::string)
-    PAX_PROPERTY_SOURCE_GENERATE_create(Bla, (int value, const std::string & s), (value, s))  : secretValue(value), secretMessage(s) {
+    PAX_PROPERTY_SOURCE_GENERATE_create(Bla, (int value, const std::string & s), (value, s)) : secretValue(value), secretMessage(s) {
 
     }
 
