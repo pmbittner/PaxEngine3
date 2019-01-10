@@ -34,7 +34,7 @@ namespace PAX {
 
     WorldLayer::~WorldLayer() {
         while (!_entities.empty()) {
-            despawn(_entities.end() - 1);
+            despawn(_entities.begin());
         }
     }
 

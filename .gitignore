@@ -8,6 +8,7 @@ lib/*
 
 # Project data
 .idea
+vs
 
 # Generated code
 *.generated.cpp
