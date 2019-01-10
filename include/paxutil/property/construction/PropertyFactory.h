@@ -7,36 +7,26 @@
 
 #include <string>
 #include <unordered_map>
-#include <paxutil/reflection/TypeRegister.h>
+
+#include "ContentProvider.h"
 
 namespace PAX {
     template<typename C>
     class Property;
 
-    class ContentProvider {
-    public:
-        template<typename T>
-        T provide() {
-            return T();
-        }
-    };
-
-    // This is just for testing
-    template<>
-    std::string ContentProvider::provide();
-    template<>
-    int ContentProvider::provide();
-
     template<class C>
-    class PropertyFactory {
+    class IPropertyFactory {
     public:
         virtual Property<C> * create(ContentProvider & contentProvider) = 0;
+        virtual ~IPropertyFactory() {}
     };
 
     template<class C>
     class PropertyFactoryRegister {
     public:
-        static PropertyFactory<C> * getFactoryFor(const std::string & name) {
+        virtual ~PropertyFactoryRegister() {}
+
+        static IPropertyFactory<C> * getFactoryFor(const std::string & name) {
             const auto & map = getMap();
             const auto & it = map.find(name);
 
@@ -47,7 +37,7 @@ namespace PAX {
         }
 
     protected:
-        using MapType = std::unordered_map<std::string, PropertyFactory<C>*>;
+        using MapType = std::unordered_map<std::string, IPropertyFactory<C>*>;
 
         // Use this method to save the map to avoid the Static Initialization Order Fiasko.
         static MapType & getMap() noexcept {
@@ -55,22 +45,31 @@ namespace PAX {
             return map;
         }
 
-        static void registerFactory(const std::string & name, PropertyFactory<C>* constructor) noexcept {
+        static void registerFactory(const std::string & name, IPropertyFactory<C>* constructor) noexcept {
             getMap()[name] = constructor;
         }
     };
 
     template<typename PropertyType, typename C>
-    class PropertyRegister : private PropertyFactoryRegister<C>, public PropertyFactory<C> {
+    class PropertyFactory : private PropertyFactoryRegister<C>, public IPropertyFactory<C> {
     public:
-        explicit PropertyRegister(const std::string & name) noexcept : PropertyFactory<C>() {
+        explicit PropertyFactory(const std::string & name) noexcept : PropertyFactoryRegister<C>(), IPropertyFactory<C>() {
             PropertyFactoryRegister<C>::registerFactory(name, this);
         }
 
+        virtual ~PropertyFactory() {}
+
         Property<C> * create(ContentProvider & contentProvider) override {
-            return PropertyType::constructFromProvider(contentProvider);
+            return PropertyType::createFromProvider(contentProvider);
         }
     };
+
+    namespace Private {
+        template<typename PropType, typename... Args>
+        PropType * createFromProviderDelegate(ContentProvider & provider) {
+            return PropType::create(provider.template provide<Args>()...); \
+        }
+    }
 }
 
 #endif //PAXENGINE3_PROPERTYFACTORY_H

@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
     ExampleContainer e;
 
     {
-        PropertyFactory<ExampleContainer> * newBla = PropertyFactoryRegister<ExampleContainer>::getFactoryFor("PAX::Bla");
+        IPropertyFactory<ExampleContainer> * newBla = PropertyFactoryRegister<ExampleContainer>::getFactoryFor("PAX::Bla");
 
         if (newBla) {
             ContentProvider p;
@@ -42,6 +42,16 @@ int main(int argc, char** argv) {
     std::cout << "odd  = " << odd << std::endl;
     std::cout << "even = " << even << std::endl;
     //*/
+
+    {
+        Bla * b0 = Bla::create();
+        Bla * b1 = Bla::create(42);
+        Bla * b2 = Bla::create(24, "moin");
+
+        b0->bla();
+        b1->bla();
+        b2->bla();
+    }
 
     return 0;
 }
