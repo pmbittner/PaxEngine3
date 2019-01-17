@@ -6,11 +6,11 @@
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::Bla)
-    PAX_TEST_PROPERTY_REFLECTION_CONSTRUCTOR_SOURCE(PAX::Bla, int, const std::string&)
+    PAX_TEST_PROPERTY_REFLECTION_SOURCE(PAX::Bla)
 
-    PAX_TEST_PROPERTY_CONSTRUCTOR_SOURCE(PAX::Bla, (int x, const std::string & s), (x, s))
-    PAX_TEST_PROPERTY_CONSTRUCTOR_SOURCE(PAX::Bla, (int x), (x))
-    PAX_TEST_PROPERTY_DEFAULT_CONSTRUCTOR_SOURCE(PAX::Bla)
+    PAX::Bla * Bla::createFromProvider(PAX::ContentProvider & provider) {
+        return new Bla(provider.provide<int>(), provider.provide<std::string>());
+    }
 
     void Bla::bla() {
         std::cout << "[PAX::Bla::bla](" << secretValue << ", " << secretMessage << ")" << std::endl;

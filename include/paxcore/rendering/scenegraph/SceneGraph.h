@@ -63,7 +63,7 @@ namespace PAX {
         }
     };
 
-    typedef TypedSceneGraph<Renderable> SceneGraph;
+    using SceneGraph = TypedSceneGraph<Renderable>;
 }
 
 #endif //PAXENGINE3_SCENEGRAPHNODE_H

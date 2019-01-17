@@ -18,11 +18,15 @@ namespace PAX {
     class IPropertyFactory {
     public:
         virtual Property<C> * create(ContentProvider & contentProvider) = 0;
+        IPropertyFactory() noexcept = default;
         virtual ~IPropertyFactory() {}
     };
 
     template<class C>
     class PropertyFactoryRegister {
+    protected:
+        PropertyFactoryRegister() noexcept = default;
+
     public:
         virtual ~PropertyFactoryRegister() {}
 
@@ -63,13 +67,6 @@ namespace PAX {
             return PropertyType::createFromProvider(contentProvider);
         }
     };
-
-    namespace Private {
-        template<typename PropType, typename... Args>
-        PropType * createFromProviderDelegate(ContentProvider & provider) {
-            return PropType::create(provider.template provide<Args>()...); \
-        }
-    }
 }
 
 #endif //PAXENGINE3_PROPERTYFACTORY_H

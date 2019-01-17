@@ -13,26 +13,25 @@
 private: /*Find adequate modifier here! Maybe use friend. Or name method internal_blabla although this would be the poorest solution.*/ \
     static PAX::PropertyFactory<Type, Container> __ByNameFactory; \
 public: /* constructFromProvider is public for now but should become private later on */ \
-    static Type * (*createFromProvider)(ContentProvider&); \
+    static Type * createFromProvider(ContentProvider&); \
+    static void* operator new(std::size_t sz); \
+    static void operator delete(void * object); \
 private:
 
-#define PAX_TEST_PROPERTY_CONSTRUCTOR(Type, ...) \
-static Type * create(__VA_ARGS__); \
-explicit Type(__VA_ARGS__)
-
-#define PAX_TEST_PROPERTY_REFLECTION_CONSTRUCTOR_SOURCE(Type, ...) \
+// TODO: Merge this into PAX_PROPERTY_SOURCE macro
+// TODO: new: Do not use template and pass size instead.
+// TODO: delete: Allocator calls destructor again => SIGSEV
+#define PAX_TEST_PROPERTY_REFLECTION_SOURCE(Type) \
 PAX::PropertyFactory<Type, Type::Container> Type::__ByNameFactory(#Type); \
-Type * (*Type::createFromProvider)(ContentProvider&) = &PAX::Private::createFromProviderDelegate<Type, __VA_ARGS__>; \
-
-
-// TODO: Find neater syntax for this altough I doubt, that this is possible.
-#define PAX_TEST_PROPERTY_CONSTRUCTOR_SOURCE(Type, signature, call) \
-Type * Type::create signature { \
-    void * memory = Container::GetPropertyAllocator().createNoArgs<Type>(); \
-    return new (memory) Type call; \
+void* Type::operator new(std::size_t sz) { \
+    std::cout << "[PAX::" << #Type << "::new]" << std::endl; \
+    return Container::GetPropertyAllocator().createNoArgs<This>(); \
+} \
+void Type::operator delete(void * object) { \
+    std::cout << "[PAX::" << #Type << "::delete]" << std::endl; \
+    static_cast<This*>(object)->~This(); \
+    Container::GetPropertyAllocator().destroy(paxtypeid(This), object); \
 }
-
-#define PAX_TEST_PROPERTY_DEFAULT_CONSTRUCTOR_SOURCE(Type) PAX_TEST_PROPERTY_CONSTRUCTOR_SOURCE(Type, (), ())
 
 
 namespace PAX {
@@ -50,17 +49,16 @@ namespace PAX {
         PAX_TEST_PROPERTY_REFLECTION_HEADER(PAX::Bla)
 
     public:
-
-        PAX_TEST_PROPERTY_CONSTRUCTOR(Bla, int secretValue, const std::string & secretMessage)
+        Bla(int secretValue, const std::string & secretMessage)
         : secretValue(secretValue), secretMessage(secretMessage) {
 
         }
 
-        PAX_TEST_PROPERTY_CONSTRUCTOR(Bla, int secretValue) : Bla(secretValue, std::to_string(secretValue)) {
+        explicit Bla( int secretValue) : Bla(secretValue, std::to_string(secretValue)) {
 
         }
 
-        PAX_TEST_PROPERTY_CONSTRUCTOR(Bla) : Bla(0) {
+        Bla() : Bla(0) {
 
         }
 

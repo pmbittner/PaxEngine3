@@ -14,9 +14,9 @@ namespace PAX {
         Sorter _sorter;
 
     public:
-        SortingNode(Sorter sorter = Sorter()) : TypedSceneGraph<Children>(), _sorter(sorter) {}
+        explicit SortingNode(Sorter sorter = Sorter()) : TypedSceneGraph<Children>(), _sorter(sorter) {}
 
-        virtual void render(RenderOptions &renderOptions) override {
+        void render(RenderOptions &renderOptions) override {
             _sorter.sort(TypedSceneGraph<Children>::_children);
             TypedSceneGraph<Children>::render(renderOptions);
         }
