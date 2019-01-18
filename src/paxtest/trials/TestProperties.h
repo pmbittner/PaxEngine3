@@ -20,6 +20,8 @@ namespace PAX {
     };
 }
 
+// TODO: Think about not only loading but also saving eg writing to content provider
+
 #define PAX_TEST_PROPERTY_IS_ABSTRACT(...)
 #define PAX_TEST_PROPERTY_IS_CONCRETE(...) __VA_ARGS__
 

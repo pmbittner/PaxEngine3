@@ -5,8 +5,8 @@
 #include "TestProperties.h"
 
 int main(int argc, char** argv) {
-    using namespace PAX;
     {
+        using namespace PAX;
         ExampleContainer e;
 
         if (IPropertyFactory<ExampleContainer> *newBla = PropertyFactoryRegister<ExampleContainer>::getFactoryFor(
