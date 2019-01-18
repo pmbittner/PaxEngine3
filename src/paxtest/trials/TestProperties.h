@@ -11,8 +11,8 @@
 namespace PAX {
     class ExampleContentProvider : public ContentProvider {
     protected:
-        std::any provideType(const TypeHandle & type) override;
-        std::any provideEncapsulated(const TypeHandle & elementType, const TypeHandle & containerType) override;
+        std::any provide(const std::string & name, const TypeHandle & type) override;
+        std::any provideEncapsulated(const std::string & name, const TypeHandle & elementType, const TypeHandle & containerType) override;
     };
 
     struct FancyKeks {

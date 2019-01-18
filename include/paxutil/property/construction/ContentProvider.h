@@ -17,21 +17,21 @@
 namespace PAX {
     class ContentProvider {
     protected:
-        virtual std::any provideType(const TypeHandle & type) = 0;
-        virtual std::any provideEncapsulated(const TypeHandle & elementType, const TypeHandle & containerType) = 0;
+        virtual std::any provide(const std::string & name, const TypeHandle & type) = 0;
+        virtual std::any provideEncapsulated(const std::string & name, const TypeHandle & elementType, const TypeHandle & containerType) = 0;
 
     public:
         ContentProvider();
         virtual ~ContentProvider();
 
         template<typename T, typename TContainer>
-        std::optional<TContainer> getAs() {
+        std::optional<TContainer> getAs(const std::string & name) {
             std::any val;
 
             if PAX_CONSTEXPR_IF (std::is_same<T, TContainer>::value) {
-                val = provideType(paxtypeid(T));
+                val = provide(name, paxtypeid(T));
             } else {
-                val = provideEncapsulated(paxtypeid(T), paxtypeid(TContainer));
+                val = provideEncapsulated(name, paxtypeid(T), paxtypeid(TContainer));
             }
 
             if (val.has_value()) {
@@ -44,8 +44,8 @@ namespace PAX {
         }
 
         template<typename T, typename TContainer>
-        TContainer requireAs() noexcept(false) {
-            std::optional<TContainer> opt = getAs<T, TContainer>();
+        TContainer requireAs(const std::string & name) noexcept(false) {
+            std::optional<TContainer> opt = getAs<T, TContainer>(name);
 
             if (opt.has_value())
                 return opt.value();
@@ -57,23 +57,23 @@ namespace PAX {
         }
 
         template<typename T>
-        std::optional<T> get() {
-            return getAs<T, T>();
+        std::optional<T> get(const std::string & name) {
+            return getAs<T, T>(name);
         }
 
         template<typename T>
-        T require() noexcept(false) {
-            return requireAs<T, T>();
+        T require(const std::string & name) noexcept(false) {
+            return requireAs<T, T>(name);
         }
 
         template<typename T>
-        std::optional<std::shared_ptr<T>> getSharedPtr() {
-            return getAs<T, std::shared_ptr<T>>();
+        std::optional<std::shared_ptr<T>> getSharedPtr(const std::string & name) {
+            return getAs<T, std::shared_ptr<T>>(name);
         }
 
         template<typename T>
-        std::shared_ptr<T> requireSharedPtr() {
-            return requireAs<T, std::shared_ptr<T>>();
+        std::shared_ptr<T> requireSharedPtr(const std::string & name) {
+            return requireAs<T, std::shared_ptr<T>>(name);
         }
     };
 }

@@ -14,9 +14,9 @@ namespace PAX {
      * @return
      */
     PAX::Bla * Bla::createFromProvider(PAX::ContentProvider & provider) {
-        Bla * bla = new Bla(provider.requireSharedPtr<int>(), provider.require<std::string>());
+        Bla * bla = new Bla(provider.requireSharedPtr<int>("secretValue"), provider.require<std::string>("secretMessage"));
 
-        if (auto keks = provider.get<FancyKeks>()) {
+        if (auto keks = provider.get<FancyKeks>("optionalKeks")) {
             bla->optionalKeks = keks.value();
         }
 
@@ -28,22 +28,22 @@ namespace PAX {
     }
 
 
-#define PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(type, T, ReturnExpression) \
+#define PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(T, ReturnExpression) \
 if (type == paxtypeid(T)) { \
     return std::make_any<T>(ReturnExpression); \
 }
 
-    std::any ExampleContentProvider::provideType(const TypeHandle & type) {
-        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(type, std::string, "Morgenroete")
-        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(type, const std::string &, "const Morgenroete")
-        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(type, int, 24)
-        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(type, FancyKeks, FancyKeks{"Schokostreusel"})
+    std::any ExampleContentProvider::provide(const std::string & name, const TypeHandle & type) {
+        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(std::string, "Morgenroete")
+        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(const std::string &, "const Morgenroete")
+        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(int, 24)
+        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(FancyKeks, FancyKeks{"Schokostreusel"})
 
         return std::any();
     }
 
-    std::any ExampleContentProvider::provideEncapsulated(const TypeHandle & elementType, const TypeHandle & containerType) {
-        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(containerType, std::shared_ptr<int>, std::make_shared<int>(123))
+    std::any ExampleContentProvider::provideEncapsulated(const std::string & name, const TypeHandle & elementType, const TypeHandle & type) {
+        PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(std::shared_ptr<int>, std::make_shared<int>(123))
 
         return std::any();
     }
