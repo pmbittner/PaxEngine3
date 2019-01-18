@@ -39,6 +39,31 @@ namespace PAX {
             return _allocators.erase(type);
         }
 
+        void * alloc(const TypeHandle& type, std::size_t size) {
+            Allocator* allocator;
+
+            const auto & allocIt = _allocators.find(type);
+            if (allocIt == _allocators.end()) {
+                // TODO: Avoid new: Allocator for allocator lul
+                allocator = new MallocAllocator();
+                registerAllocator(type, allocator);
+            } else {
+                allocator = allocIt->second;
+            }
+
+            return allocator->allocate(size);
+        }
+
+        bool free(const TypeHandle& type, void * object) {
+            const auto& allocator = _allocators.find(type);
+            if (allocator != _allocators.end()) {
+                allocator->second->destroy(object);
+                return true;
+            }
+
+            return false;
+        }
+
         /**
          * This will return a new instance of the given Objecterty type.
          * If no provider for the given type is registered, a MallocAllocator will be registered as default.
@@ -64,6 +89,7 @@ namespace PAX {
 
         /**
          * This should become standard later.
+         * TODO: Replace this with alloc later on
          */
         template<class Object>
         void* createNoArgs() {
@@ -82,6 +108,7 @@ namespace PAX {
             return memory;
         }
 
+        // TODO: Replace this with free later on
         bool destroy(const TypeHandle& type, void* object) {
             // FIXME: Per default, the allocators will not call the destructor on object!
             //        This works for now because the default allocator does that with a trick.

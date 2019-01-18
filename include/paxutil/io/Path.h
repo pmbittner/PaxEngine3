@@ -7,7 +7,7 @@
 
 #include <string>
 #include <paxutil/StringUtils.h>
-#include <paxutil/macros/OSDefines.h>
+#include <paxutil/macros/OSDetection.h>
 
 namespace PAX {
     class Path {

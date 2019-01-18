@@ -24,11 +24,23 @@ namespace PAX {
 
     template<class C>
     class PropertyFactoryRegister {
+        using MapType = std::unordered_map<std::string, IPropertyFactory<C>*>;
+
+        // Use this method to save the map to avoid the Static Initialization Order Fiasko.
+        static MapType & getMap() noexcept {
+            static MapType map;
+            return map;
+        }
+
     protected:
         PropertyFactoryRegister() noexcept = default;
 
+        static void registerFactory(const std::string & name, IPropertyFactory<C>* constructor) noexcept {
+            getMap()[name] = constructor;
+        }
+
     public:
-        virtual ~PropertyFactoryRegister() {}
+        virtual ~PropertyFactoryRegister() = default;
 
         static IPropertyFactory<C> * getFactoryFor(const std::string & name) {
             const auto & map = getMap();
@@ -38,19 +50,6 @@ namespace PAX {
                 return it->second;
 
             return nullptr;
-        }
-
-    protected:
-        using MapType = std::unordered_map<std::string, IPropertyFactory<C>*>;
-
-        // Use this method to save the map to avoid the Static Initialization Order Fiasko.
-        static MapType & getMap() noexcept {
-            static MapType map;
-            return map;
-        }
-
-        static void registerFactory(const std::string & name, IPropertyFactory<C>* constructor) noexcept {
-            getMap()[name] = constructor;
         }
     };
 

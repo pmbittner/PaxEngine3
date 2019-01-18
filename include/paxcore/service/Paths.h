@@ -6,7 +6,7 @@
 #define PAXENGINE3_PATHS_H
 
 #include <string>
-#include <paxutil/macros/OSDefines.h>
+#include <paxutil/macros/OSDetection.h>
 #include "paxutil/io/Path.h"
 
 namespace PAX {

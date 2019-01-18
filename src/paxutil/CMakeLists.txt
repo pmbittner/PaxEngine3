@@ -1,5 +1,5 @@
 set(HEADERS_FOR_CLION
-        ../../include/paxutil/macros/OSDefines.h
+        ../../include/paxutil/macros/OSDetection.h
         ../../include/paxutil/Sleep.h
 
         ../../include/paxutil/lib/LibIncludes.h
@@ -25,7 +25,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Angles.h
         ../../include/paxutil/math/MathDefines.h
         ../../include/paxutil/math/Basis.h
-        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h ../../include/paxutil/io/Settings.h ../../include/paxutil/property/PropertyAnnotations.h ../../include/paxutil/property/construction/PropertyContainerPrefab.h ../../include/paxutil/genericfactory/GenericFactoryService.h ../../include/paxutil/genericfactory/GenericFactory.h ../../include/paxutil/reflection/TypeRegister.h ../../include/paxutil/property/construction/ContentProvider.h)
+        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h ../../include/paxutil/io/Settings.h ../../include/paxutil/property/PropertyAnnotations.h ../../include/paxutil/property/construction/PropertyContainerPrefab.h ../../include/paxutil/genericfactory/GenericFactoryService.h ../../include/paxutil/genericfactory/GenericFactory.h ../../include/paxutil/reflection/TypeRegister.h ../../include/paxutil/property/construction/ContentProvider.h ../../include/paxutil/macros/Definitions.h)
 
 set(SOURCE_FILES
         StringUtils.cpp

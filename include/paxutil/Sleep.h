@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SLEEP_H
 #define PAXENGINE3_SLEEP_H
 
-#include <paxutil/macros/OSDefines.h>
+#include <paxutil/macros/OSDetection.h>
 
 #if defined(PAX_OS_LINUX) || defined(PAX_OS_ANDROID)
 #include <unistd.h>

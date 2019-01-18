@@ -18,7 +18,7 @@
 #define PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, methodName, asMultiple, asSingle, EventType) \
 bool Type::methodName(Container& c) { \
     if (Super::methodName(c)) { \
-        if constexpr (This::IsMultiple()) { \
+        if PAX_CONSTEXPR_IF (This::IsMultiple()) { \
             if (!c.asMultiple(paxtypeid(This), this)) return false; \
         } else { \
             if (!c.asSingle(paxtypeid(This), this)) return false; \

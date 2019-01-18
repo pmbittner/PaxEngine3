@@ -50,7 +50,9 @@ namespace PAX {
             while (!_singleProperties.empty()) {
                 Prop* propToRemove = _singleProperties.begin()->second;
                 remove(propToRemove);
+                // switch these when integrating the new property allocation handling
                 propertyAllocator.destroy(propToRemove->getClassType(), propToRemove);
+                //delete propToRemove;
             }
 
             while (!_multipleProperties.empty()) {
@@ -58,7 +60,9 @@ namespace PAX {
                 if (!it->second.empty()) {
                     Prop * propToRemove = it->second.front();
                     if (remove(propToRemove)) {
+                        // switch these when integrating the new property allocation handling
                         propertyAllocator.destroy(propToRemove->getClassType(), propToRemove);
+                        // delete propToRemove;
                     } else {
                         std::cerr << "[PropertyContainer::~PropertyContainer] Invalid state: Removing property of type" << propToRemove->getClassType().name() << " unsuccessful!";
                     }

@@ -33,7 +33,8 @@ include(cmake/PaxArchitectureDetection.cmake)
 
 ### FLAGS ###############################################
 include(cmake/PaxFlagsDefinition.cmake)
-set(CMAKE_CXX_STANDARD ${PAX_CPP_STANDARD})
+set(CMAKE_CXX_STANDARD ${PAX_CXX_STANDARD})
+message("CMAKE_CXX_STANDARD is ${CMAKE_CXX_STANDARD}")
 
 #message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
 #message("CMAKE_CXX_FLAGS_DEBUG  : ${CMAKE_CXX_FLAGS_DEBUG}")

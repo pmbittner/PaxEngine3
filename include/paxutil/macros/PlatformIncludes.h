@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PLATFORMINCLUDES_H
 #define PAXENGINE3_PLATFORMINCLUDES_H
 
-#include "OSDefines.h"
+#include "OSDetection.h"
 
 #ifdef PAX_OS_WIN
     #ifndef NOMINMAX
