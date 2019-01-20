@@ -9,7 +9,7 @@
 
 namespace PAX {
     class Behaviour : public EntityComponent {
-        PAX_PROPERTY(Behaviour)
+        PAX_PROPERTY(Behaviour, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(EntityComponent)
         PAX_PROPERTY_IS_MULTIPLE
 

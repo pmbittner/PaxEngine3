@@ -6,9 +6,21 @@
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::SpriteSheetGraphics)
+    PAX_PROPERTY_SOURCE(PAX::SpriteSheetGraphics, PAX_PROPERTY_IS_CONCRETE)
 
-    SpriteSheetGraphics::SpriteSheetGraphics(const std::shared_ptr <Texture> &texture, int columns, int rows) :
+    SpriteSheetGraphics * SpriteSheetGraphics::createFromProvider(PAX::ContentProvider & provider) {
+        return new SpriteSheetGraphics(provider.requireResource<Texture>("sprite"), provider.require<int>("columns"), provider.require<int>("rows"));
+    }
+
+    void SpriteSheetGraphics::initializeFromProvider(PAX::ContentProvider & provider) {
+        if (auto pos = provider.get<glm::ivec2>("position")) {
+            setSpritePosition(pos.value().x, pos.value().y);
+        }
+
+        Super::initializeFromProvider(provider);
+    }
+
+    SpriteSheetGraphics::SpriteSheetGraphics(const std::shared_ptr<Texture> &texture, int columns, int rows) :
             SpriteGraphics(texture),
             _spriteSheet(columns, rows)
     {

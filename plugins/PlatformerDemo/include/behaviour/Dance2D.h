@@ -11,7 +11,7 @@
 
 namespace PAX {
     class Dance2D : public Behaviour {
-        PAX_PROPERTY(Dance2D)
+        PAX_PROPERTY(Dance2D, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_MULTIPLE
 

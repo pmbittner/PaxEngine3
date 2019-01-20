@@ -14,7 +14,7 @@
 
 namespace PAX {
     class SpriteGraphics : public SceneGraphGraphics {
-        PAX_PROPERTY(SpriteGraphics)
+        PAX_PROPERTY(SpriteGraphics, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(SceneGraphGraphics)
         PAX_PROPERTY_IS_SINGLE
 

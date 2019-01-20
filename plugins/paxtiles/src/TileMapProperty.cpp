@@ -7,7 +7,15 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapProperty)
+        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
+
+        TileMapProperty * TileMapProperty::createFromProvider(ContentProvider & provider) {
+            return new TileMapProperty(provider.require<TileMap>("map"));
+        }
+
+        void TileMapProperty::initializeFromProvider(ContentProvider & provider) {
+            Super::initializeFromProvider(provider);
+        }
 
         std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
 
@@ -21,7 +29,7 @@ namespace PAX {
         }
 
         TileMapProperty::TileMapProperty(const TileMap & tilemap) {
-            auto graphics = Entity::GetPropertyAllocator().create<TileMapGraphics>(tilemap);
+            auto graphics = new TileMapGraphics(tilemap);
             graphics->setShader(tileMapShader);
             entity.add(graphics);
         }

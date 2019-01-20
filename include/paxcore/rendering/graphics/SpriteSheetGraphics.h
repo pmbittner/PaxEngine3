@@ -12,7 +12,7 @@
 
 namespace PAX {
     class SpriteSheetGraphics : public SpriteGraphics, public ShaderFlagsConfigurator {
-        PAX_PROPERTY(SpriteSheetGraphics)
+        PAX_PROPERTY(SpriteSheetGraphics, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(SpriteGraphics)
         PAX_PROPERTY_IS_SINGLE
 

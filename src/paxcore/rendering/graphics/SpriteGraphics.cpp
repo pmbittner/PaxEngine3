@@ -11,7 +11,15 @@
 #include <paxcore/rendering/factory/MeshFactory.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::SpriteGraphics)
+    PAX_PROPERTY_SOURCE(PAX::SpriteGraphics, PAX_PROPERTY_IS_CONCRETE)
+
+    SpriteGraphics * SpriteGraphics::createFromProvider(PAX::ContentProvider & provider) {
+        return new SpriteGraphics(provider.requireResource<Texture>("sprite"));
+    }
+
+    void SpriteGraphics::initializeFromProvider(PAX::ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
 
     std::shared_ptr<Mesh> SpriteGraphics::QuadMesh = nullptr;
 
@@ -81,7 +89,7 @@ namespace PAX {
         if (size) {
             size->setSize(spriteSize);
         } else {
-            size = Container::GetPropertyAllocator().create<Size>(spriteSize);
+            size = new Size(spriteSize);
             entity.add(size);
         }
     }

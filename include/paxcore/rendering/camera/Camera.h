@@ -17,7 +17,7 @@
 
 namespace PAX {
     class Camera : public EntityComponent, public SceneGraph {
-        PAX_PROPERTY(Camera)
+        PAX_PROPERTY(Camera, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(EntityComponent)
         PAX_PROPERTY_IS_SINGLE
 
@@ -29,7 +29,7 @@ namespace PAX {
         void onViewportHeightChanged(int oldHeight, int newHeight);
 
     public:
-        Camera(std::shared_ptr<Viewport> viewport, std::shared_ptr<Projection> projection = std::make_shared<PerspectiveProjection>());
+        Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection = std::make_shared<PerspectiveProjection>());
 
         virtual void render(RenderOptions &renderOptions) override;
 

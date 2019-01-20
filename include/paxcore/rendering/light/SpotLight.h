@@ -12,7 +12,7 @@ namespace PAX {
     //                  they differ in behaviour greatly, although they share
     //                  the direction property.
     class SpotLight : public Light {
-        PAX_PROPERTY(SpotLight)
+        PAX_PROPERTY(SpotLight, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(Light)
         PAX_PROPERTY_IS_SINGLE
 

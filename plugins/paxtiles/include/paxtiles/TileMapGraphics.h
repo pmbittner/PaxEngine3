@@ -12,7 +12,7 @@
 namespace PAX {
     namespace Tiles {
         class TileMapGraphics : public Graphics {
-            PAX_PROPERTY(TileMapGraphics)
+            PAX_PROPERTY(TileMapGraphics, PAX_PROPERTY_IS_CONCRETE)
             PAX_PROPERTY_DERIVES(Graphics)
             PAX_PROPERTY_IS_MULTIPLE
 

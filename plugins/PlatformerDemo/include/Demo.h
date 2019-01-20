@@ -28,19 +28,24 @@
 namespace PAX {
     namespace PlatformerDemo {
         class Demo : public Game {
+            // World
             World *_world = nullptr;
             WorldLayer *_mainLayer = nullptr;
+
+            // Entities
             Entity *_player = nullptr;
             Entity* _camera = nullptr;
 
-            SpriteSheetGraphics * playerGraphics = nullptr;
+            // Properties
+            Graphics * playerGraphics = nullptr;
 
+            // Resources
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
             std::shared_ptr<Texture> rightBlockTexture;
-
             std::shared_ptr<Shader> spriteShader, spriteSheetShader;
 
+            // Settings
             struct {
                 float
                 camera = 10,
@@ -64,7 +69,8 @@ namespace PAX {
                         )
                 );
 
-                playerGraphics = Entity::GetPropertyAllocator().create<SpriteSheetGraphics>(spriteTest, 7, 4);
+                playerGraphics = new SpriteSheetGraphics(spriteTest, 7, 4);
+
                 spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
                                 Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
@@ -77,13 +83,11 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
-                AllocationService& s = Entity::GetPropertyAllocator();
-
                 Entity* player = new Entity();
                 player->add(playerGraphics);
-                player->add(s.create<VelocityBehaviour>());
-                player->add(s.create<PlayerControls>());
-                player->add(s.create<PlayerSpriteAnimation>());
+                player->add(new VelocityBehaviour());
+                player->add(new PlayerControls());
+                player->add(new PlayerSpriteAnimation());
 
                 player->getTransformation().setScale(GlobalScaleVec3);
                 player->getTransformation().position().z = depthFor.characters;
@@ -92,42 +96,36 @@ namespace PAX {
             }
 
             Entity* createNPC() {
-                AllocationService& s = Entity::GetPropertyAllocator();
-
                 Entity* npc = new Entity();
-                Graphics * g = s.create<SpriteSheetGraphics>(Services::GetResources().loadOrGet<Texture>(
+
+                npc->add(new SpriteSheetGraphics(Services::GetResources().loadOrGet<Texture>(
                         Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
-                ), 7, 4);
-                g->setShader(spriteSheetShader);
-                npc->add(g);
-                npc->add(s.create<VelocityBehaviour>());
-                npc->add(s.create<PlayerSpriteAnimation>());
-                npc->add(s.create<ProfileGameLoopBehaviour>());
+                ), 7, 4));
+                npc->add(new VelocityBehaviour());
+                npc->add(new PlayerSpriteAnimation());
+                npc->add(new ProfileGameLoopBehaviour());
 
                 npc->getTransformation().setScale(GlobalScaleVec3);
                 npc->getTransformation().position().z = depthFor.characters;
+
+                npc->get<Graphics>()->setShader(spriteSheetShader);
 
                 return npc;
             }
 
             Entity* createCamera(Entity *player) {
-                LOG(INFO) << "Demo: create Camera";
-                AllocationService& s = Entity::GetPropertyAllocator();
-
                 Entity *cam = new Entity();
-                cam->add(s.create<Camera>(
+                cam->add(new Camera(
                         Services::GetFactoryService().get<ViewportFactory>()->create(),
                         std::make_shared<PixelScreenProjection>()
                 ));
                 cam->getTransformation().z() = depthFor.camera;
-                cam->add(s.create<FollowEntityBehaviour>(player));
+                cam->add(new FollowEntityBehaviour(player));
 
                 return cam;
             }
 
             Entity* createPlatform(int span) {
-                AllocationService& s = Entity::GetPropertyAllocator();
-
                 Entity* platform = new Entity();
                 float w = centerBlockTexture->getWidth() * GlobalScale;
                 float xMax = (span-1)*(w/2);
@@ -138,7 +136,7 @@ namespace PAX {
                         tex = rightBlockTexture;
 
                     Entity *block = new Entity();
-                    SpriteGraphics * g = s.create<SpriteGraphics>(tex);
+                    SpriteGraphics * g = new SpriteGraphics(tex);
                     g->setShader(spriteShader);
                     block->add(g);
 
@@ -153,15 +151,13 @@ namespace PAX {
 
                 platform->getTransformation().z() = depthFor.platforms;
 
-                platform->add(s.create<Size>(glm::vec3(0, 0, 1)));
+                platform->add(new Size(glm::vec3(0, 0, 1)));
                 FloatBoundingBox3D platformBoundingBox = platform->get<Size>()->toAbsoluteBoundingBox();
 
                 return platform;
             }
 
             void createEnvironment() {
-                LOG(INFO) << "Demo: create Environment";
-                AllocationService& s = Entity::GetPropertyAllocator();
                 glm::ivec2 resolution = Services::GetWindowService().getWindow()->getResolution();
                 Resources &res = Services::GetResources();
                 Path imgPath = Services::GetPaths().getResourcePath() + "/img";
@@ -183,20 +179,20 @@ namespace PAX {
                 {
                     Entity *p2 = createPlatform(2);
                     p2->getTransformation().position2D() = {300, 100};
-                    p2->add(s.create<DragNDrop>());
+                    p2->add(new DragNDrop());
                     _mainLayer->spawn(p2);
                 }
 
                 { // create background in its own layer
                     Entity *background = new Entity();
-                    SpriteGraphics * backgroundGraphics = s.create<SpriteGraphics>(
+                    SpriteGraphics * backgroundGraphics = new SpriteGraphics(
                             res.loadOrGet<Texture>(imgPath + "/Platformer/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
                     background->add(backgroundGraphics);
 
                     Entity *backgroundCam = new Entity();
-                    backgroundCam->add(s.create<Camera>(
+                    backgroundCam->add(new Camera(
                             Services::GetFactoryService().get<ViewportFactory>()->create(),
                             std::make_shared<PixelScreenProjection>()
                     ));
@@ -243,7 +239,7 @@ namespace PAX {
 
                     TileMap tileMap;
                     tileMap.create(tiles, res.load<SpriteSheet>(imgPath + "/RPG/demotilesheet.png", 24, 12));
-                    TileMapProperty * tileMapProperty = Entity::GetPropertyAllocator().create<TileMapProperty>(tileMap);
+                    TileMapProperty * tileMapProperty = new TileMapProperty(tileMap);
                     auto& entity = tileMapProperty->getTileMapEntity();
                     entity.getTransformation().z() = depthFor.tilemap;
                     entity.getTransformation().setScale(entity.getTransformation().getScale() * GlobalScaleVec3);

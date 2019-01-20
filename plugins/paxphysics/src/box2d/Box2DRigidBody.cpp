@@ -8,7 +8,15 @@
 namespace PAX {
     namespace Physics {
         namespace Box2D {
-            PAX_PROPERTY_SOURCE(PAX::Physics::Box2D::RigidBody)
+            PAX_PROPERTY_SOURCE(PAX::Physics::Box2D::RigidBody, PAX_PROPERTY_IS_CONCRETE)
+
+            RigidBody * RigidBody::createFromProvider(ContentProvider & provider) {
+                return new RigidBody(provider.require<b2BodyDef>("b2BodyDef"));
+            }
+
+            void RigidBody::initializeFromProvider(ContentProvider & provider) {
+                Super::initializeFromProvider(provider);
+            }
 
             RigidBody::RigidBody(const b2BodyDef &bodyDef) : PAX::Physics::RigidBody(), _bodyDef(bodyDef) {
 

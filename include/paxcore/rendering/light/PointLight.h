@@ -9,15 +9,15 @@
 
 namespace PAX {
     class PointLight : public Light {
-        PAX_PROPERTY(PointLight)
+        PAX_PROPERTY(PointLight, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(Light)
         PAX_PROPERTY_IS_SINGLE
 
     public:
-        PointLight(const glm::vec4 & color = glm::vec4(1)) : Super(color) {}
-        virtual ~PointLight() {}
+        explicit PointLight(const glm::vec4 & color = glm::vec4(1)) : Super(color) {}
+        ~PointLight() override {}
 
-        virtual void uploadTo(PAX::Shader * shader, int index) override;
+        void uploadTo(PAX::Shader * shader, int index) override;
     };
 }
 

@@ -13,7 +13,7 @@
 
 namespace PAX {
     class Size : public EntityComponent {
-        PAX_PROPERTY(Size)
+        PAX_PROPERTY(Size, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(EntityComponent)
         PAX_PROPERTY_IS_SINGLE
 
@@ -23,9 +23,9 @@ namespace PAX {
         };
 
     public:
-        Size(const glm::vec3& size);
+        explicit Size(const glm::vec3& size);
 
-        virtual void attached(Entity& entity) override;
+        void attached(Entity& entity) override;
 
         void setSize(const glm::vec3& size);
         void setSize2D(const glm::vec2& size);

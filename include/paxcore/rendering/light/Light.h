@@ -11,7 +11,7 @@
 
 namespace PAX {
     class Light : public EntityComponent {
-        PAX_PROPERTY(Light)
+        PAX_PROPERTY(Light, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(EntityComponent)
         PAX_PROPERTY_IS_SINGLE
 

@@ -64,11 +64,12 @@ namespace PAX {
             return false;
         }
 
+
         /**
          * This will return a new instance of the given Objecterty type.
          * If no provider for the given type is registered, a MallocAllocator will be registered as default.
          */
-        template<class Object, typename... Args>
+        /*template<class Object, typename... Args>
         Object* create(Args&&... args) {
             TypeHandle objectType = paxtypeof(Object);
             Allocator* allocator;
@@ -85,13 +86,13 @@ namespace PAX {
             Object * object = new (memory) Object(std::forward<Args>(args)...);
 
             return object;
-        }
+        }//*/
 
         /**
          * This should become standard later.
          * TODO: Replace this with alloc later on
          */
-        template<class Object>
+        /*template<class Object>
         void* createNoArgs() {
             TypeHandle objectType = paxtypeof(Object);
             Allocator* allocator;
@@ -120,6 +121,7 @@ namespace PAX {
 
             return false;
         }
+        //*/
     };
 }
 #endif //PAXENGINE3_PROPERTYALLOCATIONSERVICE_H

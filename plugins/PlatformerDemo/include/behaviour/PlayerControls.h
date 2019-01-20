@@ -16,7 +16,7 @@
 
 namespace PAX {
     class PlayerControls : public Behaviour {
-        PAX_PROPERTY(PlayerControls)
+        PAX_PROPERTY(PlayerControls, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
         PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour)
@@ -61,8 +61,8 @@ namespace PAX {
         }
 
     public:
-        PlayerControls() {}
-        ~PlayerControls() {}
+        PlayerControls() = default;
+        ~PlayerControls() override = default;
 
         virtual void attached(Entity &entity) override {
             Behaviour::attached(entity);

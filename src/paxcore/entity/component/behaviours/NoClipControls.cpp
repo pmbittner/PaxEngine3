@@ -14,7 +14,15 @@
 #include <paxcore/time/Time.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::NoClipControls)
+    PAX_PROPERTY_SOURCE(PAX::NoClipControls, PAX_PROPERTY_IS_CONCRETE)
+
+    NoClipControls * NoClipControls::createFromProvider(ContentProvider & provider) {
+        return new NoClipControls();
+    }
+
+    void NoClipControls::initializeFromProvider(ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
 
     NoClipControls::NoClipControls() : velocity(0), relativeMovement(0) {
         EventService& e = Services::GetEventService();

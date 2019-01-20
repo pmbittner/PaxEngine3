@@ -7,9 +7,19 @@
 #include <paxutil/macros/MacroIncludes.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Camera)
+    PAX_PROPERTY_SOURCE(PAX::Camera, PAX_PROPERTY_IS_CONCRETE)
 
-    Camera::Camera(std::shared_ptr<Viewport> viewport, std::shared_ptr<Projection> projection) : _viewport(viewport), _projection(projection) {
+    Camera * Camera::createFromProvider(PAX::ContentProvider & provider) {
+        return new Camera(
+                provider.requireAs<Viewport, std::shared_ptr<Viewport>>("viewport"),
+                provider.requireAs<Projection, std::shared_ptr<Projection>>("projection"));
+    }
+
+    void Camera::initializeFromProvider(PAX::ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
+
+    Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : _viewport(viewport), _projection(projection) {
         PAX_assertNotNull(viewport, "Viewport can't be null!");
         PAX_assertNotNull(projection, "Projection can't be null!");
 

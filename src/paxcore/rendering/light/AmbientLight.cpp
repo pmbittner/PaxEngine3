@@ -5,7 +5,15 @@
 #include <paxcore/rendering/light/AmbientLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::AmbientLight)
+    PAX_PROPERTY_SOURCE(PAX::AmbientLight, PAX_PROPERTY_IS_CONCRETE)
+
+    AmbientLight * AmbientLight::createFromProvider(PAX::ContentProvider & provider) {
+        return new AmbientLight(provider.require<glm::vec3>("color"));
+    }
+
+    void AmbientLight::initializeFromProvider(PAX::ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
 
     AmbientLight::AmbientLight(const glm::vec3 &color) {
         setColor(color);

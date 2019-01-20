@@ -6,7 +6,15 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapGraphics)
+        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_CONCRETE)
+
+        TileMapGraphics * TileMapGraphics::createFromProvider(ContentProvider & provider) {
+            return new TileMapGraphics(provider.require<TileMap>("map"));
+        }
+
+        void TileMapGraphics::initializeFromProvider(ContentProvider & provider) {
+            Super::initializeFromProvider(provider);
+        }
 
         TileMapGraphics::TileMapGraphics(const TileMap& tileMap) : Super(), tilemap(tileMap), meshNode(tilemap.getMesh()) {
 

@@ -6,7 +6,15 @@
 #include <paxcore/entity/event/SizeChangedEvent.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Size)
+    PAX_PROPERTY_SOURCE(PAX::Size, PAX_PROPERTY_IS_CONCRETE)
+
+    Size * Size::createFromProvider(ContentProvider & provider) {
+        return new Size(provider.require<glm::vec3>("size"));
+    }
+
+    void Size::initializeFromProvider(ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
 
     Size::Size(const glm::vec3 &size) {
         setSize(size);

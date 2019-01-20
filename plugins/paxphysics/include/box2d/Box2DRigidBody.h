@@ -12,7 +12,7 @@ namespace PAX {
     namespace Physics {
         namespace Box2D {
             class RigidBody : public PAX::Physics::RigidBody {
-                PAX_PROPERTY(PAX::Physics::Box2D::RigidBody)
+                PAX_PROPERTY(PAX::Physics::Box2D::RigidBody, PAX_PROPERTY_IS_CONCRETE)
                 PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody)
                 PAX_PROPERTY_IS_MULTIPLE
 

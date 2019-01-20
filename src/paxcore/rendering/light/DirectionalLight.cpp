@@ -5,7 +5,15 @@
 #include <paxcore/rendering/light/DirectionalLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::DirectionalLight)
+    PAX_PROPERTY_SOURCE(PAX::DirectionalLight, PAX_PROPERTY_IS_CONCRETE)
+
+    DirectionalLight * DirectionalLight::createFromProvider(PAX::ContentProvider & provider) {
+        return new DirectionalLight(provider.require<glm::vec3>("direction"), provider.require<glm::vec4>("color"));
+    }
+
+    void DirectionalLight::initializeFromProvider(PAX::ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
 
     DirectionalLight::DirectionalLight(const glm::vec3 &direction, const glm::vec4 &color) : Super(color) {
         setDirection(direction);

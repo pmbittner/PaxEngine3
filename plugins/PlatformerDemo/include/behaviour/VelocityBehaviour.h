@@ -13,13 +13,12 @@
 
 namespace PAX {
     class VelocityBehaviour : public Behaviour {
-        PAX_PROPERTY(VelocityBehaviour)
+        PAX_PROPERTY(VelocityBehaviour, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
 
     public:
         glm::vec2 velocity = glm::vec2(0);
-        std::string test = "Morgenroete";
 
         void update() override;
     };

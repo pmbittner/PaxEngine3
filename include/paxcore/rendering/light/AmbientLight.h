@@ -9,7 +9,7 @@
 
 namespace PAX {
     class AmbientLight : public WorldLayerProperty {
-        PAX_PROPERTY(AmbientLight)
+        PAX_PROPERTY(AmbientLight, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(WorldLayerProperty)
         PAX_PROPERTY_IS_SINGLE
 

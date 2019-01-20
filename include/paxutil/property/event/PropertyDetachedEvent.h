@@ -10,7 +10,7 @@
 namespace PAX {
     template <typename C, class Prop>
     struct PropertyDetachedEvent : public PropertyContainerEvent<C> {
-        Prop* & property;
+        Prop * property;
 
         PropertyDetachedEvent(Prop* prop, PropertyContainer<C>* container)
                 : PropertyContainerEvent<C>(container), property(prop) {}

@@ -18,7 +18,7 @@
 
 namespace PAX {
     class NoClipControls : public Behaviour {
-        PAX_PROPERTY(NoClipControls)
+        PAX_PROPERTY(NoClipControls, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(Behaviour)
         PAX_PROPERTY_IS_SINGLE
 

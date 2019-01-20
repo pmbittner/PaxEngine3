@@ -5,22 +5,16 @@
 #include "TestProperties.h"
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Bla)
-    PAX_TEST_PROPERTY_REFLECTION_SOURCE(PAX::Bla, PAX_TEST_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_SOURCE(PAX::Bla, PAX_PROPERTY_IS_CONCRETE)
 
-    /**
-     * This has to be implemented only, if the implementing type is not abstract.
-     * @param provider
-     * @return
-     */
-    PAX::Bla * Bla::createFromProvider(PAX::ContentProvider & provider) {
-        Bla * bla = new Bla(provider.requireSharedPtr<int>("secretValue"), provider.require<std::string>("secretMessage"));
+    PAX::Bla * PAX::Bla::createFromProvider(PAX::ContentProvider & provider) {
+        return new PAX::Bla(provider.requireResource<int>("secretValue"), provider.require<std::string>("secretMessage"));
+    }
 
+    void PAX::Bla::initializeFromProvider(PAX::ContentProvider & provider) {
         if (auto keks = provider.get<FancyKeks>("optionalKeks")) {
-            bla->optionalKeks = keks.value();
+            optionalKeks = keks.value();
         }
-
-        return bla;
     }
 
     void Bla::bla() {
@@ -44,6 +38,13 @@ if (type == paxtypeid(T)) { \
 
     std::any ExampleContentProvider::provideEncapsulated(const std::string & name, const TypeHandle & elementType, const TypeHandle & type) {
         PAX_PROPERTY_EXAMPLECONTENTPROVIDER_RETURN(std::shared_ptr<int>, std::make_shared<int>(123))
+
+        // How to handle Resources?
+        /*
+        if (elementType == paxtypeid(Texture) && type == paxtypeid(std::shared_ptr<Texture>)) {
+            std::shared_ptr<Texture> tex = Services::GetResources().loadOrGet<Texture>(Services::GetPaths().getResourcePath() + "/images/asdf.png");
+        }
+         //*/
 
         return std::any();
     }

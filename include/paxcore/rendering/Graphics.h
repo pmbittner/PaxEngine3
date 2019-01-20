@@ -15,7 +15,7 @@
 
 namespace PAX {
     class Graphics : public EntityComponent, public Renderable {
-        PAX_PROPERTY(Graphics)
+        PAX_PROPERTY(Graphics, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(EntityComponent)
         PAX_PROPERTY_IS_SINGLE
 
@@ -27,9 +27,11 @@ namespace PAX {
     public:
         EventHandler<GraphicsShaderChangedEvent&> OnShaderChanged;
 
+        ~Graphics() override = 0;
+
         Shader::Flags getShaderFlags();
         std::shared_ptr<Shader>& getShader();
-        virtual void setShader(std::shared_ptr<Shader> &shader);
+        virtual void setShader(const std::shared_ptr<Shader> &shader);
 
         void render(RenderOptions &renderOptions) override;
     };

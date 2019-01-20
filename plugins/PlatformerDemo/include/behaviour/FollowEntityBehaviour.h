@@ -9,7 +9,7 @@
 
 namespace PAX {
     class FollowEntityBehaviour : public PAX::Behaviour {
-        PAX_PROPERTY(FollowEntityBehaviour)
+        PAX_PROPERTY(FollowEntityBehaviour, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
 

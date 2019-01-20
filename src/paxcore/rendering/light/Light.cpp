@@ -5,7 +5,11 @@
 #include <paxcore/rendering/light/Light.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Light)
+    PAX_PROPERTY_SOURCE(PAX::Light, PAX_PROPERTY_IS_ABSTRACT)
+
+    void Light::initializeFromProvider(PAX::ContentProvider & provider) {
+        Super::initializeFromProvider(provider);
+    }
 
     Light::Light(const glm::vec4 &color) {
         setColor(color);

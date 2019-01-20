@@ -67,12 +67,12 @@ namespace PAX {
         }
 
         template<typename T>
-        std::optional<std::shared_ptr<T>> getSharedPtr(const std::string & name) {
+        std::optional<std::shared_ptr<T>> getResource(const std::string & name) {
             return getAs<T, std::shared_ptr<T>>(name);
         }
 
         template<typename T>
-        std::shared_ptr<T> requireSharedPtr(const std::string & name) {
+        std::shared_ptr<T> requireResource(const std::string & name) {
             return requireAs<T, std::shared_ptr<T>>(name);
         }
     };
