@@ -7,7 +7,7 @@
 #include <SDL2/SDL_opengl.h>
 #include <easylogging++.h>
 
-#include <opengl/SDLOpenGLWindow.h>
+#include "paxsdl/opengl/SDLOpenGLWindow.h"
 
 namespace PAX {
     namespace SDL {

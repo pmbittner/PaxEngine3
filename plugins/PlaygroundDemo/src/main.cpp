@@ -15,11 +15,11 @@ int main(int argc, char* argv[]) {
 #include <Demo.h>
 
 // Plugin Includes
-#include <paxsdl/include/SDLPlugin.h>
-#include <paxsdl/include/opengl/SDLOpenGLPlugin.h>
-#include <paxopengl/include/OpenGLEnginePlugin.h>
-#include <paxassetimport/include/Plugin.h>
-#include <PlaygroundDemo/include/Plugin.h>
+#include "paxsdl/SDLPlugin.h"
+#include "paxsdl/opengl/SDLOpenGLPlugin.h"
+#include "paxopengl/OpenGLEnginePlugin.h"
+#include "paxassetimport/Plugin.h"
+#include "playgrounddemo/Plugin.h"
 
 int PAX::PlaygroundDemo_main(int argc, char *argv[]) {
     int exitcode = 0;

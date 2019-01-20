@@ -2,7 +2,7 @@
 // Created by paul on 07.01.19.
 //
 
-#include <behaviour/DragNDrop.h>
+#include "platformerdemo/behaviour/DragNDrop.h"
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::DragNDrop, PAX_PROPERTY_IS_CONCRETE)

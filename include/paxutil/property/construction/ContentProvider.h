@@ -37,7 +37,9 @@ namespace PAX {
             if (val.has_value()) {
                 try {
                     return std::optional<TContainer>(std::any_cast<TContainer>(val));
-                } catch (const std::bad_any_cast &badAnyCast) {}
+                } catch (const std::bad_any_cast &badAnyCast) {
+                    PAX_UNREFERENCED_PARAMETER(badAnyCast)
+                }
             }
 
             return std::optional<TContainer>();

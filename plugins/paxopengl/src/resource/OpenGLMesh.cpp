@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 #include <easylogging++.h>
-#include <resource/OpenGLMesh.h>
+#include "paxopengl/resource/OpenGLMesh.h"
 
 namespace PAX {
     namespace OpenGL {

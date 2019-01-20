@@ -18,7 +18,7 @@ namespace PAX {
     class IPropertyFactory {
     protected:
         // This method is a workaround for friend classing.
-        inline void initialize(ContentProvider &contentProvider, Property<C> *p) {
+        inline void initialize(ContentProvider &contentProvider, Property<C> *p) const {
             p->initializeFromProvider(contentProvider);
         }
 

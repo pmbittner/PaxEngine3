@@ -2,10 +2,12 @@
 // Created by Paul on 11.05.2017.
 //
 
-#include <SDLInputSystem.h>
 #include <SDL2/SDL_events.h>
-#include "SDLWindow.h"
+
 #include <paxcore/Engine.h>
+
+#include "paxsdl/SDLInputSystem.h"
+#include "paxsdl/SDLWindow.h"
 
 namespace PAX {
     namespace SDL {

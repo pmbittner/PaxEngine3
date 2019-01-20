@@ -16,9 +16,12 @@ if (PAX_RUN_PYTHON_PRECOMPILER)
 endif (PAX_RUN_PYTHON_PRECOMPILER)
 
 include_directories(include)
+include_directories(../paxsdl/include)
+include_directories(../paxopengl/include)
+include_directories(../paxassetimport/include)
 set(HEADERS_FOR_CLION
-        include/Plugin.h
-        include/Demo.h)
+        include/playgrounddemo/Plugin.h
+        include/playgrounddemo/Demo.h)
 
 add_executable(PlaygroundDemo ${PAX_PLAYGROUNDDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION})
 target_link_libraries(PlaygroundDemo ${EASYLOGGING_LIBRARY} paxassimp paxutil paxsdl paxopengl paxcore)

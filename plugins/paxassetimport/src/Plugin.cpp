@@ -2,9 +2,8 @@
 // Created by Paul on 13.08.2018.
 //
 
-#include "../include/Plugin.h"
-
 #include <paxcore/Engine.h>
+#include "paxassimp/Plugin.h"
 
 namespace PAX {
     namespace AssetImport {

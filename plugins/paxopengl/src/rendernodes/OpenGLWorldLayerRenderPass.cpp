@@ -3,8 +3,9 @@
 //
 
 #include <GL/glew.h>
-#include <rendernodes/OpenGLWorldLayerRenderPass.h>
 #include <paxcore/world/WorldLayer.h>
+
+#include "paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h"
 
 namespace PAX {
     namespace OpenGL {

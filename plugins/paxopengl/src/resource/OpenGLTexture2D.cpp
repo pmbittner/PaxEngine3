@@ -3,7 +3,7 @@
 //
 
 #include <easylogging++.h>
-#include <resource/OpenGLTexture2D.h>
+#include "paxopengl/resource/OpenGLTexture2D.h"
 
 namespace PAX {
     namespace OpenGL {

@@ -2,10 +2,11 @@
 // Created by paul on 19.05.18.
 //
 
-#include <OpenGLEnginePlugin.h>
 #include <paxcore/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
 #include <paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h>
 #include <paxcore/rendering/data/Shader.h>
+
+#include "paxopengl/OpenGLEnginePlugin.h"
 
 namespace PAX {
     namespace OpenGL {

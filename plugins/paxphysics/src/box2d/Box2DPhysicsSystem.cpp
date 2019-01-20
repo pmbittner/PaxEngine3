@@ -2,7 +2,7 @@
 // Created by Paul on 21.01.2018.
 //
 
-#include "../include/box2d/Box2DPhysicsSystem.h"
+#include "paxphysics/box2d/Box2DPhysicsSystem.h"
 
 namespace PAX {
     namespace Physics {

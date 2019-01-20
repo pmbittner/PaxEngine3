@@ -3,9 +3,10 @@
 //
 
 #include <GL/glew.h>
-#include <utility/Error.h>
-#include <rendernodes/OpenGLRenderPass.h>
 #include <paxcore/Engine.h>
+
+#include "paxopengl/utility/Error.h"
+#include "paxopengl/rendernodes/OpenGLRenderPass.h"
 
 namespace PAX {
     namespace OpenGL {

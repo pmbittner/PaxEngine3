@@ -2,12 +2,13 @@
 // Created by Paul on 07.01.2018.
 //
 
-#include <GL/glew.h>
-#include <utility/Error.h>
 #include <iostream>
 
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+
+#include "paxopengl/utility/Error.h"
 
 namespace PAX {
     namespace OpenGL {

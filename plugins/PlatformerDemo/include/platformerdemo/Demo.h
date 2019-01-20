@@ -5,21 +5,23 @@
 #ifndef PAXENGINE3_JUMPNRUNDEMO_H
 #define PAXENGINE3_JUMPNRUNDEMO_H
 
+#include <paxutil/io/Path.h>
+
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
-
 #include <paxcore/entity/component/Size.h>
-#include <paxutil/io/Path.h>
 #include <paxcore/rendering/camera/FullPixelScreenProjection.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
-#include <PlatformerDemo/include/behaviour/DragNDrop.h>
-#include <paxtiles/include/paxtiles/Tile.h>
-#include <paxtiles/include/paxtiles/TileMap.h>
-#include <paxtiles/include/paxtiles/TileMapProperty.h>
-#include <PlatformerDemo/include/behaviour/ProfileGameLoopBehaviour.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
+
+#include "paxtiles/Tile.h"
+#include "paxtiles/TileMap.h"
+#include "paxtiles/TileMapProperty.h"
+
+#include "behaviour/DragNDrop.h"
+#include "behaviour/ProfileGameLoopBehaviour.h"
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"

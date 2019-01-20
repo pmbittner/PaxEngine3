@@ -2,9 +2,8 @@
 // Created by Paul on 13.10.2017.
 //
 
-#include "io/FreeImageOpenGLTextureLoader.h"
-#include <GL/glew.h>
-#include "resource/OpenGLTexture2D.h"
+#include "paxopengl/io/FreeImageOpenGLTextureLoader.h"
+#include "paxopengl/resource/OpenGLTexture2D.h"
 
 
 #ifdef PAX_WITH_FREEIMAGE

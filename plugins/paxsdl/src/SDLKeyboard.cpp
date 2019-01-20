@@ -2,7 +2,7 @@
 // Created by bittner on 9/28/17.
 //
 
-#include <SDLKeyboard.h>
+#include "paxsdl/SDLKeyboard.h"
 
 namespace PAX {
     namespace SDL {

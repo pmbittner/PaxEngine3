@@ -1,9 +1,12 @@
 //
 // Created by Paul on 29.06.2017.
 //
-#include <GL/glew.h>
+
 #include <iostream>
-#include <OpenGLViewport.h>
+
+#include <GL/glew.h>
+
+#include "paxopengl/OpenGLViewport.h""
 
 namespace PAX {
     namespace OpenGL {

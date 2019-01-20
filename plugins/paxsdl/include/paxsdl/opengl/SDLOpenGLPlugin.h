@@ -13,11 +13,11 @@
 #include "SDLImageOpenGLTextureLoader.h"
 #include "SDLOpenGLRenderPass.h"
 
-#include "../../../paxopengl/include/rendernodes/OpenGLRenderPass.h"
+#include "paxopengl/rendernodes/OpenGLRenderPass.h"
 
 /// Dependencies
-#include "paxsdl/include/SDLPlugin.h"
-#include "../../../paxopengl/include/OpenGLEnginePlugin.h"
+#include "paxsdl/SDLPlugin.h"
+#include "paxopengl/OpenGLEnginePlugin.h"
 
 namespace PAX {
     namespace SDL {

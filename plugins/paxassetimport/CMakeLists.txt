@@ -106,6 +106,6 @@ link_directories(${ASSIMP_LINK_DIRECTORIES})
 ##
 
 include_directories(include)
-set(HEADERS_FOR_CLION include/Plugin.h include/AssimpResourceLoader.h)
+set(HEADERS_FOR_CLION include/paxassimp/Plugin.h include/paxassimp/AssimpResourceLoader.h)
 add_library(paxassimp ${HEADERS_FOR_CLION} ${PAX_ASSIMP_SOURCE_FILES})
 target_link_libraries(paxassimp ${ASSIMP_LIBRARIES})

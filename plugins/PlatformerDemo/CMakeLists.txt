@@ -20,14 +20,21 @@ if (PAX_RUN_PYTHON_PRECOMPILER)
 endif (PAX_RUN_PYTHON_PRECOMPILER)
 
 include_directories(include)
+include_directories(../paxsdl/include)
+include_directories(../paxopengl/include)
+include_directories(../paxphysics/include)
+include_directories(../paxtiles/include)
+
 set(HEADERS_FOR_CLION
-        include/Plugin.h
-        include/Demo.h
-        include/behaviour/FollowEntityBehaviour.h
-        include/behaviour/PlayerControls.h
-        include/behaviour/PlayerSpriteAnimation.h
-        include/behaviour/VelocityBehaviour.h
-        include/behaviour/Dance2D.h include/behaviour/DragNDrop.h include/behaviour/ProfileGameLoopBehaviour.h)
+        include/platformerdemo/Plugin.h
+        include/platformerdemo/Demo.h
+        include/platformerdemo/behaviour/FollowEntityBehaviour.h
+        include/platformerdemo/behaviour/PlayerControls.h
+        include/platformerdemo/behaviour/PlayerSpriteAnimation.h
+        include/platformerdemo/behaviour/VelocityBehaviour.h
+        include/platformerdemo/behaviour/Dance2D.h
+        include/platformerdemo/behaviour/DragNDrop.h
+        include/platformerdemo/behaviour/ProfileGameLoopBehaviour.h)
 
 add_executable(PlatformerDemo ${PAX_PLATFORMERDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION} )
 target_link_libraries(PlatformerDemo ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxtiles paxcore)

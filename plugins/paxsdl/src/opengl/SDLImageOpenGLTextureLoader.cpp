@@ -2,8 +2,8 @@
 // Created by Paul on 04.11.2017.
 //
 
-#include <opengl/SDLImageOpenGLTextureLoader.h>
-#include <resource/OpenGLTexture2D.h>
+#include "paxsdl/opengl/SDLImageOpenGLTextureLoader.h"
+#include "paxopengl/resource/OpenGLTexture2D.h"
 
 #ifdef PAX_WITH_SDLIMAGE
 #include <SDL2/SDL_image.h>

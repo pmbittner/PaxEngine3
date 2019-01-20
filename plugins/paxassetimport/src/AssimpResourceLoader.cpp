@@ -2,12 +2,13 @@
 // Created by Paul on 30.08.2018.
 //
 
-#include <AssimpResourceLoader.h>
+#include <vector>
+
 #include <paxutil/io/FileTypeChecker.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/data/Material.h>
 
-#include <vector>
+#include "paxassimp/AssimpResourceLoader.h"
 
 /// assimp
 #include <assimp/Importer.hpp>

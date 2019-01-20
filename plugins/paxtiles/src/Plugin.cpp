@@ -2,7 +2,7 @@
 // Created by Paul on 13.08.2018.
 //
 
-#include "../include/Plugin.h"
+#include "paxtiles/Plugin.h"
 
 #include <paxcore/Engine.h>
 

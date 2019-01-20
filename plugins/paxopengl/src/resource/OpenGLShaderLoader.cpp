@@ -2,8 +2,8 @@
 // Created by Paul on 08.10.2017.
 //
 
-#include <resource/OpenGLShaderLoader.h>
-#include <resource/OpenGLShader.h>
+#include "paxopengl/resource/OpenGLShaderLoader.h"
+#include "paxopengl/resource/OpenGLShader.h"
 
 bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) const {
     return true;

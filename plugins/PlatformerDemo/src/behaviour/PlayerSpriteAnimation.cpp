@@ -2,7 +2,7 @@
 // Created by paul on 07.01.19.
 //
 
-#include <behaviour/PlayerSpriteAnimation.h>
+#include "platformerdemo/behaviour/PlayerSpriteAnimation.h"
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::PlayerSpriteAnimation, PAX_PROPERTY_IS_CONCRETE)

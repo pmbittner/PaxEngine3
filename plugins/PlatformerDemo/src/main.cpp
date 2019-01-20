@@ -12,15 +12,15 @@ int main(int argc, char* argv[]) {
     PAX::PlatformerDemo_main(argc, argv);
 }
 
-#include <Demo.h>
+#include "platformerdemo/Demo.h"
+#include "platformerdemo/Plugin.h"
 
 // Plugin Includes
-#include <paxsdl/include/SDLPlugin.h>
-#include <paxsdl/include/opengl/SDLOpenGLPlugin.h>
-#include <paxopengl/include/OpenGLEnginePlugin.h>
-#include <paxphysics/include/Plugin.h>
-#include <PlatformerDemo/include/Plugin.h>
-#include <paxtiles/include/Plugin.h>
+#include "paxsdl/SDLPlugin.h"
+#include "paxsdl/opengl/SDLOpenGLPlugin.h"
+#include "paxopengl/OpenGLEnginePlugin.h"
+#include "paxphysics/Plugin.h"
+#include "paxtiles/Plugin.h"
 
 int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     int exitcode = 0;

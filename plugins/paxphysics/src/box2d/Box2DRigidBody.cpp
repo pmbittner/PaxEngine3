@@ -2,8 +2,8 @@
 // Created by Paul on 21.01.2018.
 //
 
-#include <paxphysics/include/box2d/Box2DRigidBody.h>
-#include <paxphysics/include/box2d/Box2DUtils.h>
+#include "paxphysics/box2d/Box2DRigidBody.h"
+#include "paxphysics/box2d/Box2DUtils.h"
 
 namespace PAX {
     namespace Physics {

@@ -46,20 +46,20 @@ endif (PAX_RUN_PYTHON_PRECOMPILER)
 include_directories(include)
 
 set(HEADERS_FOR_CLION
-        include/OpenGLEnginePlugin.h
-        include/factory/OpenGLMeshFactory.h
-        include/utility/Error.h
-        include/resource/NullOpenGLTextureLoader.h
-        include/resource/OpenGLShaderLoader.h
-        include/io/FreeImageOpenGLTextureLoader.h
-        include/OpenGLMacros.h
-        include/rendernodes/OpenGLWorldLayerRenderPass.h
-        include/resource/OpenGLTexture2D.h
-        include/resource/OpenGLMesh.h
-        include/resource/OpenGLShader.h
-        include/rendernodes/OpenGLRenderPass.h
-        include/OpenGLViewport.h
-        include/factory/OpenGLViewportFactory.h)
+        include/paxopengl/OpenGLEnginePlugin.h
+        include/paxopengl/factory/OpenGLMeshFactory.h
+        include/paxopengl/utility/Error.h
+        include/paxopengl/resource/NullOpenGLTextureLoader.h
+        include/paxopengl/resource/OpenGLShaderLoader.h
+        include/paxopengl/io/FreeImageOpenGLTextureLoader.h
+        include/paxopengl/OpenGLMacros.h
+        include/paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h
+        include/paxopengl/resource/OpenGLTexture2D.h
+        include/paxopengl/resource/OpenGLMesh.h
+        include/paxopengl/resource/OpenGLShader.h
+        include/paxopengl/rendernodes/OpenGLRenderPass.h
+        include/paxopengl/OpenGLViewport.h
+        include/paxopengl/factory/OpenGLViewportFactory.h)
 
 add_library(paxopengl
         ${HEADERS_FOR_CLION}

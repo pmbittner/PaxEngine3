@@ -44,15 +44,6 @@ message("CMAKE_CXX_STANDARD is ${CMAKE_CXX_STANDARD}")
 ### SOURCE FILES ########################################
 
 include_directories(include)
-include_directories(plugins)
-
-#set(SOURCE_FILES ${MAIN_FILE} src/EngineMain.cpp)
-
-#set(SOURCE_FILES ${SOURCE_FILES}
-set(HEADERS_FOR_CLION
-        # Header files for CLion
-        include/demo/OpenGL/Cube.h
-        include/demo/OpenGL/TerrainDemo.h)
 
 ### API INCLUDES ########################################
 

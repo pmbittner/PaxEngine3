@@ -4,9 +4,9 @@
 
 #include <iomanip>
 #include <easylogging++.h>
-#include <OpenGLMacros.h>
+#include "paxopengl/OpenGLMacros.h"
 #include <glm/gtc/type_ptr.hpp>
-#include <resource/OpenGLShader.h>
+#include "paxopengl/resource/OpenGLShader.h"
 
 namespace PAX {
     namespace OpenGL {

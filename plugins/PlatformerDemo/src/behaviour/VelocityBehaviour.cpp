@@ -2,7 +2,7 @@
 // Created by paul on 06.01.19.
 //
 
-#include <behaviour/VelocityBehaviour.h>
+#include "platformerdemo/behaviour/VelocityBehaviour.h"
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::VelocityBehaviour, PAX_PROPERTY_IS_CONCRETE)

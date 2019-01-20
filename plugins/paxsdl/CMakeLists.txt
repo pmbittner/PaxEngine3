@@ -47,17 +47,17 @@ include_directories(../paxopengl/include/)
 include_directories(include)
 
 set(HEADERS_FOR_CLION
-        include/opengl/SDLOpenGLPlugin.h
-        include/opengl/SDLImageOpenGLTextureLoader.h
-        include/opengl/SDLOpenGLWindow.h
-        include/SDLInputSystem.h
-        include/SDLWindow.h
-        include/SDLRenderPass.h
-        include/SDLKeyboard.h
-        include/SDLImageLoader.h
-        include/SDLInputSystem.h
+        include/paxsdl/opengl/SDLOpenGLPlugin.h
+        include/paxsdl/opengl/SDLImageOpenGLTextureLoader.h
+        include/paxsdl/opengl/SDLOpenGLWindow.h
+        include/paxsdl/SDLInputSystem.h
+        include/paxsdl/SDLWindow.h
+        include/paxsdl/SDLRenderPass.h
+        include/paxsdl/SDLKeyboard.h
+        include/paxsdl/SDLImageLoader.h
+        include/paxsdl/SDLInputSystem.h
 
-        include/utility/SDLImageLoader.h
+        include/paxsdl/utility/SDLImageLoader.h
         )
 
 add_library(paxsdl

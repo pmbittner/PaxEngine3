@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_OPENGLVIEWPORTFACTORY_H
 #define PAXENGINE3_OPENGLVIEWPORTFACTORY_H
 
-#include <paxopengl/include/OpenGLViewport.h>
+#include "../OpenGLViewport.h"
 #include <paxcore/rendering/factory/ViewportFactory.h>
 
 namespace PAX {

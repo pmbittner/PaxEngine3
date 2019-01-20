@@ -2,7 +2,7 @@
 // Created by paul on 03.01.19.
 //
 
-#include <paxtiles/include/paxtiles/TileMapGraphics.h>
+#include "paxtiles/TileMapGraphics.h"
 
 namespace PAX {
     namespace Tiles {

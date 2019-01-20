@@ -3,7 +3,7 @@
 //
 
 #include <easylogging++.h>
-#include <SDLWindow.h>
+#include <paxsdl/SDLWindow.h>
 
 namespace PAX {
     namespace SDL {

@@ -5,11 +5,11 @@
 #ifndef PAXENGINE3_PLAYGROUNDDEMO_H
 #define PAXENGINE3_PLAYGROUNDDEMO_H
 
-#include <paxcore/Game.h>
+#include <paxutil/rendering/Cube.h>
 
+#include <paxcore/Game.h>
 #include <paxcore/rendering/camera/Camera.h>
 #include <paxcore/rendering/camera/PerspectiveProjection.h>
-#include <paxutil/rendering/Cube.h>
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
 #include <paxcore/rendering/data/Texture.h>
 #include <paxcore/entity/component/behaviours/NoClipControls.h>

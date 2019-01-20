@@ -3,9 +3,10 @@
 //
 
 #include <SDL2/SDL_video.h>
-#include <opengl/SDLOpenGLRenderPass.h>
-#include <SDLWindow.h>
 #include <paxcore/Engine.h>
+
+#include "paxsdl/opengl/SDLOpenGLRenderPass.h"
+#include "paxsdl/SDLWindow.h"
 
 namespace PAX {
     namespace SDL {

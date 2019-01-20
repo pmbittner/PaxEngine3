@@ -2,7 +2,7 @@
 // Created by paul on 07.01.19.
 //
 
-#include <behaviour/FollowEntityBehaviour.h>
+#include "platformerdemo/behaviour/FollowEntityBehaviour.h"
 #include <paxcore/time/Time.h>
 
 namespace PAX {

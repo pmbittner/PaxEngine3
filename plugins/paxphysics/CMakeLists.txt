@@ -16,12 +16,12 @@ endif (PAX_RUN_PYTHON_PRECOMPILER)
 include_directories(include)
 
 set(HEADERS_FOR_CLION
-        include/Plugin.h
-        include/box2d/Box2DPhysicsSystem.h
-        include/box2d/Box2DRigidBody.h
-        include/RigidBody.h
-        include/box2d/Box2DUtils.h
-        include/box2d/Box2DWorld.h
+        include/paxphysics/Plugin.h
+        include/paxphysics/box2d/Box2DPhysicsSystem.h
+        include/paxphysics/box2d/Box2DRigidBody.h
+        include/paxphysics/RigidBody.h
+        include/paxphysics/box2d/Box2DUtils.h
+        include/paxphysics/box2d/Box2DWorld.h
         )
 set(PAXPHYSICS_LINK_LIBRARIES)
 

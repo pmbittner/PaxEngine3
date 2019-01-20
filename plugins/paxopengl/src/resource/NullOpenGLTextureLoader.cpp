@@ -2,20 +2,17 @@
 // Created by bittner on 11/20/17.
 //
 
-#include <resource/NullOpenGLTextureLoader.h>
 #include <vector>
-#include <paxutil/math/Conversion.h>
 #include <GL/glew.h>
+#include <paxutil/math/Conversion.h>
+
+#include "paxopengl/resource/NullOpenGLTextureLoader.h"
 
 namespace PAX {
     namespace OpenGL {
-        NullOpenGLTextureLoader::NullOpenGLTextureLoader() {
+        NullOpenGLTextureLoader::NullOpenGLTextureLoader() = default;
 
-        }
-
-        NullOpenGLTextureLoader::~NullOpenGLTextureLoader() {
-
-        }
+        NullOpenGLTextureLoader::~NullOpenGLTextureLoader() = default;
 
         bool NullOpenGLTextureLoader::canLoad(Path path) const {
             return true;

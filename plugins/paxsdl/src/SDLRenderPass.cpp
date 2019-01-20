@@ -3,11 +3,12 @@
 //
 
 #include <SDL2/SDL_render.h>
+
 #include <easylogging++.h>
-#include <SDLRenderPass.h>
-#include <paxcore/io/Window.h>
-#include <SDLWindow.h>
 #include <paxcore/Engine.h>
+#include <paxcore/io/Window.h>
+#include "paxsdl/SDLRenderPass.h"
+#include "paxsdl/SDLWindow.h"
 
 namespace PAX {
     namespace SDL {

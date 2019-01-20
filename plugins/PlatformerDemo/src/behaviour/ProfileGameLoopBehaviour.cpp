@@ -2,7 +2,7 @@
 // Created by paul on 07.01.19.
 //
 
-#include <behaviour/ProfileGameLoopBehaviour.h>
+#include "platformerdemo/behaviour/ProfileGameLoopBehaviour.h"
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::ProfileGameLoopBehaviour, PAX_PROPERTY_IS_CONCRETE)
