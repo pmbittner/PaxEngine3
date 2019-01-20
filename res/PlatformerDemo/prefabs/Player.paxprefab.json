@@ -1,0 +1,21 @@
+{
+  "Transform": {
+    "position": [0, 0, 0],
+    "scale": [5, 5, 1]
+  },
+  "Properties": {
+    "PAX::SpriteSheetGraphics": {
+      "Sprite": "${ResourcePath}/img/Platformer/GreenBot16.png",
+      "Size": [7, 4],
+      "Shader": {
+        "VertexShader": "${ResourcePath}/shader/sprite/sprite.vert",
+        "FragmentShader": "${ResourcePath}/shader/sprite/sprite.frag"
+      }
+    },
+    "PAX::PlayerSpriteAnimation": {},
+    "PAX::PlayerControls": {},
+    "PAX::VelocityBehaviour": {
+      "velocity": [0.5, 0]
+    }
+  }
+}

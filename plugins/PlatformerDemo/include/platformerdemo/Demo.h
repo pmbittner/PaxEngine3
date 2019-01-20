@@ -61,7 +61,7 @@ namespace PAX {
 
             void gatherResources() {
                 std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/img/GreenBot16.png"
                 );
 
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
@@ -78,7 +78,7 @@ namespace PAX {
                                 Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
                                 Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
                         ),
-                        playerGraphics->getShaderFlags()
+                        playerGraphics->getShaderFlags() // NOTICE: THis is important and has to be considered in prefab later on!
                 );
 
                 playerGraphics->setShader(spriteSheetShader);
@@ -101,7 +101,7 @@ namespace PAX {
                 Entity* npc = new Entity();
 
                 npc->add(new SpriteSheetGraphics(Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getResourcePath() + "/img/Platformer/GreenBot16.png"
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/img/GreenBot16.png"
                 ), 7, 4));
                 npc->add(new VelocityBehaviour());
                 npc->add(new PlayerSpriteAnimation());
@@ -162,11 +162,11 @@ namespace PAX {
             void createEnvironment() {
                 glm::ivec2 resolution = Services::GetWindowService().getWindow()->getResolution();
                 Resources &res = Services::GetResources();
-                Path imgPath = Services::GetPaths().getResourcePath() + "/img";
+                Path imgPath = Services::GetPaths().getResourcePath() + "/PlatformerDemo/img/";
 
-                centerBlockTexture = res.loadOrGet<Texture>(imgPath + "/Platformer/Block/Center.png");
-                leftBlockTexture   = res.loadOrGet<Texture>(imgPath + "/Platformer/Block/Left.png");
-                rightBlockTexture  = res.loadOrGet<Texture>(imgPath + "/Platformer/Block/Right.png");
+                centerBlockTexture = res.loadOrGet<Texture>(imgPath + "/Block/Center.png");
+                leftBlockTexture   = res.loadOrGet<Texture>(imgPath + "/Block/Left.png");
+                rightBlockTexture  = res.loadOrGet<Texture>(imgPath + "/Block/Right.png");
 
                 int w = centerBlockTexture->getWidth();
                 int h = centerBlockTexture->getHeight();
@@ -188,7 +188,7 @@ namespace PAX {
                 { // create background in its own layer
                     Entity *background = new Entity();
                     SpriteGraphics * backgroundGraphics = new SpriteGraphics(
-                            res.loadOrGet<Texture>(imgPath + "/Platformer/bg.png")
+                            res.loadOrGet<Texture>(imgPath + "/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
                     background->add(backgroundGraphics);

@@ -59,7 +59,7 @@ namespace PAX {
                 cube->upload();
 
                 std::shared_ptr<Texture> texture = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getResourcePath() + "/img/PaxEngine3_128.png"
+                        Services::GetPaths().getResourcePath() + "icon/PaxEngine3/PaxEngine3_128.png"
                 );
                 cubeMaterial = std::make_shared<Material>("CubeMaterial_createdInCode");
                 cubeMaterial->diffuse.texture = texture;
@@ -135,13 +135,13 @@ namespace PAX {
                 }
 
                 if (withTree) {
-                    Entity* tree  = createFromFile("mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
+                    Entity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
                     tree->getTransformation().position() = {-3, 0, -5};
                     mainLayer->spawn(tree);
                 }
 
                 if (withTank) {
-                    Entity* tank  = createFromFile("mesh/ltp/LTP.obj", simpleMatShader);
+                    Entity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
                     tank->getTransformation().position() = {1, -2, -5};
                     mainLayer->spawn(tank);
                 }
