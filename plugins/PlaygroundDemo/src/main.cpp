@@ -12,13 +12,13 @@ int main(int argc, char* argv[]) {
     PAX::PlaygroundDemo_main(argc, argv);
 }
 
-#include <Demo.h>
+#include "playgrounddemo/Demo.h"
 
 // Plugin Includes
 #include "paxsdl/SDLPlugin.h"
 #include "paxsdl/opengl/SDLOpenGLPlugin.h"
 #include "paxopengl/OpenGLEnginePlugin.h"
-#include "paxassetimport/Plugin.h"
+#include "paxassimp/Plugin.h"
 #include "playgrounddemo/Plugin.h"
 
 int PAX::PlaygroundDemo_main(int argc, char *argv[]) {

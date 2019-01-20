@@ -70,7 +70,7 @@ namespace PAX {
                 std::shared_ptr<Asset> a = std::make_shared<Asset>(std::vector<Asset::Part>{
                         Asset::Part(cube, cubeMaterial)
                 });
-                AssetGraphics * g = Entity::GetPropertyAllocator().create<AssetGraphics>(a);
+                AssetGraphics * g = new AssetGraphics(a);
                 g->setShader(shader);
                 cubeEntity->add(g);
                 return cubeEntity;
@@ -81,7 +81,7 @@ namespace PAX {
                         Services::GetPaths().getResourcePath() + relativeResourcePath
                 );
                 Entity* treeEntity = new Entity();
-                AssetGraphics * g = Entity::GetPropertyAllocator().create<AssetGraphics>(tree);
+                AssetGraphics * g = new AssetGraphics(tree);
                 g->setShader(shader);
                 treeEntity->add(g);
                 return treeEntity;
@@ -117,14 +117,12 @@ namespace PAX {
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer("PlaygroundDemoMainLayer", 3);
 
-
-                AllocationService& es = Entity::GetPropertyAllocator();
                 Entity* cam = new Entity();
                 {
                     std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();
                     proj->setFOV(90);
-                    cam->add(es.create<Camera>(Services::GetFactoryService().get<ViewportFactory>()->create(), proj));
-                    cam->add(es.create<NoClipControls>());
+                    cam->add(new Camera(Services::GetFactoryService().get<ViewportFactory>()->create(), proj));
+                    cam->add(new NoClipControls());
                     mainLayer->spawn(cam);
                 }
 
@@ -151,7 +149,7 @@ namespace PAX {
                 // Spawn a light
                 Entity* lightEntity = new Entity();
                 lightEntity->add(
-                        es.create<DirectionalLight>(
+                        new DirectionalLight(
                                 glm::vec3(1, 0, 0),
                                 //glm::vec4(1, 0.7f, 0.2, 20)
                                 glm::vec4(1, 1, 1, 20)
@@ -159,7 +157,7 @@ namespace PAX {
                 );
                 mainLayer->spawn(lightEntity);
 
-                mainLayer->add(es.create<AmbientLight>(glm::vec3(0.6, 0, 0.3)));
+                mainLayer->add(new AmbientLight(glm::vec3(0.6, 0, 0.3)));
 
                 _world->addLayer(mainLayer);
                 setActiveWorld(_world);
