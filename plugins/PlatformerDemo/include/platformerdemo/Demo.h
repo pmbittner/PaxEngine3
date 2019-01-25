@@ -31,12 +31,12 @@ namespace PAX {
     namespace PlatformerDemo {
         class Demo : public Game {
             // World
-            World *_world = nullptr;
-            WorldLayer *_mainLayer = nullptr;
+            World * world = nullptr;
+            WorldLayer * mainLayer = nullptr;
 
             // Entities
-            Entity *_player = nullptr;
-            Entity* _camera = nullptr;
+            Entity * player = nullptr;
+            Entity * camera = nullptr;
 
             // Properties
             Graphics * playerGraphics = nullptr;
@@ -175,14 +175,14 @@ namespace PAX {
                 {
                     Entity *p1 = createPlatform(5);
                     p1->getTransformation().position2D() = {0, -200};
-                    _mainLayer->spawn(p1);
+                    mainLayer->spawn(p1);
                 }
 
                 {
                     Entity *p2 = createPlatform(2);
                     p2->getTransformation().position2D() = {300, 100};
                     p2->add(new DragNDrop());
-                    _mainLayer->spawn(p2);
+                    mainLayer->spawn(p2);
                 }
 
                 { // create background in its own layer
@@ -203,7 +203,7 @@ namespace PAX {
                     WorldLayer *bg = new WorldLayer("Background", -10);
                     bg->spawn(background);
                     bg->spawn(backgroundCam);
-                    _world->addLayer(bg);
+                    world->addLayer(bg);
                 }
 
                 {
@@ -245,7 +245,7 @@ namespace PAX {
                     auto& entity = tileMapProperty->getTileMapEntity();
                     entity.getTransformation().z() = depthFor.tilemap;
                     entity.getTransformation().setScale(entity.getTransformation().getScale() * GlobalScaleVec3);
-                    _mainLayer->add(tileMapProperty);
+                    mainLayer->add(tileMapProperty);
                 }
             }
 
@@ -267,26 +267,26 @@ namespace PAX {
 
                 gatherResources();
 
-                _mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
+                mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 
-                _world = new World();
-                _player = createPlayer();
-                _camera = createCamera(_player);
-                _mainLayer->spawn(_player);
-                _mainLayer->spawn(_camera);
+                world = new World();
+                player = createPlayer();
+                camera = createCamera(player);
+                mainLayer->spawn(player);
+                mainLayer->spawn(camera);
                 createEnvironment();
 
                 Entity* npc = createNPC();
                 npc->getTransformation().position2D() = {-20, -120};
-                _mainLayer->spawn(npc);
+                mainLayer->spawn(npc);
 
-                _world->addLayer(_mainLayer);
-                setActiveWorld(_world);
+                world->addLayer(mainLayer);
+                setActiveWorld(world);
             }
 
             void terminate() override {
-                if (unregisterWorld(_world, true)) {
-                    delete _world;
+                if (unregisterWorld(world, true)) {
+                    delete world;
                 } else {
                     LOG(ERROR) << "The world of JumpNRun could not be deleted!";
                 }
