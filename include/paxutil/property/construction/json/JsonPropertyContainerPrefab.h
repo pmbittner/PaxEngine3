@@ -62,6 +62,17 @@ namespace PAX {
 
         json rootNode;
 
+        void parse(json &parent, const std::string & childname, C & c) {
+            const auto & it = parsers.find(childname);
+            if (it != parsers.end()) {
+                if (parent.count(childname) > 0) {
+                    it->second->parse(parent[childname], sceneRoot, this);
+                }
+            } else {
+                std::cerr << "[JsonPropertyContainerPrefab::parse] ignoring element " << childname << " because no parser is registered for it!" << std::endl;
+            }
+        }
+
     public:
         static JsonProperyContainerPrefabElementParserRegister<C> Parsers;
 
@@ -77,7 +88,15 @@ namespace PAX {
             });
 
             Parsers.registerParser("properties", [](json & node, C & c){
-
+                for (auto& el : node.items()) {
+                    const std::string propType = el.key();
+                    // TODO: Write ContentProvider for json and create it from el.value()
+                    ContentProvider contentProvider;
+                    IPropertyFactory<C> propertyFactory = PropertyFactory::getFactoryFor(propType);
+                    Property<C>* property = propertyFactory.create(contentProvider);
+                    // TODO: Check, that all properties are added according to their dependencies!
+                    c.add(property);
+                }
             });
         }
 
@@ -85,7 +104,10 @@ namespace PAX {
             // TODO: Investigate proper ways to instantiate the PropertyContainer.
             std::shared_ptr<C> c = std::make_shared<C>();
 
-
+            // TODO: Test if this iteration process is correct.
+            for (auto& el : rootNode.items()) {
+                parse(rootNode, el.key(), *c.get());
+            }
 
             return c;
         }
