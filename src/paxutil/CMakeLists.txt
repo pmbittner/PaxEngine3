@@ -25,7 +25,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Angles.h
         ../../include/paxutil/math/MathDefines.h
         ../../include/paxutil/math/Basis.h
-        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h ../../include/paxutil/io/Settings.h ../../include/paxutil/property/PropertyAnnotations.h ../../include/paxutil/property/construction/PropertyContainerPrefab.h ../../include/paxutil/genericfactory/GenericFactoryService.h ../../include/paxutil/genericfactory/GenericFactory.h ../../include/paxutil/reflection/TypeRegister.h ../../include/paxutil/property/construction/ContentProvider.h ../../include/paxutil/macros/Definitions.h)
+        ../../include/paxutil/math/Transformation.h ../../include/paxutil/property/Property.h ../../include/paxutil/property/PropertyContainer.h ../../include/paxutil/property/PropertyDependencies.h ../../include/paxutil/memory/Allocator.h ../../include/paxutil/memory/AllocationService.h ../../include/paxutil/memory/allocators/MallocAllocator.h ../../include/paxutil/io/Settings.h ../../include/paxutil/property/PropertyAnnotations.h ../../include/paxutil/property/construction/PropertyContainerPrefab.h ../../include/paxutil/genericfactory/GenericFactoryService.h ../../include/paxutil/genericfactory/GenericFactory.h ../../include/paxutil/reflection/TypeRegister.h ../../include/paxutil/property/construction/ContentProvider.h ../../include/paxutil/macros/Definitions.h ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefab.h ../../include/paxutil/json/JsonUtil.h ../../include/paxutil/json/JsonLoader.h ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h)
 
 set(SOURCE_FILES
         StringUtils.cpp
@@ -33,7 +33,7 @@ set(SOURCE_FILES
         reflection/TypeHierarchy.cpp
         math/Conversion.cpp
         math/Angles.cpp
-        math/Transformation.cpp property/PropertyContainer.cpp io/Settings.cpp reflection/TypeRegister.cpp property/construction/ContentProvider.cpp)
+        math/Transformation.cpp property/PropertyContainer.cpp io/Settings.cpp reflection/TypeRegister.cpp property/construction/ContentProvider.cpp json/JsonLoader.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

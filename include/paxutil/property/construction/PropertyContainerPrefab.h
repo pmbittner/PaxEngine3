@@ -10,25 +10,9 @@
 namespace PAX {
     template<class C>
     class PropertyContainerPrefab {
-    private:
-        std::vector<std::string> propertyNames;
-
     public:
-        explicit PropertyContainerPrefab(const std::vector<std::string> & propertyTypenames) : propertyNames(propertyTypenames) {
-
-        }
-
-        /// Creates and attaches properties to the given container c.
-        /// It is not required, but assumed that c is empty.
-        void createProperties(C& c) {
-            auto& allocator = PropertyContainer<C>::GetPropertyAllocator();
-
-            for (const std::string & propertyTypename : propertyNames) {
-                if (Property<C> * p = PropertyFactory<C>::create(propertyTypename)) {
-                    c.add(p);
-                }
-            }
-        }
+        virtual ~PropertyContainerPrefab() = 0;
+        virtual std::shared_ptr<C> create() = 0;
     };
 }
 

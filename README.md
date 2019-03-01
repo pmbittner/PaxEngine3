@@ -1,4 +1,4 @@
-# PaxEngine3 - A Cross-Platform 2D/3D Game Engine with Focus on Extensibility
+# PaxEngine3 - A Cross-Platform 2D/3D Game Engine with Focus on Usability and Extensibility
 
 ## Build Instructions
 
