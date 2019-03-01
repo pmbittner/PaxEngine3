@@ -12,6 +12,8 @@
 namespace PAX {
     class Path {
     public:
+        static constexpr const char * EmptyPath = ".";
+
         static constexpr char PathSeparator_Win = '\\';
         static constexpr char PathSeparator_Unix = '/';
         static constexpr char PathSeparator =
@@ -36,17 +38,29 @@ namespace PAX {
         bool isFile() const;
         bool isDirectory() const;
         bool isAbsolute() const;
+        bool isRelative() const;
         Path getDirectory() const;
+        Path toAbsolute() const;
+
+        void convertToCurrentPlatform();
+        void convertToWin();
+        void convertToUnix();
+        void simplify();
 
         static void convertToCurrentPlatform(std::string & path);
         static void convertToWin(std::string & path);
         static void convertToUnix(std::string & path);
         static void simplify(std::string & path);
+        static std::string toAbsolute(const std::string & path);
 
         const char* c_str() const;
         const std::string& toString() const;
 
         bool operator==(const Path& other) const;
+        bool operator<(const Path& other) const;
+        bool operator>(const Path& other) const;
+        bool operator!=(const Path& other) const;
+
         /*implicit*/ operator const char*() const;
         /*implicit*/ operator std::string() const;
 

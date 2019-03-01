@@ -11,7 +11,7 @@ namespace PAX {
     constexpr char Path::PathSeparator_Unix;
     constexpr char Path::PathSeparator;
 
-    Path::Path() : _path(".") {
+    Path::Path() : _path(EmptyPath) {
 
     }
 
@@ -23,7 +23,7 @@ namespace PAX {
 
     }
 
-    Path::Path(const PAX::Path &other) : _path(other._path) {
+    Path::Path(const Path &other) : _path(other._path) {
         // do not call other constructors to avoid unnecessary simplification
     }
 
@@ -34,8 +34,8 @@ namespace PAX {
             // otherwise it will be the current directory "."
             bool notCurrDir =
                     (
-                        (dotPos > 0              && _path[dotPos - 1] != '.') ||
-                        (dotPos < _path.size()-1 && _path[dotPos + 1] != '.')
+                            (dotPos > 0              && _path[dotPos - 1] != '.') ||
+                            (dotPos < _path.size()-1 && _path[dotPos + 1] != '.')
                     ) && _path.size() > 1;
 
             if (notCurrDir) {
@@ -54,11 +54,15 @@ namespace PAX {
         return isAbsolute(_path);
     }
 
+    bool Path::isRelative() const {
+        return !isAbsolute();
+    }
+
     bool Path::isAbsolute(const std::string &path) {
-#ifdef PAX_OS_WIN
+#ifdef GOSPEL_OS_WIN
         // Absolute paths on win are of the form
         // Drive:/
-        for (int i = 0; i < path.size(); ++i) {
+        for (size_t i = 0; i < path.size(); ++i) {
             if (path[i] == Path::PathSeparator) {
                 break;
             }
@@ -86,6 +90,46 @@ namespace PAX {
         }
     }
 
+    Path Path::toAbsolute() const {
+        return toAbsolute(_path);
+    }
+
+    std::string Path::toAbsolute(const std::string &path) {
+#ifdef GOSPEL_OS_WIN
+        constexpr unsigned int HARDCODED_BUFSIZE = 4096;
+        TCHAR  buffer[HARDCODED_BUFSIZE] = TEXT("");
+        TCHAR** lppPart = {nullptr};
+
+        DWORD success = GetFullPathName(path.c_str(), HARDCODED_BUFSIZE, buffer, lppPart);
+
+        if (success == 0) {
+            std::cerr << "Could not convert \"" << path << "\" to absolute path!" << std::endl;
+            return path;
+        }
+
+        return Path(buffer);
+#else
+        //TODO: Implement for linux
+        return "Path::toAbsolute not implemented lol";
+#endif
+    }
+
+    void Path::convertToCurrentPlatform() {
+        Path::convertToCurrentPlatform(_path);
+    }
+
+    void Path::convertToWin() {
+        Path::convertToWin(_path);
+    }
+
+    void Path::convertToUnix() {
+        Path::convertToUnix(_path);
+    }
+
+    void Path::simplify() {
+        Path::simplify(_path);
+    }
+
     void Path::convertToCurrentPlatform(std::string &path) {
         Util::String::replace(path, PathSeparator_Unix, PathSeparator);
     }
@@ -99,7 +143,7 @@ namespace PAX {
     }
 
     void Path::simplify(std::string & path) {
-#ifndef PAX_OS_WIN
+#ifndef GOSPEL_OS_WIN
         bool absolute = isAbsolute(path);
 #endif
 
@@ -123,7 +167,7 @@ namespace PAX {
         // stores length of input string.
         size_t len_A = path.length();
 
-        for (int i = 0; i < len_A; i++) {
+        for (size_t i = 0; i < len_A; i++) {
 
             // we will clear the temporary string
             // every time to accomodate new directory
@@ -183,19 +227,49 @@ namespace PAX {
         }
 
         // every string starts from root directory.
-#ifndef PAX_OS_WIN
+#ifndef GOSPEL_OS_WIN
         if (absolute)
             res = "/" + res;
 #endif
 
         if (res.empty())
-            res = ".";
+            res = EmptyPath;
 
         path = res;
     }
 
     bool Path::operator==(const Path &other) const {
-        return _path == other._path;
+        std::string me = toAbsolute(_path);
+        std::string he = toAbsolute(other._path);
+
+        convertToUnix(me);
+        convertToUnix(he);
+
+        return me == he;
+    }
+
+    bool Path::operator!=(const Path &other) const {
+        return !this->operator==(other);
+    }
+
+    bool Path::operator<(const Path &other) const {
+        std::string me = toAbsolute(_path);
+        std::string he = toAbsolute(other._path);
+
+        convertToUnix(me);
+        convertToUnix(he);
+
+        return me < he;
+    }
+
+    bool Path::operator>(const Path &other) const {
+        std::string me = toAbsolute(_path);
+        std::string he = toAbsolute(other._path);
+
+        convertToUnix(me);
+        convertToUnix(he);
+
+        return me > he;
     }
 
     Path::operator const char*() const {
@@ -226,7 +300,7 @@ namespace PAX {
         return *this;
     }
 
-    Path& Path::operator=(const PAX::Path &other) {
+    Path& Path::operator=(const Path &other) {
         _path = other._path;
         return *this;
     }
@@ -251,11 +325,11 @@ namespace PAX {
         return *this;
     }
 
-    Path Path::operator+(const PAX::Path &other) const {
+    Path Path::operator+(const Path &other) const {
         return operator+(other._path);
     }
 
-    Path& Path::operator+=(const PAX::Path &other) {
+    Path& Path::operator+=(const Path &other) {
         return operator+=(other._path);
     }
 }
