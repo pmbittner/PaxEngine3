@@ -35,8 +35,6 @@ namespace PAX {
         virtual void attached(C &) {}
         virtual void detached(C &) {}
 
-        virtual bool areDependenciesMetFor(const C&) const { return true; }
-
         virtual void initializeFromProvider(ContentProvider & provider) = 0 {};
 
     public:
@@ -46,6 +44,7 @@ namespace PAX {
         C* getOwner() const { return owner; }
 
         virtual bool isMultiple() const { return IsMultiple(); }
+        virtual bool areDependenciesMetFor(const C&) const { return true; }
     };
 }
 

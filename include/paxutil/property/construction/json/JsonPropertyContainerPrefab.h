@@ -9,6 +9,10 @@
 #include <paxutil/json/JsonUtil.h>
 #include <paxutil/io/Path.h>
 
+#include <paxutil/property/Property.h>
+
+#include "JsonContentProvider.h"
+
 namespace PAX {
     template<typename C>
     using JsonPropertyContainerPrefabElementParser = JsonElementParser<C&>;
@@ -87,15 +91,33 @@ namespace PAX {
 
             });
 
-            Parsers.registerParser("properties", [](json & node, C & c){
+            Parsers.registerParser("properties", [](json & node, C & c) {
+                std::vector<Property<C>*> props;
+
                 for (auto& el : node.items()) {
                     const std::string propType = el.key();
-                    // TODO: Write ContentProvider for json and create it from el.value()
-                    ContentProvider contentProvider;
-                    IPropertyFactory<C> propertyFactory = PropertyFactory::getFactoryFor(propType);
-                    Property<C>* property = propertyFactory.create(contentProvider);
-                    // TODO: Check, that all properties are added according to their dependencies!
-                    c.add(property);
+                    JsonContentProvider contentProvider(el.value());
+                    IPropertyFactory<C> * propertyFactory = PropertyFactory::getFactoryFor(propType);
+                    props.emplace_back(propertyFactory->create(contentProvider));
+                }
+
+                // Add the properties deferred to resolve their dependencies.
+                while (!props.empty()) {
+                    size_t numOfPropsToAdd = props.size();
+
+                    for (const auto& it = props.begin(); it != props.end(); ++it) {
+                        if ((*it)->areDependenciesMetFor(c)) {
+                            c.add(*it);
+                            props.erase(it);
+                            break;
+                        }
+                    }
+
+                    if (numOfPropsToAdd == props.size()) {
+                        // Not a single property could be added to the Entity because not a single dependency is met!
+                        std::cerr << "[JsonPropertyContainerPrefab::parse \"properties\"] Error during adding properties! Dependencies could not be met!" << std::endl;
+                        break;
+                    }
                 }
             });
         }
