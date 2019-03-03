@@ -6,7 +6,7 @@
 #define PAXENGINE3_OPENGLTEXTURELOADER_H
 
 #include <paxcore/rendering/data/Texture.h>
-#include <paxcore/io/resources/ResourceLoader.h>
+#include <paxutil/resources/ResourceLoader.h>
 
 namespace PAX {
     namespace OpenGL {

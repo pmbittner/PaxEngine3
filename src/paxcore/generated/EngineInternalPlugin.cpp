@@ -4,7 +4,7 @@
 
 #include <paxcore/generated/EngineInternalPlugin.h>
 #include <paxcore/rendering/loader/SpriteSheetLoader.h>
-#include <paxcore/io/resources/Resources.h>
+#include <paxutil/resources/Resources.h>
 
 namespace PAX {
     void EngineInternalPlugin::initialize(PAX::Engine &engine) {}

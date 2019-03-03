@@ -6,7 +6,7 @@
 #define PAXENGINE3_SPRITESHEETLOADER_H
 
 #include <paxcore/rendering/data/SpriteSheet.h>
-#include <paxcore/io/resources/ResourceLoader.h>
+#include <paxutil/resources/ResourceLoader.h>
 
 namespace PAX {
     class SpriteSheetLoader : public ResourceLoader<SpriteSheet, Path, int, int> {

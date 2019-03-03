@@ -5,10 +5,10 @@
 #include <paxutil/lib/GlmIncludes.h>
 
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
-#include <paxcore/io/resources/Resources.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/entity/component/Size.h>
 #include <paxcore/rendering/factory/MeshFactory.h>
+#include <paxutil/resources/Resources.h>
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::SpriteGraphics, PAX_PROPERTY_IS_CONCRETE)

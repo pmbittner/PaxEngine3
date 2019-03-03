@@ -6,7 +6,7 @@
 #define PAXENGINE3_OPENGLSHADERLOADER_H
 
 #include <paxcore/rendering/data/Shader.h>
-#include <paxcore/io/resources/ResourceLoader.h>
+#include <paxutil/resources/ResourceLoader.h>
 
 namespace PAX {
     namespace OpenGL {

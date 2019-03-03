@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SERVICES_H
 #define PAXENGINE3_SERVICES_H
 
-#include <paxcore/io/resources/Resources.h>
+#include <paxutil/resources/Resources.h>
 #include <paxutil/reflection/TypeMap.h>
 
 #include <paxutil/event/EventService.h>

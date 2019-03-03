@@ -25,15 +25,11 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/WorldLayer.h
         ../../include/paxcore/world/WorldLayerLayout.h
 
-        ../../include/paxutil/event/Event.h
-        ../../include/paxutil/event/EventService.h
         ../../include/paxcore/entity/event/EntityEvent.h
         ../../include/paxcore/world/event/EntitySpawnedEvent.h
         ../../include/paxcore/world/event/EntityDespawnedEvent.h
         ../../include/paxcore/io/Window.h
         ../../include/paxcore/rendering/camera/Camera.h
-        ../../include/paxutil/event/Delegate.h
-        ../../include/paxutil/event/EventHandler.h
         ../../include/paxcore/entity/event/EntityParentChangedEvent.h
         ../../include/paxcore/system/BehaviourSystem.h
         ../../include/paxcore/entity/component/Behaviour.h
@@ -51,9 +47,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/RenderOptions.h
         ../../include/paxcore/rendering/camera/FullPixelScreenProjection.h
         ../../include/paxcore/io/event/ResolutionChangedEvent.h
-        ../../include/paxcore/io/resources/Resources.h
-        ../../include/paxcore/io/resources/ResourceLoader.h
-        ../../include/paxcore/io/resources/ResourceHandle.h
         ../../include/paxcore/service/Services.h
         ../../include/paxcore/rendering/scenegraph/nodes/SortingNode.h
         ../../include/paxcore/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h
@@ -76,7 +69,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/animation/Animation.h
         ../../include/paxcore/rendering/data/SpriteSheet.h
         ../../include/paxcore/rendering/scenegraph/nodes/TransformationNode.h
-        ../../include/paxutil/io/Path.h
         ../../include/paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h
         ../../include/paxcore/world/scenegraph/WorldLayerSceneGraph.h
         ../../include/paxcore/world/scenegraph/WorldSceneGraph.h
@@ -88,7 +80,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/event/ScaleChangedEvent.h
         ../../include/paxcore/EnginePlugin.h
         ../../include/paxcore/service/FactoryService.h
-        ../../include/paxutil/lib/GlmIncludes.h
         ../../include/paxcore/rendering/data/Asset.h
         ../../include/paxcore/rendering/graphics/AssetGraphics.h
         ../../include/paxcore/rendering/data/Material.h
@@ -117,8 +108,6 @@ set(CORE_SOURCE_FILES
         world/WorldLayer.cpp
         world/scenegraph/WorldSceneGraph.cpp
         world/scenegraph/WorldLayerSceneGraph.cpp
-
-        ../paxutil/event/EventService.cpp
 
         system/BehaviourSystem.cpp
         system/EntityComponentSystem.cpp

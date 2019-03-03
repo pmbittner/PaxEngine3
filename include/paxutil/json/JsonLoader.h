@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONLOADER_H
 #define PAXENGINE3_JSONLOADER_H
 
-#include <paxcore/io/resources/ResourceLoader.h>
+#include <paxutil/resources/ResourceLoader.h>
 #include "Json.h"
 
 namespace PAX {

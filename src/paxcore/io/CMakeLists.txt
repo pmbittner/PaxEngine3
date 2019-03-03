@@ -3,4 +3,4 @@ add_library(paxio
         Mouse.cpp
         Window.cpp
         event/ResolutionChangedEvent.cpp
-        resources/ResourceHandle.cpp)
+        ../../paxutil/resources/ResourceHandle.cpp)
