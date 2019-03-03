@@ -6,11 +6,11 @@
 #include <iostream>
 #include <stack>
 
-namespace PAX {
-    constexpr char Path::PathSeparator_Win;
-    constexpr char Path::PathSeparator_Unix;
-    constexpr char Path::PathSeparator;
+#ifdef PAX_OS_WIN
+#include <windows.h>
+#endif
 
+namespace PAX {
     Path::Path() : _path(EmptyPath) {
 
     }
@@ -59,7 +59,7 @@ namespace PAX {
     }
 
     bool Path::isAbsolute(const std::string &path) {
-#ifdef GOSPEL_OS_WIN
+#ifdef PAX_OS_WIN
         // Absolute paths on win are of the form
         // Drive:/
         for (size_t i = 0; i < path.size(); ++i) {
@@ -95,7 +95,7 @@ namespace PAX {
     }
 
     std::string Path::toAbsolute(const std::string &path) {
-#ifdef GOSPEL_OS_WIN
+#ifdef PAX_OS_WIN
         constexpr unsigned int HARDCODED_BUFSIZE = 4096;
         TCHAR  buffer[HARDCODED_BUFSIZE] = TEXT("");
         TCHAR** lppPart = {nullptr};
@@ -143,7 +143,7 @@ namespace PAX {
     }
 
     void Path::simplify(std::string & path) {
-#ifndef GOSPEL_OS_WIN
+#ifndef PAX_OS_WIN
         bool absolute = isAbsolute(path);
 #endif
 
@@ -227,7 +227,7 @@ namespace PAX {
         }
 
         // every string starts from root directory.
-#ifndef GOSPEL_OS_WIN
+#ifndef PAX_OS_WIN
         if (absolute)
             res = "/" + res;
 #endif

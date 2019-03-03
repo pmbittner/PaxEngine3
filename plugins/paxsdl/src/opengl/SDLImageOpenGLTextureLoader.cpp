@@ -33,7 +33,7 @@ namespace PAX {
 
         std::shared_ptr<PAX::Texture> PAX::OpenGL::SDLImageOpenGLTextureLoader::load(Path path) {
 #ifdef PAX_WITH_SDLIMAGE
-            SDL_Surface* tex = NULL;
+            SDL_Surface* tex = nullptr;
 
             int flags = IMG_INIT_JPG | IMG_INIT_PNG;
             int initted = IMG_Init(flags);
@@ -41,7 +41,7 @@ namespace PAX {
                 LOG(ERROR) << "could not init SDL_Image: " << IMG_GetError();
             }
 
-            if((tex = IMG_Load(path.c_str())) == NULL) {
+            if((tex = IMG_Load(path.c_str())) == nullptr) {
                 LOG(ERROR) << "Loading texture " << path << " failed in SDLImageOpenGLTextureLoader.";
             }
 
