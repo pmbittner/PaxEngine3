@@ -10,7 +10,8 @@ namespace PAX {
         PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
 
         TileMapProperty * TileMapProperty::createFromProvider(ContentProvider & provider) {
-            return new TileMapProperty(provider.require<TileMap>("map"));
+            // TODO: Parse TileMap from str or find a way to make this beautiful someow
+            return new TileMapProperty(TileMap());//provider.require<TileMap>("map"));
         }
 
         void TileMapProperty::initializeFromProvider(ContentProvider & provider) {

@@ -5,6 +5,7 @@
 #include <paxutil/StringUtils.h>
 #include <sstream>
 #include <cstring>
+#include <iostream>
 
 namespace PAX {
     namespace Util {
@@ -65,35 +66,34 @@ namespace PAX {
                 std::replace(string.begin(), string.end(), from, to);
             }
 
-            template<>
-            bool tryParse<bool>(const std::string &str) {
+            bool ValueParser<bool>::tryParse(const std::string &str) {
                 return str == "true" || str == "TRUE" || str == "True" || str == "1" || str == "on" || str == "ON" || str == "yes" || str == "y";
             }
 
-            template<>
-            int tryParse<int>(const std::string &str) {
-                return std::stoi(str);
+            int ValueParser<int>::tryParse(const std::string &str) {
+                std::cout << "[ValueParser<int>::tryParse(" << str << ")] before";
+                int res = std::stoi(str);
+                std::cout << "[ValueParser<int>::tryParse(" << str << ")] after";
+                return res;
             }
 
-            template<>
-            unsigned long tryParse<unsigned long>(const std::string &str) {
+            unsigned long ValueParser<unsigned long>::tryParse(const std::string &str) {
                 return std::stoul(str);
             }
 
-            template<>
-            float tryParse<float>(const std::string &str) {
+            float ValueParser<float>::tryParse(const std::string &str) {
                 return std::stof(str);
             }
 
-            template<>
-            double tryParse<double>(const std::string &str) {
+            double ValueParser<double>::tryParse(const std::string &str) {
                 return std::stod(str);
             }
 
+            /*
             template<>
             std::string tryParse<std::string>(const std::string &str) {
                 return str;
-            }
+            }*/
         }
     }
 }

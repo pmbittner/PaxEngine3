@@ -9,7 +9,7 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::SpriteSheetGraphics, PAX_PROPERTY_IS_CONCRETE)
 
     SpriteSheetGraphics * SpriteSheetGraphics::createFromProvider(PAX::ContentProvider & provider) {
-        return new SpriteSheetGraphics(provider.requireResource<Texture>("sprite"), provider.require<int>("columns"), provider.require<int>("rows"));
+        return new SpriteSheetGraphics(provider.requireResource<Texture>("Sprite"), provider.require<int>("Columns"), provider.require<int>("Rows"));
     }
 
     void SpriteSheetGraphics::initializeFromProvider(PAX::ContentProvider & provider) {

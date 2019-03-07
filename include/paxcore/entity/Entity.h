@@ -10,6 +10,7 @@
 #include <paxutil/property/PropertyContainer.h>
 
 #include <paxutil/math/Transformation.h>
+#include <paxutil/property/construction/PropertyContainerPrefab.h>
 
 #include "paxutil/event/EventHandler.h"
 #include "paxutil/event/EventService.h"
@@ -18,6 +19,8 @@
 namespace PAX {
     class World;
     class WorldLayer;
+
+    using EntityPrefab = PropertyContainerPrefab<Entity>;
 
     class Entity : public PropertyContainer<Entity> {
         friend class World;

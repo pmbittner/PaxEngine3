@@ -35,9 +35,6 @@ namespace PAX {
         friend class SettingsFileRow;
 
         static constexpr char Comment = '#';
-
-        static constexpr const char* VariableDeclarationBegin = "${";
-        static constexpr const char* VariableDeclarationEnd = "}";
         static constexpr const char* IncludeDirective = "include";
 
         // built-in variables
@@ -62,7 +59,7 @@ namespace PAX {
         /**
          * Creates settings from a file by parsing it immediately.
          */
-        Settings(const std::string& path, char separator = '=', bool trimValues = true);
+        explicit Settings(const std::string& path, char separator = '=', bool trimValues = true);
 
         /**
          * Parses a given file and adds its variables to this Settings.
@@ -70,7 +67,7 @@ namespace PAX {
          */
         void parse(const std::string& path, char separator = '=', bool trimValues = true);
 
-        ~Settings() {}
+        ~Settings() = default;
 
         /**
          * Adds a setting manually.

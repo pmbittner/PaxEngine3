@@ -11,7 +11,8 @@ namespace PAX {
             PAX_PROPERTY_SOURCE(PAX::Physics::Box2D::RigidBody, PAX_PROPERTY_IS_CONCRETE)
 
             RigidBody * RigidBody::createFromProvider(ContentProvider & provider) {
-                return new RigidBody(provider.require<b2BodyDef>("b2BodyDef"));
+                // TODO: FIXME
+                return new RigidBody(b2BodyDef());//provider.require<b2BodyDef>("b2BodyDef"));
             }
 
             void RigidBody::initializeFromProvider(ContentProvider & provider) {

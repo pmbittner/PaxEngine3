@@ -4,6 +4,7 @@
 
 #include <paxutil/json/JsonLoader.h>
 #include <paxutil/io/FileTypeChecker.h>
+#include <paxutil/resources/Resources.h>
 #include <fstream>
 
 namespace PAX {
@@ -29,5 +30,18 @@ namespace PAX {
                     << "byte position of error: " << e.byte << std::endl;
             return nullptr;
         }
+    }
+
+    std::shared_ptr<nlohmann::json>
+    JsonLoader::loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) {
+        // Only one entry is required, namely the Path
+        if (parameters.values.size() == 1) {
+            const std::string & key = parameters.values.begin()->first;
+            if (!key.empty()) {
+                return resources.loadOrGet<nlohmann::json>(Path(key));
+            }
+        }
+
+        return nullptr;
     }
 }

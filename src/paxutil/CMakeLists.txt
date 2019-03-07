@@ -44,7 +44,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/json/JsonUtil.h
         ../../include/paxutil/json/JsonLoader.h
         ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h
-        ../../include/paxutil/property/construction/json/JsonContentProvider.h
+        ../../include/paxutil/property/construction/json/JsonPropertyContent.h
         ../../include/paxutil/io/Path.h
         ../../include/paxutil/lib/GlmIncludes.h
         ../../include/paxutil/event/Event.h
@@ -53,7 +53,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/event/EventHandler.h
         ../../include/paxutil/resources/Resources.h
         ../../include/paxutil/resources/ResourceLoader.h
-        ../../include/paxutil/resources/ResourceHandle.h)
+        ../../include/paxutil/resources/ResourceHandle.h ../../include/paxutil/StringVariables.h)
 
 set(SOURCE_FILES
         StringUtils.cpp
@@ -67,8 +67,8 @@ set(SOURCE_FILES
         reflection/TypeRegister.cpp
         property/construction/ContentProvider.cpp
         json/JsonLoader.cpp
-        property/construction/json/JsonContentProvider.cpp
-        event/EventService.cpp)
+        property/construction/json/JsonPropertyContent.cpp
+        event/EventService.cpp StringVariables.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

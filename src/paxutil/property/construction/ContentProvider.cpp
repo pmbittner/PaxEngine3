@@ -5,6 +5,5 @@
 #include <paxutil/property/construction/ContentProvider.h>
 
 namespace PAX {
-    ContentProvider::ContentProvider() = default;
-    ContentProvider::~ContentProvider() = default;
+
 }

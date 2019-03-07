@@ -1,11 +1,7 @@
 {
-  "Inherits": {
-
-  },
-  "Transform": {
-    "position": [0, 0, 0],
-    "scale": [5, 5, 1]
-  },
+  "Inherits": [
+    "DemoGameObject.paxprefab.json"
+  ],
   "Properties": {
     "PAX::SpriteSheetGraphics": {
       "Sprite": "${ResourcePath}/PlatformerDemo/img/GreenBot16.png",
@@ -20,7 +16,6 @@
       }
     },
     "PAX::PlayerSpriteAnimation": {},
-    "PAX::PlayerControls": {},
     "PAX::VelocityBehaviour": {
       "velocity": [0, 0]
     }

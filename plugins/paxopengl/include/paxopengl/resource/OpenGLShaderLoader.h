@@ -12,6 +12,8 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLShaderLoader : public ResourceLoader<Shader, Shader::FileInfo>, public ResourceLoader<Shader, Shader::FileInfo, Shader::Flags> {
         public:
+            std::shared_ptr<Shader> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+
             virtual bool canLoad(Shader::FileInfo) const override;
             virtual std::shared_ptr<Shader> load(Shader::FileInfo) override;
 

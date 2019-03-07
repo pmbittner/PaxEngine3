@@ -30,3 +30,6 @@ target_link_libraries(PathTest paxutil)
 
 add_executable(GenericPropertiesTest trials/genericProperties.cpp trials/TestProperties.cpp trials/TestProperties.h trials/HandyMacroTricks.h)
 target_link_libraries(GenericPropertiesTest paxutil)
+
+add_executable(StringConversionTest trials/StringConversionTest.cpp)
+target_link_libraries(StringConversionTest paxutil)

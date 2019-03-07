@@ -10,9 +10,10 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::Camera, PAX_PROPERTY_IS_CONCRETE)
 
     Camera * Camera::createFromProvider(PAX::ContentProvider & provider) {
-        return new Camera(
-                provider.requireAs<Viewport, std::shared_ptr<Viewport>>("viewport"),
-                provider.requireAs<Projection, std::shared_ptr<Projection>>("projection"));
+        // TODO: Allow arbitrary objects construction form JSON
+        return new Camera(nullptr, nullptr);
+               // provider.require<std::shared_ptr<Viewport>>("viewport"),
+               // provider.require<std::shared_ptr<Projection>>("projection"));
     }
 
     void Camera::initializeFromProvider(PAX::ContentProvider & provider) {

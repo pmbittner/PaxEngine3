@@ -15,6 +15,7 @@
 #include <paxutil/reflection/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
 #include <easylogging++.h>
+#include <paxutil/StringVariables.h>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
@@ -110,6 +111,12 @@ namespace PAX {
             _loaders[paxtypeof(Resource)].push_back(loader);
         }
 
+        template<typename Resource>
+        const std::vector<ResourceLoaderT<Resource>*> & getLoaders() {
+            std::vector<IResourceLoader *> &loaders = _loaders[paxtypeof(Resource)];
+            return *reinterpret_cast<std::vector<ResourceLoaderT<Resource>*>*>(&loaders);
+        }
+
         template<typename Resource, typename... Params>
         ResourceLoader<Resource, Params...>* getLoader(Params... params) {
             std::vector<IResourceLoader *> &possibleLoaders = _loaders[paxtypeof(Resource)];
@@ -130,12 +137,24 @@ namespace PAX {
          * If this fails, the resource will be loaded and cached.
          */
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& loadOrGet(Params... p) {
+        std::shared_ptr<Resource> loadOrGet(Params... p) {
             //std::cout << "[Resources::loadOrGet] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             std::shared_ptr<Resource> &res = get<Resource>(p...);
             if (!res)
                 return loadAndRegisterResource<Resource>(p...)->_resource;
             return res;
+        }
+
+        template<typename Resource>
+        std::shared_ptr<Resource> loadOrGetFromVariableRegister(const VariableHierarchy & vars) {
+            const auto & loaders = getLoaders<Resource>();
+
+            for (ResourceLoaderT<Resource> * loader : loaders) {
+                if (auto res = loader->loadToOrGetFromResources(*this, vars))
+                    return res;
+            }
+
+            return nullptr;
         }
 
         /**

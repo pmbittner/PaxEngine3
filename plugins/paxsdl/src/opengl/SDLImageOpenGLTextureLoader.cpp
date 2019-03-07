@@ -11,7 +11,10 @@
 
 #include <easylogging++.h>
 #include <paxutil/io/FileTypeChecker.h>
+#include <paxutil/resources/Resources.h>
 #include <assert.h>
+#include <paxsdl/opengl/SDLImageOpenGLTextureLoader.h>
+
 
 namespace PAX {
     namespace OpenGL {
@@ -32,6 +35,7 @@ namespace PAX {
         }
 
         std::shared_ptr<PAX::Texture> PAX::OpenGL::SDLImageOpenGLTextureLoader::load(Path path) {
+            std::cout << "[SDLImageOpenGLTextureLoader::load]" << path << std::endl;
 #ifdef PAX_WITH_SDLIMAGE
             SDL_Surface* tex = nullptr;
 
@@ -52,7 +56,7 @@ namespace PAX {
 
             ogltexture->bind();
 
-            int Mode = GL_RGB;
+            GLenum Mode = GL_RGB;
             if(tex->format->BytesPerPixel == 4) {
                 Mode = GL_RGBA;
             }
@@ -73,6 +77,28 @@ namespace PAX {
             assert(false);
             return nullptr;
 #endif
+        }
+
+        std::shared_ptr<Texture> SDLImageOpenGLTextureLoader::loadToOrGetFromResources(Resources &resources,
+                                                                                       const VariableHierarchy &parameters) {
+            // Only one entry is required, namely the Path
+            if (parameters.values.size() == 1) {
+                std::cout << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] exactly one parameter given" << std::endl;
+                const std::string & key = parameters.values.begin()->first;
+                std::cout << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] key = " << key << std::endl;
+                if (!key.empty()) {
+                    return resources.loadOrGet<Texture>(Path(key));
+                }
+                const std::string & value = parameters.values.begin()->second;
+                std::cout << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] val = " << value << std::endl;
+                if (!value.empty()) {
+                    return resources.loadOrGet<Texture>(Path(value));
+                }
+            }
+
+            std::cerr << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
+
+            return nullptr;
         }
     }
 }

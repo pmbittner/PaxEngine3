@@ -6,6 +6,7 @@
 #include <regex>
 #include <paxutil/io/Settings.h>
 #include <paxutil/stdutils/CollectionUtils.h>
+#include <paxutil/StringVariables.h>
 
 #define PAX_SETTINGS_PRINT(body) if (printDebugMessages) { body }
 
@@ -117,56 +118,18 @@ namespace PAX {
                     PAX_SETTINGS_PRINT(std::cout << "[Settings]     Include file " << newPath << std::endl;)
                     parse(newPath, separator, trimValues);
                 } else {
-                    std::string rhs = row[1];
-
                     // check for variables in rhs
-                    {
-                        // rhs[varIndex] == VariableDeclaration
-                        std::size_t varDecIndex = rhs.find(VariableDeclarationBegin);
-                        while (varDecIndex != std::string::npos) {
-                            // finds first occurence and hence the end of our var
-                            std::size_t varDecEndIndex = rhs.find(VariableDeclarationEnd);
+                    std::map<std::string, std::string> resolvableVariables(settings);
 
-                            if (varDecEndIndex == std::string::npos) {
-                                PAX_SETTINGS_PRINT(std::cout << "[Settings]     Warning: Variable declaration end missing (line "
-                                          << lineNumber << "): " << row[1] << std::endl;)
-                                // terminate since we are left in an infinite loop otherwise
-                                break;
-                            } else {
-                                std::size_t varNameIndex = varDecIndex + strlen(VariableDeclarationBegin);
-                                std::size_t varNamelength =
-                                        varDecEndIndex - strlen(VariableDeclarationEnd) - varNameIndex + 1;
-                                std::string varName = rhs.substr(varNameIndex, varNamelength);
-                                std::string varValue;
+                    // Predefined variables should be overridable in settings.
+                    // Therefore put them into the map only, when they were not set manually already.
+                    if (resolvableVariables.find(PreDefinedVariable::CurrentPath) == resolvableVariables.end())
+                        resolvableVariables[PreDefinedVariable::CurrentPath] = path;
+                    if (resolvableVariables.find(PreDefinedVariable::CurrentDirectory) == resolvableVariables.end())
+                        resolvableVariables[PreDefinedVariable::CurrentDirectory] = currentDirectory;
 
-                                if (!has(varName)) {
-                                    // check pre-defined variables
-                                    if (varName == PreDefinedVariable::CurrentPath) {
-                                        varValue = path;
-                                    } else if (varName == PreDefinedVariable::CurrentDirectory) {
-                                        varValue = currentDirectory;
-                                    } else {
-                                        PAX_SETTINGS_PRINT(std::cout << "[Settings]     Warning: Variable not found (line " << lineNumber
-                                                  << "): " << varName << std::endl;)
-                                    }
-                                } else {
-                                    varValue = settings[varName];
-                                }
-
-                                rhs = rhs.replace(
-                                        varDecIndex,
-                                        varNamelength + strlen(VariableDeclarationBegin) + strlen(VariableDeclarationEnd),
-                                        varValue
-                                );
-                            }
-
-                            // search for next occurrence
-                            varDecIndex = rhs.find(VariableDeclarationBegin);
-                        }
-                    }
-
-                    settings[row[0]] = rhs;
-                    PAX_SETTINGS_PRINT(std::cout << "[Settings]     Parsed setting " << row[0] << " " << separator << " " << rhs << std::endl;)
+                    settings[row[0]] = VariableResolver::resolveVariables(row[1], resolvableVariables);
+                    PAX_SETTINGS_PRINT(std::cout << "[Settings]     Parsed setting " << row[0] << " " << separator << " " << settings[row[0]] << std::endl;)
                 }
             }
 
@@ -215,7 +178,7 @@ namespace PAX {
 
     void Settings::check(const std::string& varName) const {
         if (!has(varName)) {
-            throw std::runtime_error("Error in Settings: The variable " + varName + " has no entry!");
+            throw std::runtime_error("Error in PAX::Settings: The variable " + varName + " has no entry!");
         }
     }
 
@@ -238,7 +201,7 @@ namespace PAX {
                 pos = nextComma + 1;
             } while(nextComma != std::string::npos);
         } else {
-            throw std::runtime_error("Error in Settings: The variable " + varName + " is not a tuple!");
+            throw std::runtime_error("Error in PAX::Settings: The variable " + varName + " is not a tuple!");
         }
 
         return tuple;

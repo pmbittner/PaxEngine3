@@ -36,7 +36,7 @@ namespace PAX {
     int Mesh::getAttributeLocation(PAX::Mesh::AttributeName attribName) {
         for (size_t i = 0; i < _attributeNames.size(); ++i) {
             if (_attributeNames[i] == attribName)
-                return i;
+                return static_cast<int>(i);
         }
         return -1;
     }

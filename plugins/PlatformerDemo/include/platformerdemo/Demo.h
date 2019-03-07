@@ -85,16 +85,26 @@ namespace PAX {
             }
 
             Entity* createPlayer() {
+                /*
                 Entity* player = new Entity();
                 player->add(playerGraphics);
                 player->add(new VelocityBehaviour());
                 player->add(new PlayerControls());
                 player->add(new PlayerSpriteAnimation());
+*/
+                std::shared_ptr<EntityPrefab> prefab
+                    = Services::GetResources().loadOrGet<EntityPrefab>(
+                            Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/Player.paxprefab.json"
+                            );
+
+                static std::shared_ptr<Entity> refForTest = nullptr;
+                std::shared_ptr<Entity> player = prefab->create();
+                refForTest = player;
 
                 player->getTransformation().setScale(GlobalScaleVec3);
                 player->getTransformation().position().z = depthFor.characters;
 
-                return player;
+                return player.get();
             }
 
             Entity* createNPC() {

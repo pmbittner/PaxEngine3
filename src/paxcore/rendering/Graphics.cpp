@@ -13,7 +13,7 @@ namespace PAX {
 
         // A shader is required only if it has not been set by a subtype yet.
         if (!_shader) {
-            setShader(provider.requireResource<Shader>("shader"));
+            setShader(provider.requireResource<Shader>("Shader"));
         }
     }
 

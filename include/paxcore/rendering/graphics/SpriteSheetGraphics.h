@@ -11,6 +11,7 @@
 #include "../interface/ShaderFlagsConfigurator.h"
 
 namespace PAX {
+    // TODO: Refactor this to use the SpriteSheet class
     class SpriteSheetGraphics : public SpriteGraphics, public ShaderFlagsConfigurator {
         PAX_PROPERTY(SpriteSheetGraphics, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(SpriteGraphics)
@@ -19,8 +20,8 @@ namespace PAX {
     protected:
         SpriteSheetNode _spriteSheet;
 
-        virtual void registerFlags(Shader::Flags &flags) override;
-        virtual glm::vec2 getSpriteSize() const override;
+        void registerFlags(Shader::Flags &flags) override;
+        glm::vec2 getSpriteSize() const override;
 
     public:
         SpriteSheetGraphics(const std::shared_ptr<Texture> &texture, int columns, int rows);

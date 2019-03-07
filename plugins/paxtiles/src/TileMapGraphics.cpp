@@ -9,7 +9,8 @@ namespace PAX {
         PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_CONCRETE)
 
         TileMapGraphics * TileMapGraphics::createFromProvider(ContentProvider & provider) {
-            return new TileMapGraphics(provider.require<TileMap>("map"));
+            // FIXME:
+            return new TileMapGraphics(TileMap());//provider.require<TileMap>("map"));
         }
 
         void TileMapGraphics::initializeFromProvider(ContentProvider & provider) {

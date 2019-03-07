@@ -9,7 +9,8 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::FollowEntityBehaviour, PAX_PROPERTY_IS_CONCRETE)
 
     FollowEntityBehaviour * FollowEntityBehaviour::createFromProvider(ContentProvider & provider) {
-        return new FollowEntityBehaviour(provider.require<Entity*>("target"));
+        // FIXME:
+        return new FollowEntityBehaviour(nullptr);//provider.require<Entity*>("target"));
     }
 
     void FollowEntityBehaviour::initializeFromProvider(ContentProvider & provider) {
