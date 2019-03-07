@@ -94,7 +94,7 @@ namespace PAX {
 */
                 std::shared_ptr<EntityPrefab> prefab
                     = Services::GetResources().loadOrGet<EntityPrefab>(
-                            Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/Player.paxprefab.json"
+                            Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/Player1.paxprefab.json"
                             );
 
                 static std::shared_ptr<Entity> refForTest = nullptr;
@@ -108,6 +108,7 @@ namespace PAX {
             }
 
             Entity* createNPC() {
+                /*
                 Entity* npc = new Entity();
 
                 npc->add(new SpriteSheetGraphics(Services::GetResources().loadOrGet<Texture>(
@@ -116,13 +117,24 @@ namespace PAX {
                 npc->add(new VelocityBehaviour());
                 npc->add(new PlayerSpriteAnimation());
                 npc->add(new ProfileGameLoopBehaviour());
+                 */
+
+
+                std::shared_ptr<EntityPrefab> prefab
+                        = Services::GetResources().loadOrGet<EntityPrefab>(
+                                Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/GreenGuy.paxprefab.json"
+                        );
+
+                static std::shared_ptr<Entity> refForTest = nullptr;
+                std::shared_ptr<Entity> npc = prefab->create();
+                refForTest = npc;
 
                 npc->getTransformation().setScale(GlobalScaleVec3);
                 npc->getTransformation().position().z = depthFor.characters;
 
-                npc->get<Graphics>()->setShader(spriteSheetShader);
+                //npc->get<Graphics>()->setShader(spriteSheetShader);
 
-                return npc;
+                return npc.get();
             }
 
             Entity* createCamera(Entity *player) {
@@ -276,6 +288,8 @@ namespace PAX {
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
                 gatherResources();
+
+                std::cout << "[PAX::PlatformerDemo::Demo::initialize] After gather resources" << std::endl;
 
                 mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 

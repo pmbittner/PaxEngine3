@@ -11,11 +11,15 @@
 namespace PAX {
     template<class C>
     class PropertyContainerPrefab {
+    protected:
+        std::map<Path, std::shared_ptr<PropertyContainerPrefab<C>>> parentPrefabs;
+
     public:
         static VariableRegister PreDefinedVariables;
 
         virtual ~PropertyContainerPrefab() = default;
         virtual std::shared_ptr<C> create() = 0;
+        virtual void addMyContentTo(C& c) = 0;
     };
 
     template<class C>

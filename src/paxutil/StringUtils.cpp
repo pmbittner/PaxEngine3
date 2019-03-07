@@ -71,10 +71,7 @@ namespace PAX {
             }
 
             int ValueParser<int>::tryParse(const std::string &str) {
-                std::cout << "[ValueParser<int>::tryParse(" << str << ")] before";
-                int res = std::stoi(str);
-                std::cout << "[ValueParser<int>::tryParse(" << str << ")] after";
-                return res;
+                return std::stoi(str);
             }
 
             unsigned long ValueParser<unsigned long>::tryParse(const std::string &str) {

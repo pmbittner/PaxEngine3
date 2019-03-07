@@ -17,7 +17,7 @@ namespace PAX {
             std::vector<std::string> _formats;
 
         public:
-            FileTypeChecker(const std::vector<const char*> & formats) {
+            /*implicit*/ FileTypeChecker(const std::vector<const char*> & formats) {
                 for (std::string format : formats) {
                     std::transform(format.begin(), format.end(), format.begin(), ::tolower);
                     _formats.push_back(format);
@@ -25,9 +25,15 @@ namespace PAX {
             }
 
             bool check(const std::string& path) {
-                std::string extension = Util::String::getExtension(path);
-                std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
-                return Util::vectorContains(_formats, extension);
+                std::string p = path;
+                std::transform(p.begin(), p.end(), p.begin(), ::tolower);
+
+                for (const std::string & format : _formats) {
+                    if (String::endsWith(p, format))
+                        return true;
+                }
+
+                return false;
             }
         };
     }

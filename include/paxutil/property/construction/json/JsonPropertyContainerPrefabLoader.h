@@ -25,13 +25,13 @@ namespace PAX {
         explicit JsonPropertyContainerPrefabLoader(Resources & resources) : resources(resources) {}
 
         bool canLoad(Path path) const override {
-            return Util::FileTypeChecker({"JSON"}).check(path);
+            return Util::FileTypeChecker({"paxprefab.json"}).check(path);
         }
 
         std::shared_ptr<PropertyContainerPrefab<C>> load(Path path) override {
             std::shared_ptr<nlohmann::json> j = resources.loadOrGet<nlohmann::json>(path);
             if (j) {
-                return std::make_shared<JsonPropertyContainerPrefab<C>>(j);
+                return std::make_shared<JsonPropertyContainerPrefab<C>>(j, path);
             }
             return nullptr;
         }

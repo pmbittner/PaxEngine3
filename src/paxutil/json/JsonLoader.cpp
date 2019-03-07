@@ -40,6 +40,10 @@ namespace PAX {
             if (!key.empty()) {
                 return resources.loadOrGet<nlohmann::json>(Path(key));
             }
+            const std::string & value = parameters.values.begin()->second;
+            if (!value.empty()) {
+                return resources.loadOrGet<nlohmann::json>(Path(value));
+            }
         }
 
         return nullptr;

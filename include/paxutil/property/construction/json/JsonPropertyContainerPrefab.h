@@ -16,19 +16,22 @@
 
 namespace PAX {
     template<typename C>
-    using JsonPropertyContainerPrefabElementParser = JsonElementParser<C&>;
+    class JsonPropertyContainerPrefab;
+
+    template<typename C>
+    using JsonPropertyContainerPrefabElementParser = JsonElementParser<C&, JsonPropertyContainerPrefab<C>&>;
 
     template<typename C>
     class LambdaJsonPropertyContainerPrefabElementParser : public JsonPropertyContainerPrefabElementParser<C> {
     public:
-        using Callback = std::function<void(nlohmann::json&, C&)>;
+        using Callback = std::function<void(nlohmann::json&, C&, JsonPropertyContainerPrefab<C>&)>;
     private:
         Callback callback;
     public:
         explicit LambdaJsonPropertyContainerPrefabElementParser(const Callback & function) : JsonPropertyContainerPrefabElementParser<C>(), callback(function) {}
         ~LambdaJsonPropertyContainerPrefabElementParser() override = default;
-        void parse(nlohmann::json& j, C& c) override {
-            callback(j, c);
+        void parse(nlohmann::json& j, C& c, JsonPropertyContainerPrefab<C> & prefab) override {
+            callback(j, c, prefab);
         }
     };
 
@@ -73,13 +76,14 @@ namespace PAX {
         using json = nlohmann::json;
 
         std::shared_ptr<json> rootNode;
+        Path path;
 
         void parse(json &parent, const std::string & childname, C & c) {
             const auto & parserRegister = Parsers.getRegister();
             const auto & it = parserRegister.find(childname);
             if (it != parserRegister.end()) {
                 if (parent.count(childname) > 0) {
-                    it->second->parse(parent[childname], c);
+                    it->second->parse(parent[childname], c, *this);
                 }
             } else {
                 std::cerr << "[JsonPropertyContainerPrefab::parse] ignoring element " << childname << " because no parser is registered for it!" << std::endl;
@@ -89,18 +93,38 @@ namespace PAX {
     public:
         static JsonProperyContainerPrefabElementParserRegister<C> Parsers;
 
-        explicit JsonPropertyContainerPrefab(const std::shared_ptr<json> & file) : rootNode(file) {}
+        explicit JsonPropertyContainerPrefab(const std::shared_ptr<json> & file, const Path & path) : PropertyContainerPrefab<C>(), rootNode(file), path(path) {}
 
         virtual ~JsonPropertyContainerPrefab() = default;
 
         static void initialize(Resources & resources) {
             // TODO: Some parsers like "transform" are only useful for C = Entity.
             //       Hence, outsource registration process and register the parsers only to their corresponding Prefab.
-            Parsers.registerParser("transform", [](json & node, C & c){
+            Parsers.registerParser("Transform", [](json & node, C & c, JsonPropertyContainerPrefab<C> & prefab) {
 
             });
 
-            Parsers.registerParser("Properties", [&resources](json & node, C & c) {
+            // TODO: Ensure, that this is created at first!
+            Parsers.registerParser("Inherits", [&resources](json & node, C & c, JsonPropertyContainerPrefab<C> & prefab) {
+                for (auto& el : node.items()) {
+                    Path parentPath = prefab.path.getDirectory() + el.value();
+                    std::shared_ptr<PropertyContainerPrefab<C>> parentPrefab; // FIXME: Unnecessary copy of shared_ptr
+
+                    const auto & it = prefab.parentPrefabs.find(parentPath);
+                    if (it != prefab.parentPrefabs.end()) {
+                        parentPrefab = it->second;
+                    } else {
+                        parentPrefab = resources.load<PropertyContainerPrefab<C>>(parentPath);
+                        prefab.parentPrefabs[parentPath] = parentPrefab;
+                    }
+
+                    parentPrefab->addMyContentTo(c);
+                }
+            });
+
+            // TODO: A Property should only be added, if itsn't already attached.
+            //       In that case, the existing property should be reinitialized to override its settings.
+            Parsers.registerParser("Properties", [&resources](json & node, C & c, JsonPropertyContainerPrefab<C> & prefab) {
                 std::vector<Property<C>*> props;
 
                 ContentProvider contentProvider(resources, PropertyContainerPrefab<C>::PreDefinedVariables);
@@ -140,13 +164,14 @@ namespace PAX {
         std::shared_ptr<C> create() override {
             // TODO: Investigate proper ways to instantiate the PropertyContainer.
             std::shared_ptr<C> c = std::make_shared<C>();
-
-            // TODO: Test if this iteration process is correct.
-            for (auto& el : rootNode->items()) {
-                parse(*rootNode.get(), el.key(), *c.get());
-            }
-
+            addMyContentTo(*c.get());
             return c;
+        }
+
+        void addMyContentTo(C & c) override {
+            for (auto& el : rootNode->items()) {
+                parse(*rootNode.get(), el.key(), c);
+            }
         }
     };
 
