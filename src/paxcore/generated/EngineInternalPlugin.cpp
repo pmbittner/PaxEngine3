@@ -14,7 +14,7 @@ namespace PAX {
     void EngineInternalPlugin::initialize(PAX::Engine &engine) {}
 
     void EngineInternalPlugin::postInitialize(PAX::Engine &engine) {
-        JsonPropertyContainerPrefab<Entity>::initialize(Services::GetResources());
+        Json::JsonPropertyContainerPrefab<Entity>::initialize(Services::GetResources());
         EntityPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().toString();
         EntityPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
     }
@@ -25,10 +25,10 @@ namespace PAX {
         static SpriteSheetLoader spriteSheetLoader;
         resources.registerLoader(&spriteSheetLoader);
         
-        static JsonLoader jsonLoader;
+        static Json::JsonLoader jsonLoader;
         resources.registerLoader(&jsonLoader);
         
-        static JsonPropertyContainerPrefabLoader<Entity> entityFromJsonLoader(resources);
+        static Json::JsonPropertyContainerPrefabLoader<Entity> entityFromJsonLoader(resources);
         resources.registerLoader(&entityFromJsonLoader);
     }
 

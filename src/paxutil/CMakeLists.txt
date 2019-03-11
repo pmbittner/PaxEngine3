@@ -53,7 +53,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/event/EventHandler.h
         ../../include/paxutil/resources/Resources.h
         ../../include/paxutil/resources/ResourceLoader.h
-        ../../include/paxutil/resources/ResourceHandle.h ../../include/paxutil/StringVariables.h)
+        ../../include/paxutil/resources/ResourceHandle.h ../../include/paxutil/StringVariables.h ../../include/paxutil/math/json/JsonToTransformation.h)
 
 set(SOURCE_FILES
         StringUtils.cpp
@@ -68,7 +68,7 @@ set(SOURCE_FILES
         property/construction/ContentProvider.cpp
         json/JsonLoader.cpp
         property/construction/json/JsonPropertyContent.cpp
-        event/EventService.cpp StringVariables.cpp)
+        event/EventService.cpp StringVariables.cpp math/json/JsonToTransformation.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

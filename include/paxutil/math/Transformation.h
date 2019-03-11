@@ -65,6 +65,7 @@ namespace PAX {
         void setRotation(float theta, float phi);
         void setRotation(const glm::mat3 & rotationMatrix);
         void setRotation(const glm::quat & rotation);
+        void setRotation(const glm::vec3 & euler);
         void setRotation(float eulerX, float eulerY, float eulerZ);
 
         /// Ignores up direction! Assumes that it is straight upward.

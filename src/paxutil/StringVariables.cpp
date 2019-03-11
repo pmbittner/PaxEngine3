@@ -15,7 +15,7 @@ namespace PAX {
             std::size_t varDecEndIndex = result.find(VariableDeclarationEnd);
 
             if (varDecEndIndex == std::string::npos) {
-                std::cout << "[Settings::resolveVariables] Warning: Variable declaration end missing in " << str.c_str() << std::endl;
+                std::cerr << "[VariableResolver::resolveVariables] Warning: Variable declaration end missing in " << str.c_str() << std::endl;
                 // terminate since we are left in an infinite loop otherwise
                 break;
             } else {
@@ -52,10 +52,11 @@ namespace PAX {
                 vars.values[it->first] = newFirst;
                 vars.values[it->second] = newSecond;
             }
+            /*
             std::cout << "[VariableResolver::resolveAllInHierarchy] after resolve:" << std::endl;
             for (it = vars.values.begin(); it != vars.values.end(); ++it) {
                 std::cout << "\t" << it->first.c_str() << " -> " << it->second.c_str() << std::endl;
-            }
+            }//*/
         }
         {
             std::map<std::string, VariableHierarchy>::iterator it;

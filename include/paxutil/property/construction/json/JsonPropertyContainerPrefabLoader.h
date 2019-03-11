@@ -13,37 +13,41 @@
 #include "JsonPropertyContainerPrefab.h"
 
 namespace PAX {
-    template<typename C>
-    class JsonPropertyContainerPrefabLoader : public ResourceLoader<PropertyContainerPrefab<C>, Path> {
-        Resources & resources;
-    public:
-        /**
-         * As the Prefabs will be loaded from JSON files, a ResourceManager is required, that is able
-         * to load JSON files.
-         * The <paxutil/json/JsonLoader.h> can be used therefore.
-         */
-        explicit JsonPropertyContainerPrefabLoader(Resources & resources) : resources(resources) {}
+    namespace Json {
+        template<typename C>
+        class JsonPropertyContainerPrefabLoader : public ResourceLoader<PropertyContainerPrefab<C>, Path> {
+            Resources &resources;
+        public:
+            /**
+             * As the Prefabs will be loaded from JSON files, a ResourceManager is required, that is able
+             * to load JSON files.
+             * The <paxutil/json/JsonLoader.h> can be used therefore.
+             */
+            explicit JsonPropertyContainerPrefabLoader(Resources &resources) : resources(resources) {}
 
-        bool canLoad(Path path) const override {
-            return Util::FileTypeChecker({"paxprefab.json"}).check(path);
-        }
-
-        std::shared_ptr<PropertyContainerPrefab<C>> load(Path path) override {
-            std::shared_ptr<nlohmann::json> j = resources.loadOrGet<nlohmann::json>(path);
-            if (j) {
-                return std::make_shared<JsonPropertyContainerPrefab<C>>(j, path);
+            bool canLoad(Path path) const override {
+                return Util::FileTypeChecker({"paxprefab.json"}).check(path);
             }
-            return nullptr;
-        }
 
-        std::shared_ptr<PropertyContainerPrefab<C>> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override {
-            std::stringstream ss;
-            ss << "[JsonPropertyContainerPrefabLoader<" << paxtypeid(C).name() << ">::loadToOrGetFromResources] is not implemented!";
-            std::string msg = ss.str();
-            std::cerr << msg << std::endl;
-            throw new std::runtime_error(msg);
-        }
-    };
+            std::shared_ptr<PropertyContainerPrefab<C>> load(Path path) override {
+                std::shared_ptr<nlohmann::json> j = resources.loadOrGet<nlohmann::json>(path);
+                if (j) {
+                    return std::make_shared<JsonPropertyContainerPrefab<C>>(j, path);
+                }
+                return nullptr;
+            }
+
+            std::shared_ptr<PropertyContainerPrefab<C>>
+            loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) override {
+                std::stringstream ss;
+                ss << "[JsonPropertyContainerPrefabLoader<" << paxtypeid(C).name()
+                   << ">::loadToOrGetFromResources] is not implemented!";
+                std::string msg = ss.str();
+                std::cerr << msg << std::endl;
+                throw new std::runtime_error(msg);
+            }
+        };
+    }
 }
 
 #endif //PAXENGINE3_JSONPROPERTYCONTAINERPREFABLOADER_H

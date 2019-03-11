@@ -9,19 +9,21 @@
 #include <paxutil/json/Json.h>
 
 namespace PAX {
-    class JsonPropertyContent : public Internal::PropertyContent {
-        nlohmann::json node;
+    namespace Json {
+        class JsonPropertyContent : public Internal::PropertyContent {
+            nlohmann::json node;
 
-    protected:
-        std::string getValue(const std::string & key) override;
+        protected:
+            std::string getValue(const std::string &key) override;
 
-    public:
-        explicit JsonPropertyContent(const nlohmann::json & node);
-        ~JsonPropertyContent() override;
+        public:
+            explicit JsonPropertyContent(const nlohmann::json &node);
+            ~JsonPropertyContent() override;
 
-        bool has(const std::string & name) override;
-        VariableHierarchy getResourceParametersFor(const std::string & name) override;
-    };
+            bool has(const std::string &name) override;
+            VariableHierarchy getResourceParametersFor(const std::string &name) override;
+        };
+    }
 }
 
 #endif //PAXENGINE3_JSONPROPERTYCONTENT_H

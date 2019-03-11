@@ -163,6 +163,7 @@ namespace PAX {
             else
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
+
         Property<C> * getSingle(const TypeHandle & type) {
             auto & it = _singleProperties.find(type);
 

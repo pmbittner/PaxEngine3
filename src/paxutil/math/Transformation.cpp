@@ -105,6 +105,10 @@ namespace PAX {
         updateRelativeMatrix();
     }
 
+    void Transformation::setRotation(const glm::vec3 & euler) {
+        setRotation(euler.x, euler.y, euler.z);
+    }
+
     void Transformation::setRotation(float eulerX, float eulerY, float eulerZ) {
         glm::quat QuatAroundX = glm::angleAxis(eulerX, glm::vec3(1, 0, 0));
         glm::quat QuatAroundY = glm::angleAxis(eulerY, glm::vec3(0, 1, 0));

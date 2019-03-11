@@ -76,11 +76,6 @@ namespace PAX {
                 );
             }
 
-            void setScaling(Entity * entity) {
-                entity->getTransformation().setScale(GlobalScaleVec3);
-                entity->getTransformation().position().z = depthFor.characters;
-            }
-
             Entity* createCamera(const std::shared_ptr<Entity> & player) {
                 Entity *cam = new Entity();
                 cam->add(new Camera(
@@ -247,9 +242,6 @@ namespace PAX {
                 npc = npcPrefab->create();
                 npc->getTransformation().position2D() = {-20, -120};
                 mainLayer->spawn(npc.get());
-
-                setScaling(player.get());
-                setScaling(npc.get());
 
                 world->addLayer(mainLayer);
                 setActiveWorld(world);
