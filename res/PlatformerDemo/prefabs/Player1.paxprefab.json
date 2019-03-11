@@ -1,8 +1,0 @@
-{
-  "Inherits": [
-    "GreenGuy.paxprefab.json"
-  ],
-  "Properties": {
-    "PAX::PlayerControls": {}
-  }
-}

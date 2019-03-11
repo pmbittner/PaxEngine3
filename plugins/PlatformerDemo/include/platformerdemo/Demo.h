@@ -35,17 +35,17 @@ namespace PAX {
             WorldLayer * mainLayer = nullptr;
 
             // Entities
-            Entity * player = nullptr;
+            std::shared_ptr<Entity> player = nullptr;
+            std::shared_ptr<Entity> npc = nullptr;
             Entity * camera = nullptr;
 
-            // Properties
-            Graphics * playerGraphics = nullptr;
-
             // Resources
+            std::shared_ptr<EntityPrefab> playerPrefab, npcPrefab;
+
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
             std::shared_ptr<Texture> rightBlockTexture;
-            std::shared_ptr<Shader> spriteShader, spriteSheetShader;
+            std::shared_ptr<Shader> spriteShader;
 
             // Settings
             struct {
@@ -60,10 +60,6 @@ namespace PAX {
             glm::vec3 GlobalScaleVec3;
 
             void gatherResources() {
-                std::shared_ptr<Texture> spriteTest = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/img/GreenBot16.png"
-                );
-
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
                                 Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
@@ -71,80 +67,28 @@ namespace PAX {
                         )
                 );
 
-                playerGraphics = new SpriteSheetGraphics(spriteTest, 7, 4);
-
-                spriteSheetShader = Services::GetResources().loadOrGet<Shader>(
-                        Shader::FileInfo(
-                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
-                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
-                        ),
-                        playerGraphics->getShaderFlags() // NOTICE: THis is important and has to be considered in prefab later on!
+                playerPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/Player.paxprefab.json"
                 );
 
-                playerGraphics->setShader(spriteSheetShader);
+                npcPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/GreenGuy.paxprefab.json"
+                );
             }
 
-            Entity* createPlayer() {
-                /*
-                Entity* player = new Entity();
-                player->add(playerGraphics);
-                player->add(new VelocityBehaviour());
-                player->add(new PlayerControls());
-                player->add(new PlayerSpriteAnimation());
-*/
-                std::shared_ptr<EntityPrefab> prefab
-                    = Services::GetResources().loadOrGet<EntityPrefab>(
-                            Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/Player1.paxprefab.json"
-                            );
-
-                static std::shared_ptr<Entity> refForTest = nullptr;
-                std::shared_ptr<Entity> player = prefab->create();
-                refForTest = player;
-
-                player->getTransformation().setScale(GlobalScaleVec3);
-                player->getTransformation().position().z = depthFor.characters;
-
-                return player.get();
+            void setScaling(Entity * entity) {
+                entity->getTransformation().setScale(GlobalScaleVec3);
+                entity->getTransformation().position().z = depthFor.characters;
             }
 
-            Entity* createNPC() {
-                /*
-                Entity* npc = new Entity();
-
-                npc->add(new SpriteSheetGraphics(Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/img/GreenBot16.png"
-                ), 7, 4));
-                npc->add(new VelocityBehaviour());
-                npc->add(new PlayerSpriteAnimation());
-                npc->add(new ProfileGameLoopBehaviour());
-                 */
-
-
-                std::shared_ptr<EntityPrefab> prefab
-                        = Services::GetResources().loadOrGet<EntityPrefab>(
-                                Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/GreenGuy.paxprefab.json"
-                        );
-
-                static std::shared_ptr<Entity> refForTest = nullptr;
-                std::shared_ptr<Entity> npc = prefab->create();
-                refForTest = npc;
-
-                npc->getTransformation().setScale(GlobalScaleVec3);
-                npc->getTransformation().position().z = depthFor.characters;
-
-                //npc->get<Graphics>()->setShader(spriteSheetShader);
-
-                return npc.get();
-            }
-
-            Entity* createCamera(Entity *player) {
+            Entity* createCamera(const std::shared_ptr<Entity> & player) {
                 Entity *cam = new Entity();
                 cam->add(new Camera(
                         Services::GetFactoryService().get<ViewportFactory>()->create(),
                         std::make_shared<PixelScreenProjection>()
                 ));
                 cam->getTransformation().z() = depthFor.camera;
-                cam->add(new FollowEntityBehaviour(player));
+                cam->add(new FollowEntityBehaviour(player.get()));
 
                 return cam;
             }
@@ -294,15 +238,18 @@ namespace PAX {
                 mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 
                 world = new World();
-                player = createPlayer();
+                player = playerPrefab->create();
                 camera = createCamera(player);
-                mainLayer->spawn(player);
+                mainLayer->spawn(player.get());
                 mainLayer->spawn(camera);
                 createEnvironment();
 
-                Entity* npc = createNPC();
+                npc = npcPrefab->create();
                 npc->getTransformation().position2D() = {-20, -120};
-                mainLayer->spawn(npc);
+                mainLayer->spawn(npc.get());
+
+                setScaling(player.get());
+                setScaling(npc.get());
 
                 world->addLayer(mainLayer);
                 setActiveWorld(world);

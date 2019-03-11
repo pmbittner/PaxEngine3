@@ -125,7 +125,7 @@ namespace PAX {
             // TODO: A Property should only be added, if itsn't already attached.
             //       In that case, the existing property should be reinitialized to override its settings.
             Parsers.registerParser("Properties", [&resources](json & node, C & c, JsonPropertyContainerPrefab<C> & prefab) {
-                std::vector<std::pair<IPropertyFactory<C>*, Property<C>*>> props;
+                std::vector<Property<C>*> props;
 
                 ContentProvider contentProvider(resources, PropertyContainerPrefab<C>::PreDefinedVariables);
 
@@ -140,19 +140,20 @@ namespace PAX {
                     // If the container already has properties of the given type we wont create a new one,
                     // but instead overwrite the old ones with the newer settings.
                     const PAX::TypeHandle & propType = propertyFactory->getPropertyType();
+                    bool isPropMultiple = propertyFactory->isPropertyMultiple();
                     // TODO: Implement has and get in PropertyContainer<C> for TypeHandles.
-                    if (c.has(propType)) {
+                    if (c.has(propType, isPropMultiple)) {
                         // Get the corresponding property/ies
-                        if (propertyFactory->isPropertyMultiple()) {
-                            const std::vector<IProperty<C>*> & existingProperties = c.get(propType);
-                            for (IProperty<C>* existingProperty : existingProperties) {
+                        if (isPropMultiple) {
+                            const std::vector<Property<C>*> & existingProperties = c.getMultiple(propType);
+                            for (Property<C>* existingProperty : existingProperties) {
                                 propertyFactory->reinit(existingProperty, contentProvider);
                             }
                         } else {
-                            propertyFactory->reinit(c.get(propType), contentProvider);
+                            propertyFactory->reinit(c.getSingle(propType), contentProvider);
                         }
                     } else {
-                        props.emplace_back({propertyFactory, propertyFactory->create(contentProvider)});
+                        props.emplace_back(propertyFactory->create(contentProvider));
                     }
 
                     contentProvider.setContent(nullptr);

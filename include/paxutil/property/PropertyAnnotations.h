@@ -35,9 +35,10 @@ bool Type::methodName(Container& c) { \
 
 /// Mandatory
 #define PAX_PROPERTY(Typename, IfConcrete) \
+public: \
+    const ::PAX::TypeHandle& getClassType() const override; \
 protected: \
     using This = Typename; \
-    const ::PAX::TypeHandle& getClassType() const override; \
     bool addTo(Container& c) override; \
     bool removeFrom(Container& c) override; \
     void initializeFromProvider(::PAX::ContentProvider&) override; \

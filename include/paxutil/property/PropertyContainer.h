@@ -29,15 +29,13 @@ typename std::enable_if<neg ComponentClass::IsMultiple(), rettype>::type
 namespace PAX {
     template<class C>
     class PropertyContainer {
-        typedef Property<C> Prop;
-
-        static const std::vector<Prop*> EmptyPropertyVector;
+        static const std::vector<Property<C>*> EmptyPropertyVector;
         static AllocationService propertyAllocator;
 
         EventService _localEventService;
 
-        TypeMap<Prop*> _singleProperties;
-        TypeMap<std::vector<Prop*>> _multipleProperties;
+        TypeMap<Property<C>*> _singleProperties;
+        TypeMap<std::vector<Property<C>*>> _multipleProperties;
 
     public:
         PropertyContainer() = default;
@@ -47,7 +45,7 @@ namespace PAX {
             // 2.) Delete components as they should not be reused.
 
             while (!_singleProperties.empty()) {
-                Prop* propToRemove = _singleProperties.begin()->second;
+                Property<C> * propToRemove = _singleProperties.begin()->second;
                 remove(propToRemove);
                 delete propToRemove;
             }
@@ -55,7 +53,7 @@ namespace PAX {
             while (!_multipleProperties.empty()) {
                 const auto & it = _multipleProperties.begin();
                 if (!it->second.empty()) {
-                    Prop * propToRemove = it->second.front();
+                    Property<C> * propToRemove = it->second.front();
                     if (remove(propToRemove)) {
                         delete propToRemove;
                     } else {
@@ -68,19 +66,19 @@ namespace PAX {
         }
 
     private:
-        bool isValid(Prop* component) {
+        bool isValid(Property<C>* component) {
             if (component->owner)
                 return false;
 
             return component->areDependenciesMetFor(*static_cast<C*>(this));
         }
 
-        void registerComponent(Prop* component) {
+        void registerComponent(Property<C>* component) {
             component->owner = static_cast<C*>(this);
             component->attached(*static_cast<C*>(this));
         }
 
-        void unregisterComponent(Prop* component) {
+        void unregisterComponent(Property<C>* component) {
             component->owner = nullptr;
             component->detached(*static_cast<C*>(this));
         }
@@ -94,7 +92,7 @@ namespace PAX {
             return _localEventService;
         }
 
-        bool add(Prop* component) {
+        bool add(Property<C>* component) {
             if (isValid(component)) {
                 component->addTo(*static_cast<C*>(this));
                 registerComponent(component);
@@ -104,7 +102,7 @@ namespace PAX {
             return false;
         }
 
-        bool remove(Prop* component) {
+        bool remove(Property<C>* component) {
             bool ret = component->removeFrom(*static_cast<C*>(this));
             unregisterComponent(component);
             return ret;
@@ -131,10 +129,22 @@ namespace PAX {
             return true;
         }
 
-        bool has(const TypeHandle & type, std::optional<bool> isMultiple = {}) const {
-            if (isMultiple.has_value()) {
-                if (isM)
+        bool has(const TypeHandle & type, std::optional<bool> isMultipleHint = {}) const {
+            bool ret = false;
+
+            if (isMultipleHint.value_or(true)) {
+                ret = _multipleProperties.count(type) > 0;
+                if (ret || isMultipleHint.has_value())
+                    return ret;
             }
+
+            assert(!ret);
+
+            if (!isMultipleHint.value_or(false)) {
+                ret = _singleProperties.count(type) > 0;
+            }
+
+            return ret;
         }
 
         PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)
@@ -152,6 +162,34 @@ namespace PAX {
                 return reinterpret_cast<std::vector<ComponentClass*>&>(properties->second);
             else
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
+        }
+        Property<C> * getSingle(const TypeHandle & type) {
+            auto & it = _singleProperties.find(type);
+
+            if (it != _singleProperties.end()) {
+                return it->second;
+            }
+
+            return nullptr;
+        }
+
+        const std::vector<Property<C>*> & getMultiple(const TypeHandle & type) {
+            auto & it = _multipleProperties.find(type);
+
+            if (it != _multipleProperties.end()) {
+                return it->second;
+            }
+
+            return EmptyPropertyVector;
+        }
+
+        std::vector<Property<C>*> get(const TypeHandle & type) {
+            // Copy is intended
+            std::vector<Property<C>*> props = getMultiple(type);
+            if (Property<C> * single = getSingle(type)) {
+                props.emplace_back(single);
+            }
+            return props;
         }
 
         PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)
@@ -183,12 +221,14 @@ namespace PAX {
             return EmptyPropertyVector;
         }
 
-        bool addAsMultiple(const std::type_info & type, Prop* component) {
+        // TODO: Make private
+        bool addAsMultiple(const std::type_info & type, Property<C>* component) {
             _multipleProperties[type].push_back(component);
             return true;
         }
 
-        bool addAsSingle(const std::type_info & type, Prop* component) {
+        // TODO: Make private
+        bool addAsSingle(const std::type_info & type, Property<C>* component) {
             if (_singleProperties.count(type)) {
                 return false;
             } else
@@ -197,8 +237,8 @@ namespace PAX {
             return true;
         }
 
-        bool removeAsMultiple(const std::type_info & type, Prop* component) {
-            std::vector<Prop*> &result = _multipleProperties.at(type);
+        bool removeAsMultiple(const std::type_info & type, Property<C>* component) {
+            std::vector<Property<C>*> &result = _multipleProperties.at(type);
             if (!Util::removeFromVector(result, component))
                 return false;
 
@@ -209,7 +249,7 @@ namespace PAX {
             return true;
         }
 
-        bool removeAsSingle(const std::type_info & type, Prop* component) {
+        bool removeAsSingle(const std::type_info & type, Property<C>* component) {
             // The given component is not the component, that is registered for the given type.
             if (_singleProperties.at(type) != component)
                 return false;

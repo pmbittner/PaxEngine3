@@ -27,8 +27,6 @@ namespace PAX {
         C* owner = nullptr;
 
     protected:
-        virtual const TypeHandle& getClassType() const = 0;
-
         virtual bool addTo(C& container) PAX_NON_CONST { return true; }
         virtual bool removeFrom(C& container) PAX_NON_CONST { return true; }
 
@@ -43,6 +41,7 @@ namespace PAX {
 
         C* getOwner() const { return owner; }
 
+        virtual const TypeHandle& getClassType() const = 0;
         virtual bool isMultiple() const { return IsMultiple(); }
         virtual bool areDependenciesMetFor(const C&) const { return true; }
     };
