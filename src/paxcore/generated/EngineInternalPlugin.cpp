@@ -7,6 +7,7 @@
 #include <paxutil/resources/Resources.h>
 #include <paxutil/json/JsonLoader.h>
 #include <paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h>
+#include <paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h>
 #include <paxcore/entity/Entity.h>
 #include <paxcore/service/Services.h>
 
@@ -14,7 +15,10 @@ namespace PAX {
     void EngineInternalPlugin::initialize(PAX::Engine &engine) {}
 
     void EngineInternalPlugin::postInitialize(PAX::Engine &engine) {
+        static Json::JsonPropertyContainerPrefabTransformationParser<Entity> transformationParser;
+
         Json::JsonPropertyContainerPrefab<Entity>::initialize(Services::GetResources());
+        Json::JsonPropertyContainerPrefab<Entity>::Parsers.registerParser("Transform", &transformationParser);
         EntityPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().toString();
         EntityPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
     }

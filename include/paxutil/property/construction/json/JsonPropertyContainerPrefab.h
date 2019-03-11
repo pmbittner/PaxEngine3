@@ -100,115 +100,134 @@ namespace PAX {
         public:
             static JsonProperyContainerPrefabElementParserRegister<C> Parsers;
 
-            explicit JsonPropertyContainerPrefab(const std::shared_ptr<json> &file, const Path &path)
-                    : PropertyContainerPrefab<C>(), rootNode(file), path(path) {}
+            explicit JsonPropertyContainerPrefab(const std::shared_ptr<json> &file, const Path &path, Allocator * containerAllocator = nullptr)
+                    : PropertyContainerPrefab<C>(containerAllocator), rootNode(file), path(path) {}
 
             virtual ~JsonPropertyContainerPrefab() = default;
 
             static void initialize(Resources &resources) {
-                // TODO: Some parsers like "transform" are only useful for C = Entity.
-                //       Hence, outsource registration process and register the parsers only to their corresponding Prefab.
-                Parsers.registerParser("Transform", [](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
-                    JsonToTransformation converter;
-                    converter.convert(node, c.getTransformation());
-                });
+                Parsers.registerParser(
+                        "Inherits",
+                        [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
+                            for (auto &el : node.items()) {
+                                Path parentPath = prefab.path.getDirectory() + el.value();
+                                std::shared_ptr<PropertyContainerPrefab<C>> parentPrefab;
 
-                // TODO: Ensure, that this is created at first!
-                Parsers.registerParser("Inherits",
-                                       [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
-                                           for (auto &el : node.items()) {
-                                               Path parentPath = prefab.path.getDirectory() + el.value();
-                                               std::shared_ptr<PropertyContainerPrefab<C>> parentPrefab; // FIXME: Unnecessary copy of shared_ptr
+                                const auto &it = prefab.parentPrefabs.find(parentPath);
+                                if (it != prefab.parentPrefabs.end()) {
+                                    parentPrefab = it->second;
+                                } else {
+                                    parentPrefab = resources.load<PropertyContainerPrefab<C>>(
+                                            parentPath);
+                                    prefab.parentPrefabs[parentPath] = parentPrefab;
+                                }
 
-                                               const auto &it = prefab.parentPrefabs.find(parentPath);
-                                               if (it != prefab.parentPrefabs.end()) {
-                                                   parentPrefab = it->second;
-                                               } else {
-                                                   parentPrefab = resources.load<PropertyContainerPrefab<C>>(
-                                                           parentPath);
-                                                   prefab.parentPrefabs[parentPath] = parentPrefab;
-                                               }
+                                parentPrefab->addMyContentTo(c);
+                            }
+                        });
 
-                                               parentPrefab->addMyContentTo(c);
-                                           }
-                                       });
+                Parsers.registerParser(
+                        "Properties",
+                        [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
+                            std::vector<Property<C> *> props;
 
-                Parsers.registerParser("Properties",
-                                       [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
-                                           std::vector<Property<C> *> props;
+                            ContentProvider contentProvider(resources,
+                                                            PropertyContainerPrefab<C>::PreDefinedVariables);
 
-                                           ContentProvider contentProvider(resources,
-                                                                           PropertyContainerPrefab<C>::PreDefinedVariables);
+                            for (auto &el : node.items()) {
+                                const std::string propTypeName = el.key();
+                                IPropertyFactory<C> *propertyFactory = PropertyFactoryRegister<C>::getFactoryFor(
+                                        propTypeName);
 
-                                           for (auto &el : node.items()) {
-                                               const std::string propTypeName = el.key();
-                                               IPropertyFactory<C> *propertyFactory = PropertyFactoryRegister<C>::getFactoryFor(
-                                                       propTypeName);
+                                /*
+                                std::cout
+                                        << "[JsonPropertyContainerPrefab::parse(\"Properties\")] creating "
+                                        << propTypeName << std::endl;
+                                //*/
+                                JsonPropertyContent content(el.value());
+                                contentProvider.setContent(&content);
 
-                                               /*
-                                               std::cout
-                                                       << "[JsonPropertyContainerPrefab::parse(\"Properties\")] creating "
-                                                       << propTypeName << std::endl;
-                                               //*/
-                                               JsonPropertyContent content(el.value());
-                                               contentProvider.setContent(&content);
+                                // If the container already has properties of the given type we wont create a new one,
+                                // but instead overwrite the old ones with the newer settings.
+                                const PAX::TypeHandle &propType = propertyFactory->getPropertyType();
+                                bool isPropMultiple = propertyFactory->isPropertyMultiple();
 
-                                               // If the container already has properties of the given type we wont create a new one,
-                                               // but instead overwrite the old ones with the newer settings.
-                                               const PAX::TypeHandle &propType = propertyFactory->getPropertyType();
-                                               bool isPropMultiple = propertyFactory->isPropertyMultiple();
+                                if (c.has(propType, isPropMultiple)) {
+                                    // Get the corresponding property/ies
+                                    if (isPropMultiple) {
+                                        const std::vector<Property<C> *> &existingProperties = c.getMultiple(
+                                                propType);
+                                        for (Property<C> *existingProperty : existingProperties) {
+                                            propertyFactory->reinit(existingProperty, contentProvider);
+                                        }
+                                    } else {
+                                        propertyFactory->reinit(c.getSingle(propType), contentProvider);
+                                    }
+                                } else {
+                                    props.emplace_back(propertyFactory->create(contentProvider));
+                                }
 
-                                               if (c.has(propType, isPropMultiple)) {
-                                                   // Get the corresponding property/ies
-                                                   if (isPropMultiple) {
-                                                       const std::vector<Property<C> *> &existingProperties = c.getMultiple(
-                                                               propType);
-                                                       for (Property<C> *existingProperty : existingProperties) {
-                                                           propertyFactory->reinit(existingProperty, contentProvider);
-                                                       }
-                                                   } else {
-                                                       propertyFactory->reinit(c.getSingle(propType), contentProvider);
-                                                   }
-                                               } else {
-                                                   props.emplace_back(propertyFactory->create(contentProvider));
-                                               }
+                                contentProvider.setContent(nullptr);
+                            }
 
-                                               contentProvider.setContent(nullptr);
-                                           }
+                            // Add the properties deferred to resolve their dependencies.
+                            while (!props.empty()) {
+                                size_t numOfPropsToAdd = props.size();
 
-                                           // Add the properties deferred to resolve their dependencies.
-                                           while (!props.empty()) {
-                                               size_t numOfPropsToAdd = props.size();
+                                for (auto &it = props.begin(); it != props.end(); ++it) {
+                                    if ((*it)->areDependenciesMetFor(c)) {
+                                        c.add(*it);
+                                        props.erase(it);
+                                        break;
+                                    }
+                                }
 
-                                               for (auto &it = props.begin(); it != props.end(); ++it) {
-                                                   if ((*it)->areDependenciesMetFor(c)) {
-                                                       c.add(*it);
-                                                       props.erase(it);
-                                                       break;
-                                                   }
-                                               }
-
-                                               if (numOfPropsToAdd == props.size()) {
-                                                   // Not a single property could be added to the Entity because not a single dependency is met!
-                                                   std::cerr
-                                                           << "[JsonPropertyContainerPrefab::parse \"properties\"] Error during adding properties! Dependencies could not be met!"
-                                                           << std::endl;
-                                                   break;
-                                               }
-                                           }
-                                       });
+                                if (numOfPropsToAdd == props.size()) {
+                                    // Not a single property could be added to the Entity because not a single dependency is met!
+                                    std::cerr
+                                            << "[JsonPropertyContainerPrefab::parse \"properties\"] Error during adding properties! Dependencies could not be met!"
+                                            << std::endl;
+                                    break;
+                                }
+                            }
+                        });
             }
 
             std::shared_ptr<C> create() override {
-                // TODO: Investigate proper ways to instantiate the PropertyContainer.
-                std::shared_ptr<C> c = std::make_shared<C>();
+                std::shared_ptr<C> c = nullptr;
+
+                if (PropertyContainerPrefab<C>::allocator) {
+                    void * mem = PropertyContainerPrefab<C>::allocator->allocate(sizeof(C));
+                    c = std::shared_ptr<C>(
+                            new (mem) C,
+                            [PropertyContainerPrefab<C>::allocator](C * c) {
+                                delete c;
+                                PropertyContainerPrefab<C>::allocator->destroy(c);
+                            })
+                } else {
+                    c = std::make_shared<C>();
+                }
+
                 addMyContentTo(*c.get());
                 return c;
             }
 
             void addMyContentTo(C &c) override {
+                std::vector<std::string> parseOrder = {
+                        "Inherits"
+                        "Properties"
+                };
+
+                for (const std::string & name : parseOrder) {
+                    if (rootNode->count(name) > 0) {
+                        parse(*rootNode.get(), "Inherits", c);
+                    }
+                }
+
                 for (auto &el : rootNode->items()) {
-                    parse(*rootNode.get(), el.key(), c);
+                    if (!Util::vectorContains(parseOrder, el.key())) {
+                        parse(*rootNode.get(), el.key(), c);
+                    }
                 }
             }
         };

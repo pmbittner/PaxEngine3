@@ -17,7 +17,7 @@
     },
     "PAX::PlayerSpriteAnimation": {},
     "PAX::VelocityBehaviour": {
-      "velocity": [0, 0]
+      "velocity": [70, 0]
     }
   }
 }
