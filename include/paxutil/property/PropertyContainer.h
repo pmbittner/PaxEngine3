@@ -110,7 +110,6 @@ namespace PAX {
             return ret;
         }
 
-
         PAX_GENERATE_PropertyContainerFunctionTemplateHeader(bool, !)
         has() const {
             return _singleProperties.count(paxtypeid(ComponentClass)) > 0;
@@ -130,6 +129,12 @@ namespace PAX {
                 if (!X[i]) return false;
 
             return true;
+        }
+
+        bool has(const TypeHandle & type, std::optional<bool> isMultiple = {}) const {
+            if (isMultiple.has_value()) {
+                if (isM)
+            }
         }
 
         PAX_GENERATE_PropertyContainerFunctionTemplateHeader(ComponentClass*, !)

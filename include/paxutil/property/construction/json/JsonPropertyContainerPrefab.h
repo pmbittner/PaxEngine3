@@ -125,18 +125,36 @@ namespace PAX {
             // TODO: A Property should only be added, if itsn't already attached.
             //       In that case, the existing property should be reinitialized to override its settings.
             Parsers.registerParser("Properties", [&resources](json & node, C & c, JsonPropertyContainerPrefab<C> & prefab) {
-                std::vector<Property<C>*> props;
+                std::vector<std::pair<IPropertyFactory<C>*, Property<C>*>> props;
 
                 ContentProvider contentProvider(resources, PropertyContainerPrefab<C>::PreDefinedVariables);
 
                 for (auto& el : node.items()) {
-                    const std::string propType = el.key();
-                    IPropertyFactory<C> * propertyFactory = PropertyFactoryRegister<C>::getFactoryFor(propType);
+                    const std::string propTypeName = el.key();
+                    IPropertyFactory<C> * propertyFactory = PropertyFactoryRegister<C>::getFactoryFor(propTypeName);
 
-                    std::cout << "[JsonPropertyContainerPrefab::parse(\"Properties\")] creating " << propType << std::endl;
+                    std::cout << "[JsonPropertyContainerPrefab::parse(\"Properties\")] creating " << propTypeName << std::endl;
                     JsonPropertyContent content(el.value());
                     contentProvider.setContent(&content);
-                    props.emplace_back(propertyFactory->create(contentProvider));
+
+                    // If the container already has properties of the given type we wont create a new one,
+                    // but instead overwrite the old ones with the newer settings.
+                    const PAX::TypeHandle & propType = propertyFactory->getPropertyType();
+                    // TODO: Implement has and get in PropertyContainer<C> for TypeHandles.
+                    if (c.has(propType)) {
+                        // Get the corresponding property/ies
+                        if (propertyFactory->isPropertyMultiple()) {
+                            const std::vector<IProperty<C>*> & existingProperties = c.get(propType);
+                            for (IProperty<C>* existingProperty : existingProperties) {
+                                propertyFactory->reinit(existingProperty, contentProvider);
+                            }
+                        } else {
+                            propertyFactory->reinit(c.get(propType), contentProvider);
+                        }
+                    } else {
+                        props.emplace_back({propertyFactory, propertyFactory->create(contentProvider)});
+                    }
+
                     contentProvider.setContent(nullptr);
                 }
 

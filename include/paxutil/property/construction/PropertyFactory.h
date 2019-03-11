@@ -23,7 +23,11 @@ namespace PAX {
         }
 
     public:
-        virtual Property<C> *create(ContentProvider &contentProvider) = 0;
+        virtual Property<C> * create(ContentProvider & contentProvider) = 0;
+        virtual bool reinit(Property<C> * property, ContentProvider & contentProvider) = 0;
+
+        virtual const TypeHandle getPropertyType() const = 0;
+        virtual bool isPropertyMultiple() const = 0;
 
         IPropertyFactory() noexcept = default;
 
@@ -75,6 +79,21 @@ namespace PAX {
             Property<C> *p = PropertyType::createFromProvider(contentProvider);
             IPropertyFactory::initialize(contentProvider, p);
             return p;
+        }
+
+        bool reinit(Property<C> * property, ContentProvider & contentProvider) override {
+            if (property->getClassType() == paxtypeof(PropertyType)) {
+                IPropertyFactory::initialize(contentProvider, property);
+                return true;
+            } else return false;
+        }
+
+        const TypeHandle getPropertyType() const override {
+            return paxtypeid(PropertyType);
+        }
+
+        bool isPropertyMultiple() const override {
+            return PropertyType::IsMultiple();
         }
     };
 }
