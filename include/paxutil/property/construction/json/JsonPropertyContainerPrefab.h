@@ -200,10 +200,10 @@ namespace PAX {
                     void * mem = PropertyContainerPrefab<C>::allocator->allocate(sizeof(C));
                     c = std::shared_ptr<C>(
                             new (mem) C,
-                            [PropertyContainerPrefab<C>::allocator](C * c) {
+                            [this](C * c) {
                                 delete c;
-                                PropertyContainerPrefab<C>::allocator->destroy(c);
-                            })
+                                this->allocator->destroy(c);
+                            });
                 } else {
                     c = std::make_shared<C>();
                 }
