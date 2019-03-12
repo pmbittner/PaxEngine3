@@ -6,11 +6,14 @@
 #define PAXENGINE3_ASSIMPRESOURCELOADER_H
 
 #include <paxcore/rendering/data/Asset.h>
-#include <paxcore/io/resources/ResourceLoader.h>
+#include <paxutil/resources/ResourceLoader.h>
 
 namespace PAX {
     namespace AssetImport {
         class AssimpResourceLoader : public ResourceLoader<Asset, Path> {
+        protected:
+            virtual std::shared_ptr<Asset> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+
         public:
             AssimpResourceLoader() = default;
 

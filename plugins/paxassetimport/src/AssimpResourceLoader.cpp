@@ -273,5 +273,11 @@ namespace PAX {
 
             return nullptr;
         }
+
+        std::shared_ptr<Asset> AssimpResourceLoader::loadToOrGetFromResources(PAX::Resources &resources,
+                                                                              const PAX::VariableHierarchy &parameters) {
+            std::cerr << "[PAX::AssimpResourceLoader::loadToOrGetFromResources] not implemented!" << std::endl;
+            return nullptr;
+        }
     }
 }

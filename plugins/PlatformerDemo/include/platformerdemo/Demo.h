@@ -79,6 +79,7 @@ namespace PAX {
             Entity* createCamera(const std::shared_ptr<Entity> & player) {
                 Entity *cam = new Entity();
                 cam->add(new Camera(
+                        // TODO: Enable use of custom type factories like this in prefabs.
                         Services::GetFactoryService().get<ViewportFactory>()->create(),
                         std::make_shared<PixelScreenProjection>()
                 ));
