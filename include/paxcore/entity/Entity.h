@@ -38,7 +38,7 @@ namespace PAX {
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
 
         Entity();
-        virtual ~Entity();
+        ~Entity() override;
 
         Transformation& getTransformation();
         void setParent(Entity *parent);

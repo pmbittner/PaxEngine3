@@ -18,7 +18,7 @@ namespace PAX {
         std::shared_ptr<Asset> _asset;
 
     public:
-        AssetGraphics(const std::shared_ptr<Asset> & asset);
+        explicit AssetGraphics(const std::shared_ptr<Asset> & asset);
 
         void render(RenderOptions &renderOptions) override;
     };
