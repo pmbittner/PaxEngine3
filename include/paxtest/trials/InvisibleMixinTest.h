@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "../../core/entity/Entity.h"
-#include "../../core/entity/EntityComponent.h"
+#include "../../core/entity/EntityProperty.h"
 #include "../../core/entity/EntityComponentDependency.h"
 #include "../../core/rendering/Graphics.h"
 #include "../../core/entity/component/Behaviour.h"

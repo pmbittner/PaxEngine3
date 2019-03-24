@@ -8,7 +8,7 @@
 #include <paxutil/lib/GlmIncludes.h>
 #include <paxutil/math/MathDefines.h>
 
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
 #include <paxcore/io/event/MouseButtonReleasedEvent.h>

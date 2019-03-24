@@ -6,7 +6,7 @@
 #define PAXENGINE3_DANCE2D_H
 
 #include <paxutil/math/MathDefines.h>
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/entity/Entity.h>
 
 namespace PAX {

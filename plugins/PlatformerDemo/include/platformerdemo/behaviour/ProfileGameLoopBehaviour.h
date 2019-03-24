@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PROFILEGAMELOOPBEHAVIOUR_H
 #define PAXENGINE3_PROFILEGAMELOOPBEHAVIOUR_H
 
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/Engine.h>
 #include <chrono>
 

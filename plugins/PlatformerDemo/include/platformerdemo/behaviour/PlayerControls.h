@@ -6,8 +6,8 @@
 #define PAXENGINE3_PLAYERCONTROLS_H
 
 #include <paxcore/entity/Entity.h>
-#include <paxcore/entity/EntityComponent.h>
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/EntityProperty.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>

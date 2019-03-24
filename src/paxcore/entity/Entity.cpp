@@ -5,7 +5,7 @@
 #include <typeindex>
 
 #include <paxcore/entity/Entity.h>
-#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/EntityProperty.h>
 #include <paxcore/service/Services.h>
 
 #include <easylogging++.h>

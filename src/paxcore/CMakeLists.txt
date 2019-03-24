@@ -4,7 +4,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/InputSystem.h
 
         ../../include/paxcore/entity/Entity.h
-        ../../include/paxcore/entity/EntityComponent.h
+        ../../include/paxcore/entity/EntityProperty.h
 
         ../../include/paxcore/system/EngineSystem.h
 
@@ -31,7 +31,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/camera/Camera.h
         ../../include/paxcore/entity/event/EntityParentChangedEvent.h
         ../../include/paxcore/system/entity/BehaviourSystem.h
-        ../../include/paxcore/entity/component/Behaviour.h
+        ../../include/paxcore/entity/property/Behaviour.h
 
         ../../include/paxcore/io/event/MouseButtonPressedEvent.h
         ../../include/paxcore/io/event/MouseButtonReleasedEvent.h
@@ -63,7 +63,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/service/Paths.h
         ../../include/paxcore/rendering/scenegraph/nodes/MeshNode.h
         ../../include/paxcore/rendering/graphics/SceneGraphGraphics.h
-        ../../include/paxcore/entity/component/behaviours/NoClipControls.h
+        ../../include/paxcore/entity/property/behaviours/NoClipControls.h
         ../../include/paxcore/io/event/MouseMovedEvent.h
         ../../include/paxcore/animation/Animation.h
         ../../include/paxcore/rendering/data/SpriteSheet.h
@@ -74,7 +74,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h
         ../../include/paxcore/rendering/graphics/SpriteGraphics.h
         ../../include/paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h
-        ../../include/paxcore/entity/component/Size.h
+        ../../include/paxcore/entity/property/Size.h
         ../../include/paxcore/entity/event/SizeChangedEvent.h
         ../../include/paxcore/entity/event/ScaleChangedEvent.h
         ../../include/paxcore/EnginePlugin.h
@@ -112,7 +112,7 @@ set(CORE_SOURCE_FILES
         service/Paths.cpp
 
         entity/Entity.cpp
-        entity/EntityComponent.cpp
+        entity/EntityProperty.cpp
         entity/component/behaviours/NoClipControls.cpp
         entity/component/Behaviour.cpp
         entity/component/Size.cpp

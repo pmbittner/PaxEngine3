@@ -6,13 +6,13 @@
 #define PAXENGINE3_LIGHT_H
 
 #include <paxutil/lib/GlmIncludes.h>
-#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/EntityProperty.h>
 #include <paxcore/rendering/data/Shader.h>
 
 namespace PAX {
-    class Light : public EntityComponent {
+    class Light : public EntityProperty {
         PAX_PROPERTY(Light, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
         // fourth channel describes intensity

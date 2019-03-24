@@ -2,7 +2,7 @@
 // Created by Paul on 09.12.2017.
 //
 
-#include <paxcore/entity/component/behaviours/NoClipControls.h>
+#include <paxcore/entity/property/behaviours/NoClipControls.h>
 
 #include <paxcore/entity/Entity.h>
 #include <paxutil/math/Transformation.h>

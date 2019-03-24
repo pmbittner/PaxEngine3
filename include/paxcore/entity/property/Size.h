@@ -7,14 +7,14 @@
 
 #include <paxutil/lib/GlmIncludes.h>
 
-#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/EntityProperty.h>
 #include <paxcore/entity/event/ScaleChangedEvent.h>
 #include <paxutil/math/BoundingBox.h>
 
 namespace PAX {
-    class Size : public EntityComponent {
+    class Size : public EntityProperty {
         PAX_PROPERTY(Size, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
         union {
