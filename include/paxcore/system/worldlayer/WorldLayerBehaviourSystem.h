@@ -5,12 +5,13 @@
 #ifndef PAXENGINE3_WORLDLAYERBEHAVIOURSYSTEM_H
 #define PAXENGINE3_WORLDLAYERBEHAVIOURSYSTEM_H
 
-#include <paxcore/system/GameSystem.h>
+#include <paxcore/world/property/WorldLayerBehaviour.h>
 #include "WorldLayerPropertySystem.h"
 
 namespace PAX {
-    class WorldLayerBehaviourSystem  {
-
+    class WorldLayerBehaviourSystem : public WorldLayerPropertySystem<WorldLayerBehaviour> {
+    public:
+        void update() override;
     };
 }
 
