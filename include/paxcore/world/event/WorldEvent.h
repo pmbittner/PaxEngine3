@@ -10,7 +10,7 @@
 
 namespace PAX {
     struct WorldEvent : public Event {
-        World *world;
+        World * world;
 
         WorldEvent(World *world) : world(world) {}
     };

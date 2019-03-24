@@ -9,11 +9,10 @@
 
 #include <paxcore/rendering/RenderOptions.h>
 #include <paxcore/rendering/light/Light.h>
-#include "EntityComponentSystem.h"
+#include <paxcore/system/entity/EntityPropertySystem.h>
 
 namespace PAX {
-    class LightSystem : public EntityComponentSystem<Light> {
-
+    class LightSystem : public EntityPropertySystem<Light> {
         /**
          * Find the maxLights nearest lights to the given pos in the given worldLayer.
          * @param pos The pos whose nearest lights should be found.
@@ -25,9 +24,9 @@ namespace PAX {
     public:
         LightSystem();
 
-        virtual void initialize(Game *game) override;
-        virtual void terminate(Game *game) override;
-        virtual void update() override;
+        void initialize(Game *game) override;
+        void terminate(Game *game) override;
+        void update() override;
 
         void onRendererTransformationChanged(RenderOptions& renderOptions);
     };

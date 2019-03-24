@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_BEHAVIOURSYSTEM_H
 #define PAXENGINE3_BEHAVIOURSYSTEM_H
 
-#include "EntityComponentSystem.h"
-#include "../entity/component/Behaviour.h"
+#include "EntityPropertySystem.h"
+#include <paxcore/entity/component/Behaviour.h>
 
 namespace PAX {
-    class BehaviourSystem : public EntityComponentSystem<Behaviour> {
+    class BehaviourSystem : public EntityPropertySystem<Behaviour> {
     public:
-        virtual void update() override;
+        void update() override;
     };
 }
 

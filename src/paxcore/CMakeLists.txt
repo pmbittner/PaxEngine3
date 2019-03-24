@@ -7,7 +7,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/EntityComponent.h
 
         ../../include/paxcore/system/EngineSystem.h
-        ../../include/paxcore/system/EntityComponentSystem.h
 
         ../../include/paxcore/io/Keyboard.h
         ../../include/paxcore/io/Mouse.h
@@ -31,7 +30,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/Window.h
         ../../include/paxcore/rendering/camera/Camera.h
         ../../include/paxcore/entity/event/EntityParentChangedEvent.h
-        ../../include/paxcore/system/BehaviourSystem.h
+        ../../include/paxcore/system/entity/BehaviourSystem.h
         ../../include/paxcore/entity/component/Behaviour.h
 
         ../../include/paxcore/io/event/MouseButtonPressedEvent.h
@@ -89,7 +88,21 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/SpotLight.h
         ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
         ../../include/paxcore/world/WorldLayerProperty.h
-        ../../include/paxcore/rendering/light/AmbientLight.h ../../include/paxcore/system/LightSystem.h ../../include/paxcore/service/WindowService.h ../../include/paxcore/rendering/renderpass/RenderPass.h ../../include/paxcore/rendering/loader/SpriteSheetLoader.h ../../include/paxcore/rendering/factory/MeshFactory.h ../../include/paxcore/rendering/factory/ViewportFactory.h ../../include/paxcore/io/InputSystemFactory.h ../../include/paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h ../../include/paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h ../../include/paxcore/io/WindowFactory.h)
+        ../../include/paxcore/system/worldlayer/WorldLayerPropertySystem.h
+        ../../include/paxcore/rendering/light/AmbientLight.h
+        ../../include/paxcore/system/entity/LightSystem.h
+        ../../include/paxcore/service/WindowService.h
+        ../../include/paxcore/rendering/renderpass/RenderPass.h
+        ../../include/paxcore/rendering/loader/SpriteSheetLoader.h
+        ../../include/paxcore/rendering/factory/MeshFactory.h
+        ../../include/paxcore/rendering/factory/ViewportFactory.h
+        ../../include/paxcore/io/InputSystemFactory.h
+        ../../include/paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h
+        ../../include/paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h
+        ../../include/paxcore/io/WindowFactory.h
+        ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
+        ../../include/paxcore/system/entity/EntityPropertySystem.h
+        ../../include/paxcore/system/WorldSystem.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -109,19 +122,22 @@ set(CORE_SOURCE_FILES
         world/scenegraph/WorldSceneGraph.cpp
         world/scenegraph/WorldLayerSceneGraph.cpp
 
-        system/BehaviourSystem.cpp
-        system/EntityComponentSystem.cpp
+        system/entity/BehaviourSystem.cpp
 
 
         time/Time.cpp
 
         generated/EngineInternalPlugin.cpp
-        EnginePlugin.cpp system/LightSystem.cpp service/WindowService.cpp)
+        EnginePlugin.cpp
+        system/entity/LightSystem.cpp
+        service/WindowService.cpp
+        system/WorldSystem.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)
 
 ### PRECOMPILING ########################################
+#[[
 if (PAX_RUN_PYTHON_PRECOMPILER)
     find_package(PythonInterp 3 REQUIRED)
     set(SCRIPT_DIR ${PROJECT_SOURCE_DIR}/precompiler/pluginprecompiler.py)
@@ -134,6 +150,7 @@ if (PAX_RUN_PYTHON_PRECOMPILER)
     )
     set(CORE_SOURCE_FILES ${CORE_SOURCE_FILES} generated/EngineInternalPlugin.generated.cpp)
 endif(PAX_RUN_PYTHON_PRECOMPILER)
+]]
 
 add_library(paxcore ${HEADERS_FOR_CLION} ${CORE_SOURCE_FILES})
 target_link_libraries(paxcore paxrendering paxio paxutil)

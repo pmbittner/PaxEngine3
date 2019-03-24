@@ -53,7 +53,12 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/event/EventHandler.h
         ../../include/paxutil/resources/Resources.h
         ../../include/paxutil/resources/ResourceLoader.h
-        ../../include/paxutil/resources/ResourceHandle.h ../../include/paxutil/StringVariables.h ../../include/paxutil/math/json/JsonToTransformation.h ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h)
+        ../../include/paxutil/resources/ResourceHandle.h
+        ../../include/paxutil/StringVariables.h
+        ../../include/paxutil/math/json/JsonToTransformation.h
+        ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h
+        ../../include/paxutil/property/PropertyContainerManager.h
+        ../../include/paxutil/property/PropertyContainerManagerView.h ../../include/paxutil/property/system/SystemManager.h)
 
 set(SOURCE_FILES
         StringUtils.cpp
