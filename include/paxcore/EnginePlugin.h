@@ -16,20 +16,11 @@ namespace PAX {
     class EnginePlugin;
     class Services;
     class Resources;
-    namespace Reflection {
-        class TypeHierarchy;
-    }
-
-    class EnginePluginDependencies {
-    public:
-        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const = 0;
-    };
 
     class EnginePlugin {
-        EnginePluginDependencies* dependencies = nullptr;
-
     public:
-        explicit EnginePlugin(EnginePluginDependencies* dependencies = nullptr);
+        EnginePlugin();
+        virtual ~EnginePlugin();
 
         virtual void initialize(Engine& engine) {}
         virtual void terminate(Engine& engine) {}
@@ -37,9 +28,12 @@ namespace PAX {
         virtual void registerServices(Services& services) {}
         virtual void registerResourceLoaders(Resources& resources) {}
         virtual void registerFactories(FactoryService& factoryService) {}
+        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const {}
+    };
 
-        virtual void internal_initializeReflectionData() {};
-        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const;
+    class EnginePluginDependencies {
+    public:
+        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const = 0;
     };
 
     template<class... Dependencies>
@@ -65,19 +59,10 @@ namespace PAX {
 
         }
 
-        virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const override {
+        void checkDependencies(const std::vector<EnginePlugin*> & plugins) const override {
             bool results[] = {contains<Dependencies>(plugins)...};
         }
     };
 }
-
-#ifdef PAX_PYTHON_PRECOMPILED
-#define PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS \
-public: \
-virtual void internal_initializeReflectionData() override; \
-private:
-#else
-#define PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
-#endif
 
 #endif //PAXENGINE3_ENGINEPLUGIN_H

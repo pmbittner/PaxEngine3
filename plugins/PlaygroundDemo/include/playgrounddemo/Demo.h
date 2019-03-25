@@ -12,12 +12,12 @@
 #include <paxcore/rendering/camera/PerspectiveProjection.h>
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
 #include <paxcore/rendering/data/Texture.h>
-#include <paxcore/entity/component/behaviours/NoClipControls.h>
+#include <paxcore/entity/property/behaviours/NoClipControls.h>
 #include <paxcore/rendering/graphics/AssetGraphics.h>
 #include <paxcore/rendering/data/Material.h>
 #include <paxcore/rendering/light/DirectionalLight.h>
 #include <paxcore/rendering/light/AmbientLight.h>
-#include <paxcore/system/LightSystem.h>
+#include <paxcore/system/entity/LightSystem.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
 
 #include "TestBehaviour.h"
@@ -104,7 +104,7 @@ namespace PAX {
 
             virtual void initialize() override {
                 Game::initialize();
-                this->addSystem(new LightSystem());
+                this->addSystem(std::make_unique<LightSystem>());
 
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 

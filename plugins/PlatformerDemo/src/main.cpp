@@ -27,7 +27,7 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
 
     PAX::PlatformerDemo::Demo game;
 
-    PAX::SDL::SDLPlugin               sdl;
+    PAX::SDL::SDLPlugin                     sdl;
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
     PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
     PAX::Physics::Plugin                    physics;

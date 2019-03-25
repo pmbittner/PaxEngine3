@@ -11,16 +11,10 @@
 namespace PAX {
     namespace AssetImport {
         class Plugin : public PAX::EnginePlugin {
-            PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
-
             AssimpResourceLoader assimpResourceLoader;
 
         public:
-            virtual void initialize(PAX::Engine &engine) override;
-            virtual void postInitialize(PAX::Engine &engine) override;
-            virtual void registerServices(PAX::Services &services) override;
-            virtual void registerResourceLoaders(PAX::Resources &resources) override;
-            virtual void registerFactories(PAX::FactoryService &factoryService) override;
+            void registerResourceLoaders(PAX::Resources &resources) override;
         };
     }
 }

@@ -30,7 +30,7 @@ set(PAX_SDL_SOURCE_FILES
 
         src/opengl/SDLOpenGLWindow.cpp
         src/opengl/SDLOpenGLRenderPass.cpp
-        src/opengl/SDLImageOpenGLTextureLoader.cpp)
+        src/opengl/SDLImageOpenGLTextureLoader.cpp src/opengl/SDLOpenGLPlugin.cpp)
 
 include_directories(../paxopengl/include/)
 include_directories(include)
