@@ -2,19 +2,6 @@ set(PAX_ASSIMP_SOURCE_FILES
         src/Plugin.cpp
         src/AssimpResourceLoader.cpp)
 
-if (PAX_RUN_PYTHON_PRECOMPILER)
-    find_package(PythonInterp 3 REQUIRED)
-    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
-    add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
-            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::AssetImport ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
-            COMMENT "Precompiling Assimp Model Loader (via Python)"
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-            VERBATIM
-    )
-    set(PAX_ASSIMP_SOURCE_FILES ${PAX_ASSIMP_SOURCE_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
-endif (PAX_RUN_PYTHON_PRECOMPILER)
-
 # Assimp
 
 set(ASSIMP_DIRECTORY ${PAX_LIB_DIR}/assimp)

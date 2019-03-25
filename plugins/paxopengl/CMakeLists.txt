@@ -28,21 +28,6 @@ set(PAX_OPENGL_SOURCE_FILES
         )
 
 ### TARGET ###########################################
-if (PAX_RUN_PYTHON_PRECOMPILER)
-    find_package(PythonInterp 3 REQUIRED)
-    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
-
-    # TODO: Make it possible to have two plugins in one module. Now information is doubled!!!!!!
-    add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/OpenGLEnginePlugin.generated.cpp
-            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::OpenGL ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/OpenGLEnginePlugin.generated.cpp OpenGLEnginePlugin
-            COMMENT "Precompiling PAX::OpenGL (via Python)"
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-            VERBATIM
-    )
-    set(PAX_OPENGL_SOURCE_FILES ${PAX_OPENGL_SOURCE_FILES} src/OpenGLEnginePlugin.generated.cpp)
-endif (PAX_RUN_PYTHON_PRECOMPILER)
-
 include_directories(include)
 
 set(HEADERS_FOR_CLION

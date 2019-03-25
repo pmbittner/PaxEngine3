@@ -2,19 +2,6 @@ project(PlaygroundDemo)
 
 set(PAX_PLAYGROUNDDEMO_SOURCE_FILES src/main.cpp  src/Plugin.cpp)
 
-if (PAX_RUN_PYTHON_PRECOMPILER)
-    find_package(PythonInterp 3 REQUIRED)
-    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
-    add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
-            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::PlaygroundDemo ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp
-            COMMENT "Precompiling ${PROJECT_NAME} (via Python)"
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-            VERBATIM
-    )
-    set(PAX_PLAYGROUNDDEMO_SOURCE_FILES ${PAX_PLAYGROUNDDEMO_SOURCE_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/src/Plugin.generated.cpp)
-endif (PAX_RUN_PYTHON_PRECOMPILER)
-
 include_directories(include)
 include_directories(../paxsdl/include)
 include_directories(../paxopengl/include)

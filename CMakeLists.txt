@@ -15,11 +15,6 @@ if (WITH_BOX2D)
     add_definitions(-DPAX_WITH_BOX2D)
 endif()
 
-set(PAX_RUN_PYTHON_PRECOMPILER FALSE)
-if (PAX_RUN_PYTHON_PRECOMPILER)
-    add_definitions(-DPAX_PYTHON_PRECOMPILED)
-endif(PAX_RUN_PYTHON_PRECOMPILER)
-
 ### DEFINITIONS #########################################
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(PAX_LIB_DIR_RELATIVE ../lib)
@@ -82,12 +77,3 @@ add_subdirectory(src)
 
 ### PLUGINS #############################################
 add_subdirectory(plugins)
-
-
-### EXECUTABLES #########################################
-#add_executable(PaxEngine3 ${SOURCE_FILES})
-#target_link_libraries(PaxEngine3 ${EASYLOGGING_LIBRARY} paxphysics paxutil paxsdl paxopengl paxcore)
-#set_target_properties( yourexe PROPERTIES RUNTIME_OUTPUT_DIRECTORY E:/parsec/bin/ )
-
-#add_executable(ResourceTest src/test/ResourceTest.cpp include/paxutil/stdutils/TuplePrinter.h include/paxutil/stdutils/Templates.h)
-#target_link_libraries(ResourceTest paxio paxutil paxlib)

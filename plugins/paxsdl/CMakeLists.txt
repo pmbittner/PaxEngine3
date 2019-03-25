@@ -30,19 +30,6 @@ set(PAX_SDL_SOURCE_FILES
         src/opengl/SDLOpenGLRenderPass.cpp
         src/opengl/SDLImageOpenGLTextureLoader.cpp)
 
-if (PAX_RUN_PYTHON_PRECOMPILER)
-    find_package(PythonInterp 3 REQUIRED)
-    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
-    add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/SDLEnginePlugin.generated.cpp
-            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::SDL ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/SDLEnginePlugin.generated.cpp SDLEnginePlugin
-            COMMENT "Precompiling PAX::SDL (via Python)"
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-            VERBATIM
-    )
-    set(PAX_SDL_SOURCE_FILES ${PAX_SDL_SOURCE_FILES} src/SDLEnginePlugin.generated.cpp)
-endif (PAX_RUN_PYTHON_PRECOMPILER)
-
 include_directories(../paxopengl/include/)
 include_directories(include)
 
