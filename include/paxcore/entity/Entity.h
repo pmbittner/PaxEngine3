@@ -11,6 +11,7 @@
 
 #include <paxutil/math/Transformation.h>
 #include <paxutil/property/construction/PropertyContainerPrefab.h>
+#include <paxutil/property/PropertyContainerManagerView.h>
 
 #include "paxutil/event/EventHandler.h"
 #include "paxutil/event/EventService.h"
@@ -46,6 +47,11 @@ namespace PAX {
         const std::vector<Entity*>& getChildren() const;
         WorldLayer* getWorldLayer() const;
     };
+
+    using EntityManager = PropertyContainerManager<Entity>;
+
+    template<typename... RequiredProperties>
+    using EntityManagerView = PropertyContainerManagerView<Entity, RequiredProperties...>;
 }
 
 #endif //PAXENGINE3_ENTITY_H

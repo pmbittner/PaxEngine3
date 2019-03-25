@@ -5,45 +5,58 @@
 #include <paxcore/world/World.h>
 
 namespace PAX {
-    World::World() = default;
+    WorldLayerEvent::WorldLayerEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : world(world), worldLayer(worldLayer) {}
+    WorldLayerAddedEvent::WorldLayerAddedEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : WorldLayerEvent(world, worldLayer) {}
+    WorldLayerRemovedEvent::WorldLayerRemovedEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : WorldLayerEvent(world, worldLayer) {}
 
-    World::~World() {
-        for (const auto & entry : _layersByName) {
-            delete entry.second;
-        }
-        _layersByName.clear();
+    World::World() : worldLayers(localEventService) {
+
     }
 
-    void World::addLayer(WorldLayer *layer) {
-        assert(_layersByName[layer->getName()] == nullptr);
-        _layersByName[layer->getName()] = layer;
-        _layers.push_back(layer);
+    World::~World() = default;
 
-        _sceneGraph.addChild(layer->getSceneGraph().get());
-        layer->getEventService().setParent(&_localEventService);
+    void World::addLayer(WorldLayer *layer) {
+        if (worldLayers.add(layer)) {
+            sceneGraph.addChild(layer->getSceneGraph().get());
+            layer->getEventService().setParent(&localEventService);
+
+            WorldLayerAddedEvent e(this, layer);
+            localEventService(e);
+        }
     }
 
     void World::removeLayer(WorldLayer *layer) {
-        _layersByName.erase(layer->getName());
-        Util::removeFromVector(_layers, layer);
+        if (worldLayers.remove(layer)) {
+            sceneGraph.removeChild(layer->getSceneGraph().get());
+            layer->getEventService().setParent(nullptr);
 
-        _sceneGraph.removeChild(layer->getSceneGraph().get());
-        layer->getEventService().setParent(nullptr);
+            WorldLayerRemovedEvent e(this, layer);
+            localEventService(e);
+        }
     }
 
-    const std::vector<WorldLayer*>& World::getLayers() {
-        return _layers;
+    const std::set<WorldLayer*>& World::getLayers() {
+        return worldLayers.getPropertyContainers();
+    }
+
+    const PropertyContainerManager<WorldLayer>& World::getWorldLayerManager() const {
+        return worldLayers;
     }
 
     WorldLayer* World::getWorldLayerWithName(const std::string &name) {
-        return _layersByName[name];
+        for (WorldLayer * layer : worldLayers) {
+            if (layer->getName() == name)
+                return layer;
+        }
+
+        return nullptr;
     }
 
     WorldSceneGraph* World::getSceneGraph() {
-        return &_sceneGraph;
+        return &sceneGraph;
     }
 
     EventService& World::getEventService() {
-        return _localEventService;
+        return localEventService;
     }
 }

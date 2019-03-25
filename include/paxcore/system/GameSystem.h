@@ -5,16 +5,11 @@
 #ifndef PAXENGINE3_GAMESYSTEM_H
 #define PAXENGINE3_GAMESYSTEM_H
 
-#include "System.h"
+#include <paxutil/property/system/System.h>
+#include <paxcore/Game.h>
 
 namespace PAX {
-    class Game;
-
-    class GameSystem : public System {
-    public:
-        virtual void initialize(Game *game) = 0;
-        virtual void terminate(Game * game) = 0;
-    };
+    using GameSystem = System<Game>;
 }
 
 #endif //PAXENGINE3_GAMESYSTEM_H

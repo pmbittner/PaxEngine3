@@ -2,7 +2,7 @@
 // Created by paul on 08.11.18.
 //
 
-#include <paxcore/system/LightSystem.h>
+#include <paxcore/system/entity/LightSystem.h>
 #include <paxcore/Engine.h>
 #include <paxcore/world/WorldLayer.h>
 #include <paxcore/rendering/light/AmbientLight.h>
@@ -11,12 +11,12 @@ namespace PAX {
     LightSystem::LightSystem() = default;
 
     void LightSystem::initialize(PAX::Game *game) {
-        EntityComponentSystem::initialize(game);
+        EntityPropertySystem::initialize(game);
         Engine::Instance().getRenderer().OnTransformationChanged.add<LightSystem, &LightSystem::onRendererTransformationChanged>(this);
     }
 
     void LightSystem::terminate(PAX::Game *game) {
-        EntityComponentSystem::terminate(game);
+        EntityPropertySystem::terminate(game);
         Engine::Instance().getRenderer().OnTransformationChanged.remove<LightSystem, &LightSystem::onRendererTransformationChanged>(this);
     }
 
@@ -30,7 +30,7 @@ namespace PAX {
     }
 
     void LightSystem::findNearestLights(const glm::vec3 &pos, unsigned int maxLights, std::vector<Light*> &out, WorldLayer* worldLayer) {
-        const std::vector<Entity*> & lightEntities = getEntities(worldLayer);
+        const std::set<Entity*> & lightEntities = getEntities(worldLayer);
         //LOG(INFO) << "[LightSystem::findNearestLights] found " << lightEntities.size() << " lights on layer " << worldLayer->getName();
 
         for (Entity* lightEntity : lightEntities) {

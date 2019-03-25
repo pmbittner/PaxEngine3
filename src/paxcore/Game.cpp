@@ -6,7 +6,7 @@
 #include <iostream>
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
-#include <paxcore/system/BehaviourSystem.h>
+#include <paxcore/system/entity/BehaviourSystem.h>
 
 namespace PAX {
     Game::Game() = default;
@@ -14,28 +14,16 @@ namespace PAX {
 
     void Game::initialize() {
         assert(!_initialized);
-
-        _behaviourSystem = new BehaviourSystem();
-        addSystem(_behaviourSystem);
-
-        for (GameSystem *gameSystem : _systems)
-            gameSystem->initialize(this);
-
-        _initialized = true;
+        addSystem(std::make_unique<BehaviourSystem>());
+        SystemManager::initialize();
     }
 
     void Game::terminate() {
-        assert(_initialized);
-
-        for (GameSystem *gameSystem : _systems)
-            gameSystem->terminate(this);
-
-        delete _behaviourSystem;
+        SystemManager::terminate();
     }
 
     void Game::update() {
-        for (GameSystem *gameSystem : _systems)
-            gameSystem->update();
+        SystemManager::update();
     }
 
     bool Game::isRegistered(World *world) {
@@ -94,19 +82,5 @@ namespace PAX {
 
         ActiveWorldChangedEvent e(oldActive, _activeWorld);
         ActiveWorldChanged(e);
-    }
-
-    void Game::addSystem(GameSystem *system) {
-        if (!Util::vectorContains(_systems, system)) {
-            _systems.push_back(system);
-
-            if (_initialized)
-                system->initialize(this);
-        }
-    }
-
-    void Game::removeSystem(GameSystem *system) {
-        if (Util::removeFromVector(_systems, system))
-            system->terminate(this);
     }
 }
