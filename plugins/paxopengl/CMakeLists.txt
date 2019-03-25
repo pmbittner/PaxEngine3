@@ -13,6 +13,22 @@ else()
     include_directories(${GLEW_INCLUDE_DIRS})
 endif()
 
+set(PAX_OPENGL_HEADERS_FOR_CLION
+        include/paxopengl/OpenGLEnginePlugin.h
+        include/paxopengl/factory/OpenGLMeshFactory.h
+        include/paxopengl/utility/Error.h
+        include/paxopengl/resource/NullOpenGLTextureLoader.h
+        include/paxopengl/resource/OpenGLShaderLoader.h
+        include/paxopengl/io/FreeImageOpenGLTextureLoader.h
+        include/paxopengl/OpenGLMacros.h
+        include/paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h
+        include/paxopengl/resource/OpenGLTexture2D.h
+        include/paxopengl/resource/OpenGLMesh.h
+        include/paxopengl/resource/OpenGLShader.h
+        include/paxopengl/rendernodes/OpenGLRenderPass.h
+        include/paxopengl/OpenGLViewport.h
+        include/paxopengl/factory/OpenGLViewportFactory.h)
+
 set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLViewport.cpp
         src/io/FreeImageOpenGLTextureLoader.cpp
@@ -30,24 +46,8 @@ set(PAX_OPENGL_SOURCE_FILES
 ### TARGET ###########################################
 include_directories(include)
 
-set(HEADERS_FOR_CLION
-        include/paxopengl/OpenGLEnginePlugin.h
-        include/paxopengl/factory/OpenGLMeshFactory.h
-        include/paxopengl/utility/Error.h
-        include/paxopengl/resource/NullOpenGLTextureLoader.h
-        include/paxopengl/resource/OpenGLShaderLoader.h
-        include/paxopengl/io/FreeImageOpenGLTextureLoader.h
-        include/paxopengl/OpenGLMacros.h
-        include/paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h
-        include/paxopengl/resource/OpenGLTexture2D.h
-        include/paxopengl/resource/OpenGLMesh.h
-        include/paxopengl/resource/OpenGLShader.h
-        include/paxopengl/rendernodes/OpenGLRenderPass.h
-        include/paxopengl/OpenGLViewport.h
-        include/paxopengl/factory/OpenGLViewportFactory.h)
-
 add_library(paxopengl
-        ${HEADERS_FOR_CLION}
+        ${PAX_OPENGL_HEADERS_FOR_CLION}
         ${PAX_OPENGL_SOURCE_FILES}
         )
 

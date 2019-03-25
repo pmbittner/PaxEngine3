@@ -1,4 +1,10 @@
-set(PAXPHYSICS_SOURCE src/RigidBody.cpp src/Plugin.cpp)
+set(PAXPHYSICS_SOURCE
+        src/RigidBody.cpp
+        src/Plugin.cpp
+        src/box2d/Box2DPhysicsSystem.cpp
+        src/box2d/Box2DRigidBody.cpp
+        src/Hitbox.cpp
+        src/box2d/Box2DWorld.cpp)
 
 include_directories(include)
 
@@ -12,10 +18,14 @@ set(HEADERS_FOR_CLION
         include/paxphysics/Hitbox.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
-if (WITH_BOX2D)
-    set(PAXPHYSICS_SOURCE ${PAXPHYSICS_SOURCE} src/box2d/Box2DPhysicsSystem.cpp src/box2d/Box2DRigidBody.cpp src/Hitbox.cpp src/box2d/Box2DWorld.cpp)
-    set(PAXPHYSICS_LINK_LIBRARIES ${PAXPHYSICS_LINK_LIBRARIES} ${BOX2D_LIBRARY})
+if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
+    include_directories(${PAX_LIB_DIR}/Box2D)
+    set(BOX2D_LIBRARY ${PAX_LIB_DIR}/Box2D/bin/msvc/box2d.lib)
+else()
+    include_directories(${PAX_LIB_DIR}/Box2D)
+    link_directories(${PAX_LIB_DIR}/Box2D/bin/mingw)
+    set(BOX2D_LIBRARY box2d)
 endif()
 
 add_library(paxphysics ${HEADERS_FOR_CLION} ${PAXPHYSICS_SOURCE})
-target_link_libraries(paxphysics ${PAXPHYSICS_LINK_LIBRARIES})
+target_link_libraries(paxphysics ${BOX2D_LIBRARY})

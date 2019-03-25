@@ -1,20 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
 project(PaxEngine3)
 
-### OPTIONS #############################################
-option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
-option(WITH_BOX2D "True if 2D physics with Box2D should be integrated" ON)
-
-if(WITH_SDL_IMAGE)
-    message("Building with: SDL_Image")
-    add_definitions(-DPAX_WITH_SDLIMAGE)
-endif()
-
-if (WITH_BOX2D)
-    message("Building with: Box2D")
-    add_definitions(-DPAX_WITH_BOX2D)
-endif()
-
 ### DEFINITIONS #########################################
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 set(PAX_LIB_DIR_RELATIVE ../lib)
@@ -46,29 +32,10 @@ include_directories(${PAX_LIB_DIR_RELATIVE}/Easylogging/include)
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     include_directories(${PAX_LIB_DIR_RELATIVE}/win/include)
-
     set(EASYLOGGING_LIBRARY ${PAX_LIB_DIR}/Easylogging/bin/msvc/easylogging.lib)
-
-    if (WITH_BOX2D)
-        include_directories(${PAX_LIB_DIR}/Box2D)
-        set(BOX2D_LIBRARY ${PAX_LIB_DIR}/Box2D/bin/msvc/box2d.lib)
-    endif()
-
 else()
-    find_package(GLEW REQUIRED)
-    include_directories(${GLEW_INCLUDE_DIRS})
-
-    find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIR})
-
     link_directories(${PAX_LIB_DIR}/Easylogging/bin/mingw)
     set(EASYLOGGING_LIBRARY easylogging)
-
-    if (WITH_BOX2D)
-        include_directories(${PAX_LIB_DIR}/Box2D)
-        link_directories(${PAX_LIB_DIR}/Box2D/bin/mingw)
-        set(BOX2D_LIBRARY box2d)
-    endif()
 endif()
 
 ### SUBDIRECTORIES ######################################

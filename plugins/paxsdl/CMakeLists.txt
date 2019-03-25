@@ -1,4 +1,6 @@
 ### LIBRARIES ########################################
+option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     set(SDL2_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2-2.0.7/lib/${PAX_OS_ARCHITECTURE}/SDL2.lib)
 
@@ -53,3 +55,10 @@ add_library(paxsdl
         )
 
 target_link_libraries(paxsdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})# ${SDL2_TTF_LIBRARIES})
+
+if(WITH_SDL_IMAGE)
+    message("Building with SDL_Image")
+    target_compile_definitions(paxsdl PUBLIC -DPAX_WITH_SDLIMAGE)
+else()
+    message("Building without SDL_Image")
+endif(WITH_SDL_IMAGE)

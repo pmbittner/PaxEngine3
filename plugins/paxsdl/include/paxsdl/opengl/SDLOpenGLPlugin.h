@@ -9,6 +9,7 @@
 #include <paxcore/io/Window.h>
 #include <paxcore/service/FactoryService.h>
 #include <paxcore/io/WindowFactory.h>
+#include <paxopengl/resource/NullOpenGLTextureLoader.h>
 #include "SDLOpenGLWindow.h"
 #include "SDLImageOpenGLTextureLoader.h"
 #include "SDLOpenGLRenderPass.h"
