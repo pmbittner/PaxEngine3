@@ -38,11 +38,6 @@ namespace PAX {
         // Copy plugins to member list
         _plugins.insert(std::end(_plugins), std::begin(plugins), std::end(plugins));
 
-        LOG(INFO) << "[Engine::initialize] Plugins: initializing reflection data";
-        for (EnginePlugin *plugin : _plugins) {
-            plugin->internal_initializeReflectionData();
-        }
-
         LOG(INFO) << "[Engine::initialize] Plugins: initializing";
         for (EnginePlugin *plugin : _plugins) {
             plugin->initialize(*this);

@@ -6,7 +6,7 @@
 
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/service/Services.h>
-#include <paxcore/entity/component/Size.h>
+#include <paxcore/entity/property/Size.h>
 #include <paxcore/rendering/factory/MeshFactory.h>
 #include <paxutil/resources/Resources.h>
 

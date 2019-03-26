@@ -4,18 +4,23 @@
 
 #include "platformerdemo/Plugin.h"
 
-#include <paxcore/Engine.h>
+#include <paxsdl/SDLPlugin.h>
+#include <paxopengl/OpenGLEnginePlugin.h>
+#include <paxsdl/opengl/SDLOpenGLPlugin.h>
+#include <paxphysics/Plugin.h>
+#include <paxtiles/Plugin.h>
 
 namespace PAX {
     namespace PlatformerDemo {
-        void Plugin::initialize(PAX::Engine &engine) {}
-
-        void Plugin::postInitialize(PAX::Engine &engine) {}
-
-        void Plugin::registerFactories(PAX::FactoryService &factoryService) {}
-
-        void Plugin::registerResourceLoaders(PAX::Resources &resources) {}
-
-        void Plugin::registerServices(PAX::Services &services) {}
+        void Plugin::checkDependencies(const std::vector<PAX::EnginePlugin *> &plugins) const {
+            EnginePlugin::checkDependencies(plugins);
+            static EnginePluginTypedDependencies<
+                    PAX::SDL::SDLPlugin,
+                    PAX::OpenGL::OpenGLEnginePlugin,
+                    PAX::SDL::OpenGL::SDLOpenGLPlugin,
+                    PAX::Physics::Plugin,
+                    PAX::Tiles::Plugin> dependencies("PAX::PlatformerDemo::Plugin");
+            dependencies.checkDependencies(plugins);
+        }
     }
 }

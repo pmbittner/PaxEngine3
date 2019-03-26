@@ -16,7 +16,6 @@
 namespace PAX {
     namespace SDL {
         class SDLPlugin : public EnginePlugin {
-        PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
             class SDLInputSystemFactory : public InputSystemFactory {
                 std::shared_ptr<InputSystem> create() override {
                     return std::make_shared<SDLInputSystem>();

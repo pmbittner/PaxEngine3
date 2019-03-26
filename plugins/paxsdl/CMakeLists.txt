@@ -1,4 +1,6 @@
 ### LIBRARIES ########################################
+option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
+
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     set(SDL2_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2-2.0.7/lib/${PAX_OS_ARCHITECTURE}/SDL2.lib)
 
@@ -28,20 +30,7 @@ set(PAX_SDL_SOURCE_FILES
 
         src/opengl/SDLOpenGLWindow.cpp
         src/opengl/SDLOpenGLRenderPass.cpp
-        src/opengl/SDLImageOpenGLTextureLoader.cpp)
-
-if (PAX_RUN_PYTHON_PRECOMPILER)
-    find_package(PythonInterp 3 REQUIRED)
-    set(SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../precompiler/pluginprecompiler.py)
-    add_custom_command(
-            OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/src/SDLEnginePlugin.generated.cpp
-            COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR} PAX::SDL ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${CMAKE_CURRENT_SOURCE_DIR}/src/SDLEnginePlugin.generated.cpp SDLEnginePlugin
-            COMMENT "Precompiling PAX::SDL (via Python)"
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/
-            VERBATIM
-    )
-    set(PAX_SDL_SOURCE_FILES ${PAX_SDL_SOURCE_FILES} src/SDLEnginePlugin.generated.cpp)
-endif (PAX_RUN_PYTHON_PRECOMPILER)
+        src/opengl/SDLImageOpenGLTextureLoader.cpp src/opengl/SDLOpenGLPlugin.cpp)
 
 include_directories(../paxopengl/include/)
 include_directories(include)
@@ -66,3 +55,10 @@ add_library(paxsdl
         )
 
 target_link_libraries(paxsdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})# ${SDL2_TTF_LIBRARIES})
+
+if(WITH_SDL_IMAGE)
+    message("Building with SDL_Image")
+    target_compile_definitions(paxsdl PUBLIC -DPAX_WITH_SDLIMAGE)
+else()
+    message("Building without SDL_Image")
+endif(WITH_SDL_IMAGE)

@@ -6,8 +6,8 @@
 #define PAXENGINE3_VELOCITYBEHAVIOUR_H
 
 
-#include <paxcore/entity/EntityComponent.h>
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/EntityProperty.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/time/Time.h>
 #include <paxutil/property/construction/PropertyContainerPrefab.h>
 

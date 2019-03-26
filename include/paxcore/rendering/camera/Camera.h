@@ -10,15 +10,15 @@
 
 #include "PerspectiveProjection.h"
 
-#include "../../entity/EntityComponent.h"
+#include "paxcore/entity/EntityProperty.h"
 #include "../scenegraph/SceneGraph.h"
 #include "../Viewport.h"
 #include "../RenderOptions.h"
 
 namespace PAX {
-    class Camera : public EntityComponent, public SceneGraph {
+    class Camera : public EntityProperty, public SceneGraph {
         PAX_PROPERTY(Camera, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
         glm::mat4 _viewMatrix;

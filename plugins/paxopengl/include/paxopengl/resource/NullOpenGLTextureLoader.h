@@ -18,10 +18,11 @@ namespace PAX {
 
         public:
             NullOpenGLTextureLoader();
-            ~NullOpenGLTextureLoader();
+            ~NullOpenGLTextureLoader() override;
 
             bool canLoad(Path path) const override;
             std::shared_ptr<Texture> load(Path path) override;
+            std::shared_ptr<Texture> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
         };
     }
 }

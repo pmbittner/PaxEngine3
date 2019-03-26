@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PLAYERSPRITEANIMATION_H
 #define PAXENGINE3_PLAYERSPRITEANIMATION_H
 
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/animation/Animation.h>
 #include <paxutil/math/Functions.h>

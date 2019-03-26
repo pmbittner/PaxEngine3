@@ -13,7 +13,6 @@ namespace PAX {
     Game::~Game() = default;
 
     void Game::initialize() {
-        assert(!_initialized);
         addSystem(std::make_unique<BehaviourSystem>());
         SystemManager::initialize();
     }

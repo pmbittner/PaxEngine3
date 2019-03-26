@@ -5,9 +5,9 @@
 #ifndef PAXENGINE3_DRAGNDROP_H
 #define PAXENGINE3_DRAGNDROP_H
 
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/service/Services.h>
-#include <paxcore/entity/component/Size.h>
+#include <paxcore/entity/property/Size.h>
 #include <paxcore/world/WorldLayer.h>
 
 #include <paxcore/io/event/MouseMovedEvent.h>

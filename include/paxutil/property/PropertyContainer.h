@@ -251,7 +251,7 @@ namespace PAX {
         }
 
         bool removeAsSingle(const std::type_info & type, Property<C>* component) {
-            // The given component is not the component, that is registered for the given type.
+            // The given property is not the property, that is registered for the given type.
             if (_singleProperties.at(type) != component)
                 return false;
             else

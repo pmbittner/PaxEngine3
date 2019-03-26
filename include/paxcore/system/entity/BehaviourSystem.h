@@ -6,7 +6,7 @@
 #define PAXENGINE3_BEHAVIOURSYSTEM_H
 
 #include "EntityPropertySystem.h"
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 
 namespace PAX {
     class BehaviourSystem : public EntityPropertySystem<Behaviour> {

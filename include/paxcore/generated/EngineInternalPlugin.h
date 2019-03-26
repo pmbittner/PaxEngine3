@@ -9,14 +9,13 @@
 
 namespace PAX {
     class EngineInternalPlugin : public PAX::EnginePlugin {
-        PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
     public:
-        virtual void initialize(PAX::Engine& engine) override;
-        virtual void postInitialize(PAX::Engine& engine) override;
+        void initialize(PAX::Engine& engine) override;
+        void postInitialize(PAX::Engine& engine) override;
 
-        virtual void registerServices(PAX::Services& services) override;
-        virtual void registerResourceLoaders(PAX::Resources& resources) override;
-        virtual void registerFactories(PAX::FactoryService& factoryService) override;
+        void registerServices(PAX::Services& services) override;
+        void registerResourceLoaders(PAX::Resources& resources) override;
+        void registerFactories(PAX::FactoryService& factoryService) override;
     };
 }
 

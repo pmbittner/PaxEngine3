@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_HITBOX_H
 #define PAXENGINE3_HITBOX_H
 
-#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/EntityProperty.h>
 
 namespace PAX {
     namespace Physics {
-        class Hitbox : public EntityComponent {
+        class Hitbox : public EntityProperty {
             PAX_PROPERTY(PAX::Physics::Hitbox, PAX_PROPERTY_IS_ABSTRACT)
-            PAX_PROPERTY_DERIVES(PAX::EntityComponent)
+            PAX_PROPERTY_DERIVES(PAX::EntityProperty)
             PAX_PROPERTY_IS_SINGLE
 
         public:

@@ -2,7 +2,7 @@
 // Created by Paul on 03.02.2018.
 //
 
-#include <paxcore/entity/component/Size.h>
+#include <paxcore/entity/property/Size.h>
 #include <paxcore/entity/event/SizeChangedEvent.h>
 
 namespace PAX {
@@ -21,7 +21,7 @@ namespace PAX {
     }
 
     void Size::attached(Entity &entity) {
-        EntityComponent::attached(entity);
+        EntityProperty::attached(entity);
 
         SizeChangedEvent e(&entity, glm::vec3(0), this);
         entity.getEventService().fire(e);

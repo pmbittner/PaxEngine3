@@ -5,12 +5,12 @@
 #ifndef PAXENGINE3_BEHAVIOUR_H
 #define PAXENGINE3_BEHAVIOUR_H
 
-#include "../EntityComponent.h"
+#include "paxcore/entity/EntityProperty.h"
 
 namespace PAX {
-    class Behaviour : public EntityComponent {
+    class Behaviour : public EntityProperty {
         PAX_PROPERTY(Behaviour, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
     public:

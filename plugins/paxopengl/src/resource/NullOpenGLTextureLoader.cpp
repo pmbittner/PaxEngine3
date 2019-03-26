@@ -81,5 +81,10 @@ namespace PAX {
 
             return _texture;
         }
+
+        std::shared_ptr<Texture> NullOpenGLTextureLoader::loadToOrGetFromResources(PAX::Resources &resources,
+                                                                                   const PAX::VariableHierarchy &parameters) {
+            return load(Path());
+        }
     }
 }

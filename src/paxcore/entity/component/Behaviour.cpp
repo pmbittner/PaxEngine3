@@ -2,7 +2,7 @@
 // Created by Paul on 19.01.2018.
 //
 
-#include <paxcore/entity/component/Behaviour.h>
+#include <paxcore/entity/property/Behaviour.h>
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::Behaviour, PAX_PROPERTY_IS_ABSTRACT)

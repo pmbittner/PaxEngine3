@@ -20,7 +20,6 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLEnginePlugin : public EnginePlugin {
-        PAX_ENGINEPLUGIN_CONTAINS_ENTITYCOMPONENTS
             class OpenGLWorldLayerSceneGraphFactory : public WorldLayerSceneGraphFactory {
                 std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
             } worldLayerSceneGraphFactory;

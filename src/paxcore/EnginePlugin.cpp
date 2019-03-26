@@ -5,12 +5,6 @@
 #include <paxcore/EnginePlugin.h>
 
 namespace PAX {
-    EnginePlugin::EnginePlugin(PAX::EnginePluginDependencies *dependencies) : dependencies(dependencies) {
-
-    }
-
-    void EnginePlugin::checkDependencies(const std::vector<PAX::EnginePlugin *> &plugins) const {
-        if (dependencies)
-            dependencies->checkDependencies(plugins);
-    }
+    EnginePlugin::EnginePlugin() = default;
+    EnginePlugin::~EnginePlugin() = default;
 }

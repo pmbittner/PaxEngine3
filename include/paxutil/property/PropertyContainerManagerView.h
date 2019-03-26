@@ -87,7 +87,7 @@ namespace PAX {
             tryRemove(e.container);
         }
 
-        const std::set<C*> & getContainers() {
+        const std::set<C*> & getContainers() const {
             return containers;
         }
     };

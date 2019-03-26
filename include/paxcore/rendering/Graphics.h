@@ -7,16 +7,16 @@
 
 #include <typeindex>
 
-#include <paxcore/entity/EntityComponent.h>
+#include <paxcore/entity/EntityProperty.h>
 #include <paxutil/event/EventHandler.h>
 #include <paxcore/rendering/event/GraphicsShaderChangedEvent.h>
 #include <paxcore/rendering/scenegraph/SceneGraph.h>
 #include "data/Shader.h"
 
 namespace PAX {
-    class Graphics : public EntityComponent, public Renderable {
+    class Graphics : public EntityProperty, public Renderable {
         PAX_PROPERTY(Graphics, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(EntityComponent)
+        PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
     protected:

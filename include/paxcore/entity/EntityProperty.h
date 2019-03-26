@@ -9,8 +9,7 @@
 #include "Entity.h"
 
 namespace PAX {
-    // TODO: Rename to EntityProperty
-    typedef Property<Entity> EntityComponent;
+    typedef Property<Entity> EntityProperty;
 }
 
 #endif //PAXENGINE3_ENTITYCOMPONENT_H
