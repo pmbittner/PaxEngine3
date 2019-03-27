@@ -6,8 +6,8 @@
 #include <paxcore/world/WorldLayer.h>
 
 namespace PAX {
-    SceneGraphGenerator::SceneGraphGenerator() {}
-    SceneGraphGenerator::~SceneGraphGenerator() {}
+    SceneGraphGenerator::SceneGraphGenerator() = default;
+    SceneGraphGenerator::~SceneGraphGenerator() = default;
 
     void SceneGraphGenerator::initialize(SceneGraph* root, EventService& eventService) {
         PAX_assertNotNull(root, "Root can't be null!");
@@ -19,6 +19,15 @@ namespace PAX {
         eventService.add<PropertyDetachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
         eventService.add<PropertyAttachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
         eventService.add<PropertyDetachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
+    }
+
+    void SceneGraphGenerator::terminate(PAX::EventService &eventService) {
+        eventService.remove<EntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntitySpawnedEvent>(this);
+        eventService.remove<EntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntityDespawnedEvent>(this);
+        eventService.remove<PropertyAttachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
+        eventService.remove<PropertyDetachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
+        eventService.remove<PropertyAttachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
+        eventService.remove<PropertyDetachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphGenerator::addCamera(Camera * c) {

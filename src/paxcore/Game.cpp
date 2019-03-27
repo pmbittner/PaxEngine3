@@ -18,6 +18,12 @@ namespace PAX {
     }
 
     void Game::terminate() {
+        while (!_worlds.empty()) {
+            World * world = *(_worlds.end() - 1);
+            unregisterWorld(world, true);
+            delete world;
+        }
+
         SystemManager::terminate();
     }
 

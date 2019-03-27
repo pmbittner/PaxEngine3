@@ -249,11 +249,16 @@ namespace PAX {
             }
 
             void terminate() override {
+                player.reset();
+                npc.reset();
+
                 if (unregisterWorld(world, true)) {
                     delete world;
                 } else {
                     LOG(ERROR) << "The world of JumpNRun could not be deleted!";
                 }
+
+                Game::terminate();
             }
         };
     }

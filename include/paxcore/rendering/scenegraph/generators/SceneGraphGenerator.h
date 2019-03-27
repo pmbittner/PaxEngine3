@@ -30,6 +30,7 @@ namespace PAX {
         virtual ~SceneGraphGenerator();
 
         void initialize(SceneGraph *_root, EventService& eventService);
+        void terminate(EventService& eventService);
 
         void onEntitySpawnedEvent(EntitySpawnedEvent& e);
         void onEntityDespawnedEvent(EntityDespawnedEvent& e);

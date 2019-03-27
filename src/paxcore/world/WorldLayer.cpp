@@ -41,6 +41,7 @@ namespace PAX {
         while (!entities.empty()) {
             despawn(*entities.begin());
         }
+        _sceneGraphGenerator->terminate(getEventService());
     }
 
     void WorldLayer::spawn(Entity * entity) {
