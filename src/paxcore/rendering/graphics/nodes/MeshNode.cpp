@@ -13,12 +13,11 @@ namespace PAX {
     void MeshNode::render(RenderOptions &renderOptions) {
         Shader* shader = renderOptions.getShaderOptions().getShader();
 
-        const glm::mat4 &view = renderOptions.getViewMatrix();
-        glm::mat4 modelview = view * renderOptions.getTransformationMatrix();
-
-        shader->setUniform("modelview", modelview, false);
+        glm::mat4 modelview = renderOptions.getViewMatrix() * renderOptions.getTransformationMatrix();
+        // TODO: Move projection and view setting to the renderoptions as soon as shaders and cam are set.
         shader->setUniform("projection", renderOptions.getProjectionMatrix(), false);
-        shader->setUniform("view", view, false);
+        shader->setUniform("view", renderOptions.getViewMatrix(), false);
+        shader->setUniform("modelview", modelview, false);
         shader->setUniform("transposedInvModelView", glm::inverse(modelview), true /* transpose */);
 
         _mesh->render(renderOptions);

@@ -5,6 +5,8 @@
 #include <paxcore/rendering/data/Texture.h>
 
 namespace PAX {
+    Texture::~Texture() = default;
+
     int Texture::getWidth() {
         return _width;
     }

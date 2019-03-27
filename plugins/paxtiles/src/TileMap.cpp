@@ -14,9 +14,9 @@ namespace PAX {
         TileMap::TileMap() = default;
 
         void TileMap::createMesh(const std::vector<std::vector<Tile>> & tiles) {
-            // TODO: Make vertices 2d
-            std::vector<glm::vec3>  vertices;
+            std::vector<glm::vec2>  vertices;
             std::vector<glm::ivec3> faces;
+            std::vector<int> tileSheetIds;
             std::vector<glm::vec2>  uv;
 
             glm::vec3 vertexOffset = -glm::vec3(columns, rows, 0) / 2.f;
@@ -37,6 +37,8 @@ namespace PAX {
                 for (unsigned long column = 0; column < columns; ++column) {
                     const Tile & currentTile = tiles[row][column];
 
+                    // We have lots of vertex duplicates here, but this is necessary due to the need
+                    // for different UV coords.
                     vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column    , row    , 0)));
                     vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column    , row + 1, 0)));
                     vertices.emplace_back(flipY * (vertexOffset + glm::vec3(column + 1, row + 1, 0)));
@@ -52,6 +54,11 @@ namespace PAX {
                     uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY + uvTileSize.y));
                     uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY));
 
+                    tileSheetIds.emplace_back(0);
+                    tileSheetIds.emplace_back(0);
+                    tileSheetIds.emplace_back(0);
+                    tileSheetIds.emplace_back(0);
+
                     index += 4;
                 }
             }
@@ -61,12 +68,13 @@ namespace PAX {
             mesh = meshFactory->create(vertices, faces);
             PAX_assertNotNull(mesh, "Mesh can't be null!");
             mesh->addAttribute(Mesh::UVs, uv);
+            mesh->addAttribute(Mesh::Unspecified, tileSheetIds);
             mesh->upload();
         }
 
         void TileMap::create(const std::vector<std::vector<Tile>> & tiles, const std::shared_ptr<SpriteSheet> & spriteSheet) {
-            this->rows    = tiles.size();
-            this->columns = tiles.at(0).size();
+            this->rows    = static_cast<unsigned long>(tiles.size());
+            this->columns = static_cast<unsigned long>(tiles.at(0).size());
             this->spriteSheet = spriteSheet;
             createMesh(tiles);
         }

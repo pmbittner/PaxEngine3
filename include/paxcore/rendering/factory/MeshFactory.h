@@ -11,6 +11,7 @@ namespace PAX {
     class MeshFactory {
     public:
         virtual std::shared_ptr<Mesh> create(const std::vector<glm::vec3> & vertices, const std::vector<glm::ivec3> & faces) = 0;
+        virtual std::shared_ptr<Mesh> create(const std::vector<glm::vec2> & vertices, const std::vector<glm::ivec3> & faces) = 0;
     };
 }
 

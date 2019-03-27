@@ -20,7 +20,7 @@ namespace PAX {
             MeshNode meshNode;
 
         public:
-            TileMapGraphics(const TileMap& tileMap);
+            explicit TileMapGraphics(const TileMap& tileMap);
 
             void attached(Entity& entity) override;
             void detached(Entity& entity) override;

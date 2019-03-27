@@ -7,6 +7,8 @@
 
 namespace PAX {
     namespace OpenGL {
+        unsigned int OpenGLTexture2D::NumberOfActiveTextures = 0;
+
         static GLint paxWrapModeToGLWrapMode(Texture::WrapMode wrapMode) {
             switch (wrapMode) {
                 case Texture::WrapMode::Repeat: {
@@ -32,9 +34,7 @@ namespace PAX {
             _height = height;
         }
 
-        OpenGLTexture2D::~OpenGLTexture2D() {
-
-        }
+        OpenGLTexture2D::~OpenGLTexture2D() = default;
 
         GLuint OpenGLTexture2D::getID() {
             return _id;
@@ -43,18 +43,21 @@ namespace PAX {
         void OpenGLTexture2D::setWrapMode(PAX::Texture::WrapMode horizontal, PAX::Texture::WrapMode vertical) {
             Texture::setWrapMode(horizontal, vertical);
 
-            // FIXME: Binding here is bad, if there is currently another texture bound. As this is an undesired case
-            // we do not unbind to see this texture for debugging purposes, but I don't know if this is really a good idea.
+            // FIXME: Binding here is bad, if there is currently another texture bound.
             bind();
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, paxWrapModeToGLWrapMode(horizontal));
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, paxWrapModeToGLWrapMode(vertical));
+            unbind();
         }
 
         void OpenGLTexture2D::bind() {
+            glActiveTexture(GL_TEXTURE0 + NumberOfActiveTextures);
+            ++NumberOfActiveTextures;
             glBindTexture(GL_TEXTURE_2D, _id);
         }
 
         void OpenGLTexture2D::unbind() {
+            --NumberOfActiveTextures;
             glBindTexture(GL_TEXTURE_2D, 0);
         }
     }

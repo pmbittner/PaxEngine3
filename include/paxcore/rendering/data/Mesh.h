@@ -32,6 +32,7 @@ namespace PAX {
         void addAttribName(AttributeName name);
 
     protected:
+        virtual void addAttribute(const std::vector<int> &attrib) = 0;
         virtual void addAttribute(const std::vector<float> &attrib) = 0;
         virtual void addAttribute(const std::vector<glm::vec2> &attrib) = 0;
         virtual void addAttribute(const std::vector<glm::vec3> &attrib) = 0;

@@ -19,6 +19,8 @@ namespace PAX {
         WrapMode _wrapVertical   = WrapMode::ClampToEdge;
 
     public:
+        virtual ~Texture();
+
         int getWidth();
         int getHeight();
 

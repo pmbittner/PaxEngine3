@@ -9,9 +9,7 @@ PAX::ShadingNode::ShadingNode() : SceneGraph() {
 
 }
 
-PAX::ShadingNode::~ShadingNode() {
-
-}
+PAX::ShadingNode::~ShadingNode() = default;
 
 std::shared_ptr<PAX::Shader>& PAX::ShadingNode::getShader() {
     return _shader;

@@ -15,7 +15,7 @@ namespace PAX {
 
     public:
         ShadingNode();
-        virtual ~ShadingNode();
+        ~ShadingNode() override;
 
         std::shared_ptr<Shader>& getShader();
         void setShader(const std::shared_ptr<Shader>& shader);

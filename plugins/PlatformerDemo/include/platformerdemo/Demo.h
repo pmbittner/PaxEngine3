@@ -202,13 +202,13 @@ namespace PAX {
                     };
 
                     TileMap tileMap;
-                    tileMap.create(tiles, res.load<SpriteSheet>(imgPath + "/RPG/demotilesheet.png", 24, 12));
+                    tileMap.create(tiles, res.load<SpriteSheet>(Services::GetPaths().getResourcePath() + "/PlatformerDemo/tiled/SmallForest/Tiles.png", 24, 12));
                     TileMapProperty * tileMapProperty = new TileMapProperty(tileMap);
                     auto& entity = tileMapProperty->getTileMapEntity();
                     entity.getTransformation().z() = depthFor.tilemap;
                     entity.getTransformation().setScale(entity.getTransformation().getScale() * GlobalScaleVec3);
                     mainLayer->add(tileMapProperty);
-                }
+                }//*/
             }
 
         public:

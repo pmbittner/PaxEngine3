@@ -23,8 +23,8 @@ namespace PAX {
         void TileMapProperty::initialize() {
             tileMapShader = Services::GetResources().loadOrGet<Shader>(
                     Shader::FileInfo(
-                            Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
-                            Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
+                            Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.vert",
+                            Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.frag"
                             )
                     );
         }

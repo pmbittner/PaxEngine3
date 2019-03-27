@@ -15,16 +15,20 @@ namespace PAX {
         class OpenGLTexture2D : public Texture {
             GLuint _id;
 
+            // We count the number of active textures here.
+            // This is some sort of hacky, but we expect only one OpenGLContext to occur.
+            static unsigned int NumberOfActiveTextures;
+
         public:
-            OpenGLTexture2D(GLuint id, int width = -1, int height = -1);
-            ~OpenGLTexture2D();
+            explicit OpenGLTexture2D(GLuint id, int width = -1, int height = -1);
+            ~OpenGLTexture2D() override;
 
             GLuint getID();
 
-            virtual void setWrapMode(WrapMode horizontal, WrapMode vertical) override;
+            void setWrapMode(WrapMode horizontal, WrapMode vertical) override;
 
-            virtual void bind() override;
-            virtual void unbind() override;
+            void bind() override;
+            void unbind() override;
         };
     }
 }
