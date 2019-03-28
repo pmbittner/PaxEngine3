@@ -19,3 +19,4 @@ __pycache__
 # Build
 build
 cmake-build-*
+vs
