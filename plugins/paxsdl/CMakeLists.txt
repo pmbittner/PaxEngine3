@@ -43,7 +43,6 @@ set(HEADERS_FOR_CLION
         include/paxsdl/SDLWindow.h
         include/paxsdl/SDLRenderPass.h
         include/paxsdl/SDLKeyboard.h
-        include/paxsdl/SDLImageLoader.h
         include/paxsdl/SDLInputSystem.h
 
         include/paxsdl/utility/SDLImageLoader.h

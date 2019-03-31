@@ -173,41 +173,8 @@ namespace PAX {
                     using namespace Tiles;
 
                     TileMapProperty::initialize();
-
-                    Tile grass = {6, 6};
-                    Tile plant = {6, 0};
-                    Tile dreck = {6, 5};
-                    Tile u  = {3, 5};
-                    Tile d  = {2, 0};
-                    Tile l  = {5, 2};
-                    Tile r  = {0, 2};
-                    Tile ul = {1, 1};
-                    Tile ur = {2, 1};
-                    Tile dl = {1, 2};
-                    Tile dr = {2, 2};
-
-                    std::vector<std::vector<Tile>> tiles = {
-                            { // row 0
-                                ul, u, u, u, ur
-                            },
-                            {
-                                l, grass, grass, dreck, r
-                            },
-                            {
-                                l, grass, plant, grass, r
-                            },
-                            {
-                                dl, d, d, d, dr
-                            }
-                    };
-
-                    TileMap tileMap;
-                    tileMap.create(tiles, res.load<SpriteSheet>(Services::GetPaths().getResourcePath() + "/PlatformerDemo/tiled/SmallForest/Tiles.png", 24, 12));
-                    TileMapProperty * tileMapProperty = new TileMapProperty(tileMap);
-                    auto& entity = tileMapProperty->getTileMapEntity();
-                    entity.getTransformation().z() = depthFor.tilemap;
-                    entity.getTransformation().setScale(entity.getTransformation().getScale() * GlobalScaleVec3);
-                    mainLayer->add(tileMapProperty);
+                    std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json");
+                    mainLayer->add(new TileMapProperty(tileMap));
                 }//*/
             }
 

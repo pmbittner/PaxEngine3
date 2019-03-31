@@ -10,8 +10,7 @@ namespace PAX {
         PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
 
         TileMapProperty * TileMapProperty::createFromProvider(ContentProvider & provider) {
-            // TODO: Parse TileMap from str or find a way to make this beautiful someow
-            return new TileMapProperty(TileMap());//provider.require<TileMap>("map"));
+            return new TileMapProperty(provider.requireResource<TileMap>("map"));
         }
 
         void TileMapProperty::initializeFromProvider(ContentProvider & provider) {
@@ -21,30 +20,35 @@ namespace PAX {
         std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
 
         void TileMapProperty::initialize() {
-            tileMapShader = Services::GetResources().loadOrGet<Shader>(
-                    Shader::FileInfo(
-                            Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.vert",
-                            Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.frag"
-                            )
-                    );
+            if (tileMapShader == nullptr) {
+                tileMapShader = Services::GetResources().loadOrGet<Shader>(
+                        Shader::FileInfo(
+                                Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.vert",
+                                Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.frag"
+                        )
+                );
+            }
         }
 
-        TileMapProperty::TileMapProperty(const TileMap & tilemap) {
-            auto graphics = new TileMapGraphics(tilemap);
-            graphics->setShader(tileMapShader);
-            entity.add(graphics);
+        TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) : tileMap(tilemap) {
+            for (const TileMap::Layer & layer : tileMap->getLayers()) {
+                auto graphics = new TileMapGraphics(tilemap);
+                graphics->setShader(tileMapShader);
+                layerEntities.emplace_back();
+                Entity & e = layerEntities.back();
+                e.add(graphics);
+                e.getTransformation().z() = layer.z;
+            }
         }
 
         void TileMapProperty::attached(PAX::WorldLayer &worldLayer) {
-            worldLayer.spawn(&entity);
+            for (Entity & e : layerEntities)
+                worldLayer.spawn(&e);
         }
 
         void TileMapProperty::detached(PAX::WorldLayer &worldLayer) {
-            worldLayer.despawn(&entity);
-        }
-
-        Entity& TileMapProperty::getTileMapEntity() {
-            return entity;
+            for (Entity & e : layerEntities)
+                worldLayer.despawn(&e);
         }
     }
 }

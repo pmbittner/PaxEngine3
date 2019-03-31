@@ -15,18 +15,17 @@ namespace PAX {
             PAX_PROPERTY_DERIVES(WorldLayerProperty)
             PAX_PROPERTY_IS_MULTIPLE
 
-            Entity entity;
+            std::shared_ptr<TileMap> tileMap;
+            std::vector<Entity> layerEntities;
             static std::shared_ptr<Shader> tileMapShader;
 
         public:
-            explicit TileMapProperty(const TileMap & tilemap);
+            explicit TileMapProperty(const std::shared_ptr<TileMap> & tilemap);
 
             static void initialize();
 
             void attached(WorldLayer & worldLayer) override;
             void detached(WorldLayer & worldLayer) override;
-
-            Entity& getTileMapEntity();
         };
     }
 }

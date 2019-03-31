@@ -10,6 +10,7 @@ namespace PAX {
         struct Tile {
             int textureColumn;
             int textureRow;
+            int tileSetIndex;
         };
     }
 }

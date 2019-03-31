@@ -25,6 +25,10 @@ namespace PAX {
         SceneGraph::render(renderOptions);
     }
 
+    void MeshNode::setMesh(const std::shared_ptr<PAX::Mesh> &mesh) {
+        _mesh = mesh;
+    }
+
     std::shared_ptr<Mesh> MeshNode::getMesh() const {
         return _mesh;
     }

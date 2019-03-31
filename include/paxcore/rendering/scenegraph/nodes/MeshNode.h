@@ -13,11 +13,12 @@ namespace PAX {
         std::shared_ptr<Mesh> _mesh;
 
     public:
-        MeshNode(const std::shared_ptr<Mesh> & mesh);
+        explicit MeshNode(const std::shared_ptr<Mesh> & mesh);
 
+        void setMesh(const std::shared_ptr<Mesh> & mesh);
         std::shared_ptr<Mesh> getMesh() const;
 
-        virtual void render(RenderOptions &options) override;
+        void render(RenderOptions &options) override;
     };
 }
 

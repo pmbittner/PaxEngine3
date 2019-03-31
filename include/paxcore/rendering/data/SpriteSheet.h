@@ -19,12 +19,12 @@ namespace PAX {
     public:
         SpriteSheet(const std::shared_ptr<Texture>& texture, int columns, int rows);
 
-        const std::shared_ptr<Texture> getTexture();
+        const std::shared_ptr<Texture> getTexture() const;
 
         /// \return dimensions = (columns, rows)
-        glm::ivec2 getDimensions();
+        const glm::ivec2 & getDimensions() const;
 
-        glm::vec2 getCellSize();
+        const glm::vec2 & getCellSize() const;
     };
 }
 

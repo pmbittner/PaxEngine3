@@ -16,16 +16,15 @@ namespace PAX {
             PAX_PROPERTY_DERIVES(Graphics)
             PAX_PROPERTY_IS_MULTIPLE
 
-            TileMap tilemap;
-            MeshNode meshNode;
+            std::shared_ptr<TileMap> tilemap;
 
         public:
-            explicit TileMapGraphics(const TileMap& tileMap);
+            explicit TileMapGraphics(const std::shared_ptr<TileMap>& tileMap);
 
             void attached(Entity& entity) override;
             void detached(Entity& entity) override;
 
-            const TileMap& getTileMap();
+            const std::shared_ptr<TileMap> & getTileMap();
 
             void render(RenderOptions &renderOptions) override;
         };

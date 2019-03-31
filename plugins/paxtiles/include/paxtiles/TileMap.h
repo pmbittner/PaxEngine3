@@ -7,29 +7,54 @@
 
 #include <paxcore/rendering/data/Mesh.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
+#include <paxcore/rendering/scenegraph/nodes/MeshNode.h>
+
 #include "Tile.h"
+#include "TileSet.h"
 
 namespace PAX {
     namespace Tiles {
         class TileMap {
-            std::shared_ptr<Mesh> mesh;
-            std::shared_ptr<SpriteSheet> spriteSheet;
+        public:
+            struct Layer : public Renderable {
+            private:
+                friend class TileMap;
+                MeshNode meshNode;
+                std::vector<Tile> tiles;
+                void finalize(const std::vector<std::shared_ptr<TileSet>> & tileSets);
+                bool isFinalized() const;
 
-            unsigned long columns;
-            unsigned long rows;
+            public:
+                int x = 0, y = 0, z = 0;
+                int width, height;
+                float opacity = 1;
+                std::string name = "<unknown>";
 
-            void createMesh(const std::vector<std::vector<Tile>> & tiles);
+                Layer(const std::vector<Tile> & tiles, int width);
+
+                void render(RenderOptions &renderOptions) override;
+            };
+
+        private:
+            std::vector<Layer> layers;
+            std::vector<std::shared_ptr<TileSet>> tileSets;
+
+            glm::ivec2 tileSize;
+            glm::ivec2 mapSize;
 
         public:
-            TileMap();
+            explicit TileMap(
+                    const std::vector<std::shared_ptr<TileSet>> & tileSets,
+                    int width,
+                    int height,
+                    int tilewidth,
+                    int tileheight);
 
-            void create(const std::vector<std::vector<Tile>> & tiles, const std::shared_ptr<SpriteSheet> & spriteSheet);
+            void addLayer(Layer & layer);
 
-            const std::shared_ptr<Mesh> & getMesh() const;
-            const std::shared_ptr<SpriteSheet> getSpriteSheet() const;
-
-            unsigned long getColumns() const;
-            unsigned long getRows() const;
+            // TODO: This should be const :/
+            std::vector<Layer> & getLayers();
+            const glm::ivec2 & getTileSize() const;
         };
     }
 }

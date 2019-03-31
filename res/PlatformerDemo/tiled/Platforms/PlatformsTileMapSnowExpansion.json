@@ -1,0 +1,14 @@
+{ "columns":22,
+ "image":"snow-expansion.png",
+ "imageheight":224,
+ "imagewidth":352,
+ "margin":0,
+ "name":"PlatformsTileMapSnowExpansion",
+ "spacing":0,
+ "tilecount":308,
+ "tiledversion":"1.2.3",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":1.2
+}

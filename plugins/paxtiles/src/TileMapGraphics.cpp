@@ -9,38 +9,37 @@ namespace PAX {
         PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_CONCRETE)
 
         TileMapGraphics * TileMapGraphics::createFromProvider(ContentProvider & provider) {
-            // FIXME:
-            return new TileMapGraphics(TileMap());//provider.require<TileMap>("map"));
+            return new TileMapGraphics(provider.requireResource<TileMap>("map"));
         }
 
         void TileMapGraphics::initializeFromProvider(ContentProvider & provider) {
             Super::initializeFromProvider(provider);
         }
 
-        TileMapGraphics::TileMapGraphics(const TileMap& tileMap) : Super(), tilemap(tileMap), meshNode(tilemap.getMesh()) {
+        TileMapGraphics::TileMapGraphics(const std::shared_ptr<TileMap>& tileMap) : Super(), tilemap(tileMap) {
 
         }
 
         void TileMapGraphics::attached(PAX::Entity &entity) {
             Transformation & t = entity.getTransformation();
-            t.setScale(t.getScale() * glm::vec3(tilemap.getSpriteSheet()->getCellSize(), 1));
+            t.setScale(t.getScale() * glm::vec3(tilemap->getTileSize(), 1));
         }
 
         void TileMapGraphics::detached(PAX::Entity &entity) {
             Transformation & t = entity.getTransformation();
-            t.setScale(t.getScale() / glm::vec3(tilemap.getSpriteSheet()->getCellSize(), 1));
+            t.setScale(t.getScale() / glm::vec3(tilemap->getTileSize(), 1));
         }
 
-        const TileMap & TileMapGraphics::getTileMap() {
+        const std::shared_ptr<TileMap> & TileMapGraphics::getTileMap() {
             return tilemap;
         }
 
         void TileMapGraphics::render(PAX::RenderOptions &renderOptions) {
             Super::render(renderOptions);
 
-            tilemap.getSpriteSheet()->getTexture()->bind();
-            meshNode.render(renderOptions);
-            tilemap.getSpriteSheet()->getTexture()->unbind();
+            for (TileMap::Layer & layer : tilemap->getLayers()) {
+                layer.render(renderOptions);
+            }
         }
     }
 }

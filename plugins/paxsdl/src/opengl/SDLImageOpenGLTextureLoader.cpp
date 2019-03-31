@@ -81,24 +81,7 @@ namespace PAX {
 
         std::shared_ptr<Texture> SDLImageOpenGLTextureLoader::loadToOrGetFromResources(Resources &resources,
                                                                                        const VariableHierarchy &parameters) {
-            // Only one entry is required, namely the Path
-            if (parameters.values.size() == 1) {
-                //std::cout << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] exactly one parameter given" << std::endl;
-                const std::string & key = parameters.values.begin()->first;
-                //std::cout << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] key = " << key << std::endl;
-                if (!key.empty()) {
-                    return resources.loadOrGet<Texture>(Path(key));
-                }
-                const std::string & value = parameters.values.begin()->second;
-                //std::cout << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] val = " << value << std::endl;
-                if (!value.empty()) {
-                    return resources.loadOrGet<Texture>(Path(value));
-                }
-            }
-
-            std::cerr << "[SDLImageOpenGLTextureLoader::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
-
-            return nullptr;
+            return loadFromPath("SDLImageOpenGLTextureLoader", resources, parameters);
         }
     }
 }

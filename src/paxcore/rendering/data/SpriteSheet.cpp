@@ -9,15 +9,15 @@ namespace PAX {
 
     }
 
-    const std::shared_ptr<Texture> SpriteSheet::getTexture() {
+    const std::shared_ptr<Texture> SpriteSheet::getTexture() const {
         return texture;
     }
 
-    glm::ivec2 SpriteSheet::getDimensions() {
+    const glm::ivec2 & SpriteSheet::getDimensions() const {
         return dimensions;
     }
 
-    glm::vec2 SpriteSheet::getCellSize() {
+    const glm::vec2 & SpriteSheet::getCellSize() const {
         return {
                 texture->getWidth() / static_cast<float>(dimensions.x),
                 texture->getHeight() / static_cast<float>(dimensions.y)};

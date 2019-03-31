@@ -11,20 +11,22 @@
 
 namespace PAX {
     namespace Tiles {
-        TileMap::TileMap() = default;
+        TileMap::Layer::Layer(const std::vector<PAX::Tiles::Tile> & tiles, int width)
+        : tiles(tiles), width(width), height(tiles.size() / width), meshNode(nullptr)
+        {
 
-        void TileMap::createMesh(const std::vector<std::vector<Tile>> & tiles) {
+        }
+
+        void TileMap::Layer::finalize(const std::vector<std::shared_ptr<TileSet>> & tileSets) {
+            if (isFinalized()) return;
+
             std::vector<glm::vec2>  vertices;
             std::vector<glm::ivec3> faces;
-            std::vector<int> tileSheetIds;
+            std::vector<int>        tileSheetIds;
             std::vector<glm::vec2>  uv;
 
-            glm::vec3 vertexOffset = -glm::vec3(columns, rows, 0) / 2.f;
+            glm::vec3 vertexOffset = -glm::vec3(width, height, 0) / 2.f;
             glm::vec3 flipY = {1, -1, 1};
-
-            // use vec2 to cast to float
-            glm::vec2 spriteSheetSize = spriteSheet->getDimensions();
-            glm::vec2 uvTileSize = 1.f / spriteSheetSize;
 
             // Order of tiles:
             //
@@ -33,9 +35,13 @@ namespace PAX {
             // >>>>>
             //
             int index = 0;
-            for (unsigned long row = 0; row < rows; ++row) {
-                for (unsigned long column = 0; column < columns; ++column) {
-                    const Tile & currentTile = tiles[row][column];
+            for (unsigned long row = 0; row < height; ++row) {
+                for (unsigned long column = 0; column < width; ++column) {
+                    const Tile & currentTile = tiles[row * width + column];
+
+                    // use vec2 to cast to float
+                    glm::vec2 spriteSheetSize = tileSets[currentTile.tileSetIndex]->getSpriteSheet().getDimensions();
+                    glm::vec2 uvTileSize = 1.f / spriteSheetSize;
 
                     // We have lots of vertex duplicates here, but this is necessary due to the need
                     // for different UV coords.
@@ -54,45 +60,59 @@ namespace PAX {
                     uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY + uvTileSize.y));
                     uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY));
 
-                    tileSheetIds.emplace_back(0);
-                    tileSheetIds.emplace_back(0);
-                    tileSheetIds.emplace_back(0);
-                    tileSheetIds.emplace_back(0);
+                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
 
                     index += 4;
                 }
             }
 
             MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
-            PAX_assertNotNull(meshFactory, "MeshFactory can't be null!");
-            mesh = meshFactory->create(vertices, faces);
-            PAX_assertNotNull(mesh, "Mesh can't be null!");
+            PAX_assertNotNull(meshFactory, "MeshFactory can't be null!")
+            std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
+            PAX_assertNotNull(mesh, "Mesh can't be null!")
             mesh->addAttribute(Mesh::UVs, uv);
             mesh->addAttribute(Mesh::Unspecified, tileSheetIds);
             mesh->upload();
+
+            meshNode.setMesh(mesh);
+            tiles.clear();
         }
 
-        void TileMap::create(const std::vector<std::vector<Tile>> & tiles, const std::shared_ptr<SpriteSheet> & spriteSheet) {
-            this->rows    = static_cast<unsigned long>(tiles.size());
-            this->columns = static_cast<unsigned long>(tiles.at(0).size());
-            this->spriteSheet = spriteSheet;
-            createMesh(tiles);
+        bool TileMap::Layer::isFinalized() const {
+            return tiles.empty() && meshNode.getMesh() != nullptr;
         }
 
-        const std::shared_ptr<SpriteSheet> TileMap::getSpriteSheet() const {
-            return spriteSheet;
+        void TileMap::Layer::render(PAX::RenderOptions &renderOptions) {
+            meshNode.render(renderOptions);
         }
 
-        const std::shared_ptr<Mesh>& TileMap::getMesh() const {
-            return mesh;
+        TileMap::TileMap(const std::vector<std::shared_ptr<TileSet>> & tileSets,
+                         int width,
+                         int height,
+                         int tilewidth,
+                         int tileheight)
+                         :
+                         tileSets(tileSets),
+                         tileSize(tilewidth, tileheight),
+                         mapSize(width, height)
+        {
+
         }
 
-        unsigned long TileMap::getColumns() const {
-            return columns;
+        void TileMap::addLayer(PAX::Tiles::TileMap::Layer & layer) {
+            layers.push_back(layer);
+            layer.finalize(tileSets);
         }
 
-        unsigned long TileMap::getRows() const {
-            return rows;
+        std::vector<TileMap::Layer>& TileMap::getLayers() {
+            return layers;
+        }
+
+        const glm::ivec2 & TileMap::getTileSize() const {
+            return tileSize;
         }
     }
 }
