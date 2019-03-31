@@ -119,6 +119,10 @@ namespace PAX {
             return layers;
         }
 
+        const std::vector<std::shared_ptr<TileSet>>& TileMap::getTileSets() {
+            return tileSets;
+        }
+
         const glm::ivec2 & TileMap::getTileSize() const {
             return tileSize;
         }

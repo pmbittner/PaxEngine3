@@ -58,6 +58,7 @@ namespace PAX {
 
             // TODO: This should be const :/
             std::vector<Layer> & getLayers();
+            const std::vector<std::shared_ptr<TileSet>> & getTileSets();
             const glm::ivec2 & getTileSize() const;
         };
     }

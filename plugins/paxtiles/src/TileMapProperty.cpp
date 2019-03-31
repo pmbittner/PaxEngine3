@@ -41,7 +41,7 @@ namespace PAX {
                 Entity & e = layerEntities[i];
                 e.add(graphics);
                 e.getTransformation().z() = layer.z;
-                std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
+                //std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
                 ++i;
             }
         }
