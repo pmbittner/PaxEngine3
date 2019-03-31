@@ -12,7 +12,7 @@
 namespace PAX {
     namespace Tiles {
         TileMap::Layer::Layer(const std::vector<PAX::Tiles::Tile> & tiles, int width)
-        : tiles(tiles), width(width), height(tiles.size() / width), meshNode(nullptr)
+        : tiles(tiles), width(width), height(tiles.size() / width)
         {
 
         }
@@ -86,7 +86,12 @@ namespace PAX {
         }
 
         void TileMap::Layer::render(PAX::RenderOptions &renderOptions) {
+            //std::cout << "TileMap::Layer::render " << name << std::endl;
             meshNode.render(renderOptions);
+        }
+
+        TileMap* TileMap::Layer::getMap() {
+            return map;
         }
 
         TileMap::TileMap(const std::vector<std::shared_ptr<TileSet>> & tileSets,
@@ -102,9 +107,12 @@ namespace PAX {
 
         }
 
-        void TileMap::addLayer(PAX::Tiles::TileMap::Layer & layer) {
-            layers.push_back(layer);
+        TileMap::Layer & TileMap::addLayer(const std::vector<Tile> & tiles, int width) {
+            layers.emplace_back(tiles, width);
+            Layer & layer = layers.back();
+            layer.map = this;
             layer.finalize(tileSets);
+            return layer;
         }
 
         std::vector<TileMap::Layer>& TileMap::getLayers() {

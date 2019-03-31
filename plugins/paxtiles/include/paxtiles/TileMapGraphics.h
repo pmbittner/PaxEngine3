@@ -12,19 +12,17 @@
 namespace PAX {
     namespace Tiles {
         class TileMapGraphics : public Graphics {
-            PAX_PROPERTY(TileMapGraphics, PAX_PROPERTY_IS_CONCRETE)
-            PAX_PROPERTY_DERIVES(Graphics)
+            PAX_PROPERTY(::PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_ABSTRACT)
+            PAX_PROPERTY_DERIVES(::PAX::Graphics)
             PAX_PROPERTY_IS_MULTIPLE
 
-            std::shared_ptr<TileMap> tilemap;
+            TileMap::Layer & tileLayer;
 
         public:
-            explicit TileMapGraphics(const std::shared_ptr<TileMap>& tileMap);
+            explicit TileMapGraphics(TileMap::Layer & tileLayer);
 
             void attached(Entity& entity) override;
             void detached(Entity& entity) override;
-
-            const std::shared_ptr<TileMap> & getTileMap();
 
             void render(RenderOptions &renderOptions) override;
         };

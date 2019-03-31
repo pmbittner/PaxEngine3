@@ -19,7 +19,7 @@ namespace PAX {
     class IResourceLoader {
         friend class Resources;
     public:
-        virtual ~IResourceLoader() = default;
+        virtual ~IResourceLoader();
     };
 
     template<typename Resource>
@@ -27,24 +27,7 @@ namespace PAX {
         friend class Resources;
     protected:
         virtual std::shared_ptr<Resource> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) = 0;
-
-        std::shared_ptr<Resource> loadFromPath(const std::string & loaderName, Resources & resources, const VariableHierarchy & parameters) {
-            // Only one entry is required, namely the Path
-            if (parameters.values.size() == 1) {
-                const std::string & key = parameters.values.begin()->first;
-                if (!key.empty()) {
-                    return resources.loadOrGet<Resource>(Path(key));
-                }
-                const std::string & value = parameters.values.begin()->second;
-                if (!value.empty()) {
-                    return resources.loadOrGet<Resource>(Path(value));
-                }
-            }
-
-            std::cerr << "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
-
-            return nullptr;
-        }
+        std::shared_ptr<Resource> loadFromPath(const std::string & loaderName, Resources & resources, const VariableHierarchy & parameters);
     };
 
     template<typename Resource, typename... Params>
@@ -54,5 +37,7 @@ namespace PAX {
         virtual std::shared_ptr<Resource> load(Params...) = 0;
     };
 }
+
+#include "Resources.h"
 
 #endif //PAXENGINE3_RESOURCELOADER_H

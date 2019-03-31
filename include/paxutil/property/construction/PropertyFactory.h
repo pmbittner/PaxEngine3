@@ -77,13 +77,13 @@ namespace PAX {
 
         Property<C> *create(ContentProvider &contentProvider) override {
             Property<C> *p = PropertyType::createFromProvider(contentProvider);
-            IPropertyFactory::initialize(contentProvider, p);
+            IPropertyFactory<C>::initialize(contentProvider, p);
             return p;
         }
 
         bool reinit(Property<C> * property, ContentProvider & contentProvider) override {
             if (property->getClassType() == paxtypeof(PropertyType)) {
-                IPropertyFactory::initialize(contentProvider, property);
+                IPropertyFactory<C>::initialize(contentProvider, property);
                 return true;
             } else return false;
         }

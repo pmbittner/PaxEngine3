@@ -12,6 +12,8 @@
 
 #include <utility> // std::forward
 
+#include <paxutil/macros/MacroIncludes.h>
+
 #include <paxutil/reflection/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
 #include <easylogging++.h>
@@ -26,14 +28,8 @@ namespace PAX {
         std::string msg;
 
     public:
-        explicit ResourceAlreadyCachedException(const std::string& res) {
-            msg = std::string("The Resource ") + res + std::string(" is already cached!");
-        }
-
-        const char* what() const noexcept override
-        {
-            return msg.c_str();
-        }
+        explicit ResourceAlreadyCachedException(const std::string& res);
+        const char* what() const noexcept override;
     };
 
     class Resources {
@@ -76,11 +72,7 @@ namespace PAX {
             return handle;
         }
 
-        bool unregisterResource(const std::type_index type, ResourceHandle* handle) {
-            auto deletedElementCount = _resourcesInUse.at(type).erase(handle);
-            delete handle; // deletes its signature
-            return deletedElementCount > 0;
-        }
+        bool unregisterResource(const std::type_index type, ResourceHandle* handle);
 
         template<typename Resource, typename... Params>
         std::shared_ptr<Resource> loadResource(Params... p) {
@@ -140,8 +132,15 @@ namespace PAX {
         std::shared_ptr<Resource> loadOrGet(Params... p) {
             //std::cout << "[Resources::loadOrGet] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             std::shared_ptr<Resource> &res = get<Resource>(p...);
-            if (!res)
-                return loadAndRegisterResource<Resource>(p...)->_resource;
+            if (!res) {
+                auto * handle = loadAndRegisterResource<Resource>(p...);
+
+                if (!handle) {
+                    PAX_THROW_RUNTIME_ERROR("[Resources::loadOrGet<" << print<Resource, Params...>(p...) << ">] FAILED: Resource could neither be found nor loaded!")
+                }
+
+                return handle->_resource;
+            }
             return res;
         }
 
@@ -183,7 +182,7 @@ namespace PAX {
                 return handle->_resource;
             }
 
-            static std::shared_ptr<Resource> shared_nullptr = std::shared_ptr<Resource>();
+            static std::shared_ptr<Resource> shared_nullptr = nullptr;
             return shared_nullptr;
         }
 
@@ -201,23 +200,27 @@ namespace PAX {
             return loadAndRegisterResource<Resource>(p...) != nullptr;
         }
 
-        void collectGarbage() {
-            for (std::pair<const std::type_index, std::unordered_set<ResourceHandle*>> &kv : _resourcesInUse) {
-                std::unordered_set<ResourceHandle*> &handles = kv.second;
-                std::unordered_set<ResourceHandle*> resourcesToDelete;
+        void collectGarbage();
+    };
 
-                for (ResourceHandle* handle : handles) {
-                    if (handle->getExternalReferenceCount() == 0) {
-                        resourcesToDelete.insert(handle);
-                    }
-                }
-
-                for (ResourceHandle* handle : resourcesToDelete) {
-                    unregisterResource(kv.first, handle);
-                }
+    template<typename Resource>
+    std::shared_ptr<Resource> ResourceLoaderT<Resource>::loadFromPath(const std::string & loaderName, Resources & resources, const VariableHierarchy & parameters) {
+        // Only one entry is required, namely the Path
+        if (parameters.values.size() == 1) {
+            const std::string & key = parameters.values.begin()->first;
+            if (!key.empty()) {
+                return resources.loadOrGet<Resource>(Path(key));
+            }
+            const std::string & value = parameters.values.begin()->second;
+            if (!value.empty()) {
+                return resources.loadOrGet<Resource>(Path(value));
             }
         }
-    };
+
+        std::cerr << "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
+
+        return nullptr;
+    }
 }
 
 #endif //PAXENGINE3_RESOURCES_H

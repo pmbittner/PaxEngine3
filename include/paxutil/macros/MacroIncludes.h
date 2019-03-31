@@ -8,16 +8,24 @@
 #include "CompilerDetection.h"
 #include <sstream>
 #include <ostream>
+#include <stdexcept>
 
 /** UTILITY **/
 // We do not use a template function here to avoid multiple instanciation of the same function
 // and thus keep the code smaller and inlined.
-#define PAX_assertNotNull(value, str_message) { \
+#define PAX_assertNotNull(value, ...) { \
 if (value == nullptr) { \
     std::stringstream s; \
-    s << str_message; \
+    s << __VA_ARGS__; \
     std::cerr << s.str() << std::endl; \
     throw std::invalid_argument(s.str()); \
 }}
+
+#define PAX_THROW_RUNTIME_ERROR(...) { \
+    std::stringstream s; \
+    s << __VA_ARGS__; \
+    std::cerr << s.str() << std::endl; \
+    throw std::runtime_error(s.str()); \
+}
 
 #endif //PAXENGINE3_MACROINCLUDES_H

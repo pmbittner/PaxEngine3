@@ -51,9 +51,7 @@ namespace PAX {
             struct {
                 float
                 camera = 10,
-                characters = 2,
-                platforms = 0,
-                tilemap = -1;
+                platforms = 0;
             } depthFor;
 
             static constexpr float GlobalScale = 5;
@@ -173,8 +171,11 @@ namespace PAX {
                     using namespace Tiles;
 
                     TileMapProperty::initialize();
-                    std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json");
-                    mainLayer->add(new TileMapProperty(tileMap));
+                    Path mapPath = Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json";
+                    LOG(INFO) << "Loading TileMap: " << mapPath;
+                    std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(mapPath);
+                    TileMapProperty * mapProp = new TileMapProperty(tileMap);
+                    mainLayer->add(mapProp);
                 }//*/
             }
 

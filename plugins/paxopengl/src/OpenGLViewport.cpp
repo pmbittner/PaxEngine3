@@ -6,7 +6,7 @@
 
 #include <GL/glew.h>
 
-#include "paxopengl/OpenGLViewport.h""
+#include "paxopengl/OpenGLViewport.h"
 
 namespace PAX {
     namespace OpenGL {

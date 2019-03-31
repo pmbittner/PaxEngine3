@@ -164,8 +164,8 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
 
-        Property<C> * getSingle(const TypeHandle & type) {
-            auto & it = _singleProperties.find(type);
+        Property<C> * getSingle(const TypeHandle & type) const {
+            const auto & it = _singleProperties.find(type);
 
             if (it != _singleProperties.end()) {
                 return it->second;
@@ -174,8 +174,8 @@ namespace PAX {
             return nullptr;
         }
 
-        const std::vector<Property<C>*> & getMultiple(const TypeHandle & type) {
-            auto & it = _multipleProperties.find(type);
+        const std::vector<Property<C>*> & getMultiple(const TypeHandle & type) const {
+            const auto & it = _multipleProperties.find(type);
 
             if (it != _multipleProperties.end()) {
                 return it->second;

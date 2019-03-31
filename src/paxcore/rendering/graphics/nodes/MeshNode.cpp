@@ -6,9 +6,13 @@
 #include <paxcore/rendering/camera/Camera.h>
 
 namespace PAX {
+    MeshNode::MeshNode() = default;
+
     MeshNode::MeshNode(const std::shared_ptr<Mesh> & mesh) : _mesh(mesh) {
         PAX_assertNotNull(mesh, "Mesh can't be null!")
     }
+
+    MeshNode::~MeshNode() = default;
 
     void MeshNode::render(RenderOptions &renderOptions) {
         Shader* shader = renderOptions.getShaderOptions().getShader();
@@ -20,12 +24,13 @@ namespace PAX {
         shader->setUniform("modelview", modelview, false);
         shader->setUniform("transposedInvModelView", glm::inverse(modelview), true /* transpose */);
 
-        _mesh->render(renderOptions);
+        //if (_mesh)
+            _mesh->render(renderOptions);
 
         SceneGraph::render(renderOptions);
     }
 
-    void MeshNode::setMesh(const std::shared_ptr<PAX::Mesh> &mesh) {
+    void MeshNode::setMesh(const std::shared_ptr<Mesh> & mesh) {
         _mesh = mesh;
     }
 

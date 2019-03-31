@@ -117,7 +117,7 @@ namespace PAX {
                                 if (it != prefab.parentPrefabs.end()) {
                                     parentPrefab = it->second;
                                 } else {
-                                    parentPrefab = resources.load<PropertyContainerPrefab<C>>(
+                                    parentPrefab = resources.loadOrGet<PropertyContainerPrefab<C>>(
                                             parentPath);
                                     prefab.parentPrefabs[parentPath] = parentPrefab;
                                 }
@@ -174,7 +174,7 @@ namespace PAX {
                             while (!props.empty()) {
                                 size_t numOfPropsToAdd = props.size();
 
-                                for (auto &it = props.begin(); it != props.end(); ++it) {
+                                for (auto it = props.begin(); it != props.end(); ++it) {
                                     if ((*it)->areDependenciesMetFor(c)) {
                                         c.add(*it);
                                         props.erase(it);

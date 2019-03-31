@@ -2,24 +2,25 @@
 // Created by Paul on 31.03.2019.
 //
 
-#include <paxtiles/tiled/TiledMapJsonLoader.h>
+#include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
 #include <paxutil/json/Json.h>
 #include <paxtiles/TileSet.h>
 
 namespace PAX {
     namespace Tiles {
-        bool TiledMapJsonLoader::canLoad(PAX::Path path) const {
+        bool TileMapJsonLoader::canLoad(PAX::Path path) const {
             return Services::GetResources().getLoader<nlohmann::json>(path) != nullptr;
         }
 
-        std::shared_ptr<TileMap> TiledMapJsonLoader::load(PAX::Path path) {
+        std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {
             std::shared_ptr<nlohmann::json> jptr = Services::GetResources().loadOrGet<nlohmann::json>(path);
-            PAX_assertNotNull(jptr, "[TiledMapJsonLoader::load] TileMap json file " << path << " could not be loaded!")
+            PAX_assertNotNull(jptr, "[TileMapJsonLoader::load] TileMap json file " << path << " could not be loaded!")
             const nlohmann::json & j = *jptr.get();
 
+
             if (j["orientation"] != "orthogonal") {
-                std::cerr << "[TiledMapJsonLoader::load] Only orthogonal maps are supported yet! \"orientation\" was " << j["orientation"] << std::endl;
+                std::cerr << "[TileMapJsonLoader::load] Only orthogonal maps are supported yet! \"orientation\" was " << j["orientation"] << std::endl;
                 return nullptr;
             }
 
@@ -75,37 +76,36 @@ namespace PAX {
                         int offset = 0;
                         int tilesetIndex = 0;
 
-                        for (int gid : gids) {
-                            if (gid < datai) {
-                                offset = gid;
-                                ++tilesetIndex;
-                            } else {
+                        for (int j = 0; j < gids.size() - 1; ++j) {
+                            int cur_gid  = gids[j];
+                            int next_gid = gids[j + 1];
+
+                            if (cur_gid <= datai && datai < next_gid) {
+                                datai -= cur_gid;
+                                tilesetIndex = j;
                                 break;
                             }
                         }
-
-                        datai -= offset;
 
                         Tile t{datai % layerWidth, datai / layerHeight, tilesetIndex};
                         tiles.emplace_back(t);
                     }
 
-                    TileMap::Layer layer(tiles, layerWidth);
+                    TileMap::Layer & layer = tilemap->addLayer(tiles, layerWidth);
                     layer.x = layerX;
                     layer.y = layerY;
                     layer.z = id;
                     layer.opacity = opacity;
-
-                    tilemap->addLayer(layer);
+                    layer.name = layerj["name"];
                 }
             }
 
             return tilemap;
         }
 
-        std::shared_ptr<TileMap> TiledMapJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
+        std::shared_ptr<TileMap> TileMapJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
                                                                               const PAX::VariableHierarchy &parameters) {            return loadFromPath("SDLImageOpenGLTextureLoader", resources, parameters);
-            return loadFromPath("TiledMapJsonLoader", resources, parameters);
+            return loadFromPath("TileMapJsonLoader", resources, parameters);
         }
     }
 }

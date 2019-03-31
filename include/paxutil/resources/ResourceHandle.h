@@ -8,13 +8,13 @@
 #include <memory>
 #include <string>
 
-#include "ResourceLoader.h"
-
 #include <paxutil/Signature.h>
 #include <paxutil/reflection/TemplateTypeToString.h>
 
 namespace PAX {
     class Resources;
+    class IResourceLoader;
+
     class ResourceHandle {
         friend class Resources;
 
@@ -43,11 +43,11 @@ namespace PAX {
             return _resource == other._resource;
         };
 
-        virtual int getExternalReferenceCount() const override {
+        int getExternalReferenceCount() const override {
             return _resource.use_count() - 1; // subtract our own reference
         }
 
-        virtual std::string toString() override {
+        std::string toString() override {
             return std::string(Reflection::GetTypeName<ResType>()) + "(" + ResourceHandle::toString() + ")";
         }
     };

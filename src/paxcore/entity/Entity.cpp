@@ -11,13 +11,8 @@
 #include <easylogging++.h>
 
 namespace PAX {
-    Entity::Entity() {
-        OnParentChanged.add<EventService, &EventService::fire<EntityParentChangedEvent>>(&getEventService());
-    }
-
-    Entity::~Entity() {
-
-    }
+    Entity::Entity() = default;
+    Entity::~Entity() = default;
 
     Transformation& Entity::getTransformation() {
         return _transform;
@@ -40,6 +35,7 @@ namespace PAX {
 
         EntityParentChangedEvent e(this, oldParent, parent);
         OnParentChanged(e);
+        getEventService()(e);
     }
 
     Entity* Entity::getParent() const {

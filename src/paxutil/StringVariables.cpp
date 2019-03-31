@@ -2,6 +2,8 @@
 // Created by Bittner on 07.03.2019.
 //
 
+#include <cstring>
+
 #include <paxutil/StringVariables.h>
 
 namespace PAX {

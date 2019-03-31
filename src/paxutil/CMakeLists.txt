@@ -73,7 +73,7 @@ set(SOURCE_FILES
         property/construction/ContentProvider.cpp
         json/JsonLoader.cpp
         property/construction/json/JsonPropertyContent.cpp
-        event/EventService.cpp StringVariables.cpp math/json/JsonToTransformation.cpp)
+        event/EventService.cpp StringVariables.cpp math/json/JsonToTransformation.cpp resources/ResourceLoader.cpp Signature.cpp resources/Resources.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

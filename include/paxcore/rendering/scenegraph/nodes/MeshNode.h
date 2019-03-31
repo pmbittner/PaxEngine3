@@ -10,10 +10,12 @@
 
 namespace PAX {
     class MeshNode : public SceneGraph {
-        std::shared_ptr<Mesh> _mesh;
+        std::shared_ptr<Mesh> _mesh = nullptr;
 
     public:
+        MeshNode();
         explicit MeshNode(const std::shared_ptr<Mesh> & mesh);
+        ~MeshNode() override;
 
         void setMesh(const std::shared_ptr<Mesh> & mesh);
         std::shared_ptr<Mesh> getMesh() const;

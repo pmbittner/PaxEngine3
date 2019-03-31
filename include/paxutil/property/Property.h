@@ -33,7 +33,7 @@ namespace PAX {
         virtual void attached(C &) {}
         virtual void detached(C &) {}
 
-        virtual void initializeFromProvider(ContentProvider & provider) = 0 {};
+        virtual void initializeFromProvider(ContentProvider & provider) = 0;
 
     public:
         Property() : owner(nullptr) {}
@@ -45,6 +45,9 @@ namespace PAX {
         virtual bool isMultiple() const { return IsMultiple(); }
         virtual bool areDependenciesMetFor(const C&) const { return true; }
     };
+
+    template<typename C>
+    void Property<C>::initializeFromProvider(ContentProvider & provider) {}
 }
 
 #include "PropertyAnnotations.h"

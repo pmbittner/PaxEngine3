@@ -6,20 +6,17 @@
 #define PAXENGINE3_PAXTILESPLUGIN_PLUGIN_H
 
 #include <paxcore/EnginePlugin.h>
+#include "tiled/TileMapJsonLoader.h"
+#include "tiled/TileSetJsonLoader.h"
 
 namespace PAX {
     namespace Tiles {
         class Plugin : public PAX::EnginePlugin {
+            TileMapJsonLoader tiledMapLoader;
+            TileSetJsonLoader tiledSetLoader;
+
         public:
-            virtual void initialize(PAX::Engine &engine) override;
-
-            virtual void postInitialize(PAX::Engine &engine) override;
-
-            virtual void registerServices(PAX::Services &services) override;
-
-            virtual void registerResourceLoaders(PAX::Resources &resources) override;
-
-            virtual void registerFactories(PAX::FactoryService &factoryService) override;
+            void registerResourceLoaders(PAX::Resources &resources) override;
         };
     }
 }

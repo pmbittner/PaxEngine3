@@ -10,6 +10,7 @@
 namespace PAX {
     class Renderable {
     public:
+        virtual ~Renderable() = 0;
         virtual void render(RenderOptions &renderOptions) = 0;
     };
 }

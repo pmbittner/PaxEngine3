@@ -30,14 +30,19 @@ namespace PAX {
             }
         }
 
-        TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) : tileMap(tilemap) {
-            for (const TileMap::Layer & layer : tileMap->getLayers()) {
-                auto graphics = new TileMapGraphics(tilemap);
+        TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) :
+        tileMap(tilemap),
+        layerEntities(tileMap->getLayers().size())
+        {
+            int i = 0;
+            for (TileMap::Layer & layer : tileMap->getLayers()) {
+                auto graphics = new TileMapGraphics(layer);
                 graphics->setShader(tileMapShader);
-                layerEntities.emplace_back();
-                Entity & e = layerEntities.back();
+                Entity & e = layerEntities[i];
                 e.add(graphics);
                 e.getTransformation().z() = layer.z;
+                std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
+                ++i;
             }
         }
 

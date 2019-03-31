@@ -25,7 +25,7 @@ namespace PAX {
 
         }
 
-        virtual ~TypedSceneGraph() {
+        ~TypedSceneGraph() override {
             _children.clear();
         }
 

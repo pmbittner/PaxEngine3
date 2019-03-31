@@ -5,7 +5,7 @@
 #include <paxutil/resources/ResourceHandle.h>
 
 namespace PAX {
-    ResourceHandle::ResourceHandle() {}
+    ResourceHandle::ResourceHandle() = default;
 
     ResourceHandle::~ResourceHandle() {
         delete _signature;

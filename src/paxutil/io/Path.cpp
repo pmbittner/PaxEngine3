@@ -10,6 +10,10 @@
 #include <windows.h>
 #endif
 
+#ifdef PAX_OS_LINUX
+#include <limits.h> /* PATH_MAX */
+#endif
+
 namespace PAX {
     Path::Path() : _path(EmptyPath) {
 
@@ -109,8 +113,14 @@ namespace PAX {
 
         return Path(buffer);
 #else
-        //TODO: Implement for linux
-        return "Path::toAbsolute not implemented lol";
+        char buf[PATH_MAX + 1]; /* not sure about the "+ 1" */
+        char *res = realpath(path.c_str(), buf);
+        if (res) {
+            return buf;
+        } else {
+            std::cerr << "[Path::toAbsolute] realpath failed with message: " << res << std::endl;
+            return path;
+        }
 #endif
     }
 

@@ -13,6 +13,7 @@
 namespace PAX {
     class ISignature {
     public:
+        virtual ~ISignature() = 0;
         virtual bool equals(ISignature *other) const = 0;
         virtual std::string toString() const = 0;
     };
@@ -31,7 +32,9 @@ namespace PAX {
         Signature(Signature<S...> &toCopy)
                 : Signature<S...>(toCopy._values) {}
 
-        virtual std::string toString() const {
+        ~Signature() override = default;
+
+        std::string toString() const override {
             std::stringstream ss;
             Util::TuplePrinter<decltype(_values), sizeof...(S)>::print(_values, ss);
             return ss.str();
@@ -46,7 +49,7 @@ namespace PAX {
             return _values == std::forward_as_tuple(rhs...);
         }
 
-        virtual bool equals(ISignature *other) const override {
+        bool equals(ISignature *other) const override {
             auto *concreteSignature = dynamic_cast<Signature<S...>*>(other);
 
             if (concreteSignature) {

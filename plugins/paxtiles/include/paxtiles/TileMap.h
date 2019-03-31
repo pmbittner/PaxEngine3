@@ -21,6 +21,8 @@ namespace PAX {
                 friend class TileMap;
                 MeshNode meshNode;
                 std::vector<Tile> tiles;
+                TileMap * map = nullptr;
+
                 void finalize(const std::vector<std::shared_ptr<TileSet>> & tileSets);
                 bool isFinalized() const;
 
@@ -33,6 +35,8 @@ namespace PAX {
                 Layer(const std::vector<Tile> & tiles, int width);
 
                 void render(RenderOptions &renderOptions) override;
+
+                TileMap* getMap();
             };
 
         private:
@@ -50,7 +54,7 @@ namespace PAX {
                     int tilewidth,
                     int tileheight);
 
-            void addLayer(Layer & layer);
+            Layer & addLayer(const std::vector<Tile> & tiles, int width);
 
             // TODO: This should be const :/
             std::vector<Layer> & getLayers();

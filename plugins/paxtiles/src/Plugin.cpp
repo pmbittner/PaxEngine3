@@ -4,18 +4,16 @@
 
 #include "paxtiles/Plugin.h"
 
-#include <paxcore/Engine.h>
+#include <paxutil/resources/Resources.h>
+#include <paxtiles/TileMap.h>
+#include <paxtiles/tiled/TileMapJsonLoader.h>
+#include <paxtiles/tiled/TileSetJsonLoader.h>
 
 namespace PAX {
     namespace Tiles {
-        void Plugin::initialize(PAX::Engine &engine) {}
-
-        void Plugin::postInitialize(PAX::Engine &engine) {}
-
-        void Plugin::registerFactories(PAX::FactoryService &factoryService) {}
-
-        void Plugin::registerResourceLoaders(PAX::Resources &resources) {}
-
-        void Plugin::registerServices(PAX::Services &services) {}
+        void Plugin::registerResourceLoaders(PAX::Resources & resources) {
+            resources.registerLoader<TileMap>(&tiledMapLoader);
+            resources.registerLoader<TileSet>(&tiledSetLoader);
+        }
     }
 }

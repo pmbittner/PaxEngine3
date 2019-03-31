@@ -14,7 +14,7 @@ namespace PAX {
         std::set<C*> containers;
 
         bool isValid(C * c) {
-            return c->has<RequiredProperties...>();
+            return c->template has<RequiredProperties...>();
         }
 
         void tryAdd(C * c) {
@@ -51,8 +51,8 @@ namespace PAX {
                 tryAdd(c);
             }
 
-            manager.getEventService().add<PropertyContainerAddedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerAdded>(this);
-            manager.getEventService().add<PropertyContainerRemovedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerRemoved>(this);
+            manager.getEventService().template add<PropertyContainerAddedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerAdded>(this);
+            manager.getEventService().template add<PropertyContainerRemovedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerRemoved>(this);
 
             unfoldPropertyEventListeners<true, RequiredProperties...>(manager.getEventService());
         }
@@ -63,8 +63,8 @@ namespace PAX {
         virtual ~PropertyContainerManagerView() {
             // It is unnecessary to remove all containers by hand.
 
-            manager.getEventService().remove<PropertyContainerAddedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerAdded>(this);
-            manager.getEventService().remove<PropertyContainerRemovedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerRemoved>(this);
+            manager.getEventService().template remove<PropertyContainerAddedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerAdded>(this);
+            manager.getEventService().template remove<PropertyContainerRemovedEvent<C>, PropertyContainerManagerView, &PropertyContainerManagerView::onContainerRemoved>(this);
 
             unfoldPropertyEventListeners<false, RequiredProperties...>(manager.getEventService());
         }
