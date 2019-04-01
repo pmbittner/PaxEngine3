@@ -171,11 +171,8 @@ namespace PAX {
                     using namespace Tiles;
 
                     TileMapProperty::initialize();
-                    Path mapPath = Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json";
-                    LOG(INFO) << "Loading TileMap: " << mapPath;
-                    std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(mapPath);
-                    TileMapProperty * mapProp = new TileMapProperty(tileMap);
-                    mainLayer->add(mapProp);
+                    std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json");
+                    mainLayer->add(new TileMapProperty(tileMap));
                 }//*/
             }
 

@@ -14,6 +14,7 @@ namespace PAX {
         }
 
         std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {
+            std::cout << "[TileMapJsonLoader::load] " << path << std::endl;
             std::shared_ptr<nlohmann::json> jptr = Services::GetResources().loadOrGet<nlohmann::json>(path);
             PAX_assertNotNull(jptr, "[TileMapJsonLoader::load] TileMap json file " << path << " could not be loaded!")
             const nlohmann::json & j = *jptr.get();
@@ -28,7 +29,10 @@ namespace PAX {
             int  height     = j["height"];
             int  tilewidth  = j["tilewidth"];
             int  tileheight = j["tileheight"];
-            bool infinite   = j["infinite"];
+            //bool infinite   = j["infinite"];
+
+            std::cout << "[TileMapJsonLoader::load]  (w/h)  = (" << width << "/" << height << ")" << std::endl;
+            std::cout << "[TileMapJsonLoader::load] (tw/th) = (" << tilewidth << "/" << tileheight << ")" << std::endl;
 
             std::vector<std::shared_ptr<TileSet>> tilesets;
             std::vector<int> gids;
@@ -53,6 +57,10 @@ namespace PAX {
                 tilesets.insert(tilesetsIt, tileset);
             }
 
+            for (int i = 0; i < tilesets.size(); ++i) {
+                std::cout << "[TileMapJsonLoader::load]     " << gids[i] << " -> " << tilesets[i]->getName() << std::endl;
+            }
+
             std::shared_ptr<TileMap> tilemap = std::make_shared<TileMap>(tilesets, width, height, tilewidth, tileheight);
 
             // Parse layers
@@ -71,24 +79,42 @@ namespace PAX {
                     assert(tileData.size() == layerWidth * layerHeight);
                     std::vector<Tile> tiles(tileData.size());
 
+
                     for (int i = 0; i < tileData.size(); ++i) {
                         int datai = tileData[i];
-                        int offset = 0;
                         int tilesetIndex = 0;
+                        bool isEmpty = false;
 
-                        for (int j = 0; j < gids.size() - 1; ++j) {
-                            int cur_gid  = gids[j];
-                            int next_gid = gids[j + 1];
+                        for (int k = 0; k < gids.size(); ++k) {
+                            int cur_gid  = gids[k];
+                            int next_gid = std::numeric_limits<int>::max();
+
+                            if (k + 1 < gids.size())
+                                next_gid = gids[k + 1];
 
                             if (cur_gid <= datai && datai < next_gid) {
                                 datai -= cur_gid;
-                                tilesetIndex = j;
+                                tilesetIndex = k;
+                                break;
+                            } else if (datai < cur_gid) {
+                                // This should only happen, if the id is less than the very first gid.
+                                // This encodes transparency.
+                                isEmpty = true;
                                 break;
                             }
                         }
 
-                        Tile t{datai % layerWidth, datai / layerHeight, tilesetIndex};
-                        tiles.emplace_back(t);
+                        int myTileSetWidth = tilesets[tilesetIndex]->getSpriteSheet().getDimensions().x;
+
+                        tiles[i].isEmpty = isEmpty;
+                        tiles[i].textureColumn = datai % myTileSetWidth;
+                        tiles[i].textureRow = datai / myTileSetWidth;
+                        tiles[i].tileSetIndex = tilesetIndex;
+
+                        std::cout << "[TileMapJsonLoader::load] datai " << datai << std::endl;
+                        std::cout << "[TileMapJsonLoader::load]   col " << tiles[i].textureColumn << std::endl;
+                        std::cout << "[TileMapJsonLoader::load]   row " << tiles[i].textureRow << std::endl;
+                        std::cout << "[TileMapJsonLoader::load] myTileSetWidth " << myTileSetWidth << std::endl;
                     }
 
                     TileMap::Layer & layer = tilemap->addLayer(tiles, layerWidth);
@@ -104,7 +130,7 @@ namespace PAX {
         }
 
         std::shared_ptr<TileMap> TileMapJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                              const PAX::VariableHierarchy &parameters) {            return loadFromPath("SDLImageOpenGLTextureLoader", resources, parameters);
+                                                                              const PAX::VariableHierarchy &parameters) {
             return loadFromPath("TileMapJsonLoader", resources, parameters);
         }
     }

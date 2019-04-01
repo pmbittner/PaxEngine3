@@ -17,7 +17,7 @@ namespace PAX {
             std::string name = "<unknown>";
 
         public:
-            TileSet(const std::shared_ptr<Texture> & texture, int tileWidth, int tileHeight);
+            TileSet(const std::shared_ptr<Texture> & texture, int columns, int rows);
             void setName(const std::string & name);
             const std::string & getName() const;
 

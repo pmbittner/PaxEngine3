@@ -14,7 +14,8 @@ namespace PAX {
         TileMap::Layer::Layer(const std::vector<PAX::Tiles::Tile> & tiles, int width)
         : tiles(tiles), width(width), height(tiles.size() / width)
         {
-
+            std::cout << "[TileMap::Layer::Layer]  width = " << width << std::endl;
+            std::cout << "[TileMap::Layer::Layer] height = " << height << std::endl;
         }
 
         void TileMap::Layer::finalize(const std::vector<std::shared_ptr<TileSet>> & tileSets) {
@@ -60,10 +61,18 @@ namespace PAX {
                     uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY + uvTileSize.y));
                     uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY));
 
-                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
-                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
-                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
-                    tileSheetIds.emplace_back(currentTile.tileSetIndex);
+
+                    if (currentTile.isEmpty) {
+                        tileSheetIds.emplace_back(-1);
+                        tileSheetIds.emplace_back(-1);
+                        tileSheetIds.emplace_back(-1);
+                        tileSheetIds.emplace_back(-1);
+                    } else {
+                        tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                        tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                        tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                        tileSheetIds.emplace_back(currentTile.tileSetIndex);
+                    }
 
                     index += 4;
                 }

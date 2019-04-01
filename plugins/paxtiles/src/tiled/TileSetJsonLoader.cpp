@@ -26,10 +26,10 @@ namespace PAX {
                 PAX_assertNotNull(image, "[TileSetJsonLoader::load] Image file " << imagePath << " could not be loaded!")
             }
 
-            int tilewidth  = j["tilewidth"];
-            int tileheight = j["tileheight"];
+            int columns = j["imagewidth" ].get<int>() / j["tilewidth"].get<int>();
+            int rows    = j["imageheight"].get<int>() / j["tileheight"].get<int>();
 
-            std::shared_ptr<TileSet> tileSet = std::make_shared<TileSet>(image, tilewidth, tileheight);
+            std::shared_ptr<TileSet> tileSet = std::make_shared<TileSet>(image, columns, rows);
             tileSet->setName(name);
             return tileSet;
         }

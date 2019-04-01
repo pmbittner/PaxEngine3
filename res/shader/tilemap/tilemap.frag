@@ -9,5 +9,9 @@ out vec4 outColor;
 uniform sampler2D tileSets[NUM_MAX_TILESETS];
 
 void main(void) {
-	outColor = texture(tileSets[tileSetIndex], fragTextureCoords);
+	if (tileSetIndex >= 0) {
+		outColor = texture(tileSets[tileSetIndex], fragTextureCoords);
+	} else {
+		outColor = vec4(0, 0, 0, 0);
+	}
 }

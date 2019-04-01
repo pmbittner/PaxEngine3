@@ -6,8 +6,8 @@
 
 namespace PAX {
     namespace Tiles {
-        TileSet::TileSet(const std::shared_ptr<PAX::Texture> &texture, int tileWidth, int tileHeight)
-        : spriteSheet(texture, tileWidth, tileHeight)
+        TileSet::TileSet(const std::shared_ptr<PAX::Texture> &texture, int columns, int rows)
+        : spriteSheet(texture, columns, rows)
         {
 
         }

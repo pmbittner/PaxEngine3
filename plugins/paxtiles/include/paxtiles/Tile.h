@@ -11,6 +11,7 @@ namespace PAX {
             int textureColumn;
             int textureRow;
             int tileSetIndex;
+            bool isEmpty = false;
         };
     }
 }
