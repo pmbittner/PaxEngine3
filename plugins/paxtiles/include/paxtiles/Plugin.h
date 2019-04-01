@@ -17,6 +17,7 @@ namespace PAX {
 
         public:
             void registerResourceLoaders(PAX::Resources &resources) override;
+            void exp_registerProperties() override;
         };
     }
 }

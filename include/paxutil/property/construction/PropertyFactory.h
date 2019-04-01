@@ -64,6 +64,9 @@ namespace PAX {
 
             return nullptr;
         }
+
+        template<typename PropertyType>
+        static void registerFactory(const std::string & name);
     };
 
     template<typename PropertyType, typename C>
@@ -98,6 +101,12 @@ namespace PAX {
             return PropertyType::IsMultiple();
         }
     };
+
+    template<class C>
+    template<typename PropertyType>
+    void PropertyFactoryRegister<C>::registerFactory(const std::string & name) {
+        new PropertyFactory<PropertyType, C>(name);
+    }
 }
 
 #endif

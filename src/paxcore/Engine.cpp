@@ -70,6 +70,10 @@ namespace PAX {
         LOG(INFO) << "[Engine::initialize] initialize Renderer";
         _renderer.initialize();
 
+        for (EnginePlugin * plugin : _plugins) {
+            plugin->exp_registerProperties();
+        }
+
         LOG(INFO) << "[Engine::initialize] Plugins: postInitialize";
         for (EnginePlugin *plugin : _plugins) {
             plugin->postInitialize(*this);

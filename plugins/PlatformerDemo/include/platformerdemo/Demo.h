@@ -32,7 +32,7 @@ namespace PAX {
         class Demo : public Game {
             // World
             World * world = nullptr;
-            WorldLayer * mainLayer = nullptr;
+            std::shared_ptr<WorldLayer> mainLayer = nullptr;
 
             // Entities
             std::shared_ptr<Entity> player = nullptr;
@@ -41,6 +41,7 @@ namespace PAX {
 
             // Resources
             std::shared_ptr<EntityPrefab> playerPrefab, npcPrefab;
+            std::shared_ptr<WorldLayerPrefab> mainLayerPrefab;
 
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
@@ -71,6 +72,10 @@ namespace PAX {
 
                 npcPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
                         Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
+                );
+
+                mainLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/worldlayer/main.paxprefab.json"
                 );
             }
 
@@ -165,14 +170,6 @@ namespace PAX {
                     bg->spawn(backgroundCam);
                     world->addLayer(bg);
                 }
-
-                {
-                    // create tile sheet test
-                    using namespace Tiles;
-
-                    std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json");
-                    mainLayer->add(new TileMapProperty(tileMap));
-                }//*/
             }
 
         public:
@@ -195,7 +192,8 @@ namespace PAX {
 
                 std::cout << "[PAX::PlatformerDemo::Demo::initialize] After gather resources" << std::endl;
 
-                mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
+                //mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
+                mainLayer = mainLayerPrefab->create();
 
                 world = new World();
                 player = playerPrefab->create();
@@ -208,21 +206,15 @@ namespace PAX {
                 npc->getTransformation().position2D() = {-20, -120};
                 mainLayer->spawn(npc.get());
 
-                world->addLayer(mainLayer);
+                world->addLayer(mainLayer.get());
                 setActiveWorld(world);
             }
 
             void terminate() override {
                 player.reset();
                 npc.reset();
-
-                if (unregisterWorld(world, true)) {
-                    delete world;
-                } else {
-                    LOG(ERROR) << "The world of JumpNRun could not be deleted!";
-                }
-
                 Game::terminate();
+                mainLayer.reset();
             }
         };
     }
