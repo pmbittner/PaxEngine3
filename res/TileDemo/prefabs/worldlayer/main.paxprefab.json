@@ -1,0 +1,13 @@
+{
+  "Constructor": {
+    "name": "TileDemo::MainLayer",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Properties": {
+    "PAX::Tiles::TileMapProperty": {
+      "map": "${ResourcePath}/TileDemo/tiled/Platforms/Platforms.json",
+      "scale": [1, 1, 1]
+    }
+  }
+}

@@ -36,7 +36,7 @@ namespace PAX {
 
             void gatherResources() {
                 mainLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/worldlayer/main.paxprefab.json"
+                        Services::GetPaths().getResourcePath() + "/TileDemo/prefabs/worldlayer/main.paxprefab.json"
                 );
             }
 
