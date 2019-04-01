@@ -15,6 +15,10 @@ namespace PAX {
 
         void TileMapProperty::initializeFromProvider(ContentProvider & provider) {
             Super::initializeFromProvider(provider);
+
+            if (auto s = provider.get<glm::vec3>("scale")) {
+                setScale(s.value());
+            }
         }
 
         std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
@@ -32,6 +36,7 @@ namespace PAX {
 
         TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) :
         tileMap(tilemap),
+        scale(1),
         layerEntities(tileMap->getLayers().size())
         {
             initialize();
@@ -48,14 +53,32 @@ namespace PAX {
             }
         }
 
-        void TileMapProperty::attached(PAX::WorldLayer &worldLayer) {
+        void TileMapProperty::attached(PAX::WorldLayer & worldLayer) {
             for (Entity & e : layerEntities)
                 worldLayer.spawn(&e);
         }
 
-        void TileMapProperty::detached(PAX::WorldLayer &worldLayer) {
-            for (Entity & e : layerEntities)
-                worldLayer.despawn(&e);
+        void TileMapProperty::detached(PAX::WorldLayer & worldLayer) {
+            for (Entity & e : layerEntities) {
+                if (e.getWorldLayer() == &worldLayer) {
+                    worldLayer.despawn(&e);
+                }
+            }
+        }
+
+        void TileMapProperty::setScale(const glm::vec3 &scale) {
+            glm::vec3 delta = scale / getScale();
+
+            for (Entity & e : layerEntities) {
+                Transformation & t = e.getTransformation();
+                t.setScale(t.getScale() * delta);
+            }
+
+            this->scale = scale;
+        }
+
+        const glm::vec3& TileMapProperty::getScale() const {
+            return scale;
         }
     }
 }

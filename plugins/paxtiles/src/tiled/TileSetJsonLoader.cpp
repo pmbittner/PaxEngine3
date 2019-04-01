@@ -23,6 +23,7 @@ namespace PAX {
             {
                 Path imagePath = path.getDirectory() + j["image"];
                 image = Services::GetResources().loadOrGet<Texture>(imagePath);
+                image->setWrapMode(Texture::WrapMode::ClampToEdge, Texture::WrapMode::ClampToEdge);
                 PAX_assertNotNull(image, "[TileSetJsonLoader::load] Image file " << imagePath << " could not be loaded!")
             }
 

@@ -16,5 +16,8 @@ include_directories(paxassetimport/include/paxassimp)
 add_subdirectory(PlatformerDemo)
 include_directories(PlatformerDemo/include/platformerdemo)
 
+add_subdirectory(TileDemo)
+include_directories(TileDemo/include/platformerdemo)
+
 add_subdirectory(PlaygroundDemo)
 include_directories(PlaygroundDemo/include/playgrounddemo)

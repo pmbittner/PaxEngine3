@@ -238,6 +238,7 @@ namespace PAX {
             return true;
         }
 
+        // TODO: Make private
         bool removeAsMultiple(const std::type_info & type, Property<C>* component) {
             std::vector<Property<C>*> &result = _multipleProperties.at(type);
             if (!Util::removeFromVector(result, component))
@@ -250,6 +251,7 @@ namespace PAX {
             return true;
         }
 
+        // TODO: Make private
         bool removeAsSingle(const std::type_info & type, Property<C>* component) {
             // The given property is not the property, that is registered for the given type.
             if (_singleProperties.at(type) != component)

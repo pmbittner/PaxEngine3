@@ -39,8 +39,12 @@ namespace PAX {
                     const Tile & currentTile = tiles[row * width + column];
 
                     // use vec2 to cast to float
-                    glm::vec2 spriteSheetSize = tileSets[currentTile.tileSetIndex]->getSpriteSheet().getDimensions();
+                    const SpriteSheet & spriteSheet = tileSets[currentTile.tileSetIndex]->getSpriteSheet();
+                    glm::vec2 spriteSheetSize = spriteSheet.getDimensions();
                     glm::vec2 uvTileSize = 1.f / spriteSheetSize;
+                    glm::vec2 uvInsets(0.5f / spriteSheet.getTexture()->getWidth(), 0.5f / spriteSheet.getTexture()->getHeight());
+                    //glm::vec2 uvInsets;
+                    uvInsets = {0, 0};
 
                     // We have lots of vertex duplicates here, but this is necessary due to the need
                     // for different UV coords.
@@ -54,10 +58,10 @@ namespace PAX {
 
                     float uvX = static_cast<float>(currentTile.textureColumn) * uvTileSize.x;
                     float uvY = static_cast<float>(currentTile.textureRow)    * uvTileSize.y;
-                    uv.emplace_back(glm::vec2(uvX               , uvY));
-                    uv.emplace_back(glm::vec2(uvX               , uvY + uvTileSize.y));
-                    uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY + uvTileSize.y));
-                    uv.emplace_back(glm::vec2(uvX + uvTileSize.x, uvY));
+                    uv.emplace_back(glm::vec2(uvX                + uvInsets.x, uvY                + uvInsets.y));
+                    uv.emplace_back(glm::vec2(uvX                + uvInsets.x, uvY + uvTileSize.y - uvInsets.y));
+                    uv.emplace_back(glm::vec2(uvX + uvTileSize.x - uvInsets.x, uvY + uvTileSize.y - uvInsets.y));
+                    uv.emplace_back(glm::vec2(uvX + uvTileSize.x - uvInsets.x, uvY                + uvInsets.y));
 
 
                     if (currentTile.isEmpty) {

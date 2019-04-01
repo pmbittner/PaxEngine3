@@ -17,6 +17,7 @@ namespace PAX {
 
             std::shared_ptr<TileMap> tileMap;
             std::vector<Entity> layerEntities;
+            glm::vec3 scale;
 
             static std::shared_ptr<Shader> tileMapShader;
             static void initialize();
@@ -24,9 +25,11 @@ namespace PAX {
         public:
             explicit TileMapProperty(const std::shared_ptr<TileMap> & tilemap);
 
-
             void attached(WorldLayer & worldLayer) override;
             void detached(WorldLayer & worldLayer) override;
+
+            void setScale(const glm::vec3 & scale);
+            const glm::vec3 & getScale() const;
         };
     }
 }

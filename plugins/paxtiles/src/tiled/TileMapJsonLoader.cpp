@@ -14,7 +14,7 @@ namespace PAX {
         }
 
         std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {
-            std::cout << "[TileMapJsonLoader::load] " << path << std::endl;
+            //std::cout << "[TileMapJsonLoader::load] " << path << std::endl;
             std::shared_ptr<nlohmann::json> jptr = Services::GetResources().loadOrGet<nlohmann::json>(path);
             PAX_assertNotNull(jptr, "[TileMapJsonLoader::load] TileMap json file " << path << " could not be loaded!")
             const nlohmann::json & j = *jptr.get();

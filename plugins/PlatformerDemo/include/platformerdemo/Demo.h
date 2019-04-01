@@ -32,7 +32,7 @@ namespace PAX {
         class Demo : public Game {
             // World
             World * world = nullptr;
-            std::shared_ptr<WorldLayer> mainLayer = nullptr;
+            WorldLayer * mainLayer = nullptr;
 
             // Entities
             std::shared_ptr<Entity> player = nullptr;
@@ -41,7 +41,6 @@ namespace PAX {
 
             // Resources
             std::shared_ptr<EntityPrefab> playerPrefab, npcPrefab;
-            std::shared_ptr<WorldLayerPrefab> mainLayerPrefab;
 
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
@@ -72,10 +71,6 @@ namespace PAX {
 
                 npcPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
                         Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
-                );
-
-                mainLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/worldlayer/main.paxprefab.json"
                 );
             }
 
@@ -192,8 +187,7 @@ namespace PAX {
 
                 std::cout << "[PAX::PlatformerDemo::Demo::initialize] After gather resources" << std::endl;
 
-                //mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
-                mainLayer = mainLayerPrefab->create();
+                mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
 
                 world = new World();
                 player = playerPrefab->create();
@@ -206,15 +200,16 @@ namespace PAX {
                 npc->getTransformation().position2D() = {-20, -120};
                 mainLayer->spawn(npc.get());
 
-                world->addLayer(mainLayer.get());
+                world->addLayer(mainLayer);
                 setActiveWorld(world);
             }
 
             void terminate() override {
+                world->removeLayer(mainLayer);
+                delete mainLayer;
                 player.reset();
                 npc.reset();
                 Game::terminate();
-                mainLayer.reset();
             }
         };
     }
