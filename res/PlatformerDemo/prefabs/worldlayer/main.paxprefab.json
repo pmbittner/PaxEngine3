@@ -1,0 +1,12 @@
+{
+  "Constructor": {
+    "name": "PlatformerDemo::MainLayer",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Properties": {
+    "PAX::Tiles::TileMapProperty": {
+      "map": "${ResourcePath}/PlatformerDemo/tiled/SmallForest/SmallForest.json"
+    }
+  }
+}

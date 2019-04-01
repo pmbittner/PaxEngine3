@@ -24,12 +24,16 @@
 #include "event/EntityDespawnedEvent.h"
 
 namespace PAX {
+    using WorldLayerPrefab = PropertyContainerPrefab<WorldLayer>;
+
     class WorldLayer : public PropertyContainer<WorldLayer> {
         friend class SceneGraphGenerator;
 
         std::string _name;
-        const float z; // This could be made non const, but then the Scenegraph has to be updated somehow.
-        const int _dimensions;
+
+        // These should be const, but are not due to deferred initialized via initialize method.
+        float z = 0; // This could be made non const, but then the Scenegraph has to be updated somehow.
+        int _dimensions = -1;
 
         std::shared_ptr<WorldLayerSceneGraph> _sceneGraph;
         std::shared_ptr<SceneGraphGenerator> _sceneGraphGenerator;
@@ -37,13 +41,17 @@ namespace PAX {
         PropertyContainerManager<Entity> entities;
 
     public:
+        WorldLayer();
+        /// Calls the initialize method directly.
+        WorldLayer(const std::string& name, int dimensions, float z = 0, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator = nullptr);
+        ~WorldLayer() override;
+
         /// \param name The name of this WorldLayer functions as an identifier. Therefore it should be unique.
         /// \param dimensions The number of dimenions, this WorldLayer should have (typically 2 or 3).
         /// \param z An index for ordering the layers. Layers with greater z will be rendered behind layers with smaller z.
         /// \param sceneGraphGenerator The generator, that will be used for correctly arranging cameras and graphics components of this layers entities into its scene graph.
         ///                            If this is nullptr, the factory will be queried to create one (Services
-        WorldLayer(const std::string& name, int dimensions, float z = 0, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator = nullptr);
-        ~WorldLayer() override;
+        void initialize(const std::string& name, int dimensions, float z = 0, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator = nullptr);
 
         void spawn(Entity *entity);
         void despawn(Entity *entity);

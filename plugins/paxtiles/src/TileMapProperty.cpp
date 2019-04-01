@@ -34,6 +34,8 @@ namespace PAX {
         tileMap(tilemap),
         layerEntities(tileMap->getLayers().size())
         {
+            initialize();
+
             int i = 0;
             for (TileMap::Layer & layer : tileMap->getLayers()) {
                 auto graphics = new TileMapGraphics(layer);

@@ -31,9 +31,6 @@ namespace PAX {
             int  tileheight = j["tileheight"];
             //bool infinite   = j["infinite"];
 
-            std::cout << "[TileMapJsonLoader::load]  (w/h)  = (" << width << "/" << height << ")" << std::endl;
-            std::cout << "[TileMapJsonLoader::load] (tw/th) = (" << tilewidth << "/" << tileheight << ")" << std::endl;
-
             std::vector<std::shared_ptr<TileSet>> tilesets;
             std::vector<int> gids;
 
@@ -55,10 +52,6 @@ namespace PAX {
 
                 gids.insert(gidsIt, firstgid);
                 tilesets.insert(tilesetsIt, tileset);
-            }
-
-            for (int i = 0; i < tilesets.size(); ++i) {
-                std::cout << "[TileMapJsonLoader::load]     " << gids[i] << " -> " << tilesets[i]->getName() << std::endl;
             }
 
             std::shared_ptr<TileMap> tilemap = std::make_shared<TileMap>(tilesets, width, height, tilewidth, tileheight);
@@ -110,11 +103,6 @@ namespace PAX {
                         tiles[i].textureColumn = datai % myTileSetWidth;
                         tiles[i].textureRow = datai / myTileSetWidth;
                         tiles[i].tileSetIndex = tilesetIndex;
-
-                        std::cout << "[TileMapJsonLoader::load] datai " << datai << std::endl;
-                        std::cout << "[TileMapJsonLoader::load]   col " << tiles[i].textureColumn << std::endl;
-                        std::cout << "[TileMapJsonLoader::load]   row " << tiles[i].textureRow << std::endl;
-                        std::cout << "[TileMapJsonLoader::load] myTileSetWidth " << myTileSetWidth << std::endl;
                     }
 
                     TileMap::Layer & layer = tilemap->addLayer(tiles, layerWidth);

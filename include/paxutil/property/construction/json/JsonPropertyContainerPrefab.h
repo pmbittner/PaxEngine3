@@ -139,35 +139,32 @@ namespace PAX {
                                 IPropertyFactory<C> *propertyFactory = PropertyFactoryRegister<C>::getFactoryFor(
                                         propTypeName);
 
-                                /*
-                                std::cout
-                                        << "[JsonPropertyContainerPrefab::parse(\"Properties\")] creating "
-                                        << propTypeName << std::endl;
-                                //*/
-                                JsonPropertyContent content(el.value());
-                                contentProvider.setContent(&content);
+                                if (propertyFactory) {
+                                    JsonPropertyContent content(el.value());
+                                    contentProvider.setContent(&content);
 
-                                // If the container already has properties of the given type we wont create a new one,
-                                // but instead overwrite the old ones with the newer settings.
-                                const PAX::TypeHandle &propType = propertyFactory->getPropertyType();
-                                bool isPropMultiple = propertyFactory->isPropertyMultiple();
+                                    // If the container already has properties of the given type we wont create a new one,
+                                    // but instead overwrite the old ones with the newer settings.
+                                    const PAX::TypeHandle &propType = propertyFactory->getPropertyType();
+                                    bool isPropMultiple = propertyFactory->isPropertyMultiple();
 
-                                if (c.has(propType, isPropMultiple)) {
-                                    // Get the corresponding property/ies
-                                    if (isPropMultiple) {
-                                        const std::vector<Property<C> *> &existingProperties = c.getMultiple(
-                                                propType);
-                                        for (Property<C> *existingProperty : existingProperties) {
-                                            propertyFactory->reinit(existingProperty, contentProvider);
+                                    if (c.has(propType, isPropMultiple)) {
+                                        // Get the corresponding property/ies
+                                        if (isPropMultiple) {
+                                            const std::vector<Property<C> *> &existingProperties = c.getMultiple(
+                                                    propType);
+                                            for (Property<C> *existingProperty : existingProperties) {
+                                                propertyFactory->reinit(existingProperty, contentProvider);
+                                            }
+                                        } else {
+                                            propertyFactory->reinit(c.getSingle(propType), contentProvider);
                                         }
                                     } else {
-                                        propertyFactory->reinit(c.getSingle(propType), contentProvider);
+                                        props.emplace_back(propertyFactory->create(contentProvider));
                                     }
-                                } else {
-                                    props.emplace_back(propertyFactory->create(contentProvider));
-                                }
 
-                                contentProvider.setContent(nullptr);
+                                    contentProvider.setContent(nullptr);
+                                }
                             }
 
                             // Add the properties deferred to resolve their dependencies.
@@ -199,7 +196,7 @@ namespace PAX {
                 if (PropertyContainerPrefab<C>::allocator) {
                     void * mem = PropertyContainerPrefab<C>::allocator->allocate(sizeof(C));
                     c = std::shared_ptr<C>(
-                            new (mem) C,
+                            new (mem) C(),
                             [this](C * c) {
                                 delete c;
                                 this->allocator->destroy(c);

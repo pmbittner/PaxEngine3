@@ -8,16 +8,28 @@
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
 
 namespace PAX {
-    WorldLayer::WorldLayer(const std::string& name, int dimensions, float z, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator)
-    : z(z),
-      _name(name),
-      _dimensions(dimensions),
-      entities(getEventService())
+    WorldLayer::WorldLayer()
+    : entities(getEventService())
     {
+    }
+
+    WorldLayer::WorldLayer(const std::string &name, int dimensions, float z,
+                           const std::shared_ptr<PAX::SceneGraphGenerator> &sceneGraphGenerator)
+            : entities(getEventService())
+    {
+        initialize(name, dimensions, z, sceneGraphGenerator);
+    }
+
+    void WorldLayer::initialize(const std::string &name, int dimensions, float z,
+                                const std::shared_ptr<PAX::SceneGraphGenerator> &sceneGraphGenerator) {
+        this->z = z;
+        this->_name = name;
+        this->_dimensions = dimensions;
+
         if (sceneGraphGenerator) {
             _sceneGraphGenerator = sceneGraphGenerator;
         } else {
-            SceneGraphGeneratorFactory * sceneGraphGeneratorFactory = Services::GetFactoryService().get<SceneGraphGeneratorFactory>();
+            auto * sceneGraphGeneratorFactory = Services::GetFactoryService().get<SceneGraphGeneratorFactory>();
 
             if (sceneGraphGeneratorFactory) {
                 _sceneGraphGenerator = sceneGraphGeneratorFactory->create(dimensions);
@@ -26,7 +38,7 @@ namespace PAX {
             }
         }
 
-        WorldLayerSceneGraphFactory * sceneGraphGeneratorFactory = Services::GetFactoryService().get<WorldLayerSceneGraphFactory>();
+        auto * sceneGraphGeneratorFactory = Services::GetFactoryService().get<WorldLayerSceneGraphFactory>();
         if (sceneGraphGeneratorFactory) {
             _sceneGraph = sceneGraphGeneratorFactory->create(this, z);
         } else {

@@ -48,6 +48,7 @@ namespace PAX {
         PropertyFactoryRegister() noexcept = default;
 
         static void registerFactory(const std::string &name, IPropertyFactory<C> *constructor) noexcept {
+            //std::cerr << "PropertyFactoryRegister<" << typeid(C).name() << ">::registerFactory(" << name << ")]" << std::endl;
             getMap()[name] = constructor;
         }
 
@@ -70,6 +71,7 @@ namespace PAX {
     public:
         explicit PropertyFactory(const std::string &name) noexcept
                 : PropertyFactoryRegister<C>(), IPropertyFactory<C>() {
+            //std::cerr << "PropertyFactory<" << typeid(C).name() << "> constructor]" << std::endl;
             PropertyFactoryRegister<C>::registerFactory(name, this);
         }
 

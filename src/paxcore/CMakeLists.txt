@@ -102,7 +102,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/WindowFactory.h
         ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
         ../../include/paxcore/system/entity/EntityPropertySystem.h
-        ../../include/paxcore/system/WorldSystem.h ../../include/paxcore/world/property/WorldLayerBehaviour.h)
+        ../../include/paxcore/system/WorldSystem.h ../../include/paxcore/world/property/WorldLayerBehaviour.h ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -131,7 +131,7 @@ set(CORE_SOURCE_FILES
         EnginePlugin.cpp
         system/entity/LightSystem.cpp
         service/WindowService.cpp
-        system/WorldSystem.cpp system/worldlayer/WorldLayerBehaviourSystem.cpp)
+        system/WorldSystem.cpp system/worldlayer/WorldLayerBehaviourSystem.cpp world/prefab/JsonWorldLayerPrefabInitParser.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

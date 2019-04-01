@@ -66,11 +66,11 @@ namespace PAX {
                 );
 
                 playerPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/Player.paxprefab.json"
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/entity/Player.paxprefab.json"
                 );
 
                 npcPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/GreenGuy.paxprefab.json"
+                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
                 );
             }
 
@@ -170,7 +170,6 @@ namespace PAX {
                     // create tile sheet test
                     using namespace Tiles;
 
-                    TileMapProperty::initialize();
                     std::shared_ptr<TileMap> tileMap = res.loadOrGet<TileMap>(Services::GetPaths().getResourcePath() + "PlatformerDemo/tiled/SmallForest/SmallForest.json");
                     mainLayer->add(new TileMapProperty(tileMap));
                 }//*/
