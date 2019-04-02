@@ -16,7 +16,6 @@ endif()
 set(PAX_OPENGL_HEADERS_FOR_CLION
         include/paxopengl/OpenGLEnginePlugin.h
         include/paxopengl/factory/OpenGLMeshFactory.h
-        include/paxopengl/utility/Error.h
         include/paxopengl/resource/NullOpenGLTextureLoader.h
         include/paxopengl/resource/OpenGLShaderLoader.h
         include/paxopengl/io/FreeImageOpenGLTextureLoader.h
@@ -27,7 +26,8 @@ set(PAX_OPENGL_HEADERS_FOR_CLION
         include/paxopengl/resource/OpenGLShader.h
         include/paxopengl/rendernodes/OpenGLRenderPass.h
         include/paxopengl/OpenGLViewport.h
-        include/paxopengl/factory/OpenGLViewportFactory.h)
+        include/paxopengl/factory/OpenGLViewportFactory.h
+        include/paxopengl/OpenGLError.h)
 
 set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLViewport.cpp
@@ -39,9 +39,8 @@ set(PAX_OPENGL_SOURCE_FILES
         src/resource/OpenGLShader.cpp
         src/resource/OpenGLShaderLoader.cpp
         src/resource/NullOpenGLTextureLoader.cpp
-        src/utility/Error.cpp
         src/OpenGLEnginePlugin.cpp
-        )
+        src/OpenGLError.cpp)
 
 ### TARGET ###########################################
 include_directories(include)

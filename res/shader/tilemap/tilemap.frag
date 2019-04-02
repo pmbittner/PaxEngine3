@@ -1,17 +1,28 @@
 #version 400 core
 
-#define NUM_MAX_TILESETS 16
-
 in vec2 fragTextureCoords;
-flat in int tileSetIndex;
+in float tileSetIndex;
 out vec4 outColor;
 
 uniform sampler2D tileSets[NUM_MAX_TILESETS];
 
 void main(void) {
 	if (tileSetIndex >= 0) {
-		outColor = texture(tileSets[tileSetIndex], fragTextureCoords);
+		//#ifdef DISPLAY_MODE_UV
+		//outColor = vec4(fragTextureCoords, 0, 1);
+		//return;
+		//#endif
+
+		//*
+		if (tileSetIndex > 1) {
+			outColor = vec4(1, 0, 0, 1);
+			return;
+		}//*/
+
+		int i = int(tileSetIndex);
+
+		outColor = texture(tileSets[i], fragTextureCoords);
 	} else {
-		outColor = vec4(0, 0, 0, 0);
+		discard;
 	}
 }

@@ -128,7 +128,7 @@ namespace PAX {
                 totalBufferLength += attrib.dataLen * attrib.elementMemorySize;
             }
 
-            char * vertexData = new char[totalBufferLength];
+            std::vector<char> vertexData(totalBufferLength);
             {
                 size_t offset = 0;
                 for (VertexAttribute & attrib : attributes) {
@@ -142,11 +142,10 @@ namespace PAX {
                 }
             }
 
-
-            GLint* indexData = new GLint[_verticesPerFace*_indices.size()];
+            std::vector<GLint> indexData(_verticesPerFace*_indices.size());
 
             //create an index array
-            for (size_t i =0; i < _indices.size(); i++) {
+            for (size_t i = 0; i < _indices.size(); i++) {
                 for (size_t j= 0; j < _verticesPerFace; j++) {
                     indexData[i*_verticesPerFace+j] = _indices.at(i).at(j);
                 }
@@ -158,15 +157,15 @@ namespace PAX {
             /// upload
 
             //create a Vertex Array Object
-            glGenVertexArrays(1,&_vao);
+            glGenVertexArrays(1, &_vao);
             glBindVertexArray(_vao);
 
             //create a Vertex Buffer Object
             glGenBuffers(1,&_vbo);
-            glBindBuffer(GL_ARRAY_BUFFER,_vbo);
+            glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 
             // upload data to OpenGL
-            glBufferData(GL_ARRAY_BUFFER, totalBufferLength * sizeof(char), vertexData, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, totalBufferLength * sizeof(char), vertexData.data(), GL_STATIC_DRAW);
             //define and enable the vertex attribute pointers
             GLuint index = 0;
             size_t offset = 0;
@@ -183,15 +182,12 @@ namespace PAX {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 
             //upload the index data to OpenGL
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfFaces*_verticesPerFace* sizeof(GLint), indexData, GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfFaces*_verticesPerFace* sizeof(GLint), indexData.data(), GL_STATIC_DRAW);
 
             //unbind buffers
             glBindVertexArray(0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-            delete[] vertexData;
-            delete[] indexData;
         }
 
         GLuint OpenGLMesh::getID() {

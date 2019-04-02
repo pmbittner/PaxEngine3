@@ -21,7 +21,7 @@ namespace PAX {
 
             std::vector<glm::vec2>  vertices;
             std::vector<glm::ivec3> faces;
-            std::vector<int>        tileSheetIds;
+            std::vector<float>      tileSheetIds;
             std::vector<glm::vec2>  uv;
 
             glm::vec3 vertexOffset = -glm::vec3(width, height, 0) / 2.f;

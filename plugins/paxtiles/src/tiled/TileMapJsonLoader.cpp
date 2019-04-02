@@ -54,6 +54,12 @@ namespace PAX {
                 tilesets.insert(tilesetsIt, tileset);
             }
 
+            /*
+            for (int i = 0; i < gids.size(); ++i) {
+                std::cout << gids[i] << " -> " << tilesets[i]->getName() << std::endl;
+            }
+            //*/
+
             std::shared_ptr<TileMap> tilemap = std::make_shared<TileMap>(tilesets, width, height, tilewidth, tileheight);
 
             // Parse layers
@@ -71,7 +77,6 @@ namespace PAX {
                     std::vector<int> tileData = layerj["data"];
                     assert(tileData.size() == layerWidth * layerHeight);
                     std::vector<Tile> tiles(tileData.size());
-
 
                     for (int i = 0; i < tileData.size(); ++i) {
                         int datai = tileData[i];

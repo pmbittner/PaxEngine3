@@ -2,10 +2,10 @@
 
 layout(location = 0) in vec2 position;
 layout(location = 1) in vec2 texCoords;
-layout(location = 2) in int tileSetIndexIn;
+layout(location = 2) in float tileSetIndexIn;
 
 out vec2 fragTextureCoords;
-flat out int tileSetIndex;
+out float tileSetIndex;
 
 uniform mat4 projection;
 uniform mat4 modelview;

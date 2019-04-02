@@ -43,8 +43,8 @@ namespace PAX {
             template<typename T>
             void initialize(const std::vector<T> &vertices) {
                 _numberOfVertices = static_cast<GLsizei>(vertices.size());
-                _numberOfFaces = static_cast<GLsizei>(_indices.size());
-                _verticesPerFace = static_cast<GLsizei>(_indices.at(0).size());
+                _numberOfFaces    = static_cast<GLsizei>(_indices.size());
+                _verticesPerFace  = static_cast<GLsizei>(_indices.at(0).size());
 
                 //this->_vertices.resize(size_t(_numberOfVertices));
 

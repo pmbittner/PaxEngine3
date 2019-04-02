@@ -52,12 +52,15 @@ namespace PAX {
 
         void OpenGLTexture2D::bind() {
             glActiveTexture(GL_TEXTURE0 + NumberOfActiveTextures);
-            ++NumberOfActiveTextures;
             glBindTexture(GL_TEXTURE_2D, _id);
+            //std::cout << "[OpenGLTexture2D::bind] " << _id << " to unit " << NumberOfActiveTextures << std::endl;
+            ++NumberOfActiveTextures;
         }
 
         void OpenGLTexture2D::unbind() {
             --NumberOfActiveTextures;
+            //std::cout << "[OpenGLTexture2D::unbind] " << _id << " from unit " << NumberOfActiveTextures << std::endl;
+            glActiveTexture(GL_TEXTURE0 + NumberOfActiveTextures);
             glBindTexture(GL_TEXTURE_2D, 0);
         }
     }

@@ -8,6 +8,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "paxopengl/resource/OpenGLShader.h"
 
+#include "paxopengl/OpenGLError.h"
+
 namespace PAX {
     namespace OpenGL {
         bool OpenGLShader::compileShaderAndPrintErrors(GLuint shader) {
@@ -224,7 +226,7 @@ namespace PAX {
                         //uniformTypes[uniformName] = type;
 
                         // store uniform location
-                        //LOG(INFO) << "[OpenGLShader::detectUniforms]     Found " << uniformName;
+                        //LOG(INFO) << "[OpenGLShader::detectUniforms]     Found " << uniformName << " at " << location;
                         _uniformLocations[uniformName] = location;
                     }
 
@@ -276,7 +278,7 @@ namespace PAX {
         }
 
         bool OpenGLShader::setUniform(const std::string &uniformName, int value) {
-            PAX_OPENGL_LOADUNIFORM(glUniform1i, value);
+            PAX_OPENGL_LOADUNIFORM(glUniform1i, value)
         }
 
         bool OpenGLShader::setUniform(const std::string &uniformName, const glm::ivec2 &value) {

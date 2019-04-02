@@ -25,12 +25,32 @@ namespace PAX {
 
         void TileMapProperty::initialize() {
             if (tileMapShader == nullptr) {
+                static constexpr const int NUM_MAX_TILESETS = 16;
+
+                Shader::Flags flags;
+                flags.VertexFlags   += "\n#define NUM_MAX_TILESETS " + std::to_string(NUM_MAX_TILESETS);
+                flags.FragmentFlags += "\n#define NUM_MAX_TILESETS " + std::to_string(NUM_MAX_TILESETS);
+
                 tileMapShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
                                 Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.vert",
                                 Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.frag"
-                        )
+                        ),
+                        flags
                 );
+
+
+                tileMapShader->bind();
+
+                for (int i = 0; i < NUM_MAX_TILESETS; ++i) {
+                    std::stringstream stream;
+                    stream << "tileSets[" << i << "]";
+                    if (!tileMapShader->setUniform(stream.str(), i)) {
+                        std::cerr << "[TileMapProperty::initialize] Could not set uniform " << stream.str() << std::endl;
+                    }
+                }
+
+                tileMapShader->unbind();
             }
         }
 
