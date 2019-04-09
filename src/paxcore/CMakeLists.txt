@@ -102,7 +102,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/WindowFactory.h
         ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
         ../../include/paxcore/system/entity/EntityPropertySystem.h
-        ../../include/paxcore/system/WorldSystem.h ../../include/paxcore/world/property/WorldLayerBehaviour.h ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h)
+        ../../include/paxcore/system/WorldSystem.h ../../include/paxcore/world/property/WorldLayerBehaviour.h ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h ../../include/paxcore/rendering/renderpass/RenderPassChannel.h ../../include/paxcore/rendering/renderpass/RenderPassFactory.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

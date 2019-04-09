@@ -1,50 +1,31 @@
 //
-// Created by Paul on 17.06.2017.
+// Created by Bittner on 08.04.2019.
 //
 
-#include <GL/glew.h>
-#include <paxcore/Engine.h>
-
-#include "paxopengl/OpenGLError.h"
-#include "paxopengl/rendernodes/OpenGLRenderPass.h"
+#include <paxopengl/rendernodes/OpenGLRenderPass.h>
 
 namespace PAX {
     namespace OpenGL {
-        OpenGLRenderPass::OpenGLRenderPass() = default;
+        OpenGLRenderPass::OpenGLRenderPass() : RenderPass() {}
+        OpenGLRenderPass::~OpenGLRenderPass() = default;
 
-        void OpenGLRenderPass::initialize() {
-            const std::shared_ptr<Window> window = Services::GetWindowService().getWindow();
-            glm::ivec2 res = window->getResolution();
+        void OpenGLRenderPass::bind() {
 
-#ifdef PAX_BUILD_TYPE_DEBUG
-            glEnable(GL_DEBUG_OUTPUT);
-            glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-            glDebugMessageCallback(GLErrorCallback, nullptr);
-#endif
-
-            //glEnable(GL_TEXTURE_2D);
-            glEnable(GL_DEPTH_TEST);
-            glEnable(GL_MULTISAMPLE);
-            //glEnable(GL_BACK);
-
-            //glEnable(GL_CULL_FACE);
-
-            // ----- enable alpha blending
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-            //glMatrixMode(GL_PROJECTION);
-
-            glClearColor(0.8, 0.8, 0.8, 1);
-            glViewport(0, 0, res.x, res.y);
-
-
-            PAX_GLERROR("OpenGLRenderPass::initialize");
         }
 
-        void OpenGLRenderPass::render(RenderOptions &renderOptions) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            SceneGraph::render(renderOptions);
+        void OpenGLRenderPass::unbind() {
+
+        }
+
+        const std::unique_ptr<OpenGLRenderPassChannel> & OpenGLRenderPass::addChannel(PAX::RenderPassChannel::Format format,
+                                          PAX::RenderPassChannel::ValueType valueType) {
+            channels.emplace_back(std::move(std::make_unique<OpenGLRenderPassChannel>(format, valueType)));
+            channels.back()->attached(this);
+            return channels.back();
+        }
+
+        const std::unique_ptr<RenderPassChannel>& OpenGLRenderPass::getChannel(int id) const {
+            return channels.at(id); //?
         }
     }
 }

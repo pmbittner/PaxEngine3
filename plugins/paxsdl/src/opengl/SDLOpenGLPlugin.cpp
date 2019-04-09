@@ -21,7 +21,7 @@ namespace PAX {
             void SDLOpenGLPlugin::postInitialize(PAX::Engine &engine) {
                 LOG(INFO) << "[SDLOpenGLPlugin::postInitialize]";
                 auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLRenderPass();
-                auto *opengl = new PAX::OpenGL::OpenGLRenderPass();
+                auto *opengl = new PAX::OpenGL::OpenGLContext();
                 sdl->addChild(opengl);
 
                 Renderer & renderer = ::PAX::Engine::Instance().getRenderer();

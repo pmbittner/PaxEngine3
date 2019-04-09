@@ -6,7 +6,7 @@
 #include <GL/glew.h>
 #include <paxutil/math/Conversion.h>
 
-#include "paxopengl/resource/NullOpenGLTextureLoader.h"
+#include "paxopengl/io/NullOpenGLTextureLoader.h"
 
 namespace PAX {
     namespace OpenGL {

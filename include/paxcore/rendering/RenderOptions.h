@@ -51,7 +51,7 @@ namespace PAX {
         glm::mat4 _currentProjection;
 
     public:
-        RenderOptions(const Renderer& renderer);
+        explicit RenderOptions(const Renderer& renderer);
 
         Camera *getCamera() const;
         void setCamera(Camera *camera);

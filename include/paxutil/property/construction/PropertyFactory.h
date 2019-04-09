@@ -55,7 +55,7 @@ namespace PAX {
     public:
         virtual ~PropertyFactoryRegister() = default;
 
-        static IPropertyFactory<C> *getFactoryFor(const std::string &name) {
+        static IPropertyFactory<C> * getFactoryFor(const std::string &name) {
             const auto &map = getMap();
             const auto &it = map.find(name);
 
@@ -105,7 +105,8 @@ namespace PAX {
     template<class C>
     template<typename PropertyType>
     void PropertyFactoryRegister<C>::registerFactory(const std::string & name) {
-        new PropertyFactory<PropertyType, C>(name);
+        static PropertyFactory<PropertyType, C> factory(name);
+        //std::cout << "[Register"
     }
 }
 

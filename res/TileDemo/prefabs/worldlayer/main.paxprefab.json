@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::Tiles::TileMapProperty": {
-      "map": "${ResourcePath}/TileDemo/tiled/Platforms/Platforms.json",
+      "map": "${ResourcePath}/TileDemo/tiled/SmallForest/SmallForest.json",
       "scale": [1, 1, 1]
     }
   }

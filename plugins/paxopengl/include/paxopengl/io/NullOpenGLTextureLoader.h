@@ -7,7 +7,7 @@
 
 #include <paxcore/rendering/data/Texture.h>
 #include <paxutil/resources/ResourceLoader.h>
-#include "OpenGLTexture2D.h"
+#include "../resource/OpenGLTexture2D.h"
 
 namespace PAX {
     namespace OpenGL {

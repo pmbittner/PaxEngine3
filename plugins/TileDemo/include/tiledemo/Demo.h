@@ -21,6 +21,8 @@
 #include "paxtiles/TileMap.h"
 #include "paxtiles/TileMapProperty.h"
 
+#include "paxutil/log/Log.h"
+
 namespace PAX {
     namespace TileDemo {
         class Demo : public Game {
@@ -43,7 +45,9 @@ namespace PAX {
         public:
             Demo() : Game()
             {
-
+                PAX_PRINT_OUT("Moinsen " << 24)
+                PAX_PRINT_ERR("Alaaarm... ALAAHAAAARM!")
+                PAX_PRINT_OUT_DEBUG("I am only visible in debug mode hihi.")
             }
 
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
@@ -55,7 +59,7 @@ namespace PAX {
                 Game::initialize();
                 gatherResources();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
-                std::cout << "[PAX::TileDemo::Demo::initialize] After gather resources" << std::endl;
+                PAX_PRINT_OUT("After gather resources")
 
                 world = new World();
                 mainLayer = mainLayerPrefab->create();

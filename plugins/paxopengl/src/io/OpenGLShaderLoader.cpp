@@ -2,9 +2,9 @@
 // Created by Paul on 08.10.2017.
 //
 
-#include <paxopengl/resource/OpenGLShaderLoader.h>
+#include <paxopengl/io/OpenGLShaderLoader.h>
 
-#include "paxopengl/resource/OpenGLShaderLoader.h"
+#include "paxopengl/io/OpenGLShaderLoader.h"
 #include "paxopengl/resource/OpenGLShader.h"
 
 #include "paxutil/resources/Resources.h"

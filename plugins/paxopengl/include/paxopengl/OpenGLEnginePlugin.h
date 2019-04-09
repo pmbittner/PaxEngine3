@@ -15,7 +15,7 @@
 #include "factory/OpenGLMeshFactory.h"
 #include "factory/OpenGLViewportFactory.h"
 #include "rendernodes/OpenGLWorldLayerRenderPass.h"
-#include "resource/OpenGLShaderLoader.h"
+#include "io/OpenGLShaderLoader.h"
 
 namespace PAX {
     namespace OpenGL {

@@ -16,31 +16,31 @@ endif()
 set(PAX_OPENGL_HEADERS_FOR_CLION
         include/paxopengl/OpenGLEnginePlugin.h
         include/paxopengl/factory/OpenGLMeshFactory.h
-        include/paxopengl/resource/NullOpenGLTextureLoader.h
-        include/paxopengl/resource/OpenGLShaderLoader.h
+        include/paxopengl/io/NullOpenGLTextureLoader.h
+        include/paxopengl/io/OpenGLShaderLoader.h
         include/paxopengl/io/FreeImageOpenGLTextureLoader.h
         include/paxopengl/OpenGLMacros.h
         include/paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h
         include/paxopengl/resource/OpenGLTexture2D.h
         include/paxopengl/resource/OpenGLMesh.h
         include/paxopengl/resource/OpenGLShader.h
-        include/paxopengl/rendernodes/OpenGLRenderPass.h
+        include/paxopengl/rendernodes/OpenGLContext.h
         include/paxopengl/OpenGLViewport.h
         include/paxopengl/factory/OpenGLViewportFactory.h
-        include/paxopengl/OpenGLError.h)
+        include/paxopengl/OpenGLError.h include/paxopengl/rendernodes/OpenGLRenderPass.h include/paxopengl/rendernodes/OpenGLRenderPassChannel.h)
 
 set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLViewport.cpp
         src/io/FreeImageOpenGLTextureLoader.cpp
         src/rendernodes/OpenGLWorldLayerRenderPass.cpp
-        src/rendernodes/OpenGLRenderPass.cpp
+        src/rendernodes/OpenGLContext.cpp
         src/resource/OpenGLTexture2D.cpp
         src/resource/OpenGLMesh.cpp
         src/resource/OpenGLShader.cpp
-        src/resource/OpenGLShaderLoader.cpp
-        src/resource/NullOpenGLTextureLoader.cpp
+        src/io/OpenGLShaderLoader.cpp
+        src/io/NullOpenGLTextureLoader.cpp
         src/OpenGLEnginePlugin.cpp
-        src/OpenGLError.cpp)
+        src/OpenGLError.cpp src/rendernodes/OpenGLRenderPassChannel.cpp src/rendernodes/OpenGLRenderPass.cpp)
 
 ### TARGET ###########################################
 include_directories(include)
