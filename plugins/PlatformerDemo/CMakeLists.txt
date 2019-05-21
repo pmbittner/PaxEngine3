@@ -2,7 +2,13 @@ project(PlatformerDemo)
 
 set(PAX_PLATFORMERDEMO_SOURCE_FILES
         src/main.cpp
-        src/Plugin.cpp src/behaviour/VelocityBehaviour.cpp src/behaviour/DragNDrop.cpp src/behaviour/ProfileGameLoopBehaviour.cpp src/behaviour/Dance2D.cpp src/behaviour/PlayerSpriteAnimation.cpp src/behaviour/PlayerControls.cpp src/behaviour/FollowEntityBehaviour.cpp)
+        src/Plugin.cpp
+        src/behaviour/DragNDrop.cpp
+        src/behaviour/ProfileGameLoopBehaviour.cpp
+        src/behaviour/Dance2D.cpp
+        src/behaviour/PlayerSpriteAnimation.cpp
+        src/behaviour/PlayerControls.cpp
+        )
 
 include_directories(include)
 include_directories(../paxsdl/include)
@@ -13,10 +19,8 @@ include_directories(../paxtiles/include)
 set(HEADERS_FOR_CLION
         include/platformerdemo/Plugin.h
         include/platformerdemo/Demo.h
-        include/platformerdemo/behaviour/FollowEntityBehaviour.h
         include/platformerdemo/behaviour/PlayerControls.h
         include/platformerdemo/behaviour/PlayerSpriteAnimation.h
-        include/platformerdemo/behaviour/VelocityBehaviour.h
         include/platformerdemo/behaviour/Dance2D.h
         include/platformerdemo/behaviour/DragNDrop.h
         include/platformerdemo/behaviour/ProfileGameLoopBehaviour.h)

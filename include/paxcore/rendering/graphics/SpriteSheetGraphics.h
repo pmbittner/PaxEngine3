@@ -27,6 +27,7 @@ namespace PAX {
         SpriteSheetGraphics(const std::shared_ptr<Texture> &texture, int columns, int rows);
 
         void setSpritePosition(int x, int y);
+        void setSpritePosition(const glm::ivec2 & pos);
         glm::ivec2 getSpritePosition() const;
         glm::ivec2 getSpriteSheetSize() const;
     };

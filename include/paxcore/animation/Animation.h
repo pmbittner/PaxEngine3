@@ -8,52 +8,80 @@
 #include <chrono>
 
 namespace PAX {
+    enum class AnimationBehaviour {
+        LOOP,
+        STOP,
+        PINGPONG
+    };
+
     template<typename T>
     class Animation {
         typedef std::chrono::duration<double> Timespan;
         typedef std::chrono::time_point<std::chrono::high_resolution_clock, Timespan> Timepoint;
         typedef std::chrono::high_resolution_clock Clock;
 
-        T _min, _max;
-        T* _value = nullptr;
+        T min, max;
+        T* value = nullptr;
 
-        Timespan _seconds;
+        Timespan seconds;
         Timepoint startTime;
 
-        bool _running = false;
+        bool running = false;
 
     protected:
         double interpolate(Timepoint time) {
-            return (time - startTime) / _seconds;
+            return (time - startTime) / seconds;
         }
 
     public:
-        Animation(T min, T max, double seconds, T* value) :
-                _min(min), _max(max),
-                _seconds(seconds),
-                _value(value) {
+
+        AnimationBehaviour overflowBehaviour = AnimationBehaviour::LOOP;
+
+        Animation(T min, T max, double seconds, T* value, AnimationBehaviour overflowBehaviour = AnimationBehaviour::LOOP) :
+                min(min), max(max),
+                seconds(seconds),
+                value(value),
+                overflowBehaviour(overflowBehaviour)
+        {
 
         }
 
         void start() {
-            *_value = _min;
+            *value = min;
             startTime = Clock::now();
-            _running = true;
+            running = true;
         }
 
         void stop() {
-            *_value = _min;
-            _running = false;
+            //*value = min;
+            running = false;
         }
 
         void update() {
-            if (_running) {
+            if (running) {
                 double i = interpolate(Clock::now());
-                if (i > 1) { // LOOP behaviour
-                    --i;
-                    startTime += _seconds;
+                if (i > 1) {
+                    switch (overflowBehaviour) {
+                        case AnimationBehaviour::PINGPONG: {
+                            T temp = max;
+                            max = min;
+                            min = temp;
+                            // no break;
+                        }
+
+                        case AnimationBehaviour::LOOP: {
+                            --i;
+                            startTime += seconds;
+                            break;
+                        }
+
+                        case AnimationBehaviour::STOP: {
+                            stop();
+                            return;
+                        }
+                    }
                 }
-                *_value = i * (_max - _min) + _min;
+                *value = T(i * (max - min)) + min;
             }
         }
     };

@@ -25,7 +25,7 @@
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
-#include "behaviour/FollowEntityBehaviour.h"
+#include "paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h"
 
 namespace PAX {
     namespace PlatformerDemo {

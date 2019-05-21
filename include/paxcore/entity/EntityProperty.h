@@ -9,7 +9,7 @@
 #include "Entity.h"
 
 namespace PAX {
-    typedef Property<Entity> EntityProperty;
+    using EntityProperty = Property<Entity>;
 }
 
 #endif //PAXENGINE3_ENTITYCOMPONENT_H

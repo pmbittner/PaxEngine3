@@ -74,6 +74,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h
         ../../include/paxcore/rendering/graphics/SpriteGraphics.h
         ../../include/paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h
+        ../../include/paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h
         ../../include/paxcore/entity/property/Size.h
         ../../include/paxcore/entity/event/SizeChangedEvent.h
         ../../include/paxcore/entity/event/ScaleChangedEvent.h
@@ -102,7 +103,12 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/WindowFactory.h
         ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
         ../../include/paxcore/system/entity/EntityPropertySystem.h
-        ../../include/paxcore/system/WorldSystem.h ../../include/paxcore/world/property/WorldLayerBehaviour.h ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h ../../include/paxcore/rendering/renderpass/RenderPassChannel.h ../../include/paxcore/rendering/renderpass/RenderPassFactory.h)
+        ../../include/paxcore/system/WorldSystem.h
+        ../../include/paxcore/world/property/WorldLayerBehaviour.h
+        ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h
+        ../../include/paxcore/rendering/renderpass/RenderPassChannel.h
+        ../../include/paxcore/rendering/renderpass/RenderPassFactory.h
+        ../../include/paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -113,9 +119,11 @@ set(CORE_SOURCE_FILES
 
         entity/Entity.cpp
         entity/EntityProperty.cpp
-        entity/component/behaviours/NoClipControls.cpp
-        entity/component/Behaviour.cpp
-        entity/component/Size.cpp
+        entity/property/Behaviour.cpp
+        entity/property/Size.cpp
+        entity/property/behaviours/NoClipControls.cpp
+        entity/property/behaviours/2d/VelocityBehaviour2D.cpp
+        entity/property/behaviours/2d/FollowEntityBehaviour.cpp
 
         world/World.cpp
         world/WorldLayer.cpp
@@ -124,14 +132,15 @@ set(CORE_SOURCE_FILES
 
         system/entity/BehaviourSystem.cpp
 
-
         time/Time.cpp
 
         generated/EngineInternalPlugin.cpp
         EnginePlugin.cpp
         system/entity/LightSystem.cpp
         service/WindowService.cpp
-        system/WorldSystem.cpp system/worldlayer/WorldLayerBehaviourSystem.cpp world/prefab/JsonWorldLayerPrefabInitParser.cpp)
+        system/WorldSystem.cpp
+        system/worldlayer/WorldLayerBehaviourSystem.cpp
+        world/prefab/JsonWorldLayerPrefabInitParser.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

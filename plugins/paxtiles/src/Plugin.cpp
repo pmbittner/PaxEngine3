@@ -10,6 +10,10 @@
 #include <paxtiles/tiled/TileSetJsonLoader.h>
 #include <paxtiles/TileMapProperty.h>
 
+#include <paxtiles/topdown/CharacterOrientation.h>
+#include <paxtiles/topdown/CharacterSpriteAnimation.h>
+#include <paxtiles/topdown/SimpleCharacterKeyboardControls.h>
+
 namespace PAX {
     namespace Tiles {
         void Plugin::registerResourceLoaders(PAX::Resources & resources) {
@@ -19,6 +23,10 @@ namespace PAX {
 
         void Plugin::registerProperties() {
             PAX_PROPERTY_REGISTER(PAX::Tiles::TileMapProperty)
+
+            PAX_PROPERTY_REGISTER(PAX::Tiles::CharacterOrientation)
+            PAX_PROPERTY_REGISTER(PAX::Tiles::CharacterSpriteAnimation)
+            PAX_PROPERTY_REGISTER(PAX::Tiles::SimpleCharacterKeyboardControls)
         }
     }
 }

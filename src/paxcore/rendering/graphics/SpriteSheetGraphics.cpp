@@ -49,6 +49,10 @@ namespace PAX {
         _spriteSheet.setOffset(x, y);
     }
 
+    void SpriteSheetGraphics::setSpritePosition(const glm::ivec2 & pos) {
+        setSpritePosition(pos.x, pos.y);
+    }
+
     glm::ivec2 SpriteSheetGraphics::getSpritePosition() const {
         return _spriteSheet.getOffset();
     }

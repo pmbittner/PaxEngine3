@@ -12,14 +12,14 @@
 #include <paxcore/io/event/KeyPressedEvent.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
 #include <paxcore/time/Time.h>
-#include "VelocityBehaviour.h"
+#include "paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h"
 
 namespace PAX {
     class PlayerControls : public Behaviour {
         PAX_PROPERTY(PlayerControls, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
-        PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour)
+        PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour2D)
 
         enum Direction {
             Left  = -1,
@@ -27,7 +27,7 @@ namespace PAX {
             Right =  1
         };
 
-        VelocityBehaviour* velocityBehaviour = nullptr;
+        VelocityBehaviour2D* velocityBehaviour = nullptr;
         float speed = 150;
 
         void onKeyPressed(KeyPressedEvent& e) {
@@ -70,7 +70,7 @@ namespace PAX {
             e.add<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
             e.add<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);
 
-            velocityBehaviour = entity.get<VelocityBehaviour>();
+            velocityBehaviour = entity.get<VelocityBehaviour2D>();
         }
 
         virtual void detached(Entity &entity) override {

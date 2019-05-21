@@ -4,7 +4,7 @@
   ],
   "Properties": {
     "PAX::PlayerControls": {},
-    "PAX::VelocityBehaviour": {
+    "PAX::VelocityBehaviour2D": {
       "velocity": [0, 0]
     }
   }
