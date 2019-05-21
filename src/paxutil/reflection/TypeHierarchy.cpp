@@ -3,7 +3,7 @@
 //
 
 #include <paxutil/reflection/TypeHierarchy.h>
-#include <easylogging++.h>
+#include <paxutil/log/Log.h>
 
 namespace PAX {
     namespace Reflection {
@@ -75,7 +75,7 @@ namespace PAX {
             } else {
                 if (node->parent != &_root) {
                     // CONFLICT: Two supertypes but dont know which to use! node already has a parent!
-                    LOG(ERROR) << "TypeHierarchy::add: Ambiguity in types " << parentType.name() << " and " << node->parent->type.name() << "! Both are supertypes of " << type.name() << "! The new parent " << parentType.name() << " will be ignored!";
+                    Log::out.err() << "TypeHierarchy::add: Ambiguity in types " << parentType.name() << " and " << node->parent->type.name() << "! Both are supertypes of " << type.name() << "! The new parent " << parentType.name() << " will be ignored!" << std::endl;
                     return node;
                 }
 

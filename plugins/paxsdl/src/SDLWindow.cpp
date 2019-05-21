@@ -2,18 +2,14 @@
 // Created by Bittner on 16.05.2017.
 //
 
-#include <easylogging++.h>
 #include <paxsdl/SDLWindow.h>
+#include <paxutil/log/Log.h>
 
 namespace PAX {
     namespace SDL {
-        SDLWindow::SDLWindow() {
+        SDLWindow::SDLWindow() = default;
 
-        }
-
-        SDLWindow::~SDLWindow() {
-
-        }
+        SDLWindow::~SDLWindow() = default;
 
         void SDLWindow::dispose() {
             setFullscreen(false);
@@ -38,7 +34,7 @@ namespace PAX {
                                        flags());
 
             if (_window == NULL) {
-                LOG(ERROR) << "Window could not be created: " << SDL_GetError();
+                Log::out.err() << "[SDLWindow::create] Window could not be created: " << SDL_GetError() << std::endl;
                 return false;
             }
 

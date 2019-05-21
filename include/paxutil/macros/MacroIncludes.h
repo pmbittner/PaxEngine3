@@ -9,6 +9,7 @@
 #include <sstream>
 #include <ostream>
 #include <stdexcept>
+#include "../log/Log.h"
 
 /** UTILITY **/
 // We do not use a template function here to avoid multiple instanciation of the same function
@@ -17,14 +18,14 @@
 if (value == nullptr) { \
     std::stringstream s; \
     s << __VA_ARGS__; \
-    std::cerr << s.str() << std::endl; \
+    Log::out.err() << s.str() << std::endl; \
     throw std::invalid_argument(s.str()); \
 }}
 
 #define PAX_THROW_RUNTIME_ERROR(...) { \
     std::stringstream s; \
     s << __VA_ARGS__; \
-    std::cerr << s.str() << std::endl; \
+    Log::out.err() << s.str() << std::endl; \
     throw std::runtime_error(s.str()); \
 }
 

@@ -19,7 +19,7 @@ namespace PAX {
             SDLOpenGLPlugin::SDLOpenGLPlugin() : EnginePlugin() {}
 
             void SDLOpenGLPlugin::postInitialize(PAX::Engine &engine) {
-                LOG(INFO) << "[SDLOpenGLPlugin::postInitialize]";
+                Log::out.info() << "[SDLOpenGLPlugin::postInitialize]" << std::endl;
                 auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLRenderPass();
                 auto *opengl = new PAX::OpenGL::OpenGLContext();
                 sdl->addChild(opengl);
@@ -29,11 +29,11 @@ namespace PAX {
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
 
-                LOG(INFO) << "\tinitialize SDLOpenGLRenderPass";
+                Log::out.info() << "\tinitialize SDLOpenGLRenderPass" << std::endl;
                 sdl->initialize();
-                LOG(INFO) << "\tinit OpenGL";
+                Log::out.info() << "\tinit OpenGL" << std::endl;
                 opengl->initialize();
-                LOG(INFO) << "[SDLOpenGLPlugin::postInitialize] Done";
+                Log::out.info() << "[SDLOpenGLPlugin::postInitialize] Done" << std::endl;
             }
 
             void SDLOpenGLPlugin::registerResourceLoaders(PAX::Resources &resources) {
@@ -52,11 +52,11 @@ namespace PAX {
 #endif
 
 #ifndef PAX_IMAGE_LOADER_FOUND
-                LOG(WARNING) << "    SDLOpenGLEnginePlugin: No real image loader in use (default is used)!";
+                Log::out.warn() << "    SDLOpenGLEnginePlugin: No real image loader in use (default is used)!" << std::endl;
                     Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::NullOpenGLTextureLoader());
 #endif
 
-                LOG(INFO) << "SDLOpenGLPlugin: Register TextureLoader (" << loaderName << ")";
+                Log::out.info() << "[SDLOpenGLPlugin::registerResourceLoaders]: Register TextureLoader (" << loaderName << ")" << std::endl;
             }
 
             void SDLOpenGLPlugin::registerFactories(PAX::FactoryService &factoryService) {

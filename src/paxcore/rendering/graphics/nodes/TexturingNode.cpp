@@ -3,7 +3,6 @@
 //
 
 #include <paxcore/rendering/scenegraph/nodes/TexturingNode.h>
-#include <easylogging++.h>
 
 namespace PAX {
     TexturingNode::TexturingNode(const std::shared_ptr<Texture> &texture) : _texture(texture) {

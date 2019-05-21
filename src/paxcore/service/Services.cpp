@@ -31,7 +31,7 @@ namespace PAX {
             _inputSystem = inputSystemFactory->create();
             _inputSystem->initialize();
         } else {
-            LOG(WARNING) << "No InputSystem was created because no InputSystemFactory is registered at Services::GetFactoryService()";
+            Log::out.warn() << "No InputSystem was created because no InputSystemFactory is registered at Services::GetFactoryService()" << std::endl;
         }
     }
 

@@ -12,7 +12,6 @@
 #include "../../include/core/Engine.h"
 
 #include "../../include/test/SDLTestApplication2.h"
-#include "../../include/lib/easylogging++.h"
 
 #include "utility/macros/OSDefines.h"
 #include "../../include/sdl/SDLWindow.h"
@@ -38,13 +37,13 @@ namespace SDL_TEST_APPLICATION2 {
 
         void SDLTestApplication2GameSystem::initialize() {
 #ifdef PAX_OS_LINUX
-            LOG(INFO) << "INIT SDL2TestApplication2 on Linux";
+            Log::out.info() << "INIT SDL2TestApplication2 on Linux";
 #endif
 #ifdef PAX_OS_WIN
-            LOG(INFO) << "INIT SDL2TestApplication2 on Windows";
+            Log::out.info() << "INIT SDL2TestApplication2 on Windows";
 #endif
 #ifdef PAX_OS_ANDROID
-            LOG(INFO) << "INIT SDL2TestApplication2 on Android";
+            Log::out.info() << "INIT SDL2TestApplication2 on Android";
 #endif
             PAX::Window * window = PAX::Engine::Instance()->getWindow();
             SDL_Window *sdlWindow = static_cast<PAX::SDL::SDLWindow*>(window)->getSDL_Window();

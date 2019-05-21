@@ -11,5 +11,5 @@ set(HEADERS_FOR_CLION
         include/playgrounddemo/Demo.h)
 
 add_executable(PlaygroundDemo ${PAX_PLAYGROUNDDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION})
-target_link_libraries(PlaygroundDemo ${EASYLOGGING_LIBRARY} paxassimp paxutil paxsdl paxopengl paxcore)
+target_link_libraries(PlaygroundDemo paxassimp paxutil paxsdl paxopengl paxcore)
 set_target_properties(PlaygroundDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Demo)

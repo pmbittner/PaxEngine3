@@ -2,7 +2,6 @@
 // Created by Paul on 29.04.2017.
 //
 
-#include <easylogging++.h>
 #include <EngineMain.h>
 
 

@@ -11,13 +11,13 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLRenderPassChannel : public RenderPassChannel {
-            OpenGLTexture2D texture;
+            //OpenGLTexture2D texture;
 
         public:
             OpenGLRenderPassChannel(Format format, ValueType valueType);
             ~OpenGLRenderPassChannel() override;
 
-            virtual const OpenGLTexture2D &getTexture() const;
+            //virtual const OpenGLTexture2D &getTexture() const;
         };
     }
 }

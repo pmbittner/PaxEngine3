@@ -20,8 +20,8 @@ namespace PAX {
             void bind() override;
             void unbind() override;
 
-            const std::unique_ptr<OpenGLRenderPassChannel> & addChannel(RenderPassChannel::Format format, RenderPassChannel::ValueType valueType) override;
-            const std::unique_ptr<OpenGLRenderPassChannel> & getChannel(int id) const override;
+            //const std::unique_ptr<OpenGLRenderPassChannel> & addChannel(RenderPassChannel::Format format, RenderPassChannel::ValueType valueType) override;
+            //const std::unique_ptr<OpenGLRenderPassChannel> & getChannel(int id) const override;
         };
     }
 }

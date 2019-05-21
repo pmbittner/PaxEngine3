@@ -17,8 +17,8 @@ namespace PAX {
             resources.registerLoader<TileSet>(&tiledSetLoader);
         }
 
-        void Plugin::exp_registerProperties() {
-            PropertyFactoryRegister<WorldLayer>::registerFactory<Tiles::TileMapProperty>("PAX::Tiles::TileMapProperty");
+        void Plugin::registerProperties() {
+            PAX_PROPERTY_REGISTER(PAX::Tiles::TileMapProperty)
         }
     }
 }

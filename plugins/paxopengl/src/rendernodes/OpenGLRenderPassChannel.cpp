@@ -8,16 +8,18 @@ namespace PAX {
     namespace OpenGL {
         OpenGLRenderPassChannel::OpenGLRenderPassChannel(PAX::RenderPassChannel::Format format,
                                                          PAX::RenderPassChannel::ValueType valueType)
-        : RenderPassChannel(format, valueType),
-        texture()
+        : RenderPassChannel(format, valueType)
+        //, texture()
         {
 
         }
 
         OpenGLRenderPassChannel::~OpenGLRenderPassChannel() = default;
 
+        /*
         const OpenGLTexture2D& OpenGLRenderPassChannel::getTexture() const {
             return texture;
         }
+         */
     }
 }

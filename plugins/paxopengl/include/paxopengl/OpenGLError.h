@@ -31,7 +31,7 @@ namespace PAX {
 
 #if defined(PAX_BUILD_TYPE_DEBUG)
     #define PAX_GLERROR(str_location) getGLError(str_location)
-#elif defined(PAX_BUILD_TYPE_RELEASE)
+#else //defined(PAX_BUILD_TYPE_RELEASE)
     #define PAX_GLERROR(str_location) false
 #endif
     }

@@ -5,14 +5,14 @@
 
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
-#include <easylogging++.h>
+#include <paxutil/log/Log.h>
 
 #include "paxsdl/opengl/SDLOpenGLWindow.h"
 
 namespace PAX {
     namespace SDL {
         namespace OpenGL {
-            SDLOpenGLWindow::SDLOpenGLWindow() : SDLWindow() {
+            SDLOpenGLWindow::SDLOpenGLWindow() : SDLWindow(), _context() {
 
             }
 
@@ -37,12 +37,12 @@ namespace PAX {
 
                     GLenum err = glewInit();
                     if (err != GLEW_OK) {
-                        LOG(INFO) << "GLEW Init failed";
+                        Log::out.info() << "[SDLOpenGLWindow::create] GLEW Init failed" << std::endl;
                         throw std::runtime_error(std::string("Unable to initialize glew: ") +
                                                  reinterpret_cast<const char *>(glewGetErrorString(err)));
                     }
 
-                    LOG(INFO) << "GLEW Init succeeded";
+                    Log::out.info() << "[SDLOpenGLWindow::create] GLEW Init succeeded" << std::endl;
 
                     return true;
                 }

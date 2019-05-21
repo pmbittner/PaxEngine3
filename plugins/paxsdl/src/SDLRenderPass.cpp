@@ -4,7 +4,6 @@
 
 #include <SDL2/SDL_render.h>
 
-#include <easylogging++.h>
 #include <paxcore/Engine.h>
 #include <paxcore/io/Window.h>
 #include "paxsdl/SDLRenderPass.h"
@@ -16,9 +15,7 @@ namespace PAX {
 
         }
 
-        SDLRenderPass::~SDLRenderPass() {
-
-        }
+        SDLRenderPass::~SDLRenderPass() = default;
 
         void SDLRenderPass::initialize() {
             const auto& windowAsSDLType = std::dynamic_pointer_cast<PAX::SDL::SDLWindow>(Services::GetWindowService().getWindow());
@@ -31,7 +28,7 @@ namespace PAX {
             _renderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (_renderer == nullptr) {
                 SDL_DestroyWindow(sdlWindow);
-                LOG(ERROR) << "SDL_CreateRenderer Error: " << SDL_GetError();
+                Log::out.err() << "[SDLRenderPass::initialize] SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
                 SDL_Quit();
                 return;
             }

@@ -17,6 +17,7 @@ namespace PAX {
 
         }
 
+        /*
         const std::unique_ptr<OpenGLRenderPassChannel> & OpenGLRenderPass::addChannel(PAX::RenderPassChannel::Format format,
                                           PAX::RenderPassChannel::ValueType valueType) {
             channels.emplace_back(std::move(std::make_unique<OpenGLRenderPassChannel>(format, valueType)));
@@ -27,5 +28,6 @@ namespace PAX {
         const std::unique_ptr<RenderPassChannel>& OpenGLRenderPass::getChannel(int id) const {
             return channels.at(id); //?
         }
+         //*/
     }
 }

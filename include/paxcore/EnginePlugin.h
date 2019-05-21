@@ -28,7 +28,7 @@ namespace PAX {
         virtual void registerServices(Services& services) {}
         virtual void registerResourceLoaders(Resources& resources) {}
         virtual void registerFactories(FactoryService& factoryService) {}
-        virtual void exp_registerProperties() {}
+        virtual void registerProperties() {}
         virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const {}
     };
 

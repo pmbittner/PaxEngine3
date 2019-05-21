@@ -3,9 +3,11 @@
 //
 
 #include <iomanip>
-#include <easylogging++.h>
 #include "paxopengl/OpenGLMacros.h"
 #include <glm/gtc/type_ptr.hpp>
+#include <paxutil/log/Log.h>
+#include <sstream>
+#include <fstream>
 #include "paxopengl/resource/OpenGLShader.h"
 
 #include "paxopengl/OpenGLError.h"
@@ -28,7 +30,7 @@ namespace PAX {
             char* log = new char[logMaxLength];
             glGetShaderInfoLog(shader,logMaxLength, &logLength, log);
             if (logLength> 0) {
-                LOG(INFO) << "Shader Compilation - Compiler log:\n------------------\n" << log <<  "==================";
+                Log::out.info() << "Shader Compilation - Compiler log:\n------------------\n" << log <<  "==================" << std::endl;
             }
             delete[] log;
 
@@ -41,13 +43,13 @@ namespace PAX {
 
             bool compiled = compileShaderAndPrintErrors(shader);
             if (!compiled) {
-                LOG(ERROR) << "Shader Compilation - Error - Code was:";
+                Log::out.err() << "Shader Compilation - Error - Code was:" << std::endl;
 
                 std::stringstream ss(code);
                 std::string line;
                 int i = 0;
                 while (std::getline(ss, line, '\n')) {
-                    LOG(ERROR) << std::setw(3) << std::fixed << ++i << "| " << line;
+                    Log::out.err() << std::setw(3) << std::fixed << ++i << "| " << line;
                 }
             }
 
@@ -61,7 +63,7 @@ namespace PAX {
             std::ifstream codeFile;
             codeFile.open(filename);
             if (!codeFile.is_open()) {
-                std::cerr << "[OpenGLShader::loadCodeFromFile] Unable to open shader file [ " << filename << " ] " << std::endl;
+                Log::out.err() << "[OpenGLShader::loadCodeFromFile] Unable to open shader file [ " << filename << " ] " << std::endl;
                 throw std::runtime_error("Unable to open shader file " + filename);
             }
 
@@ -85,7 +87,7 @@ namespace PAX {
                 shader.replace(foundendline, 0, flagsWithLinebreak);
             }
             else {
-                LOG(ERROR) << "Version info in shader required: #version xxx";
+                Log::out.err() << "Version info in shader required: #version xxx" << std::endl;
             }
         }
 
@@ -114,7 +116,7 @@ namespace PAX {
                 insertFlags(vertexCode, _flags.VertexFlags);
 
                 if (!loadShaderFromCode(GL_VERTEX_SHADER, vertexCode, _vertexShader)) {
-                    LOG(ERROR) << "Shader Compilation - Vertex file: " << _fileInfo.VertexPath;
+                    Log::out.err() << "Shader Compilation - Vertex file: " << _fileInfo.VertexPath << std::endl;
                     return false;
                 }
 
@@ -123,7 +125,7 @@ namespace PAX {
                 insertFlags(fragmentCode, _flags.FragmentFlags);
 
                 if (!loadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, _fragmentShader)) {
-                    LOG(ERROR) << "Shader Compilation - Fragment file: " << _fileInfo.FragmentPath;
+                    Log::out.err() << "Shader Compilation - Fragment file: " << _fileInfo.FragmentPath << std::endl;
                     return false;
                 }
 
@@ -147,7 +149,7 @@ namespace PAX {
             //Compile Shader
             bool result = setupShaderFromCodeString(out_id, code);
             if (!result) {
-                LOG(ERROR) << "Shader Compilation - Invalid shader file: " << _name;
+                Log::out.err() << "Shader Compilation - Invalid shader file: " << _name << std::endl;
             }
 
             //Attach shader to the program
@@ -165,10 +167,12 @@ namespace PAX {
             char* log = new char[logMaxLength]();
             int logLength = 0;
             glGetProgramInfoLog(_shaderProgram, logMaxLength, &logLength, log);
+
             if (logLength > 0) {
-                LOG(INFO) << "Shader Compilation - " << _name << " - Linker log:\n------------------\n" << log << "\n------------------";
+                Log::out.info() << "Shader Compilation - " << _name << " - Linker log:\n------------------\n" << log << "\n------------------" << std::endl;
                 return false;
             }
+
             delete[] log;
             return true;
         }
@@ -189,7 +193,7 @@ namespace PAX {
             // iterate through all active uniforms
             GLint numUniforms = -1;
             glGetProgramiv(_shaderProgram, GL_ACTIVE_UNIFORMS, &numUniforms);
-            //LOG(INFO) << "[OpenGLShader::detectUniforms] Found " << numUniforms << " uniforms in shader " << _name;
+            //Log::out.info() << "[OpenGLShader::detectUniforms] Found " << numUniforms << " uniforms in shader " << _name;
             for (int i = 0; i < numUniforms; i++) {
 
                 // get uniform informtion
@@ -200,7 +204,6 @@ namespace PAX {
                 glGetActiveUniform(_shaderProgram, GLuint(i), sizeof(c_name) - 1, &name_len, &size, &type, c_name);
                 c_name[name_len] = 0;
                 std::string nameS = c_name;
-
 
                 // check if it's an array
                 bool isArray = size > 1;
@@ -226,7 +229,7 @@ namespace PAX {
                         //uniformTypes[uniformName] = type;
 
                         // store uniform location
-                        //LOG(INFO) << "[OpenGLShader::detectUniforms]     Found " << uniformName << " at " << location;
+                        //Log::out.info() << "[OpenGLShader::detectUniforms]     Found " << uniformName << " at " << location;
                         _uniformLocations[uniformName] = location;
                     }
 
@@ -254,7 +257,7 @@ namespace PAX {
         if (hasUniform(uniformName)) { \
             funcname(_uniformLocations[uniformName], __VA_ARGS__); \
             return true; \
-        } else { /*LOG(ERROR) << "The uniform " << uniformName << " does not exist!";*/ } \
+        } else { /*Log::out.warn() << "The uniform " << uniformName << " does not exist!" << std::endl;*/ } \
         return false;
 
         bool OpenGLShader::setUniform(const std::string &uniformName, bool value) {

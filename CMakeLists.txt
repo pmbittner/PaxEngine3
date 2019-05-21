@@ -38,15 +38,8 @@ include_directories(${PAX_LIB_DIR_RELATIVE}/Easylogging/include)
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     include_directories(${PAX_LIB_DIR_RELATIVE}/win/include)
-
-    if (${CMAKE_BUILD_TYPE} MATCHES Release)
-        set(EASYLOGGING_LIBRARY ${PAX_LIB_DIR}/Easylogging/bin/msvc-release/easylogging.lib)
-    elseif(${CMAKE_BUILD_TYPE} MATCHES Debug)
-        set(EASYLOGGING_LIBRARY ${PAX_LIB_DIR}/Easylogging/bin/msvc-debug/easylogging.lib)
-    endif(${CMAKE_BUILD_TYPE} MATCHES Release)
 else()
-    link_directories(${PAX_LIB_DIR}/Easylogging/bin/mingw)
-    set(EASYLOGGING_LIBRARY easylogging)
+
 endif()
 
 ### SUBDIRECTORIES ######################################

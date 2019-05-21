@@ -10,6 +10,12 @@
 
 #include "ContentProvider.h"
 
+
+#define PAX_PROPERTY_REGISTER(PropertyType) \
+if constexpr (!PropertyType::IsAbstract()) { \
+    PropertyFactoryRegister<PropertyType::Container>::registerFactory<PropertyType>(#PropertyType); \
+}
+
 namespace PAX {
     template<typename C>
     class Property;
@@ -75,7 +81,7 @@ namespace PAX {
         explicit PropertyFactory(const std::string &name) noexcept
                 : PropertyFactoryRegister<C>(), IPropertyFactory<C>() {
             //std::cerr << "PropertyFactory<" << typeid(C).name() << "> constructor]" << std::endl;
-            PropertyFactoryRegister<C>::registerFactory(name, this);
+            //PropertyFactoryRegister<C>::registerFactory(name, this);
         }
 
         virtual ~PropertyFactory() {}
@@ -106,7 +112,7 @@ namespace PAX {
     template<typename PropertyType>
     void PropertyFactoryRegister<C>::registerFactory(const std::string & name) {
         static PropertyFactory<PropertyType, C> factory(name);
-        //std::cout << "[Register"
+        PropertyFactoryRegister<C>::registerFactory(name, &factory);
     }
 }
 

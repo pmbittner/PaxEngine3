@@ -16,12 +16,13 @@
 
 #include <paxutil/reflection/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
-#include <easylogging++.h>
 #include <paxutil/StringVariables.h>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
 #include "paxutil/io/Path.h"
+
+#include "paxutil/log/Log.h"
 
 namespace PAX {
     class ResourceAlreadyCachedException : public std::exception {
@@ -80,7 +81,7 @@ namespace PAX {
             if (loader)
                 return loader->load(p...);
             else
-                LOG(WARNING) << "[Resources::loadResource] No ResourceLoader could be found for Resource " << print<Resource>(p...) << "!";
+                Log::out.warn() << "[Resources::loadResource] No ResourceLoader could be found for Resource " << print<Resource>(p...) << "!" << std::endl;
             return nullptr;
         }
 
@@ -166,7 +167,7 @@ namespace PAX {
             std::shared_ptr<Resource> res = loadResource<Resource>(p...);
 
             if (!res)
-                LOG(WARNING) << "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!";
+                Log::out.warn() << "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!" << std::endl;
 
             return res;
         }
@@ -217,7 +218,7 @@ namespace PAX {
             }
         }
 
-        std::cerr << "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
+        Log::out.err() << "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
 
         return nullptr;
     }

@@ -2,7 +2,6 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <easylogging++.h>
 #include "paxopengl/resource/OpenGLTexture2D.h"
 
 namespace PAX {

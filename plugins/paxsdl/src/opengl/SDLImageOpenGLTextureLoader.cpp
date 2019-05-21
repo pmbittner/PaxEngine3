@@ -9,7 +9,6 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-#include <easylogging++.h>
 #include <paxutil/io/FileTypeChecker.h>
 #include <paxutil/resources/Resources.h>
 #include <assert.h>
@@ -18,13 +17,9 @@
 
 namespace PAX {
     namespace OpenGL {
-        SDLImageOpenGLTextureLoader::SDLImageOpenGLTextureLoader() {
+        SDLImageOpenGLTextureLoader::SDLImageOpenGLTextureLoader() = default;
 
-        }
-
-        SDLImageOpenGLTextureLoader::~SDLImageOpenGLTextureLoader() {
-
-        }
+        SDLImageOpenGLTextureLoader::~SDLImageOpenGLTextureLoader() = default;
 
         bool PAX::OpenGL::SDLImageOpenGLTextureLoader::canLoad(Path path) const {
             Util::FileTypeChecker formats({
@@ -42,11 +37,11 @@ namespace PAX {
             int flags = IMG_INIT_JPG | IMG_INIT_PNG;
             int initted = IMG_Init(flags);
             if((initted & flags) != flags) {
-                LOG(ERROR) << "could not init SDL_Image: " << IMG_GetError();
+                Log::out.err() << "could not init SDL_Image: " << IMG_GetError() << std::endl;
             }
 
             if((tex = IMG_Load(path.c_str())) == nullptr) {
-                LOG(ERROR) << "Loading texture " << path << " failed in SDLImageOpenGLTextureLoader.";
+                Log::out.err() << "Loading texture " << path << " failed in SDLImageOpenGLTextureLoader." << std::endl;
             }
 
             GLuint id;

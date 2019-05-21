@@ -4,7 +4,6 @@
 
 #include <chrono>
 #include <iostream>
-#include <easylogging++.h>
 
 #include <paxcore/Engine.h>
 #include <paxcore/Game.h>
@@ -14,6 +13,7 @@
 #include <paxutil/Sleep.h>
 #include <paxcore/time/Time.h>
 #include <paxutil/io/Settings.h>
+#include <paxutil/log/Log.h>
 
 namespace PAX {
     Engine *Engine::instance = nullptr;
@@ -23,9 +23,9 @@ namespace PAX {
     Engine::~Engine() = default;
 
     bool Engine::initialize(Game *game, const std::vector<EnginePlugin*> &plugins) {
-        LOG(INFO) << "[Engine::initialize] start";
+        Log::out.info() << "[Engine::initialize] start" << std::endl;
         //PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
-        PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!");
+        PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!")
 
         _game = game;
 
@@ -38,27 +38,27 @@ namespace PAX {
         // Copy plugins to member list
         _plugins.insert(std::end(_plugins), std::begin(plugins), std::end(plugins));
 
-        LOG(INFO) << "[Engine::initialize] Plugins: initializing";
+        Log::out.info() << "[Engine::initialize] Plugins: initializing" << std::endl;
         for (EnginePlugin *plugin : _plugins) {
             plugin->initialize(*this);
         }
 
-        LOG(INFO) << "[Engine::initialize] Plugins: registering Services";
+        Log::out.info() << "[Engine::initialize] Plugins: registering Services" << std::endl;
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerServices(_services);
         }
 
-        LOG(INFO) << "[Engine::initialize] Plugins: registering ResourceLoaders";
+        Log::out.info() << "[Engine::initialize] Plugins: registering ResourceLoaders" << std::endl;
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerResourceLoaders(Services::GetResources());
         }
 
-        LOG(INFO) << "[Engine::initialize] Plugins: registering Factories";
+        Log::out.info() << "[Engine::initialize] Plugins: registering Factories" << std::endl;
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerFactories(Services::GetFactoryService());
         }
 
-        LOG(INFO) << "[Engine::initialize] initialize Services";
+        Log::out.info() << "[Engine::initialize] initialize Services" << std::endl;
         _services.initialize();
 
         _targetFPS = Services::GetGlobalSettings().get<int>("core_targetFPS");
@@ -67,22 +67,22 @@ namespace PAX {
         Time::DeltaD = 1.0 / _targetUPS;
         Time::DeltaF = static_cast<float>(Time::DeltaD);
 
-        LOG(INFO) << "[Engine::initialize] initialize Renderer";
+        Log::out.info() << "[Engine::initialize] initialize Renderer" << std::endl;
         _renderer.initialize();
 
         for (EnginePlugin * plugin : _plugins) {
-            plugin->exp_registerProperties();
+            plugin->registerProperties();
         }
 
-        LOG(INFO) << "[Engine::initialize] Plugins: postInitialize";
+        Log::out.info() << "[Engine::initialize] Plugins: postInitialize" << std::endl;
         for (EnginePlugin *plugin : _plugins) {
             plugin->postInitialize(*this);
         }
 
-        LOG(INFO) << "[Engine::initialize] initialize Game";
+        Log::out.info() << "[Engine::initialize] initialize Game" << std::endl;
         _game->initialize();
 
-        LOG(INFO) << "[Engine::initialize] done";
+        Log::out.info() << "[Engine::initialize] done" << std::endl;
         return true;
     }
 

@@ -31,7 +31,7 @@ namespace PAX {
 
     void LightSystem::findNearestLights(const glm::vec3 &pos, unsigned int maxLights, std::vector<Light*> &out, WorldLayer* worldLayer) {
         const std::set<Entity*> & lightEntities = getEntities(worldLayer);
-        //LOG(INFO) << "[LightSystem::findNearestLights] found " << lightEntities.size() << " lights on layer " << worldLayer->getName();
+        //Log::out.info() << "[LightSystem::findNearestLights] found " << lightEntities.size() << " lights on layer " << worldLayer->getName();
 
         for (Entity* lightEntity : lightEntities) {
             if (out.size() < maxLights) {
@@ -75,7 +75,7 @@ namespace PAX {
             }
 
             // TODO: Fix this, as we assume here, that only directional lights are in the world.
-            //LOG(INFO) << "[LightSystem::onRendererTransformationChanged] set lights.num_directional_lights to " << static_cast<int>(nearestLights.size());
+            //Log::out.info() << "[LightSystem::onRendererTransformationChanged] set lights.num_directional_lights to " << static_cast<int>(nearestLights.size());
             shader->setUniform("lights.num_directional_lights", static_cast<int>(nearestLights.size()));
         }
     }

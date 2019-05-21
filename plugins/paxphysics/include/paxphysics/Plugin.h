@@ -11,7 +11,7 @@ namespace PAX {
     namespace Physics {
         class Plugin : public EnginePlugin {
         public:
-
+            void registerProperties() override;
         };
     }
 }

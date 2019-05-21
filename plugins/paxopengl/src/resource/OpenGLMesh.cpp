@@ -3,7 +3,6 @@
 //
 
 #include <stdexcept>
-#include <easylogging++.h>
 #include "paxopengl/resource/OpenGLMesh.h"
 
 namespace PAX {

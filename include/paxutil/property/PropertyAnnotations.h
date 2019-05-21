@@ -37,13 +37,14 @@ bool Type::methodName(Container& c) { \
 #define PAX_PROPERTY(Typename, IfConcrete) \
 public: \
     const ::PAX::TypeHandle& getClassType() const override; \
+    static constexpr bool IsAbstract() { return IfConcrete(false &&) true; } \
 protected: \
     using This = Typename; \
     bool addTo(Container& c) override; \
     bool removeFrom(Container& c) override; \
     void initializeFromProvider(::PAX::ContentProvider&) override; \
 private: IfConcrete( \
-    static ::PAX::PropertyFactory<This, Container> __ByNameFactory; \
+/*    static ::PAX::PropertyFactory<This, Container> __ByNameFactory;*/ \
 public: \
     static This * createFromProvider(::PAX::ContentProvider&); \
     static void* operator new(std::size_t sz); \
@@ -84,7 +85,7 @@ private:
         static PAX::TypeHandle myType = typeid(This); \
         return myType; \
     } IfConcrete( \
-    ::PAX::PropertyFactory<Type, Type::Container> Type::__ByNameFactory(#Type); \
+/*    ::PAX::PropertyFactory<Type, Type::Container> Type::__ByNameFactory(#Type);*/ \
     void* Type::operator new(std::size_t sz) { \
         return Container::GetPropertyAllocator().alloc(paxtypeid(This), sz); \
     } \

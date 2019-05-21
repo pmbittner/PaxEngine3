@@ -9,9 +9,15 @@ namespace PAX {
         namespace Box2D {
             PAX_PROPERTY_SOURCE(PAX::Physics::Box2D::World, PAX_PROPERTY_IS_CONCRETE)
 
-            World::World() {
-
+            World* World::createFromProvider(ContentProvider & provider) {
+                return new World();
             }
+
+            void World::initializeFromProvider(ContentProvider & provider) {
+                Super::initializeFromProvider(provider);
+            }
+
+            World::World() = default;
         }
     }
 }

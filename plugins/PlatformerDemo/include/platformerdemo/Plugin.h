@@ -12,6 +12,7 @@ namespace PAX {
         class Plugin : public PAX::EnginePlugin {
         public:
             void checkDependencies(const std::vector<EnginePlugin*> & plugins) const override;
+            void registerProperties() override;
         };
     }
 }

@@ -16,6 +16,7 @@ namespace PAX {
         void registerServices(PAX::Services& services) override;
         void registerResourceLoaders(PAX::Resources& resources) override;
         void registerFactories(PAX::FactoryService& factoryService) override;
+        void registerProperties() override;
     };
 }
 

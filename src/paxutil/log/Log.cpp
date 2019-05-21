@@ -10,6 +10,7 @@
 
 namespace PAX {
     Log Log::cout = Log(std::cout, std::cerr);
+    Log Log::out = cout;
 
     Log::Log(std::ostream &out, std::ostream &err) : out_stream(out), err_stream(err) {
 
@@ -27,12 +28,20 @@ namespace PAX {
         return out_stream << timestamp() << " ";
     }
 
+    std::ostream& Log::warn() {
+        return err_stream << timestamp() << " ";
+    }
+
     std::ostream& Log::err() {
         return err_stream << timestamp() << " ";
     }
 
     std::ostream& Log::info_raw() {
         return out_stream;
+    }
+
+    std::ostream& Log::warn_raw() {
+        return err_stream;
     }
 
     std::ostream& Log::err_raw() {

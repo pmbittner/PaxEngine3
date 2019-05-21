@@ -15,14 +15,17 @@ namespace PAX {
 
     public:
         static Log cout;
+        static Log out;
         static std::string timestamp();
 
         Log(std::ostream & out, std::ostream & err);
 
         std::ostream & info();
+        std::ostream & warn();
         std::ostream & err();
 
         std::ostream & info_raw();
+        std::ostream & warn_raw();
         std::ostream & err_raw();
     };
 
@@ -34,8 +37,8 @@ namespace PAX {
 #endif
 
 #define PAX_PRINT_TO(stream, message) {stream << "[" << PAX_FUNCTION_NAME << "] " << message  << std::endl;}
-#define PAX_PRINT_OUT(message) PAX_PRINT_TO(::PAX::Log::cout.info(), message)
-#define PAX_PRINT_ERR(message) PAX_PRINT_TO(::PAX::Log::cout.err(), __FILE__ << "(" << __LINE__ << "): " << message)
+#define PAX_PRINT_OUT(message) PAX_PRINT_TO(::PAX::Log::out.info(), message)
+#define PAX_PRINT_ERR(message) PAX_PRINT_TO(::PAX::Log::out.err(), __FILE__ << "(" << __LINE__ << "): " << message)
 
 #ifdef PAX_BUILD_TYPE_DEBUG
     #define PAX_PRINT_TO_DEBUG(stream, message) PAX_PRINT_TO(stream, message)

@@ -10,7 +10,7 @@
 namespace PAX {
     namespace Physics {
         class RigidBody : public EntityProperty {
-            PAX_PROPERTY(RigidBody, PAX_PROPERTY_IS_ABSTRACT)
+            PAX_PROPERTY(PAX::Physics::RigidBody, PAX_PROPERTY_IS_ABSTRACT)
             PAX_PROPERTY_DERIVES(EntityProperty)
             PAX_PROPERTY_IS_MULTIPLE
 

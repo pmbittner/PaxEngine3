@@ -11,6 +11,7 @@
 #include <paxcore/service/Paths.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/InputSystemFactory.h>
+#include <paxutil/log/Log.h>
 #include "SDLInputSystem.h"
 
 namespace PAX {
@@ -26,7 +27,7 @@ namespace PAX {
             void initialize(Engine& engine) override {
                 EnginePlugin::initialize(engine);
 
-                LOG(INFO) << "initialize SDL";
+                Log::out.info() << "[SDLPlugin::initialize] initialize SDL" << std::endl;
 
                 SDL_Init(SDL_INIT_EVERYTHING);
                 //TTF_Init();

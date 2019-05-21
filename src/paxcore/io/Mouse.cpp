@@ -2,7 +2,6 @@
 // Created by Paul on 29.04.2017.
 //
 
-#include <easylogging++.h>
 #include <paxcore/io/Mouse.h>
 
 namespace PAX {
@@ -11,7 +10,7 @@ namespace PAX {
     }
 
     bool Mouse::isButtonDown(MouseButton button) {
-        LOG(WARNING) << "Mouse::isButtonDown not implemented";
+        Log::out.warn() << "Mouse::isButtonDown not implemented" << std::endl;
         return false;
     }
 

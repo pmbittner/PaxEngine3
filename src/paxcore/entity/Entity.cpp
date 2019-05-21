@@ -8,8 +8,6 @@
 #include <paxcore/entity/EntityProperty.h>
 #include <paxcore/service/Services.h>
 
-#include <easylogging++.h>
-
 namespace PAX {
     Entity::Entity() = default;
     Entity::~Entity() = default;
