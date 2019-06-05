@@ -1,0 +1,26 @@
+{
+  "Transform": {
+    "position": [0, 0, 2],
+    "scale": [4, 4, 1]
+  },
+  "Properties": {
+    "PAX::SpriteSheetGraphics": {
+      "Sprite": "${ResourcePath}/TileDemo/img/Glenys-the-Demonswordsman.png",
+      "Rows": 4,
+      "Columns": 3,
+      "Shader": {
+        "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
+        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag",
+        "Flags": {
+          "Vertex": "#define SPRITE_SHEET"
+        }
+      }
+    },
+    "PAX::VelocityBehaviour2D": {
+      "velocity": [0, 0]
+    },
+    "PAX::Tiles::CharacterOrientation": {},
+    "PAX::Tiles::CharacterSpriteAnimation": {},
+    "PAX::Tiles::SimpleCharacterKeyboardControls": {}
+  }
+}
