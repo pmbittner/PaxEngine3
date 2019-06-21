@@ -28,6 +28,7 @@
 #include <paxcore/rendering/light/SpotLight.h>
 #include <paxcore/rendering/light/PointLight.h>
 #include <paxcore/world/property/WorldLayerBehaviour.h>
+#include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
     void EngineInternalPlugin::initialize(PAX::Engine &engine) {}
@@ -90,5 +91,6 @@ namespace PAX {
         PAX_PROPERTY_REGISTER(PAX::SpotLight)
         
         PAX_PROPERTY_REGISTER(PAX::WorldLayerBehaviour)
+        PAX_PROPERTY_REGISTER(PAX::WorldLayerSize)
     }
 }

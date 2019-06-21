@@ -16,10 +16,15 @@ namespace PAX {
         Entity *target = nullptr;
         float speed = 2.5f;
 
+        bool respectWorldSize = false;
+
     public:
-        explicit FollowEntityBehaviour(Entity *target) : target(target) {}
+        explicit FollowEntityBehaviour(Entity *target);
 
         void update() override;
+
+        bool respectsWorldSize();
+        void shouldRespectWorldSize(bool respectWorldSize);
     };
 }
 

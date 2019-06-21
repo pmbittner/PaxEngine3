@@ -108,7 +108,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h
         ../../include/paxcore/rendering/renderpass/RenderPassChannel.h
         ../../include/paxcore/rendering/renderpass/RenderPassFactory.h
-        ../../include/paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h)
+        ../../include/paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h ../../include/paxcore/world/property/WorldLayerSize.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -140,7 +140,9 @@ set(CORE_SOURCE_FILES
         service/WindowService.cpp
         system/WorldSystem.cpp
         system/worldlayer/WorldLayerBehaviourSystem.cpp
-        world/prefab/JsonWorldLayerPrefabInitParser.cpp)
+        world/prefab/JsonWorldLayerPrefabInitParser.cpp
+        world/property/WorldLayerSize.cpp
+        world/property/WorldLayerBehaviour.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

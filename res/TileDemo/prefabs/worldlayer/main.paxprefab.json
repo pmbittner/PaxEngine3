@@ -8,6 +8,9 @@
     "PAX::Tiles::TileMapProperty": {
       "map": "${ResourcePath}/TileDemo/tiled/SmallForest/SmallForest.json",
       "scale": [3, 3, 3]
+    },
+    "PAX::WorldLayerSize": {
+      "size": [1440, 1440, -1]
     }
   }
 }

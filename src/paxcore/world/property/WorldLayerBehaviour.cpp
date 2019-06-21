@@ -1,8 +1,8 @@
 //
-// Created by Paul on 23.03.2019.
+// Created by Bittner on 21/06/2019.
 //
 
-#include <paxcore/world/WorldLayerProperty.h>
+#include <paxcore/world/property/WorldLayerBehaviour.h>
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::WorldLayerBehaviour, PAX_PROPERTY_IS_ABSTRACT)

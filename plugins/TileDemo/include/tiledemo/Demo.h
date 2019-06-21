@@ -80,7 +80,9 @@ namespace PAX {
                 camera.getTransformation().z() = 10;
 
                 glenys = glenysPrefab->create();
-                camera.add(new FollowEntityBehaviour(glenys.get()));
+                FollowEntityBehaviour * followEntityBehaviour = new FollowEntityBehaviour(glenys.get());
+                followEntityBehaviour->shouldRespectWorldSize(true);
+                camera.add(followEntityBehaviour);
                 mainLayer->spawn(glenys.get());
 
                 world->addLayer(mainLayer.get());
