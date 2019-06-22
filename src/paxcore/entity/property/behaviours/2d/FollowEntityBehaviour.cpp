@@ -10,51 +10,67 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::FollowEntityBehaviour, PAX_PROPERTY_IS_CONCRETE)
 
     FollowEntityBehaviour * FollowEntityBehaviour::createFromProvider(ContentProvider & provider) {
-        // FIXME:
-        return new FollowEntityBehaviour(nullptr);//provider.require<Entity*>("target"));
+        return new FollowEntityBehaviour(nullptr);
     }
 
     void FollowEntityBehaviour::initializeFromProvider(ContentProvider & provider) {
         Super::initializeFromProvider(provider);
+
+        if (const auto & respectws = provider.get<bool>("respectWorldSize")) {
+            shouldRespectWorldSize(respectws.value());
+        }
+
+        if (const auto & targetID = provider.get<EntityID>("targetEntity")) {
+            this->targetID = targetID.value();
+        }
     }
 
     FollowEntityBehaviour::FollowEntityBehaviour(PAX::Entity *target) : target(target) {}
 
     void FollowEntityBehaviour::update() {
-        if (target) {
-            Transformation &me = getOwner()->getTransformation();
-            Transformation &he = target->getTransformation();
-            me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * Time::DeltaF;
+        /*
+        if (Entity * owner = getOwner()) {
+            Entity * target = nullptr;
 
-            if (respectWorldSize) {
-                if (WorldLayerSize * worldSizeProperty = getOwner()->getWorldLayer()->get<WorldLayerSize>()) {
-                    if (Camera * camera = getOwner()->get<Camera>()) {
-                        const glm::vec2 & worldSize = worldSizeProperty->getSize2D();
-                        const std::shared_ptr<Viewport> & viewport = camera->getViewport();
+            if (WorldLayer * layer = owner->getWorldLayer()) {
+                target = layer->getEntityIDService().getEntity(targetID);
+            }
 
-                        for (int dim = 0; dim < 2; ++dim) {
-                            float worldWidth = worldSize[dim];
+            if (target) {
+                Transformation &me = getOwner()->getTransformation();
+                Transformation &he = target->getTransformation();
+                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * Time::DeltaF;
 
-                            if (worldWidth >= 0) {
-                                float rightExceed = me.position2D()[dim] + (viewport->getWidth() / 2.f) - (worldWidth / 2.f);
-                                float leftExceed  = (worldWidth / 2.f) - me.position2D()[dim] - (viewport->getWidth() / 2.f);
+                if (respectWorldSize) {
+                    if (WorldLayerSize *worldSizeProperty = getOwner()->getWorldLayer()->get<WorldLayerSize>()) {
+                        if (Camera *camera = getOwner()->get<Camera>()) {
+                            const glm::vec2 &worldSize = worldSizeProperty->getSize2D();
+                            const std::shared_ptr<Viewport> &viewport = camera->getViewport();
 
-                                //PAX_PRINT_OUT("respectWorldSize")
-                                //*
-                                if (!(leftExceed > 0 && rightExceed > 0)) {
-                                    if (leftExceed > 0) {
-                                        me.position2D()[dim] += leftExceed;
-                                    } else if (rightExceed > 0) {
-                                        me.position2D()[dim] -= rightExceed;
+                            for (int dim = 0; dim < 2; ++dim) {
+                                float worldWidth = worldSize[dim];
+
+                                if (worldWidth >= 0) {
+                                    float rightExceed =
+                                            me.position2D()[dim] + (viewport->getWidth() / 2.f) - (worldWidth / 2.f);
+                                    float leftExceed =
+                                            me.position2D()[dim] - (viewport->getWidth() / 2.f) + (worldWidth / 2.f);
+
+                                    if (!(leftExceed < 0 && rightExceed > 0)) {
+                                        if (leftExceed < 0) {
+                                            me.position2D()[dim] -= leftExceed;
+                                        } else if (rightExceed > 0) {
+                                            me.position2D()[dim] -= rightExceed;
+                                        }
                                     }
                                 }
-                                //*/
                             }
                         }
                     }
                 }
             }
         }
+         //*/
     }
 
     bool FollowEntityBehaviour::respectsWorldSize() {

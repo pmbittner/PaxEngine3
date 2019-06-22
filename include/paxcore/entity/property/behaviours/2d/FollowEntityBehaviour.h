@@ -6,6 +6,7 @@
 #define PAXENGINE3_FOLLOWENTITYBEHAVIOUR_H
 
 #include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/entity/EntityIDService.h>
 
 namespace PAX {
     class FollowEntityBehaviour : public PAX::Behaviour {
@@ -13,6 +14,7 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
 
+        EntityID targetID = EntityIDService::InvalidID;
         Entity *target = nullptr;
         float speed = 2.5f;
 

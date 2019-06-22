@@ -1,0 +1,40 @@
+{
+  "Constructor": {
+    "name": "TileDemo::MainLayer",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Properties": {
+    "PAX::Tiles::TileMapProperty": {
+      "map": "${ResourcePath}/TileDemo/tiled/SmallForest/SmallForest.json",
+      "scale": [3, 3, 3]
+    },
+    "PAX::WorldLayerSize": {
+      "size": [1440, 1440, -1]
+    }
+  },
+  "Entities": [
+    {
+      "name": "Player",
+      "id": 1,
+      "prefab": "${ResourcePath}/TileDemo/entities/glenys.paxprefab.json"
+    },
+    {
+      "name": "Camera",
+      "prefab": {
+        "Transform": {
+          "position": [0, 0, 10]
+        },
+        "Properties": {
+          "PAX::Camera": {
+            "projection": "PixelScreen"
+          },
+          "PAX::FollowEntityBehaviour": {
+            "targetEntity": 1,
+            "respectsWorldSize": true
+          }
+        }
+      }
+    }
+  ]
+}

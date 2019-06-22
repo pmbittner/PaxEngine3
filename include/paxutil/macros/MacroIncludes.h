@@ -25,7 +25,7 @@ if (value == nullptr) { \
 #define PAX_THROW_RUNTIME_ERROR(...) { \
     std::stringstream s; \
     s << __VA_ARGS__; \
-    Log::out.err() << s.str() << std::endl; \
+    PAX_PRINT_ERR(s.str()) \
     throw std::runtime_error(s.str()); \
 }
 

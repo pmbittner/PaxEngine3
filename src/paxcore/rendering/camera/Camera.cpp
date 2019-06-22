@@ -5,15 +5,44 @@
 #include <paxcore/rendering/camera/Camera.h>
 #include <paxcore/entity/Entity.h>
 #include <paxutil/macros/MacroIncludes.h>
+#include <paxcore/service/Services.h>
+#include <paxcore/rendering/factory/ViewportFactory.h>
+#include <paxcore/rendering/camera/PixelScreenProjection.h>
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::Camera, PAX_PROPERTY_IS_CONCRETE)
 
     Camera * Camera::createFromProvider(PAX::ContentProvider & provider) {
-        // TODO: Allow arbitrary objects construction form JSON
-        return new Camera(nullptr, nullptr);
-               // provider.require<std::shared_ptr<Viewport>>("viewport"),
-               // provider.require<std::shared_ptr<Projection>>("projection"));
+        ViewportFactory * vpFactory = Services::GetFactoryService().get<ViewportFactory>();
+        std::shared_ptr<Viewport> vp;
+
+        if (const auto & vp_x = provider.get<int>("viewport_x")) {
+            int x = vp_x.value();
+            int y = provider.require<int>("viewport_y");
+            int width = provider.require<int>("viewport_width");
+            int height = provider.require<int>("viewport_height");
+            std::string resizePolicyString = provider.require<std::string>("viewport_resizepolicy");
+            Viewport::ResizePolicy resizePolicy =
+                    resizePolicyString == "Relative" ?
+                    Viewport::ResizePolicy::Relative : Viewport::ResizePolicy::Absolute;
+
+            vp = vpFactory->create(x, y, width, height, resizePolicy);
+        } else {
+            vp = vpFactory->create();
+        }
+
+        // TODO: Make this extensible somehow.
+        std::string projName = provider.require<std::string>("projection");
+        std::shared_ptr<Projection> proj;
+        if (projName == "Perspective") {
+            proj = std::make_shared<PerspectiveProjection>();
+        } else if (projName == "PixelScreen") {
+            proj = std::make_shared<PixelScreenProjection>();
+        } else {
+            PAX_PRINT_ERR("Could not resolve projection type " << projName)
+        }
+
+        return new Camera(vp, proj);
     }
 
     void Camera::initializeFromProvider(PAX::ContentProvider & provider) {

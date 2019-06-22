@@ -16,11 +16,7 @@ namespace PAX {
         }
 
         std::string JsonPropertyContent::getValue(const std::string &key) {
-            //std::cout << "[JsonPropertyContent::getValue] " << key << " -> ";
-            std::stringstream ss;
-            ss << node[key];
-            //std::cout << ss.str() << std::endl;
-            return ss.str();
+            return node[key].get<std::string>();
         }
 
         static void buildVariableHierarchy(VariableHierarchy &h, nlohmann::json &node) {

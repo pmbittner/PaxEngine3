@@ -100,10 +100,20 @@ namespace PAX {
         public:
             static JsonProperyContainerPrefabElementParserRegister<C> Parsers;
 
-            explicit JsonPropertyContainerPrefab(const std::shared_ptr<json> &file, const Path &path, Allocator * containerAllocator = nullptr)
-                    : PropertyContainerPrefab<C>(containerAllocator), rootNode(file), path(path) {}
+            explicit JsonPropertyContainerPrefab(const std::shared_ptr<json> &file, const Path &path)
+                    : PropertyContainerPrefab<C>(), rootNode(file), path(path) {}
 
             virtual ~JsonPropertyContainerPrefab() = default;
+
+            Path resolvePath(const std::string & str) {
+                Path p = Path(VariableResolver::resolveVariables(str, Prefab::PreDefinedVariables));
+
+                if (p.isRelative()) {
+                    p = getPath().getDirectory() + p;
+                }
+
+                return p;
+            }
 
             static void initialize(Resources &resources) {
                 Parsers.registerParser(
@@ -190,34 +200,26 @@ namespace PAX {
                         });
             }
 
-            std::shared_ptr<C> create() override {
-                std::shared_ptr<C> c = nullptr;
+            C * create() override {
+                C * c = nullptr;
 
-                if (PropertyContainerPrefab<C>::allocator) {
-                    void * mem = PropertyContainerPrefab<C>::allocator->allocate(sizeof(C));
-                    c = std::shared_ptr<C>(
-                            new (mem) C(),
-                            [this](C * c) {
-                                delete c;
-                                this->allocator->destroy(c);
-                            });
-                } else {
-                    c = std::make_shared<C>();
-                }
+                // TODO: Agree on global Allocator for PropertyContainers!!!
+                c = new C();
 
-                addMyContentTo(*c.get());
+                addMyContentTo(*c);
                 return c;
             }
 
             void addMyContentTo(C &c) override {
                 std::vector<std::string> parseOrder = {
-                        "Inherits"
+                        "Constructor",
+                        "Inherits",
                         "Properties"
                 };
 
                 for (const std::string & name : parseOrder) {
                     if (rootNode->count(name) > 0) {
-                        parse(*rootNode.get(), "Inherits", c);
+                        parse(*rootNode.get(), name, c);
                     }
                 }
 
@@ -226,6 +228,10 @@ namespace PAX {
                         parse(*rootNode.get(), el.key(), c);
                     }
                 }
+            }
+
+            const Path & getPath() {
+                return path;
             }
         };
 

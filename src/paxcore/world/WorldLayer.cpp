@@ -23,48 +23,53 @@ namespace PAX {
     void WorldLayer::initialize(const std::string &name, int dimensions, float z,
                                 const std::shared_ptr<PAX::SceneGraphGenerator> &sceneGraphGenerator) {
         this->z = z;
-        this->_name = name;
-        this->_dimensions = dimensions;
+        this->name = name;
+        this->dimensions = dimensions;
 
         if (sceneGraphGenerator) {
-            _sceneGraphGenerator = sceneGraphGenerator;
+            this->sceneGraphGenerator = sceneGraphGenerator;
         } else {
             auto * sceneGraphGeneratorFactory = Services::GetFactoryService().get<SceneGraphGeneratorFactory>();
 
             if (sceneGraphGeneratorFactory) {
-                _sceneGraphGenerator = sceneGraphGeneratorFactory->create(dimensions);
+                this->sceneGraphGenerator = sceneGraphGeneratorFactory->create(dimensions);
             } else {
-                throw std::runtime_error("[WorldLayer::WorldLayer] Could not create SceneGraphGenerator because no factory is registered at the FactoryService!");
+                PAX_THROW_RUNTIME_ERROR("Could not create SceneGraphGenerator because no factory is registered at the FactoryService!")
             }
         }
 
         auto * sceneGraphGeneratorFactory = Services::GetFactoryService().get<WorldLayerSceneGraphFactory>();
         if (sceneGraphGeneratorFactory) {
-            _sceneGraph = sceneGraphGeneratorFactory->create(this, z);
+            this->sceneGraph = sceneGraphGeneratorFactory->create(this, z);
         } else {
             throw std::runtime_error("[WorldLayer::WorldLayer] Could not create SceneGraph because no factory is registered at the FactoryService!");
         }
 
-        _sceneGraphGenerator->initialize(_sceneGraph.get(), getEventService());
-        _sceneGraph->worldLayer = this;
+        this->sceneGraphGenerator->initialize(this->sceneGraph.get(), getEventService());
+        this->sceneGraph->worldLayer = this;
     }
 
     WorldLayer::~WorldLayer() {
         while (!entities.empty()) {
             despawn(*entities.begin());
         }
-        _sceneGraphGenerator->terminate(getEventService());
+
+        this->sceneGraphGenerator->terminate(getEventService());
     }
 
     void WorldLayer::spawn(Entity * entity) {
         assert(entity->_worldLayer == nullptr);
+
+        if (!idService.hasID(entity)) {
+            idService.generateIDFor(entity);
+        }
 
         if (entities.add(entity)) {
             for (Entity *child : entity->getChildren()) {
                 spawn(child);
             }
 
-            entity->_worldLayer = this;
+            entity->worldLayer = this;
             entity->getEventService().setParent(&getEventService());
 
             EntitySpawnedEvent e(entity);
@@ -74,10 +79,12 @@ namespace PAX {
 
     void WorldLayer::despawn(Entity * entity) {
         if (entities.remove(entity)) {
+            idService.releaseIDOf(entity);
+
             for (Entity *child : entity->getChildren())
                 despawn(child);
 
-            entity->_worldLayer = nullptr;
+            entity->worldLayer = nullptr;
 
             EntityDespawnedEvent e(entity, this);
             getEventService()(e);
@@ -92,20 +99,24 @@ namespace PAX {
         return entities;
     }
 
+    EntityIDService & WorldLayer::getEntityIDService() {
+        return idService;
+    }
+
     const std::shared_ptr<WorldLayerSceneGraph>& WorldLayer::getSceneGraph() const {
-        return _sceneGraph;
+        return sceneGraph;
     }
 
     const std::vector<Camera*>& WorldLayer::getCameras() const {
-        return _sceneGraphGenerator->getCameras();
+        return sceneGraphGenerator->getCameras();
     }
 
     const std::string& WorldLayer::getName() const {
-        return _name;
+        return name;
     }
 
     int WorldLayer::getDimensions() const {
-        return _dimensions;
+        return dimensions;
     }
 
     bool WorldLayer::operator<(const PAX::WorldLayer &rhs) const {

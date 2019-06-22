@@ -10,6 +10,14 @@
 namespace PAX {
     namespace Util {
         namespace String {
+            void toLower(std::string & str) {
+                std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+            }
+
+            void toUpper(std::string & str) {
+                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+            }
+
             void ltrim(std::string &s) {
                 s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
                     return !std::isspace(ch);
@@ -66,12 +74,24 @@ namespace PAX {
                 std::replace(string.begin(), string.end(), from, to);
             }
 
-            bool ValueParser<bool>::tryParse(const std::string &str) {
-                return str == "true" || str == "TRUE" || str == "True" || str == "1" || str == "on" || str == "ON" || str == "yes" || str == "y";
+            bool ValueParser<bool>::tryParse(const std::string & str) {
+                std::string strcopy = str;
+                toLower(strcopy);
+
+                return
+                   strcopy == "true"
+                || strcopy == "1"
+                || strcopy == "on"
+                || strcopy == "yes"
+                || strcopy == "y";
             }
 
             int ValueParser<int>::tryParse(const std::string &str) {
                 return std::stoi(str);
+            }
+
+            unsigned int ValueParser<unsigned int>::tryParse(const std::string &str) {
+                return static_cast<unsigned int>(std::stoul(str));
             }
 
             unsigned long ValueParser<unsigned long>::tryParse(const std::string &str) {

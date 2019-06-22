@@ -20,6 +20,7 @@
 
 #include <paxutil/event/EventService.h>
 #include <paxutil/property/PropertyContainerManager.h>
+#include <paxcore/entity/EntityIDService.h>
 #include "event/EntitySpawnedEvent.h"
 #include "event/EntityDespawnedEvent.h"
 
@@ -29,16 +30,17 @@ namespace PAX {
     class WorldLayer : public PropertyContainer<WorldLayer> {
         friend class SceneGraphGenerator;
 
-        std::string _name;
+        std::string name;
 
-        // These should be const, but are not due to deferred initialized via initialize method.
-        float z = 0; // This could be made non const, but then the Scenegraph has to be updated somehow.
-        int _dimensions = -1;
+        // These should be const, but are not due to being set via initialize method.
+        float z = 0;
+        int dimensions = -1;
 
-        std::shared_ptr<WorldLayerSceneGraph> _sceneGraph;
-        std::shared_ptr<SceneGraphGenerator> _sceneGraphGenerator;
+        std::shared_ptr<WorldLayerSceneGraph> sceneGraph;
+        std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator;
 
-        PropertyContainerManager<Entity> entities;
+        EntityManager entities;
+        EntityIDService idService;
 
     public:
         WorldLayer();
@@ -50,7 +52,7 @@ namespace PAX {
         /// \param dimensions The number of dimenions, this WorldLayer should have (typically 2 or 3).
         /// \param z An index for ordering the layers. Layers with greater z will be rendered behind layers with smaller z.
         /// \param sceneGraphGenerator The generator, that will be used for correctly arranging cameras and graphics components of this layers entities into its scene graph.
-        ///                            If this is nullptr, the factory will be queried to create one (Services
+        ///                            If this is nullptr, the factory will be queried to create one
         void initialize(const std::string& name, int dimensions, float z = 0, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator = nullptr);
 
         void spawn(Entity *entity);
@@ -58,6 +60,7 @@ namespace PAX {
 
         const std::set<Entity*> & getEntities() const;
         const EntityManager & getEntityManager() const;
+        EntityIDService & getEntityIDService();
 
         const std::string& getName() const;
         const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;

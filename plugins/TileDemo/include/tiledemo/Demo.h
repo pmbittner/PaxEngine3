@@ -27,34 +27,12 @@
 namespace PAX {
     namespace TileDemo {
         class Demo : public Game {
-            // World
             World * world = nullptr;
-            std::shared_ptr<WorldLayer> mainLayer = nullptr;
-
-            // Entities
-            Entity camera;
-
-            std::shared_ptr<Entity> glenys = nullptr;
-
-            // Resources
-            std::shared_ptr<EntityPrefab> glenysPrefab;
-            std::shared_ptr<WorldLayerPrefab> mainLayerPrefab;
-
-            void gatherResources() {
-                mainLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
-                        Services::GetPaths().getResourcePath() + "/TileDemo/prefabs/worldlayer/main.paxprefab.json"
-                );
-
-                glenysPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
-                        Services::GetPaths().getResourcePath() + "/TileDemo/prefabs/entities/glenys.paxprefab.json"
-                );
-            }
 
         public:
             Demo() : Game()
             {
                 PAX_PRINT_OUT("Moinsen " << 24)
-                PAX_PRINT_ERR("Alaaarm... ALAAHAAAARM!")
                 PAX_PRINT_OUT_DEBUG("I am only visible in debug mode hihi.")
             }
 
@@ -65,13 +43,18 @@ namespace PAX {
 
             void initialize() override {
                 Game::initialize();
-                gatherResources();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
-                PAX_PRINT_OUT("After gather resources")
 
+                std::shared_ptr<WorldLayerPrefab> worldLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
+                        Services::GetPaths().getResourcePath() + "/TileDemo/worlds/main/mainlayer.paxprefab.json"
+                );
+
+                PAX_PRINT_OUT("Create World")
                 world = new World();
-                mainLayer = mainLayerPrefab->create();
+                WorldLayer * mainLayer = worldLayerPrefab->create();
+                PAX_PRINT_OUT("Done")
 
+                /*
                 camera.add(new Camera(
                         Services::GetFactoryService().get<ViewportFactory>()->create(),
                         std::make_shared<PixelScreenProjection>()
@@ -84,15 +67,18 @@ namespace PAX {
                 followEntityBehaviour->shouldRespectWorldSize(true);
                 camera.add(followEntityBehaviour);
                 mainLayer->spawn(glenys.get());
+                 */
 
-                world->addLayer(mainLayer.get());
+                world->addLayer(mainLayer);
                 setActiveWorld(world);
+
+                PAX_PRINT_OUT("Done")
             }
 
             void terminate() override {
-                world->removeLayer(mainLayer.get());
-                glenys.reset();
-                mainLayer.reset();
+                //world->removeLayer(mainLayer.get());
+                //glenys.reset();
+                //mainLayer.reset();
                 Game::terminate();
             }
         };

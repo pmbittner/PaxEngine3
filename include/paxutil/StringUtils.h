@@ -20,6 +20,9 @@
 namespace PAX {
     namespace Util {
         namespace String {
+            void toLower(std::string & str);
+            void toUpper(std::string & str);
+
             /// trim from start (in place)
             void ltrim(std::string &s);
 
@@ -61,6 +64,7 @@ namespace PAX {
 
             PAX_SPECIALIZE_STRINGCONVERTER_HEADER(bool)
             PAX_SPECIALIZE_STRINGCONVERTER_HEADER(int)
+            PAX_SPECIALIZE_STRINGCONVERTER_HEADER(unsigned int)
             PAX_SPECIALIZE_STRINGCONVERTER_HEADER(unsigned long)
             PAX_SPECIALIZE_STRINGCONVERTER_HEADER(float)
             PAX_SPECIALIZE_STRINGCONVERTER_HEADER(double)

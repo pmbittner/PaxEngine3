@@ -28,12 +28,12 @@ namespace PAX {
         friend class WorldLayer;
 
     private:
-        Transformation _transform;
+        Transformation transform;
 
-        Entity *_parent = nullptr;
-        std::vector<Entity*> _children;
+        Entity * parent = nullptr;
+        std::vector<Entity*> children;
 
-        WorldLayer *_worldLayer = nullptr;
+        WorldLayer *worldLayer = nullptr;
 
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;

@@ -21,7 +21,7 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
-        glm::mat4 _viewMatrix;
+        glm::mat4 _viewMatrix = glm::mat4();
         std::shared_ptr<Viewport> _viewport;
         std::shared_ptr<Projection> _projection;
 

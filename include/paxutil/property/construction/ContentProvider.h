@@ -35,6 +35,11 @@ namespace PAX {
                 std::string value = VariableResolver::resolveVariables(getValue(name), variables);
                 return Util::String::tryParse<T>(value);
             }
+
+            template<>
+            std::string get<std::string>(const std::string & name, const VariableRegister & variables) {
+                return VariableResolver::resolveVariables(getValue(name), variables);
+            }
         };
     }
 

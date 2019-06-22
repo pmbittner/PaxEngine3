@@ -13,23 +13,23 @@ namespace PAX {
     Entity::~Entity() = default;
 
     Transformation& Entity::getTransformation() {
-        return _transform;
+        return transform;
     }
 
-    void Entity::setParent(Entity *parent) {
-        Entity *oldParent = _parent;//#PRANT
-        _parent = parent;
+    void Entity::setParent(Entity * parent) {
+        Entity * oldParent = parent;//#PRANT
+        this->parent = parent;
 
         if (oldParent) {
-            Util::removeFromVector(parent->_children, this);
+            Util::removeFromVector(parent->children, this);
         }
 
-        Transformation *parentTransform = nullptr;
-        if (_parent) {
-            parentTransform = &_parent->_transform;
-            _parent->_children.push_back(this);
+        Transformation * parentTransform = nullptr;
+        if (parent) {
+            parentTransform = &parent->transform;
+            parent->children.push_back(this);
         }
-        _transform.setParent(parentTransform);
+        transform.setParent(parentTransform);
 
         EntityParentChangedEvent e(this, oldParent, parent);
         OnParentChanged(e);
@@ -37,14 +37,14 @@ namespace PAX {
     }
 
     Entity* Entity::getParent() const {
-        return _parent;
+        return parent;
     }
 
     const std::vector<Entity*>& Entity::getChildren() const {
-        return _children;
+        return children;
     }
 
     WorldLayer* Entity::getWorldLayer() const {
-        return _worldLayer;
+        return worldLayer;
     }
 }

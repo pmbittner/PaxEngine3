@@ -11,6 +11,7 @@
 #include <paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h>
 
 #include <paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h>
+#include <paxcore/world/prefab/JsonWorldLayerEntityParser.h>
 #include <paxcore/entity/Entity.h>
 #include <paxcore/world/WorldLayer.h>
 #include <paxcore/service/Services.h>
@@ -36,17 +37,17 @@ namespace PAX {
     void EngineInternalPlugin::postInitialize(PAX::Engine &engine) {
         static Json::JsonPropertyContainerPrefabTransformationParser<Entity> transformationParser;
         static Json::JsonWorldLayerPrefabInitParser worldLayerPrefabInitParser;
+        static Json::JsonWorldLayerEntityParser worldLayerPrefabEntityParser;
 
         Json::JsonPropertyContainerPrefab<Entity>::initialize(Services::GetResources());
         Json::JsonPropertyContainerPrefab<WorldLayer>::initialize(Services::GetResources());
 
         Json::JsonPropertyContainerPrefab<Entity>::Parsers.registerParser("Transform", &transformationParser);
         Json::JsonPropertyContainerPrefab<WorldLayer>::Parsers.registerParser("Constructor", &worldLayerPrefabInitParser);
+        Json::JsonPropertyContainerPrefab<WorldLayer>::Parsers.registerParser("Entities", &worldLayerPrefabEntityParser);
 
-        EntityPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().toString();
-        EntityPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
-        WorldLayerPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().toString();
-        WorldLayerPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
+        Prefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().toString();
+        Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
     }
 
     void EngineInternalPlugin::registerFactories(PAX::FactoryService &factoryService) {}
