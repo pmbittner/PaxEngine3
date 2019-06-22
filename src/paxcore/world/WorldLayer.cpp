@@ -58,7 +58,7 @@ namespace PAX {
     }
 
     void WorldLayer::spawn(Entity * entity) {
-        assert(entity->_worldLayer == nullptr);
+        assert(entity->worldLayer == nullptr);
 
         if (!idService.hasID(entity)) {
             idService.generateIDFor(entity);

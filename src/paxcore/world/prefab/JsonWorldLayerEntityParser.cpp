@@ -27,7 +27,6 @@ namespace PAX {
                                 Services::GetResources().loadOrGet<EntityPrefab>(prefab.resolvePath(prefabNode.get<std::string>()));
                         entity = entityPrefab->create();
                     } else {
-                        //*
                         JsonPropertyContainerPrefab<Entity> entityPrefab(
                                 std::shared_ptr<nlohmann::json>(
                                         &prefabNode,
@@ -39,9 +38,6 @@ namespace PAX {
                                         ),
                                 prefab.getPath());
                         entity = entityPrefab.create();
-                        /*/
-                        entity = new Entity();
-                        //*/
                     }
                 } else {
                     // TODO: Write EntityAllocator
@@ -49,7 +45,7 @@ namespace PAX {
                 }
 
                 if (entityNode.count("id") > 0) {
-                    EntityID id = Util::String::tryParse<EntityID>(entityNode.at("id"));
+                    EntityID id = entityNode["id"].get<EntityID>();
                     worldLayer.getEntityIDService().reserveIDFor(entity, id);
                 }
 

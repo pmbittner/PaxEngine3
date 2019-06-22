@@ -24,7 +24,7 @@ namespace PAX {
         /// \return dimensions = (columns, rows)
         const glm::ivec2 & getDimensions() const;
 
-        const glm::vec2 & getCellSize() const;
+        glm::vec2 getCellSize() const;
     };
 }
 

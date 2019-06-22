@@ -28,7 +28,6 @@ namespace PAX {
     FollowEntityBehaviour::FollowEntityBehaviour(PAX::Entity *target) : target(target) {}
 
     void FollowEntityBehaviour::update() {
-        /*
         if (Entity * owner = getOwner()) {
             Entity * target = nullptr;
 
@@ -70,7 +69,6 @@ namespace PAX {
                 }
             }
         }
-         //*/
     }
 
     bool FollowEntityBehaviour::respectsWorldSize() {

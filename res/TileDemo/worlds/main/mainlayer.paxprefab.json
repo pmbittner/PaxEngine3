@@ -22,6 +22,7 @@
     {
       "name": "Camera",
       "prefab": {
+        "__comment": "This is an anonymous inlined prefab",
         "Transform": {
           "position": [0, 0, 10]
         },
@@ -31,7 +32,7 @@
           },
           "PAX::FollowEntityBehaviour": {
             "targetEntity": 1,
-            "respectsWorldSize": true
+            "respectWorldSize": true
           }
         }
       }
