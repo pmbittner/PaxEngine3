@@ -27,8 +27,6 @@
 namespace PAX {
     namespace TileDemo {
         class Demo : public Game {
-            World * world = nullptr;
-
         public:
             Demo() : Game()
             {
@@ -45,40 +43,19 @@ namespace PAX {
                 Game::initialize();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
+                PAX_PRINT_OUT("Create World")
                 std::shared_ptr<WorldLayerPrefab> worldLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
                         Services::GetPaths().getResourcePath() + "/TileDemo/worlds/main/mainlayer.paxprefab.json"
                 );
 
-                PAX_PRINT_OUT("Create World")
-                world = new World();
-                WorldLayer * mainLayer = worldLayerPrefab->create();
-                PAX_PRINT_OUT("Done")
-
-                /*
-                camera.add(new Camera(
-                        Services::GetFactoryService().get<ViewportFactory>()->create(),
-                        std::make_shared<PixelScreenProjection>()
-                        ));
-                mainLayer->spawn(&camera);
-                camera.getTransformation().z() = 10;
-
-                glenys = glenysPrefab->create();
-                FollowEntityBehaviour * followEntityBehaviour = new FollowEntityBehaviour(glenys.get());
-                followEntityBehaviour->shouldRespectWorldSize(true);
-                camera.add(followEntityBehaviour);
-                mainLayer->spawn(glenys.get());
-                 */
-
-                world->addLayer(mainLayer);
+                World * world = new World();
+                world->addLayer(worldLayerPrefab->create());
                 setActiveWorld(world);
 
                 PAX_PRINT_OUT("Done")
             }
 
             void terminate() override {
-                //world->removeLayer(mainLayer.get());
-                //glenys.reset();
-                //mainLayer.reset();
                 Game::terminate();
             }
         };
