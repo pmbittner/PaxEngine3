@@ -10,7 +10,13 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::FollowEntityBehaviour, PAX_PROPERTY_IS_CONCRETE)
 
     FollowEntityBehaviour * FollowEntityBehaviour::createFromProvider(ContentProvider & provider) {
-        return new FollowEntityBehaviour(nullptr);
+        EntityID id = EntityIDService::InvalidID;
+
+        if (const auto & targetID = provider.get<EntityID>("targetEntity")) {
+            id = targetID.value();
+        }
+
+        return new FollowEntityBehaviour(id);
     }
 
     void FollowEntityBehaviour::initializeFromProvider(ContentProvider & provider) {
@@ -19,13 +25,9 @@ namespace PAX {
         if (const auto & respectws = provider.get<bool>("respectWorldSize")) {
             shouldRespectWorldSize(respectws.value());
         }
-
-        if (const auto & targetID = provider.get<EntityID>("targetEntity")) {
-            this->targetID = targetID.value();
-        }
     }
 
-    FollowEntityBehaviour::FollowEntityBehaviour(PAX::Entity *target) : target(target) {}
+    FollowEntityBehaviour::FollowEntityBehaviour(EntityID targetID) : targetID(targetID) {}
 
     void FollowEntityBehaviour::update() {
         if (Entity * owner = getOwner()) {

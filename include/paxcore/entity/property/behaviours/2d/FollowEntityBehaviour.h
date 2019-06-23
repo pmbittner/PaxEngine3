@@ -15,13 +15,12 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
 
         EntityID targetID = EntityIDService::InvalidID;
-        Entity *target = nullptr;
         float speed = 2.5f;
 
         bool respectWorldSize = false;
 
     public:
-        explicit FollowEntityBehaviour(Entity *target);
+        explicit FollowEntityBehaviour(EntityID targetID = EntityIDService::InvalidID);
 
         void update() override;
 
