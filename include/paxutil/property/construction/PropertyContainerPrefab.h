@@ -23,8 +23,8 @@ namespace PAX {
     public:
         explicit PropertyContainerPrefab() = default;
         virtual ~PropertyContainerPrefab() = default;
-        virtual C * create() = 0;
-        virtual void addMyContentTo(C& c) = 0;
+        virtual C * create(const VariableRegister & variableRegister) = 0;
+        virtual void addMyContentTo(C& c, const VariableRegister & variableRegister) = 0;
     };
 }
 

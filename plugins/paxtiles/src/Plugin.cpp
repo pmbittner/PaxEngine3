@@ -9,6 +9,7 @@
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxtiles/tiled/TileSetJsonLoader.h>
 #include <paxtiles/TileMapProperty.h>
+#include <paxtiles/TileMapTransition.h>
 
 #include <paxtiles/topdown/CharacterOrientation.h>
 #include <paxtiles/topdown/CharacterSpriteAnimation.h>
@@ -27,6 +28,8 @@ namespace PAX {
             PAX_PROPERTY_REGISTER(PAX::Tiles::CharacterOrientation)
             PAX_PROPERTY_REGISTER(PAX::Tiles::CharacterSpriteAnimation)
             PAX_PROPERTY_REGISTER(PAX::Tiles::SimpleCharacterKeyboardControls)
+
+            PAX_PROPERTY_REGISTER(PAX::Tiles::TileMapTransition)
         }
     }
 }

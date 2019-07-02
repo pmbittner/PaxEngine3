@@ -20,7 +20,7 @@
          "name":"TressNStuff",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":30,
          "x":0,
          "y":0
@@ -29,7 +29,34 @@
          "draworder":"topdown",
          "id":5,
          "name":"Entities",
-         "objects":[],
+         "objects":[
+                {
+                 "height":80,
+                 "id":1,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"transition_target_id",
+                         "type":"int",
+                         "value":1
+                        }, 
+                        {
+                         "name":"transition_target_map",
+                         "type":"string",
+                         "value":"${ResourcePath}\/TileDemo\/tiled\/SmallForest\/SmallForest.json"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"transition"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":464,
+                 "y":256
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -43,7 +70,7 @@
          "name":"Leaves",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":30,
          "x":0,
          "y":0
@@ -55,13 +82,13 @@
          "name":"Leaves2",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":30,
          "x":0,
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":1,
+ "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.3",

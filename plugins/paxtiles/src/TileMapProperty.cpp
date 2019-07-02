@@ -74,14 +74,25 @@ namespace PAX {
         }
 
         void TileMapProperty::attached(PAX::WorldLayer & worldLayer) {
-            for (Entity & e : layerEntities)
+            for (Entity & e : layerEntities) {
                 worldLayer.spawn(&e);
+            }
+
+            for (Entity * e : tileMap->getEntities()) {
+                worldLayer.spawn(e);
+            }
         }
 
         void TileMapProperty::detached(PAX::WorldLayer & worldLayer) {
             for (Entity & e : layerEntities) {
                 if (e.getWorldLayer() == &worldLayer) {
                     worldLayer.despawn(&e);
+                }
+            }
+
+            for (Entity * e : tileMap->getEntities()) {
+                if (e->getWorldLayer() == &worldLayer) {
+                    worldLayer.despawn(e);
                 }
             }
         }

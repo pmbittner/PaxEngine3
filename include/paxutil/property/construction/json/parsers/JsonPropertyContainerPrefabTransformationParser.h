@@ -12,7 +12,7 @@ namespace PAX {
         template<typename C>
         class JsonPropertyContainerPrefabTransformationParser : public JsonPropertyContainerPrefabElementParser<C> {
         public:
-            void parse(nlohmann::json & node, C & c, JsonPropertyContainerPrefab<C> & prefab) override {
+            void parse(nlohmann::json & node, C & c, JsonPropertyContainerPrefab<C> & prefab, const VariableRegister & v) override {
                 JsonToTransformation converter;
                 converter.convert(node, c.getTransformation());
             }

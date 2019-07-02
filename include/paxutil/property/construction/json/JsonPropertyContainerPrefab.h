@@ -21,22 +21,24 @@ namespace PAX {
         class JsonPropertyContainerPrefab;
 
         template<typename C>
-        using JsonPropertyContainerPrefabElementParser = JsonElementParser<C &, JsonPropertyContainerPrefab<C> &>;
+        using JsonPropertyContainerPrefabElementParser = JsonElementParser<C &, JsonPropertyContainerPrefab<C> &, const VariableRegister &>;
 
         template<typename C>
         class LambdaJsonPropertyContainerPrefabElementParser : public JsonPropertyContainerPrefabElementParser<C> {
         public:
-            using Callback = std::function<void(nlohmann::json &, C &, JsonPropertyContainerPrefab<C> &)>;
+            using Callback = std::function<void(nlohmann::json &, C &, JsonPropertyContainerPrefab<C> &, const VariableRegister &)>;
+
         private:
             Callback callback;
+
         public:
-            explicit LambdaJsonPropertyContainerPrefabElementParser(const Callback &function)
+            explicit LambdaJsonPropertyContainerPrefabElementParser(const Callback & function)
                     : JsonPropertyContainerPrefabElementParser<C>(), callback(function) {}
 
             ~LambdaJsonPropertyContainerPrefabElementParser() override = default;
 
-            void parse(nlohmann::json &j, C &c, JsonPropertyContainerPrefab<C> &prefab) override {
-                callback(j, c, prefab);
+            void parse(nlohmann::json &j, C &c, JsonPropertyContainerPrefab<C> &prefab, const VariableRegister & variableRegister) override {
+                callback(j, c, prefab, variableRegister);
             }
         };
 
@@ -72,7 +74,7 @@ namespace PAX {
                 return false;
             }
 
-            const std::map<std::string, JsonPropertyContainerPrefabElementParser<C> *> &getRegister() {
+            const std::map<std::string, JsonPropertyContainerPrefabElementParser<C> *> & getRegister() {
                 return parsers;
             }
         };
@@ -84,12 +86,12 @@ namespace PAX {
             std::shared_ptr<json> rootNode;
             Path path;
 
-            void parse(json &parent, const std::string &childname, C &c) {
+            void parse(json &parent, const std::string &childname, C &c, const VariableRegister & variableRegister) {
                 const auto &parserRegister = Parsers.getRegister();
                 const auto &it = parserRegister.find(childname);
                 if (it != parserRegister.end()) {
                     if (parent.count(childname) > 0) {
-                        it->second->parse(parent[childname], c, *this);
+                        it->second->parse(parent[childname], c, *this, variableRegister);
                     }
                 } else {
                     std::cerr << "[JsonPropertyContainerPrefab::parse] ignoring element " << childname
@@ -118,7 +120,7 @@ namespace PAX {
             static void initialize(Resources &resources) {
                 Parsers.registerParser(
                         "Inherits",
-                        [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
+                        [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab, const VariableRegister & variableRegister) {
                             for (auto &el : node.items()) {
                                 Path parentPath = prefab.path.getDirectory() + el.value();
                                 std::shared_ptr<PropertyContainerPrefab<C>> parentPrefab;
@@ -132,17 +134,17 @@ namespace PAX {
                                     prefab.parentPrefabs[parentPath] = parentPrefab;
                                 }
 
-                                parentPrefab->addMyContentTo(c);
+                                parentPrefab->addMyContentTo(c, variableRegister);
                             }
                         });
 
                 Parsers.registerParser(
                         "Properties",
-                        [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab) {
+                        [&resources](json &node, C &c, JsonPropertyContainerPrefab<C> &prefab, const VariableRegister & variableRegister) {
                             std::vector<Property<C> *> props;
 
                             ContentProvider contentProvider(resources,
-                                                            PropertyContainerPrefab<C>::PreDefinedVariables);
+                                                            variableRegister);
 
                             for (auto &el : node.items()) {
                                 const std::string propTypeName = el.key();
@@ -200,17 +202,24 @@ namespace PAX {
                         });
             }
 
-            C * create() override {
+            C * create(const VariableRegister & variableRegister) override {
                 C * c = nullptr;
 
                 // TODO: Agree on global Allocator for PropertyContainers!!!
                 c = new C();
 
-                addMyContentTo(*c);
+                addMyContentTo(*c, variableRegister);
                 return c;
             }
 
-            void addMyContentTo(C &c) override {
+            void addMyContentTo(C &c, const VariableRegister & variableRegister) override {
+                // Compose given variables with the predefined ones.
+                // Therefore, copy the given VariableRegister, such that duplicates
+                // are override with the custom variables.
+                VariableRegister composedVariableRegister = variableRegister;
+                composedVariableRegister.insert(PropertyContainerPrefab<C>::PreDefinedVariables.begin(),
+                                                PropertyContainerPrefab<C>::PreDefinedVariables.end());
+
                 std::vector<std::string> parseOrder = {
                         "Constructor",
                         "Inherits",
@@ -219,13 +228,13 @@ namespace PAX {
 
                 for (const std::string & name : parseOrder) {
                     if (rootNode->count(name) > 0) {
-                        parse(*rootNode.get(), name, c);
+                        parse(*rootNode.get(), name, c, composedVariableRegister);
                     }
                 }
 
                 for (auto &el : rootNode->items()) {
                     if (!Util::vectorContains(parseOrder, el.key())) {
-                        parse(*rootNode.get(), el.key(), c);
+                        parse(*rootNode.get(), el.key(), c, composedVariableRegister);
                     }
                 }
             }

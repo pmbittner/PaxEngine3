@@ -1,0 +1,19 @@
+{
+  "Transform": {
+    "position": "${position}",
+    "scale": "${scale}"
+  },
+  "Properties": {
+    "PAX::SpriteGraphics": {
+      "Sprite": "${ResourcePath}/TileDemo/img/orangepixel.png",
+      "Shader": {
+        "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
+        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
+      }
+    },
+    "PAX::Tiles::Transition": {
+      "transition_target_id": "${transition_target_id}",
+      "transition_target_map": "${transition_target_map}"
+    }
+  }
+}

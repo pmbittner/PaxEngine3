@@ -3,6 +3,7 @@
 //
 
 #include <paxutil/property/construction/json/JsonPropertyContent.h>
+#include <paxutil/json/JsonUtil.h>
 
 namespace PAX {
     namespace Json {
@@ -16,15 +17,7 @@ namespace PAX {
         }
 
         std::string JsonPropertyContent::getValue(const std::string &key) {
-            if (node[key].is_string()) {
-                return node[key];
-            }
-
-            //std::cout << "[JsonPropertyContent::getValue] " << key << " -> ";
-            std::stringstream ss;
-            ss << node[key];
-            //std::cout << ss.str() << std::endl;
-            return ss.str();
+            return JsonToString(node[key]);
         }
 
         static void buildVariableHierarchy(VariableHierarchy &h, nlohmann::json &node) {

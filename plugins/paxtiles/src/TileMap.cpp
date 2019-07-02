@@ -105,6 +105,10 @@ namespace PAX {
             return map;
         }
 
+        Tile& TileMap::Layer::getTileAt(int x, int y) {
+            return tiles[y * width + x];
+        }
+
         TileMap::TileMap(const std::vector<std::shared_ptr<TileSet>> & tileSets,
                          int width,
                          int height,
@@ -130,12 +134,20 @@ namespace PAX {
             return layers;
         }
 
+        const std::vector<Entity*>& TileMap::getEntities() const {
+            return entities;
+        }
+
         const std::vector<std::shared_ptr<TileSet>>& TileMap::getTileSets() {
             return tileSets;
         }
 
         const glm::ivec2 & TileMap::getTileSize() const {
             return tileSize;
+        }
+
+        void TileMap::_addEntity(PAX::Entity *entity) {
+            entities.push_back(entity);
         }
     }
 }

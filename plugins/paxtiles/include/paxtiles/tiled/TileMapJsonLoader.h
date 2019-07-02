@@ -6,11 +6,25 @@
 #define PAXENGINE3_TILEMAPJSONLOADER_H
 
 #include <paxutil/resources/ResourceLoader.h>
+#include <paxutil/json/Json.h>
 #include "../TileMap.h"
 
 namespace PAX {
     namespace Tiles {
         class TileMapJsonLoader : public ResourceLoader<TileMap, Path> {
+
+            void loadTileLayer(
+                    const nlohmann::json & layerj,
+                    std::shared_ptr<TileMap> & map,
+                    const std::vector<std::shared_ptr<TileSet>> & tilesets,
+                    const std::vector<int> & gids);
+
+            void loadObjectGroup(
+                    const nlohmann::json & layerj,
+                    std::shared_ptr<TileMap> & map,
+                    const std::vector<std::shared_ptr<TileSet>> & tilesets,
+                    const std::vector<int> & gids);
+
         public:
             bool canLoad(Path) const override;
             std::shared_ptr<TileMap> load(Path) override;

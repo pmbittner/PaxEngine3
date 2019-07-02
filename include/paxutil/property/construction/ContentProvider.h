@@ -43,14 +43,6 @@ namespace PAX {
         Resources & resources;
         const VariableRegister & variables;
 
-    protected:
-        static std::string require_errorMessage(const std::string & typeName, const std::string & varName) {
-            std::stringstream errormsg;
-            errormsg << "[PAX::ContentProvider::require<" << typeName << ">] Variable " << varName <<  " could not be obtained!" << std::endl;
-            std::cerr << errormsg.str();
-            return errormsg.str();
-        }
-
     public:
         explicit ContentProvider(Resources & resources, const VariableRegister & variables)
         : resources(resources), variables(variables) {}
@@ -80,7 +72,7 @@ namespace PAX {
                 return opt.value();
             }
 
-            throw std::logic_error(require_errorMessage(paxtypeid(T).name(), name));
+            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
         }
 
         template<typename T>
@@ -100,7 +92,7 @@ namespace PAX {
             if (opt.has_value())
                 return opt.value();
 
-            throw std::logic_error(require_errorMessage(paxtypeid(T).name(), name));
+            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
         }
     };
 }

@@ -4,13 +4,18 @@
 
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
-#include <paxutil/json/Json.h>
 #include <paxtiles/TileSet.h>
+#include <paxutil/json/JsonUtil.h>
 
 namespace PAX {
     namespace Tiles {
         bool TileMapJsonLoader::canLoad(PAX::Path path) const {
             return Services::GetResources().getLoader<nlohmann::json>(path) != nullptr;
+        }
+
+        std::shared_ptr<TileMap> TileMapJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
+                                                                             const PAX::VariableHierarchy &parameters) {
+            return loadFromPath("TileMapJsonLoader", resources, parameters);
         }
 
         std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {
@@ -64,67 +69,137 @@ namespace PAX {
 
             // Parse layers
             for (const nlohmann::json & layerj : j["layers"]) {
-                if (layerj["type"] == "tilelayer") {
-                    int layerWidth = layerj["width"];
-                    int layerHeight = layerj["height"];
+                std::string layerType = layerj["type"];
 
-                    int layerX = layerj["x"];
-                    int layerY = layerj["y"];
-                    float opacity = layerj["opacity"];
-                    int id = layerj["id"];
-
-                    // TODO: Use id to determine z pos and communicate it to let entities have correct z.
-                    std::vector<int> tileData = layerj["data"];
-                    assert(tileData.size() == layerWidth * layerHeight);
-                    std::vector<Tile> tiles(tileData.size());
-
-                    for (int i = 0; i < tileData.size(); ++i) {
-                        int datai = tileData[i];
-                        int tilesetIndex = 0;
-                        bool isEmpty = false;
-
-                        for (int k = 0; k < gids.size(); ++k) {
-                            int cur_gid  = gids[k];
-                            int next_gid = std::numeric_limits<int>::max();
-
-                            if (k + 1 < gids.size())
-                                next_gid = gids[k + 1];
-
-                            if (cur_gid <= datai && datai < next_gid) {
-                                datai -= cur_gid;
-                                tilesetIndex = k;
-                                break;
-                            } else if (datai < cur_gid) {
-                                // This should only happen, if the id is less than the very first gid.
-                                // This encodes transparency.
-                                isEmpty = true;
-                                break;
-                            }
-                        }
-
-                        int myTileSetWidth = tilesets[tilesetIndex]->getSpriteSheet().getDimensions().x;
-
-                        tiles[i].isEmpty = isEmpty;
-                        tiles[i].textureColumn = datai % myTileSetWidth;
-                        tiles[i].textureRow = datai / myTileSetWidth;
-                        tiles[i].tileSetIndex = tilesetIndex;
-                    }
-
-                    TileMap::Layer & layer = tilemap->addLayer(tiles, layerWidth);
-                    layer.x = layerX;
-                    layer.y = layerY;
-                    layer.z = id;
-                    layer.opacity = opacity;
-                    layer.name = layerj["name"];
+                if (layerType == "tilelayer") {
+                    loadTileLayer(layerj, tilemap, tilesets, gids);
+                } else if (layerType == "objectgroup") {
+                    loadObjectGroup(layerj, tilemap, tilesets, gids);
                 }
             }
 
             return tilemap;
         }
 
-        std::shared_ptr<TileMap> TileMapJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                              const PAX::VariableHierarchy &parameters) {
-            return loadFromPath("TileMapJsonLoader", resources, parameters);
+        void TileMapJsonLoader::loadTileLayer(
+                const nlohmann::json & layerj,
+                std::shared_ptr<PAX::Tiles::TileMap> &map,
+                const std::vector<std::shared_ptr<TileSet>> & tilesets,
+                const std::vector<int> & gids)
+        {
+            int layerWidth = layerj["width"];
+            int layerHeight = layerj["height"];
+
+            int layerX = layerj["x"];
+            int layerY = layerj["y"];
+            float opacity = layerj["opacity"];
+            int id = layerj["id"];
+
+            // TODO: Use id to determine z pos and communicate it to let entities have correct z.
+            std::vector<int> tileData = layerj["data"];
+            assert(tileData.size() == layerWidth * layerHeight);
+            std::vector<Tile> tiles(tileData.size());
+
+            for (int i = 0; i < tileData.size(); ++i) {
+                int datai = tileData[i];
+                int tilesetIndex = 0;
+                bool isEmpty = false;
+
+                for (int k = 0; k < gids.size(); ++k) {
+                    int cur_gid  = gids[k];
+                    int next_gid = std::numeric_limits<int>::max();
+
+                    if (k + 1 < gids.size())
+                        next_gid = gids[k + 1];
+
+                    if (cur_gid <= datai && datai < next_gid) {
+                        datai -= cur_gid;
+                        tilesetIndex = k;
+                        break;
+                    } else if (datai < cur_gid) {
+                        // This should only happen, if the id is less than the very first gid.
+                        // This encodes transparency.
+                        isEmpty = true;
+                        break;
+                    }
+                }
+
+                int myTileSetWidth = tilesets[tilesetIndex]->getSpriteSheet().getDimensions().x;
+
+                tiles[i].isEmpty = isEmpty;
+                tiles[i].textureColumn = datai % myTileSetWidth;
+                tiles[i].textureRow = datai / myTileSetWidth;
+                tiles[i].tileSetIndex = tilesetIndex;
+            }
+
+            TileMap::Layer & layer = map->addLayer(tiles, layerWidth);
+            layer.x = layerX;
+            layer.y = layerY;
+            layer.z = id;
+            layer.opacity = opacity;
+            layer.name = layerj["name"];
+        }
+
+        void TileMapJsonLoader::loadObjectGroup(const nlohmann::json &layerj, std::shared_ptr<PAX::Tiles::TileMap> &map,
+                                                const std::vector<std::shared_ptr<PAX::Tiles::TileSet>> &tilesets,
+                                                const std::vector<int> &gids)
+        {
+            int x = layerj["x"];
+            int y = layerj["y"];
+            int z = layerj["id"];
+
+            for (const nlohmann::json & obj : layerj["objects"]) {
+
+                int obj_x = obj["x"];
+                int obj_y = obj["y"];
+                int obj_id = obj["id"];
+                int obj_width = obj["width"];
+                int obj_height = obj["height"];
+                PAX_PRINT_OUT("Loading object with id " << obj_id)
+
+                obj_x += x;
+                obj_y += y;
+
+                VariableRegister varRegister;
+                std::shared_ptr<PAX::EntityPrefab> prefab;
+
+                varRegister["position"] =
+                        "[" + std::to_string(obj_x) + ", "
+                        + std::to_string(obj_y) + ", "
+                        + std::to_string(z) + "]";
+                varRegister["scale"] =
+                        "[" + std::to_string(obj_width) + ", "
+                        + std::to_string(obj_height) + ", 1]";
+
+                for (const nlohmann::json & property : obj["properties"]) {
+                    PAX_PRINT_OUT("\tLoading property " << property)
+                    std::string property_name = property["name"];
+                    std::string property_value =
+                            VariableResolver::resolveVariables(
+                                    JsonToString(property["value"]),
+                                    // We use these predefined variables as these are intended to be used in
+                                    // all our json resources.
+                                    // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place.
+                                    PAX::Prefab::PreDefinedVariables);
+
+                    PAX_PRINT_OUT("\t => " << property_name << " = " << property_value)
+                    if (property_name == "prefab") {
+                        prefab = Services::GetResources().loadOrGet<EntityPrefab>(Path(property_value));
+                    } else {
+                        varRegister[property_name] = property_value;
+                    }
+                }
+
+                if (prefab) {
+                    PAX_PRINT_OUT("create Entity")
+                    Entity * entity = prefab->create(varRegister);
+                    PAX_PRINT_OUT("Entity created")
+                    map->_addEntity(entity);
+                    PAX_PRINT_OUT("Entity added")
+                } else {
+                    PAX_PRINT_WARN("Object without prefab given. Thus, it will be skipped.")
+                }
+            }
         }
     }
 }

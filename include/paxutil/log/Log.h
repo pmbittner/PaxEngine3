@@ -38,8 +38,8 @@ namespace PAX {
 
 #define PAX_PRINT_TO(stream, message) {stream << "[" << PAX_FUNCTION_NAME << "] " << message  << std::endl;}
 #define PAX_PRINT_OUT(message) PAX_PRINT_TO(::PAX::Log::out.info(), message)
-#define PAX_PRINT_WARN(message) PAX_PRINT_TO(::PAX::Log::out.err(), "WARNING in " << __FILE__ << "(" << __LINE__ << "): " << message)
-#define PAX_PRINT_ERR(message) PAX_PRINT_TO(::PAX::Log::out.warn(), "ERROR in " << __FILE__ << "(" << __LINE__ << "): " << message)
+#define PAX_PRINT_WARN(message) PAX_PRINT_TO(::PAX::Log::out.warn(), "WARNING in " << __FILE__ << "(" << __LINE__ << "): " << message)
+#define PAX_PRINT_ERR(message) PAX_PRINT_TO(::PAX::Log::out.err(), "ERROR in " << __FILE__ << "(" << __LINE__ << "): " << message)
 
 #ifdef PAX_BUILD_TYPE_DEBUG
     #define PAX_PRINT_TO_DEBUG(stream, message) PAX_PRINT_TO(stream, message)

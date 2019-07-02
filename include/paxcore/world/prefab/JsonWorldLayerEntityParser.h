@@ -13,7 +13,7 @@ namespace PAX {
         class JsonWorldLayerEntityParser : public JsonPropertyContainerPrefabElementParser<WorldLayer> {
         public:
             ~JsonWorldLayerEntityParser() override;
-            void parse(nlohmann::json & node, WorldLayer & c, JsonPropertyContainerPrefab<WorldLayer> & prefab) override;
+            void parse(nlohmann::json & node, WorldLayer & c, JsonPropertyContainerPrefab<WorldLayer> & prefab, const VariableRegister & v) override;
         };
     }
 }

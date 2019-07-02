@@ -49,7 +49,7 @@ namespace PAX {
                 );
 
                 World * world = new World();
-                world->addLayer(worldLayerPrefab->create());
+                world->addLayer(worldLayerPrefab->create({}));
                 setActiveWorld(world);
 
                 PAX_PRINT_OUT("Done")

@@ -9,7 +9,8 @@ namespace PAX {
         JsonWorldLayerEntityParser::~JsonWorldLayerEntityParser() = default;
 
         void JsonWorldLayerEntityParser::parse(nlohmann::json &node, PAX::WorldLayer & worldLayer,
-                                               PAX::Json::JsonPropertyContainerPrefab<PAX::WorldLayer> &prefab) {
+                                               PAX::Json::JsonPropertyContainerPrefab<PAX::WorldLayer> &prefab,
+                                               const VariableRegister & v) {
             if (!node.is_array())
                 PAX_PRINT_WARN("Given node is not an array!")
 
@@ -25,7 +26,7 @@ namespace PAX {
                     if (prefabNode.is_string()) {
                         std::shared_ptr<EntityPrefab> entityPrefab =
                                 Services::GetResources().loadOrGet<EntityPrefab>(prefab.resolvePath(prefabNode.get<std::string>()));
-                        entity = entityPrefab->create();
+                        entity = entityPrefab->create({});
                     } else {
                         JsonPropertyContainerPrefab<Entity> entityPrefab(
                                 std::shared_ptr<nlohmann::json>(
@@ -37,7 +38,7 @@ namespace PAX {
                                         }
                                         ),
                                 prefab.getPath());
-                        entity = entityPrefab.create();
+                        entity = entityPrefab.create({});
                     }
                 } else {
                     // TODO: Write EntityAllocator

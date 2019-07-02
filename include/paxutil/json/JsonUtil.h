@@ -15,6 +15,8 @@ namespace PAX {
         virtual ~JsonElementParser() {};
         virtual void parse(nlohmann::json &, Args...) = 0;
     };
+
+    std::string JsonToString(const nlohmann::json & j);
 }
 
 #endif //PAXENGINE3_JSONUTIL_H

@@ -37,11 +37,14 @@ namespace PAX {
                 void render(RenderOptions &renderOptions) override;
 
                 TileMap* getMap();
+
+                Tile & getTileAt(int x, int y);
             };
 
         private:
             std::vector<Layer> layers;
             std::vector<std::shared_ptr<TileSet>> tileSets;
+            std::vector<Entity*> entities;
 
             glm::ivec2 tileSize;
             glm::ivec2 mapSize;
@@ -56,10 +59,13 @@ namespace PAX {
 
             Layer & addLayer(const std::vector<Tile> & tiles, int width);
 
-            // TODO: This should be const :/
             std::vector<Layer> & getLayers();
+            const std::vector<Entity*> & getEntities() const;
             const std::vector<std::shared_ptr<TileSet>> & getTileSets();
             const glm::ivec2 & getTileSize() const;
+
+            // TODO: This should be private.
+            void _addEntity(Entity* entity);
         };
     }
 }

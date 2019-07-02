@@ -32,10 +32,10 @@ namespace PAX {
         virtual glm::vec2 getSpriteSize() const;
 
     public:
-        SpriteGraphics(const std::shared_ptr<Texture> &texture);
+        explicit SpriteGraphics(const std::shared_ptr<Texture> &texture);
 
-        virtual void attached(Entity &entity) override;
-        virtual void detached(Entity &entity) override;
+        void attached(Entity &entity) override;
+        void detached(Entity &entity) override;
     };
 }
 

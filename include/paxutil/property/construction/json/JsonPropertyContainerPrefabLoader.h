@@ -17,6 +17,7 @@ namespace PAX {
         template<typename C>
         class JsonPropertyContainerPrefabLoader : public ResourceLoader<PropertyContainerPrefab<C>, Path> {
             Resources &resources;
+
         public:
             /**
              * As the Prefabs will be loaded from JSON files, a ResourceManager is required, that is able

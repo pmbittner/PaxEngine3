@@ -8,10 +8,12 @@
 namespace PAX {
     namespace Tiles {
         struct Tile {
-            int textureColumn;
-            int textureRow;
-            int tileSetIndex;
+            int textureColumn = 0;
+            int textureRow = 0;
+            int tileSetIndex = -1;
             bool isEmpty = false;
+
+
         };
     }
 }

@@ -14,7 +14,7 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::SpriteGraphics, PAX_PROPERTY_IS_CONCRETE)
 
     SpriteGraphics * SpriteGraphics::createFromProvider(PAX::ContentProvider & provider) {
-        return new SpriteGraphics(provider.requireResource<Texture>("sprite"));
+        return new SpriteGraphics(provider.requireResource<Texture>("Sprite"));
     }
 
     void SpriteGraphics::initializeFromProvider(PAX::ContentProvider & provider) {

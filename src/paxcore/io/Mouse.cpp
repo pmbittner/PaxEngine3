@@ -5,7 +5,7 @@
 #include <paxcore/io/Mouse.h>
 
 namespace PAX {
-    const glm::ivec2 &  Mouse::getScreenPosition() const {
+    const glm::ivec2 & Mouse::getScreenPosition() const {
         return screenPos;
     }
 

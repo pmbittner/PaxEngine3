@@ -83,7 +83,7 @@ set(SOURCE_FILES
         resources/ResourceLoader.cpp
         Signature.cpp
         resources/Resources.cpp
-        log/Log.cpp property/construction/PropertyContainerPrefab.cpp)
+        log/Log.cpp property/construction/PropertyContainerPrefab.cpp json/JsonUtil.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

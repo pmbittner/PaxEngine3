@@ -65,10 +65,11 @@ namespace PAX {
             const auto &map = getMap();
             const auto &it = map.find(name);
 
-            if (it != map.end())
+            if (it != map.end()) {
                 return it->second;
-
-            return nullptr;
+            } else {
+                PAX_THROW_RUNTIME_ERROR("No factory is registered for the name \"" << name << "\"!")
+            }
         }
 
         template<typename PropertyType>

@@ -9,7 +9,8 @@ namespace PAX {
         JsonWorldLayerPrefabInitParser::~JsonWorldLayerPrefabInitParser() = default;
 
         void JsonWorldLayerPrefabInitParser::parse(nlohmann::json &node, PAX::WorldLayer &c,
-                                                   PAX::Json::JsonPropertyContainerPrefab<PAX::WorldLayer> &prefab) {
+                                                   PAX::Json::JsonPropertyContainerPrefab<PAX::WorldLayer> &prefab,
+                                                   const VariableRegister & v) {
             const std::string & name = node["name"];
             int dimensions = node["dimensions"];
             float z = node["z"];
