@@ -144,35 +144,28 @@ namespace PAX {
                                                 const std::vector<std::shared_ptr<PAX::Tiles::TileSet>> &tilesets,
                                                 const std::vector<int> &gids)
         {
-            int x = layerj["x"];
-            int y = layerj["y"];
-            int z = layerj["id"];
+            const int layerX = layerj["x"];
+            const int layerY = layerj["y"];
+            const int z = layerj["id"];
+
+            const glm::vec2 mapSize = map->getSizeInTiles() * map->getTileSize();
 
             for (const nlohmann::json & obj : layerj["objects"]) {
-
-                int obj_x = obj["x"];
-                int obj_y = obj["y"];
-                int obj_id = obj["id"];
-                int obj_width = obj["width"];
-                int obj_height = obj["height"];
-                PAX_PRINT_OUT("Loading object with id " << obj_id)
-
-                obj_x += x;
-                obj_y += y;
+                const int obj_id = obj["id"];
+                const glm::ivec2 obj_size(obj["width"], obj["height"]);
+                glm::vec2 obj_pos = {0, 0};
+                obj_pos += glm::vec2(obj_size) / 2.0f;
+                obj_pos += -mapSize / 2.0f;
+                obj_pos += glm::vec2(obj["x"].get<int>(), obj["y"].get<int>());
+                obj_pos += glm::vec2(layerX, layerY);
+                // TODO: FIX HACKY SCALING
+                obj_pos *= 3; // HACKY SCALING!!!!!!
+                obj_pos.y *= -1;
 
                 VariableRegister varRegister;
                 std::shared_ptr<PAX::EntityPrefab> prefab;
 
-                varRegister["position"] =
-                        "[" + std::to_string(obj_x) + ", "
-                        + std::to_string(obj_y) + ", "
-                        + std::to_string(z) + "]";
-                varRegister["scale"] =
-                        "[" + std::to_string(obj_width) + ", "
-                        + std::to_string(obj_height) + ", 1]";
-
                 for (const nlohmann::json & property : obj["properties"]) {
-                    PAX_PRINT_OUT("\tLoading property " << property)
                     std::string property_name = property["name"];
                     std::string property_value =
                             VariableResolver::resolveVariables(
@@ -182,7 +175,6 @@ namespace PAX {
                                     // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place.
                                     PAX::Prefab::PreDefinedVariables);
 
-                    PAX_PRINT_OUT("\t => " << property_name << " = " << property_value)
                     if (property_name == "prefab") {
                         prefab = Services::GetResources().loadOrGet<EntityPrefab>(Path(property_value));
                     } else {
@@ -191,11 +183,11 @@ namespace PAX {
                 }
 
                 if (prefab) {
-                    PAX_PRINT_OUT("create Entity")
                     Entity * entity = prefab->create(varRegister);
-                    PAX_PRINT_OUT("Entity created")
+                    Transformation & t = entity->getTransformation();
+                    t.position() = {obj_pos.x, obj_pos.y, z};
+                    t.setScale(t.getScale() * glm::vec3(obj_size, 1));
                     map->_addEntity(entity);
-                    PAX_PRINT_OUT("Entity added")
                 } else {
                     PAX_PRINT_WARN("Object without prefab given. Thus, it will be skipped.")
                 }

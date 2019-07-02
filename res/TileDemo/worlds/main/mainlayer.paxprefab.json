@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::Tiles::TileMapProperty": {
-      "map": "${ResourcePath}/TileDemo/tiled/SmallForest/SmallForest.json",
+      "map": "${ResourcePath}/TileDemo/tiled/SmallForest/DenseForest.json",
       "scale": [3, 3, 3]
     },
     "PAX::WorldLayerSize": {

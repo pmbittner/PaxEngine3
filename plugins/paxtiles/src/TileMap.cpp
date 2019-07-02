@@ -146,6 +146,10 @@ namespace PAX {
             return tileSize;
         }
 
+        const glm::ivec2& TileMap::getSizeInTiles() const {
+            return mapSize;
+        }
+
         void TileMap::_addEntity(PAX::Entity *entity) {
             entities.push_back(entity);
         }

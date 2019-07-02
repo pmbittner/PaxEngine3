@@ -1,7 +1,6 @@
 {
   "Transform": {
-    "position": "${position}",
-    "scale": "${scale}"
+    "scale": [3, 3, 1]
   },
   "Properties": {
     "PAX::SpriteGraphics": {
@@ -11,7 +10,7 @@
         "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
       }
     },
-    "PAX::Tiles::Transition": {
+    "PAX::Tiles::TileMapTransition": {
       "transition_target_id": "${transition_target_id}",
       "transition_target_map": "${transition_target_map}"
     }

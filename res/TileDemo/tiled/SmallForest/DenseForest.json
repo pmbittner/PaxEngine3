@@ -46,9 +46,9 @@
                          "value":"${ResourcePath}\/TileDemo\/tiled\/SmallForest\/SmallForest.json"
                         }, 
                         {
-                         "name":"type",
+                         "name":"prefab",
                          "type":"string",
-                         "value":"transition"
+                         "value":"${ResourcePath}/TileDemo/entities/transitionarea.paxprefab.json"
                         }],
                  "rotation":0,
                  "type":"",

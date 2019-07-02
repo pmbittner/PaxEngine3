@@ -63,6 +63,7 @@ namespace PAX {
             const std::vector<Entity*> & getEntities() const;
             const std::vector<std::shared_ptr<TileSet>> & getTileSets();
             const glm::ivec2 & getTileSize() const;
+            const glm::ivec2 & getSizeInTiles() const;
 
             // TODO: This should be private.
             void _addEntity(Entity* entity);
