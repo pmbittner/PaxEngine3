@@ -21,9 +21,11 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(EntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
-        glm::mat4 _viewMatrix = glm::mat4();
-        std::shared_ptr<Viewport> _viewport;
-        std::shared_ptr<Projection> _projection;
+        glm::mat4 viewMatrix = glm::mat4();
+        std::shared_ptr<Viewport> viewport;
+        std::shared_ptr<Projection> projection;
+
+        bool syncProjectionResolutionToViewportResolution = false;
 
         void onViewportWidthChanged(int oldWidth, int newWidth);
         void onViewportHeightChanged(int oldHeight, int newHeight);
@@ -36,6 +38,9 @@ namespace PAX {
         const glm::mat4 &getViewTransform();
         std::shared_ptr<Viewport> getViewport() const;
         std::shared_ptr<Projection> getProjection() const;
+
+        void setSyncProjectionResolutionToViewportResolution(bool sync);
+        bool areProjectionResolutionToViewportResolutionSynced() const;
     };
 }
 

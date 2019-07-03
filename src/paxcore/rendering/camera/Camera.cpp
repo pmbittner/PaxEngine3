@@ -47,6 +47,10 @@ namespace PAX {
 
     void Camera::initializeFromProvider(PAX::ContentProvider & provider) {
         Super::initializeFromProvider(provider);
+
+        if (auto syncResolutions = provider.get<bool>("syncProjectionResolutionToViewportResolution")) {
+            this->syncProjectionResolutionToViewportResolution = syncResolutions.value();
+        }
     }
 
     Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : _viewport(viewport), _projection(projection) {
@@ -62,9 +66,9 @@ namespace PAX {
     void Camera::render(RenderOptions &renderOptions) {
         renderOptions.setCamera(this);
         renderOptions.setViewMatrix(getViewTransform());
-        renderOptions.setProjectionMatrix(_projection->toMatrix());
+        renderOptions.setProjectionMatrix(projection->toMatrix());
 
-        _viewport->apply();
+        viewport->apply();
         SceneGraph::render(renderOptions);
     }
 
@@ -73,9 +77,9 @@ namespace PAX {
 
         if (owner) {
             Transformation &transform = owner->getTransformation();
-            _viewMatrix = transform.getWorldMatrix();
+            viewMatrix = transform.getWorldMatrix();
             // extracting upper left 3x3 part of the mat4
-            glm::mat3 rotationMatrix(_viewMatrix);
+            glm::mat3 rotationMatrix(viewMatrix);
             // remove scaling
             /*
             for (int i = 0; i < 3; ++i) {
@@ -85,30 +89,47 @@ namespace PAX {
             rotationMatrix = glm::transpose(rotationMatrix);
             // apply the rotation of the matrix to the displacement, as it isn't independent of the rotation,
             // meaning, that the look should rotate with its object
-            glm::vec3 translation = rotationMatrix * glm::vec3(_viewMatrix[3]);
-            _viewMatrix = glm::mat4(rotationMatrix);
+            glm::vec3 translation = rotationMatrix * glm::vec3(viewMatrix[3]);
+            viewMatrix = glm::mat4(rotationMatrix);
             // invert translation
-            _viewMatrix[3] = glm::vec4(-translation, 1);
+            viewMatrix[3] = glm::vec4(-translation, 1);
         } else {
-            _viewMatrix = glm::mat4(1.0f);
+            viewMatrix = glm::mat4(1.0f);
         }
 
-        return _viewMatrix;
+        return viewMatrix;
     }
 
     void Camera::onViewportWidthChanged(int oldWidth, int newWidth) {
-        _projection->setResolution({newWidth, _projection->getResolution().y});
+        if (syncProjectionResolutionToViewportResolution) {
+            projection->setResolution({newWidth, projection->getResolution().y});
+        }
     }
 
     void Camera::onViewportHeightChanged(int oldHeight, int newHeight) {
-        _projection->setResolution({_projection->getResolution().x, newHeight});
+        if (syncProjectionResolutionToViewportResolution) {
+            projection->setResolution({projection->getResolution().x, newHeight});
+        }
     }
 
     std::shared_ptr<Viewport> Camera::getViewport() const {
-        return _viewport;
+        return viewport;
     }
 
     std::shared_ptr<Projection> Camera::getProjection() const {
-        return _projection;
+        return projection;
+    }
+
+    void Camera::setSyncProjectionResolutionToViewportResolution(bool sync) {
+        if (sync && !syncProjectionResolutionToViewportResolution) {
+            // If sync is activated now (and wasn't before), update the projection resolution.
+            projection->setResolution(viewport->getSize());
+        }
+
+        syncProjectionResolutionToViewportResolution = sync;
+    }
+
+    bool Camera::areProjectionResolutionToViewportResolutionSynced() const {
+        return syncProjectionResolutionToViewportResolution;
     }
 }

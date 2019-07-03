@@ -27,10 +27,10 @@ namespace PAX {
                 double xScale = static_cast<double>(e._newWidth)  / static_cast<double>(e._oldWidth);
                 double yScale = static_cast<double>(e._newHeight) / static_cast<double>(e._oldHeight);
 
-                _x = static_cast<int>(_x * xScale);
-                _w = static_cast<int>(_w * xScale);
-                _y = static_cast<int>(_y * yScale);
-                _h = static_cast<int>(_h * yScale);
+                setX(static_cast<int>(_x * xScale));
+                setY(static_cast<int>(_y * yScale));
+                setWidth(static_cast<int>(_w * xScale));
+                setHeight(static_cast<int>(_h * yScale));
 
                 break;
             }
