@@ -33,8 +33,9 @@ namespace PAX {
         }
 
         void operator()(Args... args) const {
-            for (Delegate<Args...> delegate: _delegates)
+            for (Delegate<Args...> delegate: _delegates) {
                 delegate.method(delegate.callee, std::forward<Args>(args)...);
+            }
         }
 
     private:

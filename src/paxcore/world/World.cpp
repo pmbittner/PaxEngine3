@@ -13,12 +13,19 @@ namespace PAX {
 
     }
 
-    World::~World() = default;
+    World::~World() {
+        while (!worldLayers.empty()) {
+            WorldLayer * layer = *worldLayers.getPropertyContainers().begin();
+            removeLayer(layer);
+            delete layer;
+        }
+    }
 
     void World::addLayer(WorldLayer *layer) {
         if (worldLayers.add(layer)) {
             sceneGraph.addChild(layer->getSceneGraph().get());
             layer->getEventService().setParent(&localEventService);
+            layer->world = this;
 
             WorldLayerAddedEvent e(this, layer);
             localEventService(e);
@@ -29,6 +36,7 @@ namespace PAX {
         if (worldLayers.remove(layer)) {
             sceneGraph.removeChild(layer->getSceneGraph().get());
             layer->getEventService().setParent(nullptr);
+            layer->world = nullptr;
 
             WorldLayerRemovedEvent e(this, layer);
             localEventService(e);

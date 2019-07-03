@@ -8,6 +8,7 @@
 #include <paxcore/rendering/data/Mesh.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/scenegraph/nodes/MeshNode.h>
+#include <paxcore/entity/EntityIDService.h>
 
 #include "Tile.h"
 #include "TileSet.h"
@@ -44,7 +45,7 @@ namespace PAX {
         private:
             std::vector<Layer> layers;
             std::vector<std::shared_ptr<TileSet>> tileSets;
-            std::vector<Entity*> entities;
+            std::vector<std::pair<Entity*, EntityID>> entities;
 
             glm::ivec2 tileSize;
             glm::ivec2 mapSize;
@@ -60,13 +61,13 @@ namespace PAX {
             Layer & addLayer(const std::vector<Tile> & tiles, int width);
 
             std::vector<Layer> & getLayers();
-            const std::vector<Entity*> & getEntities() const;
+            const std::vector<std::pair<Entity*, EntityID>> & getEntities() const;
             const std::vector<std::shared_ptr<TileSet>> & getTileSets();
             const glm::ivec2 & getTileSize() const;
             const glm::ivec2 & getSizeInTiles() const;
 
             // TODO: This should be private.
-            void _addEntity(Entity* entity);
+            void _addEntity(Entity* entity, EntityID id = EntityIDService::InvalidID);
         };
     }
 }

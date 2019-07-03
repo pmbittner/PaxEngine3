@@ -16,7 +16,7 @@ namespace PAX {
         const static WorldLayerSort worldLayerSorter;
 
         std::unordered_map<World*, std::unordered_map<WorldLayer*, EntityManagerView<RequiredProperties...>>> entities;
-        std::vector<WorldLayer*> layers;
+        std::unordered_map<World*, std::vector<WorldLayer*>> layers;
 
     public:
         void onWorldRegistered(WorldEvent &event) override {
@@ -40,8 +40,8 @@ namespace PAX {
         }
 
         void onWorldLayerAdded(WorldLayerAddedEvent &event) {
-            layers.push_back(event.worldLayer);
-            std::sort(layers.begin(), layers.end(), worldLayerSorter);
+            layers[event.world].push_back(event.worldLayer);
+            std::sort(layers[event.world].begin(), layers[event.world].end(), worldLayerSorter);
 
             const EntityManager & manager = event.worldLayer->getEntityManager();
             //EntityManagerView<RequiredProperties...> view(manager);
@@ -50,12 +50,12 @@ namespace PAX {
         }
 
         void onWorldLayerRemoved(WorldLayerRemovedEvent &event) {
-            Util::removeFromVector(layers, event.worldLayer);
+            Util::removeFromVector(layers[event.world], event.worldLayer);
             entities[event.world].erase(event.worldLayer);
         }
 
         const std::vector<WorldLayer*> & getWorldLayers() {
-            return layers;
+            return layers[activeWorld];
         }
 
         const std::set<Entity*> & getEntities(WorldLayer * worldLayer) {

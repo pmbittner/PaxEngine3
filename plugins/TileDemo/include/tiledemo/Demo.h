@@ -45,7 +45,7 @@ namespace PAX {
 
                 PAX_PRINT_OUT("Create World")
                 std::shared_ptr<WorldLayerPrefab> worldLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
-                        Services::GetPaths().getResourcePath() + "/TileDemo/worlds/main/mainlayer.paxprefab.json"
+                        Services::GetPaths().getResourcePath() + "/TileDemo/worlds/SmallForest.paxprefab.json"
                 );
 
                 World * world = new World();

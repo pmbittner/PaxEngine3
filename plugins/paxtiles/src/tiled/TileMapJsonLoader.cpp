@@ -151,7 +151,7 @@ namespace PAX {
             const glm::vec2 mapSize = map->getSizeInTiles() * map->getTileSize();
 
             for (const nlohmann::json & obj : layerj["objects"]) {
-                const int obj_id = obj["id"];
+                const EntityID obj_id = obj["id"];
                 const glm::ivec2 obj_size(obj["width"], obj["height"]);
                 glm::vec2 obj_pos = {0, 0};
                 obj_pos += glm::vec2(obj_size) / 2.0f;
@@ -181,7 +181,7 @@ namespace PAX {
                     Transformation & t = entity->getTransformation();
                     t.position() = {obj_pos.x, obj_pos.y, z};
                     t.setScale(t.getScale() * glm::vec3(obj_size, 1));
-                    map->_addEntity(entity);
+                    map->_addEntity(entity, obj_id);
                 } else {
                     PAX_PRINT_WARN("Object without prefab given. Thus, it will be skipped.")
                 }

@@ -43,7 +43,7 @@
                         {
                          "name":"transition_target_map",
                          "type":"string",
-                         "value":"${ResourcePath}\/TileDemo\/tiled\/SmallForest\/DenseForest.json"
+                         "value":"${ResourcePath}\/TileDemo\/worlds\/DenseForest.paxprefab.json"
                         }],
                  "rotation":0,
                  "type":"${ResourcePath}\/TileDemo\/entities\/transitionarea.paxprefab.json",

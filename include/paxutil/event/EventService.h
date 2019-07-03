@@ -40,7 +40,10 @@ namespace PAX {
                 _listeners[paxtypeid(EventClass)] = listenerList;
             }
 
-            listenerList->push_back(PAX_ES_DELEGATE(listener, &invoke<EventClass, Listener, Method>));
+            PAX_ES_DELEGATE delegate(listener, &invoke<EventClass, Listener, Method>);
+            if (!Util::vectorContains(*listenerList, delegate)) {
+                listenerList->emplace_back(delegate);
+            }
         }
 
         template<typename EventClass, typename Listener, void (Listener::*Method)(EventClass&)>
@@ -66,6 +69,10 @@ namespace PAX {
                 PAX_ES_MAP_VALUES *values = static_cast<PAX_ES_MAP_VALUES *>(listener->second);
                 for (PAX_ES_DELEGATE &delegate : *values) {
                     delegate.method(delegate.callee, event);
+
+                    if (event.isConsumed()) {
+                        break;
+                    }
                 }
             }
 

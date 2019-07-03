@@ -56,9 +56,9 @@ namespace PAX {
         }
 
         TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) :
-        tileMap(tilemap),
-        scale(1),
-        layerEntities(tileMap->getLayers().size())
+            tileMap(tilemap),
+            scale(1),
+            layerEntities(tileMap->getLayers().size())
         {
             initialize();
 
@@ -68,7 +68,7 @@ namespace PAX {
                 graphics->setShader(tileMapShader);
                 Entity & e = layerEntities[i];
                 e.add(graphics);
-                e.getTransformation().z() = layer.z;
+                e.getTransformation().z() = static_cast<float>(layer.z);
                 //std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
                 ++i;
             }
@@ -89,9 +89,12 @@ namespace PAX {
                 worldLayer.spawn(&e);
             }
 
-            for (Entity * e : tileMap->getEntities()) {
-                worldLayer.spawn(e);
+            //*
+            for (const std::pair<Entity *, EntityID> & ep : tileMap->getEntities()) {
+                worldLayer.getEntityIDService().reserveIDFor(ep.first, ep.second);
+                worldLayer.spawn(ep.first);
             }
+            //*/
         }
 
         void TileMapProperty::detached(PAX::WorldLayer & worldLayer) {
@@ -101,14 +104,17 @@ namespace PAX {
                 }
             }
 
-            for (Entity * e : tileMap->getEntities()) {
+            //*
+            for (const std::pair<Entity *, EntityID> & ep : tileMap->getEntities()) {
+                Entity * e = ep.first;
                 if (e->getWorldLayer() == &worldLayer) {
                     worldLayer.despawn(e);
                 }
             }
+            //*/
         }
 
-        void TileMapProperty::setScale(const glm::vec3 &scale) {
+        void TileMapProperty::setScale(const glm::vec3 & scale) {
             glm::vec3 delta = scale / getScale();
 
             for (Entity & e : layerEntities) {

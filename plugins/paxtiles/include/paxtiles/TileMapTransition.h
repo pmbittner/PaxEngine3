@@ -6,6 +6,7 @@
 #define PAXENGINE3_TILEMAPTRANSITION_H
 
 #include <paxcore/entity/EntityProperty.h>
+#include <paxcore/io/event/KeyPressedEvent.h>
 
 namespace PAX {
     namespace Tiles {
@@ -19,6 +20,11 @@ namespace PAX {
 
         public:
             TileMapTransition(const Path & targetMap, int targetTransitionID);
+
+            void attached(Entity & e) override;
+            void detached(Entity & e) override;
+
+            void onKeyDown(KeyPressedEvent & keyPressedEvent);
         };
     }
 }

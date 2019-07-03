@@ -115,6 +115,10 @@ namespace PAX {
         return name;
     }
 
+    World* WorldLayer::getWorld() const {
+        return world;
+    }
+
     int WorldLayer::getDimensions() const {
         return dimensions;
     }

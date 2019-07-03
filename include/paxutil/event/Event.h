@@ -7,7 +7,12 @@
 
 namespace PAX {
     struct Event {
+    private:
+        bool consumed = false;
 
+    public:
+        void consume();
+        bool isConsumed();
     };
 }
 

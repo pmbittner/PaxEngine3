@@ -27,8 +27,11 @@
 namespace PAX {
     using WorldLayerPrefab = PropertyContainerPrefab<WorldLayer>;
 
+    class World;
+
     class WorldLayer : public PropertyContainer<WorldLayer> {
         friend class SceneGraphGenerator;
+        friend class World;
 
         std::string name;
 
@@ -41,6 +44,8 @@ namespace PAX {
 
         EntityManager entities;
         EntityIDService idService;
+
+        World * world = nullptr;
 
     public:
         WorldLayer();
@@ -65,6 +70,7 @@ namespace PAX {
         const std::string& getName() const;
         const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
         const std::vector<Camera*> & getCameras() const;
+        World * getWorld() const;
 
         int getDimensions() const;
 
