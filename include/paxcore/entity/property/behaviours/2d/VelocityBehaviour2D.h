@@ -19,6 +19,7 @@ namespace PAX {
 
     public:
         glm::vec2 velocity = glm::vec2(0);
+        float angularVelocityInDegrees = 0;
 
         void update() override;
     };

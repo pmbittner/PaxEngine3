@@ -13,13 +13,21 @@ namespace PAX {
 
     void VelocityBehaviour2D::initializeFromProvider(ContentProvider & provider) {
         Super::initializeFromProvider(provider);
+
         if (auto vec = provider.get<glm::vec2>("velocity")) {
             this->velocity = vec.value();
+        }
+
+        if (auto angle = provider.get<float>("angularVelocity")) {
+            this->angularVelocityInDegrees = angle.value();
         }
     }
 
     void VelocityBehaviour2D::update() {
         Transformation& t = getOwner()->getTransformation();
         t.position2D() += velocity * Time::DeltaF;
+        t.setRotation2DInDegrees(
+                t.getRotation2DInDegrees() + angularVelocityInDegrees * Time::DeltaF
+        );
     }
 }
