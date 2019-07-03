@@ -42,6 +42,8 @@ namespace PAX {
         void setWidth(int w);
         int getHeight() const;
         void setHeight(int h);
+
+        glm::ivec2 getSize() const;
     };
 }
 

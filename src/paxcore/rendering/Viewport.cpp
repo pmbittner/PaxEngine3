@@ -72,4 +72,8 @@ namespace PAX {
         HeightChanged(_h, h);
         Viewport::_h = h;
     }
+
+    glm::ivec2 Viewport::getSize() const {
+        return {getWidth(), getHeight()};
+    }
 }
