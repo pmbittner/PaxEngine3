@@ -118,6 +118,16 @@ namespace PAX {
         updateRelativeMatrix();
     }
 
+    void Transformation::setRotation2DInRadians(float angleInRadians) {
+        glm::vec3 eulers = getRotationAsEulerAngles();
+        eulers.z = angleInRadians;
+        setRotation(eulers.x, eulers.y, eulers.z);
+    }
+
+    void Transformation::setRotation2DInDegrees(float degrees) {
+        setRotation2DInRadians(glm::radians(degrees));
+    }
+
     const glm::quat & Transformation::getRotationAsQuaternion() const {
         return _rotation;
     }
@@ -129,13 +139,25 @@ namespace PAX {
     glm::vec2 Transformation::getRotationAsSphericalCoordinates() const {
         glm::vec3 lookDir = glm::axis(this->_rotation);
         return Math::lookDirToSphericalCoordinates(lookDir);
-    };
+    }
 
     glm::vec3 Transformation::getRotationAsEulerAngles() const {
         return glm::eulerAngles(this->_rotation);
-    };
+    }
+
+    float Transformation::getRotation2DInRadians() const {
+        return getRotationAsEulerAngles().z;
+    }
+
+    float Transformation::getRotation2DInDegrees() const {
+        return glm::degrees(getRotation2DInRadians());
+    }
 
     const glm::vec3 & Transformation::getScale() const {
+        return _scale;
+    }
+
+    glm::vec2 Transformation::getScale2D() const {
         return _scale;
     }
 
@@ -146,6 +168,10 @@ namespace PAX {
 
     glm::vec3 Transformation::getAbsoluteScale() const {
         return _parent ? _parent->getAbsoluteScale() * _scale : _scale;
+    }
+
+    glm::vec2 Transformation::getAbsoluteScale2D() const {
+        return getAbsoluteScale();
     }
 
     const glm::mat4& Transformation::relativeMatrix() const {
@@ -190,4 +216,4 @@ namespace PAX {
     Transformation* Transformation::getParent() const {
         return this->_parent;
     }
-};
+}

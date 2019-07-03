@@ -67,6 +67,8 @@ namespace PAX {
         void setRotation(const glm::quat & rotation);
         void setRotation(const glm::vec3 & euler);
         void setRotation(float eulerX, float eulerY, float eulerZ);
+        void setRotation2DInRadians(float radians);
+        void setRotation2DInDegrees(float degrees);
 
         /// Ignores up direction! Assumes that it is straight upward.
         /// \return
@@ -74,10 +76,14 @@ namespace PAX {
         const glm::quat & getRotationAsQuaternion() const;
         glm::mat3 getRotationAsMatrix() const;
         glm::vec3 getRotationAsEulerAngles() const;
+        float getRotation2DInRadians() const;
+        float getRotation2DInDegrees() const;
 
         const glm::vec3 & getScale() const;
+        glm::vec2 getScale2D() const;
         void setScale(const glm::vec3 & scale);
         glm::vec3 getAbsoluteScale() const;
+        glm::vec2 getAbsoluteScale2D() const;
 
         const glm::mat4& relativeMatrix() const;
         glm::mat4& relativeMatrix();
