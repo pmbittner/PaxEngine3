@@ -24,8 +24,10 @@
         },
         "Properties": {
           "PAX::Camera": {
+            "syncProjectionResolutionToViewportResolution": true,
             "projection": "PixelScreen",
-            "syncProjectionResolutionToViewportResolution": false
+            "projection_resolution_width": 1920,
+            "projection_resolution_height": 1080
           },
           "PAX::FollowEntityBehaviour": {
             "targetEntity": 1,

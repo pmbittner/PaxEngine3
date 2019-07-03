@@ -46,7 +46,9 @@ namespace PAX {
     }
 
     void Projection::setResolution(const glm::ivec2 &res) {
-        _resolution = res;
-        _dirty = true;
+        if (_resolution != res) {
+            _resolution = res;
+            _dirty = true;
+        }
     }
 }

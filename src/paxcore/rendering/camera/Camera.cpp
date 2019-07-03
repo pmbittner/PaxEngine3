@@ -13,6 +13,7 @@ namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::Camera, PAX_PROPERTY_IS_CONCRETE)
 
     Camera * Camera::createFromProvider(PAX::ContentProvider & provider) {
+        // load viewport
         ViewportFactory * vpFactory = Services::GetFactoryService().get<ViewportFactory>();
         std::shared_ptr<Viewport> vp;
 
@@ -32,6 +33,7 @@ namespace PAX {
         }
 
         // TODO: Make this extensible somehow.
+        // load projection
         std::string projName = provider.require<std::string>("projection");
         std::shared_ptr<Projection> proj;
         if (projName == "Perspective") {
@@ -51,9 +53,20 @@ namespace PAX {
         if (auto syncResolutions = provider.get<bool>("syncProjectionResolutionToViewportResolution")) {
             this->syncProjectionResolutionToViewportResolution = syncResolutions.value();
         }
+
+        if (!this->syncProjectionResolutionToViewportResolution) {
+            glm::ivec2 resolution = projection->getResolution();
+            if (auto projection_resolution_width = provider.get<int>("projection_resolution_width")) {
+                resolution.x = projection_resolution_width.value();
+            }
+            if (auto projection_resolution_height = provider.get<int>("projection_resolution_height")) {
+                resolution.y = projection_resolution_height.value();
+            }
+            projection->setResolution(resolution);
+        }
     }
 
-    Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : _viewport(viewport), _projection(projection) {
+    Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : viewport(viewport), projection(projection) {
         PAX_assertNotNull(viewport, "Viewport can't be null!");
         PAX_assertNotNull(projection, "Projection can't be null!");
 
