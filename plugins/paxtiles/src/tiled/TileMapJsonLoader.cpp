@@ -158,8 +158,6 @@ namespace PAX {
                 obj_pos += -mapSize / 2.0f;
                 obj_pos += glm::vec2(obj["x"].get<int>(), obj["y"].get<int>());
                 obj_pos += glm::vec2(layerX, layerY);
-                // TODO: FIX HACKY SCALING
-                obj_pos *= 3; // HACKY SCALING!!!!!!
                 obj_pos.y *= -1;
 
                 VariableRegister varRegister;

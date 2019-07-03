@@ -1,7 +1,4 @@
 {
-  "Transform": {
-    "scale": [3, 3, 1]
-  },
   "Properties": {
     "PAX::SpriteGraphics": {
       "Sprite": "${ResourcePath}/TileDemo/img/orangepixel.png",

@@ -1,7 +1,7 @@
 {
   "Transform": {
     "position": [0, 0, 2],
-    "scale": [4, 4, 1]
+    "scale": [1.33, 1.33, 1]
   },
   "Properties": {
     "PAX::SpriteSheetGraphics": {
@@ -21,6 +21,8 @@
     },
     "PAX::Tiles::CharacterOrientation": {},
     "PAX::Tiles::CharacterSpriteAnimation": {},
-    "PAX::Tiles::SimpleCharacterKeyboardControls": {}
+    "PAX::Tiles::SimpleCharacterKeyboardControls": {
+      "speed": 50
+    }
   }
 }

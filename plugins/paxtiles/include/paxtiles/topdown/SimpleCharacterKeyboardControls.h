@@ -23,66 +23,19 @@ namespace PAX::Tiles {
         CharacterOrientation * orientation = nullptr;
         VelocityBehaviour2D  * velocityBehaviour = nullptr;
         std::map<Key, glm::vec2> controls;
-        float speed = 150;
+        float speed = 1;
 
-        void updateVelocity() {
-            const glm::vec2 & facingDir = orientation->getFacingDirection();
+        void updateVelocity();
 
-            if (glm::length(facingDir) > 0) {
-                velocityBehaviour->velocity = speed * glm::normalize(facingDir);
-            } else {
-                velocityBehaviour->velocity = {0, 0};
-            }
-        }
-
-        void onKeyPressed(KeyPressedEvent& e) {
-            if (e.repeated) return;
-
-            auto i = controls.find(e.button);
-            if (i != controls.end()) {
-                orientation->setFacingDirection(orientation->getFacingDirection() + i->second);
-                updateVelocity();
-            }
-        }
-
-        void onKeyReleased(KeyReleasedEvent& e) {
-            auto i = controls.find(e.button);
-            if (i != controls.end()) {
-                orientation->setFacingDirection(orientation->getFacingDirection() - i->second);
-                updateVelocity();
-            }
-        }
+        void onKeyPressed(KeyPressedEvent& e);
+        void onKeyReleased(KeyReleasedEvent& e);
 
     public:
-        SimpleCharacterKeyboardControls() {
-            controls = {
-                    {Key::LEFT,  glm::vec2{-1,  0}},
-                    {Key::RIGHT, glm::vec2{ 1,  0}},
-                    {Key::UP,    glm::vec2{ 0,  1}},
-                    {Key::DOWN,  glm::vec2{ 0, -1}}
-            };
-        }
+        SimpleCharacterKeyboardControls();
         ~SimpleCharacterKeyboardControls() override = default;
 
-        void attached(Entity &entity) override {
-            Behaviour::attached(entity);
-            EventService& e = Services::GetEventService();
-            e.add<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
-            e.add<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
-
-            velocityBehaviour = entity.get<VelocityBehaviour2D>();
-            orientation = entity.get<CharacterOrientation>();
-        }
-
-        void detached(Entity &entity) override {
-            Behaviour::detached(entity);
-            EventService& e = Services::GetEventService();
-            e.remove<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
-            e.remove<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
-
-            velocityBehaviour = nullptr;
-            orientation = nullptr;
-        }
+        void attached(Entity &entity) override;
+        void detached(Entity &entity) override;
     };
 }
 

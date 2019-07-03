@@ -43,25 +43,34 @@ namespace PAX {
                 me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * Time::DeltaF;
 
                 if (respectWorldSize) {
+                    // This implementation assumes, that the world is centered, i.e., there is no offset
+                    // of the world map in any direction.
                     if (WorldLayerSize *worldSizeProperty = getOwner()->getWorldLayer()->get<WorldLayerSize>()) {
                         if (Camera *camera = getOwner()->get<Camera>()) {
-                            const glm::vec2 &worldSize = worldSizeProperty->getSize2D();
                             const std::shared_ptr<Viewport> &viewport = camera->getViewport();
+
+                            // camera->getOwner() can never be null because it is the same as our owner which is not null.
+                            const glm::vec2 camScale = camera->getOwner()->getTransformation().getAbsoluteScale2D();
+                            const glm::vec2 worldSize = camScale * worldSizeProperty->getSize2D();
+                            const glm::vec2 mypos = camScale * me.position2D();
+                            const glm::ivec2 viewportSize = viewport->getSize();
 
                             for (int dim = 0; dim < 2; ++dim) {
                                 float worldWidth = worldSize[dim];
 
                                 if (worldWidth >= 0) {
-                                    float rightExceed =
-                                            me.position2D()[dim] + (viewport->getWidth() / 2.f) - (worldWidth / 2.f);
-                                    float leftExceed =
-                                            me.position2D()[dim] - (viewport->getWidth() / 2.f) + (worldWidth / 2.f);
+                                    // If the map is smaller than the viewport, we center the camera.
+                                    if (worldSize[dim] <= viewportSize[dim]) {
+                                        me.position2D()[dim] = 0;
+                                    } else {
+                                        // check right and then left exceed
+                                        for (int dir : {1, -1}) {
+                                            float exceed =
+                                                    mypos[dim] + dir*((viewportSize[dim] / 2.f) - (worldWidth / 2.f));
 
-                                    if (!(leftExceed < 0 && rightExceed > 0)) {
-                                        if (leftExceed < 0) {
-                                            me.position2D()[dim] -= leftExceed;
-                                        } else if (rightExceed > 0) {
-                                            me.position2D()[dim] -= rightExceed;
+                                            if (dir * exceed > 0) {
+                                                me.position2D()[dim] -= exceed / camScale[dim];
+                                            }
                                         }
                                     }
                                 }

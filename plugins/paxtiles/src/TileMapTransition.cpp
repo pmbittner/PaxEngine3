@@ -19,7 +19,7 @@ namespace PAX {
         TileMapTransition::TileMapTransition(const PAX::Path &targetMap, int targetTransitionID)
         : targetMap(targetMap), targetTransitionID(targetTransitionID)
         {
-            PAX_PRINT_OUT("Created with targetMap = " << targetMap << " and targetID = " << targetTransitionID)
+            //PAX_PRINT_OUT("Created with targetMap = " << targetMap << " and targetID = " << targetTransitionID)
         }
     }
 }

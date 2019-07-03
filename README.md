@@ -37,12 +37,6 @@ The package names are `libsdl2-dev`, `libglm-dev`, `libsdl2-image-dev`
 
 #### Libraries to build manually
 These libraries have to be located in a directory called 'lib' next to the git repository like the files for MSVC.
-##### Easylogging
-Has to be located in directory 'lib/Easylogging'. Build files have to be located in
-
-'lib/Easyloging/build/mingw' for MinGW and Unix build and
-
-'lib/Easyloging/build/msvc' for MSVC.
 
 ##### Assimp (required by paxassetimport)
 Check out their git repository and build manually. The build directory names
@@ -54,7 +48,9 @@ currently are:
     build (on Linux)
 
 Before building a few adjustments have to be made to their CMakeLists.txt. First we want to build static libraries.
-Hence, set the option `BUILD_SHARED_LIBS` to `OFF`. For `MSVC` we have to set a compiler flag additionally. So append the compile option `/MT`
+Hence, set the option `BUILD_SHARED_LIBS` to `OFF`.
+For `MSVC` we have to set a compiler flag additionally.
+Thus, append the compile option `/MT`
 Change the lines
 
     ELSEIF(MSVC)
@@ -67,7 +63,8 @@ to
       # enable multi-core compilation with MSVC
       ADD_COMPILE_OPTIONS(/MP /MT)
 
-Fow now we let assimp build its own version of zlib to avoid version conflicts. Therefore, set `ASSIMP_BUILD_ZLIB` to `ON`.
+Fow now we let assimp build its own version of zlib to avoid version conflicts.
+Therefore, set `ASSIMP_BUILD_ZLIB` to `ON`.
 For the same reason, the option `SYSTEM_IRRXML` has to be `OFF`.
 
 ##### Box2D (required by paxphysics)

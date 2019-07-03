@@ -2,6 +2,7 @@
 // Created by paul on 03.01.19.
 //
 
+#include <paxcore/world/property/WorldLayerSize.h>
 #include "paxtiles/TileMapProperty.h"
 #include "paxtiles/TileMapGraphics.h"
 
@@ -74,6 +75,16 @@ namespace PAX {
         }
 
         void TileMapProperty::attached(PAX::WorldLayer & worldLayer) {
+            const glm::ivec2 worldSize = tileMap->getTileSize() * tileMap->getSizeInTiles();
+
+            WorldLayerSize * worldLayerSize = getOwner()->get<WorldLayerSize>();
+            if (!worldLayerSize) {
+                worldLayerSize = new WorldLayerSize(worldSize);
+                getOwner()->add(worldLayerSize);
+            } else {
+                worldLayerSize->setSize2D(worldSize);
+            }
+
             for (Entity & e : layerEntities) {
                 worldLayer.spawn(&e);
             }

@@ -76,6 +76,11 @@ namespace PAX {
             _viewMatrix = transform.getWorldMatrix();
             // extracting upper left 3x3 part of the mat4
             glm::mat3 rotationMatrix(_viewMatrix);
+            // remove scaling
+            /*
+            for (int i = 0; i < 3; ++i) {
+                rotationMatrix[i] = glm::normalize(rotationMatrix[i]);
+            }//*/
             // invert the rotation (rotationMatrix is orthogonal => transpose = inverse)
             rotationMatrix = glm::transpose(rotationMatrix);
             // apply the rotation of the matrix to the displacement, as it isn't independent of the rotation,
