@@ -20,7 +20,7 @@ namespace PAX {
         SceneGraphGraphics();
 
         SceneGraph& getSceneGraph();
-        void render(RenderOptions &renderOptions) override final;
+        void render(RenderOptions &renderOptions) override;
     };
 }
 

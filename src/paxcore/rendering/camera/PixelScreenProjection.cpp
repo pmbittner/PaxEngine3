@@ -20,8 +20,8 @@ namespace PAX {
 
         _matrix = glm::mat4(0);
 
-        _matrix[0][0] = 2.0f/resX;
-        _matrix[1][1] = 2.0f/resY;
+        _matrix[0][0] = 2.0f / resX;
+        _matrix[1][1] = 2.0f / resY;
         _matrix[2][2] = -2.0f * invFrustumLength;
         _matrix[3][2] = -((far + near) * invFrustumLength);
         _matrix[3][3] = 1.0f;

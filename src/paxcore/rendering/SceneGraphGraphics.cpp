@@ -5,7 +5,7 @@
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
 
 namespace PAX {
-    SceneGraphGraphics::SceneGraphGraphics() {}
+    SceneGraphGraphics::SceneGraphGraphics() = default;
 
     SceneGraph & SceneGraphGraphics::getSceneGraph() {
         return _scenegraph;

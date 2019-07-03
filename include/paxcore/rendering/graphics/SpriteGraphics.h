@@ -36,6 +36,8 @@ namespace PAX {
 
         void attached(Entity &entity) override;
         void detached(Entity &entity) override;
+
+        void render(RenderOptions &renderOptions) override;
     };
 }
 

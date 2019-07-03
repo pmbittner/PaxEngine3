@@ -15,6 +15,10 @@ namespace PAX {
         return _height;
     }
 
+    glm::ivec2 Texture::getSize() {
+        return {_width, _height};
+    }
+
     Texture::WrapMode Texture::getWrapModeHorizontal() {
         return _wrapHorizontal;
     }

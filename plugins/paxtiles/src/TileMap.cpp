@@ -42,7 +42,7 @@ namespace PAX {
                     const SpriteSheet & spriteSheet = tileSets[currentTile.tileSetIndex]->getSpriteSheet();
                     glm::vec2 spriteSheetSize = spriteSheet.getDimensions();
                     glm::vec2 uvTileSize = 1.f / spriteSheetSize;
-                    glm::vec2 uvInsets(0.5f / spriteSheet.getTexture()->getWidth(), 0.5f / spriteSheet.getTexture()->getHeight());
+                    glm::vec2 uvInsets = 0.5f / glm::vec2(spriteSheet.getTexture()->getSize());
                     //glm::vec2 uvInsets;
                     uvInsets = {0, 0};
 

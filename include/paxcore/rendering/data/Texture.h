@@ -5,6 +5,8 @@
 #ifndef PAXENGINE3_TEXTURE_H
 #define PAXENGINE3_TEXTURE_H
 
+#include <paxutil/lib/GlmIncludes.h>
+
 namespace PAX {
     class Texture {
     public:
@@ -23,6 +25,7 @@ namespace PAX {
 
         int getWidth();
         int getHeight();
+        glm::ivec2 getSize();
 
         WrapMode getWrapModeHorizontal();
         WrapMode getWrapModeVertical();

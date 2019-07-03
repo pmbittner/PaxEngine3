@@ -60,12 +60,13 @@ namespace PAX {
         return QuadMesh;
     }
 
-    SpriteGraphics::SpriteGraphics(const std::shared_ptr<Texture> &texture) : SceneGraphGraphics(),
+    SpriteGraphics::SpriteGraphics(const std::shared_ptr<Texture> & texture) : SceneGraphGraphics(),
                                                                               _texture(texture),
                                                                               _trafoNode(),
                                                                               _textureNode(texture),
                                                                               _meshNode(GetMesh())
     {
+        texture->setWrapMode(Texture::WrapMode::ClampToEdge, Texture::WrapMode::ClampToEdge);
         _scenegraph <<= _trafoNode <<= _textureNode <<= &_meshNode;
     }
 
@@ -97,5 +98,13 @@ namespace PAX {
     void SpriteGraphics::detached(Entity &entity) {
         SceneGraphGraphics::detached(entity);
         entity.getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
+    }
+
+    void SpriteGraphics::render(PAX::RenderOptions &renderOptions) {
+        if (Shader * shader = renderOptions.getShaderOptions().getShader()) {
+            shader->setUniform("spriteResolution", _texture->getSize());
+        }
+
+        Super::render(renderOptions);
     }
 }
