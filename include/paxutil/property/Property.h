@@ -30,6 +30,9 @@ namespace PAX {
         virtual bool addTo(C& container) PAX_NON_CONST { return true; }
         virtual bool removeFrom(C& container) PAX_NON_CONST { return true; }
 
+        virtual void activated() {}
+        virtual void deactivated() {}
+
         virtual void attached(C &) {}
         virtual void detached(C &) {}
 

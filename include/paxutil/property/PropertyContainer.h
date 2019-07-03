@@ -33,6 +33,7 @@ namespace PAX {
         static AllocationService propertyAllocator;
 
         EventService _localEventService;
+        bool active = false;
 
         TypeMap<Property<C>*> _singleProperties;
         TypeMap<std::vector<Property<C>*>> _multipleProperties;
@@ -81,6 +82,25 @@ namespace PAX {
         void unregisterComponent(Property<C>* component) {
             component->owner = nullptr;
             component->detached(*static_cast<C*>(this));
+        }
+
+    protected:
+        void activate() {
+            if (active) return;
+            active = true;
+            auto props = getAll();
+            for (Property<C> * p : props) {
+                p->activated();
+            }
+        }
+
+        void deactivate() {
+            if (!active) return;
+            active = false;
+            auto props = getAll();
+            for (Property<C> * p : props) {
+                p->deactivated();
+            }
         }
 
     public:
@@ -164,6 +184,20 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
 
+        std::vector<Property<C>*> getAll() {
+            std::vector<Property<C>*> allProps;
+
+            for (const auto & entry : _singleProperties) {
+                allProps.push_back(entry.second);
+            }
+
+            for (const auto & entry : _multipleProperties) {
+                allProps.insert(allProps.end(), entry.second.begin(), entry.second.end());
+            }
+
+            return allProps;
+        }
+
         Property<C> * getSingle(const TypeHandle & type) const {
             const auto & it = _singleProperties.find(type);
 
@@ -220,6 +254,10 @@ namespace PAX {
             }
 
             return EmptyPropertyVector;
+        }
+
+        bool isActive() {
+            return active;
         }
 
         // TODO: Make private

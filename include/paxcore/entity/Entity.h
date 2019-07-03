@@ -35,6 +35,8 @@ namespace PAX {
 
         WorldLayer *worldLayer = nullptr;
 
+        void updateActiveStatus();
+
     public:
         EventHandler<EntityParentChangedEvent&> OnParentChanged;
 

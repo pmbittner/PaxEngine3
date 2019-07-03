@@ -56,23 +56,31 @@ namespace PAX::Tiles {
         }
     }
 
-    void SimpleCharacterKeyboardControls::attached(PAX::Entity &entity) {
-        Behaviour::attached(entity);
-        EventService& e = Services::GetEventService();
-        e.add<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
-        e.add<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
+    void SimpleCharacterKeyboardControls::attached(PAX::Entity & e) {
+        Super::attached(e);
 
-        velocityBehaviour = entity.get<VelocityBehaviour2D>();
-        orientation = entity.get<CharacterOrientation>();
+        velocityBehaviour = e.get<VelocityBehaviour2D>();
+        orientation = e.get<CharacterOrientation>();
     }
 
-    void SimpleCharacterKeyboardControls::detached(PAX::Entity &entity) {
-        Behaviour::detached(entity);
-        EventService& e = Services::GetEventService();
-        e.remove<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
-        e.remove<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
+    void SimpleCharacterKeyboardControls::detached(PAX::Entity & e) {
+        Super::detached(e);
 
         velocityBehaviour = nullptr;
         orientation = nullptr;
+    }
+
+    void SimpleCharacterKeyboardControls::activated() {
+        Behaviour::activated();
+        EventService& e = Services::GetEventService();
+        e.add<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
+        e.add<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
+    }
+
+    void SimpleCharacterKeyboardControls::deactivated() {
+        Behaviour::deactivated();
+        EventService& e = Services::GetEventService();
+        e.remove<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
+        e.remove<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
     }
 }

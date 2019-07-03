@@ -34,8 +34,11 @@ namespace PAX::Tiles {
         SimpleCharacterKeyboardControls();
         ~SimpleCharacterKeyboardControls() override = default;
 
-        void attached(Entity &entity) override;
-        void detached(Entity &entity) override;
+        void attached(Entity&) override;
+        void detached(Entity&) override;
+
+        void activated() override;
+        void deactivated() override;
     };
 }
 

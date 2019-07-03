@@ -7,10 +7,28 @@
 #include <paxcore/entity/Entity.h>
 #include <paxcore/entity/EntityProperty.h>
 #include <paxcore/service/Services.h>
+#include <paxcore/world/World.h>
 
 namespace PAX {
     Entity::Entity() = default;
     Entity::~Entity() = default;
+
+    void Entity::updateActiveStatus() {
+        bool active = false;
+        if (WorldLayer * wl = getWorldLayer()) {
+            if (World * w = wl->getWorld()) {
+                if (w->isActive()) {
+                    active = true;
+                }
+            }
+        }
+
+        if (active) {
+            activate();
+        } else {
+            deactivate();
+        }
+    }
 
     Transformation& Entity::getTransformation() {
         return transform;

@@ -7,6 +7,8 @@
 #include <paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h>
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
 
+#include <paxcore/world/World.h>
+
 namespace PAX {
     WorldLayer::WorldLayer()
     : entities(getEventService())
@@ -71,6 +73,7 @@ namespace PAX {
 
             entity->worldLayer = this;
             entity->getEventService().setParent(&getEventService());
+            entity->updateActiveStatus();
 
             EntitySpawnedEvent e(entity);
             getEventService()(e);
@@ -85,6 +88,8 @@ namespace PAX {
                 despawn(child);
 
             entity->worldLayer = nullptr;
+            entity->getEventService().setParent(nullptr);
+            entity->updateActiveStatus();
 
             EntityDespawnedEvent e(entity, this);
             getEventService()(e);
@@ -115,12 +120,33 @@ namespace PAX {
         return name;
     }
 
+    void WorldLayer::setWorld(PAX::World *world) {
+        this->world = world;
+        if (world) {
+            worldActivityChanged(world->isActive());
+        } else {
+            worldActivityChanged(false);
+        }
+    }
+
     World* WorldLayer::getWorld() const {
         return world;
     }
 
     int WorldLayer::getDimensions() const {
         return dimensions;
+    }
+
+    void WorldLayer::worldActivityChanged(bool isWorldActive) {
+        if (isWorldActive) {
+            activate();
+        } else {
+            deactivate();
+        }
+
+        for (Entity * e : entities) {
+            e->updateActiveStatus();
+        }
     }
 
     bool WorldLayer::operator<(const PAX::WorldLayer &rhs) const {

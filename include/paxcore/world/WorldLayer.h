@@ -46,6 +46,9 @@ namespace PAX {
         EntityIDService idService;
 
         World * world = nullptr;
+        void setWorld(World * world);
+
+        void worldActivityChanged(bool isWorldActive);
 
     public:
         WorldLayer();

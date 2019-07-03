@@ -11,6 +11,7 @@
 
 namespace PAX {
     class World;
+    class Game;
 
     struct WorldLayerEvent : public Event {
         World * world;
@@ -28,10 +29,16 @@ namespace PAX {
     };
 
     class World {
+        friend class Game;
+
     private:
         EventService localEventService;
         WorldSceneGraph sceneGraph;
         PropertyContainerManager<WorldLayer> worldLayers;
+
+        bool active = false;
+
+        void setActive(bool active);
 
     public:
         World();
@@ -45,6 +52,7 @@ namespace PAX {
 
         WorldSceneGraph* getSceneGraph();
         EventService& getEventService();
+        bool isActive() const;
     };
 }
 

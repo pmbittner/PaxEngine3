@@ -3,6 +3,8 @@
 //
 
 #include <paxcore/world/World.h>
+#include <paxcore/Engine.h>
+#include <paxcore/Game.h>
 
 namespace PAX {
     WorldLayerEvent::WorldLayerEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : world(world), worldLayer(worldLayer) {}
@@ -21,11 +23,23 @@ namespace PAX {
         }
     }
 
+    void World::setActive(bool active) {
+        this->active = active;
+
+        for (WorldLayer * wl : worldLayers) {
+            wl->worldActivityChanged(active);
+        }
+    }
+
+    bool World::isActive() const {
+        return active;
+    }
+
     void World::addLayer(WorldLayer *layer) {
         if (worldLayers.add(layer)) {
             sceneGraph.addChild(layer->getSceneGraph().get());
             layer->getEventService().setParent(&localEventService);
-            layer->world = this;
+            layer->setWorld(this);
 
             WorldLayerAddedEvent e(this, layer);
             localEventService(e);
@@ -36,7 +50,7 @@ namespace PAX {
         if (worldLayers.remove(layer)) {
             sceneGraph.removeChild(layer->getSceneGraph().get());
             layer->getEventService().setParent(nullptr);
-            layer->world = nullptr;
+            layer->setWorld(nullptr);
 
             WorldLayerRemovedEvent e(this, layer);
             localEventService(e);
