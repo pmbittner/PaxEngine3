@@ -163,23 +163,19 @@ namespace PAX {
                 obj_pos.y *= -1;
 
                 VariableRegister varRegister;
-                std::shared_ptr<PAX::EntityPrefab> prefab;
+                Path prefabPath = VariableResolver::resolveVariables(
+                        JsonToString(obj["type"]),
+                        // We use these predefined variables as these are intended to be used in
+                        // all our json resources.
+                        // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place like Settings.
+                        PAX::Prefab::PreDefinedVariables);
+                std::shared_ptr<PAX::EntityPrefab> prefab = Services::GetResources().loadOrGet<EntityPrefab>(prefabPath);
 
                 for (const nlohmann::json & property : obj["properties"]) {
-                    std::string property_name = property["name"];
-                    std::string property_value =
+                    varRegister[property["name"]] =
                             VariableResolver::resolveVariables(
-                                    JsonToString(property["value"]),
-                                    // We use these predefined variables as these are intended to be used in
-                                    // all our json resources.
-                                    // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place.
-                                    PAX::Prefab::PreDefinedVariables);
-
-                    if (property_name == "prefab") {
-                        prefab = Services::GetResources().loadOrGet<EntityPrefab>(Path(property_value));
-                    } else {
-                        varRegister[property_name] = property_value;
-                    }
+                                JsonToString(property["value"]),
+                                PAX::Prefab::PreDefinedVariables);
                 }
 
                 if (prefab) {
