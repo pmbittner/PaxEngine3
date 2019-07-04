@@ -93,16 +93,14 @@ namespace PAX {
 
             }
 
-            ~Demo() override {
-
-            }
+            ~Demo() = default;
 
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
                 if (keyPressedEvent.button == PAX::Key::ESCAPE)
                     Engine::Instance().stop();
             }
 
-            virtual void initialize() override {
+            void initialize() override {
                 Game::initialize();
                 this->addSystem(std::make_unique<LightSystem>());
 
