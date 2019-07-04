@@ -35,8 +35,8 @@ namespace PAX {
         /// Creates a new Asset with the given mesh and material. Optional a relative transformation can be applied to the mesh.
         /// \param meshes may be empty
         /// \param transformation relative transformation to parent assets (default is identity)
-        Asset(const std::vector<Part>& meshes, const glm::mat4 & transformation = glm::mat4());
-        virtual ~Asset();
+        Asset(const std::vector<Part>& meshes, const glm::mat4 & transformation = glm::mat4(1.0f));
+        ~Asset() override;
 
         /*
         /// Adds a given asset to the children of this asset.
@@ -44,7 +44,7 @@ namespace PAX {
          */
         void addChild(const std::shared_ptr<Asset> & asset);
 
-        virtual void render(RenderOptions &renderOptions) override;
+        void render(RenderOptions &renderOptions) override;
 
         virtual void print(const std::string& indent) const;
     };
