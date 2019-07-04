@@ -28,7 +28,7 @@ namespace PAX {
         };
 
         VelocityBehaviour2D* velocityBehaviour = nullptr;
-        float speed = 150;
+        float speed = 20;
 
         void onKeyPressed(KeyPressedEvent& e) {
             if (e.repeated) return;

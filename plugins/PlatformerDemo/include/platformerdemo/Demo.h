@@ -32,16 +32,9 @@ namespace PAX {
         class Demo : public Game {
             // World
             World * world = nullptr;
-            WorldLayer * mainLayer = nullptr;
-
-            // Entities
-            std::shared_ptr<Entity> player = nullptr;
-            std::shared_ptr<Entity> npc = nullptr;
-            Entity * camera = nullptr;
+            WorldLayer* mainLayer = nullptr;
 
             // Resources
-            std::shared_ptr<EntityPrefab> playerPrefab, npcPrefab;
-
             std::shared_ptr<Texture> centerBlockTexture;
             std::shared_ptr<Texture> leftBlockTexture;
             std::shared_ptr<Texture> rightBlockTexture;
@@ -50,12 +43,8 @@ namespace PAX {
             // Settings
             struct {
                 float
-                camera = 10,
                 platforms = 0;
             } depthFor;
-
-            static constexpr float GlobalScale = 5;
-            glm::vec3 GlobalScaleVec3;
 
             void gatherResources() {
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
@@ -64,32 +53,11 @@ namespace PAX {
                                 Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
                         )
                 );
-
-                playerPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/entity/Player.paxprefab.json"
-                );
-
-                npcPrefab = Services::GetResources().loadOrGet<EntityPrefab>(
-                        Services::GetPaths().getResourcePath() + "/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
-                );
-            }
-
-            Entity* createCamera(const std::shared_ptr<Entity> & player) {
-                Entity *cam = new Entity();
-                cam->add(new Camera(
-                        // TODO: Enable use of custom type factories like this in prefabs.
-                        Services::GetFactoryService().get<ViewportFactory>()->create(),
-                        std::make_shared<PixelScreenProjection>()
-                ));
-                cam->getTransformation().z() = depthFor.camera;
-                cam->add(new FollowEntityBehaviour(player.get()));
-
-                return cam;
             }
 
             Entity* createPlatform(int span) {
                 Entity* platform = new Entity();
-                float w = centerBlockTexture->getWidth() * GlobalScale;
+                float w = centerBlockTexture->getWidth();
                 float xMax = (span-1)*(w/2);
 
                 std::shared_ptr<Texture> tex = leftBlockTexture;
@@ -104,7 +72,6 @@ namespace PAX {
 
                     block->getTransformation().x() = x;
                     block->getTransformation().z() = 0;
-                    block->getTransformation().setScale(GlobalScaleVec3);
 
                     block->setParent(platform);
 
@@ -134,13 +101,13 @@ namespace PAX {
 
                 {
                     Entity *p1 = createPlatform(5);
-                    p1->getTransformation().position2D() = {0, -200};
+                    p1->getTransformation().position2D() = {0, -40};
                     mainLayer->spawn(p1);
                 }
 
                 {
                     Entity *p2 = createPlatform(2);
-                    p2->getTransformation().position2D() = {300, 100};
+                    p2->getTransformation().position2D() = {60, 20};
                     p2->add(new DragNDrop());
                     mainLayer->spawn(p2);
                 }
@@ -168,7 +135,7 @@ namespace PAX {
             }
 
         public:
-            Demo() : Game(), GlobalScaleVec3(GlobalScale, GlobalScale, 1)
+            Demo() : Game()
             {
 
             }
@@ -187,29 +154,15 @@ namespace PAX {
 
                 std::cout << "[PAX::PlatformerDemo::Demo::initialize] After gather resources" << std::endl;
 
-                mainLayer = new WorldLayer("PlatformerDemo::MainLayer", 2);
+                mainLayer = Services::GetResources().loadOrGet<WorldLayerPrefab>(
+                        Services::GetPaths().getResourcePath() + "PlatformerDemo/prefabs/world/mainlayer.paxprefab.json"
+                        )->create({});
 
                 world = new World();
-                player = playerPrefab->create();
-                camera = createCamera(player);
-                mainLayer->spawn(player.get());
-                mainLayer->spawn(camera);
                 createEnvironment();
-
-                npc = npcPrefab->create();
-                npc->getTransformation().position2D() = {-20, -120};
-                mainLayer->spawn(npc.get());
 
                 world->addLayer(mainLayer);
                 setActiveWorld(world);
-            }
-
-            void terminate() override {
-                world->removeLayer(mainLayer);
-                delete mainLayer;
-                player.reset();
-                npc.reset();
-                Game::terminate();
             }
         };
     }

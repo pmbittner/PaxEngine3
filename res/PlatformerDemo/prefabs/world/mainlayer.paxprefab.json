@@ -1,0 +1,38 @@
+{
+  "Constructor": {
+    "name": "PlatformerDemo::MainLayer",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Entities": [
+    {
+      "name": "Player",
+      "id": 1,
+      "prefab": "${ResourcePath}/PlatformerDemo/prefabs/entity/Player.paxprefab.json"
+    },
+    {
+      "name": "GreenGuy",
+      "id": 2,
+      "prefab": "${ResourcePath}/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
+    },
+    {
+      "name": "Camera",
+      "id": 3,
+      "prefab": {
+        "Transform": {
+          "position": [0, 0, 10],
+          "scale": [5, 5, 1]
+        },
+        "Properties": {
+          "PAX::Camera": {
+            "syncProjectionResolutionToViewportResolution": true,
+            "projection": "PixelScreen"
+          },
+          "PAX::FollowEntityBehaviour": {
+            "targetEntity": 1
+          }
+        }
+      }
+    }
+  ]
+}
