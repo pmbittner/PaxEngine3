@@ -83,12 +83,12 @@ namespace PAX {
         void OpenGLMesh::checkAttributeValidity(size_t attribLen) {
             //check if this object was finalized
             if (isUploaded()) {
-                throw std::runtime_error("Trying to add attributes to finalized OGLObject");
+                PAX_THROW_RUNTIME_ERROR("Trying to add attributes to finalized OGLObject")
             }
 
             //make sure that an attribute is given for all vertices
             if (attribLen != _numberOfVertices) {
-                throw std::runtime_error("Number of attributes("+std::to_string(attribLen)+") does not match the number of vertices("+std::to_string(_numberOfVertices)+")");
+                PAX_THROW_RUNTIME_ERROR("Number of attributes("+std::to_string(attribLen)+") does not match the number of vertices("+std::to_string(_numberOfVertices)+")")
             }
         }
 

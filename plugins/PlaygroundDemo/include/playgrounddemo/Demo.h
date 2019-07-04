@@ -67,12 +67,14 @@ namespace PAX {
 
             Entity* createCube(std::shared_ptr<Shader> & shader) {
                 Entity* cubeEntity = new Entity();
+                //*
                 std::shared_ptr<Asset> a = std::make_shared<Asset>(std::vector<Asset::Part>{
                         Asset::Part(cube, cubeMaterial)
                 });
                 AssetGraphics * g = new AssetGraphics(a);
                 g->setShader(shader);
                 cubeEntity->add(g);
+                //*/
                 return cubeEntity;
             }
 
@@ -93,7 +95,7 @@ namespace PAX {
 
             }
 
-            ~Demo() = default;
+            ~Demo() override = default;
 
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
                 if (keyPressedEvent.button == PAX::Key::ESCAPE)
@@ -108,9 +110,9 @@ namespace PAX {
 
                 prepareAssets();
 
-                bool withCube = true;
-                bool withTree = true;
-                bool withTank = true;
+                constexpr bool withCube = true;
+                constexpr bool withTree = true;
+                constexpr bool withTank = !true;
 
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer("PlaygroundDemoMainLayer", 3);
@@ -126,19 +128,19 @@ namespace PAX {
 
                 cam->getTransformation().position() = {0, 0, 0};
 
-                if (withCube) {
-                    Entity* cube = createCube(redShader);
-                    cube->getTransformation().position() = {0, 0, -2};
+                if PAX_CONSTEXPR_IF (withCube) {
+                    Entity* cube = createCube(simpleMatShader);
+                    cube->getTransformation().position() = {0, 0, -4};
                     mainLayer->spawn(cube);
                 }
 
-                if (withTree) {
+                if PAX_CONSTEXPR_IF (withTree) {
                     Entity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
                     tree->getTransformation().position() = {-3, 0, -5};
                     mainLayer->spawn(tree);
                 }
 
-                if (withTank) {
+                if PAX_CONSTEXPR_IF (withTank) {
                     Entity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
                     tank->getTransformation().position() = {1, -2, -5};
                     mainLayer->spawn(tank);
@@ -150,7 +152,7 @@ namespace PAX {
                         new DirectionalLight(
                                 glm::vec3(1, 0, 0),
                                 //glm::vec4(1, 0.7f, 0.2, 20)
-                                glm::vec4(1, 1, 1, 20)
+                                glm::vec4(1, 1, 1, 1)
                         )
                 );
                 mainLayer->spawn(lightEntity);

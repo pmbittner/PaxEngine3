@@ -19,7 +19,7 @@ namespace PAX {
         setDirection(direction);
     }
 
-    DirectionalLight::~DirectionalLight() {}
+    DirectionalLight::~DirectionalLight() = default;
 
     void DirectionalLight::uploadTo(PAX::Shader* shader, int index) {
         std::string uniformPrefix = "lights.directionals[" + std::to_string(index) + "]";

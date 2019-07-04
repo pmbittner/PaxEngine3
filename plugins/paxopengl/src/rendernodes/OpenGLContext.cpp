@@ -35,9 +35,8 @@ namespace PAX {
 
             //glMatrixMode(GL_PROJECTION);
 
+            // TODO: Make this configurable
             glClearColor(0.8, 0.8, 0.8, 1);
-            glViewport(0, 0, res.x, res.y);
-
 
             PAX_GLERROR("OpenGLContext::initialize");
         }

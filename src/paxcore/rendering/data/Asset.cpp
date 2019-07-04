@@ -25,9 +25,7 @@ namespace PAX {
 
     }
 
-    Asset::~Asset() {
-        std::cout << "[Asset::~Asset] ------------------------------------------------------------------------------" << std::endl;
-    }
+    Asset::~Asset() = default;
 
     void Asset::addChild(const std::shared_ptr<Asset> & asset) {
         _children.push_back(asset);
@@ -42,6 +40,7 @@ namespace PAX {
         glm::mat4 modelview = renderOptions.getViewMatrix() * worldTransform;
 
         // TODO: Upload projection and view as early as possible and nicht erst hier.
+        //       Maybe do this in RenderOptions.
         shader->setUniform("projection", renderOptions.getProjectionMatrix(), false);
         shader->setUniform("view", renderOptions.getViewMatrix(), false);
         shader->setUniform("model", worldTransform, false);

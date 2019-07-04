@@ -30,7 +30,7 @@ namespace PAX {
             char* log = new char[logMaxLength];
             glGetShaderInfoLog(shader,logMaxLength, &logLength, log);
             if (logLength> 0) {
-                Log::out.info() << "Shader Compilation - Compiler log:\n------------------\n" << log <<  "==================" << std::endl;
+                Log::out.info_raw() << "Shader Compilation - Compiler log:\n------------------\n" << log <<  "==================" << std::endl;
             }
             delete[] log;
 
@@ -43,13 +43,13 @@ namespace PAX {
 
             bool compiled = compileShaderAndPrintErrors(shader);
             if (!compiled) {
-                Log::out.err() << "Shader Compilation - Error - Code was:" << std::endl;
+                Log::out.err_raw() << "Shader Compilation - Error - Code was:" << std::endl;
 
                 std::stringstream ss(code);
                 std::string line;
                 int i = 0;
                 while (std::getline(ss, line, '\n')) {
-                    Log::out.err() << std::setw(3) << std::fixed << ++i << "| " << line;
+                    Log::out.err_raw() << std::setw(3) << std::fixed << ++i << "| " << line << std::endl;
                 }
             }
 

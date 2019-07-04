@@ -39,7 +39,7 @@ namespace PAX {
         virtual void addAttribute(const std::vector<glm::vec4> &attrib) = 0;
 
     public:
-        virtual ~Mesh();
+        ~Mesh() override;
 
         void setName(const std::string & name);
         const std::string & getName() const;

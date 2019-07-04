@@ -93,11 +93,11 @@ void main(void) {
     // DEBUG
     //out_Color = vec4(lights.directionals[0].color.xyz, 1);
     /*/
-    vec4 clr = vec4(material_diffuse_color, 0);
+    vec4 clr = vec4(material_diffuse_color, 1);
     if (material_hasDiffuseTexture) {
-        clr = texture(diffuseTexture, fs_in.textureCoord);
+        clr = texture(diffuseTexture, lightProperties.textureCoord);
     }
-    clr.w = material_opacity;
+    //clr.w = material_opacity;
 
     out_Color = clr;
     //*/

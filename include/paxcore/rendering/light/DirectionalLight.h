@@ -16,10 +16,10 @@ namespace PAX {
         glm::vec3 _direction;
 
     public:
-        DirectionalLight(const glm::vec3 & direction, const glm::vec4 & color = glm::vec4(1));
-        virtual ~DirectionalLight();
+        explicit DirectionalLight(const glm::vec3 & direction, const glm::vec4 & color = glm::vec4(1));
+        ~DirectionalLight() override;
 
-        virtual void uploadTo(Shader * shader, int index) override;
+        void uploadTo(Shader * shader, int index) override;
 
         virtual void setDirection(const glm::vec3 & direction);
         const glm::vec3 & getDirection() const;
