@@ -38,6 +38,8 @@ namespace PAX {
         TypeMap<Property<C>*> _singleProperties;
         TypeMap<std::vector<Property<C>*>> _multipleProperties;
 
+        std::vector<Property<C>*> _allProperties; // Do we really want to have a copy of all pointers for easy access?
+
     public:
         PropertyContainer() = default;
 
@@ -116,6 +118,10 @@ namespace PAX {
             if (isValid(component)) {
                 component->addTo(*static_cast<C*>(this));
                 registerComponent(component);
+                _allProperties.push_back(component);
+                if (active) {
+                    component->activated();
+                }
                 return true;
             }
 
@@ -125,6 +131,10 @@ namespace PAX {
         bool remove(Property<C>* component) {
             bool ret = component->removeFrom(*static_cast<C*>(this));
             unregisterComponent(component);
+            Util::removeFromVector(_allProperties, component);
+            if (active) {
+                component->deactivated();
+            }
             return ret;
         }
 
@@ -184,18 +194,8 @@ namespace PAX {
                 return *reinterpret_cast<const std::vector<ComponentClass*>*>(&EmptyPropertyVector);
         }
 
-        std::vector<Property<C>*> getAll() {
-            std::vector<Property<C>*> allProps;
-
-            for (const auto & entry : _singleProperties) {
-                allProps.push_back(entry.second);
-            }
-
-            for (const auto & entry : _multipleProperties) {
-                allProps.insert(allProps.end(), entry.second.begin(), entry.second.end());
-            }
-
-            return allProps;
+        const std::vector<Property<C>*> & getAll() {
+            return _allProperties;
         }
 
         Property<C> * getSingle(const TypeHandle & type) const {

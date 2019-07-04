@@ -5,6 +5,12 @@
 #include <paxutil/event/Event.h>
 
 namespace PAX {
+    Event::~Event() = default;
+
+    void Event::reuse() {
+        consumed = false;
+    }
+
     void Event::consume() {
         consumed = true;
     }

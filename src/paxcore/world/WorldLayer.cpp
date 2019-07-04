@@ -53,7 +53,13 @@ namespace PAX {
 
     WorldLayer::~WorldLayer() {
         while (!entities.empty()) {
-            despawn(*entities.begin());
+            Entity * entityToRemove = *entities.begin();
+            despawn(entityToRemove);
+            // TODO: We have to check what to do here with the entities here!
+            //       Otherwise we may have leaked all or most of them!
+            //       On the other hand, deleting them may invalidate external references and makes reusing even harder
+            //       as these entities would have to be despawned manually at first.
+            //delete entityToRemove;
         }
 
         this->sceneGraphGenerator->terminate(getEventService());

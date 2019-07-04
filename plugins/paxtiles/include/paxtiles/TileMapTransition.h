@@ -21,8 +21,8 @@ namespace PAX {
         public:
             TileMapTransition(const Path & targetMap, int targetTransitionID);
 
-            void attached(Entity & e) override;
-            void detached(Entity & e) override;
+            void activated() override;
+            void deactivated() override;
 
             void onKeyDown(KeyPressedEvent & keyPressedEvent);
         };

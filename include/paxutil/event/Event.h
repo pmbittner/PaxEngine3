@@ -11,6 +11,8 @@ namespace PAX {
         bool consumed = false;
 
     public:
+        virtual ~Event();
+        virtual void reuse();
         void consume();
         bool isConsumed();
     };

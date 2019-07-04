@@ -35,6 +35,7 @@ namespace PAX {
                     }
 
                     case SDL_KEYDOWN: {
+                        _keyPressed.reuse();
                         _keyPressed.button = static_cast<Key>(_currentEvent.key.keysym.scancode); // mapping is 1:1
                         _keyPressed.repeated = _currentEvent.key.repeat;
                         Services::GetEventService()(_keyPressed);
@@ -42,12 +43,14 @@ namespace PAX {
                     }
 
                     case SDL_KEYUP: {
+                        _keyReleased.reuse();
                         _keyReleased.button = static_cast<Key>(_currentEvent.key.keysym.scancode); // mapping is 1:1
                         Services::GetEventService()(_keyReleased);
                         break;
                     }
 
                     case SDL_MOUSEBUTTONDOWN: {
+                        _mbPressed.reuse();
                         _mbPressed.button = static_cast<MouseButton>(_currentEvent.button.button); // mapping is 1:1
                         setMouseScreenPosition(_mouse, _currentEvent.button.x, _currentEvent.button.y);
                         _mbPressed.clicks = _currentEvent.button.clicks;
@@ -56,6 +59,7 @@ namespace PAX {
                     }
 
                     case SDL_MOUSEBUTTONUP: {
+                        _mbReleased.reuse();
                         _mbReleased.button = static_cast<MouseButton>(_currentEvent.button.button); // mapping is 1:1
                         setMouseScreenPosition(_mouse, _currentEvent.button.x, _currentEvent.button.y);
                         Services::GetEventService()(_mbReleased);
@@ -63,6 +67,7 @@ namespace PAX {
                     }
 
                     case SDL_MOUSEWHEEL: {
+                        _mWheel.reuse();
                         int dir = _currentEvent.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1 : 1;
                         _mWheel.ticksX = dir * _currentEvent.wheel.x;
                         _mWheel.ticksY = dir * _currentEvent.wheel.y;
@@ -70,6 +75,7 @@ namespace PAX {
                     }
 
                     case SDL_MOUSEMOTION: {
+                        _mMoved.reuse();
                         _mMoved.oldScreenPos = _mouse.getScreenPosition();
 
                         int x, y;

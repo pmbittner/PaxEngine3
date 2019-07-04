@@ -27,26 +27,38 @@ namespace PAX {
         {
         }
 
-        void TileMapTransition::attached(PAX::Entity &e) {
+        void TileMapTransition::activated() {
             Services::GetEventService().add<KeyPressedEvent, TileMapTransition, &TileMapTransition::onKeyDown>(this);
         }
 
-        void TileMapTransition::detached(PAX::Entity &e) {
+        void TileMapTransition::deactivated() {
             Services::GetEventService().remove<KeyPressedEvent, TileMapTransition, &TileMapTransition::onKeyDown>(this);
         }
 
         void TileMapTransition::onKeyDown(PAX::KeyPressedEvent &keyPressedEvent) {
+            if (keyPressedEvent.repeated) return;
+
             if (keyPressedEvent.button == PAX::Key::T) {
                 keyPressedEvent.consume();
 
-                PAX_PRINT_OUT("Transition to object " << targetTransitionID << " in " << targetMap)
+                PAX_PRINT_OUT("Transition initiated by entity " << getOwner())
+                //PAX_PRINT_OUT("Transition to object " << targetTransitionID << " in " << targetMap)
 
                 // TODO: Load a world instead of a layer.
+                // TODO: Try to reuse worlds instead of reloading them all the time.
                 std::shared_ptr<WorldLayerPrefab> worldLayerPrefab =
                         Services::GetResources().loadOrGet<WorldLayerPrefab>(targetMap);
                 WorldLayer * targetWorldLayer = worldLayerPrefab->create({});
 
-                PAX_PRINT_OUT("Created target world")
+                //PAX_PRINT_OUT("Created target world")
+
+                // Find location of target entity
+                Entity * targetEntity = targetWorldLayer->getEntityIDService().getEntity(targetTransitionID);
+                if (!targetEntity) {
+                    PAX_PRINT_WARN("Could not detect target entity via id = " << targetTransitionID)
+                    return;
+                }
+                glm::vec2 targetPos = targetEntity->getTransformation().position2D();
 
                 // Transfer collided entites:
                 // TODO: Find a way to not hardcode this. Especially for the camera!
@@ -55,27 +67,29 @@ namespace PAX {
                 Entity * player = sourceWorldLayer->getEntityIDService().getEntity(1001);
                 Entity * cam    = sourceWorldLayer->getEntityIDService().getEntity(1002);
                 sourceWorldLayer->despawn(cam);
-                PAX_PRINT_OUT("Despawned camera from source world")
+                //PAX_PRINT_OUT("Despawned camera from source world")
                 sourceWorldLayer->despawn(player);
-                PAX_PRINT_OUT("Despawned player from source world")
+                //PAX_PRINT_OUT("Despawned player from source world")
                  //*/
 
                 //*
                 targetWorldLayer->getEntityIDService().reserveIDFor(player, 1001);
                 targetWorldLayer->getEntityIDService().reserveIDFor(cam, 1002);
                 targetWorldLayer->spawn(player);
-                PAX_PRINT_OUT("Spawned player at target world")
+                player->getTransformation().position2D() = targetPos;
+                //PAX_PRINT_OUT("Spawned player at target world")
                 targetWorldLayer->spawn(cam);
-                PAX_PRINT_OUT("Spawned camera at target world")
+                cam->getTransformation().position2D() = targetPos;
+                //PAX_PRINT_OUT("Spawned camera at target world")
                 //*/
 
                 // Load new world
                 //*
                 World * targetWorld = new World();
                 targetWorld->addLayer(targetWorldLayer);
-                PAX_PRINT_OUT("Switching active world")
+                //PAX_PRINT_OUT("Switching active world")
                 Engine::Instance().getGame()->setActiveWorld(targetWorld);
-                PAX_PRINT_OUT("Done")
+                //PAX_PRINT_OUT("Done")
                 //*/
 
                 // Delete the old one because we can't handle caching so far.

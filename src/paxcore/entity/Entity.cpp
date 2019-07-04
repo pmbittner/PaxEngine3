@@ -16,11 +16,7 @@ namespace PAX {
     void Entity::updateActiveStatus() {
         bool active = false;
         if (WorldLayer * wl = getWorldLayer()) {
-            if (World * w = wl->getWorld()) {
-                if (w->isActive()) {
-                    active = true;
-                }
-            }
+            active = wl->isActive();
         }
 
         if (active) {
