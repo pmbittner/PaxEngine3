@@ -16,25 +16,26 @@ namespace PAX {
         const std::string name;
 
         struct {
-            glm::vec3 color;
-            std::shared_ptr<Texture> texture;
+            glm::vec3 color = glm::vec3(1);
+            std::shared_ptr<Texture> texture = nullptr;
         } diffuse;
 
         struct {
-            glm::vec3 color;
+            glm::vec3 color = glm::vec3(1);
             float exponent; // in mtl file this value is named 'Ns'
         } specular;
 
         struct {
-            glm::vec3 color;
+            glm::vec3 color = glm::vec3(1);;
         } ambient;
 
         float opacity = 1; // in mtl file this value is named 'd'
         // float indexOfRefraction = 0; // or opticalDensity
 
-        Material(const std::string& name);
+        explicit Material(const std::string& name);
 
-        void applyTo(Shader* shader);
+        void applyTo(Shader * shader);
+        void unapplyFrom(Shader * shader);
     };
 }
 #endif //PAXENGINE3_MATERIAL_H

@@ -18,3 +18,8 @@ void PAX::Material::applyTo(PAX::Shader* shader) {
     if (diffuse.texture)
         diffuse.texture->bind();
 }
+
+void PAX::Material::unapplyFrom(PAX::Shader *shader) {
+    if (diffuse.texture)
+        diffuse.texture->unbind();
+}

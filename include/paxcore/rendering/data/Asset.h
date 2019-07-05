@@ -35,7 +35,7 @@ namespace PAX {
         /// Creates a new Asset with the given mesh and material. Optional a relative transformation can be applied to the mesh.
         /// \param meshes may be empty
         /// \param transformation relative transformation to parent assets (default is identity)
-        Asset(const std::vector<Part>& meshes, const glm::mat4 & transformation = glm::mat4(1.0f));
+        explicit Asset(const std::vector<Part>& meshes, const glm::mat4 & transformation = glm::mat4(1.0f));
         ~Asset() override;
 
         /*

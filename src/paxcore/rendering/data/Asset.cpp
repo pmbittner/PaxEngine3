@@ -50,6 +50,7 @@ namespace PAX {
         for (Part & p : _meshes) {
             p._material->applyTo(renderOptions.getShaderOptions().getShader());
             p._mesh->render(renderOptions);
+            p._material->unapplyFrom(renderOptions.getShaderOptions().getShader());
         }
         for (auto & child : _children)
             child->render(renderOptions);

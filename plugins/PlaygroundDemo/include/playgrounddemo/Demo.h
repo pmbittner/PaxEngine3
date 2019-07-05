@@ -112,7 +112,7 @@ namespace PAX {
 
                 constexpr bool withCube = true;
                 constexpr bool withTree = true;
-                constexpr bool withTank = !true;
+                constexpr bool withTank = true;
 
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer("PlaygroundDemoMainLayer", 3);
@@ -157,7 +157,7 @@ namespace PAX {
                 );
                 mainLayer->spawn(lightEntity);
 
-                mainLayer->add(new AmbientLight(glm::vec3(0.6, 0, 0.3)));
+                mainLayer->add(new AmbientLight(glm::vec3(1, 0.5, 0.7)));
 
                 _world->addLayer(mainLayer);
                 setActiveWorld(_world);
