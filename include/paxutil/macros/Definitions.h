@@ -15,9 +15,9 @@
 #endif
 
 #if PAX_CXX_STANDARD >= 17
-#define PAX_CONSTEXPR_IF constexpr
+#define PAX_CONSTEXPR_IF if constexpr
 #else
-#define PAX_CONSTEXPR_IF
+#define PAX_CONSTEXPR_IF if
 #endif
 
 

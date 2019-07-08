@@ -128,19 +128,19 @@ namespace PAX {
 
                 cam->getTransformation().position() = {0, 0, 0};
 
-                if PAX_CONSTEXPR_IF (withCube) {
+                PAX_CONSTEXPR_IF (withCube) {
                     Entity* cube = createCube(simpleMatShader);
                     cube->getTransformation().position() = {0, 0, -4};
                     mainLayer->spawn(cube);
                 }
 
-                if PAX_CONSTEXPR_IF (withTree) {
+                PAX_CONSTEXPR_IF (withTree) {
                     Entity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
                     tree->getTransformation().position() = {-3, 0, -5};
                     mainLayer->spawn(tree);
                 }
 
-                if PAX_CONSTEXPR_IF (withTank) {
+                PAX_CONSTEXPR_IF (withTank) {
                     Entity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
                     tank->getTransformation().position() = {1, -2, -5};
                     mainLayer->spawn(tank);

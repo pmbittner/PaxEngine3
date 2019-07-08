@@ -29,7 +29,7 @@ namespace PAX {
 
         template<bool add, typename T>
         void unfoldPropertyEventListeners(EventService & e) {
-            if PAX_CONSTEXPR_IF (add) {
+            PAX_CONSTEXPR_IF (add) {
                 e.add<PropertyAttachedEvent<C, T>, PropertyContainerManagerView, &PropertyContainerManagerView::onPropertyAttached>(this);
                 e.add<PropertyDetachedEvent<C, T>, PropertyContainerManagerView, &PropertyContainerManagerView::onPropertyDetached>(this);
             } else {
