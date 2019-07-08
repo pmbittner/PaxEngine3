@@ -21,13 +21,14 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
         PAX_PROPERTY_DEPENDS_ON(PAX::Size)
 
-        Size* size;
+        Size* size = nullptr;
 
         bool dragged = false;
-        glm::vec3 relativeMousePos;
+        glm::vec3 relativeMousePos = {0, 0, 0};
 
         glm::vec3 getMouseWorldPos(Mouse* mouse) {
             const std::vector<Camera*> cams = getOwner()->getWorldLayer()->getCameras();
+            // TODO: Check in which viewport the mouse is to determine the camera instead of using always camera 0.
             return {Mouse::ScreenPosToWorldPos(mouse->getScreenPosition(), *cams[0]), 0};
         }
 
@@ -46,17 +47,17 @@ namespace PAX {
         }
 
     public:
-        DragNDrop() {}
+        DragNDrop() = default;
 
-        virtual void attached(Entity& entity) override {
+        void activated() override {
             EventService& e = Services::GetEventService();
             e.add<MouseButtonPressedEvent, DragNDrop, &DragNDrop::onMousePressed>(this);
             e.add<MouseButtonReleasedEvent, DragNDrop, &DragNDrop::onMouseReleased>(this);
 
-            size = entity.get<Size>();
+            size = getOwner()->get<Size>();
         }
 
-        virtual void detached(Entity& entity) override {
+        void deactivated() override {
             EventService& e = Services::GetEventService();
             e.remove<MouseButtonPressedEvent, DragNDrop, &DragNDrop::onMousePressed>(this);
             e.remove<MouseButtonReleasedEvent, DragNDrop, &DragNDrop::onMouseReleased>(this);
@@ -64,7 +65,7 @@ namespace PAX {
             size = nullptr;
         }
 
-        virtual void update() override {
+        void update() override {
             Super::update();
 
             if (dragged) {
