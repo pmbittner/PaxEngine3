@@ -53,7 +53,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/scenegraph/nodes/ShadingNode.h
         ../../include/paxcore/rendering/event/GraphicsShaderChangedEvent.h
         ../../include/paxcore/rendering/scenegraph/SceneGraph.h
-        ../../include/paxcore/rendering/data/CPUMesh.h
         ../../include/paxcore/io/event/KeyEvent.h
         ../../include/paxcore/io/event/KeyPressedEvent.h
         ../../include/paxcore/io/event/KeyReleasedEvent.h
@@ -95,6 +94,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/service/WindowService.h
         ../../include/paxcore/rendering/renderpass/RenderPass.h
         ../../include/paxcore/rendering/loader/SpriteSheetLoader.h
+        ../../include/paxcore/rendering/loader/NullTextureLoader.h
         ../../include/paxcore/rendering/factory/MeshFactory.h
         ../../include/paxcore/rendering/factory/ViewportFactory.h
         ../../include/paxcore/io/InputSystemFactory.h
@@ -111,7 +111,9 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h
         ../../include/paxcore/world/property/WorldLayerSize.h
         ../../include/paxcore/entity/EntityIDService.h
-        ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h)
+        ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h
+        ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h
+        ../../include/paxcore/rendering/factory/TextureFactory.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

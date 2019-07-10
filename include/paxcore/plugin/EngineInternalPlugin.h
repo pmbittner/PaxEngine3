@@ -7,11 +7,18 @@
 
 #include <paxcore/plugin/EnginePlugin.h>
 #include <paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h>
+#include <paxcore/rendering/loader/NullTextureLoader.h>
+#include <paxcore/rendering/loader/SpriteSheetLoader.h>
+#include <paxutil/json/JsonLoader.h>
 
 namespace PAX {
     class EngineInternalPlugin : public PAX::EnginePlugin {
         DefaultSceneGraphGeneratorFactory defaultSceneGraphGeneratorFactory;
-        
+
+        NullTextureLoader nullTextureLoader;
+        SpriteSheetLoader spriteSheetLoader;
+        Json::JsonLoader jsonLoader;
+
     public:
         void initialize(PAX::Engine& engine) override;
         void postInitialize(PAX::Engine& engine) override;

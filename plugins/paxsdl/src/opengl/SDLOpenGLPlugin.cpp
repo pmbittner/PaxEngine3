@@ -38,25 +38,6 @@ namespace PAX {
 
             void SDLOpenGLPlugin::registerResourceLoaders(PAX::Resources &resources) {
                 std::string loaderName;
-
-#ifdef PAX_WITH_FREEIMAGE
-                #define PAX_IMAGE_LOADER_FOUND
-                    loaderName = "FreeImageOpenGLTextureLoader";
-                    Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::FreeImageOpenGLTextureLoader());
-#endif
-
-#ifdef PAX_WITH_SDLIMAGE
-#define PAX_IMAGE_LOADER_FOUND
-                loaderName = "SDLImageOpenGLTextureLoader";
-                Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::SDLImageOpenGLTextureLoader());
-#endif
-
-#ifndef PAX_IMAGE_LOADER_FOUND
-                Log::out.warn() << "    SDLOpenGLEnginePlugin: No real image loader in use (default is used)!" << std::endl;
-                    Services::GetResources().registerLoader<Texture>(new PAX::OpenGL::NullOpenGLTextureLoader());
-#endif
-
-                Log::out.info() << "[SDLOpenGLPlugin::registerResourceLoaders]: Register TextureLoader (" << loaderName << ")" << std::endl;
             }
 
             void SDLOpenGLPlugin::registerFactories(PAX::FactoryService &factoryService) {
@@ -64,9 +45,8 @@ namespace PAX {
             }
 
             void SDLOpenGLPlugin::checkDependencies(const std::vector<PAX::EnginePlugin *> &plugins) const {
-                static EnginePluginTypedDependencies<
-                        PAX::SDL::SDLPlugin,
-                        PAX::OpenGL::OpenGLEnginePlugin> dependencies("PAX::SDL::OpenGL::SDLOpenGLPlugin");
+                static EnginePluginTypedDependencies<PAX::SDL::SDLPlugin, PAX::OpenGL::OpenGLEnginePlugin>
+                        dependencies("PAX::SDL::OpenGL::SDLOpenGLPlugin");
                 dependencies.checkDependencies(plugins);
             }
         }

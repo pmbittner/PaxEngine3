@@ -30,15 +30,16 @@ set(PAX_SDL_SOURCE_FILES
 
         src/opengl/SDLOpenGLWindow.cpp
         src/opengl/SDLOpenGLRenderPass.cpp
-        src/opengl/SDLImageOpenGLTextureLoader.cpp src/opengl/SDLOpenGLPlugin.cpp)
+        src/SDLImageTextureLoader.cpp
+        src/opengl/SDLOpenGLPlugin.cpp)
 
 include_directories(../paxopengl/include/)
 include_directories(include)
 
 set(HEADERS_FOR_CLION
         include/paxsdl/opengl/SDLOpenGLPlugin.h
-        include/paxsdl/opengl/SDLImageOpenGLTextureLoader.h
         include/paxsdl/opengl/SDLOpenGLWindow.h
+        include/paxsdl/SDLImageTextureLoader.h
         include/paxsdl/SDLInputSystem.h
         include/paxsdl/SDLWindow.h
         include/paxsdl/SDLRenderPass.h

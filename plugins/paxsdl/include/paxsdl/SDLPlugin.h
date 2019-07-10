@@ -13,6 +13,9 @@
 #include <paxcore/io/InputSystemFactory.h>
 #include <paxutil/log/Log.h>
 #include "SDLInputSystem.h"
+#include "SDLImageTextureLoader.h"
+
+#include <paxcore/rendering/loader/NullTextureLoader.h>
 
 namespace PAX {
     namespace SDL {
@@ -22,6 +25,10 @@ namespace PAX {
                     return std::make_shared<SDLInputSystem>();
                 }
             } inputSystemFactory;
+
+#ifdef PAX_WITH_SDLIMAGE
+            SDLImageTextureLoader imageLoader;
+#endif
 
         public:
             void initialize(Engine& engine) override {
@@ -40,6 +47,12 @@ namespace PAX {
 
             void registerFactories(FactoryService& factoryService) override {
                 factoryService.set(paxtypeid(InputSystemFactory), &inputSystemFactory);
+            }
+
+            void registerResourceLoaders(Resources& resources) override {
+#ifdef PAX_WITH_SDLIMAGE
+                Services::GetResources().registerLoader<Texture>(&imageLoader);
+#endif
             }
         };
     }

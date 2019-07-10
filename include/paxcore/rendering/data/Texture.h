@@ -14,11 +14,20 @@ namespace PAX {
             Repeat, MirrorRepeat, ClampToEdge, ClampToBorder
         };
 
+        enum class FilterMode {
+            Nearest, Linear
+        };
+
+        enum class PixelFormat {
+            RGB, RGBA, BGR
+        };
+
     protected:
-        int _width = 0;
-        int _height = 0;
-        WrapMode _wrapHorizontal = WrapMode::ClampToEdge;
-        WrapMode _wrapVertical   = WrapMode::ClampToEdge;
+        int width = 0;
+        int height = 0;
+        WrapMode wrapHorizontal = WrapMode::ClampToEdge;
+        WrapMode wrapVertical   = WrapMode::ClampToEdge;
+        FilterMode filterMode   = FilterMode::Linear;
 
     public:
         virtual ~Texture();
@@ -30,7 +39,12 @@ namespace PAX {
         WrapMode getWrapModeHorizontal();
         WrapMode getWrapModeVertical();
 
+        FilterMode getFilterMode();
+
         virtual void setWrapMode(WrapMode horizontal, WrapMode vertical);
+        virtual void setFilterMode(FilterMode mode);
+
+        virtual void setPixels(void * data, PixelFormat dataPixelFormat);
 
         virtual void bind() = 0;
         virtual void unbind() = 0;

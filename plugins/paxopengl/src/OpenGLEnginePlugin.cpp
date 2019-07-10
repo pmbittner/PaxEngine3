@@ -24,6 +24,7 @@ namespace PAX {
             factoryService.set(paxtypeid(MeshFactory), &meshFactory);
             factoryService.set(paxtypeid(ViewportFactory), &viewportFactory);
             factoryService.set(paxtypeid(WorldLayerSceneGraphFactory), &worldLayerSceneGraphFactory);
+            factoryService.set(paxtypeid(TextureFactory), &textureFactory);
         }
     }
 }

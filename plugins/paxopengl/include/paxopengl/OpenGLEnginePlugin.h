@@ -11,6 +11,7 @@
 #include <paxcore/world/scenegraph/WorldLayerSceneGraph.h>
 #include <paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h>
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
+#include <paxopengl/factory/OpenGLTextureFactory.h>
 
 #include "factory/OpenGLMeshFactory.h"
 #include "factory/OpenGLViewportFactory.h"
@@ -27,6 +28,7 @@ namespace PAX {
             OpenGLShaderLoader shaderLoader;
             OpenGLMeshFactory meshFactory;
             OpenGLViewportFactory viewportFactory;
+            OpenGLTextureFactory textureFactory;
 
         public:
             void initialize(Engine& engine) override;

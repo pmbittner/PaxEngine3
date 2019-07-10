@@ -3,10 +3,8 @@
 //
 
 #include <paxcore/plugin/EngineInternalPlugin.h>
-#include <paxcore/rendering/loader/SpriteSheetLoader.h>
 
 #include <paxutil/resources/Resources.h>
-#include <paxutil/json/JsonLoader.h>
 #include <paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h>
 #include <paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h>
 
@@ -48,6 +46,12 @@ namespace PAX {
 
         Prefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().toString();
         Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
+
+        /// If no texture loaders have been registered, register the null texture loader.
+        // FIXME: Is there mayme a better place for this?
+        if (Services::GetResources().getLoaders<Texture>().empty()) {
+            Services::GetResources().registerLoader(&nullTextureLoader);
+        }
     }
 
     void EngineInternalPlugin::registerFactories(PAX::FactoryService &factoryService) {
@@ -55,13 +59,11 @@ namespace PAX {
     }
 
     void EngineInternalPlugin::registerResourceLoaders(PAX::Resources &resources) {
-        static SpriteSheetLoader spriteSheetLoader;
         resources.registerLoader(&spriteSheetLoader);
-        
-        static Json::JsonLoader jsonLoader;
         resources.registerLoader(&jsonLoader);
-        
-        static Json::JsonPropertyContainerPrefabLoader<Entity> entityFromJsonLoader(resources);
+
+        // FIXME:? Can we make these independent from the resources object?
+        static Json::JsonPropertyContainerPrefabLoader<Entity>     entityFromJsonLoader(resources);
         static Json::JsonPropertyContainerPrefabLoader<WorldLayer> worldLayerFromJsonLoader(resources);
         resources.registerLoader(&entityFromJsonLoader);
         resources.registerLoader(&worldLayerFromJsonLoader);

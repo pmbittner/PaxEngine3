@@ -13,7 +13,7 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLTexture2D : public Texture {
-            GLuint _id;
+            GLuint id;
 
             // We count the number of active textures here.
             // This is some sort of hacky, but we expect only one OpenGLContext to occur.
@@ -26,6 +26,9 @@ namespace PAX {
             GLuint getID();
 
             void setWrapMode(WrapMode horizontal, WrapMode vertical) override;
+            void setFilterMode(FilterMode mode) override;
+
+            void setPixels(void * data, PixelFormat dataPixelFormat) override;
 
             void bind() override;
             void unbind() override;
