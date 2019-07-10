@@ -25,6 +25,6 @@ add_library(paxrendering
         scenegraph/nodes/TransformationNode.cpp
         scenegraph/generators/SortByZSceneGraphGenerator.cpp
         graphics/SpriteGraphics.cpp
-        graphics/SpriteSheetGraphics.cpp graphics/nodes/SpriteSheetNode.cpp data/Material.cpp graphics/AssetGraphics.cpp data/Asset.cpp data/Mesh.cpp light/Light.cpp light/DirectionalLight.cpp light/SpotLight.cpp light/AmbientLight.cpp light/PointLight.cpp data/SpriteSheet.cpp loader/SpriteSheetLoader.cpp graphics/SceneGraphGraphics.cpp interface/Renderable.cpp renderpass/RenderPassChannel.cpp renderpass/RenderPass.cpp)
+        graphics/SpriteSheetGraphics.cpp graphics/nodes/SpriteSheetNode.cpp data/Material.cpp graphics/AssetGraphics.cpp data/Asset.cpp data/Mesh.cpp light/Light.cpp light/DirectionalLight.cpp light/SpotLight.cpp light/AmbientLight.cpp light/PointLight.cpp data/SpriteSheet.cpp loader/SpriteSheetLoader.cpp graphics/SceneGraphGraphics.cpp interface/Renderable.cpp renderpass/RenderPassChannel.cpp renderpass/RenderPass.cpp scenegraph/generators/DefaultSceneGraphGeneratorFactory.cpp)
 
 target_link_libraries(paxrendering paxcore)

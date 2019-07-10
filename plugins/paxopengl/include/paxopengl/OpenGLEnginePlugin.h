@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_OPENGLENGINEPLUGIN_H
 #define PAXENGINE3_OPENGLENGINEPLUGIN_H
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/world/WorldLayer.h>
 #include <paxcore/world/scenegraph/WorldLayerSceneGraph.h>
@@ -24,18 +24,14 @@ namespace PAX {
                 std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
             } worldLayerSceneGraphFactory;
 
-            class OpenGLDefaultSceneGraphGeneratorFactory : public SceneGraphGeneratorFactory {
-                std::shared_ptr<SceneGraphGenerator> create(int dimensions) override;
-            } defaultSceneGraphGeneratorFactory;
-
             OpenGLShaderLoader shaderLoader;
             OpenGLMeshFactory meshFactory;
             OpenGLViewportFactory viewportFactory;
 
         public:
-            virtual void initialize(Engine& engine) override;
-            virtual void registerResourceLoaders(Resources& resources) override;
-            virtual void registerFactories(FactoryService& factoryService) override;
+            void initialize(Engine& engine) override;
+            void registerResourceLoaders(Resources& resources) override;
+            void registerFactories(FactoryService& factoryService) override;
         };
     }
 }

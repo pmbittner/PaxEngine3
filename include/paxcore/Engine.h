@@ -24,8 +24,8 @@ namespace PAX {
         double _targetFPS = 60;
         double _targetUPS = 100;
 
-        double _actualFPS;
-        double _actualUPS;
+        double _actualFPS = 0;
+        double _actualUPS = 0;
 
         // ARCHITECTURAL VARS ////////////////////////////////////////////////////////
         Services _services;

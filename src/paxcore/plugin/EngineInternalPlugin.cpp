@@ -2,7 +2,7 @@
 // Created by Paul on 13.08.2018.
 //
 
-#include <paxcore/generated/EngineInternalPlugin.h>
+#include <paxcore/plugin/EngineInternalPlugin.h>
 #include <paxcore/rendering/loader/SpriteSheetLoader.h>
 
 #include <paxutil/resources/Resources.h>
@@ -50,7 +50,9 @@ namespace PAX {
         Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().toString();
     }
 
-    void EngineInternalPlugin::registerFactories(PAX::FactoryService &factoryService) {}
+    void EngineInternalPlugin::registerFactories(PAX::FactoryService &factoryService) {
+        factoryService.set(paxtypeid(SceneGraphGeneratorFactory), &defaultSceneGraphGeneratorFactory);
+    }
 
     void EngineInternalPlugin::registerResourceLoaders(PAX::Resources &resources) {
         static SpriteSheetLoader spriteSheetLoader;

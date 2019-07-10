@@ -2,7 +2,7 @@
 // Created by Paul on 30.08.2018.
 //
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 
 namespace PAX {
     EnginePlugin::EnginePlugin() = default;

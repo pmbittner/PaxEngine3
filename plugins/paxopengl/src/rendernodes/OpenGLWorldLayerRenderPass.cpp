@@ -17,7 +17,7 @@ namespace PAX {
             // Clear Depth buffer for each WorldLayer to not let them interfere. Each one should be unconditionally rendered on top of the previous.
             glClear(GL_DEPTH_BUFFER_BIT);
 
-            bool is2D = this->getWorldLayer()->getDimensions() == 2;
+            const bool is2D = this->getWorldLayer()->getDimensions() == 2;
             if (is2D)
                 glDisable(GL_DEPTH_TEST);
 

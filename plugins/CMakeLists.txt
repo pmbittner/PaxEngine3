@@ -4,6 +4,9 @@ include_directories(paxsdl/include/paxsdl)
 add_subdirectory(paxopengl)
 include_directories(paxopengl/include/paxopengl)
 
+add_subdirectory(paxvulkan)
+include_directories(paxvulkan/include/frgvulkan)
+
 add_subdirectory(paxphysics)
 include_directories(paxphysics/include/paxphysics)
 

@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PAXTEMPLATEPLUGIN_PLUGIN_H
 #define PAXENGINE3_PAXTEMPLATEPLUGIN_PLUGIN_H
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 #include "AssimpResourceLoader.h"
 
 namespace PAX {

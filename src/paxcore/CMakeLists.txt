@@ -78,7 +78,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/property/Size.h
         ../../include/paxcore/entity/event/SizeChangedEvent.h
         ../../include/paxcore/entity/event/ScaleChangedEvent.h
-        ../../include/paxcore/EnginePlugin.h
+        ../../include/paxcore/plugin/EnginePlugin.h
         ../../include/paxcore/service/FactoryService.h
         ../../include/paxcore/rendering/data/Asset.h
         ../../include/paxcore/rendering/graphics/AssetGraphics.h
@@ -110,7 +110,8 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/renderpass/RenderPassFactory.h
         ../../include/paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h
         ../../include/paxcore/world/property/WorldLayerSize.h
-        ../../include/paxcore/entity/EntityIDService.h ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h)
+        ../../include/paxcore/entity/EntityIDService.h
+        ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -136,8 +137,8 @@ set(CORE_SOURCE_FILES
 
         time/Time.cpp
 
-        generated/EngineInternalPlugin.cpp
-        EnginePlugin.cpp
+        plugin/EngineInternalPlugin.cpp
+        plugin/EnginePlugin.cpp
         system/entity/LightSystem.cpp
         service/WindowService.cpp
         system/WorldSystem.cpp

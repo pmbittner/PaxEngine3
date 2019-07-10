@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PAXTILESPLUGIN_PLUGIN_H
 #define PAXENGINE3_PAXTILESPLUGIN_PLUGIN_H
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 #include "tiled/TileMapJsonLoader.h"
 #include "tiled/TileSetJsonLoader.h"
 

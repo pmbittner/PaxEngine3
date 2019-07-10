@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PAXPHYSICSPLUGIN_PLUGIN_H
 #define PAXENGINE3_PAXPHYSICSPLUGIN_PLUGIN_H
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 
 namespace PAX {
     namespace Physics {

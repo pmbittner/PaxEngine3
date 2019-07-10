@@ -7,8 +7,8 @@
 
 #include <paxcore/Engine.h>
 #include <paxcore/Game.h>
-#include <paxcore/EnginePlugin.h>
-#include <paxcore/generated/EngineInternalPlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
+#include <paxcore/plugin/EngineInternalPlugin.h>
 
 #include <paxutil/Sleep.h>
 #include <paxcore/time/Time.h>

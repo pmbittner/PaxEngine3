@@ -11,7 +11,7 @@ namespace PAX {
     namespace OpenGL{
         class OpenGLWorldLayerRenderPass : public WorldLayerSceneGraph {
         public:
-            OpenGLWorldLayerRenderPass(float z);
+            explicit OpenGLWorldLayerRenderPass(float z);
             virtual void render(RenderOptions &renderOptions) override;
         };
     }

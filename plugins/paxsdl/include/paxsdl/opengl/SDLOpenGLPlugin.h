@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_SDLOPENGLENGINEPLUGIN_H
 #define PAXENGINE3_SDLOPENGLENGINEPLUGIN_H
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 #include <paxcore/io/Window.h>
 #include <paxcore/service/FactoryService.h>
 #include <paxcore/io/WindowFactory.h>

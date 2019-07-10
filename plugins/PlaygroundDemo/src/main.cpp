@@ -26,9 +26,9 @@ int PAX::PlaygroundDemo_main(int argc, char *argv[]) {
 
     PAX::PlaygroundDemo::Demo game;
 
-    PAX::SDL::SDLPlugin               sdl;
+    PAX::SDL::SDLPlugin                     sdl;
     PAX::OpenGL::OpenGLEnginePlugin         openGL;
-    PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
+    PAX::SDL::OpenGL::SDLOpenGLPlugin       sdlOpenGLLink;
     PAX::AssetImport::Plugin                modelLoader;
     PAX::PlaygroundDemo::Plugin             demoPlugin;
 

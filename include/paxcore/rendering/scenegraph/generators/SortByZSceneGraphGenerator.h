@@ -7,7 +7,6 @@
 
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h>
 #include <paxcore/rendering/scenegraph/nodes/SortingNode.h>
-#include "GroupByShadersSceneGraphGenerator.h"
 
 namespace PAX {
     /**

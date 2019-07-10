@@ -7,7 +7,7 @@
 
 #include <SDL2/SDL.h>
 //#include <SDL_ttf.h>
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 #include <paxcore/service/Paths.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/InputSystemFactory.h>
