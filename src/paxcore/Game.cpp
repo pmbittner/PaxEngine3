@@ -27,10 +27,6 @@ namespace PAX {
         SystemManager::terminate();
     }
 
-    void Game::update() {
-        SystemManager::update();
-    }
-
     bool Game::isRegistered(World *world) {
         return Util::vectorContains(_worlds, world);
     }

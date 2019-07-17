@@ -52,8 +52,7 @@ namespace PAX::Tiles {
         return walkDown;
     }
 
-    void CharacterSpriteAnimation::update() {
-        Behaviour::update();
+    void CharacterSpriteAnimation::update(UpdateOptions & options) {
         Animation<glm::ivec2> & anim = getAnimationFromOrientation();
 
         if (currentAnimation != &anim) {

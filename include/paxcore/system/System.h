@@ -5,12 +5,14 @@
 #ifndef PAXENGINE3_PROPERTYCONTAINERSYSTEM_H
 #define PAXENGINE3_PROPERTYCONTAINERSYSTEM_H
 
+#include <paxcore/function/Updateable.h>
+
 namespace PAX {
     template<typename Derived>
     class SystemManager;
 
     template<typename ManagerType>
-    class System {
+    class System : public Updateable {
         friend class SystemManager<ManagerType>;
         ManagerType * manager = nullptr;
 
@@ -20,11 +22,10 @@ namespace PAX {
 
     public:
         System() = default;
-        virtual ~System() = default;
+        ~System() override = default;
 
         virtual void initialize(ManagerType*) {}
         virtual void terminate(ManagerType*) {}
-        virtual void update() {}
 
         ManagerType * getManager() {
             return manager;

@@ -36,9 +36,9 @@ namespace PAX {
             KeyReleasedEvent _keyReleased;
 
         public:
-            virtual void initialize() override;
-            virtual void terminate() override;
-            virtual void update() override;
+            void initialize() override;
+            void terminate() override;
+            void update(UpdateOptions & options) override;
 
             virtual SDLKeyboard *getKeyboard() override;
             virtual Mouse *getMouse() override;

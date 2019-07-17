@@ -3,7 +3,6 @@
 //
 
 #include "paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h"
-#include <paxcore/time/Time.h>
 #include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
@@ -29,7 +28,7 @@ namespace PAX {
 
     FollowEntityBehaviour::FollowEntityBehaviour(EntityID targetID) : targetID(targetID) {}
 
-    void FollowEntityBehaviour::update() {
+    void FollowEntityBehaviour::update(UpdateOptions & options) {
         if (Entity * owner = getOwner()) {
             Entity * target = nullptr;
 
@@ -40,7 +39,7 @@ namespace PAX {
             if (target) {
                 Transformation &me = getOwner()->getTransformation();
                 Transformation &he = target->getTransformation();
-                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * Time::DeltaF;
+                me.position2D() = me.position2D() + (he.position2D() - me.position2D()) * speed * options.dt;
 
                 if (respectWorldSize) {
                     // This implementation assumes, that the world is centered, i.e., there is no offset

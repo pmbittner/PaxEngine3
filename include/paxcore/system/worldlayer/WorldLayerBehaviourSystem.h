@@ -11,7 +11,7 @@
 namespace PAX {
     class WorldLayerBehaviourSystem : public WorldLayerPropertySystem<WorldLayerBehaviour> {
     public:
-        void update() override;
+        void update(UpdateOptions & options) override;
     };
 }
 

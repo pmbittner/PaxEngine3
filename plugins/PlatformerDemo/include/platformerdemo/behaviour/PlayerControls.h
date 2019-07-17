@@ -11,13 +11,12 @@
 #include <paxcore/service/Services.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
-#include <paxcore/time/Time.h>
 #include "paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h"
 
 namespace PAX {
-    class PlayerControls : public Behaviour {
+    class PlayerControls : public EntityProperty {
         PAX_PROPERTY(PlayerControls, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(PAX::Behaviour)
+        PAX_PROPERTY_DERIVES(PAX::EntityProperty)
         PAX_PROPERTY_IS_SINGLE
         PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour2D)
 
@@ -27,7 +26,7 @@ namespace PAX {
             Right =  1
         };
 
-        VelocityBehaviour2D* velocityBehaviour = nullptr;
+        VelocityBehaviour2D * velocityBehaviour = nullptr;
         float speed = 20;
 
         void onKeyPressed(KeyPressedEvent& e) {
@@ -43,6 +42,8 @@ namespace PAX {
                     velocityBehaviour->velocity.x += Right * speed;
                     break;
                 }
+
+                default: break;
             }
         }
 
@@ -57,6 +58,8 @@ namespace PAX {
                     velocityBehaviour->velocity.x -= Right * speed;
                     break;
                 }
+
+                default: break;
             }
         }
 
@@ -64,8 +67,8 @@ namespace PAX {
         PlayerControls() = default;
         ~PlayerControls() override = default;
 
-        virtual void attached(Entity &entity) override {
-            Behaviour::attached(entity);
+        void attached(Entity &entity) override {
+            Super::attached(entity);
             EventService& e = Services::GetEventService();
             e.add<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
             e.add<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);
@@ -73,8 +76,8 @@ namespace PAX {
             velocityBehaviour = entity.get<VelocityBehaviour2D>();
         }
 
-        virtual void detached(Entity &entity) override {
-            Behaviour::detached(entity);
+        void detached(Entity &entity) override {
+            Super::detached(entity);
             EventService& e = Services::GetEventService();
             e.remove<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
             e.remove<KeyReleasedEvent, PlayerControls, &PlayerControls::onKeyReleased>(this);

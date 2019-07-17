@@ -40,8 +40,8 @@ namespace PAX {
         _windowService.terminate();
     }
 
-    void Services::update() {
-        _inputSystem->update();
+    void Services::update(UpdateOptions & options) {
+        _inputSystem->update(options);
     }
 
     void Services::registerService(const TypeHandle & type, void *service) {

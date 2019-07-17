@@ -66,7 +66,7 @@ namespace PAX {
                 return it->second.getContainers();
             }
 
-            PAX_THROW_RUNTIME_ERROR("[EntityPropertySystem::getEntities] Could not obtain Entities for WorldLayer " << worldLayer)
+            PAX_THROW_RUNTIME_ERROR("Could not obtain Entities for WorldLayer " << worldLayer)
         }
     };
 

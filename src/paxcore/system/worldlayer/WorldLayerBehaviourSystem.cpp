@@ -5,10 +5,10 @@
 #include <paxcore/system/worldlayer/WorldLayerBehaviourSystem.h>
 
 namespace PAX {
-    void WorldLayerBehaviourSystem::update() {
+    void WorldLayerBehaviourSystem::update(UpdateOptions & options) {
         for (WorldLayer * w : getWorldLayers()) {
             for (WorldLayerBehaviour * b : w->get<WorldLayerBehaviour>()) {
-                b->update();
+                b->update(options);
             }
         }
     }

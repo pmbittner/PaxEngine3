@@ -49,7 +49,7 @@ namespace PAX {
             idleAnimation.start();
         }
 
-        void update() override {
+        void update(UpdateOptions & options) override {
             int oldMoving = moving;
             moving = Math::sign(v->velocity.x);
             if (oldMoving != moving) {

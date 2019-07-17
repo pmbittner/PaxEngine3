@@ -24,7 +24,7 @@ namespace PAX {
 
         }
 
-        void SDLInputSystem::update() {
+        void SDLInputSystem::update(UpdateOptions & options) {
             _keyboard.setKeyStates(SDL_GetKeyboardState(nullptr));
 
             while (SDL_PollEvent(&_currentEvent)) {

@@ -26,7 +26,7 @@ namespace PAX {
 
         void initialize(Game *game) override;
         void terminate(Game *game) override;
-        void update() override;
+        void update(UpdateOptions & options) override;
 
         void onRendererTransformationChanged(RenderOptions& renderOptions);
     };

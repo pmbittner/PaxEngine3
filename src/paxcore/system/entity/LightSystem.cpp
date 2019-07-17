@@ -20,7 +20,8 @@ namespace PAX {
         Engine::Instance().getRenderer().OnTransformationChanged.remove<LightSystem, &LightSystem::onRendererTransformationChanged>(this);
     }
 
-    void LightSystem::update() {
+    void LightSystem::update(UpdateOptions & options) {
+        EntityPropertySystem<Light>::update(options);
     }
 
     static void sortLights(const glm::vec3 &pos, std::vector<Light*> &lights) {

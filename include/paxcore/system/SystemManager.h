@@ -10,12 +10,13 @@
 #include <set>
 #include <memory>
 #include <paxutil/event/EventService.h>
+#include <paxcore/function/Updateable.h>
 
 #include "System.h"
 
 namespace PAX {
     template<typename Derived>
-    class SystemManager {
+    class SystemManager : public Updateable {
         std::set<std::unique_ptr<System<Derived>>> systems;
         bool initialized = false;
 
@@ -23,7 +24,7 @@ namespace PAX {
 
     public:
         SystemManager() = default;
-        virtual ~SystemManager() = default;
+        ~SystemManager() override = default;
 
         virtual void initialize() {
             assert(!initialized);
@@ -56,9 +57,9 @@ namespace PAX {
             systems.insert(std::move(system));
         }
 
-        void update() {
+        void update(UpdateOptions & options) override {
             for (auto & system : systems) {
-                system->update();
+                system->update(options);
             }
         }
 

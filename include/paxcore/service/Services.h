@@ -12,6 +12,7 @@
 #include <paxcore/io/InputSystem.h>
 #include <paxutil/memory/AllocationService.h>
 #include <paxutil/io/Settings.h>
+#include <paxcore/function/Updateable.h>
 
 #include "Paths.h"
 #include "FactoryService.h"
@@ -20,7 +21,7 @@
 namespace PAX {
     class Engine;
 
-    class Services {
+    class Services : private Updateable {
         friend class Engine;
 
         static Services* _instance;
@@ -40,7 +41,7 @@ namespace PAX {
 
     protected:
         Services();
-        ~Services();
+        ~Services() override;
 
         void initialize();
         void terminate();
@@ -68,7 +69,7 @@ namespace PAX {
         static Settings& GetGlobalSettings();
         static WindowService & GetWindowService();
 
-        void update();
+        void update(UpdateOptions & options) override;
     };
 }
 

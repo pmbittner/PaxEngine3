@@ -19,9 +19,9 @@ namespace PAX {
         float _speed = 0, _maxAngle = 0, _maxElongation = 0;
 
     public:
-        Dance2D(float speed = 0.03f, float maxAngle = M_PI/4, float maxElongation = -50) : _speed(speed), _maxAngle(maxAngle), _maxElongation(maxElongation) {}
+        explicit Dance2D(float speed = 0.03f, float maxAngle = M_PI/4, float maxElongation = -50) : _speed(speed), _maxAngle(maxAngle), _maxElongation(maxElongation) {}
 
-        virtual void update() override {
+        void update(UpdateOptions & options) override {
             float anim = std::sin(_t);
             float position = anim * _maxElongation;
             float rotation = anim * _maxAngle;

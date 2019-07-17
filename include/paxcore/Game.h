@@ -6,18 +6,16 @@
 #define PAXENGINE3_GAME_H
 
 #include <vector>
-#include <paxutil/property/system/SystemManager.h>
+#include "system/SystemManager.h"
 
 #include "world/World.h"
 #include "world/event/ActiveWorldChangedEvent.h"
 #include "world/event/WorldEvent.h"
 
-#include "system/EngineSystem.h"
-
 namespace PAX {
     class BehaviourSystem;
 
-    class Game : private EngineSystem, public SystemManager<Game>
+    class Game : public SystemManager<Game>
     {
     private:
         std::vector<World*> _worlds;
@@ -33,7 +31,6 @@ namespace PAX {
 
         void initialize() override;
         void terminate() override;
-        void update() override;
 
         bool isRegistered(World *world);
         void registerWorld(World *world);

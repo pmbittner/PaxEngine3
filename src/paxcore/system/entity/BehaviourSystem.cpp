@@ -6,11 +6,11 @@
 #include <paxcore/Engine.h>
 
 namespace PAX {
-    void BehaviourSystem::update() {
+    void BehaviourSystem::update(UpdateOptions & options) {
         for (WorldLayer * worldLayer : getWorldLayers()) {
             for (Entity * e : getEntities(worldLayer)) {
                 for (const auto &b : e->get<Behaviour>()) {
-                    b->update();
+                    b->update(options);
                 }
             }
         }

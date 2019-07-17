@@ -32,11 +32,11 @@ namespace PAX {
         }
 
     public:
-        void update() override {
+        void update(UpdateOptions & options) override {
             if (time() > secondsBetweenPrints) {
                 Engine &e = Engine::Instance();
                 std::cout << "[ProfileGameLoopBehaviour::update] FPS = " << e.getFPS() << std::endl
-                          << "[ProfileGameLoopBehaviour::update] UPS = " << e.getFPS() << std::endl << std::endl;
+                          << "[ProfileGameLoopBehaviour::update] UPS = " << e.getUPS() << std::endl << std::endl;
                 start();
             }
         }

@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_MAIN_H
 #define PAXENGINE3_MAIN_H
 
+#include <paxcore/function/Updateable.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/Window.h>
 #include <paxcore/rendering/Renderer.h>
@@ -13,7 +14,7 @@ namespace PAX {
     class Game;
     class EnginePlugin;
 
-    class Engine {
+    class Engine : private Updateable {
     private:
         static Engine *instance;
 
@@ -37,7 +38,7 @@ namespace PAX {
         Engine();
         ~Engine();
 
-        void update();
+        void update(UpdateOptions & options) override;
         void render();
 
         bool terminate();

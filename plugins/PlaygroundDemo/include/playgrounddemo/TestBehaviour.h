@@ -15,9 +15,9 @@ namespace PAX {
     PAX_PROPERTY_IS_SINGLE
 
     public:
-        TestBehaviour() {}
+        TestBehaviour() = default;
 
-        virtual void update() override {
+        void update(UpdateOptions & options) override {
 
         }
     };

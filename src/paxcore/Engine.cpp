@@ -11,9 +11,9 @@
 #include <paxcore/plugin/EngineInternalPlugin.h>
 
 #include <paxutil/Sleep.h>
-#include <paxcore/time/Time.h>
 #include <paxutil/io/Settings.h>
 #include <paxutil/log/Log.h>
+#include <paxcore/function/UpdateOptions.h>
 
 namespace PAX {
     Engine *Engine::instance = nullptr;
@@ -63,9 +63,6 @@ namespace PAX {
 
         _targetFPS = Services::GetGlobalSettings().get<int>("core_targetFPS");
         _targetUPS = Services::GetGlobalSettings().get<int>("core_targetUPS");
-
-        Time::DeltaD = 1.0 / _targetUPS;
-        Time::DeltaF = static_cast<float>(Time::DeltaD);
 
         Log::out.info() << "[Engine::initialize] initialize Renderer" << std::endl;
         _renderer.initialize();
@@ -143,7 +140,10 @@ namespace PAX {
             updatesPerRender = 0;
 
             while (lag >= duration<double>::zero() && updatesPerRender < MAX_UPDATES) {
-                update();
+                UpdateOptions updateOptions(
+                        static_cast<float>(1.0 / _targetUPS),
+                        static_cast<float>(dt.count()));
+                update(updateOptions);
                 nextUpdateTime += SPU_ns;
                 lag -= SPU_ns;
                 ++updatesPerRender;
@@ -205,9 +205,9 @@ namespace PAX {
     }
 
 
-    void Engine::update() {
-        _services.update();
-        _game->update();
+    void Engine::update(UpdateOptions & options) {
+        _services.update(options);
+        _game->update(options);
     }
 
     void Engine::render() {

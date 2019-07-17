@@ -6,17 +6,20 @@
 #define PAXENGINE3_INPUTSYSTEM_H
 
 #include <paxutil/lib/GlmIncludes.h>
+#include <paxcore/function/Updateable.h>
 
-#include "../system/EngineSystem.h"
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Window.h"
 
 namespace PAX {
-    class InputSystem : public EngineSystem {
+    class InputSystem : public Updateable {
     public:
         virtual Keyboard* getKeyboard() = 0;
         virtual Mouse* getMouse() = 0;
+
+        virtual void initialize() = 0;
+        virtual void terminate() = 0;
 
     protected:
         inline void setMouseScreenPosition(Mouse& mouse, int x, int y) {

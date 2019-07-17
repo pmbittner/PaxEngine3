@@ -8,7 +8,6 @@
 
 #include <paxcore/entity/EntityProperty.h>
 #include <paxcore/entity/property/Behaviour.h>
-#include <paxcore/time/Time.h>
 #include <paxutil/property/construction/PropertyContainerPrefab.h>
 
 namespace PAX {
@@ -21,7 +20,7 @@ namespace PAX {
         glm::vec2 velocity = glm::vec2(0);
         float angularVelocityInDegrees = 0;
 
-        void update() override;
+        void update(UpdateOptions & options) override;
     };
 }
 

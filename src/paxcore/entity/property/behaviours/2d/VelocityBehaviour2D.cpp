@@ -23,11 +23,11 @@ namespace PAX {
         }
     }
 
-    void VelocityBehaviour2D::update() {
+    void VelocityBehaviour2D::update(UpdateOptions & options) {
         Transformation& t = getOwner()->getTransformation();
-        t.position2D() += velocity * Time::DeltaF;
+        t.position2D() += velocity * options.dt;
         t.setRotation2DInDegrees(
-                t.getRotation2DInDegrees() + angularVelocityInDegrees * Time::DeltaF
+                t.getRotation2DInDegrees() + angularVelocityInDegrees * options.dt
         );
     }
 }

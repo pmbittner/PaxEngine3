@@ -11,7 +11,7 @@
 namespace PAX {
     class BehaviourSystem : public EntityPropertySystem<Behaviour> {
     public:
-        void update() override;
+        void update(UpdateOptions & options) override;
     };
 }
 

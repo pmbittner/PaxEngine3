@@ -6,8 +6,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/Entity.h
         ../../include/paxcore/entity/EntityProperty.h
 
-        ../../include/paxcore/system/EngineSystem.h
-
         ../../include/paxcore/io/Keyboard.h
         ../../include/paxcore/io/Mouse.h
 
@@ -36,7 +34,8 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/event/MouseButtonPressedEvent.h
         ../../include/paxcore/io/event/MouseButtonReleasedEvent.h
         ../../include/paxcore/io/event/MouseButtonEvent.h
-        ../../include/paxcore/time/Time.h
+        ../../include/paxcore/function/Updateable.h
+        ../../include/paxcore/function/UpdateOptions.h
         ../../include/paxcore/rendering/Viewport.h
         ../../include/paxcore/rendering/scenegraph/nodes/TexturingNode.h
         ../../include/paxcore/rendering/data/Mesh.h
@@ -101,9 +100,12 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h
         ../../include/paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h
         ../../include/paxcore/io/WindowFactory.h
+        ../../include/paxcore/system/SystemManager.h
         ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
         ../../include/paxcore/system/entity/EntityPropertySystem.h
         ../../include/paxcore/system/WorldSystem.h
+        ../../include/paxcore/system/System.h
+        ../../include/paxcore/system/SystemManager.h
         ../../include/paxcore/world/property/WorldLayerBehaviour.h
         ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h
         ../../include/paxcore/rendering/renderpass/RenderPassChannel.h
@@ -137,7 +139,7 @@ set(CORE_SOURCE_FILES
 
         system/entity/BehaviourSystem.cpp
 
-        time/Time.cpp
+        function/UpdateOptions.cpp
 
         plugin/EngineInternalPlugin.cpp
         plugin/EnginePlugin.cpp
@@ -148,7 +150,8 @@ set(CORE_SOURCE_FILES
         world/prefab/JsonWorldLayerPrefabInitParser.cpp
         world/property/WorldLayerSize.cpp
         world/property/WorldLayerBehaviour.cpp
-        entity/EntityIDService.cpp world/prefab/JsonWorldLayerEntityParser.cpp)
+        entity/EntityIDService.cpp
+        world/prefab/JsonWorldLayerEntityParser.cpp function/Updateable.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

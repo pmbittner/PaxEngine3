@@ -11,7 +11,6 @@
 #include <paxutil/lib/GlmIncludes.h>
 
 #include <paxutil/macros/MacroIncludes.h>
-#include <paxcore/time/Time.h>
 
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::NoClipControls, PAX_PROPERTY_IS_CONCRETE)
@@ -49,12 +48,14 @@ namespace PAX {
         glm::vec3 forwardVelocity = lookDir * -relativeMovement.z;
         glm::vec3 sidewardVelocity = glm::cross(lookDir, upDir) * relativeMovement.x;
 
-        velocity = speed * Time::DeltaF * glm::normalize(forwardVelocity + sidewardVelocity + verticalVelocity);
+        velocity = speed * glm::normalize(forwardVelocity + sidewardVelocity + verticalVelocity);
     }
 
-    void NoClipControls::update() {
-        if (glm::length2(velocity) > 0) {
-            getOwner()->getTransformation().position() += velocity;
+    void NoClipControls::update(UpdateOptions & options) {
+        auto distance = options.dt * velocity;
+
+        if (glm::length2(distance) > 0) {
+            getOwner()->getTransformation().position() += distance;
         }
     }
 

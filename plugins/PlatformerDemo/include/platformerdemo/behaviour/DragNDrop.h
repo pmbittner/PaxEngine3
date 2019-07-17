@@ -65,8 +65,8 @@ namespace PAX {
             size = nullptr;
         }
 
-        void update() override {
-            Super::update();
+        void update(UpdateOptions & options) override {
+            Super::update(options);
 
             if (dragged) {
                 getOwner()->getTransformation().position() = getMouseWorldPos(Services::GetInput().getMouse()) - relativeMousePos;

@@ -15,7 +15,7 @@ namespace PAX {
 
             }
 
-            void PhysicsSystem::update() {
+            void PhysicsSystem::update(UpdateOptions & options) {
 
             }
         }

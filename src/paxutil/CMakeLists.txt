@@ -59,8 +59,8 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h
         ../../include/paxutil/property/PropertyContainerManager.h
         ../../include/paxutil/property/PropertyContainerManagerView.h
-        ../../include/paxutil/property/system/SystemManager.h
         ../../include/paxutil/log/Log.h
+        ../../include/paxutil/property/construction/PropertyFactory.h
         #../../include/paxutil/json/JsonParser.h
         )
 
@@ -83,7 +83,9 @@ set(SOURCE_FILES
         resources/ResourceLoader.cpp
         Signature.cpp
         resources/Resources.cpp
-        log/Log.cpp property/construction/PropertyContainerPrefab.cpp json/JsonUtil.cpp event/Event.cpp)
+        log/Log.cpp
+        property/construction/PropertyContainerPrefab.cpp
+        json/JsonUtil.cpp event/Event.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

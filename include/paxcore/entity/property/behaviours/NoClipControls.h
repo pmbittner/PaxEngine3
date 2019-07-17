@@ -44,11 +44,9 @@ namespace PAX {
 
     public:
         NoClipControls();
-        ~NoClipControls();
+        ~NoClipControls() override;
 
-        virtual void update() override;
-
-        void resetOrientation(float theta = 0.0f, float phi = 0.0f);
+        void update(UpdateOptions & options) override;
     };
 }
 #endif //PAXENGINE3_NOCLIPCONTROLS_H

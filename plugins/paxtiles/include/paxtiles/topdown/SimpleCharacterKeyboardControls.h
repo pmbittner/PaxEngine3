@@ -37,6 +37,8 @@ namespace PAX::Tiles {
         void attached(Entity&) override;
         void detached(Entity&) override;
 
+        void update(UpdateOptions & options) override;
+
         void activated() override;
         void deactivated() override;
     };

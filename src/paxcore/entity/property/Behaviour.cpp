@@ -10,8 +10,4 @@ namespace PAX {
     void Behaviour::initializeFromProvider(ContentProvider & provider) {
         Super::initializeFromProvider(provider);
     }
-
-    void Behaviour::update() {
-
-    }
 }

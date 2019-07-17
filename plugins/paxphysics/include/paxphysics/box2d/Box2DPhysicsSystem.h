@@ -20,7 +20,7 @@ namespace PAX {
                 explicit PhysicsSystem(const glm::vec2 &gravity);
 
                 void initialize(Game *game) override;
-                void update() override;
+                void update(UpdateOptions & options) override;
             };
         }
     }

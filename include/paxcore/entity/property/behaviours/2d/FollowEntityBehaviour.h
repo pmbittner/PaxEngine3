@@ -22,7 +22,7 @@ namespace PAX {
     public:
         explicit FollowEntityBehaviour(EntityID targetID = EntityIDService::InvalidID);
 
-        void update() override;
+        void update(UpdateOptions & options) override;
 
         bool respectsWorldSize();
         void shouldRespectWorldSize(bool respectWorldSize);

@@ -83,4 +83,6 @@ namespace PAX::Tiles {
         e.remove<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
         e.remove<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
     }
+
+    void SimpleCharacterKeyboardControls::update(PAX::UpdateOptions &options) {}
 }
