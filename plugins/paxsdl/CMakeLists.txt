@@ -2,22 +2,27 @@
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
+    #set(SDL2_INCLUDE_DIR ${PAX_LIB_DIR}/win/lib/SDL2-2.0.7/include)
     set(SDL2_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2-2.0.7/lib/${PAX_OS_ARCHITECTURE}/SDL2.lib)
 
     if(WITH_SDL_IMAGE)
+        #set(SDL2_IMAGE_INCLUDE_DIR ${PAX_LIB_DIR}/win/lib/SDL2_image-2.0.2/include)
         set(SDL2_IMAGE_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/${PAX_OS_ARCHITECTURE}/SDL2_image.lib)
     endif()
 else()
     find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIR})
 
     if(WITH_SDL_IMAGE)
         find_package(SDL2_image REQUIRED)
-        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
     endif()
 
     #find_package(SDL2_ttf REQUIRED)
     #include_directories(${SDL2_TTF_INCLUDE_DIR})
+endif()
+
+include_directories(${SDL2_INCLUDE_DIR})
+if(WITH_SDL_IMAGE)
+    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 endif()
 
 
@@ -26,10 +31,10 @@ set(PAX_SDL_SOURCE_FILES
         src/SDLInputSystem.cpp
         src/SDLKeyboard.cpp
         src/SDLWindow.cpp
-        src/SDLRenderPass.cpp
+        src/SDLPureContext.cpp
 
         src/opengl/SDLOpenGLWindow.cpp
-        src/opengl/SDLOpenGLRenderPass.cpp
+        src/opengl/SDLOpenGLContext.cpp
         src/SDLImageTextureLoader.cpp
         src/opengl/SDLOpenGLPlugin.cpp)
 
@@ -42,7 +47,7 @@ set(HEADERS_FOR_CLION
         include/paxsdl/SDLImageTextureLoader.h
         include/paxsdl/SDLInputSystem.h
         include/paxsdl/SDLWindow.h
-        include/paxsdl/SDLRenderPass.h
+        include/paxsdl/SDLPureContext.h
         include/paxsdl/SDLKeyboard.h
         include/paxsdl/SDLInputSystem.h
 

@@ -36,7 +36,7 @@ namespace PAX {
 
         // FUNCTIONS /////////////////////////////////////////////////////////////////
         Engine();
-        ~Engine();
+        ~Engine() override;
 
         void update(UpdateOptions & options) override;
         void render();

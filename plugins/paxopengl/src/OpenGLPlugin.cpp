@@ -6,21 +6,21 @@
 #include <paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h>
 #include <paxcore/rendering/data/Shader.h>
 
-#include "paxopengl/OpenGLEnginePlugin.h"
+#include "paxopengl/OpenGLPlugin.h"
 
 namespace PAX {
     namespace OpenGL {
-        std::shared_ptr<WorldLayerSceneGraph> OpenGLEnginePlugin::OpenGLWorldLayerSceneGraphFactory::create(WorldLayer *worldLayer, float z) {
+        std::shared_ptr<WorldLayerSceneGraph> OpenGLPlugin::OpenGLWorldLayerSceneGraphFactory::create(WorldLayer *worldLayer, float z) {
             return std::make_shared<OpenGLWorldLayerRenderPass>(z);
         }
 
-        void OpenGLEnginePlugin::initialize(Engine &engine) {}
+        void OpenGLPlugin::initialize(Engine &engine) {}
 
-        void OpenGLEnginePlugin::registerResourceLoaders(Resources &resources) {
+        void OpenGLPlugin::registerResourceLoaders(Resources &resources) {
             resources.registerLoader<Shader>(static_cast<ResourceLoader<Shader, Shader::FileInfo> *>(&shaderLoader));
         }
 
-        void OpenGLEnginePlugin::registerFactories(FactoryService &factoryService) {
+        void OpenGLPlugin::registerFactories(FactoryService &factoryService) {
             factoryService.set(paxtypeid(MeshFactory), &meshFactory);
             factoryService.set(paxtypeid(ViewportFactory), &viewportFactory);
             factoryService.set(paxtypeid(WorldLayerSceneGraphFactory), &worldLayerSceneGraphFactory);

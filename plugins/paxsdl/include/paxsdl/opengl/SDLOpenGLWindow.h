@@ -15,13 +15,13 @@ namespace PAX {
                 SDL_GLContext _context;
 
             protected:
-                virtual Uint32 flags() override;
+                Uint32 flags() override;
 
             public:
                 SDLOpenGLWindow();
-                virtual ~SDLOpenGLWindow();
+                ~SDLOpenGLWindow() override;
 
-                virtual bool create(const std::string& title, int width, int height) override;
+                bool create(const std::string& title, int width, int height) override;
             };
         }
     }

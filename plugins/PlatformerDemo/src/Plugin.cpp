@@ -5,7 +5,7 @@
 #include "platformerdemo/Plugin.h"
 
 #include <paxsdl/SDLPlugin.h>
-#include <paxopengl/OpenGLEnginePlugin.h>
+#include <paxopengl/OpenGLPlugin.h>
 #include <paxsdl/opengl/SDLOpenGLPlugin.h>
 #include <paxphysics/Plugin.h>
 #include <paxtiles/Plugin.h>
@@ -24,9 +24,9 @@ namespace PAX {
             EnginePlugin::checkDependencies(plugins);
             static EnginePluginTypedDependencies<
                     PAX::SDL::SDLPlugin,
-                    PAX::OpenGL::OpenGLEnginePlugin,
+                    PAX::OpenGL::OpenGLPlugin,
                     PAX::SDL::OpenGL::SDLOpenGLPlugin,
-                    PAX::Physics::Plugin,
+                    //PAX::Physics::Plugin,
                     PAX::Tiles::Plugin> dependencies("PAX::PlatformerDemo::Plugin");
             dependencies.checkDependencies(plugins);
         }

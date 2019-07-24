@@ -7,14 +7,16 @@ find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
+    #set(GLEW_INCLUDE_DIRS ${PAX_LIB_DIR}/win/lib/glew-2.1.0/include)
     set(GLEW_LIBRARY ${PAX_LIB_DIR}/win/lib/glew-2.1.0/lib/Release/${PAX_OS_ARCHITECTURE}/glew32.lib)
 else()
     find_package(GLEW REQUIRED)
-    include_directories(${GLEW_INCLUDE_DIRS})
 endif()
 
+include_directories(${GLEW_INCLUDE_DIRS})
+
 set(PAX_OPENGL_HEADERS_FOR_CLION
-        include/paxopengl/OpenGLEnginePlugin.h
+        include/paxopengl/OpenGLPlugin.h
         include/paxopengl/factory/OpenGLMeshFactory.h
         include/paxopengl/io/OpenGLShaderLoader.h
         include/paxopengl/io/FreeImageOpenGLTextureLoader.h
@@ -39,7 +41,7 @@ set(PAX_OPENGL_SOURCE_FILES
         src/resource/OpenGLMesh.cpp
         src/resource/OpenGLShader.cpp
         src/io/OpenGLShaderLoader.cpp
-        src/OpenGLEnginePlugin.cpp
+        src/OpenGLPlugin.cpp
         src/OpenGLError.cpp
         src/rendernodes/OpenGLRenderPassChannel.cpp
         src/rendernodes/OpenGLRenderPass.cpp

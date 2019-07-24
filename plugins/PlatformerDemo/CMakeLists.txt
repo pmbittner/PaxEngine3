@@ -26,5 +26,5 @@ set(HEADERS_FOR_CLION
         include/platformerdemo/behaviour/ProfileGameLoopBehaviour.h)
 
 add_executable(PlatformerDemo ${PAX_PLATFORMERDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION} )
-target_link_libraries(PlatformerDemo paxphysics paxutil paxsdl paxopengl paxtiles paxcore)
+target_link_libraries(PlatformerDemo paxutil paxsdl paxopengl paxtiles paxcore)#paxphysics
 set_target_properties(PlatformerDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Demo)

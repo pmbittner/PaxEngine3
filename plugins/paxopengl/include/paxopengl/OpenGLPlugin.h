@@ -2,8 +2,8 @@
 // Created by paul on 19.05.18.
 //
 
-#ifndef PAXENGINE3_OPENGLENGINEPLUGIN_H
-#define PAXENGINE3_OPENGLENGINEPLUGIN_H
+#ifndef PAXENGINE3_OPENGLPLUGIN_H
+#define PAXENGINE3_OPENGLPLUGIN_H
 
 #include <paxcore/plugin/EnginePlugin.h>
 #include <paxcore/service/Services.h>
@@ -20,7 +20,7 @@
 
 namespace PAX {
     namespace OpenGL {
-        class OpenGLEnginePlugin : public EnginePlugin {
+        class OpenGLPlugin : public EnginePlugin {
             class OpenGLWorldLayerSceneGraphFactory : public WorldLayerSceneGraphFactory {
                 std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
             } worldLayerSceneGraphFactory;
@@ -38,4 +38,4 @@ namespace PAX {
     }
 }
 
-#endif //PAXENGINE3_OPENGLENGINEPLUGIN_H
+#endif //PAXENGINE3_OPENGLPLUGIN_H

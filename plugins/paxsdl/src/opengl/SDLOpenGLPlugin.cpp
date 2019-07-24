@@ -20,7 +20,7 @@ namespace PAX {
 
             void SDLOpenGLPlugin::postInitialize(PAX::Engine &engine) {
                 Log::out.info() << "[SDLOpenGLPlugin::postInitialize]" << std::endl;
-                auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLRenderPass();
+                auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLContext();
                 auto *opengl = new PAX::OpenGL::OpenGLContext();
                 sdl->addChild(opengl);
 
@@ -29,7 +29,7 @@ namespace PAX {
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
 
-                Log::out.info() << "\tinitialize SDLOpenGLRenderPass" << std::endl;
+                Log::out.info() << "\tinitialize SDLOpenGLContext" << std::endl;
                 sdl->initialize();
                 Log::out.info() << "\tinit OpenGL" << std::endl;
                 opengl->initialize();
@@ -45,7 +45,7 @@ namespace PAX {
             }
 
             void SDLOpenGLPlugin::checkDependencies(const std::vector<PAX::EnginePlugin *> &plugins) const {
-                static EnginePluginTypedDependencies<PAX::SDL::SDLPlugin, PAX::OpenGL::OpenGLEnginePlugin>
+                static EnginePluginTypedDependencies<PAX::SDL::SDLPlugin, PAX::OpenGL::OpenGLPlugin>
                         dependencies("PAX::SDL::OpenGL::SDLOpenGLPlugin");
                 dependencies.checkDependencies(plugins);
             }

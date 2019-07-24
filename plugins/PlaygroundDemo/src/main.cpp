@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 // Plugin Includes
 #include "paxsdl/SDLPlugin.h"
 #include "paxsdl/opengl/SDLOpenGLPlugin.h"
-#include "paxopengl/OpenGLEnginePlugin.h"
+#include "paxopengl/OpenGLPlugin.h"
 #include "paxassimp/Plugin.h"
 #include "playgrounddemo/Plugin.h"
 
@@ -27,7 +27,7 @@ int PAX::PlaygroundDemo_main(int argc, char *argv[]) {
     PAX::PlaygroundDemo::Demo game;
 
     PAX::SDL::SDLPlugin                     sdl;
-    PAX::OpenGL::OpenGLEnginePlugin         openGL;
+    PAX::OpenGL::OpenGLPlugin         openGL;
     PAX::SDL::OpenGL::SDLOpenGLPlugin       sdlOpenGLLink;
     PAX::AssetImport::Plugin                modelLoader;
     PAX::PlaygroundDemo::Plugin             demoPlugin;

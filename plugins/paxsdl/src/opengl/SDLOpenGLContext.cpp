@@ -5,20 +5,20 @@
 #include <SDL2/SDL_video.h>
 #include <paxcore/Engine.h>
 
-#include "paxsdl/opengl/SDLOpenGLRenderPass.h"
+#include "paxsdl/opengl/SDLOpenGLContext.h"
 #include "paxsdl/SDLWindow.h"
 
 namespace PAX {
     namespace SDL {
         namespace OpenGL {
-            SDLOpenGLRenderPass::SDLOpenGLRenderPass() {}
+            SDLOpenGLContext::SDLOpenGLContext() = default;
 
-            void SDLOpenGLRenderPass::initialize() {}
+            void SDLOpenGLContext::initialize() {}
 
-            void SDLOpenGLRenderPass::render(RenderOptions &renderOptions) {
+            void SDLOpenGLContext::render(RenderOptions &renderOptions) {
                 SceneGraph::render(renderOptions);
 
-                // Unpack the shared pointer and static cast, as its validity was alread checked in SDLRenderPass::initialize
+                // Unpack the shared pointer and static cast, as its validity was alread checked in SDLPureContext::initialize
                 SDLWindow *window = static_cast<SDLWindow *>(Services::GetWindowService().getWindow().get());
                 SDL_GL_SwapWindow(window->getSDL_Window());
             }

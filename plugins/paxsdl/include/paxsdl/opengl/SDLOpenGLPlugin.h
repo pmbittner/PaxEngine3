@@ -11,13 +11,13 @@
 #include <paxcore/io/WindowFactory.h>
 #include <paxcore/rendering/loader/NullTextureLoader.h>
 #include "SDLOpenGLWindow.h"
-#include "SDLOpenGLRenderPass.h"
+#include "SDLOpenGLContext.h"
 
 #include "paxopengl/rendernodes/OpenGLContext.h"
 
 /// Dependencies
 #include "paxsdl/SDLPlugin.h"
-#include "paxopengl/OpenGLEnginePlugin.h"
+#include "paxopengl/OpenGLPlugin.h"
 
 namespace PAX {
     namespace SDL {

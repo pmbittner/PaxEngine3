@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 // Plugin Includes
 #include "paxsdl/SDLPlugin.h"
 #include "paxsdl/opengl/SDLOpenGLPlugin.h"
-#include "paxopengl/OpenGLEnginePlugin.h"
+#include "paxopengl/OpenGLPlugin.h"
 #include "paxphysics/Plugin.h"
 #include "paxtiles/Plugin.h"
 
@@ -28,9 +28,9 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     PAX::PlatformerDemo::Demo game;
 
     PAX::SDL::SDLPlugin                     sdl;
-    PAX::OpenGL::OpenGLEnginePlugin         openGL;
+    PAX::OpenGL::OpenGLPlugin         openGL;
     PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
-    PAX::Physics::Plugin                    physics;
+    //PAX::Physics::Plugin                    physics;
     PAX::Tiles::Plugin                      tiles;
     PAX::PlatformerDemo::Plugin             demoPlugin;
 
@@ -41,7 +41,7 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
                     &sdl,
                     &openGL,
                     &sdlOpenGLLink,
-                    &physics,
+                    //&physics,
                     &tiles,
                     &demoPlugin
             }

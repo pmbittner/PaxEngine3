@@ -8,6 +8,7 @@
 #include <sstream>
 #include <vector>
 
+#include <paxutil/macros/MacroIncludes.h>
 #include <paxutil/reflection/TemplateTypeToString.h>
 #include <paxcore/service/FactoryService.h>
 
@@ -50,9 +51,7 @@ namespace PAX {
                 }
             }
 
-            std::stringstream errorMessage;
-            errorMessage << "Dependency not met: " << pluginName << " requires the Plugin " << Reflection::GetTypeName<Dependency>();
-            throw std::runtime_error(errorMessage.str());
+            PAX_THROW_RUNTIME_ERROR("Dependency not met: " << pluginName << " requires the Plugin " << Reflection::GetTypeName<Dependency>())
         }
 
     public:
