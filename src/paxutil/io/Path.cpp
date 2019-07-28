@@ -136,20 +136,38 @@ namespace PAX {
         Path::convertToUnix(_path);
     }
 
+    Path Path::convertedToCurrentPlatform() const {
+        Path copy = *this;
+        copy.convertToCurrentPlatform();
+        return copy;
+    }
+
+    Path Path::convertedToWin() const {
+        Path copy = *this;
+        copy.convertToWin();
+        return copy;
+    }
+
+    Path Path::convertedToUnix() const {
+        Path copy = *this;
+        copy.convertToUnix();
+        return copy;
+    }
+
     void Path::simplify() {
         Path::simplify(_path);
     }
 
     void Path::convertToCurrentPlatform(std::string &path) {
-        Util::String::replace(path, PathSeparator_Unix, PathSeparator);
+        String::replace(path, PathSeparator_Unix, PathSeparator);
     }
 
     void Path::convertToWin(std::string& path) {
-        Util::String::replace(path, PathSeparator_Unix, PathSeparator_Win);
+        String::replace(path, PathSeparator_Unix, PathSeparator_Win);
     }
 
     void Path::convertToUnix(std::string& path) {
-        Util::String::replace(path, PathSeparator_Win, PathSeparator_Unix);
+        String::replace(path, PathSeparator_Win, PathSeparator_Unix);
     }
 
     void Path::simplify(std::string & path) {

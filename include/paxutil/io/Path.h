@@ -45,6 +45,9 @@ namespace PAX {
         void convertToCurrentPlatform();
         void convertToWin();
         void convertToUnix();
+        Path convertedToCurrentPlatform() const;
+        Path convertedToWin() const;
+        Path convertedToUnix() const;
         void simplify();
 
         static void convertToCurrentPlatform(std::string & path);
