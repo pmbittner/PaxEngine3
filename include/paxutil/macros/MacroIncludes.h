@@ -29,4 +29,6 @@ if (value == nullptr) { \
     throw std::runtime_error(s.str()); \
 }
 
+#define PAX_NOT_IMPLEMENTED() PAX_PRINT_WARN("not implemented")
+
 #endif //PAXENGINE3_MACROINCLUDES_H
