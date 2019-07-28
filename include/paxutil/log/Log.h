@@ -47,10 +47,10 @@ namespace PAX {
     #define PAX_PRINT_WARN_DEBUG(message) PAX_PRINT_WARN(message)
     #define PAX_PRINT_ERR_DEBUG(message) PAX_PRINT_ERR(message)
 #elif defined(PAX_BUILD_TYPE_RELEASE)
-    #define PAX_PRINT_TO_DEBUG(stream, message)
-    #define PAX_PRINT_OUT_DEBUG(message)
-    #define PAX_PRINT_WARN_DEBUG(message)
-    #define PAX_PRINT_ERR_DEBUG(message)
+    #define PAX_PRINT_TO_DEBUG(stream, message) {}
+    #define PAX_PRINT_OUT_DEBUG(message) {}
+    #define PAX_PRINT_WARN_DEBUG(message) {}
+    #define PAX_PRINT_ERR_DEBUG(message) {}
 #endif
 }
 
