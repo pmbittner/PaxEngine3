@@ -4,6 +4,11 @@
     "dimensions": 2,
     "z": 0
   },
+  "Properties": {
+    "PAX::Physics::PhysicsWorld2D": {
+      "gravity": [0, -25]
+    }
+  },
   "Entities": [
     {
       "name": "Player",

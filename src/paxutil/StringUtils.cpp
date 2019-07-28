@@ -8,109 +8,107 @@
 #include <iostream>
 
 namespace PAX {
-    namespace Util {
-        namespace String {
-            void toLower(std::string & str) {
-                std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+    namespace String {
+        void toLower(std::string & str) {
+            std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+        }
+
+        void toUpper(std::string & str) {
+            std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+        }
+
+        void ltrim(std::string &s) {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+                return !std::isspace(ch);
+            }));
+        }
+
+        void rtrim(std::string &s) {
+            s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+                return !std::isspace(ch);
+            }).base(), s.end());
+        }
+
+        void trim(std::string &s) {
+            ltrim(s);
+            rtrim(s);
+        }
+
+        std::string trimmed(std::string s) {
+            trim(s);
+            return s;
+        }
+
+        bool startsWith(const std::string &s, const std::string &prefix) {
+            return s.find(prefix) == 0;
+        }
+
+        bool endsWith(const std::string &s, const std::string &suffix) {
+            return s.size() >= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
+        }
+
+        std::vector<std::string> split(const char separator, const std::string & subject, bool keepEmptySubstrings) {
+            std::vector<std::string> result;
+            std::istringstream ss(subject);
+            while (!ss.eof())
+            {
+                std::string field;
+                std::getline(ss, field, separator);
+                if (!keepEmptySubstrings && field.empty()) continue;
+                result.push_back(field);
             }
+            return result;
+        }
 
-            void toUpper(std::string & str) {
-                std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-            }
+        std::string getExtension(const std::string &path) {
+            auto dotIndex = path.find_last_of('.');
 
-            void ltrim(std::string &s) {
-                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-                    return !std::isspace(ch);
-                }));
-            }
+            if (dotIndex == std::string::npos)
+                return "";
 
-            void rtrim(std::string &s) {
-                s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
-                    return !std::isspace(ch);
-                }).base(), s.end());
-            }
+            return path.substr(dotIndex + 1);
+        }
 
-            void trim(std::string &s) {
-                ltrim(s);
-                rtrim(s);
-            }
+        void replace(std::string &string, const char &from, const char &to) {
+            std::replace(string.begin(), string.end(), from, to);
+        }
+    }
 
-            std::string trimmed(std::string s) {
-                trim(s);
-                return s;
-            }
+    bool TryParser<bool>::tryParse(const std::string & str) {
+        std::string strcopy = str;
+        String::toLower(strcopy);
 
-            bool startsWith(const std::string &s, const std::string &prefix) {
-                return s.find(prefix) == 0;
-            }
-
-            bool endsWith(const std::string &s, const std::string &suffix) {
-                return s.size() >= suffix.size() && s.compare(s.size() - suffix.size(), suffix.size(), suffix) == 0;
-            }
-
-            std::vector<std::string> split(const char separator, const std::string & subject, bool keepEmptySubstrings) {
-                std::vector<std::string> result;
-                std::istringstream ss(subject);
-                while (!ss.eof())
-                {
-                    std::string field;
-                    std::getline(ss, field, separator);
-                    if (!keepEmptySubstrings && field.empty()) continue;
-                    result.push_back(field);
-                }
-                return result;
-            }
-
-            std::string getExtension(const std::string &path) {
-                auto dotIndex = path.find_last_of('.');
-
-                if (dotIndex == std::string::npos)
-                    return "";
-
-                return path.substr(dotIndex + 1);
-            }
-
-            void replace(std::string &string, const char &from, const char &to) {
-                std::replace(string.begin(), string.end(), from, to);
-            }
-
-            bool ValueParser<bool>::tryParse(const std::string & str) {
-                std::string strcopy = str;
-                toLower(strcopy);
-
-                return
-                   strcopy == "true"
+        return
+                strcopy == "true"
                 || strcopy == "1"
                 || strcopy == "on"
                 || strcopy == "yes"
                 || strcopy == "y";
-            }
-
-            int ValueParser<int>::tryParse(const std::string &str) {
-                return std::stoi(str);
-            }
-
-            unsigned int ValueParser<unsigned int>::tryParse(const std::string &str) {
-                return static_cast<unsigned int>(std::stoul(str));
-            }
-
-            unsigned long ValueParser<unsigned long>::tryParse(const std::string &str) {
-                return std::stoul(str);
-            }
-
-            float ValueParser<float>::tryParse(const std::string &str) {
-                return std::stof(str);
-            }
-
-            double ValueParser<double>::tryParse(const std::string &str) {
-                return std::stod(str);
-            }
-
-            /*
-            template<>
-            std::string tryParse<std::string>(const std::string &str) {
-                return str;
-            }*/
-        }
     }
+
+    int TryParser<int>::tryParse(const std::string &str) {
+        return std::stoi(str);
+    }
+
+    unsigned int TryParser<unsigned int>::tryParse(const std::string &str) {
+        return static_cast<unsigned int>(std::stoul(str));
+    }
+
+    unsigned long TryParser<unsigned long>::tryParse(const std::string &str) {
+        return std::stoul(str);
+    }
+
+    float TryParser<float>::tryParse(const std::string &str) {
+        return std::stof(str);
+    }
+
+    double TryParser<double>::tryParse(const std::string &str) {
+        return std::stod(str);
+    }
+
+    /*
+    template<>
+    std::string tryParse<std::string>(const std::string &str) {
+        return str;
+    }*/
 }

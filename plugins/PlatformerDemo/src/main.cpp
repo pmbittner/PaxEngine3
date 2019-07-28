@@ -28,9 +28,9 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     PAX::PlatformerDemo::Demo game;
 
     PAX::SDL::SDLPlugin                     sdl;
-    PAX::OpenGL::OpenGLPlugin         openGL;
-    PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
-    //PAX::Physics::Plugin                    physics;
+    PAX::OpenGL::OpenGLPlugin               openGL;
+    PAX::SDL::OpenGL::SDLOpenGLPlugin       sdlOpenGLLink;
+    PAX::Physics::Plugin                    physics;
     PAX::Tiles::Plugin                      tiles;
     PAX::PlatformerDemo::Plugin             demoPlugin;
 
@@ -41,7 +41,7 @@ int PAX::PlatformerDemo_main(int argc, char *argv[]) {
                     &sdl,
                     &openGL,
                     &sdlOpenGLLink,
-                    //&physics,
+                    &physics,
                     &tiles,
                     &demoPlugin
             }

@@ -102,13 +102,13 @@ namespace PAX {
         template<typename T = std::string>
         T get(const std::string& varName) const {
             check(varName);
-            return Util::String::tryParse<T>(settings.at(varName));
+            return String::tryParse<T>(settings.at(varName));
         }
 
         template<typename T = std::string>
         T getOrDefault(const std::string& varName, const T& defaultValue = T()) const {
             if (has(varName))
-                return Util::String::tryParse<T>(settings.at(varName));
+                return String::tryParse<T>(settings.at(varName));
             else
                 return defaultValue;
         }

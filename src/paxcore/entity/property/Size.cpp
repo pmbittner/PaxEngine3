@@ -65,16 +65,12 @@ namespace PAX {
         return _size;
     }
 
-    FloatBoundingBox3D Size::toBoundingBox() {
-        float w = getWidth() / 2.f;
-        float h = getHeight() / 2.f;
-        float d = getDepth() / 2.f;
-        float from[3] = {-w, -h, -d};
-        float to[3] = {w, h, d};
-        return FloatBoundingBox3D(from, to);
+    FloatBoundingBox3D Size::toBoundingBox() const {
+        glm::vec3 halfSize = getSize() / 2.f;
+        return FloatBoundingBox3D(-halfSize, +halfSize);
     }
 
-    FloatBoundingBox3D Size::toAbsoluteBoundingBox() {
+    FloatBoundingBox3D Size::toAbsoluteBoundingBox() const {
         FloatBoundingBox3D box = toBoundingBox();
         if (Entity *owner = getOwner()) {
             for (Entity* child : owner->getChildren()) {
@@ -82,7 +78,7 @@ namespace PAX {
                     FloatBoundingBox3D childBox = s->toAbsoluteBoundingBox();
                     // add childs translation and ignore rotation
                     glm::vec3 pos = child->getTransformation().position();
-                    childBox.translate(&pos[0]);
+                    childBox.translate(pos);
                     box += childBox;
                 }
             }

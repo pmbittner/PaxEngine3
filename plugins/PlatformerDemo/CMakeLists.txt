@@ -16,6 +16,9 @@ include_directories(../paxopengl/include)
 include_directories(../paxphysics/include)
 include_directories(../paxtiles/include)
 
+#TODO: Remove this later
+include_directories(${PAX_LIB_DIR}/Box2D)
+
 set(HEADERS_FOR_CLION
         include/platformerdemo/Plugin.h
         include/platformerdemo/Demo.h
@@ -26,5 +29,5 @@ set(HEADERS_FOR_CLION
         include/platformerdemo/behaviour/ProfileGameLoopBehaviour.h)
 
 add_executable(PlatformerDemo ${PAX_PLATFORMERDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION} )
-target_link_libraries(PlatformerDemo paxutil paxsdl paxopengl paxtiles paxcore)#paxphysics
+target_link_libraries(PlatformerDemo paxutil paxphysics paxsdl paxopengl paxtiles paxcore)
 set_target_properties(PlatformerDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../bin/Demo)

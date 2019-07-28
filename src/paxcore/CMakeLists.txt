@@ -115,7 +115,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/EntityIDService.h
         ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h
         ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h
-        ../../include/paxcore/rendering/factory/TextureFactory.h)
+        ../../include/paxcore/rendering/factory/TextureFactory.h ../../include/paxcore/entity/MotionType.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

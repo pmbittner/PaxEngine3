@@ -3,21 +3,34 @@
 //
 
 #include <paxcore/Engine.h>
+#include <paxcore/Game.h>
+#include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
 
 #include "paxphysics/Plugin.h"
-#include "paxphysics/Hitbox.h"
-#include "paxphysics/RigidBody.h"
-#include "paxphysics/box2d/Box2DRigidBody.h"
-#include "paxphysics/box2d/Box2DWorld.h"
+#include "paxphysics/2d/Hitbox2D.h"
+#include "paxphysics/2d/RigidBody2D.h"
+#include "paxphysics/2d/PhysicsWorld2D.h"
+#include "paxphysics/2d/box2d/Box2DRigidBody.h"
+#include "paxphysics/2d/box2d/Box2DHitbox.h"
+#include "paxphysics/2d/box2d/Box2DWorld.h"
 
-namespace PAX {
-    namespace Physics {
-        void Plugin::registerProperties() {
-            PAX_PROPERTY_REGISTER(PAX::Physics::Hitbox)
-            PAX_PROPERTY_REGISTER(PAX::Physics::RigidBody)
+namespace PAX::Physics {
+    void Plugin::registerProperties() {
+        //PAX_PROPERTY_REGISTER(PAX::Physics::RigidBody2D)
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DRigidBody, "PAX::Physics::RigidBody2D")
 
-            PAX_PROPERTY_REGISTER(PAX::Physics::Box2D::RigidBody)
-            PAX_PROPERTY_REGISTER(PAX::Physics::Box2D::World)
-        }
+        //PAX_PROPERTY_REGISTER(PAX::Physics::Hitbox2D)
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DHitbox, "PAX::Physics::Hitbox2D")
+        
+        //PAX_PROPERTY_REGISTER(PAX::Physics::PhysicsWorld2D)
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DWorld, "PAX::Physics::PhysicsWorld2D")
+    }
+
+    void Plugin::registerSystems(PAX::Game &game) {
+        game.addSystem(std::make_unique<Box2DPhysicsSystem>());
+    }
+
+    void Plugin::registerResourceLoaders(Resources & resources) {
+        resources.registerLoader<PhysicsMaterial>(&psxmatLoader);
     }
 }

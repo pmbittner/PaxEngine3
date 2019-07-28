@@ -1,26 +1,30 @@
 set(PAXPHYSICS_SOURCE
-        src/RigidBody.cpp
+        src/2d/RigidBody2D.cpp
         src/Plugin.cpp
-        src/box2d/Box2DPhysicsSystem.cpp
-        src/box2d/Box2DRigidBody.cpp
-        src/Hitbox.cpp
-        src/box2d/Box2DWorld.cpp)
+        src/2d/box2d/Box2DPhysicsSystem.cpp
+        src/2d/box2d/Box2DRigidBody.cpp
+        src/2d/Hitbox2D.cpp
+        src/2d/box2d/Box2DWorld.cpp)
 
 include_directories(include)
 
 set(HEADERS_FOR_CLION
         include/paxphysics/Plugin.h
-        include/paxphysics/box2d/Box2DPhysicsSystem.h
-        include/paxphysics/box2d/Box2DRigidBody.h
-        include/paxphysics/RigidBody.h
-        include/paxphysics/box2d/Box2DUtils.h
-        include/paxphysics/box2d/Box2DWorld.h
-        include/paxphysics/Hitbox.h)
+        include/paxphysics/2d/box2d/Box2DPhysicsSystem.h
+        include/paxphysics/2d/box2d/Box2DRigidBody.h
+        include/paxphysics/2d/RigidBody2D.h
+        include/paxphysics/2d/box2d/Box2DUtils.h
+        include/paxphysics/2d/box2d/Box2DWorld.h
+        include/paxphysics/2d/Hitbox2D.h
+        include/paxphysics/2d/shape/Shape2D.h
+        include/paxphysics/2d/shape/Rectangle.h
+        include/paxphysics/2d/PhysicsWorld2D.h
+        include/paxphysics/2d/box2d/Box2DHitbox.h include/paxphysics/2d/material/PhysicsMaterial.h include/paxphysics/2d/Fixture2D.h include/paxphysics/2d/material/PhysicsMaterialLoader.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
-if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
-    include_directories(${PAX_LIB_DIR}/Box2D)
+set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)
 
+if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     if(${CMAKE_BUILD_TYPE} MATCHES Debug)
         message("Building paxphysics with MSVC - Debug")
         set(BOX2D_LIBRARY ${PAX_LIB_DIR}/Box2D/bin/msvc-debug/box2d.lib)
@@ -29,8 +33,6 @@ if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
         set(BOX2D_LIBRARY ${PAX_LIB_DIR}/Box2D/bin/msvc-release/box2d.lib)
     endif(${CMAKE_BUILD_TYPE} MATCHES Debug)
 else()
-    include_directories(${PAX_LIB_DIR}/Box2D)
-
     if(${CMAKE_BUILD_TYPE} MATCHES Debug)
         message("Building paxphysics - Debug")
         set(BOX_LIB_DIR ${PAX_LIB_DIR}/Box2D/bin/build-debug)
@@ -41,5 +43,7 @@ else()
     set(BOX2D_LIBRARY ${BOX_LIB_DIR}/libbox2d.a)
 endif()
 
-add_library(paxphysics ${HEADERS_FOR_CLION} ${PAXPHYSICS_SOURCE})
+include_directories(${BOX2D_INCLUDE_DIRS})
+
+add_library(paxphysics ${HEADERS_FOR_CLION} ${PAXPHYSICS_SOURCE} src/2d/box2d/Box2DUtils.cpp src/2d/shape/Shape2D.cpp src/2d/shape/Rectangle.cpp src/2d/PhysicsWorld2D.cpp src/2d/box2d/Box2DHitbox.cpp src/2d/Fixture2D.cpp src/2d/material/PhysicsMaterialLoader.cpp src/2d/material/PhysicsMaterial.cpp)
 target_link_libraries(paxphysics ${BOX2D_LIBRARY})

@@ -22,6 +22,7 @@ namespace PAX {
         class PropertyContent {
         protected:
             virtual std::string getValue(const std::string & key) = 0;
+            virtual std::vector<std::string> getValues(const std::string & key) = 0;
 
         public:
             PropertyContent() = default;
@@ -33,7 +34,20 @@ namespace PAX {
             template<typename T>
             T get(const std::string & name, const VariableRegister & variables) {
                 std::string value = VariableResolver::resolveVariables(getValue(name), variables);
-                return Util::String::tryParse<T>(value);
+                return String::tryParse<T>(value);
+            }
+
+            template<typename T>
+            std::vector<T> getList(const std::string & name, const VariableRegister & variables) {
+                std::vector<std::string> str_values = getValues(name);
+                std::vector<T> values;
+
+                for (size_t i = 0; i < str_values.size(); ++i) {
+                    values.push_back(
+                            String::tryParse<T>(VariableResolver::resolveVariables(str_values[i], variables)));
+                }
+
+                return values;
             }
         };
     }
@@ -91,6 +105,24 @@ namespace PAX {
 
             if (opt.has_value())
                 return opt.value();
+
+            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
+        }
+
+        template<typename T>
+        std::optional<std::vector<T>> getList(const std::string & name) {
+            if (content->has(name)) {
+                return content->getList<T>(name, this->variables);
+            }
+            return {};
+        }
+
+        template<typename T>
+        std::vector<T> requireList(const std::string & name) {
+            auto list = getList<T>(name);
+
+            if (list.has_value())
+                return list.value();
 
             PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
         }

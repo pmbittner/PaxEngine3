@@ -17,6 +17,8 @@
 #include "paxutil/event/EventService.h"
 #include "event/EntityParentChangedEvent.h"
 
+#include "MotionType.h"
+
 namespace PAX {
     class World;
     class WorldLayer;
@@ -29,6 +31,8 @@ namespace PAX {
 
     private:
         Transformation transform;
+        // The motionType should be actually const, but it made problems with prefabs.
+        MotionType motionType = MotionType::Static;
 
         Entity * parent = nullptr;
         std::vector<Entity*> children;
@@ -45,9 +49,13 @@ namespace PAX {
 
         Transformation& getTransformation();
         void setParent(Entity *parent);
-        Entity* getParent() const;
-        const std::vector<Entity*>& getChildren() const;
-        WorldLayer* getWorldLayer() const;
+        [[nodiscard]] Entity* getParent() const;
+        [[nodiscard]] const std::vector<Entity*>& getChildren() const;
+        [[nodiscard]] WorldLayer* getWorldLayer() const;
+
+        // TODO: This should not be changeable later. Hence, add some sort of finalisation or so.
+        void i_setMotionType(MotionType motionType);
+        [[nodiscard]] MotionType getMotionType() const;
     };
 
     using EntityManager = PropertyContainerManager<Entity>;

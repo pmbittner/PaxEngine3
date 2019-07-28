@@ -54,11 +54,11 @@ namespace PAX {
             entities[event.world].erase(event.worldLayer);
         }
 
-        const std::vector<WorldLayer*> & getWorldLayers() {
+        [[nodiscard]] const std::vector<WorldLayer*> & getWorldLayers() {
             return layers[activeWorld];
         }
 
-        const std::set<Entity*> & getEntities(WorldLayer * worldLayer) {
+        [[nodiscard]] const std::set<Entity*> & getEntities(WorldLayer * worldLayer) {
             auto & m = entities[WorldSystem::activeWorld];
             const auto & it = m.find(worldLayer);
 

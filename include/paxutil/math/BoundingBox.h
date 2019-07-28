@@ -7,45 +7,46 @@
 
 #include <iostream>
 #include <algorithm>
+
 #include "Functions.h"
+#include <paxutil/lib/GlmIncludes.h>
 
 namespace PAX {
     template<typename Type, int dimensions>
     struct BoundingBox {
-        Type from[dimensions];
-        Type to[dimensions];
+        using Vec = glm::vec<dimensions, Type, glm::defaultp>;
 
-        BoundingBox(const Type from[dimensions], const Type to[dimensions]) {
-            for (int i = 0; i < dimensions; ++i) {
-                BoundingBox::from[i] = from[i];
-                BoundingBox::to[i] = to[i];
-            }
+        Vec from;
+        Vec to;
+
+        BoundingBox(const Vec & from, const Vec & to) {
+            BoundingBox::from = from;
+            BoundingBox::to = to;
+        }
+
+        explicit BoundingBox(const Vec & length) {
+            BoundingBox::from = -length / Type(2);
+            BoundingBox::to   = +length / Type(2);
         }
 
         BoundingBox() {
             for (int i = 0; i < dimensions; ++i) {
                 from[i] = 0;
-                to[i] = 0;
+                to[i]   = 0;
             }
         }
 
-        bool contains(Type point[dimensions]) {
+        Vec getCenter() const {
+            return from + (to - from) / 2.f;
+        }
+
+        bool contains(const Vec & point) {
             // If the point lays outside in any dimension, return false.
             for (int i = 0; i < dimensions; ++i) {
                 if (point[i] < from[i] || to[i] < point[i])
                     return false;
             }
             return true;
-        }
-
-        BoundingBox<Type, dimensions> operator +(const BoundingBox<Type, dimensions> &box) {
-            Type f[dimensions];
-            Type t[dimensions];
-            for (int i = 0; i < dimensions; ++i) {
-                f[i] = (std::min)(from[i], box.from[i]);
-                t[i] = (std::max)(to[i], box.to[i]);
-            }
-            return BoundingBox<Type, dimensions>(f, t);
         }
 
         void operator +=(const BoundingBox<Type, dimensions> &box) {
@@ -55,18 +56,22 @@ namespace PAX {
             }
         }
 
-        void translate(Type point[dimensions]) {
-            for (int i = 0; i < dimensions; ++i) {
-                from[i] += point[i];
-                to[i] += point[i];
-            }
+        BoundingBox<Type, dimensions> operator +(const BoundingBox<Type, dimensions> &box) const {
+            BoundingBox<Type, dimensions> copy = *this;
+            copy += box;
+            return copy;
         }
 
-        Type getLength(int i) {
+        void translate(const Vec & point) {
+            from += point;
+            to += point;
+        }
+
+        Type getLength(int i) const {
             return to[i] - from[i];
         }
 
-        void print() {
+        void print() const {
             std::cout << "[";
             for (int i = 0; i < dimensions; ++i) {
                 std::cout << "\t[" << from[i] << ", " << to[i] << "]" << std::endl;

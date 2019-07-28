@@ -67,8 +67,14 @@ namespace PAX {
         Log::out.info() << "[Engine::initialize] initialize Renderer" << std::endl;
         _renderer.initialize();
 
+        Log::out.info() << "[Engine::initialize] Plugins: registering Properties" << std::endl;
         for (EnginePlugin * plugin : _plugins) {
             plugin->registerProperties();
+        }
+
+        Log::out.info() << "[Engine::initialize] Plugins: registering Systems" << std::endl;
+        for (EnginePlugin * plugin : _plugins) {
+            plugin->registerSystems(*_game);
         }
 
         Log::out.info() << "[Engine::initialize] Plugins: postInitialize" << std::endl;

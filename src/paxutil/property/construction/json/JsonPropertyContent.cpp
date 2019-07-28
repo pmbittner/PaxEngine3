@@ -20,6 +20,20 @@ namespace PAX {
             return JsonToString(node[key]);
         }
 
+        std::vector<std::string> JsonPropertyContent::getValues(const std::string &key) {
+            nlohmann::json & keynode = node[key];
+            if (keynode.is_array()) {
+                std::vector<std::string> values;
+                for (auto & it : keynode) {
+                    values.push_back(JsonToString(it));
+                }
+
+                return values;
+            }
+
+            return {};
+        }
+
         static void buildVariableHierarchy(VariableHierarchy &h, nlohmann::json &node) {
             for (auto &entry : node.items()) {
                 if (entry.value().is_string()) {

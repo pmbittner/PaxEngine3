@@ -9,8 +9,12 @@ Prefabs
 	- Diamantenvererbung korrekt behandeln... aber wie
 
 Komponenten
-	- Controller für Einheiten sodass PlayerController und AIController wie in UE4 moeglich sind.
+	- Controller fuer Einheiten sodass PlayerController und AIController wie in UE4 moeglich sind.
 
 Texturen
-	- Texturen im Code zeichnen können wie in der PAX Engine 1. Diese können dann für Debugvisualisierungen
+	- Texturen im Code zeichnen koennen wie in der PAX Engine 1. Diese koennen dann fuer Debugvisualisierungen
 	  benutzt werden zb von Hitboxen. (Alternativ koennten dafuer aber auch spezielle Shader herhalten.)
+
+Json
+    - Eine explizite Funktion zum Parsen beliebiger Objekte aus Json machen Ã¤hnlich zum TryParser.
+      Der JsonParser kann dann erstmal immer noch auf den TryParser zeigen, aber es gaebe schonmal einen semantischen Unterschied.

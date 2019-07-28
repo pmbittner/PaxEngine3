@@ -14,6 +14,7 @@
 
 namespace PAX {
     class Engine;
+    class Game;
     class EnginePlugin;
     class Services;
     class Resources;
@@ -27,9 +28,11 @@ namespace PAX {
         virtual void terminate(Engine& engine) {}
         virtual void postInitialize(Engine& engine) {}
         virtual void registerServices(Services& services) {}
+        virtual void registerSystems(Game& game) {}
         virtual void registerResourceLoaders(Resources& resources) {}
         virtual void registerFactories(FactoryService& factoryService) {}
         virtual void registerProperties() {}
+
         virtual void checkDependencies(const std::vector<EnginePlugin*> & plugins) const {}
     };
 

@@ -6,14 +6,17 @@
 #define PAXENGINE3_PAXPHYSICSPLUGIN_PLUGIN_H
 
 #include <paxcore/plugin/EnginePlugin.h>
+#include <paxphysics/2d/material/PhysicsMaterialLoader.h>
 
-namespace PAX {
-    namespace Physics {
-        class Plugin : public EnginePlugin {
-        public:
-            void registerProperties() override;
-        };
-    }
+namespace PAX::Physics {
+    class Plugin : public EnginePlugin {
+        PhysicsMaterialLoader psxmatLoader;
+
+    public:
+        void registerProperties() override;
+        void registerResourceLoaders(Resources & resources) override;
+        void registerSystems(Game& game) override;
+    };
 }
 
 #endif //PAXENGINE3_PAXPHYSICSPLUGIN_PLUGIN_H

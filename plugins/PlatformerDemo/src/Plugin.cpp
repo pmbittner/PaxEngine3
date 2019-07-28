@@ -26,7 +26,7 @@ namespace PAX {
                     PAX::SDL::SDLPlugin,
                     PAX::OpenGL::OpenGLPlugin,
                     PAX::SDL::OpenGL::SDLOpenGLPlugin,
-                    //PAX::Physics::Plugin,
+                    PAX::Physics::Plugin,
                     PAX::Tiles::Plugin> dependencies("PAX::PlatformerDemo::Plugin");
             dependencies.checkDependencies(plugins);
         }

@@ -61,4 +61,12 @@ namespace PAX {
     WorldLayer* Entity::getWorldLayer() const {
         return worldLayer;
     }
+
+    void Entity::i_setMotionType(PAX::MotionType motionType) {
+        this->motionType = motionType;
+    }
+
+    MotionType Entity::getMotionType() const {
+        return motionType;
+    }
 }

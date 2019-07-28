@@ -2,6 +2,7 @@
   "Inherits": [
     "DemoGameObject.paxprefab.json"
   ],
+  "MotionType": "Dynamic",
   "Properties": {
     "PAX::SpriteSheetGraphics": {
       "Sprite": "${ResourcePath}/PlatformerDemo/img/GreenBot16.png",
@@ -18,6 +19,17 @@
     "PAX::PlayerSpriteAnimation": {},
     "PAX::VelocityBehaviour2D": {
       "velocity": [15, 0]
+    },
+    "PAX::Physics::Hitbox2D": {
+      "fixedRotation": true,
+      "fixtures": [
+        {
+          "type": "Rectangle",
+          "synchroniseToSize": false,
+          "size": [16, 16],
+          "material": "${ResourcePath}/PlatformerDemo/material/GreenGuy.psxmat"
+        }
+      ]
     }
   }
 }

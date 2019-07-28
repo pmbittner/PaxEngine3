@@ -37,7 +37,7 @@ namespace PAX {
             glm::vec3 pos = getOwner()->getTransformation().position();
             relativeMousePos = mouseWorldpos - pos;
 
-            if (size->toAbsoluteBoundingBox().contains(&relativeMousePos[0])) {
+            if (size->toAbsoluteBoundingBox().contains(relativeMousePos)) {
                 dragged = true;
             }
         }

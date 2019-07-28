@@ -68,6 +68,6 @@ namespace PAX {
 
     void EntityIDService::releaseIDOf(PAX::Entity * entity) {
         /// We do not clean the reservedIDs vector!
-        PAX_PRINT_WARN("Not implemented!")
+        PAX_NOT_IMPLEMENTED()
     }
 }

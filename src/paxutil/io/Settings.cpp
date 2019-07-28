@@ -42,7 +42,7 @@ namespace PAX {
             }
 
             if (trimValues)
-                cell = Util::String::trimmed(cell);
+                cell = String::trimmed(cell);
 
             m_data.push_back(cell);
         }
@@ -187,7 +187,7 @@ namespace PAX {
         std::string value = get<std::string>(varName);
         std::vector<std::string> tuple;
 
-        if (Util::String::startsWith(value, "(") && Util::String::endsWith(value, ")")) {
+        if (String::startsWith(value, "(") && String::endsWith(value, ")")) {
             value = value.substr(1, value.size() - 2);
 
             size_t pos = 0;
@@ -195,7 +195,7 @@ namespace PAX {
 
             do {
                 nextComma = value.find(',', pos);
-                std::string valueComponent = Util::String::trimmed(value.substr(pos, nextComma - pos));
+                std::string valueComponent = String::trimmed(value.substr(pos, nextComma - pos));
                 tuple.push_back(valueComponent);
 
                 pos = nextComma + 1;

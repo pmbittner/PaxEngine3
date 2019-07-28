@@ -10,11 +10,12 @@
 
 #include "ContentProvider.h"
 
-
-#define PAX_PROPERTY_REGISTER(PropertyType) \
+#define PAX_PROPERTY_REGISTER_AS(PropertyType, Name) \
 if constexpr (!PropertyType::IsAbstract()) { \
-    PropertyFactoryRegister<PropertyType::Container>::registerFactory<PropertyType>(#PropertyType); \
+    PropertyFactoryRegister<PropertyType::Container>::registerFactory<PropertyType>(Name); \
 }
+
+#define PAX_PROPERTY_REGISTER(PropertyType) PAX_PROPERTY_REGISTER_AS(PropertyType, #PropertyType)
 
 namespace PAX {
     template<typename C>

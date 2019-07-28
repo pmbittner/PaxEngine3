@@ -36,8 +36,8 @@ namespace PAX {
         glm::vec3 getSize() const;
         glm::vec2 getSize2D() const;
 
-        FloatBoundingBox3D toBoundingBox();
-        FloatBoundingBox3D toAbsoluteBoundingBox();
+        FloatBoundingBox3D toBoundingBox() const;
+        FloatBoundingBox3D toAbsoluteBoundingBox() const;
 
         glm::vec3 getSizeUnscaled() const;
     };

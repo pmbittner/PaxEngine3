@@ -15,6 +15,8 @@
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
+#include <2d/shape/Rectangle.h>
+#include <2d/box2d/Box2DHitbox.h>
 
 #include "paxtiles/Tile.h"
 #include "paxtiles/TileMap.h"
@@ -57,6 +59,7 @@ namespace PAX {
 
             Entity* createPlatform(int span) {
                 Entity* platform = new Entity();
+                platform->i_setMotionType(MotionType::Static);
                 float w = centerBlockTexture->getWidth();
                 float xMax = (span-1)*(w/2);
 
@@ -66,6 +69,7 @@ namespace PAX {
                         tex = rightBlockTexture;
 
                     Entity *block = new Entity();
+                    block->i_setMotionType(MotionType::Static);
                     SpriteGraphics * g = new SpriteGraphics(tex);
                     g->setShader(spriteShader);
                     block->add(g);
@@ -79,9 +83,18 @@ namespace PAX {
                 }
 
                 platform->getTransformation().z() = depthFor.platforms;
-
                 platform->add(new Size(glm::vec3(0, 0, 1)));
-                FloatBoundingBox3D platformBoundingBox = platform->get<Size>()->toAbsoluteBoundingBox();
+
+                FloatBoundingBox3D aabb = platform->get<Size>()->toAbsoluteBoundingBox();
+                Physics::Hitbox2D * hitbox = new Physics::Box2DHitbox();
+                //hitbox->setShape(std::make_unique<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))));
+                hitbox->setFixtures({
+                   Physics::Fixture2D(
+                           std::make_shared<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))),
+                           std::make_shared<Physics::PhysicsMaterial>()
+                   )
+                });
+                platform->add(hitbox);
 
                 return platform;
             }
