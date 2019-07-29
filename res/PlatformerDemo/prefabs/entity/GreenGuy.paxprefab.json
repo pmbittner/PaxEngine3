@@ -26,7 +26,7 @@
         {
           "type": "Rectangle",
           "synchroniseToSize": false,
-          "size": [16, 16],
+          "size": [14, 16],
           "material": "${ResourcePath}/PlatformerDemo/material/GreenGuy.psxmat"
         }
       ]
