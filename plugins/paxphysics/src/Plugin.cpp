@@ -27,10 +27,15 @@ namespace PAX::Physics {
     }
 
     void Plugin::registerSystems(PAX::Game &game) {
-        game.addSystem(std::make_unique<Box2DPhysicsSystem>());
+        auto box2d_pixelsPerMeter = Services::GetGlobalSettings().getOrDefault<float>("physics2d_pixels_per_meter", 1);
+        game.addSystem(std::make_unique<Box2DPhysicsSystem>(box2d_pixelsPerMeter));
     }
 
     void Plugin::registerResourceLoaders(Resources & resources) {
         resources.registerLoader<PhysicsMaterial>(&psxmatLoader);
+    }
+
+    void Plugin::postInitialize(PAX::Engine &engine) {
+
     }
 }

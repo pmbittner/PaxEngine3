@@ -29,8 +29,8 @@ namespace PAX::Physics {
         void activated() override;
         void deactivated() override;
 
-        void synchronizeBox2D();
-        void synchronizePaxEngine();
+        void synchronizeBox2D(float metersPerPixel);
+        void synchronizePaxEngine(float pixelsPerMeter);
 
         void setFixedRotation(bool fixedRotation) override;
     };

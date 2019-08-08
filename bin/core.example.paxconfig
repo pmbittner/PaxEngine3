@@ -10,3 +10,6 @@ core_startInFullscreen = false
 # constraint: core_targetFPS <= core_targetUPS
 core_targetFPS = 60
 core_targetUPS = 100
+
+# TODO: Move this to a config file for PlatformerDemo because it is game specific
+physics2d_pixels_per_meter = 16

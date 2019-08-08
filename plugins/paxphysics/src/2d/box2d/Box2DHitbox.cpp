@@ -8,6 +8,10 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include <paxphysics/2d/box2d/Box2DUtils.h>
 
+#include <paxcore/Engine.h>
+#include <paxcore/Game.h>
+#include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
+
 namespace PAX::Physics {
     PAX_PROPERTY_SOURCE(PAX::Physics::Box2DHitbox, PAX_PROPERTY_IS_CONCRETE)
 
@@ -47,17 +51,19 @@ namespace PAX::Physics {
             body = world.CreateBody(&bodyDef);
         }
 
-        for (const Fixture2D & f : getFixtures()) {
-            b2Shape * bshape = toBox2D(f.shape.get());
+        if (Box2DPhysicsSystem * b2PhysicsSystem = Engine::Instance().getGame()->getSystem<Box2DPhysicsSystem>()) {
+            for (const Fixture2D &f : getFixtures()) {
+                b2Shape *bshape = toBox2D(f.shape.get(), b2PhysicsSystem->getMetersPerPixel());
 
-            b2FixtureDef fixtureDef;
-            fixtureDef.shape = bshape;
-            fixtureDef.density = f.material->density;
-            fixtureDef.friction = f.material->friction;
-            fixtureDef.restitution = f.material->elasticity;
-            fixtures.push_back(body->CreateFixture(&fixtureDef));
-            /// "Box2D does not keep a reference to the shape. It clones the data into a new b2Shape object."
-            delete bshape;
+                b2FixtureDef fixtureDef;
+                fixtureDef.shape = bshape;
+                fixtureDef.density = f.material->density;
+                fixtureDef.friction = f.material->friction;
+                fixtureDef.restitution = f.material->elasticity;
+                fixtures.push_back(body->CreateFixture(&fixtureDef));
+                /// "Box2D does not keep a reference to the shape. It clones the data into a new b2Shape object."
+                delete bshape;
+            }
         }
     }
 
@@ -94,18 +100,18 @@ namespace PAX::Physics {
 
     // TODO: Consider scale of engine to box2d
 
-    void Box2DHitbox::synchronizeBox2D() {
+    void Box2DHitbox::synchronizeBox2D(float metersPerPixel) {
         if (body) {
             Transformation & t = getOwner()->getTransformation();
-            body->SetTransform(toBox2D(t.position2D()), t.getRotation2DInRadians());
+            body->SetTransform(toBox2D(metersPerPixel * t.position2D()), t.getRotation2DInRadians());
             // TODO: update velocity
         }
     }
 
-    void Box2DHitbox::synchronizePaxEngine() {
+    void Box2DHitbox::synchronizePaxEngine(float pixelsPerMeter) {
         if (body) {
             Transformation & t = getOwner()->getTransformation();
-            t.position2D() = toGLM(body->GetPosition());
+            t.position2D() = pixelsPerMeter * toGLM(body->GetPosition());
             t.setRotation2DInRadians(body->GetAngle());
             // TODO: update velocity
         }

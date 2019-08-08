@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::Physics::PhysicsWorld2D": {
-      "gravity": [0, -25]
+      "gravity": [0, -10]
     }
   },
   "Entities": [

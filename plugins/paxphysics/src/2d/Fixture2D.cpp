@@ -21,7 +21,7 @@ namespace PAX {
         Fixture2D::~Fixture2D() = default;
     }
 
-    Physics::Fixture2D TryParser<Physics::Fixture2D>::tryParse(const std::string &str) {
+    Physics::Fixture2D TryParser<std::string, Physics::Fixture2D>::tryParse(const std::string &str) {
         std::shared_ptr<Physics::Shape2D> shape = nullptr;
 
         // TODO: Move this to future tryParseJson function

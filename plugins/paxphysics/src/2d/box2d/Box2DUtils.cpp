@@ -20,7 +20,7 @@ namespace PAX::Physics {
         return {b2vec.x, b2vec.y};
     }
 
-    b2Shape * toBox2D(const Shape2D * shape) {
+    b2Shape * toBox2D(const Shape2D * shape, float metersPerPixel) {
         b2Shape * ret = nullptr;
 
         if (auto * rect = dynamic_cast<const Rectangle*>(shape)) {
@@ -29,9 +29,9 @@ namespace PAX::Physics {
             auto * rectShape = new b2PolygonShape();
             // void SetAsBox(float32 hx, float32 hy, const b2Vec2& center, float32 angle);
             rectShape->SetAsBox(
-                    aabb.getLength(0) / 2.f,
-                    aabb.getLength(1) / 2.f,
-                    toBox2D(aabb.getCenter()),
+                    metersPerPixel * aabb.getLength(0) / 2.f,
+                    metersPerPixel * aabb.getLength(1) / 2.f,
+                    toBox2D(metersPerPixel * aabb.getCenter()),
                     0);
             ret = rectShape;
         }

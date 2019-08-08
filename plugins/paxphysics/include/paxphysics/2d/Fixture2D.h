@@ -22,7 +22,7 @@ namespace PAX {
         };
     }
 
-    PAX_SPECIALIZE_TRYPARSER_HEADER(::PAX::Physics::Fixture2D)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(::PAX::Physics::Fixture2D)
 }
 
 #endif //PAXENGINE3_FIXTURE2D_H

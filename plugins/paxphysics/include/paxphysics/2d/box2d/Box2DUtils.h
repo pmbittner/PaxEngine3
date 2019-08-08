@@ -15,7 +15,7 @@ namespace PAX::Physics {
     b2Vec2 toBox2D(const glm::vec2 &glmvec);
     b2Vec2 toBox2D(const glm::vec3 &glmvec);
 
-    b2Shape * toBox2D(const Shape2D * shape);
+    b2Shape * toBox2D(const Shape2D * shape, float metersPerPixel);
     b2BodyType toBox2D(MotionType motionType);
 }
 

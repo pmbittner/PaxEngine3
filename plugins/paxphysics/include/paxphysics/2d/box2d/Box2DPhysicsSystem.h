@@ -11,11 +11,18 @@
 
 namespace PAX::Physics {
     class Box2DPhysicsSystem : public EntityPropertySystem<PAX::Physics::Box2DHitbox> {
+        float pixelsPerMeter = 1;
+        float metersPerPixel = 1;
+
     public:
-        Box2DPhysicsSystem();
+        explicit Box2DPhysicsSystem(float pixelsPerMeter);
 
         void initialize(Game *game) override;
         void update(UpdateOptions & options) override;
+
+        void setPixelsPerMeter(float pixelsPerMeter);
+        float getMetersPerPixel();
+        float getPixelsPerMeter();
     };
 }
 
