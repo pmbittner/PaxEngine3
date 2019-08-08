@@ -30,5 +30,6 @@ if (value == nullptr) { \
 }
 
 #define PAX_NOT_IMPLEMENTED() PAX_PRINT_WARN("not implemented")
+#define PAX_NOT_IMPLEMENTED_EXCEPTION() PAX_THROW_RUNTIME_ERROR("not implemented")
 
 #endif //PAXENGINE3_MACROINCLUDES_H

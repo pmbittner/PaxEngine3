@@ -20,5 +20,6 @@
 #define PAX_CONSTEXPR_IF if
 #endif
 
+#define PAX_INTERNAL(name) _paxinternal_##name
 
 #endif //PAXENGINE3_DEFINITIONS_H
