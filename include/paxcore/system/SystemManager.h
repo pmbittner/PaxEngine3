@@ -57,6 +57,17 @@ namespace PAX {
             systems.insert(std::move(system));
         }
 
+        template<class T>
+        T * getSystem() const {
+            for (const std::unique_ptr<System<Derived>> & s : systems) {
+                if (auto t = dynamic_cast<T*>(s.get())) {
+                    return t;
+                }
+            }
+
+            return nullptr;
+        }
+
         void update(UpdateOptions & options) override {
             for (auto & system : systems) {
                 system->update(options);
