@@ -11,7 +11,7 @@
 #include "ContentProvider.h"
 
 #define PAX_PROPERTY_REGISTER_AS(PropertyType, Name) \
-if constexpr (!PropertyType::IsAbstract()) { \
+PAX_CONSTEXPR_IF (!PropertyType::IsAbstract()) { \
     PropertyFactoryRegister<PropertyType::Container>::registerFactory<PropertyType>(Name); \
 }
 

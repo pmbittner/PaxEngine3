@@ -40,8 +40,8 @@ public: \
     static constexpr bool IsAbstract() { return IfConcrete(false &&) true; } \
 protected: \
     using This = Typename; \
-    bool addTo(Container& c) override; \
-    bool removeFrom(Container& c) override; \
+    bool PAX_INTERNAL(addTo)(Container& c) override; \
+    bool PAX_INTERNAL(removeFrom)(Container& c) override; \
     void initializeFromProvider(::PAX::ContentProvider&) override; \
 private: IfConcrete( \
 /*    static ::PAX::PropertyFactory<This, Container> __ByNameFactory;*/ \
@@ -79,8 +79,8 @@ private:
 ///// SOURCE
 
 #define PAX_PROPERTY_SOURCE(Type, IfConcrete) \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, addTo, addAsMultiple, addAsSingle, ::PAX::PropertyAttachedEvent) \
-    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, removeFrom, removeAsMultiple, removeAsSingle, ::PAX::PropertyDetachedEvent) \
+    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, PAX_INTERNAL(addTo), PAX_INTERNAL(addAsMultiple), PAX_INTERNAL(addAsSingle), ::PAX::PropertyAttachedEvent) \
+    PAX_GENERATE_PROPERTY_ADD_OR_REMOVE_SOURCE(Type, PAX_INTERNAL(removeFrom), PAX_INTERNAL(removeAsMultiple), PAX_INTERNAL(removeAsSingle), ::PAX::PropertyDetachedEvent) \
     const ::PAX::TypeHandle& Type::getClassType() const { \
         static PAX::TypeHandle myType = typeid(This); \
         return myType; \

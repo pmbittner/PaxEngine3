@@ -116,7 +116,7 @@ namespace PAX {
 
         bool add(Property<C>* component) {
             if (isValid(component)) {
-                component->addTo(*static_cast<C*>(this));
+                component->PAX_INTERNAL(addTo)(*static_cast<C*>(this));
                 registerComponent(component);
                 _allProperties.push_back(component);
                 if (active) {
@@ -129,7 +129,7 @@ namespace PAX {
         }
 
         bool remove(Property<C>* component) {
-            bool ret = component->removeFrom(*static_cast<C*>(this));
+            bool ret = component->PAX_INTERNAL(removeFrom)(*static_cast<C*>(this));
             unregisterComponent(component);
             Util::removeFromVector(_allProperties, component);
             if (active) {
@@ -260,14 +260,12 @@ namespace PAX {
             return active;
         }
 
-        // TODO: Make private
-        bool addAsMultiple(const std::type_info & type, Property<C>* component) {
+        bool PAX_INTERNAL(addAsMultiple)(const std::type_info & type, Property<C>* component) {
             _multipleProperties[type].push_back(component);
             return true;
         }
 
-        // TODO: Make private
-        bool addAsSingle(const std::type_info & type, Property<C>* component) {
+        bool PAX_INTERNAL(addAsSingle)(const std::type_info & type, Property<C>* component) {
             if (_singleProperties.count(type)) {
                 return false;
             } else
@@ -276,8 +274,7 @@ namespace PAX {
             return true;
         }
 
-        // TODO: Make private
-        bool removeAsMultiple(const std::type_info & type, Property<C>* component) {
+        bool PAX_INTERNAL(removeAsMultiple)(const std::type_info & type, Property<C>* component) {
             std::vector<Property<C>*> &result = _multipleProperties.at(type);
             if (!Util::removeFromVector(result, component))
                 return false;
@@ -289,8 +286,7 @@ namespace PAX {
             return true;
         }
 
-        // TODO: Make private
-        bool removeAsSingle(const std::type_info & type, Property<C>* component) {
+        bool PAX_INTERNAL(removeAsSingle)(const std::type_info & type, Property<C>* component) {
             // The given property is not the property, that is registered for the given type.
             if (_singleProperties.at(type) != component)
                 return false;
