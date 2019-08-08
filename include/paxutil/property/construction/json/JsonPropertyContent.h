@@ -14,8 +14,8 @@ namespace PAX {
             nlohmann::json node;
 
         protected:
-            std::string getValue(const std::string &key) override;
-            std::vector<std::string> getValues(const std::string & key) override;
+            std::string getValue(const std::string &key, const VariableRegister & variables) override;
+            std::vector<std::string> getValues(const std::string & key, const VariableRegister & variables) override;
 
         public:
             explicit JsonPropertyContent(const nlohmann::json &node);

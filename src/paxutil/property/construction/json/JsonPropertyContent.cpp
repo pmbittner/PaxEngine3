@@ -16,16 +16,17 @@ namespace PAX {
             return node.count(name) > 0;
         }
 
-        std::string JsonPropertyContent::getValue(const std::string &key) {
-            return JsonToString(node[key]);
+        std::string JsonPropertyContent::getValue(const std::string &key, const VariableRegister & variables) {
+            return VariableResolver::resolveVariables(JsonToString(node[key]), variables);
         }
 
-        std::vector<std::string> JsonPropertyContent::getValues(const std::string &key) {
+        std::vector<std::string> JsonPropertyContent::getValues(const std::string &key, const VariableRegister & variables) {
             nlohmann::json & keynode = node[key];
+
             if (keynode.is_array()) {
                 std::vector<std::string> values;
                 for (auto & it : keynode) {
-                    values.push_back(JsonToString(it));
+                    values.push_back(VariableResolver::resolveVariables(JsonToString(it), variables));
                 }
 
                 return values;

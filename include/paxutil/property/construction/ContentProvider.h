@@ -21,8 +21,8 @@ namespace PAX {
     namespace Internal {
         class PropertyContent {
         protected:
-            virtual std::string getValue(const std::string & key) = 0;
-            virtual std::vector<std::string> getValues(const std::string & key) = 0;
+            virtual std::string getValue(const std::string & key, const VariableRegister & variables) = 0;
+            virtual std::vector<std::string> getValues(const std::string & key, const VariableRegister & variables) = 0;
 
         public:
             PropertyContent() = default;
@@ -33,18 +33,16 @@ namespace PAX {
 
             template<typename T>
             T get(const std::string & name, const VariableRegister & variables) {
-                std::string value = VariableResolver::resolveVariables(getValue(name), variables);
-                return String::tryParse<T>(value);
+                return String::tryParse<T>(getValue(name, variables));
             }
 
             template<typename T>
             std::vector<T> getList(const std::string & name, const VariableRegister & variables) {
-                std::vector<std::string> str_values = getValues(name);
+                std::vector<std::string> str_values = getValues(name, variables);
                 std::vector<T> values;
 
                 for (size_t i = 0; i < str_values.size(); ++i) {
-                    values.push_back(
-                            String::tryParse<T>(VariableResolver::resolveVariables(str_values[i], variables)));
+                    values.push_back(String::tryParse<T>(str_values[i]));
                 }
 
                 return values;
