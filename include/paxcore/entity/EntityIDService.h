@@ -8,7 +8,30 @@
 #include "Entity.h"
 
 namespace PAX {
-    using EntityID = unsigned int;
+    /*
+    union GenerationID {
+        explicit constexpr GenerationID(uint32_t id) {
+            this->generation = 0;
+            this->id = id;
+        }
+
+        constexpr GenerationID() : GenerationID(0) {}
+
+        constexpr bool operator == (const GenerationID &other) const { return generationid == other.generationid; }
+        constexpr bool operator != (const GenerationID &other) const { return generationid != other.generationid; }
+        constexpr bool operator < (const GenerationID &other) const { return generationid < other.generationid; }
+        constexpr GenerationID operator / (const GenerationID &other) const { return GenerationID(id / other.id); }
+
+    private:
+        const uint64_t generationid = 0;
+        struct {
+            uint32_t id;
+            uint32_t generation;
+        };
+    };
+    //*/
+
+    using EntityID = unsigned long;
 
     class EntityIDService {
         std::vector<EntityID> reservedIDs;
