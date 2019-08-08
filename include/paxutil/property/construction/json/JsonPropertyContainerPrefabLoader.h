@@ -40,12 +40,7 @@ namespace PAX {
 
             std::shared_ptr<PropertyContainerPrefab<C>>
             loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) override {
-                std::stringstream ss;
-                ss << "[JsonPropertyContainerPrefabLoader<" << paxtypeid(C).name()
-                   << ">::loadToOrGetFromResources] is not implemented!";
-                std::string msg = ss.str();
-                std::cerr << msg << std::endl;
-                throw new std::runtime_error(msg);
+                PAX_NOT_IMPLEMENTED_EXCEPTION()
             }
         };
     }

@@ -94,8 +94,7 @@ namespace PAX {
                         it->second->parse(parent[childname], c, *this, variableRegister);
                     }
                 } else {
-                    std::cerr << "[JsonPropertyContainerPrefab::parse] ignoring element " << childname
-                              << " because no parser is registered for it!" << std::endl;
+                    PAX_PRINT_WARN("ignoring element " << childname << " because no parser is registered for it!")
                 }
             }
 

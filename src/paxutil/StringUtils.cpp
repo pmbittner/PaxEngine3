@@ -74,7 +74,7 @@ namespace PAX {
         }
     }
 
-    bool TryParser<bool>::tryParse(const std::string & str) {
+    bool TryParser<std::string, bool>::tryParse(const std::string & str) {
         std::string strcopy = str;
         String::toLower(strcopy);
 
@@ -86,23 +86,23 @@ namespace PAX {
                 || strcopy == "y";
     }
 
-    int TryParser<int>::tryParse(const std::string &str) {
+    int TryParser<std::string, int>::tryParse(const std::string &str) {
         return std::stoi(str);
     }
 
-    unsigned int TryParser<unsigned int>::tryParse(const std::string &str) {
+    unsigned int TryParser<std::string, unsigned int>::tryParse(const std::string &str) {
         return static_cast<unsigned int>(std::stoul(str));
     }
 
-    unsigned long TryParser<unsigned long>::tryParse(const std::string &str) {
+    unsigned long TryParser<std::string, unsigned long>::tryParse(const std::string &str) {
         return std::stoul(str);
     }
 
-    float TryParser<float>::tryParse(const std::string &str) {
+    float TryParser<std::string, float>::tryParse(const std::string &str) {
         return std::stof(str);
     }
 
-    double TryParser<double>::tryParse(const std::string &str) {
+    double TryParser<std::string, double>::tryParse(const std::string &str) {
         return std::stod(str);
     }
 

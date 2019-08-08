@@ -12,21 +12,9 @@
 #include <locale>
 #include <glm/detail/qualifier.hpp>
 
-//#define PAX_UTIL_STRING_EQUALS !strcmp
-#define PAX_UTIL_STRING_NEQUALS strcmp
-
-//#define PAX_UTIL_BOOL_TO_YESNO(boolValue) boolValue ? "yes" : "no"
+#include "TryParser.h"
 
 namespace PAX {
-    /// Convert the string *str* to T.
-    template<class T>
-    class TryParser {
-    public:
-        [[nodiscard]] static T tryParse(const std::string & str) {
-            return str;
-        }
-    };
-
     namespace String {
         void toLower(std::string & str);
         void toUpper(std::string & str);
@@ -55,26 +43,26 @@ namespace PAX {
 
         template<typename T>
         T tryParse(const std::string &str) {
-            return TryParser<T>::tryParse(str);
+            return TryParser<std::string, T>::tryParse(str);
         }
     }
 
-#define PAX_SPECIALIZE_TRYPARSER_HEADER(type) \
+#define PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(type) \
             template<> \
-            class TryParser<type> { \
+            class TryParser<std::string, type> { \
             public: \
                 [[nodiscard]] static type tryParse(const std::string & str); \
             };
 
-    PAX_SPECIALIZE_TRYPARSER_HEADER(bool)
-    PAX_SPECIALIZE_TRYPARSER_HEADER(int)
-    PAX_SPECIALIZE_TRYPARSER_HEADER(unsigned int)
-    PAX_SPECIALIZE_TRYPARSER_HEADER(unsigned long)
-    PAX_SPECIALIZE_TRYPARSER_HEADER(float)
-    PAX_SPECIALIZE_TRYPARSER_HEADER(double)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(bool)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(int)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(unsigned int)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(unsigned long)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(float)
+    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(double)
 
     template<glm::length_t L, typename T, glm::qualifier Q>
-    class TryParser<glm::vec<L, T, Q>> {
+    class TryParser<std::string, glm::vec<L, T, Q>> {
     public:
         static glm::vec<L, T, Q> tryParse(const std::string &str) {
             glm::vec<L, T, Q> ret(0);
