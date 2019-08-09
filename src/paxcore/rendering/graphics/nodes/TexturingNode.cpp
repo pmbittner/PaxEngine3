@@ -6,7 +6,7 @@
 
 namespace PAX {
     TexturingNode::TexturingNode(const std::shared_ptr<Texture> &texture) : _texture(texture) {
-        PAX_assertNotNull(texture, "Texture can't be null!")
+        PAX_ASSERT_NOT_NULL(texture, "Texture can't be null!");
     }
 
     void TexturingNode::render(RenderOptions &renderOptions) {

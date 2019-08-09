@@ -19,7 +19,6 @@ namespace PAX {
             SDLOpenGLPlugin::SDLOpenGLPlugin() : EnginePlugin() {}
 
             void SDLOpenGLPlugin::postInitialize(PAX::Engine &engine) {
-                Log::out.info() << "[SDLOpenGLPlugin::postInitialize]" << std::endl;
                 auto *sdl    = new PAX::SDL::OpenGL::SDLOpenGLContext();
                 auto *opengl = new PAX::OpenGL::OpenGLContext();
                 sdl->addChild(opengl);
@@ -29,11 +28,11 @@ namespace PAX {
                 renderer.setSceneGraphRoot(sdl);
                 renderer.setSceneGraphGenerationEntryPoint(opengl);
 
-                Log::out.info() << "\tinitialize SDLOpenGLContext" << std::endl;
+                PAX_LOG(Log::Level::Info, "\tinitialise SDLOpenGLContext");
                 sdl->initialize();
-                Log::out.info() << "\tinit OpenGL" << std::endl;
+                PAX_LOG(Log::Level::Info, "\tinitialise OpenGL");
                 opengl->initialize();
-                Log::out.info() << "[SDLOpenGLPlugin::postInitialize] Done" << std::endl;
+                PAX_LOG(Log::Level::Info, "Done");
             }
 
             void SDLOpenGLPlugin::registerResourceLoaders(PAX::Resources &resources) {

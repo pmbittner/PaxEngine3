@@ -29,7 +29,7 @@ namespace PAX {
             glm::vec2 size = String::tryParse<glm::vec2>(JsonToString(j["size"]));
             shape = std::make_shared<Physics::Rectangle>(size);
         } else {
-            PAX_THROW_RUNTIME_ERROR("Unknown shape type given! (" << shapeType << ")")
+            PAX_THROW_RUNTIME_ERROR("Unknown shape type given! (" << shapeType << ")");
         }
 
         // TODO: Find a way to make this more beautiful, i.e., integrate own string parser to nlohmann::json

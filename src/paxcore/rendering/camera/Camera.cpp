@@ -41,7 +41,7 @@ namespace PAX {
         } else if (projName == "PixelScreen") {
             proj = std::make_shared<PixelScreenProjection>();
         } else {
-            PAX_PRINT_ERR("Could not resolve projection type " << projName)
+            PAX_LOG(PAX::Log::Level::Error, "Could not resolve projection type " << projName);
         }
 
         return new Camera(vp, proj);
@@ -67,8 +67,8 @@ namespace PAX {
     }
 
     Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : viewport(viewport), projection(projection) {
-        PAX_assertNotNull(viewport, "Viewport can't be null!");
-        PAX_assertNotNull(projection, "Projection can't be null!");
+        PAX_ASSERT_NOT_NULL(viewport, "Viewport can't be null!");
+        PAX_ASSERT_NOT_NULL(projection, "Projection can't be null!");
 
         viewport->WidthChanged.add<Camera, &Camera::onViewportWidthChanged>(this);
         viewport->HeightChanged.add<Camera, &Camera::onViewportHeightChanged>(this);

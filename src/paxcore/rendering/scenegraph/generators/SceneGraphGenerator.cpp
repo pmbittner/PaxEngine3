@@ -10,7 +10,7 @@ namespace PAX {
     SceneGraphGenerator::~SceneGraphGenerator() = default;
 
     void SceneGraphGenerator::initialize(SceneGraph* root, EventService& eventService) {
-        PAX_assertNotNull(root, "Root can't be null!");
+        PAX_ASSERT_NOT_NULL(root, "Root can't be null!");
         _root = root;
 
         eventService.add<EntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntitySpawnedEvent>(this);

@@ -12,7 +12,7 @@ namespace PAX {
                                                PAX::Json::JsonPropertyContainerPrefab<PAX::WorldLayer> &prefab,
                                                const VariableRegister & v) {
             if (!node.is_array())
-                PAX_PRINT_WARN("Given node is not an array!")
+                PAX_LOG(Log::Level::Warn, "Given node is not an array!");
 
             for (const auto & el : node.items()) {
                 nlohmann::json & entityNode = el.value();

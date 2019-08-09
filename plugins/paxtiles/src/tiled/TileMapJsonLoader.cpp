@@ -21,12 +21,12 @@ namespace PAX {
         std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {
             //std::cout << "[TileMapJsonLoader::load] " << path << std::endl;
             std::shared_ptr<nlohmann::json> jptr = Services::GetResources().loadOrGet<nlohmann::json>(path);
-            PAX_assertNotNull(jptr, "[TileMapJsonLoader::load] TileMap json file " << path << " could not be loaded!")
+            PAX_ASSERT_NOT_NULL(jptr, "[TileMapJsonLoader::load] TileMap json file " << path << " could not be loaded!");
             const nlohmann::json & j = *jptr.get();
 
 
             if (j["orientation"] != "orthogonal") {
-                std::cerr << "[TileMapJsonLoader::load] Only orthogonal maps are supported yet! \"orientation\" was " << j["orientation"] << std::endl;
+                PAX_LOG(Log::Level::Error, "Only orthogonal maps are supported yet! \"orientation\" was " << j["orientation"]);
                 return nullptr;
             }
 
@@ -186,7 +186,7 @@ namespace PAX {
                     t.setScale(t.getScale() * glm::vec3(obj_size, 1));
                     map->_addEntity(entity, obj_id);
                 } else {
-                    PAX_PRINT_WARN("Object without prefab given. Thus, it will be skipped.")
+                    PAX_LOG(Log::Level::Warn, "Object without prefab given. Thus, it will be skipped.");
                 }
             }
         }

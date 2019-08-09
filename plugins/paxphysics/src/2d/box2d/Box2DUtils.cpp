@@ -37,7 +37,7 @@ namespace PAX::Physics {
         }
 
         if (!ret) {
-            PAX_THROW_RUNTIME_ERROR("Cannot convert given shape to Box2D!")
+            PAX_THROW_RUNTIME_ERROR("Cannot convert given shape to Box2D!");
         }
 
         return ret;
@@ -58,7 +58,7 @@ namespace PAX::Physics {
             }
 
             default: {
-                PAX_THROW_RUNTIME_ERROR("Cannot convert Entity::MotionType " << int(motionType) << " to b2BodyType")
+                PAX_THROW_RUNTIME_ERROR("Cannot convert Entity::MotionType " << int(motionType) << " to b2BodyType");
             }
         }
     }

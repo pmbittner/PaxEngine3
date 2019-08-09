@@ -6,27 +6,46 @@
 #define PAXENGINE3_LOG_H
 
 #include "../macros/OSDetection.h"
+#include "../macros/Definitions.h"
 #include <ostream>
+#include <map>
 
 namespace PAX {
     class Log {
-        std::ostream & out_stream;
-        std::ostream & err_stream;
+    public:
+        enum class Level {
+            None = 0,
+            Error,
+            Warn,
+            Info,
+            Debug,
+            Verbose
+        };
+
+    private:
+        class NullBuffer : public std::streambuf {
+        public:
+            int overflow(int c) { return c; }
+        } nullBuffer;
+        std::ostream nullStream;
+
+        std::map<Level, std::ostream*> outstreams;
+        std::ostream * getStreamFor(Level level);
 
     public:
-        static Log cout;
-        static Log out;
+        static Log instance;
         static std::string timestamp();
 
-        Log(std::ostream & out, std::ostream & err);
+#ifdef PAX_BUILD_TYPE_DEBUG
+        Level currentLevel = Level::Debug;
+#else
+        Level currentLevel = Level::Error;
+#endif
 
-        std::ostream & info();
-        std::ostream & warn();
-        std::ostream & err();
+        Log();
 
-        std::ostream & info_raw();
-        std::ostream & warn_raw();
-        std::ostream & err_raw();
+        std::ostream & stream(Level level, const char * functionName = nullptr, const char * fileName = nullptr, int line = 0);
+        std::ostream & stream_raw(Level level);
     };
 
 // TODO: What about __func__ ?
@@ -36,22 +55,17 @@ namespace PAX {
 #define PAX_FUNCTION_NAME __PRETTY_FUNCTION__
 #endif
 
-#define PAX_PRINT_TO(stream, message) {stream << "[" << PAX_FUNCTION_NAME << "] " << message  << std::endl;}
-#define PAX_PRINT_OUT(message) PAX_PRINT_TO(::PAX::Log::out.info(), message)
-#define PAX_PRINT_WARN(message) PAX_PRINT_TO(::PAX::Log::out.warn(), "WARNING in " << __FILE__ << "(" << __LINE__ << "): " << message)
-#define PAX_PRINT_ERR(message) PAX_PRINT_TO(::PAX::Log::out.err(), "ERROR in " << __FILE__ << "(" << __LINE__ << "): " << message)
+#define ___PAX_LOG_IMPL(level, stream, message)
+#define PAX_LOG(level, message) do {::PAX::Log::instance.stream(level, PAX_FUNCTION_NAME, __FILE__, __LINE__) << message << std::endl;} while(0)
+#define PAX_LOG_RAW(level, message) do {::PAX::Log::instance.stream_raw(level) << message << std::endl;} while(0)
 
 #ifdef PAX_BUILD_TYPE_DEBUG
-    #define PAX_PRINT_TO_DEBUG(stream, message) PAX_PRINT_TO(stream, message)
-    #define PAX_PRINT_OUT_DEBUG(message) PAX_PRINT_OUT(message)
-    #define PAX_PRINT_WARN_DEBUG(message) PAX_PRINT_WARN(message)
-    #define PAX_PRINT_ERR_DEBUG(message) PAX_PRINT_ERR(message)
+    #define PAX_LOG_DEBUG(level, stream, message) PAX_LOG(level, stream, message)
 #elif defined(PAX_BUILD_TYPE_RELEASE)
-    #define PAX_PRINT_TO_DEBUG(stream, message) {}
-    #define PAX_PRINT_OUT_DEBUG(message) {}
-    #define PAX_PRINT_WARN_DEBUG(message) {}
-    #define PAX_PRINT_ERR_DEBUG(message) {}
+    #define PAX_LOG_DEBUG(level, stream, message) {}
 #endif
 }
+
+std::ostream& operator<<(std::ostream& os, const ::PAX::Log::Level & level);
 
 #endif //PAXENGINE3_LOG_H

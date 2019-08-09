@@ -95,7 +95,7 @@ namespace PAX::Physics {
     }
 
     void Box2DHitbox::deactivated() {
-        PAX_NOT_IMPLEMENTED()
+        PAX_NOT_IMPLEMENTED();
     }
 
     // TODO: Consider scale of engine to box2d

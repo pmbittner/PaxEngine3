@@ -81,9 +81,9 @@ namespace PAX {
             }
 
             MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
-            PAX_assertNotNull(meshFactory, "MeshFactory can't be null!")
+            PAX_ASSERT_NOT_NULL(meshFactory, "MeshFactory can't be null!");
             std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
-            PAX_assertNotNull(mesh, "Mesh can't be null!")
+            PAX_ASSERT_NOT_NULL(mesh, "Mesh can't be null!");
             mesh->addAttribute(Mesh::UVs, uv);
             mesh->addAttribute(Mesh::Unspecified, tileSheetIds);
             mesh->upload();

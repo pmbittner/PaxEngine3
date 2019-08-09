@@ -81,7 +81,7 @@ namespace PAX {
             if (loader)
                 return loader->load(p...);
             else
-                Log::out.warn() << "[Resources::loadResource] No ResourceLoader could be found for Resource " << print<Resource>(p...) << "!" << std::endl;
+                PAX_LOG(Log::Level::Warn, "[Resources::loadResource] No ResourceLoader could be found for Resource " << print<Resource>(p...) << "!");
             return nullptr;
         }
 
@@ -137,7 +137,7 @@ namespace PAX {
                 auto * handle = loadAndRegisterResource<Resource>(p...);
 
                 if (!handle) {
-                    PAX_THROW_RUNTIME_ERROR("[Resources::loadOrGet<" << print<Resource, Params...>(p...) << ">] FAILED: Resource could neither be found nor loaded!")
+                    PAX_THROW_RUNTIME_ERROR("[Resources::loadOrGet<" << print<Resource, Params...>(p...) << ">] FAILED: Resource could neither be found nor loaded!");
                 }
 
                 return handle->_resource;
@@ -167,7 +167,7 @@ namespace PAX {
             std::shared_ptr<Resource> res = loadResource<Resource>(p...);
 
             if (!res)
-                Log::out.warn() << "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!" << std::endl;
+                PAX_LOG(Log::Level::Warn, "[Resources::loadResource] The Resource " << print<Resource>(p...) << " could not be loaded!");
 
             return res;
         }
@@ -218,7 +218,7 @@ namespace PAX {
             }
         }
 
-        Log::out.err() << "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!" << std::endl;
+        PAX_LOG(Log::Level::Error, "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!");
 
         return nullptr;
     }

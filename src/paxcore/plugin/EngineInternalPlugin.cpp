@@ -42,7 +42,7 @@ namespace PAX {
             } else if (motionTypeString == "Kinematic") {
                 motionType = MotionType::Kinematic;
             } else if (motionTypeString != "Static") {
-                PAX_THROW_RUNTIME_ERROR("Unknown MotionType given: " << motionTypeString)
+                PAX_THROW_RUNTIME_ERROR("Unknown MotionType given: " << motionTypeString);
             }
 
             e.i_setMotionType(motionType);

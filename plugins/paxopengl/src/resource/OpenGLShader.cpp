@@ -29,8 +29,8 @@ namespace PAX {
             glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logMaxLength);
             char* log = new char[logMaxLength];
             glGetShaderInfoLog(shader,logMaxLength, &logLength, log);
-            if (logLength> 0) {
-                Log::out.info_raw() << "Shader Compilation - Compiler log:\n------------------\n" << log <<  "==================" << std::endl;
+            if (logLength > 0) {
+                PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Compiler log:\n------------------\n" << log <<  "==================");
             }
             delete[] log;
 
@@ -43,13 +43,13 @@ namespace PAX {
 
             bool compiled = compileShaderAndPrintErrors(shader);
             if (!compiled) {
-                Log::out.err_raw() << "Shader Compilation - Error - Code was:" << std::endl;
+                PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Error - Code was:");
 
                 std::stringstream ss(code);
                 std::string line;
                 int i = 0;
                 while (std::getline(ss, line, '\n')) {
-                    Log::out.err_raw() << std::setw(3) << std::fixed << ++i << "| " << line << std::endl;
+                    PAX_LOG_RAW(Log::Level::Error, std::setw(3) << std::fixed << ++i << "| " << line);
                 }
             }
 
@@ -63,7 +63,7 @@ namespace PAX {
             std::ifstream codeFile;
             codeFile.open(filename);
             if (!codeFile.is_open()) {
-                Log::out.err() << "[OpenGLShader::loadCodeFromFile] Unable to open shader file [ " << filename << " ] " << std::endl;
+                PAX_LOG(Log::Level::Error, "Unable to open shader file [ " << filename << " ] ");
                 throw std::runtime_error("Unable to open shader file " + filename);
             }
 
@@ -87,7 +87,7 @@ namespace PAX {
                 shader.replace(foundendline, 0, flagsWithLinebreak);
             }
             else {
-                Log::out.err() << "Version info in shader required: #version xxx" << std::endl;
+                PAX_LOG(Log::Level::Error, "Version info in shader required: #version xxx");
             }
         }
 
@@ -116,7 +116,7 @@ namespace PAX {
                 insertFlags(vertexCode, _flags.VertexFlags);
 
                 if (!loadShaderFromCode(GL_VERTEX_SHADER, vertexCode, _vertexShader)) {
-                    Log::out.err() << "Shader Compilation - Vertex file: " << _fileInfo.VertexPath << std::endl;
+                    PAX_LOG(Log::Level::Error, "Shader Compilation - Vertex file: " << _fileInfo.VertexPath);
                     return false;
                 }
 
@@ -125,7 +125,7 @@ namespace PAX {
                 insertFlags(fragmentCode, _flags.FragmentFlags);
 
                 if (!loadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, _fragmentShader)) {
-                    Log::out.err() << "Shader Compilation - Fragment file: " << _fileInfo.FragmentPath << std::endl;
+                    PAX_LOG(Log::Level::Error, "Shader Compilation - Fragment file: " << _fileInfo.FragmentPath);
                     return false;
                 }
 
@@ -149,7 +149,7 @@ namespace PAX {
             //Compile Shader
             bool result = setupShaderFromCodeString(out_id, code);
             if (!result) {
-                Log::out.err() << "Shader Compilation - Invalid shader file: " << _name << std::endl;
+                PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid shader file: " << _name);
             }
 
             //Attach shader to the program
@@ -169,7 +169,7 @@ namespace PAX {
             glGetProgramInfoLog(_shaderProgram, logMaxLength, &logLength, log);
 
             if (logLength > 0) {
-                Log::out.info() << "Shader Compilation - " << _name << " - Linker log:\n------------------\n" << log << "\n------------------" << std::endl;
+                PAX_LOG_RAW(Log::Level::Info, "Shader Compilation - " << _name << " - Linker log:\n------------------\n" << log << "\n------------------");
                 return false;
             }
 

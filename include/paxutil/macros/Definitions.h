@@ -22,4 +22,7 @@
 
 #define PAX_INTERNAL(name) _paxinternal_##name
 
+#define ___PAX_STRINGIFY_2(a) #a
+#define PAX_STRINGIFY(a) ___PAX_STRINGIFY_2(a)
+
 #endif //PAXENGINE3_DEFINITIONS_H

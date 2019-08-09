@@ -46,9 +46,9 @@ namespace PAX {
         
         ShaderOptions _shaderOptions;
         
-        glm::mat4 _currentTransform;
-        glm::mat4 _currentView;
-        glm::mat4 _currentProjection;
+        glm::mat4 _currentTransform = glm::mat4(1);
+        glm::mat4 _currentView = glm::mat4(1);
+        glm::mat4 _currentProjection = glm::mat4(1);
 
     public:
         explicit RenderOptions(const Renderer& renderer);

@@ -9,7 +9,7 @@
 
 namespace PAX {
     bool ShaderOptions::pushShader(void *caller, Shader* shader, ShaderPriority priority) {
-        PAX_assertNotNull(shader, "Shader can't be null!");
+        PAX_ASSERT_NOT_NULL(shader, "Shader can't be null!");
 
         if (_shaders.empty() || _shaders.top()._priority == ShaderPriority::MUTABLE) {
             ShaderUsage usage;

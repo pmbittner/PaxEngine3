@@ -9,11 +9,25 @@
 #include <sstream>
 
 namespace PAX {
-    Log Log::cout = Log(std::cout, std::cerr);
-    Log Log::out = cout;
+    Log Log::instance = Log();
 
-    Log::Log(std::ostream &out, std::ostream &err) : out_stream(out), err_stream(err) {
+    std::ostream * Log::getStreamFor(PAX::Log::Level level) {
+        if (level <= currentLevel) {
+            return outstreams.at(level);
+        } else {
+            return &nullStream;
+        }
+    }
 
+    Log::Log() : nullStream(&nullBuffer) {
+        outstreams[Level::None] = &nullStream;
+
+        outstreams[Level::Error] = &std::cerr;
+        outstreams[Level::Warn] = &std::cerr;
+
+        outstreams[Level::Info] = &std::cout;
+        outstreams[Level::Debug] = &std::cout;
+        outstreams[Level::Verbose] = &std::cout;
     }
 
     std::string Log::timestamp() {
@@ -24,27 +38,43 @@ namespace PAX {
         return s.str();
     }
 
-    std::ostream& Log::info() {
-        return out_stream << timestamp() << " ";
+    std::ostream & Log::stream(Level level, const char * functionName, const char * fileName, int line) {
+        std::ostream & stream = *getStreamFor(level);
+        stream << timestamp() << " " << level << " [" << (functionName ? functionName : "unknown") << "] ";
+        if (level == Level::Warn || level == Level::Error || level == Level::Debug) {
+            stream << fileName << "(" << line << "): ";
+        }
+        return stream;
     }
 
-    std::ostream& Log::warn() {
-        return err_stream << timestamp() << " ";
+    std::ostream & Log::stream_raw(Level level) {
+        return *getStreamFor(level);
     }
+}
 
-    std::ostream& Log::err() {
-        return err_stream << timestamp() << " ";
-    }
-
-    std::ostream& Log::info_raw() {
-        return out_stream;
-    }
-
-    std::ostream& Log::warn_raw() {
-        return err_stream;
-    }
-
-    std::ostream& Log::err_raw() {
-        return err_stream;
+std::ostream& operator<<(std::ostream& os, const ::PAX::Log::Level & level) {
+    using namespace ::PAX;
+    switch (level) {
+        case Log::Level::None: {
+            return os;
+        }
+        case Log::Level::Error: {
+            return os << "ERROR";
+        }
+        case Log::Level::Warn: {
+            return os << "WARNING";
+        }
+        case Log::Level::Info: {
+            return os << "INFO";
+        }
+        case Log::Level::Debug: {
+            return os << "DEBUG";
+        }
+        case Log::Level::Verbose: {
+            return os << "VERBOSE";
+        }
+        default: {
+            return os << "<UNKNOWN LOG LEVEL>";
+        }
     }
 }

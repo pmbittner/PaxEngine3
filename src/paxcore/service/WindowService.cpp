@@ -16,7 +16,7 @@ namespace PAX {
         int resY = globalSettings.getOrDefault<int>("core_resolutionHeight", 600);
 
         WindowFactory* windowFactory = Services::GetFactoryService().get<WindowFactory>();
-        PAX_assertNotNull(windowFactory, "[WindowService::initialize] No WindowFactory registered in FactoryService!");
+        PAX_ASSERT_NOT_NULL(windowFactory, "[WindowService::initialize] No WindowFactory registered in FactoryService!");
         _window = windowFactory->create(title.c_str(), resX, resY);
 
         if (globalSettings.getOrDefault<bool>("core_startInFullscreen")) {

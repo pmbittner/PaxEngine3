@@ -40,7 +40,7 @@ namespace PAX {
 
             std::shared_ptr<PropertyContainerPrefab<C>>
             loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) override {
-                PAX_NOT_IMPLEMENTED_EXCEPTION()
+                PAX_NOT_IMPLEMENTED_EXCEPTION();
             }
         };
     }

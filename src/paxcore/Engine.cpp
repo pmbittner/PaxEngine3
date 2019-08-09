@@ -23,9 +23,9 @@ namespace PAX {
     Engine::~Engine() = default;
 
     bool Engine::initialize(Game *game, const std::vector<EnginePlugin*> &plugins) {
-        Log::out.info() << "[Engine::initialize] start" << std::endl;
+        PAX_LOG(Log::Level::Info,  "start");
         //PAX_assertNotNull(setup, "Engine::initialize: Setup not set! Abort initialization!");
-        PAX_assertNotNull(game, "Engine::initialize: Game not set! Abort initialization!")
+        PAX_ASSERT_NOT_NULL(game, "Game not set! Abort initialization!");
 
         _game = game;
 
@@ -38,54 +38,54 @@ namespace PAX {
         // Copy plugins to member list
         _plugins.insert(std::end(_plugins), std::begin(plugins), std::end(plugins));
 
-        Log::out.info() << "[Engine::initialize] Plugins: initializing" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: initializing");
         for (EnginePlugin *plugin : _plugins) {
             plugin->initialize(*this);
         }
 
-        Log::out.info() << "[Engine::initialize] Plugins: registering Services" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: registering Services");
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerServices(_services);
         }
 
-        Log::out.info() << "[Engine::initialize] Plugins: registering ResourceLoaders" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: registering ResourceLoaders");
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerResourceLoaders(Services::GetResources());
         }
 
-        Log::out.info() << "[Engine::initialize] Plugins: registering Factories" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: registering Factories");
         for (EnginePlugin *plugin : _plugins) {
             plugin->registerFactories(Services::GetFactoryService());
         }
 
-        Log::out.info() << "[Engine::initialize] initialize Services" << std::endl;
+        PAX_LOG(Log::Level::Info, "initialize Services");
         _services.initialize();
 
         _targetFPS = Services::GetGlobalSettings().get<int>("core_targetFPS");
         _targetUPS = Services::GetGlobalSettings().get<int>("core_targetUPS");
 
-        Log::out.info() << "[Engine::initialize] initialize Renderer" << std::endl;
+        PAX_LOG(Log::Level::Info, "initialize Renderer");
         _renderer.initialize();
 
-        Log::out.info() << "[Engine::initialize] Plugins: registering Properties" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: registering Properties");
         for (EnginePlugin * plugin : _plugins) {
             plugin->registerProperties();
         }
 
-        Log::out.info() << "[Engine::initialize] Plugins: registering Systems" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: registering Systems");
         for (EnginePlugin * plugin : _plugins) {
             plugin->registerSystems(*_game);
         }
 
-        Log::out.info() << "[Engine::initialize] Plugins: postInitialize" << std::endl;
+        PAX_LOG(Log::Level::Info, "Plugins: postInitialize");
         for (EnginePlugin *plugin : _plugins) {
             plugin->postInitialize(*this);
         }
 
-        Log::out.info() << "[Engine::initialize] initialize Game" << std::endl;
+        PAX_LOG(Log::Level::Info, "initialize Game");
         _game->initialize();
 
-        Log::out.info() << "[Engine::initialize] done" << std::endl;
+        PAX_LOG(Log::Level::Info, "done");
         return true;
     }
 

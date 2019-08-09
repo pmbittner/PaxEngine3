@@ -42,6 +42,6 @@ namespace PAX {
     }
 
     void Texture::setPixels(void *data, PAX::Texture::PixelFormat dataPixelFormat) {
-        PAX_PRINT_WARN("Not implemented!")
+        PAX_NOT_IMPLEMENTED();
     }
 }

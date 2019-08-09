@@ -34,7 +34,7 @@ namespace PAX {
             void initialize(Engine& engine) override {
                 EnginePlugin::initialize(engine);
 
-                Log::out.info() << "[SDLPlugin::initialize] initialize SDL" << std::endl;
+                PAX_LOG(Log::Level::Info, "initialize SDL");
 
                 SDL_Init(SDL_INIT_EVERYTHING);
                 //TTF_Init();

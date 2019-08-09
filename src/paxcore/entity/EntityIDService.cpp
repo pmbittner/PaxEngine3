@@ -46,7 +46,7 @@ namespace PAX {
     void EntityIDService::generateIDFor(PAX::Entity *entity) {
         const auto it = ids.find(entity);
         if (it != ids.end()) {
-            PAX_PRINT_WARN("Overwriting existing id " << it->second << " with new id " << nextId)
+            PAX_LOG(Log::Level::Info, "Overwriting existing id " << it->second << " with new id " << nextId);
         }
 
         add(entity, nextId);
@@ -59,15 +59,15 @@ namespace PAX {
                 add(entity, id);
                 reservedIDs.emplace_back(id);
             } else {
-                PAX_THROW_RUNTIME_ERROR("Desired id " << id << " is already reserved!")
+                PAX_THROW_RUNTIME_ERROR("Desired id " << id << " is already reserved!");
             }
         } else {
-            PAX_THROW_RUNTIME_ERROR("Desired id " << id << " is to high! It has to be smaller than " << GenerationStart << ".")
+            PAX_THROW_RUNTIME_ERROR("Desired id " << id << " is to high! It has to be smaller than " << GenerationStart << ".");
         }
     }
 
     void EntityIDService::releaseIDOf(PAX::Entity * entity) {
         /// We do not clean the reservedIDs vector!
-        PAX_NOT_IMPLEMENTED()
+        PAX_NOT_IMPLEMENTED();
     }
 }

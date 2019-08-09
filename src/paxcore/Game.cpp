@@ -44,7 +44,7 @@ namespace PAX {
             if (force) {
                 setActiveWorld(nullptr);
             } else {
-                PAX_PRINT_WARN("Trying to unregister the active World " << world)
+                PAX_LOG(Log::Level::Warn, "Trying to unregister the active World " << world);
                 return false;
             }
         }

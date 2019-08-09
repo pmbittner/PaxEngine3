@@ -58,13 +58,10 @@ namespace PAX {
                     break;
             }
 
-            std::stringstream out;
-            out << "[GLErrorCallback] " << typeString << ": " << message << " (Severity is " << severityString << ")";
-
 #ifdef PAX_CRASH_ON_GLERROR
-            PAX_THROW_RUNTIME_ERROR(out.str())
+            PAX_THROW_RUNTIME_ERROR(typeString << ": " << message << " (Severity is " << severityString << ")");
 #else
-            std::cerr << "[GLErrorCallback] " << out.str() << std::endl;
+            PAX_LOG(Log::Level::Error, typeString << ": " << message << " (Severity is " << severityString << ")");
 #endif
         }
 
@@ -72,9 +69,9 @@ namespace PAX {
         {
             while (auto err = glGetError()) {
 #ifdef PAX_CRASH_ON_GLERROR
-                PAX_THROW_RUNTIME_ERROR("OPENGL ERROR" << " in " << location << ": " << gluErrorString(err))
+                PAX_THROW_RUNTIME_ERROR("OPENGL ERROR" << " in " << location << ": " << gluErrorString(err));
 #else
-                std::cerr << "OPENGL ERROR" << " in " << location << ": " << gluErrorString(err) << std::endl;
+                PAX_LOG(Log::Level::Error, "OPENGL ERROR" << " in " << location << ": " << gluErrorString(err));
 #endif
             }
 

@@ -37,11 +37,11 @@ namespace PAX {
         int flags = IMG_INIT_JPG | IMG_INIT_PNG;
         int initted = IMG_Init(flags);
         if((initted & flags) != flags) {
-            PAX_PRINT_ERR("could not init SDL_Image: " << IMG_GetError())
+            PAX_LOG(Log::Level::Error, "could not init SDL_Image: " << IMG_GetError());
         }
 
         if((tex = IMG_Load(path.c_str())) == nullptr) {
-            PAX_PRINT_ERR("Loading texture " << path << " failed.")
+            PAX_LOG(Log::Level::Error, "Loading texture " << path << " failed.");
         }
 
         Texture::PixelFormat format = Texture::PixelFormat::RGB;

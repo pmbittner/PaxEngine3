@@ -58,9 +58,9 @@ namespace PAX {
 
             for (Pixel &p: errorLetter) {
                 int index = 3 * PAX::Util::Conversion::coordinatesToIndex(w, p.x + xoffset, p.y + yoffset);
-                pixels[index] = 255;
-                pixels[index + 1] = 255;
-                pixels[index + 2] = 255;
+                pixels[index] = char(255);
+                pixels[index + 1] = char(255);
+                pixels[index + 2] = char(255);
             }
 
             _texture = Services::GetFactoryService().get<TextureFactory>()->create(w, h);

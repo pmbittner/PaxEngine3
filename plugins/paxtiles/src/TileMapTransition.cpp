@@ -41,7 +41,7 @@ namespace PAX {
             if (keyPressedEvent.button == PAX::Key::T) {
                 keyPressedEvent.consume();
 
-                PAX_PRINT_OUT("Transition initiated by entity " << getOwner())
+                PAX_LOG(Log::Level::Info, "Transition initiated by entity " << getOwner());
                 //PAX_PRINT_OUT("Transition to object " << targetTransitionID << " in " << targetMap)
 
                 // TODO: Load a world instead of a layer.
@@ -55,7 +55,7 @@ namespace PAX {
                 // Find location of target entity
                 Entity * targetEntity = targetWorldLayer->getEntityIDService().getEntity(targetTransitionID);
                 if (!targetEntity) {
-                    PAX_PRINT_WARN("Could not detect target entity via id = " << targetTransitionID)
+                    PAX_LOG(Log::Level::Warn, "Could not detect target entity via id = " << targetTransitionID);
                     return;
                 }
                 glm::vec2 targetPos = targetEntity->getTransformation().position2D();

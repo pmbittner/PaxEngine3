@@ -90,7 +90,7 @@ namespace PAX {
                 return opt.value();
             }
 
-            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
+            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!");
         }
 
         template<typename T>
@@ -110,7 +110,7 @@ namespace PAX {
             if (opt.has_value())
                 return opt.value();
 
-            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
+            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!");
         }
 
         template<typename T>
@@ -128,7 +128,7 @@ namespace PAX {
             if (list.has_value())
                 return list.value();
 
-            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!")
+            PAX_THROW_RUNTIME_ERROR("Variable " << name <<  " could not be obtained!");
         }
     };
 }

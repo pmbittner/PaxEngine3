@@ -54,7 +54,7 @@ namespace PAX {
                 }
             }
 
-            PAX_THROW_RUNTIME_ERROR("Dependency not met: " << pluginName << " requires the Plugin " << Reflection::GetTypeName<Dependency>())
+            PAX_THROW_RUNTIME_ERROR("Dependency not met: " << pluginName << " requires the Plugin " << Reflection::GetTypeName<Dependency>());
         }
 
     public:

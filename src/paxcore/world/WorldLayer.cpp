@@ -36,7 +36,7 @@ namespace PAX {
             if (sceneGraphGeneratorFactory) {
                 this->sceneGraphGenerator = sceneGraphGeneratorFactory->create(dimensions);
             } else {
-                PAX_THROW_RUNTIME_ERROR("Could not create SceneGraphGenerator because no factory is registered at the FactoryService!")
+                PAX_THROW_RUNTIME_ERROR("Could not create SceneGraphGenerator because no factory is registered at the FactoryService!");
             }
         }
 
@@ -44,7 +44,7 @@ namespace PAX {
         if (sceneGraphGeneratorFactory) {
             this->sceneGraph = sceneGraphGeneratorFactory->create(this, z);
         } else {
-            throw std::runtime_error("[WorldLayer::WorldLayer] Could not create SceneGraph because no factory is registered at the FactoryService!");
+            PAX_THROW_RUNTIME_ERROR("[WorldLayer::WorldLayer] Could not create SceneGraph because no factory is registered at the FactoryService!");
         }
 
         this->sceneGraphGenerator->initialize(this->sceneGraph.get(), getEventService());

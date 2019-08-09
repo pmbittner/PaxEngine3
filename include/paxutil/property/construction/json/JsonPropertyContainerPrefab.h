@@ -94,7 +94,7 @@ namespace PAX {
                         it->second->parse(parent[childname], c, *this, variableRegister);
                     }
                 } else {
-                    PAX_PRINT_WARN("ignoring element " << childname << " because no parser is registered for it!")
+                    PAX_LOG(Log::Level::Warn, "ignoring element " << childname << " because no parser is registered for it!");
                 }
             }
 

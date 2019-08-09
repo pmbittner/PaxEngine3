@@ -10,7 +10,7 @@ namespace PAX {
     }
 
     bool Mouse::isButtonDown(MouseButton button) {
-        Log::out.warn() << "Mouse::isButtonDown not implemented" << std::endl;
+        PAX_NOT_IMPLEMENTED();
         return false;
     }
 

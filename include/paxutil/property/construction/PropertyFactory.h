@@ -69,7 +69,7 @@ namespace PAX {
             if (it != map.end()) {
                 return it->second;
             } else {
-                PAX_THROW_RUNTIME_ERROR("No factory is registered for the name \"" << name << "\"!")
+                PAX_THROW_RUNTIME_ERROR("No factory is registered for the name \"" << name << "\"!");
             }
         }
 

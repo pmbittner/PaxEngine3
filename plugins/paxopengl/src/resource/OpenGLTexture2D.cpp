@@ -24,7 +24,7 @@ namespace PAX {
                     return GL_CLAMP_TO_BORDER;
                 }
                 default: {
-                    PAX_PRINT_WARN("Unknown WrapMode given! Was " << int(wrapMode))
+                    PAX_LOG(Log::Level::Warn, "Unknown WrapMode given! Was " << int(wrapMode));
                     return GL_REPEAT;
                 }
             }
@@ -39,7 +39,7 @@ namespace PAX {
                     return GL_LINEAR;
                 }
                 default: {
-                    PAX_PRINT_WARN("Unknown FilterMode given! Was " << int(filterMode))
+                    PAX_LOG(Log::Level::Warn, "Unknown FilterMode given! Was " << int(filterMode));
                     return GL_NEAREST;
                 }
             }
@@ -57,7 +57,7 @@ namespace PAX {
                     return GL_BGR;
                 }
                 default: {
-                    PAX_PRINT_WARN("Unknown PixelFormat given! Was " << int(pixelFormat))
+                    PAX_LOG(Log::Level::Warn, "Unknown PixelFormat given! Was " << int(pixelFormat));
                     return GL_RGB;
                 }
             }

@@ -9,7 +9,7 @@ namespace PAX {
     MeshNode::MeshNode() = default;
 
     MeshNode::MeshNode(const std::shared_ptr<Mesh> & mesh) : _mesh(mesh) {
-        PAX_assertNotNull(mesh, "Mesh can't be null!")
+        PAX_ASSERT_NOT_NULL(mesh, "Mesh can't be null!");
     }
 
     MeshNode::~MeshNode() = default;

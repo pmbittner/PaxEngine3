@@ -34,7 +34,7 @@ namespace PAX {
                                        flags());
 
             if (_window == NULL) {
-                Log::out.err() << "[SDLWindow::create] Window could not be created: " << SDL_GetError() << std::endl;
+                PAX_LOG(Log::Level::Error, "[SDLWindow::create] Window could not be created: " << SDL_GetError());
                 return false;
             }
 
