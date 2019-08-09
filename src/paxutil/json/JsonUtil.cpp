@@ -11,13 +11,16 @@ namespace PAX {
             return j;
         }
 
-        /*
-        //std::cout << "[JsonToString] " << key << " -> ";
-        std::stringstream ss;
-        ss << j;
-        //std::cout << ss.str() << std::endl;
-        return ss.str();
-         */
         return j.dump();
+    }
+
+    nlohmann::json StringToJson(const std::string & s) {
+        bool is_literal = s.find('[') == std::string::npos && s.find('{') == std::string::npos;
+
+        if (is_literal) {
+            return s;
+        } else {
+            return nlohmann::json::parse(s);
+        }
     }
 }

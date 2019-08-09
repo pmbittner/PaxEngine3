@@ -7,6 +7,7 @@
 
 #include <memory>
 #include <paxphysics/2d/shape/Shape2D.h>
+#include <paxutil/json/JsonParser.h>
 #include "paxphysics/2d/material/PhysicsMaterial.h"
 
 namespace PAX {
@@ -22,7 +23,7 @@ namespace PAX {
         };
     }
 
-    PAX_SPECIALIZE_STRINGTRYPARSE_HEADER(::PAX::Physics::Fixture2D)
+    PAX_SPECIALIZE_JSONTRYPARSE_HEADER(::PAX::Physics::Fixture2D)
 }
 
 #endif //PAXENGINE3_FIXTURE2D_H

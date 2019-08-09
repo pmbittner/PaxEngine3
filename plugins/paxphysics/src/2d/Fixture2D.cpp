@@ -21,11 +21,8 @@ namespace PAX {
         Fixture2D::~Fixture2D() = default;
     }
 
-    Physics::Fixture2D TryParser<std::string, Physics::Fixture2D>::tryParse(const std::string &str) {
+    ::PAX::Physics::Fixture2D TryParser<nlohmann::json, ::PAX::Physics::Fixture2D>::tryParse(const nlohmann::json & j) {
         std::shared_ptr<Physics::Shape2D> shape = nullptr;
-
-        // TODO: Move this to future tryParseJson function
-        auto j = nlohmann::json::parse(str);
 
         std::string shapeType = j["type"];
         if (shapeType == "Rectangle") {

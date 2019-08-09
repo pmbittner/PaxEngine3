@@ -17,6 +17,7 @@ namespace PAX {
     };
 
     std::string JsonToString(const nlohmann::json & j);
+    nlohmann::json StringToJson(const std::string & s);
 }
 
 #endif //PAXENGINE3_JSONUTIL_H

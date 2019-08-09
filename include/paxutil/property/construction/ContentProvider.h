@@ -17,6 +17,9 @@
 #include "paxutil/macros/Definitions.h"
 #include "paxutil/reflection/TypeHandle.h"
 
+// FIXME: Remove this include.
+#include "paxutil/json/JsonParser.h"
+
 namespace PAX {
     namespace Internal {
         class PropertyContent {
@@ -33,7 +36,9 @@ namespace PAX {
 
             template<typename T>
             T get(const std::string & name, const VariableRegister & variables) {
-                return String::tryParse<T>(getValue(name, variables));
+                // FIXME: This is a hack! We should not refer to Json here but the subclass should!
+                nlohmann::json j = StringToJson(getValue(name, variables));
+                return Json::tryParse<T>(j);
             }
 
             template<typename T>
@@ -42,7 +47,8 @@ namespace PAX {
                 std::vector<T> values;
 
                 for (size_t i = 0; i < str_values.size(); ++i) {
-                    values.push_back(String::tryParse<T>(str_values[i]));
+                    // FIXME: This is a hack! We should not refer to Json here but the subclass should!
+                    values.push_back(Json::tryParse<T>(StringToJson(str_values[i])));
                 }
 
                 return values;

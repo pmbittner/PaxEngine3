@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONPARSER_H
 #define PAXENGINE3_JSONPARSER_H
 
-#include "Json.h"
+#include "JsonUtil.h"
 #include "../TryParser.h"
 
 namespace PAX {
@@ -13,7 +13,7 @@ namespace PAX {
     class TryParser<nlohmann::json, To> {
     public:
         [[nodiscard]] static To tryParse(const nlohmann::json & f) {
-            return String::tryParse<To>(f);
+            return String::tryParse<To>(JsonToString(f));
         }
     };
 
@@ -28,7 +28,7 @@ namespace PAX {
             template<> \
             class TryParser<nlohmann::json, type> { \
             public: \
-                [[nodiscard]] static type tryParse(const std::string & str); \
+                [[nodiscard]] static type tryParse(const nlohmann::json & j); \
             };
 }
 

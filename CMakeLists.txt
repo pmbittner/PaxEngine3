@@ -19,8 +19,10 @@ message("CMAKE_CXX_STANDARD is ${CMAKE_CXX_STANDARD}")
 
 if (${CMAKE_BUILD_TYPE} MATCHES Release)
     add_definitions(-DPAX_BUILD_TYPE_RELEASE)
+    message("BUILD TYPE is Release")
 elseif(${CMAKE_BUILD_TYPE} MATCHES Debug)
     add_definitions(-DPAX_BUILD_TYPE_DEBUG)
+    message("BUILD TYPE is Debug")
 endif(${CMAKE_BUILD_TYPE} MATCHES Release)
 
 #message("CMAKE_CXX_FLAGS        : ${CMAKE_CXX_FLAGS}")
