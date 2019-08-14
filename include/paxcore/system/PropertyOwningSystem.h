@@ -5,72 +5,22 @@
 #ifndef PAXENGINE3_PROPERTYOWNINGSYSTEM_H
 #define PAXENGINE3_PROPERTYOWNINGSYSTEM_H
 
-#include <paxutil/memory/Allocator.h>
+#include <paxutil/memory/allocators/PoolAllocator.h>
+#include "WorldSystem.h"
 
 namespace PAX {
     template<class P>
-    class PropertyOwningSystem : public Allocator {
-        static constexpr size_t Initial_Size = 1024;
-
-        struct MemoryChunk {
-            bool allocated = false;
-            union {
-                P property;
-                struct {
-                    long next = -1;
-                };
-            };
-        };
-
-        MemoryChunk * memory = nullptr;
-        size_t capacity = 0;
-        long nextFree = -1;
+    class PropertyOwningSystem : public WorldSystem {
+        PoolAllocator<sizeof(P)> allocator;
 
     public:
-        explicit PropertyOwningSystem(size_t capacity = Initial_Size) : capacity(capacity) {
-            clear();
-        }
+        PropertyOwningSystem() = default;
 
-        PropertyOwningSystem(const PropertyOwningSystem & other) = delete;
-        PropertyOwningSystem(const PropertyOwningSystem&& other) = delete;
-        PropertyOwningSystem & operator=(const PropertyOwningSystem & other) = delete;
-        PropertyOwningSystem & operator=(const PropertyOwningSystem&& other) = delete;
+        void initialize(Game *game) override {
+            WorldSystem::initialize(game);
 
-        ~PropertyOwningSystem() override {
-            delete[] memory;
-        }
-
-        void * allocate(size_t size) override {
-            MemoryChunk * mem = memory[nextFree];
-            nextFree = mem->next;
-
-            /*
-            if (mem->prev >= 0) {
-                MemoryChunk * prev = memory[mem->prev];
-                prev->next = nextFree;
-                nextFree->prev = prev;
-            }*/
-
-            // Is this necessary?
-            mem->next = -1;
-            //mem->prev = 0;
-
-            return &(mem->property);
-        };
-
-        void destroy(void * size) override {
-            MemoryChunk * mem = reinterpret_cast<MemoryChunk*>(size);
-        };
-
-        void clear() {
-            delete[] memory;
-            memory = new MemoryChunk[capacity];
-            nextFree = 0;
-
-            for (size_t i = 0; i < capacity - 1; ++i) {
-                memory[i].next = i + 1;
-                memory[i + 1].prev = i;
-            }
+            AllocationService & allocationService = P::Container::GetPropertyAllocator();
+            allocationService.registerAllocator(paxtypeid(P), &allocator);
         }
     };
 }
