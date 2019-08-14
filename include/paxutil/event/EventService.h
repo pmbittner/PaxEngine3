@@ -22,6 +22,12 @@ namespace PAX {
         };
 
     public:
+        EventService() = default;
+        EventService(const EventService & other) = delete;
+        EventService(const EventService && other) = delete;
+        EventService & operator=(const EventService & other) = delete;
+        EventService & operator=(const EventService && other) = delete;
+
         void setParent(EventService *parent);
         EventService* getParent();
 

@@ -15,6 +15,12 @@ namespace PAX {
         std::vector<Delegate<Args...>> _delegates;
 
     public:
+        EventHandler() = default;
+        EventHandler(const EventHandler<Args...> & other) = delete;
+        EventHandler(const EventHandler<Args...> && other) = delete;
+        EventHandler<Args...> & operator=(const EventHandler<Args...> & other) = delete;
+        EventHandler<Args...> & operator=(const EventHandler<Args...> && other) = delete;
+
         template<class T, void (T::*Method)(Args...)>
         void add(T* callee) {
             _delegates.push_back(Delegate<Args...>(callee, &invoke<T, Method>));
