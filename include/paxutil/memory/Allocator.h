@@ -8,11 +8,16 @@
 #include <utility>
 
 namespace PAX {
-    class Allocator {
+    class IAllocator {
     public:
-        virtual ~Allocator() = default;
-        virtual void* allocate(size_t size) = 0;
+        virtual ~IAllocator() = default;
         virtual void destroy(void * size) = 0;
+    };
+
+    template<size_t ElementSize>
+    class Allocator : public IAllocator {
+    public:
+        virtual void* allocate() = 0;
     };
 }
 

@@ -5,58 +5,52 @@
 #ifndef PAXENGINE3_PROPERTYALLOCATIONSERVICE_H
 #define PAXENGINE3_PROPERTYALLOCATIONSERVICE_H
 
-#include <assert.h>
-#include <utility>
-#include <unordered_set>
-#include <memory>
 
 #include "paxutil/reflection/TypeMap.h"
+
 #include "Allocator.h"
 #include "allocators/MallocAllocator.h"
+#include "allocators/PoolAllocator.h"
 
 namespace PAX {
-    template<class Object, class AllocType>
-    class TypedAllocator : public AllocType {
-    public:
-        void destroy(void * size) override {
-            // static_cast is used, as we ensure, that size is always of type object, but dynamic_cast would be correct here.
-            static_cast<Object*>(size)->~Object();
-            AllocType::destroy(size);
-        };
-    };
-
     class AllocationService {
-        TypeMap<Allocator*> _allocators;
+        TypeMap<IAllocator*> allocators;
 
     public:
         AllocationService() = default;
 
-        void registerAllocator(const TypeHandle& type, Allocator * provider) {
-            _allocators[type] = provider;
+        void registerAllocator(const TypeHandle& type, IAllocator * provider) {
+            allocators[type] = provider;
         }
 
         size_t unregisterAllocator(const TypeHandle & type) {
-            return _allocators.erase(type);
+            return allocators.erase(type);
         }
 
-        void * alloc(const TypeHandle& type, std::size_t size) {
-            Allocator* allocator;
+        template<class T>
+        void * allocate() {
+            Allocator<sizeof(T)> * allocator = nullptr;
 
-            const auto & allocIt = _allocators.find(type);
-            if (allocIt == _allocators.end()) {
-                // TODO: Avoid new: Allocator for allocator lul
-                allocator = new MallocAllocator();
-                registerAllocator(type, allocator);
-            } else {
-                allocator = allocIt->second;
+            const auto & allocIt = allocators.find(paxtypeid(T));
+            if (allocIt != allocators.end()) {
+                allocator = dynamic_cast<Allocator<sizeof(T)>*>(allocIt->second);
+                if (!allocator) {
+                    PAX_LOG(PAX::Log::Level::Error, "Registered Allocator for " << typeid(T).name() << " is not of type Allocator<" << typeid(T).name() << ">!");
+                }
             }
 
-            return allocator->allocate(size);
+            if (!allocator){
+                // TODO: Avoid new: Allocator for allocator lul
+                allocator = new PoolAllocator<sizeof(T)>();
+                registerAllocator(paxtypeid(T), allocator);
+            }
+
+            return allocator->allocate();
         }
 
         bool free(const TypeHandle& type, void * object) {
-            const auto& allocator = _allocators.find(type);
-            if (allocator != _allocators.end()) {
+            const auto& allocator = allocators.find(type);
+            if (allocator != allocators.end()) {
                 allocator->second->destroy(object);
                 return true;
             }

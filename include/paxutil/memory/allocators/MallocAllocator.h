@@ -9,10 +9,11 @@
 #include <cstdlib>
 
 namespace PAX {
-    class MallocAllocator : public Allocator {
+    template<size_t ElementSize>
+    class MallocAllocator : public Allocator<ElementSize> {
     public:
-        void* allocate(size_t size) override {
-            return malloc(size);
+        void* allocate() override {
+            return malloc(ElementSize);
         }
 
         void destroy(void * t) override {

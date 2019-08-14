@@ -62,7 +62,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/log/Log.h
         ../../include/paxutil/property/construction/PropertyFactory.h
         ../../include/paxutil/json/JsonParser.h
-        ../../include/paxutil/TryParser.h)
+        ../../include/paxutil/TryParser.h ../../include/paxutil/memory/allocators/PoolAllocator.h)
 
 set(SOURCE_FILES
         StringUtils.cpp

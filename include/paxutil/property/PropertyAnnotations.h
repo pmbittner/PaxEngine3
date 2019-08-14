@@ -43,8 +43,8 @@ protected: \
     bool PAX_INTERNAL(addTo)(Container& c) override; \
     bool PAX_INTERNAL(removeFrom)(Container& c) override; \
     void initializeFromProvider(::PAX::ContentProvider&) override; \
-private: IfConcrete( \
-/*    static ::PAX::PropertyFactory<This, Container> __ByNameFactory;*/ \
+private: \
+IfConcrete( \
 public: \
     static This * createFromProvider(::PAX::ContentProvider&); \
     static void* operator new(std::size_t sz); \
@@ -87,7 +87,7 @@ private:
     } IfConcrete( \
 /*    ::PAX::PropertyFactory<Type, Type::Container> Type::__ByNameFactory(#Type);*/ \
     void* Type::operator new(std::size_t sz) { \
-        return Container::GetPropertyAllocator().alloc(paxtypeid(This), sz); \
+        return Container::GetPropertyAllocator().allocate<Type>(); \
     } \
     void Type::operator delete(void * object) { \
         Container::GetPropertyAllocator().free(paxtypeid(This), object); \
