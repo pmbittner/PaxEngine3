@@ -60,9 +60,9 @@ namespace PAX {
 #define PAX_LOG_RAW(level, message) do {::PAX::Log::instance.stream_raw(level) << message << std::endl;} while(0)
 
 #ifdef PAX_BUILD_TYPE_DEBUG
-    #define PAX_LOG_DEBUG(level, stream, message) PAX_LOG(level, stream, message)
+    #define PAX_LOG_DEBUG(level, message) PAX_LOG(level, message)
 #elif defined(PAX_BUILD_TYPE_RELEASE)
-    #define PAX_LOG_DEBUG(level, stream, message) {}
+    #define PAX_LOG_DEBUG(level, message) {}
 #endif
 }
 
