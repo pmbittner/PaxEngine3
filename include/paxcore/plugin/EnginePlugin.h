@@ -8,7 +8,7 @@
 #include <sstream>
 #include <vector>
 
-#include <paxutil/macros/MacroIncludes.h>
+#include <paxutil/log/Errors.h>
 #include <paxutil/reflection/TemplateTypeToString.h>
 #include <paxcore/service/FactoryService.h>
 

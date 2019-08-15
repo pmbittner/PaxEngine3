@@ -6,9 +6,7 @@
 #define PAXENGINE3_MAININCLUDES_H
 
 #include "paxutil/macros/PlatformIncludes.h"
-#include "paxutil/macros/MacroIncludes.h"
 #include "paxutil/lib/LibIncludes.h"
-
 #include "paxcore/Engine.h"
 
 #endif //PAXENGINE3_MAININCLUDES_H

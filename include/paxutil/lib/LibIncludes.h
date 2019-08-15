@@ -7,9 +7,4 @@
 
 #include "GlmIncludes.h"
 
-//#include <easylogging++.h>
-
-// Initialize easylogging
-//INITIALIZE_EASYLOGGINGPP
-
 #endif //PAXENGINE3_LOGINCLUDES_H

@@ -1,68 +1,79 @@
 set(HEADERS_FOR_CLION
-        ../../include/paxutil/macros/OSDetection.h
-        ../../include/paxutil/Sleep.h
+        ../../include/paxutil/event/Delegate.h
+        ../../include/paxutil/event/Event.h
+        ../../include/paxutil/event/EventHandler.h
+        ../../include/paxutil/event/EventService.h
 
-        ../../include/paxutil/lib/LibIncludes.h
-        ../../include/paxutil/stdutils/CollectionUtils.h
-        ../../include/paxutil/macros/MacroIncludes.h
-        ../../include/paxutil/StringUtils.h
-        ../../include/paxutil/reflection/MemberCheck.h
-        ../../include/paxutil/Dependency.h
-        ../../include/paxutil/reflection/TypeMap.h
-        ../../include/paxutil/Signature.h
+        ../../include/paxutil/genericfactory/GenericFactory.h
+        ../../include/paxutil/genericfactory/GenericFactoryService.h
+
         ../../include/paxutil/io/FileTypeChecker.h
-        ../../include/paxutil/math/Conversion.h
-        ../../include/paxutil/reflection/TemplateTypeToString.h
+        ../../include/paxutil/io/Path.h
+        ../../include/paxutil/io/Settings.h
+
+        ../../include/paxutil/json/JsonLoader.h
+        ../../include/paxutil/json/JsonParser.h
+        ../../include/paxutil/json/JsonUtil.h
+
+        ../../include/paxutil/lib/GlmIncludes.h
+        ../../include/paxutil/lib/LibIncludes.h
+
+        ../../include/paxutil/log/Errors.h
+        ../../include/paxutil/log/Log.h
+
         ../../include/paxutil/macros/CompilerDetection.h
-        ../../include/paxutil/macros/BuildType.h
-        ../../include/paxutil/reflection/TypeHandle.h
-        ../../include/paxutil/reflection/TypeHierarchy.h
-        ../../include/paxutil/math/Functions.h
-        ../../include/paxutil/math/BoundingBox.h
-        ../../include/paxutil/stdutils/OstreamOverloads.h
+        ../../include/paxutil/macros/Definitions.h
+        ../../include/paxutil/macros/OSDetection.h
         ../../include/paxutil/macros/PlatformIncludes.h
-        ../../include/paxutil/stdutils/makeunique.h
+
         ../../include/paxutil/math/Angles.h
-        ../../include/paxutil/math/MathDefines.h
         ../../include/paxutil/math/Basis.h
+        ../../include/paxutil/math/BoundingBox.h
+        ../../include/paxutil/math/Conversion.h
+        ../../include/paxutil/math/Functions.h
+        ../../include/paxutil/math/MathDefines.h
         ../../include/paxutil/math/Transformation.h
-        ../../include/paxutil/property/Property.h
-        ../../include/paxutil/property/PropertyContainer.h
-        ../../include/paxutil/property/PropertyDependencies.h
+        ../../include/paxutil/math/json/JsonToTransformation.h
+
         ../../include/paxutil/memory/Allocator.h
         ../../include/paxutil/memory/AllocationService.h
         ../../include/paxutil/memory/allocators/MallocAllocator.h
-        ../../include/paxutil/io/Settings.h
+        ../../include/paxutil/memory/allocators/PoolAllocator.h
+
+        ../../include/paxutil/property/Property.h
         ../../include/paxutil/property/PropertyAnnotations.h
-        ../../include/paxutil/property/construction/PropertyContainerPrefab.h
-        ../../include/paxutil/genericfactory/GenericFactoryService.h
-        ../../include/paxutil/genericfactory/GenericFactory.h
-        ../../include/paxutil/reflection/TypeRegister.h
-        ../../include/paxutil/property/construction/ContentProvider.h
-        ../../include/paxutil/macros/Definitions.h
-        ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefab.h
-        ../../include/paxutil/json/JsonUtil.h
-        ../../include/paxutil/json/JsonLoader.h
-        ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h
-        ../../include/paxutil/property/construction/json/JsonPropertyContent.h
-        ../../include/paxutil/io/Path.h
-        ../../include/paxutil/lib/GlmIncludes.h
-        ../../include/paxutil/event/Event.h
-        ../../include/paxutil/event/EventService.h
-        ../../include/paxutil/event/Delegate.h
-        ../../include/paxutil/event/EventHandler.h
-        ../../include/paxutil/resources/Resources.h
-        ../../include/paxutil/resources/ResourceLoader.h
-        ../../include/paxutil/resources/ResourceHandle.h
-        ../../include/paxutil/StringVariables.h
-        ../../include/paxutil/math/json/JsonToTransformation.h
-        ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h
+        ../../include/paxutil/property/PropertyContainer.h
         ../../include/paxutil/property/PropertyContainerManager.h
         ../../include/paxutil/property/PropertyContainerManagerView.h
-        ../../include/paxutil/log/Log.h
+        ../../include/paxutil/property/PropertyDependencies.h
         ../../include/paxutil/property/construction/PropertyFactory.h
-        ../../include/paxutil/json/JsonParser.h
-        ../../include/paxutil/TryParser.h ../../include/paxutil/memory/allocators/PoolAllocator.h)
+        ../../include/paxutil/property/construction/ContentProvider.h
+        ../../include/paxutil/property/construction/PropertyContainerPrefab.h
+        ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefab.h
+        ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h
+        ../../include/paxutil/property/construction/json/JsonPropertyContent.h
+        ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h
+
+        ../../include/paxutil/reflection/MemberCheck.h
+        ../../include/paxutil/reflection/TemplateTypeToString.h
+        ../../include/paxutil/reflection/TypeHandle.h
+        ../../include/paxutil/reflection/TypeHierarchy.h
+        ../../include/paxutil/reflection/TypeMap.h
+        ../../include/paxutil/reflection/TypeRegister.h
+
+        ../../include/paxutil/resources/Resources.h
+        ../../include/paxutil/resources/ResourceHandle.h
+        ../../include/paxutil/resources/ResourceLoader.h
+
+        ../../include/paxutil/stdutils/CollectionUtils.h
+        ../../include/paxutil/stdutils/OstreamOverloads.h
+
+        ../../include/paxutil/Dependency.h
+        ../../include/paxutil/Signature.h
+        ../../include/paxutil/Sleep.h
+        ../../include/paxutil/StringUtils.h
+        ../../include/paxutil/StringVariables.h
+        ../../include/paxutil/TryParser.h)
 
 set(SOURCE_FILES
         StringUtils.cpp

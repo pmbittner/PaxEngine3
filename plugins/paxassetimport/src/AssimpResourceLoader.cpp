@@ -226,7 +226,7 @@ namespace PAX {
         }
 
         std::shared_ptr<Asset> AssimpResourceLoader::load(Path p) {
-            PAX_assertNotNull(Services::GetFactoryService().get<MeshFactory>(), "[AssimpResourceLoader::load] MeshFactory is required, but is not registered!")
+            PAX_ASSERT_NOT_NULL(Services::GetFactoryService().get<MeshFactory>(), "MeshFactory is required, but is not registered!");
 
             Assimp::Importer importer;
 

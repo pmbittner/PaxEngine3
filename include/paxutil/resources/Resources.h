@@ -12,17 +12,15 @@
 
 #include <utility> // std::forward
 
-#include <paxutil/macros/MacroIncludes.h>
-
 #include <paxutil/reflection/TypeMap.h>
 #include <paxutil/stdutils/CollectionUtils.h>
 #include <paxutil/StringVariables.h>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
-#include "paxutil/io/Path.h"
 
-#include "paxutil/log/Log.h"
+#include <paxutil/io/Path.h>
+#include <paxutil/log/Errors.h>
 
 namespace PAX {
     class ResourceAlreadyCachedException : public std::exception {

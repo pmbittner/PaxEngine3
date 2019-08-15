@@ -2,7 +2,6 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <paxutil/macros/MacroIncludes.h>
 #include <paxcore/rendering/camera/PixelScreenProjection.h>
 
 namespace PAX {

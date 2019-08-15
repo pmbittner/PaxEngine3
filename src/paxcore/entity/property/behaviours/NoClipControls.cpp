@@ -10,8 +10,6 @@
 
 #include <paxutil/lib/GlmIncludes.h>
 
-#include <paxutil/macros/MacroIncludes.h>
-
 namespace PAX {
     PAX_PROPERTY_SOURCE(PAX::NoClipControls, PAX_PROPERTY_IS_CONCRETE)
 

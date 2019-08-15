@@ -4,7 +4,6 @@
 
 #include <paxcore/rendering/camera/Camera.h>
 #include <paxcore/entity/Entity.h>
-#include <paxutil/macros/MacroIncludes.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
 #include <paxcore/rendering/camera/PixelScreenProjection.h>

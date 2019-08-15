@@ -42,7 +42,7 @@ namespace PAX {
             };
 
             MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
-            PAX_assertNotNull(meshFactory, "[PAX::Util::createCube] MeshFactory is required, but is not registered!")
+            PAX_ASSERT_NOT_NULL(meshFactory, "MeshFactory is required, but is not registered!");
             std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
 
             { // Create normals

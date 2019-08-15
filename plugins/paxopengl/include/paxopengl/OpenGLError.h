@@ -9,8 +9,6 @@
 #include <GL/glew.h>
 #include <iostream>
 
-#include <paxutil/macros/BuildType.h>
-
 namespace PAX {
     namespace OpenGL {
 

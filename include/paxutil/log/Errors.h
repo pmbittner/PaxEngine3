@@ -2,18 +2,12 @@
 // Created by Paul on 02.06.2017.
 //
 
-#ifndef PAXENGINE3_MACROINCLUDES_H
-#define PAXENGINE3_MACROINCLUDES_H
+#ifndef PAXENGINE3_ERRORS_H
+#define PAXENGINE3_ERRORS_H
 
-#include "CompilerDetection.h"
 #include <sstream>
-#include <ostream>
 #include <stdexcept>
-#include "../log/Log.h"
-
-/** UTILITY **/
-// We do not use a template function here to avoid multiple instanciation of the same function
-// and thus keep the code smaller and inlined.
+#include "Log.h"
 
 #define PAX_ASSERT_NOT_NULL(value, ...) do { \
 if (value == nullptr) { \
@@ -33,4 +27,4 @@ if (value == nullptr) { \
 #define PAX_NOT_IMPLEMENTED() PAX_LOG(PAX::Log::Level::Warn, "not implemented")
 #define PAX_NOT_IMPLEMENTED_EXCEPTION() PAX_THROW_RUNTIME_ERROR("not implemented")
 
-#endif //PAXENGINE3_MACROINCLUDES_H
+#endif //PAXENGINE3_ERRORS_H

@@ -30,8 +30,8 @@ namespace PAX {
         public:
             Demo() : Game()
             {
-                PAX_PRINT_OUT("Moinsen " << 24)
-                PAX_PRINT_OUT_DEBUG("I am only visible in debug mode hihi.")
+                PAX_LOG(PAX::Log::Level::Info, "Moinsen " << 24);
+                PAX_LOG_DEBUG(PAX::Log::Level::Info, "I am only visible in debug mode hihi.");
             }
 
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
@@ -43,7 +43,7 @@ namespace PAX {
                 Game::initialize();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
-                PAX_PRINT_OUT("Create World")
+                PAX_LOG(PAX::Log::Level::Info, "Create World");
                 std::shared_ptr<WorldLayerPrefab> worldLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
                         Services::GetPaths().getResourcePath() + "/TileDemo/worlds/SmallForest.paxprefab.json"
                 );
@@ -52,7 +52,7 @@ namespace PAX {
                 world->addLayer(worldLayerPrefab->create({}));
                 setActiveWorld(world);
 
-                PAX_PRINT_OUT("Done")
+                PAX_LOG(PAX::Log::Level::Info, "Done");
             }
 
             void terminate() override {

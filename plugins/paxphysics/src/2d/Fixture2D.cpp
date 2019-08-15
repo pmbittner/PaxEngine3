@@ -5,7 +5,7 @@
 #include <paxphysics/2d/Fixture2D.h>
 #include <paxutil/json/Json.h>
 
-#include <paxutil/macros/MacroIncludes.h>
+#include <paxutil/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>
 #include <paxutil/json/JsonUtil.h>
 #include <paxcore/service/Services.h>

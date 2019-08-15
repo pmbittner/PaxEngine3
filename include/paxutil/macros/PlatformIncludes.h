@@ -8,8 +8,9 @@
 #include "OSDetection.h"
 
 #ifdef PAX_OS_WIN
+    // Disable min and max macros in windows.h as they conflict with std functions min/max and glm
     #ifndef NOMINMAX
-        #define NOMINMAX // Disable min and max macros in windows.h as they conflict with std functions min/max and glm
+        #define NOMINMAX
     #endif
 #endif
 

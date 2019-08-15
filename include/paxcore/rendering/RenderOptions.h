@@ -10,7 +10,6 @@
 
 #include <paxutil/math/Transformation.h>
 #include <paxcore/rendering/data/Shader.h>
-#include <paxutil/macros/MacroIncludes.h>
 
 namespace PAX {
     class Camera;

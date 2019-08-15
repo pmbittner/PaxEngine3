@@ -3,7 +3,7 @@
 //
 
 #include <paxphysics/2d/box2d/Box2DUtils.h>
-#include <paxutil/macros/MacroIncludes.h>
+#include <paxutil/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 
