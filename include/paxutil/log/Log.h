@@ -62,7 +62,7 @@ namespace PAX {
 #ifdef PAX_BUILD_TYPE_DEBUG
     #define PAX_LOG_DEBUG(level, message) PAX_LOG(level, message)
 #elif defined(PAX_BUILD_TYPE_RELEASE)
-    #define PAX_LOG_DEBUG(level, message) {}
+    #define PAX_LOG_DEBUG(level, message) do {} while(0)
 #endif
 }
 
