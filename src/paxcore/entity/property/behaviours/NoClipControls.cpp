@@ -137,4 +137,20 @@ namespace PAX {
     void NoClipControls::onKeyReleased(KeyReleasedEvent &e) {
         updateAxis(e.button, -1);
     }
+
+    void NoClipControls::setSpeed(float speed) {
+        this->speed = speed;
+    }
+
+    float NoClipControls::getSpeed() {
+        return speed;
+    }
+
+    void NoClipControls::setMouseSensivity(float degreesPerPixel) {
+        mousesensivity = glm::radians(degreesPerPixel);
+    }
+
+    float NoClipControls::getMouseSensivity() {
+        return glm::degrees(mousesensivity);
+    }
 }

@@ -47,6 +47,12 @@ namespace PAX {
         ~NoClipControls() override;
 
         void update(UpdateOptions & options) override;
+
+        void setSpeed(float speed);
+        float getSpeed();
+
+        void setMouseSensivity(float degreesPerPixel);
+        float getMouseSensivity();
     };
 }
 #endif //PAXENGINE3_NOCLIPCONTROLS_H
