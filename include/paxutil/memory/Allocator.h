@@ -5,13 +5,11 @@
 #ifndef PAXENGINE3_PROPERTYALLOCATOR_H
 #define PAXENGINE3_PROPERTYALLOCATOR_H
 
-#include <utility>
-
 namespace PAX {
     class IAllocator {
     public:
         virtual ~IAllocator() = default;
-        virtual void destroy(void * size) = 0;
+        virtual void destroy(void * data) = 0;
     };
 
     template<size_t ElementSize>

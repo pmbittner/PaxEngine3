@@ -16,8 +16,8 @@ namespace PAX {
             return malloc(ElementSize);
         }
 
-        void destroy(void * t) override {
-            free(t);
+        void destroy(void * data) override {
+            free(data);
         }
     };
 }
