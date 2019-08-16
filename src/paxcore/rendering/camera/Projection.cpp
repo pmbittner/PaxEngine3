@@ -14,31 +14,8 @@ namespace PAX {
         return _matrix;
     }
 
-    void Projection::setFOV(float fov) {
-        _fov = fov;
-        _dirty = true;
-    }
-
-    float Projection::getFOV() {
-        return _fov;
-    }
-
-    void Projection::setNearPlane(float nearPlane) {
-        _near = nearPlane;
-        _dirty = true;
-    }
-
-    float Projection::getNearPlane() {
-        return _near;
-    }
-
-    void Projection::setFarPlane(float farPlane) {
-        _far = farPlane;
-        _dirty = true;
-    }
-
-    float Projection::getFarPlane() {
-        return _far;
+    void Projection::calcMatrix() {
+        _matrix = glm::mat4(1);
     }
 
     const glm::ivec2& Projection::getResolution() {
@@ -50,5 +27,9 @@ namespace PAX {
             _resolution = res;
             _dirty = true;
         }
+    }
+    
+    void Projection::makeDirty() {
+        _dirty = true;
     }
 }

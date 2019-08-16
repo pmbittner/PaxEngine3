@@ -10,8 +10,7 @@
 namespace PAX {
     class PixelScreenProjection : public Projection {
     public:
-        PixelScreenProjection();
-        virtual void calcMatrix() override;
+        void calcMatrix() override;
     };
 }
 

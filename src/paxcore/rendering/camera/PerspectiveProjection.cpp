@@ -13,6 +13,8 @@ namespace PAX {
     }
 
     void PerspectiveProjection::calcMatrix() {
+        Projection::calcMatrix();
+
         auto resX = static_cast<float>(getResolution().x);
         auto resY = static_cast<float>(getResolution().y);
         float near = getNearPlane();
@@ -23,12 +25,37 @@ namespace PAX {
         float xScale = yScale / aspectRatio;
         float frustumLength = far - near;
 
-        _matrix = glm::mat4(0);
-
         _matrix[0][0] = xScale;
         _matrix[1][1] = yScale;
         _matrix[2][2] = -((far + near) / frustumLength);
         _matrix[2][3] = -1;
         _matrix[3][2] = -((2.0f * near * far) / frustumLength);
+    }
+
+    void PerspectiveProjection::setFOV(float fov) {
+        _fov = fov;
+        makeDirty();
+    }
+
+    float PerspectiveProjection::getFOV() {
+        return _fov;
+    }
+
+    void PerspectiveProjection::setNearPlane(float nearPlane) {
+        _near = nearPlane;
+        makeDirty();
+    }
+
+    float PerspectiveProjection::getNearPlane() {
+        return _near;
+    }
+
+    void PerspectiveProjection::setFarPlane(float farPlane) {
+        _far = farPlane;
+        makeDirty();
+    }
+
+    float PerspectiveProjection::getFarPlane() {
+        return _far;
     }
 }
