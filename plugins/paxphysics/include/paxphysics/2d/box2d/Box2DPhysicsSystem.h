@@ -5,12 +5,13 @@
 #ifndef PAXENGINE3_BOX2DPHYSICSSYSTEM_H
 #define PAXENGINE3_BOX2DPHYSICSSYSTEM_H
 
-#include <paxcore/system/entity/EntityPropertySystem.h>
-
+#include <paxcore/system/PropertyOwningSystem.h>
 #include "Box2DHitbox.h"
 
 namespace PAX::Physics {
-    class Box2DPhysicsSystem : public EntityPropertySystem<PAX::Physics::Box2DHitbox> {
+    class Box2DPhysicsSystem : public PropertyOwningSystem<PAX::Physics::Box2DHitbox> {
+        using Super = PropertyOwningSystem<PAX::Physics::Box2DHitbox>;
+
         float pixelsPerMeter = 1;
         float metersPerPixel = 1;
 

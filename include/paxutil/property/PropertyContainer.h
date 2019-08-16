@@ -92,6 +92,7 @@ namespace PAX {
             active = true;
             auto props = getAll();
             for (Property<C> * p : props) {
+                p->active = true;
                 p->activated();
             }
         }
@@ -101,6 +102,7 @@ namespace PAX {
             active = false;
             auto props = getAll();
             for (Property<C> * p : props) {
+                p->active = false;
                 p->deactivated();
             }
         }

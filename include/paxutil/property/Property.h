@@ -24,6 +24,7 @@ namespace PAX {
         static constexpr bool IsMultiple() { return true; }
 
     private:
+        bool active = false;
         C* owner = nullptr;
 
     protected:
@@ -47,6 +48,8 @@ namespace PAX {
         [[nodiscard]] virtual const TypeHandle& getClassType() const = 0;
         [[nodiscard]] virtual bool isMultiple() const { return IsMultiple(); }
         virtual bool areDependenciesMetFor(const C&) const { return true; }
+
+        bool isActive() { return active; }
     };
 
     /// Provide an implementation for this pure virtual function to allow calling it from subtypes.

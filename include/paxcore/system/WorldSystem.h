@@ -18,8 +18,8 @@ namespace PAX {
         void initialize(Game *game) override;
         void terminate(Game * game) override;
 
-        virtual void onWorldRegistered(WorldEvent &event) = 0;
-        virtual void onWorldUnregistered(WorldEvent &event) = 0;
+        virtual void onWorldRegistered(WorldEvent &event) {};
+        virtual void onWorldUnregistered(WorldEvent &event) {};
 
         void onActiveWorldChanged(ActiveWorldChangedEvent &event);
     };
