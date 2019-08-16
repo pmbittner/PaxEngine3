@@ -49,6 +49,6 @@ add_library(paxrendering
         scenegraph/nodes/TransformationNode.cpp
         scenegraph/generators/SortByZSceneGraphGenerator.cpp
         scenegraph/generators/DefaultSceneGraphGeneratorFactory.cpp
-        scenegraph/sort/GraphicsSort.cpp)
+        scenegraph/sort/GraphicsSort.cpp geometry/ScreenFillingQuad.cpp)
 
 target_link_libraries(paxrendering paxcore)
