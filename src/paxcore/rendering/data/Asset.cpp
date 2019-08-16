@@ -11,8 +11,8 @@ namespace PAX {
     Asset::Part::Part(const std::shared_ptr<PAX::Mesh> &mesh,
                       const std::shared_ptr<PAX::Material> & material)
                       : _mesh(mesh), _material(material) {
-        assert(mesh);
-        assert(material);
+        PAX_ASSERT_NOT_NULL(mesh, "Mesh can't be null!");
+        //assert(material);
     }
 
     Asset::Part::Part(const PAX::Asset::Part &other) : Part(other._mesh, other._material) {
@@ -47,10 +47,17 @@ namespace PAX {
         shader->setUniform("modelview", modelview, false);
         shader->setUniform("transposedInvModel", glm::inverse(worldTransform), true /* transpose */);
 
+
         for (Part & p : _meshes) {
-            p._material->applyTo(renderOptions.getShaderOptions().getShader());
+            bool hasMaterial = p._material.operator bool();
+
+            if (hasMaterial)
+                p._material->applyTo(renderOptions.getShaderOptions().getShader());
+
             p._mesh->render(renderOptions);
-            p._material->unapplyFrom(renderOptions.getShaderOptions().getShader());
+
+            if (hasMaterial)
+                p._material->unapplyFrom(renderOptions.getShaderOptions().getShader());
         }
         for (auto & child : _children)
             child->render(renderOptions);
