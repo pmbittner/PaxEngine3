@@ -15,8 +15,8 @@
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
-#include <2d/shape/Rectangle.h>
-#include <2d/box2d/Box2DHitbox.h>
+#include <paxphysics/2d/shape/Rectangle.h>
+#include <paxphysics/2d/box2d/Box2DHitbox.h>
 
 #include "paxtiles/Tile.h"
 #include "paxtiles/TileMap.h"
@@ -140,7 +140,7 @@ namespace PAX {
                     ));
                     backgroundCam->getTransformation().z() = 1;
 
-                    WorldLayer *bg = new WorldLayer("Background", -10);
+                    WorldLayer *bg = new WorldLayer("Background", 2, -10);
                     bg->spawn(background);
                     bg->spawn(backgroundCam);
                     world->addLayer(bg);
