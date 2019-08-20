@@ -90,7 +90,7 @@ private:
         return Container::GetPropertyAllocator().allocate<Type>(); \
     } \
     void Type::operator delete(void * object) { \
-        Container::GetPropertyAllocator().free(this->getClassType(), object); \
+        Container::GetPropertyAllocator().free(paxtypeid(Type), object); \
     })
 
 #endif //PAXENGINE3_PROPERTYANNOTATIONS_H
