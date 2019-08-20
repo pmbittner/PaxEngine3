@@ -66,37 +66,6 @@ void fold_mod(inout vec3 pos, in float spaceLength) {
     pos = mod(pos, spaceLength) - vec3(0.5 * spaceLength);
 }
 
-void fold_sierpinski(inout vec3 z) {
-    z.xy -= min(z.x + z.y, 0.0);
-    z.xz -= min(z.x + z.z, 0.0);
-    z.yz -= min(z.y + z.z, 0.0);
-}
-
-void fold_menger(inout vec3 z) {
-    float a = min(z.x - z.y, 0.0);
-    z.x -= a;
-    z.y += a;
-    a = min(z.x - z.z, 0.0);
-    z.x -= a;
-    z.z += a;
-    a = min(z.y - z.z, 0.0);
-    z.y -= a;
-    z.z += a;
-}
-
-void rotX(inout vec3 z, float s, float c) {
-    z.yz = vec2(c*z.y + s*z.z, c*z.z - s*z.y);
-}
-void rotZ(inout vec3 z, float s, float c) {
-    z.xy = vec2(c*z.x + s*z.y, c*z.y - s*z.x);
-}
-void rotX(inout vec3 z, float a) {
-    rotX(z, sin(a), cos(a));
-}
-void rotZ(inout vec3 z, float a) {
-    rotZ(z, sin(a), cos(a));
-}
-
 /// Distance Estimators
 
 float de_sphere(in vec3 pos, vec3 spherepos, float radius) {
@@ -114,7 +83,7 @@ float de_tetrahedron(vec3 p, vec3 tetrahedronpos, float r) {
     return (md - r) / sqrt(3.0);
 }
 
-float DistanceEstimator(in vec3 pos) {
+float SDF(in vec3 pos) {
     //fold_mod(pos, 3);
     return op_union(
             op_union(
@@ -132,12 +101,12 @@ float DistanceEstimator(in vec3 pos) {
 
 vec3 calculateNormal(in Trace trace) {
     const vec2 k = vec2(1, -1);
-    const float dx = 0.5 * HIT_DISTANCE;
+    const float epsilon = 0.5 * HIT_DISTANCE;
     return normalize(
-          k.xyy * DistanceEstimator(trace.hitpos + k.xyy*dx)
-        + k.yyx * DistanceEstimator(trace.hitpos + k.yyx*dx)
-        + k.yxy * DistanceEstimator(trace.hitpos + k.yxy*dx)
-        + k.xxx * DistanceEstimator(trace.hitpos + k.xxx*dx)
+          k.xyy * SDF(trace.hitpos + k.xyy*epsilon)
+        + k.yyx * SDF(trace.hitpos + k.yyx*epsilon)
+        + k.yxy * SDF(trace.hitpos + k.yxy*epsilon)
+        + k.xxx * SDF(trace.hitpos + k.xxx*epsilon)
     );
 }
 
@@ -152,7 +121,7 @@ Trace march(in Ray ray) {
 
     vec3 position = ray.pos;    
     for (steps = 0; steps < MAX_RAY_STEPS; ++steps) {
-        distance = DistanceEstimator(position);
+        distance = SDF(position);
 
         if (distance < HIT_DISTANCE) {
             if (0 <= distance) {
