@@ -32,7 +32,6 @@ namespace PAX {
                 glm::vec2 resolution = renderOptions.getCamera()->getProjection()->getResolution();
 
                 shader->setUniform("resolution", resolution);
-                //shader->setUniform("projection", renderOptions.getProjectionMatrix(), false);
                 shader->setUniform("camera", glm::inverse(renderOptions.getViewMatrix()), false);
 
                 screen->render(renderOptions);
@@ -63,11 +62,6 @@ namespace PAX {
             }
 
         public:
-            Demo() : Game()
-            {
-
-            }
-
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
                 if (keyPressedEvent.button == PAX::Key::ESCAPE)
                     Engine::Instance().stop();

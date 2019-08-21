@@ -42,6 +42,7 @@ namespace PAX {
             glShaderSource(shader,1,&shader_src, NULL);
 
             bool compiled = compileShaderAndPrintErrors(shader);
+            /*
             if (!compiled) {
                 PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Error - Code was:");
 
@@ -49,9 +50,10 @@ namespace PAX {
                 std::string line;
                 int i = 0;
                 while (std::getline(ss, line, '\n')) {
-                    PAX_LOG_RAW(Log::Level::Error, std::setw(3) << std::fixed << ++i << "| " << line);
+                    PAX_LOG_RAW(Log::Level::Error, std::setw(3) << std::fixed << i << "| " << line);
+                    ++i;
                 }
-            }
+            }//*/
 
             return compiled;
         }
@@ -112,21 +114,24 @@ namespace PAX {
 
         bool OpenGLShader::upload() {
             if (!_uploaded) {
-                std::string vertexCode = loadCodeFromFile(_fileInfo.VertexPath);
-                insertFlags(vertexCode, _flags.VertexFlags);
+                {
+                    std::string vertexCode = loadCodeFromFile(_fileInfo.VertexPath);
+                    insertFlags(vertexCode, _flags.VertexFlags);
 
-                if (!loadShaderFromCode(GL_VERTEX_SHADER, vertexCode, _vertexShader)) {
-                    PAX_LOG(Log::Level::Error, "Shader Compilation - Vertex file: " << _fileInfo.VertexPath);
-                    return false;
+                    if (!loadShaderFromCode(GL_VERTEX_SHADER, vertexCode, _vertexShader)) {
+                        PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid vertex file: " << _fileInfo.VertexPath);
+                        return false;
+                    }
                 }
 
+                {
+                    std::string fragmentCode = loadCodeFromFile(_fileInfo.FragmentPath);
+                    insertFlags(fragmentCode, _flags.FragmentFlags);
 
-                std::string fragmentCode = loadCodeFromFile(_fileInfo.FragmentPath);
-                insertFlags(fragmentCode, _flags.FragmentFlags);
-
-                if (!loadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, _fragmentShader)) {
-                    PAX_LOG(Log::Level::Error, "Shader Compilation - Fragment file: " << _fileInfo.FragmentPath);
-                    return false;
+                    if (!loadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, _fragmentShader)) {
+                        PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid fragment file: " << _fileInfo.FragmentPath);
+                        return false;
+                    }
                 }
 
 
@@ -148,9 +153,9 @@ namespace PAX {
             }
             //Compile Shader
             bool result = setupShaderFromCodeString(out_id, code);
-            if (!result) {
-                PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid shader file: " << _name);
-            }
+            /*if (!result) {
+                PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Error in file: " << _name);
+            }//*/
 
             //Attach shader to the program
             glAttachShader(_shaderProgram, out_id);
