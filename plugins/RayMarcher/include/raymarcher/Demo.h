@@ -24,6 +24,7 @@ namespace PAX {
         class Renderer : public Renderable {
         public:
             std::shared_ptr<Mesh> screen = nullptr;
+            float shadowSharpness = 1;
 
             ~Renderer() override = default;
 
@@ -33,6 +34,8 @@ namespace PAX {
 
                 shader->setUniform("resolution", resolution);
                 shader->setUniform("camera", glm::inverse(renderOptions.getViewMatrix()), false);
+
+                shader->setUniform("shadowSharpness", shadowSharpness);
 
                 screen->render(renderOptions);
             }
@@ -65,6 +68,14 @@ namespace PAX {
             void onKeyDown(KeyPressedEvent & keyPressedEvent) {
                 if (keyPressedEvent.button == PAX::Key::ESCAPE)
                     Engine::Instance().stop();
+
+                else if (keyPressedEvent.button == PAX::Key::UP) {
+                    renderer.shadowSharpness += 0.05f;
+                }
+
+                else if (keyPressedEvent.button == PAX::Key::DOWN) {
+                    renderer.shadowSharpness -= 0.05f;
+                }
             }
 
             void initialize() override {
