@@ -1,0 +1,7 @@
+vertfile = ${CURRENT_DIR}/vert.glsl
+
+#camerapos = (0, 0, 2)
+#fragfile = ${CURRENT_DIR}/frag.glsl
+
+camerapos = (0, 0, 0)
+fragfile = ${CURRENT_DIR}/mandelbrot_frag.glsl
