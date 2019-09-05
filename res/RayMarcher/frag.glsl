@@ -14,8 +14,10 @@ uniform float shadowSharpness;
 /// OPTIONS
 #define WITH_SHADOWS
 #define WITH_AMBIENT_OCCLUSION
-#define WITH_FOG
-#define WITH_GLOW
+//#define WITH_FOG
+//#define WITH_GLOW
+
+#define SAMPLES_PER_PIXEL_SIDE 1
 
 
 /// Definitions
@@ -27,7 +29,6 @@ uniform float shadowSharpness;
 #define MAX_RAY_STEPS 500
 #define HIT_DISTANCE 1e-5
 #define FAR_PLANE 50.0
-#define SAMPLES_PER_PIXEL_SIDE 2
 
 
 #define RGB_BYTES(r, g, b) vec4(r, g, b, 1) / vec4(255, 255, 255, 1);
@@ -202,7 +203,7 @@ Trace march(in Ray ray) {
     float travelledDistance = 0;
     float distance;
     float normalisedMinDistance = 1;
-    int fractalIterations;
+    int fractalIterations = 0;
 
     vec3 position = ray.pos;    
     for (steps = 0; steps < MAX_RAY_STEPS; ++steps) {

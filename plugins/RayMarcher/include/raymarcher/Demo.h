@@ -43,16 +43,17 @@ namespace PAX {
 
         class Demo : public Game {
             World * world;
+            Settings settings;
 
             std::shared_ptr<Shader> rayMarchingShader;
             Renderer renderer;
             Entity screenEntity, cameraEntity;
 
             void createScreen() {
-                rayMarchingShader = Services::GetResources().loadOrGet<Shader>(Shader::FileInfo(
-                        Services::GetPaths().getResourcePath() + "RayMarcher/vert.glsl",
-                        Services::GetPaths().getResourcePath() + "RayMarcher/frag.glsl"
-                        ));
+                Path vert = settings.get<Path>("vertfile");
+                Path frag = settings.get<Path>("fragfile");
+
+                rayMarchingShader = Services::GetResources().loadOrGet<Shader>(Shader::FileInfo(vert, frag));
 
                 renderer.screen = PAX::CreateScreenFillingQuad();
                 renderer.screen->upload();
@@ -82,6 +83,8 @@ namespace PAX {
                 Game::initialize();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
+                settings.parse(Services::GetPaths().getResourcePath() + "RayMarcher/raymarcher.paxconfig");
+
                 createScreen();
 
                 Camera * camera = new Camera(
@@ -94,7 +97,7 @@ namespace PAX {
                 noClipControls->setMouseSensivity(0.3);
                 cameraEntity.add(camera);
                 cameraEntity.add(noClipControls);
-                cameraEntity.getTransformation().position() = {0, 0, 2};
+                cameraEntity.getTransformation().position() = settings.get<glm::vec3>("camerapos");
 
                 WorldLayer * mainLayer = new WorldLayer("ScreenLayer", 2);
                 mainLayer->spawn(&screenEntity);
