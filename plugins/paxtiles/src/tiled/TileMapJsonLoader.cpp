@@ -5,7 +5,9 @@
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
 #include <paxtiles/TileSet.h>
+
 #include <paxutil/json/JsonUtil.h>
+#include <paxutil/json/Json.h>
 
 namespace PAX {
     namespace Tiles {

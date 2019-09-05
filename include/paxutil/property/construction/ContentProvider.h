@@ -17,7 +17,8 @@
 #include "paxutil/macros/Definitions.h"
 #include "paxutil/reflection/TypeHandle.h"
 
-// FIXME: Remove this include.
+// FIXME: Remove these includes.
+#include "paxutil/json/Json.h"
 #include "paxutil/json/JsonParser.h"
 
 namespace PAX {
@@ -37,8 +38,7 @@ namespace PAX {
             template<typename T>
             T get(const std::string & name, const VariableRegister & variables) {
                 // FIXME: This is a hack! We should not refer to Json here but the subclass should!
-                nlohmann::json j = StringToJson(getValue(name, variables));
-                return Json::tryParse<T>(j);
+                return Json::tryParse<T>(StringToJson(getValue(name, variables)));
             }
 
             template<typename T>

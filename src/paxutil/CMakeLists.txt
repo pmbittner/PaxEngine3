@@ -73,7 +73,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/Sleep.h
         ../../include/paxutil/StringUtils.h
         ../../include/paxutil/StringVariables.h
-        ../../include/paxutil/TryParser.h)
+        ../../include/paxutil/TryParser.h ../../include/paxutil/json/JsonFwd.h)
 
 set(SOURCE_FILES
         StringUtils.cpp

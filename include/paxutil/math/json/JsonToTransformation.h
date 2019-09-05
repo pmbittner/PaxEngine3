@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONTOTRANSFORMATION_H
 #define PAXENGINE3_JSONTOTRANSFORMATION_H
 
-#include <paxutil/json/Json.h>
+#include <paxutil/json/JsonFwd.h>
 #include <paxutil/math/Transformation.h>
 
 namespace PAX {

@@ -46,7 +46,7 @@ SOFTWARE.
 #include <string> // string, stoi, to_string
 #include <utility> // declval, forward, move, pair, swap
 
-// #include <nlohmann/json_fwd.hpp>
+#include "JsonFwd.h"
 #ifndef NLOHMANN_JSON_FWD_HPP
 #define NLOHMANN_JSON_FWD_HPP
 
@@ -70,19 +70,17 @@ This serializer ignores the template arguments and uses ADL
 ([argument-dependent lookup](https://en.cppreference.com/w/cpp/language/adl))
 for serialization.
 */
-template<typename T = void, typename SFINAE = void>
+template<typename T, typename SFINAE>
 struct adl_serializer;
 
-template<template<typename U, typename V, typename... Args> class ObjectType =
-std::map,
-template<typename U, typename... Args> class ArrayType = std::vector,
-class StringType = std::string, class BooleanType = bool,
-class NumberIntegerType = std::int64_t,
-class NumberUnsignedType = std::uint64_t,
-class NumberFloatType = double,
-template<typename U> class AllocatorType = std::allocator,
-template<typename T, typename SFINAE = void> class JSONSerializer =
-adl_serializer>
+template<template<typename U, typename V, typename... Args> class ObjectType,
+template<typename U, typename... Args> class ArrayType,
+class StringType, class BooleanType,
+class NumberIntegerType,
+class NumberUnsignedType,
+class NumberFloatType,
+template<typename U> class AllocatorType,
+template<typename T, typename SFINAE> class JSONSerializer>
 class basic_json;
 
 /*!

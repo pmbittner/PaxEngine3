@@ -3,6 +3,7 @@
 //
 
 #include <paxutil/json/JsonLoader.h>
+#include <paxutil/json/Json.h>
 #include <paxutil/io/FileTypeChecker.h>
 #include <paxutil/resources/Resources.h>
 #include <fstream>

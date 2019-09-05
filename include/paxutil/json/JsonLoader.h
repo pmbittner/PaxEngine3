@@ -6,7 +6,7 @@
 #define PAXENGINE3_JSONLOADER_H
 
 #include <paxutil/resources/ResourceLoader.h>
-#include "Json.h"
+#include "JsonFwd.h"
 
 namespace PAX {
     namespace Json {

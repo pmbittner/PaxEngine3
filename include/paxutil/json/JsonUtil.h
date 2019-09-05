@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONUTIL_H
 #define PAXENGINE3_JSONUTIL_H
 
-#include "Json.h"
+#include "JsonFwd.h"
 
 namespace PAX {
     template<typename... Args>
