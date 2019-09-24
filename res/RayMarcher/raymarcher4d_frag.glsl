@@ -5,16 +5,17 @@ out vec4 outColor;
 
 uniform mat4 camera;
 uniform vec2 resolution;
-
 uniform float shadowSharpness;
+uniform float gameTimeDelta;
+uniform float gameTime;
 
 /// OPTIONS
-#define WITH_SHADOWS
-#define WITH_AMBIENT_OCCLUSION
+//#define WITH_SHADOWS
+//#define WITH_AMBIENT_OCCLUSION
 //#define WITH_FOG
-//#define WITH_GLOW
+#define WITH_GLOW
 
-#define SAMPLES_PER_PIXEL_SIDE 1
+#define SAMPLES_PER_PIXEL_SIDE 2
 
 
 /// Definitions
@@ -25,15 +26,15 @@ uniform float shadowSharpness;
 #define AMBIENT_OCCLUSION_COLOR_DELTA vec4(vec3(0.2), 1)
 #define FOCAL_DIST 1.73205080757
 #define GLOW_COLOR vec4(0.7, 0.2, 0, 1)
-#define GLOW_INTENSITY 0.07
+#define GLOW_INTENSITY 0.17
 #define MAX_RAY_STEPS 500
 #define HIT_DISTANCE 1e-5
 #define FAR_PLANE 50.0
 
 
-#define RGB_BYTES(r, g, b) vec4(r, g, b, 1) / vec4(255, 255, 255, 1);
+#define RGB_BYTES(r, g, b) (vec4(r, g, b, 1) / vec4(255, 255, 255, 1))
 
-vec4 SkyColor = RGB_BYTES(0, 204, 255)
+vec4 SkyColor = RGB_BYTES(0, 204, 255);
 
 struct Ray {
     vec4 pos;
@@ -57,6 +58,77 @@ struct DirectionalLight {
 };
 DirectionalLight directionalLights[NUM_DIRECTIONAL_LIGHTS];
 
+/// Math Util
+
+mat4 rotationMatrix(vec3 axis, float angle)
+{
+    axis = normalize(axis);
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+
+    return mat4(
+    oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+    oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+    oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+    0.0,                                0.0,                                0.0,                                1.0);
+}
+
+mat4 rotmat_y(float angle) {
+    mat4 R = mat4(1);
+    float s = sin(angle);
+    float c = cos(angle);
+
+    R[0][0] = c;
+    R[0][2] = -s;
+
+    R[2][0] = s;
+    R[2][2] = c;
+
+    return R;
+}
+
+mat4 rotmat_xw(float angle) {
+    mat4 R = mat4(1);
+    float s = sin(angle);
+    float c = cos(angle);
+
+    R[0][0] = c;
+    R[0][3] = -s;
+
+    R[3][0] = s;
+    R[3][3] = c;
+
+    return R;
+}
+
+mat4 rotmat_yw(float angle) {
+    mat4 R = mat4(1);
+    float s = sin(angle);
+    float c = cos(angle);
+
+    R[1][1] = c;
+    R[1][3] = s;
+
+    R[3][1] = -s;
+    R[3][3] = c;
+
+    return R;
+}
+
+mat4 rotmat_zw(float angle) {
+    mat4 R = mat4(1);
+    float s = sin(angle);
+    float c = cos(angle);
+
+    R[2][2] = c;
+    R[2][3] = s;
+
+    R[3][2] = -s;
+    R[3][3] = c;
+
+    return R;
+}
 
 /// Distance Estimator Operations
 
@@ -82,8 +154,19 @@ float de_cube4(vec4 pos, vec4 cubepos, float halfSideLength) {
     return length(max(abs(pos - cubepos) - halfSideLength, 0));
 }
 
+/// Scene
+
 float DE(in vec4 pos) {
-    return de_sphere4(pos, vec4(0, 0, 0, 0), 0.3);
+    //mat4 R = rotationMatrix(vec3(0, 1, 0), 0.1 * gameTime);
+    mat4 R = rotmat_yw(0.4 * gameTime);
+    R = R * rotmat_zw(0.3 * gameTime);
+    R = R * rotmat_xw(0.25423 * gameTime);
+    //R = R * rotmat_y(0.1 * gameTime);
+
+    pos = R * pos;
+
+    //return de_sphere4(pos, vec4(0, 0, 0, sin(gameTime)), 1);
+    return de_cube4(pos, vec4(0, 0, 0, 0), 0.3);
 }
 
 vec3 hsv2rgb(vec3 c)
@@ -152,13 +235,13 @@ vec4 getColor(inout Trace trace) {
 
             // We would not be able to escape a position on the surface of the scene without this little step,
             // because we would always obtain a hit.
-            shadowRay.pos += normal * 100 * HIT_DISTANCE;
+            shadowRay.pos += vec4(normal * 100 * HIT_DISTANCE, 0);
 
             Trace shadowTrace = march(shadowRay);
             float weight = float(shadowTrace.lastDistanceEstimate > HIT_DISTANCE);
 
             // Lambert shading
-            weight *= max(0, dot(normal, shadowRay.dir));
+            weight *= max(0, dot(normal, shadowRay.dir.xyz));
 
             shadyColor += weight * directionalLights[i].color;
         }
@@ -213,8 +296,8 @@ void main(void) {
 
             Ray ray;
 			vec3 raydir_3d = normalize(mat3(camera) * vec3(screen.x + xOffset, screen.y + yOffset, -FOCAL_DIST));
-            ray.dir = vec4(raydir, RAY_4D_PLANE_W);
-            ray.pos = vec3(camera[3], RAY_4D_CAM_POS_W);
+            ray.dir = vec4(raydir_3d, RAY_4D_PLANE_DIR_W);
+            ray.pos = vec4(camera[3].xyz, RAY_4D_CAM_POS_W);
 
             Trace trace = march(ray);
             color += getColor(trace);

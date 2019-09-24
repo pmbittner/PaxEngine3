@@ -22,6 +22,8 @@
 namespace PAX {
     namespace RayMarcher {
         class Renderer : public Renderable {
+            float globalGameTime = 0;
+
         public:
             std::shared_ptr<Mesh> screen = nullptr;
             float shadowSharpness = 1;
@@ -36,6 +38,12 @@ namespace PAX {
                 shader->setUniform("camera", glm::inverse(renderOptions.getViewMatrix()), false);
 
                 shader->setUniform("shadowSharpness", shadowSharpness);
+                shader->setUniform("gameTime", shadowSharpness);
+
+                float dt = renderOptions.getActualDeltaTime();
+                globalGameTime += dt;
+                shader->setUniform("gameTime", globalGameTime);
+                shader->setUniform("gameTimeDelta", renderOptions.getActualDeltaTime());
 
                 screen->render(renderOptions);
             }
