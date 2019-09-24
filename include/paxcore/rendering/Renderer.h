@@ -23,7 +23,7 @@ namespace PAX {
         SceneGraph* getSceneGraphGenerationEntryPoint();
 
         virtual void initialize();
-        virtual void render();
+        virtual void render(RenderOptions & options);
     };
 }
 

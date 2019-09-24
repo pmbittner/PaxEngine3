@@ -49,8 +49,11 @@ namespace PAX {
         glm::mat4 _currentView = glm::mat4(1);
         glm::mat4 _currentProjection = glm::mat4(1);
 
+        float dt = 0;
+        float actual_dt = 0;
+
     public:
-        explicit RenderOptions(const Renderer& renderer);
+        explicit RenderOptions(const Renderer& renderer, float dt, float actualDt);
 
         Camera *getCamera() const;
         void setCamera(Camera *camera);
@@ -68,6 +71,9 @@ namespace PAX {
         void setViewMatrix(const glm::mat4& view);
 
         ShaderOptions& getShaderOptions();
+
+        float getDeltaTime();
+        float getActualDeltaTime();
     };
 }
 

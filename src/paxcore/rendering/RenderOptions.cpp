@@ -44,7 +44,7 @@ namespace PAX {
         return _shaders.top()._shader;
     }
 
-    RenderOptions::RenderOptions(const Renderer& renderer) : _renderer(renderer), _camera(nullptr), _worldLayer(nullptr) {
+    RenderOptions::RenderOptions(const Renderer& renderer, float dt, float actualDt) : _renderer(renderer), _camera(nullptr), _worldLayer(nullptr), dt(dt), actual_dt(actualDt) {
     }
 
     PAX::Camera *PAX::RenderOptions::getCamera() const {
@@ -90,5 +90,13 @@ namespace PAX {
 
     ShaderOptions& PAX::RenderOptions::getShaderOptions() {
         return _shaderOptions;
+    }
+
+    float RenderOptions::getDeltaTime() {
+        return dt;
+    }
+
+    float RenderOptions::getActualDeltaTime() {
+        return dt;
     }
 }

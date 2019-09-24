@@ -126,6 +126,7 @@ namespace PAX {
 
         /** RENDER VARS **/
         high_resolution_clock::time_point renderStartTime(lastLoopStartTime);
+        duration<double> render_dt(0);
         duration<double> render_duration(0);
         duration<double> timeTilNextRender(0);
 
@@ -165,8 +166,13 @@ namespace PAX {
             update_duration = clock::now() - loopStartTime;
 
             // RENDER
-            renderStartTime = clock::now();
-            render();
+            auto renderStartTime_temp = clock::now();
+            render_dt = renderStartTime_temp - renderStartTime;
+            renderStartTime = renderStartTime_temp;
+
+            RenderOptions options(_renderer, static_cast<float>(1.0 / _targetFPS), static_cast<float>(render_dt.count()));
+            render(options);
+
             ++frames;
             render_duration = clock::now() - renderStartTime;
 
@@ -216,8 +222,8 @@ namespace PAX {
         _game->update(options);
     }
 
-    void Engine::render() {
-        _renderer.render();
+    void Engine::render(RenderOptions & options) {
+        _renderer.render(options);
     }
 
     void Engine::stop() {

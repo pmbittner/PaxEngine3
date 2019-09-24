@@ -39,7 +39,7 @@ namespace PAX {
         ~Engine() override;
 
         void update(UpdateOptions & options) override;
-        void render();
+        void render(RenderOptions & options);
 
         bool terminate();
 
