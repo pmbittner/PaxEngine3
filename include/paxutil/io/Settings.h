@@ -6,12 +6,8 @@
 #define PAXENGINE3_SETTINGS_H
 
 #include <map>
-#include <string>
-#include <cstring>
-#include <fstream>
-#include <sstream>
 #include <vector>
-
+#include "../io/Path.h"
 #include "../StringUtils.h"
 
 namespace PAX {
@@ -46,26 +42,22 @@ namespace PAX {
         std::map<std::string, std::string> settings;
         std::vector<std::string> parsedFiles;
 
-        bool printDebugMessages;
-
-        std::string directoryFromPath(const std::string& path);
-
     public:
         /**
          * Creates empty settings.
          */
-        explicit Settings(bool printDebugMessages = false);
+        Settings();
 
         /**
          * Creates settings from a file by parsing it immediately.
          */
-        explicit Settings(const std::string& path, char separator = '=', bool trimValues = true);
+        explicit Settings(const Path& path, char separator = '=', bool trimValues = true);
 
         /**
          * Parses a given file and adds its variables to this Settings.
          * Variables, that already exist, may be overwritten, if they occur in the given file, too.
          */
-        void parse(const std::string& path, char separator = '=', bool trimValues = true);
+        void parse(const Path& path, char separator = '=', bool trimValues = true);
 
         ~Settings() = default;
 
@@ -93,7 +85,7 @@ namespace PAX {
         }
 
     public:
-        bool writeToFile(const std::string& path, bool overwrite = false) const;
+        bool writeToFile(const Path& path, bool overwrite = false) const;
 
         /**
          * Returns false if the value is '0' or 'false'. Other values will result
@@ -127,7 +119,7 @@ namespace PAX {
         }
     };
 
-    template<> std::vector<std::string> Settings::getTypeVector<std::string>(const std::string &varName) const;
+    template<> [[nodiscard]] std::vector<std::string> Settings::getTypeVector<std::string>(const std::string &varName) const;
 }
 
 #endif //PAXENGINE3_SETTINGS_H

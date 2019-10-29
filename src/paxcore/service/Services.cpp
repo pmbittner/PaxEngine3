@@ -18,15 +18,13 @@ namespace PAX {
     }
 
     void Services::initialize() {
-        static Path relativePathToConfig = "../";
-
-        _globalSettings.parse(relativePathToConfig + "core.paxconfig");
-        Path relativeResDir = relativePathToConfig + _globalSettings.getOrDefault<Path>("core_resourceDirectory", "ResourceDirectoryIsNotSet");
-        _paths.setAbsoluteResourceDirectory(_paths.getWorkingDirectory() + relativeResDir);
+        _globalSettings.parse("../core.paxconfig");
+        Path resDir = _globalSettings.getOrDefault<Path>("core_resourceDirectory", "ResourceDirectoryIsNotSet");
+        _paths.setAbsoluteResourceDirectory(resDir);
 
         _windowService.initialize();
 
-        InputSystemFactory* inputSystemFactory = _factoryService.get<InputSystemFactory>();
+        auto* inputSystemFactory = _factoryService.get<InputSystemFactory>();
         if (inputSystemFactory) {
             _inputSystem = inputSystemFactory->create();
             _inputSystem->initialize();

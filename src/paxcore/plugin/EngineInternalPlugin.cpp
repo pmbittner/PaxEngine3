@@ -69,7 +69,7 @@ namespace PAX {
         Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
         /// If no texture loaders have been registered, register the null texture loader.
-        // FIXME: Is there mayme a better place for this?
+        // FIXME: Is there maybe a better place for this?
         if (Services::GetResources().getLoaders<Texture>().empty()) {
             Services::GetResources().registerLoader(&nullTextureLoader);
         }

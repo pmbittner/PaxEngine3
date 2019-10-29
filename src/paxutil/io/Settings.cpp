@@ -3,12 +3,14 @@
 //
 
 #include <iostream>
+#include <sstream>
+#include <fstream>
 #include <regex>
+
+#include <paxutil/log/Errors.h>
 #include <paxutil/io/Settings.h>
 #include <paxutil/stdutils/CollectionUtils.h>
 #include <paxutil/StringVariables.h>
-
-#define PAX_SETTINGS_PRINT(body) if (printDebugMessages) { body }
 
 namespace PAX {
     SettingsFileRow::SettingsFileRow(char separator,  bool trimValues) : separator(separator), trimValues(trimValues) {}
@@ -58,64 +60,39 @@ namespace PAX {
 
 
 
-    Settings::Settings(bool printDebugMessages) : printDebugMessages(printDebugMessages) {
+    Settings::Settings() = default;
 
-    };
-
-    Settings::Settings(const std::string& path, char separator, bool trimValues) : Settings() {
+    Settings::Settings(const Path & path, char separator, bool trimValues) : Settings() {
         parse(path, separator, trimValues);
     }
 
-    std::string Settings::directoryFromPath(const std::string& path) {
-        size_t lastSlashOnWindows      = path.find_last_of('\\');
-        size_t lastSlashEverywhereElse = path.find_last_of('/');
-        size_t lastSlash = std::string::npos;
-
-        if (lastSlashOnWindows != std::string::npos) {
-            if (lastSlashEverywhereElse != std::string::npos) {
-                lastSlash = (std::max)(lastSlashOnWindows, lastSlashEverywhereElse);
-            } else {
-                lastSlash = lastSlashOnWindows;
-            }
-        } else if (lastSlashEverywhereElse != std::string::npos) {
-            lastSlash = lastSlashEverywhereElse;
-        }
-
-        if (lastSlash != std::string::npos)
-            return path.substr(0, lastSlash);
-        else
-            return ".";
-    }
-
-    void Settings::parse(const std::string& path, char separator, bool trimValues) {
+    void Settings::parse(const Path& path, char separator, bool trimValues) {
         // Check if file is already parsed
         if (Util::vectorContains<std::string>(parsedFiles, path)) {
-            std::cerr << "[Settings] Warning: The file " << path << " was already parsed! Maybe there is a cyclic or duplicate include?" << std::endl;
+            PAX_LOG(PAX::Log::Level::Warn, "The file " << path << " was already parsed! Maybe there is a cyclic or duplicate include?");
             return;
-        } else {
-            parsedFiles.push_back(path);
         }
 
         // Pre defined variables
-        std::string currentDirectory = directoryFromPath(path);
+        Path currentDirectory = path.getDirectory();
 
         // Open file
-        std::ifstream file(path);
+        std::ifstream file(path.toString());
         if (!file.is_open()) {
-            std::cerr << "[Settings] Unable to open " << path << std::endl;
-            throw std::runtime_error("Settings include path not found");
+            PAX_THROW_RUNTIME_ERROR("The file " << path << " was already parsed! Maybe there is a cyclic or duplicate include?");
         }
 
         SettingsFileRow row(separator, trimValues);
 
-        PAX_SETTINGS_PRINT(std::cout << "[Settings] Start parsing " << path << std::endl;)
+        PAX_LOG_DEBUG(PAX::Log::Level::Info, "Start parsing " << path);
+
         int lineNumber = 1;
         while (row.readNextRow(file))
         {
             if (!row[0].empty()) {
                 if (row[0] == IncludeDirective) {
-                    std::string newPath = directoryFromPath(path) + "/" + row[1];
-                    PAX_SETTINGS_PRINT(std::cout << "[Settings]     Include file " << newPath << std::endl;)
+                    std::string newPath = path.getDirectory() + row[1];
+                    PAX_LOG_DEBUG(PAX::Log::Level::Info, "Include file " << newPath);
                     parse(newPath, separator, trimValues);
                 } else {
                     // check for variables in rhs
@@ -124,32 +101,35 @@ namespace PAX {
                     // Predefined variables should be overridable in settings.
                     // Therefore put them into the map only, when they were not set manually already.
                     if (resolvableVariables.find(PreDefinedVariable::CurrentPath) == resolvableVariables.end())
-                        resolvableVariables[PreDefinedVariable::CurrentPath] = path;
+                        resolvableVariables[PreDefinedVariable::CurrentPath] = path.toAbsolute().toString();
                     if (resolvableVariables.find(PreDefinedVariable::CurrentDirectory) == resolvableVariables.end())
-                        resolvableVariables[PreDefinedVariable::CurrentDirectory] = currentDirectory;
+                        resolvableVariables[PreDefinedVariable::CurrentDirectory] = currentDirectory.toAbsolute().toString();
 
                     settings[row[0]] = VariableResolver::resolveVariables(row[1], resolvableVariables);
-                    PAX_SETTINGS_PRINT(std::cout << "[Settings]     Parsed setting " << row[0] << " " << separator << " " << settings[row[0]] << std::endl;)
+
+                    PAX_LOG_DEBUG(PAX::Log::Level::Info, "Parsed setting " << row[0] << " " << separator << " " << settings[row[0]]);
                 }
             }
 
             ++lineNumber;
         }
-        PAX_SETTINGS_PRINT(std::cout << "[Settings] End parsing " << path << std::endl;)
+
+        parsedFiles.push_back(path);
+        PAX_LOG_DEBUG(PAX::Log::Level::Info, "End parsing " << path);
     }
 
-    bool Settings::writeToFile(const std::string &path, bool overwrite) const {
+    bool Settings::writeToFile(const Path & path, bool overwrite) const {
         // Do not use std::endl to avoid flushes
         const char lineEnd = '\n';
 
         bool fileAreadyExists;
         {
-            std::ifstream file(path);
+            std::ifstream file(path.toString());
             fileAreadyExists = file.good();
         }
 
         if (!fileAreadyExists || overwrite) {
-            std::ofstream file(path);
+            std::ofstream file(path.toString());
 
             if (file) {
                 for (auto &kv : settings) {
@@ -159,10 +139,10 @@ namespace PAX {
                 file.close();
                 return true;
             } else {
-                std::cerr << "[Settings::writeToFile] Warning: Could not open " << path << "!" << std::endl;
+                PAX_LOG(PAX::Log::Level::Warn, "Could not open " << path << "!");
             }
         } else {
-            std::cerr << "[Settings::writeToFile] Warning: File " << path << " already exists!" << std::endl;
+            PAX_LOG(PAX::Log::Level::Warn, "File " << path << " already exists!");
         }
 
         return false;
@@ -178,13 +158,13 @@ namespace PAX {
 
     void Settings::check(const std::string& varName) const {
         if (!has(varName)) {
-            throw std::runtime_error("Error in PAX::Settings: The variable " + varName + " has no entry!");
+            PAX_THROW_RUNTIME_ERROR("The variable " + varName + " has no entry!");
         }
     }
 
     template<>
     std::vector<std::string> Settings::getTypeVector<std::string>(const std::string &varName) const {
-        std::string value = get<std::string>(varName);
+        auto value = get<std::string>(varName);
         std::vector<std::string> tuple;
 
         if (String::startsWith(value, "(") && String::endsWith(value, ")")) {
@@ -201,7 +181,7 @@ namespace PAX {
                 pos = nextComma + 1;
             } while(nextComma != std::string::npos);
         } else {
-            throw std::runtime_error("Error in PAX::Settings: The variable " + varName + " is not a tuple!");
+            PAX_THROW_RUNTIME_ERROR("The variable " + varName + " is not a tuple!");
         }
 
         return tuple;

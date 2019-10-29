@@ -7,7 +7,9 @@
 #include <cstdio>  /* defines FILENAME_MAX */
 #ifdef PAX_OS_WIN
     #include <direct.h>
-    #define PAX_GetCurrentDir _getcwd
+#include <paxutil/log/Log.h>
+
+#define PAX_GetCurrentDir _getcwd
 #else
     #include <unistd.h>
     #define PAX_GetCurrentDir getcwd
@@ -34,7 +36,8 @@ namespace PAX {
 
     Paths::~Paths() = default;
 
-    void Paths::setAbsoluteResourceDirectory(const std::string& resourceDirectory) {
+    void Paths::setAbsoluteResourceDirectory(const Path & resourceDirectory) {
+        PAX_LOG(PAX::Log::Level::Info, "set resource directory to " << resourceDirectory);
         _absoluteResourcePath = resourceDirectory;
     }
 

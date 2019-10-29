@@ -20,14 +20,14 @@ namespace PAX {
         Path _absoluteResourcePath;
         Path _workingDirectory;
 
-        void setAbsoluteResourceDirectory(const std::string& resourceDirectory);
+        void setAbsoluteResourceDirectory(const Path& resourceDirectory);
 
     public:
         Paths();
         ~Paths();
 
-        const Path& getResourcePath() const;
-        const Path& getWorkingDirectory() const;
+        [[nodiscard]] const Path& getResourcePath() const;
+        [[nodiscard]] const Path& getWorkingDirectory() const;
     };
 }
 
