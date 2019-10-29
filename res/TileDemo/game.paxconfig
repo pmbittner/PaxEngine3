@@ -1,0 +1,2 @@
+startworld = ${CURRENT_DIR}/worlds/SmallForest.paxprefab.json
+playerprefab = ${CURRENT_DIR}/entities/glenys.paxprefab.json
