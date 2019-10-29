@@ -43,10 +43,12 @@ namespace PAX {
                 Game::initialize();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
+                Settings gameSettings(Services::GetPaths().getResourcePath() + "/TileDemo/game.paxconfig");
+                Path startWorldPath = gameSettings.get("startworld");
+
                 PAX_LOG(PAX::Log::Level::Info, "Create World");
-                std::shared_ptr<WorldLayerPrefab> worldLayerPrefab = Services::GetResources().loadOrGet<WorldLayerPrefab>(
-                        Services::GetPaths().getResourcePath() + "/TileDemo/worlds/SmallForest.paxprefab.json"
-                );
+                std::shared_ptr<WorldLayerPrefab> worldLayerPrefab =
+                        Services::GetResources().loadOrGet<WorldLayerPrefab>(startWorldPath);
 
                 World * world = new World();
                 world->addLayer(worldLayerPrefab->create({}));

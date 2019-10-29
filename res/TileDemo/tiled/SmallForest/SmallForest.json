@@ -33,7 +33,7 @@
                 {
                  "height":80,
                  "id":1,
-                 "name":"",
+                 "name":"Transition",
                  "properties":[
                         {
                          "name":"transition_target_id",
@@ -51,6 +51,18 @@
                  "width":16,
                  "x":0,
                  "y":256
+                }, 
+                {
+                 "height":0,
+                 "id":3,
+                 "name":"PlayerSpawn",
+                 "point":true,
+                 "rotation":0,
+                 "type":"${ResourcePath}\/TileDemo\/entities\/playerspawn.paxprefab.json",
+                 "visible":true,
+                 "width":0,
+                 "x":376.666666666667,
+                 "y":56
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -71,10 +83,10 @@
          "y":0
         }],
  "nextlayerid":33,
- "nextobjectid":3,
+ "nextobjectid":4,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.4",
+ "tiledversion":"1.2.3",
  "tileheight":16,
  "tilesets":[
         {
