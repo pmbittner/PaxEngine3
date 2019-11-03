@@ -69,4 +69,36 @@ namespace PAX {
     MotionType Entity::getMotionType() const {
         return motionType;
     }
+
+    void Entity::addTag(const PAX::Tag &tag) {
+        tags.push_back(tag);
+
+        if (worldLayer) {
+            worldLayer->registerTagForEntity(this, tag);
+        }
+    }
+
+    bool Entity::removeTag(const PAX::Tag &tag) {
+        auto it = std::find(tags.begin(), tags.end(), tag);
+
+        if (it != tags.end()) {
+            tags.erase(it);
+
+            if (worldLayer) {
+                worldLayer->unregisterTagForEntity(this, tag);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    bool Entity::hasTag(const PAX::Tag &tag) const {
+        return std::find(tags.begin(), tags.end(), tag) != tags.end();
+    }
+
+    const std::vector<Tag>& Entity::getTags() const {
+        return tags;
+    }
 }

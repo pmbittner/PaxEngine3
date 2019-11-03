@@ -6,27 +6,11 @@
 #define PAXENGINE3_WORLD_H
 
 #include <vector>
-#include "WorldLayer.h"
+#include "WorldLayerEvent.h"
 #include "scenegraph/WorldSceneGraph.h"
 
 namespace PAX {
-    class World;
     class Game;
-
-    struct WorldLayerEvent : public Event {
-        World * world;
-        WorldLayer * worldLayer;
-
-        WorldLayerEvent(World * world, WorldLayer * worldLayer);
-    };
-
-    struct WorldLayerAddedEvent : public WorldLayerEvent {
-        WorldLayerAddedEvent(World * world, WorldLayer * worldLayer);
-    };
-
-    struct WorldLayerRemovedEvent : public WorldLayerEvent {
-        WorldLayerRemovedEvent(World * world, WorldLayer * worldLayer);
-    };
 
     class World {
         friend class Game;
@@ -47,12 +31,12 @@ namespace PAX {
         void addLayer(WorldLayer *layer);
         void removeLayer(WorldLayer *layer);
         const std::set<WorldLayer*> & getLayers();
-        const PropertyContainerManager<WorldLayer> & getWorldLayerManager() const;
+        [[nodiscard]] const PropertyContainerManager<WorldLayer> & getWorldLayerManager() const;
         WorldLayer* getWorldLayerWithName(const std::string& name);
 
         WorldSceneGraph* getSceneGraph();
         EventService& getEventService();
-        bool isActive() const;
+        [[nodiscard]] bool isActive() const;
     };
 }
 

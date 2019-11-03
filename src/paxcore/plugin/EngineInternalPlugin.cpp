@@ -28,10 +28,11 @@
 #include <paxcore/rendering/light/PointLight.h>
 #include <paxcore/world/property/WorldLayerBehaviour.h>
 #include <paxcore/world/property/WorldLayerSize.h>
+#include <paxcore/entity/prefab/JsonEntityPrefabTagsParser.h>
 
 namespace PAX {
     // TODO: Find a way for easier and better custom json element parsing integration.
-    class JsonEntityPrefabTransformationMotionType : public Json::JsonPropertyContainerPrefabElementParser<Entity> {
+    class JsonEntityPrefabMotionTypeParser : public Json::JsonPropertyContainerPrefabElementParser<Entity> {
     public:
         void parse(nlohmann::json & node, Entity & e, Json::JsonPropertyContainerPrefab<Entity> & prefab, const VariableRegister & v) override {
             MotionType motionType = MotionType::Static;
@@ -52,24 +53,29 @@ namespace PAX {
     void EngineInternalPlugin::initialize(PAX::Engine &engine) {}
 
     void EngineInternalPlugin::postInitialize(PAX::Engine &engine) {
+        /// Parsers for EntityPrefab things
         static Json::JsonPropertyContainerPrefabTransformationParser<Entity> transformationParser;
+        static JsonEntityPrefabMotionTypeParser entityMotionTypeParser;
+        static JsonEntityPrefabTagsParser entityTagsParser;
+
+        /// Parsers for WorldLayerPrefab things
         static Json::JsonWorldLayerPrefabInitParser worldLayerPrefabInitParser;
         static Json::JsonWorldLayerEntityParser worldLayerPrefabEntityParser;
-        static JsonEntityPrefabTransformationMotionType entityMotionTypeParser;
+
+        Prefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
+        Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
         Json::JsonPropertyContainerPrefab<Entity>::initialize(Services::GetResources());
         Json::JsonPropertyContainerPrefab<WorldLayer>::initialize(Services::GetResources());
 
         Json::JsonPropertyContainerPrefab<Entity>::Parsers.registerParser("Transform", &transformationParser);
         Json::JsonPropertyContainerPrefab<Entity>::Parsers.registerParser("MotionType", &entityMotionTypeParser);
+        Json::JsonPropertyContainerPrefab<Entity>::Parsers.registerParser("Tags", &entityTagsParser);
+
         Json::JsonPropertyContainerPrefab<WorldLayer>::Parsers.registerParser("Constructor", &worldLayerPrefabInitParser);
         Json::JsonPropertyContainerPrefab<WorldLayer>::Parsers.registerParser("Entities", &worldLayerPrefabEntityParser);
 
-        Prefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
-        Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
-
         /// If no texture loaders have been registered, register the null texture loader.
-        // FIXME: Is there maybe a better place for this?
         if (Services::GetResources().getLoaders<Texture>().empty()) {
             Services::GetResources().registerLoader(&nullTextureLoader);
         }

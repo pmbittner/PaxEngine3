@@ -40,7 +40,12 @@ namespace PAX {
     }
 
     Entity* EntityIDService::getEntity(PAX::EntityID id) const {
-        return entities.at(id);
+        auto it = entities.find(id);
+
+        if (it != entities.end()) {
+            return it->second;
+        }
+        return nullptr;
     }
 
     void EntityIDService::generateIDFor(PAX::Entity *entity) {

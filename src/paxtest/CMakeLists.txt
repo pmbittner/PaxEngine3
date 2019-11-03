@@ -21,14 +21,14 @@ set(HEADERS_FOR_CLION
         ../../include/paxtest/trials/AllocatorConstructorTest.h
         ../../include/paxtest/trials/InheritedTemplateTypeTest.h)
 
-add_executable(NewTrafoTest newTrafoTest.cpp ${HEADERS_FOR_CLION})
-target_link_libraries(NewTrafoTest paxutil)
+#add_executable(NewTrafoTest newTrafoTest.cpp ${HEADERS_FOR_CLION})
+#target_link_libraries(NewTrafoTest paxutil)
 
-add_executable(PathTest pathTest.cpp)
-target_link_libraries(PathTest paxutil)
+#add_executable(PathTest pathTest.cpp)
+#target_link_libraries(PathTest paxutil)
 
-add_executable(GenericPropertiesTest trials/genericProperties.cpp trials/TestProperties.cpp trials/TestProperties.h trials/HandyMacroTricks.h)
-target_link_libraries(GenericPropertiesTest paxutil)
+#add_executable(GenericPropertiesTest trials/genericProperties.cpp trials/TestProperties.cpp trials/TestProperties.h trials/HandyMacroTricks.h)
+#target_link_libraries(GenericPropertiesTest paxutil)
 
-add_executable(StringConversionTest trials/StringConversionTest.cpp)
-target_link_libraries(StringConversionTest paxutil)
+#add_executable(StringConversionTest trials/StringConversionTest.cpp)
+#target_link_libraries(StringConversionTest paxutil)

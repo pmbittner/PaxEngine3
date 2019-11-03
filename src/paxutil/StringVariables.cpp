@@ -17,7 +17,7 @@ namespace PAX {
             std::size_t varDecEndIndex = result.find(VariableDeclarationEnd);
 
             if (varDecEndIndex == std::string::npos) {
-                std::cerr << "[VariableResolver::resolveVariables] Warning: Variable declaration end missing in " << str.c_str() << std::endl;
+                PAX_LOG(Log::Level::Warn, "Variable declaration end missing in " << str.c_str());
                 // terminate since we are left in an infinite loop otherwise
                 break;
             } else {

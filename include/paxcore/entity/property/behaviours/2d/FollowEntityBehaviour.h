@@ -14,7 +14,7 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
 
-        EntityID targetID = EntityIDService::InvalidID;
+        EntityID targetID = 0;
         float speed = 2.5f;
 
         bool respectWorldSize = false;
@@ -26,6 +26,9 @@ namespace PAX {
 
         bool respectsWorldSize();
         void shouldRespectWorldSize(bool respectWorldSize);
+
+        void setTarget(EntityID id);
+        EntityID getTarget() const;
     };
 }
 

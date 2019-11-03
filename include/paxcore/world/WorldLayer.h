@@ -32,6 +32,7 @@ namespace PAX {
     class WorldLayer : public PropertyContainer<WorldLayer> {
         friend class SceneGraphGenerator;
         friend class World;
+        friend class Entity;
 
         std::string name;
 
@@ -44,11 +45,15 @@ namespace PAX {
 
         EntityManager entities;
         EntityIDService idService;
+        std::map<Tag, std::vector<Entity*>> entitiesByTags;
 
         World * world = nullptr;
         void setWorld(World * world);
 
         void worldActivityChanged(bool isWorldActive);
+
+        void registerTagForEntity(Entity * entity, const Tag & tag);
+        void unregisterTagForEntity(Entity * entity, const Tag & tag);
 
     public:
         WorldLayer();
@@ -66,16 +71,17 @@ namespace PAX {
         void spawn(Entity *entity);
         void despawn(Entity *entity);
 
-        const std::set<Entity*> & getEntities() const;
-        const EntityManager & getEntityManager() const;
+        [[nodiscard]] const std::set<Entity*> & getEntities() const;
+        [[nodiscard]] const EntityManager & getEntityManager() const;
         EntityIDService & getEntityIDService();
+        const std::vector<Entity*> & getEntitiesWithTag(const Tag & tag);
 
-        const std::string& getName() const;
-        const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
-        const std::vector<Camera*> & getCameras() const;
-        World * getWorld() const;
+        [[nodiscard]] const std::string& getName() const;
+        [[nodiscard]] const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
+        [[nodiscard]] const std::vector<Camera*> & getCameras() const;
+        [[nodiscard]] World * getWorld() const;
 
-        int getDimensions() const;
+        [[nodiscard]] int getDimensions() const;
 
         bool operator<(const WorldLayer & rhs) const;
     };

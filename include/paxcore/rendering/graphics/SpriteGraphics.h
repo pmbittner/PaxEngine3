@@ -29,7 +29,7 @@ namespace PAX {
         std::shared_ptr<Texture> _texture;
 
         void onSizeChanged(SizeChangedEvent& event);
-        virtual glm::vec2 getSpriteSize() const;
+        [[nodiscard]] virtual glm::vec2 getSpriteSize() const;
 
     public:
         explicit SpriteGraphics(const std::shared_ptr<Texture> &texture);

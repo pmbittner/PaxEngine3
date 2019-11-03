@@ -7,10 +7,6 @@
 #include <paxcore/Game.h>
 
 namespace PAX {
-    WorldLayerEvent::WorldLayerEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : world(world), worldLayer(worldLayer) {}
-    WorldLayerAddedEvent::WorldLayerAddedEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : WorldLayerEvent(world, worldLayer) {}
-    WorldLayerRemovedEvent::WorldLayerRemovedEvent(PAX::World *world, PAX::WorldLayer *worldLayer) : WorldLayerEvent(world, worldLayer) {}
-
     World::World() : worldLayers(localEventService) {
 
     }

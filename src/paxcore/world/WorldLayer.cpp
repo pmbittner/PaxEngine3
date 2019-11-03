@@ -81,6 +81,10 @@ namespace PAX {
             entity->getEventService().setParent(&getEventService());
             entity->updateActiveStatus();
 
+            for (const Tag & tag : entity->getTags()) {
+                registerTagForEntity(entity, tag);
+            }
+
             EntitySpawnedEvent e(entity);
             getEventService()(e);
         }
@@ -97,6 +101,10 @@ namespace PAX {
             entity->getEventService().setParent(nullptr);
             entity->updateActiveStatus();
 
+            for (const Tag & tag : entity->getTags()) {
+                unregisterTagForEntity(entity, tag);
+            }
+
             EntityDespawnedEvent e(entity, this);
             getEventService()(e);
         }
@@ -112,6 +120,10 @@ namespace PAX {
 
     EntityIDService & WorldLayer::getEntityIDService() {
         return idService;
+    }
+
+    const std::vector<Entity*> & WorldLayer::getEntitiesWithTag(const PAX::Tag &tag) {
+        return entitiesByTags[tag];
     }
 
     const std::shared_ptr<WorldLayerSceneGraph>& WorldLayer::getSceneGraph() const {
@@ -152,6 +164,19 @@ namespace PAX {
 
         for (Entity * e : entities) {
             e->updateActiveStatus();
+        }
+    }
+
+    void WorldLayer::registerTagForEntity(PAX::Entity *entity, const PAX::Tag &tag) {
+        entitiesByTags[tag].push_back(entity);
+    }
+
+    void WorldLayer::unregisterTagForEntity(PAX::Entity *entity, const PAX::Tag &tag) {
+        std::vector<Entity*> & taggies = entitiesByTags[tag];
+        auto it = std::find(taggies.begin(), taggies.end(), entity);
+
+        if (it != taggies.end()) {
+            taggies.erase(it);
         }
     }
 

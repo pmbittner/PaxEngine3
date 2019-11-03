@@ -43,17 +43,46 @@ namespace PAX {
                 Game::initialize();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
+                /// Load the game's initialisation settings
                 Settings gameSettings(Services::GetPaths().getResourcePath() + "/TileDemo/game.paxconfig");
-                Path startWorldPath = gameSettings.get("startworld");
 
-                PAX_LOG(PAX::Log::Level::Info, "Create World");
-                std::shared_ptr<WorldLayerPrefab> worldLayerPrefab =
-                        Services::GetResources().loadOrGet<WorldLayerPrefab>(startWorldPath);
-
+                /// Create the starting world
                 World * world = new World();
-                world->addLayer(worldLayerPrefab->create({}));
-                setActiveWorld(world);
+                WorldLayer * startWorldLayer = nullptr;
+                {
+                    Path startWorldPath = gameSettings.get("startworld");
+                    std::shared_ptr<WorldLayerPrefab> worldLayerPrefab =
+                            Services::GetResources().loadOrGet<WorldLayerPrefab>(startWorldPath);
+                    startWorldLayer = worldLayerPrefab->create({});
+                    world->addLayer(startWorldLayer);
+                }
 
+                /// Spawn player
+                {
+                    Path playerPrefabPath = gameSettings.get("playerprefab");
+                    std::shared_ptr<EntityPrefab> playerPrefab =
+                            Services::GetResources().loadOrGet<EntityPrefab>(playerPrefabPath);
+                    Entity * player = playerPrefab->create({});
+                    player->addTag(Tags::Player);
+
+                    const std::vector<Entity*> & playerSpawns = startWorldLayer->getEntitiesWithTag(Tags::PlayerSpawn);
+                    if (!playerSpawns.empty()) {
+                        player->getTransformation().position2D() = playerSpawns.at(0)->getTransformation().position2D();
+                    }
+
+                    startWorldLayer->spawn(player);
+
+                    const std::vector<Entity*> & cameras = startWorldLayer->getEntitiesWithTag(Tags::Camera);
+                    if (!cameras.empty()) {
+                        Entity * camera = cameras[0];
+                        if (camera->has<FollowEntityBehaviour>()) {
+                            camera->get<FollowEntityBehaviour>()->setTarget(startWorldLayer->getEntityIDService().getID(player));
+                            camera->getTransformation().position2D() = player->getTransformation().position2D();
+                        }
+                    }
+                }
+
+                setActiveWorld(world);
                 PAX_LOG(PAX::Log::Level::Info, "Done");
             }
 

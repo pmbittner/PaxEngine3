@@ -47,20 +47,24 @@ namespace PAX {
 
     public:
         enum ReservedIDs : EntityID {
-            InvalidID = EntityID(),
+            InvalidID = EntityID(0),
 
-            Player,
-            Player2,
-            Player3,
-            Player4,
+            /*
+            // I disabled these reserved IDs as they conflict IDs specified in Tiled.
+            // I do not have an idea how to fix that but until then the ReservedIDs wont work and are misleading.
+                Player,
+                Player2,
+                Player3,
+                Player4,
 
-            Camera,
-            Camera2,
-            Camera3,
-            Camera4,
+                Camera,
+                Camera2,
+                Camera3,
+                Camera4,
+                */
 
             NUM_RESERVED_IDS
-        };
+            };
 
         EntityIDService();
         virtual ~EntityIDService();

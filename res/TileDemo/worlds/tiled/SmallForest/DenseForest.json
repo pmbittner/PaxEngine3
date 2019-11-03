@@ -33,7 +33,7 @@
                 {
                  "height":80,
                  "id":1,
-                 "name":"",
+                 "name":"Transition",
                  "properties":[
                         {
                          "name":"transition_target_id",
@@ -43,7 +43,7 @@
                         {
                          "name":"transition_target_map",
                          "type":"string",
-                         "value":"${ResourcePath}\/TileDemo\/worlds\/\/EmptySmallForest.paxprefab.json"
+                         "value":"${ResourcePath}\/TileDemo\/worlds\/SmallForest.paxprefab.json"
                         }],
                  "rotation":0,
                  "type":"${ResourcePath}\/TileDemo\/entities\/transitionarea.paxprefab.json",
@@ -86,7 +86,7 @@
  "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.4",
+ "tiledversion":"1.2.3",
  "tileheight":16,
  "tilesets":[
         {

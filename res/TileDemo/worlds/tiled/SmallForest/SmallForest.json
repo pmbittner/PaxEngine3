@@ -61,8 +61,8 @@
                  "type":"${ResourcePath}\/TileDemo\/entities\/playerspawn.paxprefab.json",
                  "visible":true,
                  "width":0,
-                 "x":376.666666666667,
-                 "y":56
+                 "x":207.666666666667,
+                 "y":426
                 }],
          "opacity":1,
          "type":"objectgroup",

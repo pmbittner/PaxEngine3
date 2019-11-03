@@ -18,6 +18,7 @@
 #include "event/EntityParentChangedEvent.h"
 
 #include "MotionType.h"
+#include "Tag.h"
 
 namespace PAX {
     class World;
@@ -31,8 +32,9 @@ namespace PAX {
 
     private:
         Transformation transform;
-        // The motionType should be actually const, but it made problems with prefabs.
+        // The motionType should actually be const, but it made problems with prefabs.
         MotionType motionType = MotionType::Static;
+        std::vector<Tag> tags;
 
         Entity * parent = nullptr;
         std::vector<Entity*> children;
@@ -53,9 +55,14 @@ namespace PAX {
         [[nodiscard]] const std::vector<Entity*>& getChildren() const;
         [[nodiscard]] WorldLayer* getWorldLayer() const;
 
-        // TODO: This should not be changeable later. Hence, add some sort of finalisation or so.
+        // TODO: This should not be changeable later. Add some sort of finalisation or so.
         void i_setMotionType(MotionType motionType);
         [[nodiscard]] MotionType getMotionType() const;
+
+        void addTag(const Tag & tag);
+        bool removeTag(const Tag & tag);
+        [[nodiscard]] bool hasTag(const Tag & tag) const;
+        [[nodiscard]] const std::vector<Tag> & getTags() const;
     };
 
     using EntityManager = PropertyContainerManager<Entity>;

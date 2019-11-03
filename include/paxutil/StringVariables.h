@@ -6,7 +6,7 @@
 #define PAXENGINE3_TYPES_H
 
 #include <map>
-#include <iostream>
+#include "log/Log.h"
 
 namespace PAX {
     using VariableRegister = std::map<std::string, std::string>;
@@ -16,11 +16,11 @@ namespace PAX {
         VariableRegister values;
         std::map<std::string, VariableHierarchy> children;
 
-        std::string tryGet(const std::string & val) const {
+        [[nodiscard]] std::string tryGet(const std::string & val) const {
             try {
                 return values.at(val);
             } catch (std::out_of_range & e) {
-                std::cerr << "[VariableHierarchy::tryGet] error: " << e.what() << std::endl;
+                PAX_LOG(Log::Level::Error, e.what());
             }
 
             return "";

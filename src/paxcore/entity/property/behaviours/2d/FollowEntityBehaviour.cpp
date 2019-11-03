@@ -88,4 +88,12 @@ namespace PAX {
     void FollowEntityBehaviour::shouldRespectWorldSize(bool respectWorldSize) {
         this->respectWorldSize = respectWorldSize;
     }
+
+    void FollowEntityBehaviour::setTarget(PAX::EntityID id) {
+        this->targetID = id;
+    }
+
+    EntityID FollowEntityBehaviour::getTarget() const {
+        return targetID;
+    }
 }

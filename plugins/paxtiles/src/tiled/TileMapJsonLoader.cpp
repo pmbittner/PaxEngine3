@@ -4,7 +4,6 @@
 
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
-#include <paxtiles/TileSet.h>
 
 #include <paxutil/json/JsonUtil.h>
 #include <paxutil/json/Json.h>
@@ -171,11 +170,13 @@ namespace PAX {
                         PAX::Prefab::PreDefinedVariables);
                 std::shared_ptr<PAX::EntityPrefab> prefab = Services::GetResources().loadOrGet<EntityPrefab>(prefabPath);
 
-                for (const nlohmann::json & property : obj["properties"]) {
-                    varRegister[property["name"]] =
-                            VariableResolver::resolveVariables(
-                                JsonToString(property["value"]),
-                                PAX::Prefab::PreDefinedVariables);
+                if (obj.find("properties") != obj.end()) {
+                    for (const nlohmann::json &property : obj["properties"]) {
+                        varRegister[property["name"]] =
+                                VariableResolver::resolveVariables(
+                                        JsonToString(property["value"]),
+                                        PAX::Prefab::PreDefinedVariables);
+                    }
                 }
 
                 if (prefab) {

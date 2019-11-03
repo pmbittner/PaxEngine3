@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::Tiles::TileMapProperty": {
-      "map": "${ResourcePath}/TileDemo/tiled/SmallForest/DenseForest.json"
+      "map": "${ResourcePath}/TileDemo/worlds/tiled/SmallForest/DenseForest.json"
     }
   }
 }

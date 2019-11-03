@@ -115,7 +115,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/entity/EntityIDService.h
         ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h
         ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h
-        ../../include/paxcore/rendering/factory/TextureFactory.h ../../include/paxcore/entity/MotionType.h ../../include/paxcore/system/PropertyOwningSystem.h ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h)
+        ../../include/paxcore/rendering/factory/TextureFactory.h ../../include/paxcore/entity/MotionType.h ../../include/paxcore/system/PropertyOwningSystem.h ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h ../../include/paxcore/entity/Tag.h ../../include/paxcore/world/WorldLayerEvent.h ../../include/paxcore/entity/prefab/JsonEntityPrefabTagsParser.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -151,7 +151,7 @@ set(CORE_SOURCE_FILES
         world/property/WorldLayerSize.cpp
         world/property/WorldLayerBehaviour.cpp
         entity/EntityIDService.cpp
-        world/prefab/JsonWorldLayerEntityParser.cpp function/Updateable.cpp)
+        world/prefab/JsonWorldLayerEntityParser.cpp function/Updateable.cpp world/WorldLayerEvent.cpp entity/prefab/JsonEntityPrefabTagsParser.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

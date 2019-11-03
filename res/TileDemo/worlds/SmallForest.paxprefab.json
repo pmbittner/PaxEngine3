@@ -6,15 +6,10 @@
   },
   "Properties": {
     "PAX::Tiles::TileMapProperty": {
-      "map": "${ResourcePath}/TileDemo/tiled/SmallForest/SmallForest.json"
+      "map": "${ResourcePath}/TileDemo/worlds/tiled/SmallForest/SmallForest.json"
     }
   },
   "Entities": [
-    {
-      "name": "Player",
-      "id": 1001,
-      "prefab": "${ResourcePath}/TileDemo/entities/glenys.paxprefab.json"
-    },
     {
       "name": "Camera",
       "id": 1002,
@@ -23,6 +18,9 @@
           "position": [0, 0, 10],
           "scale": [3, 3, 1]
         },
+        "Tags": [
+          "Camera"
+        ],
         "Properties": {
           "PAX::Camera": {
             "syncProjectionResolutionToViewportResolution": false,
@@ -31,7 +29,7 @@
             "projection_resolution_height": 600
           },
           "PAX::FollowEntityBehaviour": {
-            "targetEntity": 1001,
+            "targetEntity": 0,
             "respectWorldSize": true
           }
         }

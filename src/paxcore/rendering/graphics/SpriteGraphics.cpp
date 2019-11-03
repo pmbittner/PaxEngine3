@@ -47,13 +47,13 @@ namespace PAX {
                         {1, 0}
                 };
 
-                std::cout << "[SpriteGraphics::GetMesh] create QuadMesh" << std::endl;
+                PAX_LOG(Log::Level::Info, "create QuadMesh");
 
                 QuadMesh = meshFactory->create(vertices, indices);
                 QuadMesh->addAttribute(Mesh::UVs, texCoords);
                 QuadMesh->upload();
             } else {
-                throw std::runtime_error("[PAX::SpriteGraphics::GetMesh] could not create sprite mesh because no MeshFactory is registered at the FactoryService!");
+                PAX_THROW_RUNTIME_ERROR("Could not create sprite mesh because no MeshFactory is registered at the FactoryService!");
             }
         }
 
