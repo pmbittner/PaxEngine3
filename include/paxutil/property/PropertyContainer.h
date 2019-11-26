@@ -122,6 +122,7 @@ namespace PAX {
                 registerComponent(component);
                 _allProperties.push_back(component);
                 if (active) {
+                    component->active = true;
                     component->activated();
                 }
                 return true;
@@ -135,6 +136,7 @@ namespace PAX {
             unregisterComponent(component);
             Util::removeFromVector(_allProperties, component);
             if (active) {
+                component->active = false;
                 component->deactivated();
             }
             return ret;
