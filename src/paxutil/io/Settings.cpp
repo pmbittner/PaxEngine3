@@ -79,7 +79,7 @@ namespace PAX {
         // Open file
         std::ifstream file(path.toString());
         if (!file.is_open()) {
-            PAX_THROW_RUNTIME_ERROR("The file " << path << " was already parsed! Maybe there is a cyclic or duplicate include?");
+            PAX_THROW_RUNTIME_ERROR("Could not read file " << path.toAbsolute() << "!");
         }
 
         SettingsFileRow row(separator, trimValues);
