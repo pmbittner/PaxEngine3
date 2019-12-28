@@ -36,8 +36,6 @@ include_directories(include)
 
 ### API INCLUDES ########################################
 
-include_directories(${PAX_LIB_DIR_RELATIVE}/Easylogging/include)
-
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     include_directories(${PAX_LIB_DIR_RELATIVE}/win/include)
 else()
