@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <paxcore/rendering/Graphics.h>
-#include <paxcore/entity/Entity.h>
+#include <paxcore/gameentity/GameEntity.h>
 
 namespace PAX {
     namespace Sort {

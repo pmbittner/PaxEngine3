@@ -5,8 +5,8 @@
 #ifndef PAXENGINE3_PLAYERCONTROLS_H
 #define PAXENGINE3_PLAYERCONTROLS_H
 
-#include <paxcore/entity/Entity.h>
-#include <paxcore/entity/EntityProperty.h>
+#include <paxcore/entity/GameEntity.h>
+#include <paxcore/entity/GameEntityProperty.h>
 #include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
@@ -14,9 +14,9 @@
 #include "paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h"
 
 namespace PAX {
-    class PlayerControls : public EntityProperty {
+    class PlayerControls : public GameEntityProperty {
         PAX_PROPERTY(PlayerControls, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(PAX::EntityProperty)
+        PAX_PROPERTY_DERIVES(PAX::GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
         PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour2D)
 
@@ -67,7 +67,7 @@ namespace PAX {
         PlayerControls() = default;
         ~PlayerControls() override = default;
 
-        void attached(Entity &entity) override {
+        void attached(GameEntity &entity) override {
             Super::attached(entity);
             EventService& e = Services::GetEventService();
             e.add<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);
@@ -76,7 +76,7 @@ namespace PAX {
             velocityBehaviour = entity.get<VelocityBehaviour2D>();
         }
 
-        void detached(Entity &entity) override {
+        void detached(GameEntity &entity) override {
             Super::detached(entity);
             EventService& e = Services::GetEventService();
             e.remove<KeyPressedEvent, PlayerControls, &PlayerControls::onKeyPressed>(this);

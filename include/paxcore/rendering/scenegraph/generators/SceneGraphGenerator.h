@@ -8,8 +8,8 @@
 #include "paxcore/rendering/scenegraph/SceneGraph.h"
 #include "paxcore/rendering/Graphics.h"
 #include "paxcore/rendering/camera/Camera.h"
-#include "paxcore/world/event/EntitySpawnedEvent.h"
-#include "paxcore/world/event/EntityDespawnedEvent.h"
+#include "paxcore/world/event/GameEntitySpawnedEvent.h"
+#include "paxcore/world/event/GameEntityDespawnedEvent.h"
 
 namespace PAX {
     class SceneGraphGenerator {
@@ -32,12 +32,12 @@ namespace PAX {
         void initialize(SceneGraph *_root, EventService& eventService);
         void terminate(EventService& eventService);
 
-        void onEntitySpawnedEvent(EntitySpawnedEvent& e);
-        void onEntityDespawnedEvent(EntityDespawnedEvent& e);
-        void onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Graphics>& e);
-        void onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Graphics>& e);
-        void onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Camera>& e);
-        void onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Camera>& e);
+        void onGameEntitySpawnedEvent(GameEntitySpawnedEvent& e);
+        void onGameEntityDespawnedEvent(GameEntityDespawnedEvent& e);
+        void onGameEntityComponentAddedEvent(PropertyAttachedEvent<GameEntity, Graphics>& e);
+        void onGameEntityComponentRemovedEvent(PropertyDetachedEvent<GameEntity, Graphics>& e);
+        void onGameEntityComponentAddedEvent(PropertyAttachedEvent<GameEntity, Camera>& e);
+        void onGameEntityComponentRemovedEvent(PropertyDetachedEvent<GameEntity, Camera>& e);
 
         const std::vector<Camera*> & getCameras() const;
     };

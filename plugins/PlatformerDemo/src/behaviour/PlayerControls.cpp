@@ -5,7 +5,7 @@
 #include "platformerdemo/behaviour/PlayerControls.h"
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::PlayerControls, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::PlayerControls, PAX_PROPERTY_IS_CONCRETE)
 
     PlayerControls * PlayerControls::createFromProvider(ContentProvider & provider) {
         return new PlayerControls();

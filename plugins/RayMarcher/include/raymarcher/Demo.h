@@ -9,9 +9,9 @@
 #include <paxcore/Engine.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 
-#include "paxutil/log/Log.h"
+#include "polypropylene/log/Log.h"
 
-#include <paxcore/entity/Entity.h>
+#include <paxcore/entity/GameEntity.h>
 #include <paxcore/entity/property/behaviours/NoClipControls.h>
 
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
@@ -55,7 +55,7 @@ namespace PAX {
 
             std::shared_ptr<Shader> rayMarchingShader;
             Renderer renderer;
-            Entity screenEntity, cameraEntity;
+            GameEntity screenGameEntity, cameraGameEntity;
 
             void createScreen() {
                 Path vert = settings.get<Path>("vertfile");
@@ -70,7 +70,7 @@ namespace PAX {
                 g->setShader(rayMarchingShader);
                 g->getSceneGraph().addChild(&renderer);
 
-                screenEntity.add(g);
+                screenGameEntity.add(g);
             }
 
         public:
@@ -103,13 +103,13 @@ namespace PAX {
                 NoClipControls * noClipControls = new NoClipControls();
                 noClipControls->setSpeed(0.3);
                 noClipControls->setMouseSensivity(0.3);
-                cameraEntity.add(camera);
-                cameraEntity.add(noClipControls);
-                cameraEntity.getTransformation().position() = settings.get<glm::vec3>("camerapos");
+                cameraGameEntity.add(camera);
+                cameraGameEntity.add(noClipControls);
+                cameraGameEntity.getTransformation().position() = settings.get<glm::vec3>("camerapos");
 
                 WorldLayer * mainLayer = new WorldLayer("ScreenLayer", 2);
-                mainLayer->spawn(&screenEntity);
-                mainLayer->spawn(&cameraEntity);
+                mainLayer->spawn(&screenGameEntity);
+                mainLayer->spawn(&cameraGameEntity);
 
                 world = new World();
                 world->addLayer(mainLayer);

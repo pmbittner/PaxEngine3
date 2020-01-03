@@ -7,17 +7,17 @@
 
 #include <iostream>
 #include <unordered_set>
-#include "../core/entity/EntityComponent.h"
-#include "../core/entity/Entity.h"
+#include "../core/entity/GameEntityComponent.h"
+#include "../core/entity/GameEntity.h"
 
 #include "../test/trials/enum.h"
-#include "core/entity/component/allocators/EntityComponentPool.h"
+#include "core/entity/component/allocators/GameEntityComponentPool.h"
 
 namespace PAX {
     namespace TEST {
         namespace ENTITY {
             /*
-            PAX_EntityComponent(Graphics, false)
+            PAX_GameEntityComponent(Graphics, false)
             public:
                 virtual std::string getPlatformName() = 0;
             };
@@ -40,7 +40,7 @@ namespace PAX {
                 }
             };
 
-            PAX_EntityComponent(Physics, true)
+            PAX_GameEntityComponent(Physics, true)
 
             };
 
@@ -59,7 +59,7 @@ namespace PAX {
             }
 
             /*
-            class PoolTest : public EntityComponentPool<OpenGLGraphics> {
+            class PoolTest : public GameEntityComponentPool<OpenGLGraphics> {
                 virtual OpenGLGraphics* createElement() override {
                     return new OpenGLGraphics();
                 }
@@ -70,7 +70,7 @@ namespace PAX {
                 {
                     std::cout << "Default test" << std::endl;
 
-                    Entity e;
+                    GameEntity e;
 
                     {
                         e.add<Graphics>(new DirectXGraphics);
@@ -92,7 +92,7 @@ namespace PAX {
                 {
                     std::cout << "Has test" << std::endl;
 
-                    Entity hasTest;
+                    GameEntity hasTest;
                     Graphics *hasTestGfx = new DirectXGraphics;
                     hasTest.add<Graphics>(hasTestGfx);
                     hasTest.add<Physics>(new Physics);
@@ -111,7 +111,7 @@ namespace PAX {
 
                 {
                     std::cout << std::endl << "Remove test" << std::endl;
-                    Entity removeTest;
+                    GameEntity removeTest;
                     Physics p;
                     removeTest.add(&p);
                     std::cout << "Has Physics: " << removeTest.has<Physics>() << std::endl;

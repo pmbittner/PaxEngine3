@@ -1,7 +1,7 @@
 
 set(HEADERS_FOR_CLION
         # Header files for CLion
-        ../../include/paxtest/EntityTest.h
+        ../../include/paxtest/GameEntityTest.h
         ../../include/paxtest/SDLTestApplication.h
         ../../include/paxtest/SDLTestApplication2.h
         ../../include/paxtest/trials/enum.h

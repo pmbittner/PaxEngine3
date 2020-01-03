@@ -134,7 +134,7 @@ namespace PAX {
             return layers;
         }
 
-        const std::vector<std::pair<Entity*, EntityID>> & TileMap::getEntities() const {
+        const std::vector<std::pair<GameEntity*, GameEntityID>> & TileMap::getEntities() const {
             return entities;
         }
 
@@ -150,7 +150,7 @@ namespace PAX {
             return mapSize;
         }
 
-        void TileMap::_addEntity(PAX::Entity *entity, EntityID id) {
+        void TileMap::_addGameEntity(PAX::GameEntity *entity, GameEntityID id) {
             entities.emplace_back(entity, id);
         }
     }

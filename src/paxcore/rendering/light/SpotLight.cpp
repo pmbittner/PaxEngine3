@@ -6,53 +6,45 @@
 #include <paxutil/math/Angles.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::SpotLight, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::SpotLight) {}
 
-    SpotLight * SpotLight::createFromProvider(PAX::ContentProvider & provider) {
-        auto direction = provider.require<glm::vec3>("direction");
-        auto openingAngle = provider.require<float>("openingAngle");
-
-        if (auto color = provider.get<glm::vec4>("color")) {
-            return new SpotLight(direction, openingAngle, color.value());
-        } else {
-            return new SpotLight(direction, openingAngle);
-        }
+    ClassMetadata SpotLight::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(direction)).flags = Field::IsMandatory;
+        m.add(paxfieldof(openingAngleInDegrees)).flags = Field::IsMandatory;
+        return m;
     }
 
-    void SpotLight::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
+    SpotLight::SpotLight() = default;
 
-    SpotLight::SpotLight(const glm::vec3 &direction, float openingAngleInDegrees, const glm::vec4 &color) : Super(color) {
-        setDirection(direction);
-        setOpeningAngleInDegrees(openingAngleInDegrees);
-    }
-
-    SpotLight::~SpotLight() {
+    SpotLight::SpotLight(const glm::vec3 &direction, float openingAngleInDegrees, const glm::vec4 &color)
+    : Super(color), direction(direction), openingAngleInDegrees(openingAngleInDegrees) {
 
     }
+
+    SpotLight::~SpotLight() = default;
 
     void SpotLight::uploadTo(PAX::Shader * shader, int index) {
-
+        PAX_NOT_IMPLEMENTED();
     }
 
-    void SpotLight::setDirection(const glm::vec3 &direction) {
-        _direction = direction;
+    void SpotLight::setDirection(const glm::vec3 & direction) {
+        this->direction = direction;
     }
 
     const glm::vec3& SpotLight::getDirection() const {
-        return _direction;
+        return direction;
     }
 
     void SpotLight::setOpeningAngleInDegrees(float degrees) {
-        _openingAngleInRadians = PAX::Math::toRadians(degrees);
+        openingAngleInDegrees = degrees;
     }
 
     float SpotLight::getOpeningAngleInRadians() const {
-        return _openingAngleInRadians;
+        return PAX::Math::toRadians(openingAngleInDegrees);;
     }
 
     float SpotLight::getOpeningAngleInDegrees() const {
-        return PAX::Math::toDegrees(_openingAngleInRadians);
+        return openingAngleInDegrees;
     }
 }

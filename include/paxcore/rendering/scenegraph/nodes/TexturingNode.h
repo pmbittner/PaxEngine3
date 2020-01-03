@@ -15,10 +15,11 @@ namespace PAX {
         std::shared_ptr<Texture> _texture;
 
     public:
-        TexturingNode(const std::shared_ptr<Texture> &texture);
-        virtual void render(RenderOptions &options) override;
+        explicit TexturingNode(const std::shared_ptr<Texture> &texture);
+        void render(RenderOptions &options) override;
 
-        std::shared_ptr<Texture>& getTexture();
+        void setTexture(const std::shared_ptr<Texture> &texture);
+        PAX_NODISCARD const std::shared_ptr<Texture>& getTexture() const;
     };
 }
 

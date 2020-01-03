@@ -6,7 +6,7 @@
 #define PAXENGINE3_TILEMAPJSONLOADER_H
 
 #include <paxutil/resources/ResourceLoader.h>
-#include <paxutil/json/JsonFwd.h>
+#include <polypropylene/serialisation/json/JsonFwd.h>
 #include "../TileMap.h"
 
 namespace PAX {

@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_WORLDLAYEREVENT_H
 #define PAXENGINE3_WORLDLAYEREVENT_H
 
-#include <paxutil/event/Event.h>
+#include <polypropylene/event/Event.h>
 #include <paxcore/world/WorldLayer.h>
 
 namespace PAX {

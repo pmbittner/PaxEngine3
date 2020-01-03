@@ -6,7 +6,7 @@
 #define PAXENGINE3_SHADERCHANGEDEVENT_H
 
 #include <memory>
-#include <paxutil/event/Event.h>
+#include <polypropylene/event/Event.h>
 
 namespace PAX {
     class Shader;

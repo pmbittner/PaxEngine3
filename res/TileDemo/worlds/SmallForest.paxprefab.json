@@ -28,8 +28,8 @@
             "projection_resolution_width": 800,
             "projection_resolution_height": 600
           },
-          "PAX::FollowEntityBehaviour": {
-            "targetEntity": 0,
+          "PAX::FollowGameEntityBehaviour": {
+            "targetGameEntity": 0,
             "respectWorldSize": true
           }
         }

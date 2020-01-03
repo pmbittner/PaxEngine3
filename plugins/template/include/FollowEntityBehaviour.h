@@ -8,14 +8,14 @@
 #include <paxcore/entity/component/Behaviour.h>
 
 namespace PaxTemplatePlugin {
-    class FollowEntityBehaviour : public PAX::Behaviour {
+    class FollowGameEntityBehaviour : public PAX::Behaviour {
         PAX_ENTITYCOMPONENT_BODY(PAX::Behaviour, false)
 
-        PAX::Entity *target = nullptr;
+        PAX::GameEntity *target = nullptr;
         float speed = 0.09f;
 
     public:
-        FollowEntityBehaviour(PAX::Entity *target) : target(target) {}
+        FollowGameEntityBehaviour(PAX::GameEntity *target) : target(target) {}
 
         virtual void update() override {
             if (target) {

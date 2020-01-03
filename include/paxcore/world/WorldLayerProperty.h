@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_WORLDLAYERPROPERTY_H
 #define PAXENGINE3_WORLDLAYERPROPERTY_H
 
-#include <paxutil/property/Property.h>
+#include <polypropylene/property/Property.h>
 #include "WorldLayer.h"
 
 namespace PAX {

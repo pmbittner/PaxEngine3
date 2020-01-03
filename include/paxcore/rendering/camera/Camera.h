@@ -10,15 +10,15 @@
 
 #include "PerspectiveProjection.h"
 
-#include "paxcore/entity/EntityProperty.h"
+#include "paxcore/gameentity/GameEntityProperty.h"
 #include "../scenegraph/SceneGraph.h"
 #include "../Viewport.h"
 #include "../RenderOptions.h"
 
 namespace PAX {
-    class Camera : public EntityProperty, public SceneGraph {
+    class Camera : public GameEntityProperty, public SceneGraph {
         PAX_PROPERTY(Camera, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(EntityProperty)
+        PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
         glm::mat4 viewMatrix = glm::mat4();
@@ -31,16 +31,18 @@ namespace PAX {
         void onViewportHeightChanged(int oldHeight, int newHeight);
 
     public:
-        Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection = std::make_shared<PerspectiveProjection>());
+        explicit Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection = std::make_shared<PerspectiveProjection>());
 
-        virtual void render(RenderOptions &renderOptions) override;
+        void render(RenderOptions &renderOptions) override;
 
         const glm::mat4 &getViewTransform();
-        std::shared_ptr<Viewport> getViewport() const;
-        std::shared_ptr<Projection> getProjection() const;
+        PAX_NODISCARD std::shared_ptr<Viewport> getViewport() const;
+        PAX_NODISCARD std::shared_ptr<Projection> getProjection() const;
 
         void setSyncProjectionResolutionToViewportResolution(bool sync);
-        bool areProjectionResolutionToViewportResolutionSynced() const;
+        PAX_NODISCARD bool areProjectionResolutionToViewportResolutionSynced() const;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

@@ -9,7 +9,7 @@
 #include <string>
 
 #include <paxutil/Signature.h>
-#include <paxutil/reflection/TemplateTypeToString.h>
+#include <polypropylene/reflection/TemplateTypeToString.h>
 
 namespace PAX {
     class Resources;

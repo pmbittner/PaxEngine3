@@ -3,16 +3,17 @@
 //
 
 #include <paxcore/rendering/graphics/AssetGraphics.h>
+#include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::AssetGraphics, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::AssetGraphics) {}
 
-    AssetGraphics * AssetGraphics::createFromProvider(PAX::ContentProvider & provider) {
-        return new AssetGraphics(provider.requireResource<Asset>("asset"));
-    }
+    AssetGraphics::AssetGraphics() = default;
 
-    void AssetGraphics::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
+    ClassMetadata AssetGraphics::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add({"asset", paxtypeof(_asset), &_asset, Field::IsMandatory | EngineFieldFlags::IsResource});
+        return m;
     }
 
     AssetGraphics::AssetGraphics(const std::shared_ptr<PAX::Asset> &asset) : _asset(asset) {

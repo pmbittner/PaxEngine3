@@ -44,14 +44,14 @@ if __name__ == "__main__":
     genData.includes.append(pluginHeaderIncludePath)
     genData.includes.append("memory")
 
-    entityPropertyTreeHandle = definitions.PaxPropertyTreeHandle("PAX_ENTITYCOMPONENT_BODY", "PAX::Entity",
+    entityPropertyTreeHandle = definitions.PaxPropertyTreeHandle("PAX_ENTITYCOMPONENT_BODY", "PAX::GameEntity",
         [
-            "paxcore/entity/Entity.h",
-            "paxcore/entity/EntityComponent.h",
-            "paxcore/entity/event/EntityComponentAddedEvent.h",
-            "paxcore/entity/event/EntityComponentRemovedEvent.h"
+            "paxcore/entity/GameEntity.h",
+            "paxcore/entity/GameEntityComponent.h",
+            "paxcore/entity/event/GameEntityComponentAddedEvent.h",
+            "paxcore/entity/event/GameEntityComponentRemovedEvent.h"
         ],
-        "PAX::EntityComponentAddedEvent", "PAX::EntityComponentRemovedEvent")
+        "PAX::GameEntityComponentAddedEvent", "PAX::GameEntityComponentRemovedEvent")
 
     worldLayerPropertyTreeHandle = definitions.PaxPropertyTreeHandle("PAX_WORLDLAYERPROPERTY_BODY", "PAX::WorldLayer",
         [
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
         FileScan.scanFilesForProperties(genData, precompilationDirectory, treeHandle)
 
-        # TODO Sort inheritances, when root is known (eg PAX::EntityComponent)
+        # TODO Sort inheritances, when root is known (eg PAX::GameEntityComponent)
 
         treeHandle.sortedInheritancePairs = genData.inheritances
         treeHandle.properties = genData.properties
@@ -138,7 +138,7 @@ if __name__ == "__main__":
         outFile.writeLine("}")  # scope
 
     outFile.decrementIndent()
-    outFile.writeLine("}")  # void createEntityComponentTypeHierarchy()
+    outFile.writeLine("}")  # void createGameEntityComponentTypeHierarchy()
     outFile.decrementIndent()
 
     for namespace in projectNamespaces:

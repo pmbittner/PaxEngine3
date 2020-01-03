@@ -6,11 +6,11 @@
 #define PAXENGINE3_SERVICES_H
 
 #include <paxutil/resources/Resources.h>
-#include <paxutil/reflection/TypeMap.h>
+#include <polypropylene/reflection/TypeMap.h>
 
-#include <paxutil/event/EventService.h>
+#include <polypropylene/event/EventService.h>
 #include <paxcore/io/InputSystem.h>
-#include <paxutil/memory/AllocationService.h>
+#include <polypropylene/memory/AllocationService.h>
 #include <paxutil/io/Settings.h>
 #include <paxcore/function/Updateable.h>
 
@@ -47,8 +47,8 @@ namespace PAX {
         void terminate();
 
     public:
-        void registerService(const TypeHandle & type, void *service);
-        size_t unregisterService(const TypeHandle & type);
+        void registerService(const TypeId & type, void *service);
+        size_t unregisterService(const TypeId & type);
 
         template<typename Service>
         Service* get() {

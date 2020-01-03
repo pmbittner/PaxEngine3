@@ -42,11 +42,11 @@ namespace PAX {
         _inputSystem->update(options);
     }
 
-    void Services::registerService(const TypeHandle & type, void *service) {
+    void Services::registerService(const TypeId & type, void *service) {
         _registeredServices[type] = service;
     }
 
-    size_t Services::unregisterService(const TypeHandle & type) {
+    size_t Services::unregisterService(const TypeId & type) {
         return _registeredServices.erase(type);
     }
 

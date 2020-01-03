@@ -7,9 +7,9 @@
 #ifndef PAXENGINE3_INVISIBLEMIXINTEST_H
 #include <iostream>
 
-#include "../../core/entity/Entity.h"
-#include "../../core/entity/EntityProperty.h"
-#include "../../core/entity/EntityComponentDependency.h"
+#include "../../core/entity/GameEntity.h"
+#include "../../core/entity/GameEntityProperty.h"
+#include "../../core/entity/GameEntityComponentDependency.h"
 #include "../../core/rendering/Graphics.h"
 #include "../../core/entity/component/Behaviour.h"
 #include "../../utility/reflection/MemberCheck.h"
@@ -89,16 +89,16 @@ namespace PAX {
 
 
             /*
-            PAX_EntityComponentCrazy(MongoComponent, false,
-                                     PAX_EntityComponent_DependsOn(Behaviour, Graphics),
-                                     PAX_EntityComponent_Inherits(),
+            PAX_GameEntityComponentCrazy(MongoComponent, false,
+                                     PAX_GameEntityComponent_DependsOn(Behaviour, Graphics),
+                                     PAX_GameEntityComponent_Inherits(),
                                      public:
                                      void lolIchBinImMakro() {std::cout << "WTF";}
             )
             /*/
-            PAX_EntityComponentTest(MongoComponent, false,
-                                    PAX_EntityComponent_DependsOn(Behaviour, Graphics),
-                                    PAX_EntityComponent_Inherits(Base))
+            PAX_GameEntityComponentTest(MongoComponent, false,
+                                    PAX_GameEntityComponent_DependsOn(Behaviour, Graphics),
+                                    PAX_GameEntityComponent_Inherits(Base))
             };
             //*/
 
@@ -121,11 +121,11 @@ namespace PAX {
                 TestClassAbc t;
                 TestClassAbc2 t2;
 
-                Entity e;
+                GameEntity e;
                 MongoComponent m;
 
                 std::vector<std::string> text = {
-                        "null" PAX_EntityComponent_Inherits()
+                        "null" PAX_GameEntityComponent_Inherits()
                 };
 
                 for (std::string s : text)

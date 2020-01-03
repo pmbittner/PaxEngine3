@@ -10,7 +10,7 @@
 #include <ostream>
 
 #include <paxutil/lib/GlmIncludes.h>
-#include <paxutil/io/Path.h>
+#include <polypropylene/io/Path.h>
 
 namespace PAX {
     class Shader {

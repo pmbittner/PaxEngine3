@@ -3,7 +3,7 @@
 //
 
 #include <paxphysics/2d/box2d/Box2DUtils.h>
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 
@@ -58,7 +58,7 @@ namespace PAX::Physics {
             }
 
             default: {
-                PAX_THROW_RUNTIME_ERROR("Cannot convert Entity::MotionType " << int(motionType) << " to b2BodyType");
+                PAX_THROW_RUNTIME_ERROR("Cannot convert GameEntity::MotionType " << int(motionType) << " to b2BodyType");
             }
         }
     }

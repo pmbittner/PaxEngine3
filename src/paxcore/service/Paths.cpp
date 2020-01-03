@@ -7,7 +7,7 @@
 #include <cstdio>  /* defines FILENAME_MAX */
 #ifdef PAX_OS_WIN
     #include <direct.h>
-#include <paxutil/log/Log.h>
+#include <polypropylene/log/Log.h>
 
 #define PAX_GetCurrentDir _getcwd
 #else

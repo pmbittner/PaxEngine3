@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 #include <paxopengl/resource/OpenGLMesh.h>
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 
 namespace PAX {
     namespace OpenGL {

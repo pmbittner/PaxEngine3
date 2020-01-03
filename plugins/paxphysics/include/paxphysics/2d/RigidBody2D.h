@@ -5,12 +5,12 @@
 #ifndef PAXENGINE3_PHYSICS_H
 #define PAXENGINE3_PHYSICS_H
 
-#include <paxcore/entity/EntityProperty.h>
+#include <paxcore/entity/GameEntityProperty.h>
 
 namespace PAX::Physics {
-    class RigidBody2D : public EntityProperty {
+    class RigidBody2D : public GameEntityProperty {
         PAX_PROPERTY(PAX::Physics::RigidBody2D, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(EntityProperty)
+        PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
 

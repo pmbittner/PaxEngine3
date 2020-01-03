@@ -3,20 +3,29 @@
 //
 
 #include <paxcore/rendering/scenegraph/nodes/TexturingNode.h>
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 
 namespace PAX {
     TexturingNode::TexturingNode(const std::shared_ptr<Texture> &texture) : _texture(texture) {
-        PAX_ASSERT_NOT_NULL(texture, "Texture can't be null!");
+
     }
 
     void TexturingNode::render(RenderOptions &renderOptions) {
-        _texture->bind();
+        const bool hasTexture = _texture != nullptr;
+        if (hasTexture)
+            _texture->bind();
+
         SceneGraph::render(renderOptions);
-        _texture->unbind();
+
+        if (hasTexture)
+            _texture->unbind();
     }
 
-    std::shared_ptr<Texture>& TexturingNode::getTexture() {
+    void TexturingNode::setTexture(const std::shared_ptr<Texture> &texture) {
+        _texture = texture;
+    }
+
+    const std::shared_ptr<Texture>& TexturingNode::getTexture() const {
         return _texture;
     }
 }

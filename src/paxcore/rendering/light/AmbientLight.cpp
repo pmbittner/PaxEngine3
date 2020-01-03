@@ -5,18 +5,16 @@
 #include <paxcore/rendering/light/AmbientLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::AmbientLight, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::AmbientLight) {}
 
-    AmbientLight * AmbientLight::createFromProvider(PAX::ContentProvider & provider) {
-        return new AmbientLight(provider.require<glm::vec3>("color"));
+    ClassMetadata AmbientLight::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(color));
+        return m;
     }
 
-    void AmbientLight::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
+    AmbientLight::AmbientLight(const glm::vec3 &color) : color(color) {
 
-    AmbientLight::AmbientLight(const glm::vec3 &color) {
-        setColor(color);
     }
 
     void AmbientLight::uploadTo(PAX::Shader* shader) {

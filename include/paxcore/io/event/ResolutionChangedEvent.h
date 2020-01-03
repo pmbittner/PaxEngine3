@@ -6,7 +6,7 @@
 #define PAXENGINE3_RESOLUTIONCHANGEDEVENT_H
 
 #include <paxutil/lib/GlmIncludes.h>
-#include "paxutil/event/Event.h"
+#include "polypropylene/event/Event.h"
 
 namespace PAX {
     struct ResolutionChangedEvent : public Event {

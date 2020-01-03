@@ -9,7 +9,7 @@
 #include <iostream>
 #include <vector>
 #include "utility/stdutils/CollectionUtils.h"
-#include "../../core/world/event/EntitySpawnedEvent.h"
+#include "../../core/world/event/GameEntitySpawnedEvent.h"
 
 namespace PAX {
     namespace Test {
@@ -135,7 +135,7 @@ namespace PAX {
             public:
                 EventHandler<> OnVoid;
                 EventHandler<int> OnInt;
-                EventHandler<EntitySpawnedEvent*> OnEntitySpawned;
+                EventHandler<GameEntitySpawnedEvent*> OnGameEntitySpawned;
                 EventHandler<int, char, bool, double> OnWtf;
             };
 
@@ -149,8 +149,8 @@ namespace PAX {
                     std::cout << "onInt called with " << x << std::endl;
                 }
 
-                void onEntitySpawned(EntitySpawnedEvent *e) {
-                    std::cout << "onEntitySpawned called with entity " << e->entity << std::endl;
+                void onGameEntitySpawned(GameEntitySpawnedEvent *e) {
+                    std::cout << "onGameEntitySpawned called with entity " << e->entity << std::endl;
                 }
 
                 void onWtf(int i, char c, bool b, double d) {
@@ -162,7 +162,7 @@ namespace PAX {
                 SomeObserver(SomeNotifier* a) {
                     a->OnVoid.add<SomeObserver, &SomeObserver::onVoid>(this);
                     a->OnInt.ADD(SomeObserver, onInt);
-                    a->OnEntitySpawned.ADD(SomeObserver, onEntitySpawned);
+                    a->OnGameEntitySpawned.ADD(SomeObserver, onGameEntitySpawned);
                     a->OnWtf.ADD(SomeObserver, onWtf);
                 }
             };
@@ -170,13 +170,13 @@ namespace PAX {
             void fireSomeEvents(SomeNotifier &a) {
                 a.OnVoid();
                 a.OnInt(3);
-                EntitySpawnedEvent e(nullptr);
-                a.OnEntitySpawned(&e);
+                GameEntitySpawnedEvent e(nullptr);
+                a.OnGameEntitySpawned(&e);
                 a.OnWtf(-32, '#', false, 3.14);
             }
 
             void fireSomeEvents(EventService &service) {
-                EntitySpawnedEvent e(nullptr);
+                GameEntitySpawnedEvent e(nullptr);
                 service(&e);
             }
 
@@ -196,11 +196,11 @@ namespace PAX {
                 std::cout << std::endl;
                 std::cout << "EventService test ================================" << std::endl;
                 EventService e;
-                e.add<EntitySpawnedEvent, SomeObserver, &SomeObserver::onEntitySpawned>(&observer);
+                e.add<GameEntitySpawnedEvent, SomeObserver, &SomeObserver::onGameEntitySpawned>(&observer);
                 fireSomeEvents(e);
-                std::cout << std::endl << "removing Listeners for EntitySpawnedEvent" << std::endl << std::endl;
-                e.remove<EntitySpawnedEvent, SomeObserver, &SomeObserver::onEntitySpawned>(&observer);
-                e._remove(EntitySpawnedEvent, SomeObserver, onEntitySpawned)(&observer);
+                std::cout << std::endl << "removing Listeners for GameEntitySpawnedEvent" << std::endl << std::endl;
+                e.remove<GameEntitySpawnedEvent, SomeObserver, &SomeObserver::onGameEntitySpawned>(&observer);
+                e._remove(GameEntitySpawnedEvent, SomeObserver, onGameEntitySpawned)(&observer);
                 fireSomeEvents(e);
 
                 std::cout << std::endl;

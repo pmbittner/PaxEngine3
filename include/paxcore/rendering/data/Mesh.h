@@ -10,7 +10,7 @@
 #include "../interface/Renderable.h"
 
 #include <iostream>
-#include <paxutil/reflection/TemplateTypeToString.h>
+#include <polypropylene/reflection/TemplateTypeToString.h>
 
 namespace PAX {
     class Mesh : public Renderable {

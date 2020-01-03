@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include <paxutil/io/Path.h>
+#include <polypropylene/io/Path.h>
 
 namespace PAX {
     namespace Test {

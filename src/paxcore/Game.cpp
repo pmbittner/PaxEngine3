@@ -6,7 +6,7 @@
 #include <iostream>
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
-#include <paxcore/system/entity/BehaviourSystem.h>
+#include <paxcore/system/gameentity/BehaviourSystem.h>
 
 namespace PAX {
     Game::Game() = default;

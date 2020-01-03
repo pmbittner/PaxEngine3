@@ -8,7 +8,7 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_SOURCE(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_INIT(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
 
         TileMapProperty * TileMapProperty::createFromProvider(ContentProvider & provider) {
             return new TileMapProperty(provider.requireResource<TileMap>("map"));
@@ -66,7 +66,7 @@ namespace PAX {
             for (TileMap::Layer & layer : tileMap->getLayers()) {
                 auto graphics = new TileMapGraphics(layer);
                 graphics->setShader(tileMapShader);
-                Entity & e = layerEntities[i];
+                GameEntity & e = layerEntities[i];
                 e.add(graphics);
                 e.getTransformation().z() = static_cast<float>(layer.z);
                 //std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
@@ -85,28 +85,28 @@ namespace PAX {
                 worldLayerSize->setSize2D(worldSize);
             }
 
-            for (Entity & e : layerEntities) {
+            for (GameEntity & e : layerEntities) {
                 worldLayer.spawn(&e);
             }
 
             //*
-            for (const std::pair<Entity *, EntityID> & ep : tileMap->getEntities()) {
-                worldLayer.getEntityIDService().reserveIDFor(ep.first, ep.second);
+            for (const std::pair<GameEntity *, GameEntityID> & ep : tileMap->getEntities()) {
+                worldLayer.getGameEntityIDService().reserveIDFor(ep.first, ep.second);
                 worldLayer.spawn(ep.first);
             }
             //*/
         }
 
         void TileMapProperty::detached(PAX::WorldLayer & worldLayer) {
-            for (Entity & e : layerEntities) {
+            for (GameEntity & e : layerEntities) {
                 if (e.getWorldLayer() == &worldLayer) {
                     worldLayer.despawn(&e);
                 }
             }
 
             //*
-            for (const std::pair<Entity *, EntityID> & ep : tileMap->getEntities()) {
-                Entity * e = ep.first;
+            for (const std::pair<GameEntity *, GameEntityID> & ep : tileMap->getEntities()) {
+                GameEntity * e = ep.first;
                 if (e->getWorldLayer() == &worldLayer) {
                     worldLayer.despawn(e);
                 }
@@ -117,7 +117,7 @@ namespace PAX {
         void TileMapProperty::setScale(const glm::vec3 & scale) {
             glm::vec3 delta = scale / getScale();
 
-            for (Entity & e : layerEntities) {
+            for (GameEntity & e : layerEntities) {
                 Transformation & t = e.getTransformation();
                 t.setScale(t.getScale() * delta);
             }

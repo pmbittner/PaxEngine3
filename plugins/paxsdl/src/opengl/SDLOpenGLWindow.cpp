@@ -5,7 +5,7 @@
 
 #include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 
 #include "paxsdl/opengl/SDLOpenGLWindow.h"
 

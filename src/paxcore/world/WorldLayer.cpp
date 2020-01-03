@@ -53,7 +53,7 @@ namespace PAX {
 
     WorldLayer::~WorldLayer() {
         while (!entities.empty()) {
-            Entity * entityToRemove = *entities.begin();
+            GameEntity * entityToRemove = *entities.begin();
             despawn(entityToRemove);
             // TODO: We have to check what to do here with the entities here!
             //       Otherwise we may have leaked all or most of them!
@@ -65,7 +65,7 @@ namespace PAX {
         this->sceneGraphGenerator->terminate(getEventService());
     }
 
-    void WorldLayer::spawn(Entity * entity) {
+    void WorldLayer::spawn(GameEntity * entity) {
         assert(entity->worldLayer == nullptr);
 
         if (!idService.hasID(entity)) {
@@ -73,7 +73,7 @@ namespace PAX {
         }
 
         if (entities.add(entity)) {
-            for (Entity *child : entity->getChildren()) {
+            for (GameEntity *child : entity->getChildren()) {
                 spawn(child);
             }
 
@@ -82,19 +82,19 @@ namespace PAX {
             entity->updateActiveStatus();
 
             for (const Tag & tag : entity->getTags()) {
-                registerTagForEntity(entity, tag);
+                registerTagForGameEntity(entity, tag);
             }
 
-            EntitySpawnedEvent e(entity);
+            GameEntitySpawnedEvent e(entity);
             getEventService()(e);
         }
     }
 
-    void WorldLayer::despawn(Entity * entity) {
+    void WorldLayer::despawn(GameEntity * entity) {
         if (entities.remove(entity)) {
             idService.releaseIDOf(entity);
 
-            for (Entity *child : entity->getChildren())
+            for (GameEntity *child : entity->getChildren())
                 despawn(child);
 
             entity->worldLayer = nullptr;
@@ -102,27 +102,27 @@ namespace PAX {
             entity->updateActiveStatus();
 
             for (const Tag & tag : entity->getTags()) {
-                unregisterTagForEntity(entity, tag);
+                unregisterTagForGameEntity(entity, tag);
             }
 
-            EntityDespawnedEvent e(entity, this);
+            GameEntityDespawnedEvent e(entity, this);
             getEventService()(e);
         }
     }
 
-    const std::set<Entity*>& WorldLayer::getEntities() const {
+    const std::set<GameEntity*>& WorldLayer::getEntities() const {
         return entities.getPropertyContainers();
     }
 
-    const EntityManager & WorldLayer::getEntityManager() const {
+    const GameEntityManager & WorldLayer::getGameEntityManager() const {
         return entities;
     }
 
-    EntityIDService & WorldLayer::getEntityIDService() {
+    GameEntityIDService & WorldLayer::getGameEntityIDService() {
         return idService;
     }
 
-    const std::vector<Entity*> & WorldLayer::getEntitiesWithTag(const PAX::Tag &tag) {
+    const std::vector<GameEntity*> & WorldLayer::getEntitiesWithTag(const PAX::Tag &tag) {
         return entitiesByTags[tag];
     }
 
@@ -162,17 +162,17 @@ namespace PAX {
             deactivate();
         }
 
-        for (Entity * e : entities) {
+        for (GameEntity * e : entities) {
             e->updateActiveStatus();
         }
     }
 
-    void WorldLayer::registerTagForEntity(PAX::Entity *entity, const PAX::Tag &tag) {
+    void WorldLayer::registerTagForGameEntity(PAX::GameEntity *entity, const PAX::Tag &tag) {
         entitiesByTags[tag].push_back(entity);
     }
 
-    void WorldLayer::unregisterTagForEntity(PAX::Entity *entity, const PAX::Tag &tag) {
-        std::vector<Entity*> & taggies = entitiesByTags[tag];
+    void WorldLayer::unregisterTagForGameEntity(PAX::GameEntity *entity, const PAX::Tag &tag) {
+        std::vector<GameEntity*> & taggies = entitiesByTags[tag];
         auto it = std::find(taggies.begin(), taggies.end(), entity);
 
         if (it != taggies.end()) {

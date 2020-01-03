@@ -5,7 +5,7 @@
 #include <iomanip>
 #include "paxopengl/OpenGLMacros.h"
 #include <glm/gtc/type_ptr.hpp>
-#include <paxutil/log/Log.h>
+#include <polypropylene/log/Log.h>
 #include <sstream>
 #include <fstream>
 #include "paxopengl/resource/OpenGLShader.h"

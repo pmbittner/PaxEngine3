@@ -14,6 +14,8 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(Graphics)
         PAX_PROPERTY_IS_SINGLE
 
+        AssetGraphics();
+
     protected:
         std::shared_ptr<Asset> _asset;
 
@@ -21,6 +23,7 @@ namespace PAX {
         explicit AssetGraphics(const std::shared_ptr<Asset> & asset);
 
         void render(RenderOptions &renderOptions) override;
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

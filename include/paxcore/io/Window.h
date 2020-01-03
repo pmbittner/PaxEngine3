@@ -8,7 +8,7 @@
 #include <string>
 #include <paxutil/lib/GlmIncludes.h>
 
-#include "paxutil/event/EventHandler.h"
+#include "polypropylene/event/EventHandler.h"
 #include "event/ResolutionChangedEvent.h"
 
 namespace PAX {

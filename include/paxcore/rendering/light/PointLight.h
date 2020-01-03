@@ -14,8 +14,8 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
 
     public:
-        explicit PointLight(const glm::vec4 & color = glm::vec4(1)) : Super(color) {}
-        ~PointLight() override {}
+        explicit PointLight(const glm::vec4 & color = glm::vec4(1));
+        ~PointLight() override;
 
         void uploadTo(PAX::Shader * shader, int index) override;
     };

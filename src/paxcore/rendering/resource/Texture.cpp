@@ -3,7 +3,7 @@
 //
 
 #include <paxcore/rendering/data/Texture.h>
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 
 namespace PAX {
     Texture::~Texture() = default;

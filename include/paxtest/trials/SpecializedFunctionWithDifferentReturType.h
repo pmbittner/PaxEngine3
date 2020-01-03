@@ -8,13 +8,13 @@
 #include <vector>
 #include <type_traits>
 #include <iostream>
-#include "../../core/entity/EntityComponent.h"
+#include "../../core/entity/GameEntityComponent.h"
 
 namespace PAX {
     namespace Test {
         namespace SpecFuncDifRetType {
-            PAX_EntityComponent(TestSingleComp, false)};
-            PAX_EntityComponent(TestMultComp, true)};
+            PAX_GameEntityComponent(TestSingleComp, false)};
+            PAX_GameEntityComponent(TestMultComp, true)};
 
             template< bool B, class T, class F >
             using conditional_t = typename std::conditional<B,T,F>::type;

@@ -10,7 +10,7 @@
 #include <paxcore/rendering/scenegraph/nodes/TransformationNode.h>
 #include <paxcore/rendering/scenegraph/nodes/MeshNode.h>
 #include <paxcore/rendering/scenegraph/nodes/TexturingNode.h>
-#include <paxcore/entity/event/SizeChangedEvent.h>
+#include <paxcore/gameentity/event/SizeChangedEvent.h>
 
 namespace PAX {
     class SpriteGraphics : public SceneGraphGraphics {
@@ -22,22 +22,25 @@ namespace PAX {
         static std::shared_ptr<Mesh> GetMesh();
 
     protected:
+        SpriteGraphics();
+
         TransformationNode _trafoNode;
         TexturingNode _textureNode;
         MeshNode _meshNode;
 
-        std::shared_ptr<Texture> _texture;
+        std::shared_ptr<Texture> _texture = nullptr;
 
         void onSizeChanged(SizeChangedEvent& event);
-        [[nodiscard]] virtual glm::vec2 getSpriteSize() const;
+        PAX_NODISCARD virtual glm::vec2 getSpriteSize() const;
 
     public:
         explicit SpriteGraphics(const std::shared_ptr<Texture> &texture);
 
-        void attached(Entity &entity) override;
-        void detached(Entity &entity) override;
+        void attached(GameEntity &entity) override;
+        void detached(GameEntity &entity) override;
 
         void render(RenderOptions &renderOptions) override;
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

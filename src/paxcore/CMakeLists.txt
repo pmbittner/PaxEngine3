@@ -3,8 +3,8 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/Game.h
         ../../include/paxcore/io/InputSystem.h
 
-        ../../include/paxcore/entity/Entity.h
-        ../../include/paxcore/entity/EntityProperty.h
+        ../../include/paxcore/gameentity/GameEntity.h
+        ../../include/paxcore/gameentity/GameEntityProperty.h
 
         ../../include/paxcore/io/Keyboard.h
         ../../include/paxcore/io/Mouse.h
@@ -22,14 +22,14 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/WorldLayer.h
         ../../include/paxcore/world/WorldLayerLayout.h
 
-        ../../include/paxcore/entity/event/EntityEvent.h
-        ../../include/paxcore/world/event/EntitySpawnedEvent.h
-        ../../include/paxcore/world/event/EntityDespawnedEvent.h
+        ../../include/paxcore/gameentity/event/GameEntityEvent.h
+        ../../include/paxcore/world/event/GameEntitySpawnedEvent.h
+        ../../include/paxcore/world/event/GameEntityDespawnedEvent.h
         ../../include/paxcore/io/Window.h
         ../../include/paxcore/rendering/camera/Camera.h
-        ../../include/paxcore/entity/event/EntityParentChangedEvent.h
-        ../../include/paxcore/system/entity/BehaviourSystem.h
-        ../../include/paxcore/entity/property/Behaviour.h
+        ../../include/paxcore/gameentity/event/GameEntityParentChangedEvent.h
+        ../../include/paxcore/system/gameentity/BehaviourSystem.h
+        ../../include/paxcore/gameentity/property/Behaviour.h
 
         ../../include/paxcore/io/event/MouseButtonPressedEvent.h
         ../../include/paxcore/io/event/MouseButtonReleasedEvent.h
@@ -61,7 +61,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/service/Paths.h
         ../../include/paxcore/rendering/scenegraph/nodes/MeshNode.h
         ../../include/paxcore/rendering/graphics/SceneGraphGraphics.h
-        ../../include/paxcore/entity/property/behaviours/NoClipControls.h
+        ../../include/paxcore/gameentity/property/behaviours/NoClipControls.h
         ../../include/paxcore/io/event/MouseMovedEvent.h
         ../../include/paxcore/animation/Animation.h
         ../../include/paxcore/rendering/data/SpriteSheet.h
@@ -72,10 +72,10 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h
         ../../include/paxcore/rendering/graphics/SpriteGraphics.h
         ../../include/paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h
-        ../../include/paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h
-        ../../include/paxcore/entity/property/Size.h
-        ../../include/paxcore/entity/event/SizeChangedEvent.h
-        ../../include/paxcore/entity/event/ScaleChangedEvent.h
+        ../../include/paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h
+        ../../include/paxcore/gameentity/property/Size.h
+        ../../include/paxcore/gameentity/event/SizeChangedEvent.h
+        ../../include/paxcore/gameentity/event/ScaleChangedEvent.h
         ../../include/paxcore/plugin/EnginePlugin.h
         ../../include/paxcore/service/FactoryService.h
         ../../include/paxcore/rendering/data/Asset.h
@@ -89,7 +89,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/WorldLayerProperty.h
         ../../include/paxcore/system/worldlayer/WorldLayerPropertySystem.h
         ../../include/paxcore/rendering/light/AmbientLight.h
-        ../../include/paxcore/system/entity/LightSystem.h
+        ../../include/paxcore/system/gameentity/LightSystem.h
         ../../include/paxcore/service/WindowService.h
         ../../include/paxcore/rendering/renderpass/RenderPass.h
         ../../include/paxcore/rendering/loader/SpriteSheetLoader.h
@@ -102,7 +102,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/WindowFactory.h
         ../../include/paxcore/system/SystemManager.h
         ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
-        ../../include/paxcore/system/entity/EntityPropertySystem.h
+        ../../include/paxcore/system/gameentity/GameEntityPropertySystem.h
         ../../include/paxcore/system/WorldSystem.h
         ../../include/paxcore/system/System.h
         ../../include/paxcore/system/SystemManager.h
@@ -110,12 +110,18 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h
         ../../include/paxcore/rendering/renderpass/RenderPassChannel.h
         ../../include/paxcore/rendering/renderpass/RenderPassFactory.h
-        ../../include/paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h
+        ../../include/paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h
         ../../include/paxcore/world/property/WorldLayerSize.h
-        ../../include/paxcore/entity/EntityIDService.h
-        ../../include/paxcore/world/prefab/JsonWorldLayerEntityParser.h
+        ../../include/paxcore/gameentity/GameEntityIDService.h
+        ../../include/paxcore/world/prefab/JsonWorldLayerGameEntityParser.h
         ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h
-        ../../include/paxcore/rendering/factory/TextureFactory.h ../../include/paxcore/entity/MotionType.h ../../include/paxcore/system/PropertyOwningSystem.h ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h ../../include/paxcore/entity/Tag.h ../../include/paxcore/world/WorldLayerEvent.h ../../include/paxcore/entity/prefab/JsonEntityPrefabTagsParser.h)
+        ../../include/paxcore/rendering/factory/TextureFactory.h
+        ../../include/paxcore/gameentity/MotionType.h
+        ../../include/paxcore/system/PropertyOwningSystem.h
+        ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h
+        ../../include/paxcore/gameentity/Tag.h
+        ../../include/paxcore/world/WorldLayerEvent.h
+        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -124,34 +130,36 @@ set(CORE_SOURCE_FILES
         service/Services.cpp
         service/Paths.cpp
 
-        entity/Entity.cpp
-        entity/EntityProperty.cpp
-        entity/property/Behaviour.cpp
-        entity/property/Size.cpp
-        entity/property/behaviours/NoClipControls.cpp
-        entity/property/behaviours/2d/VelocityBehaviour2D.cpp
-        entity/property/behaviours/2d/FollowEntityBehaviour.cpp
+        gameentity/GameEntity.cpp
+        gameentity/GameEntityProperty.cpp
+        gameentity/property/Behaviour.cpp
+        gameentity/property/Size.cpp
+        gameentity/property/behaviours/NoClipControls.cpp
+        gameentity/property/behaviours/2d/VelocityBehaviour2D.cpp
+        gameentity/property/behaviours/2d/FollowGameEntityBehaviour.cpp
 
         world/World.cpp
         world/WorldLayer.cpp
         world/scenegraph/WorldSceneGraph.cpp
         world/scenegraph/WorldLayerSceneGraph.cpp
 
-        system/entity/BehaviourSystem.cpp
+        system/gameentity/BehaviourSystem.cpp
 
         function/UpdateOptions.cpp
 
         plugin/EngineInternalPlugin.cpp
         plugin/EnginePlugin.cpp
-        system/entity/LightSystem.cpp
+        system/gameentity/LightSystem.cpp
         service/WindowService.cpp
         system/WorldSystem.cpp
         system/worldlayer/WorldLayerBehaviourSystem.cpp
         world/prefab/JsonWorldLayerPrefabInitParser.cpp
         world/property/WorldLayerSize.cpp
         world/property/WorldLayerBehaviour.cpp
-        entity/EntityIDService.cpp
-        world/prefab/JsonWorldLayerEntityParser.cpp function/Updateable.cpp world/WorldLayerEvent.cpp entity/prefab/JsonEntityPrefabTagsParser.cpp)
+        gameentity/GameEntityIDService.cpp
+        world/prefab/JsonWorldLayerGameEntityParser.cpp
+        function/Updateable.cpp world/WorldLayerEvent.cpp
+        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)
@@ -173,4 +181,4 @@ endif(PAX_RUN_PYTHON_PRECOMPILER)
 ]]
 
 add_library(paxcore ${HEADERS_FOR_CLION} ${CORE_SOURCE_FILES})
-target_link_libraries(paxcore paxrendering paxio paxutil)
+target_link_libraries(paxcore polypropylene paxrendering paxio paxutil)

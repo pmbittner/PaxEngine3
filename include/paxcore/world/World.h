@@ -18,7 +18,7 @@ namespace PAX {
     private:
         EventService localEventService;
         WorldSceneGraph sceneGraph;
-        PropertyContainerManager<WorldLayer> worldLayers;
+        EntityManager<WorldLayer> worldLayers;
 
         bool active = false;
 
@@ -31,12 +31,12 @@ namespace PAX {
         void addLayer(WorldLayer *layer);
         void removeLayer(WorldLayer *layer);
         const std::set<WorldLayer*> & getLayers();
-        [[nodiscard]] const PropertyContainerManager<WorldLayer> & getWorldLayerManager() const;
+        PAX_NODISCARD const EntityManager<WorldLayer> & getWorldLayerManager() const;
         WorldLayer* getWorldLayerWithName(const std::string& name);
 
         WorldSceneGraph* getSceneGraph();
         EventService& getEventService();
-        [[nodiscard]] bool isActive() const;
+        PAX_NODISCARD bool isActive() const;
     };
 }
 

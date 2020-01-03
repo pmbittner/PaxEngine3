@@ -5,7 +5,7 @@
 #include <paxtiles/topdown/CharacterSpriteAnimation.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_SOURCE(CharacterSpriteAnimation, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(CharacterSpriteAnimation, PAX_PROPERTY_IS_CONCRETE)
 
     CharacterSpriteAnimation::CharacterSpriteAnimation() :
         Behaviour(),
@@ -67,13 +67,13 @@ namespace PAX::Tiles {
         spriteSheet->setSpritePosition(spriteSheetPos);
     }
 
-    void CharacterSpriteAnimation::attached(PAX::Entity &e) {
+    void CharacterSpriteAnimation::attached(PAX::GameEntity &e) {
         Behaviour::attached(e);
         spriteSheet = e.get<SpriteSheetGraphics>();
         orientation = e.get<CharacterOrientation>();
     }
 
-    void CharacterSpriteAnimation::detached(PAX::Entity &e) {
+    void CharacterSpriteAnimation::detached(PAX::GameEntity &e) {
         Behaviour::detached(e);
         spriteSheet = nullptr;
         orientation = nullptr;

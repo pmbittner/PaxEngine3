@@ -16,12 +16,14 @@ namespace PAX {
         glm::vec3 color;
 
     public:
-        AmbientLight(const glm::vec3 & color = {0.2, 0.2, 0.2});
+        explicit AmbientLight(const glm::vec3 & color = {0.2, 0.2, 0.2});
 
         virtual void uploadTo(Shader* shader);
 
         void setColor(const glm::vec3 & color);
-        const glm::vec3& getColor() const;
+        PAX_NODISCARD const glm::vec3& getColor() const;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

@@ -6,7 +6,7 @@
 #define PAXENGINE3_SHAPE2D_H
 
 #include <paxutil/math/BoundingBox.h>
-#include <paxutil/event/EventHandler.h>
+#include <polypropylene/event/EventHandler.h>
 #include <paxutil/StringUtils.h>
 
 namespace PAX::Physics {
@@ -23,8 +23,8 @@ namespace PAX::Physics {
         Shape2D(const Shape2D & other);
         virtual ~Shape2D() = 0;
 
-        [[nodiscard]] const FloatBoundingBox2D &getAABB() const;
-        [[nodiscard]] bool synchronisesToSize() const;
+        PAX_NODISCARD const FloatBoundingBox2D &getAABB() const;
+        PAX_NODISCARD bool synchronisesToSize() const;
         void setSynchroniseToSize(bool synchroniseToSize);
     };
 }

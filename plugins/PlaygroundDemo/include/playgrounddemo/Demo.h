@@ -65,28 +65,28 @@ namespace PAX {
                 cubeMaterial->diffuse.texture = texture;
             }
 
-            Entity* createCube(std::shared_ptr<Shader> & shader) {
-                Entity* cubeEntity = new Entity();
+            GameEntity* createCube(std::shared_ptr<Shader> & shader) {
+                GameEntity* cubeGameEntity = new GameEntity();
                 //*
                 std::shared_ptr<Asset> a = std::make_shared<Asset>(std::vector<Asset::Part>{
                         Asset::Part(cube, cubeMaterial)
                 });
                 AssetGraphics * g = new AssetGraphics(a);
                 g->setShader(shader);
-                cubeEntity->add(g);
+                cubeGameEntity->add(g);
                 //*/
-                return cubeEntity;
+                return cubeGameEntity;
             }
 
-            Entity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
+            GameEntity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
                         Services::GetPaths().getResourcePath() + relativeResourcePath
                 );
-                Entity* treeEntity = new Entity();
+                GameEntity* treeGameEntity = new GameEntity();
                 AssetGraphics * g = new AssetGraphics(tree);
                 g->setShader(shader);
-                treeEntity->add(g);
-                return treeEntity;
+                treeGameEntity->add(g);
+                return treeGameEntity;
             }
 
         public:
@@ -117,7 +117,7 @@ namespace PAX {
                 _world = new World();
                 WorldLayer* mainLayer = new WorldLayer("PlaygroundDemoMainLayer", 3);
 
-                Entity* cam = new Entity();
+                GameEntity* cam = new GameEntity();
                 {
                     std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();
                     proj->setFOV(90);
@@ -129,33 +129,33 @@ namespace PAX {
                 cam->getTransformation().position() = {0, 0, 0};
 
                 PAX_CONSTEXPR_IF (withCube) {
-                    Entity* cube = createCube(simpleMatShader);
+                    GameEntity* cube = createCube(simpleMatShader);
                     cube->getTransformation().position() = {0, 0, -4};
                     mainLayer->spawn(cube);
                 }
 
                 PAX_CONSTEXPR_IF (withTree) {
-                    Entity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
+                    GameEntity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
                     tree->getTransformation().position() = {-3, 0, -5};
                     mainLayer->spawn(tree);
                 }
 
                 PAX_CONSTEXPR_IF (withTank) {
-                    Entity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
+                    GameEntity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
                     tank->getTransformation().position() = {1, -2, -5};
                     mainLayer->spawn(tank);
                 }
 
                 // Spawn a light
-                Entity* lightEntity = new Entity();
-                lightEntity->add(
+                GameEntity* lightGameEntity = new GameEntity();
+                lightGameEntity->add(
                         new DirectionalLight(
                                 glm::vec3(1, 0, 0),
                                 //glm::vec4(1, 0.7f, 0.2, 20)
                                 glm::vec4(1, 1, 1, 1)
                         )
                 );
-                mainLayer->spawn(lightEntity);
+                mainLayer->spawn(lightGameEntity);
 
                 mainLayer->add(new AmbientLight(glm::vec3(1, 0.5, 0.7)));
 

@@ -7,7 +7,7 @@
 
 #include <memory>
 #include <paxphysics/2d/shape/Shape2D.h>
-#include <paxutil/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonParser.h>
 #include "paxphysics/2d/material/PhysicsMaterial.h"
 
 namespace PAX {

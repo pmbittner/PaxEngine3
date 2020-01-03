@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_TYPEREGISTER_H
 #define PAXENGINE3_TYPEREGISTER_H
 
-#include "TypeMap.h"
+#include "polypropylene/reflection/TypeMap.h"
 
 namespace PAX {
     class TypeRegister {
@@ -13,7 +13,7 @@ namespace PAX {
 
     public:
         TypeRegister();
-        void set(const TypeHandle & type, void* factory);
+        void set(const TypeId & type, void* factory);
 
         template<typename T>
         T* get() {

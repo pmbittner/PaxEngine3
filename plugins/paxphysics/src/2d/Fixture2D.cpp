@@ -3,11 +3,11 @@
 //
 
 #include <paxphysics/2d/Fixture2D.h>
-#include <paxutil/json/Json.h>
+#include <polypropylene/serialisation/json/Json.h>
 
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>
-#include <paxutil/json/JsonUtil.h>
+#include <polypropylene/serialisation/json/JsonUtil.h>
 #include <paxcore/service/Services.h>
 
 namespace PAX {

@@ -57,7 +57,7 @@ namespace PAX {
         return worldLayers.getPropertyContainers();
     }
 
-    const PropertyContainerManager<WorldLayer>& World::getWorldLayerManager() const {
+    const EntityManager<WorldLayer>& World::getWorldLayerManager() const {
         return worldLayers;
     }
 

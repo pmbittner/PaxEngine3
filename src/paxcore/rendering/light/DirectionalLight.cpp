@@ -5,18 +5,18 @@
 #include <paxcore/rendering/light/DirectionalLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::DirectionalLight, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::DirectionalLight) {}
 
-    DirectionalLight * DirectionalLight::createFromProvider(PAX::ContentProvider & provider) {
-        return new DirectionalLight(provider.require<glm::vec3>("direction"), provider.require<glm::vec4>("color"));
+    ClassMetadata DirectionalLight::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(direction)).flags = Field::IsMandatory;
+        return m;
     }
 
-    void DirectionalLight::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
+    DirectionalLight::DirectionalLight() = default;
 
-    DirectionalLight::DirectionalLight(const glm::vec3 &direction, const glm::vec4 &color) : Super(color) {
-        setDirection(direction);
+    DirectionalLight::DirectionalLight(const glm::vec3 &direction, const glm::vec4 &color) : Super(color), direction(direction) {
+
     }
 
     DirectionalLight::~DirectionalLight() = default;
@@ -24,14 +24,14 @@ namespace PAX {
     void DirectionalLight::uploadTo(PAX::Shader* shader, int index) {
         std::string uniformPrefix = "lights.directionals[" + std::to_string(index) + "]";
         shader->setUniform(uniformPrefix + ".color", this->getColor());
-        shader->setUniform(uniformPrefix + ".direction", this->_direction);
+        shader->setUniform(uniformPrefix + ".direction", this->direction);
     }
 
     void DirectionalLight::setDirection(const glm::vec3 &direction) {
-        _direction = direction;
+        this->direction = direction;
     }
 
-    const glm::vec3& DirectionalLight::getDirection() const {
-        return _direction;
+    const glm::vec3 & DirectionalLight::getDirection() const {
+        return this->direction;
     }
 }

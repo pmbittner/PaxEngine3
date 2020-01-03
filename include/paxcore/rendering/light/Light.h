@@ -6,30 +6,32 @@
 #define PAXENGINE3_LIGHT_H
 
 #include <paxutil/lib/GlmIncludes.h>
-#include <paxcore/entity/EntityProperty.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxcore/rendering/data/Shader.h>
 
 namespace PAX {
-    class Light : public EntityProperty {
+    class Light : public GameEntityProperty {
         PAX_PROPERTY(Light, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(EntityProperty)
+        PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
         // fourth channel describes intensity
-        glm::vec4 _color;
+        glm::vec4 color;
 
     public:
         /**
          * Creates a light with the given color.
          * @param color The color of the light. The fourth channel describes it's intensity.
          */
-        Light(const glm::vec4 & color = glm::vec4(1));
-        virtual ~Light() = 0;
+        explicit Light(const glm::vec4 & color = glm::vec4(1));
+        ~Light() override = 0;
 
         virtual void uploadTo(Shader * shader, int index) = 0;
 
         virtual void setColor(const glm::vec4 & color);
-        const glm::vec4 & getColor() const;
+        PAX_NODISCARD const glm::vec4 & getColor() const;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

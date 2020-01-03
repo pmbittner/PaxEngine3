@@ -8,7 +8,7 @@
 #include <tuple>
 #include <string>
 #include <sstream>
-#include <paxutil/stdutils/TuplePrinter.h>
+#include <polypropylene/stdutils/TuplePrinter.h>
 
 namespace PAX {
     class ISignature {

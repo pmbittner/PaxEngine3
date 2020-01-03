@@ -6,7 +6,7 @@
 #define PAXENGINE3_GENERICFACTORYSERVICE_H
 
 #include <vector>
-#include <paxutil/reflection/TypeMap.h>
+#include <polypropylene/reflection/TypeMap.h>
 #include "GenericFactory.h"
 
 namespace PAX {

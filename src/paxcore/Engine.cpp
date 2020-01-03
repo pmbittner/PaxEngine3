@@ -12,7 +12,7 @@
 
 #include <paxutil/Sleep.h>
 #include <paxutil/io/Settings.h>
-#include <paxutil/log/Log.h>
+#include <polypropylene/log/Log.h>
 #include <paxcore/function/UpdateOptions.h>
 
 namespace PAX {

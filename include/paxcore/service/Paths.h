@@ -6,8 +6,8 @@
 #define PAXENGINE3_PATHS_H
 
 #include <string>
-#include <paxutil/macros/OSDetection.h>
-#include "paxutil/io/Path.h"
+#include <polypropylene/definitions/OSDetection.h>
+#include "polypropylene/io/Path.h"
 
 namespace PAX {
     class Services;
@@ -26,8 +26,8 @@ namespace PAX {
         Paths();
         ~Paths();
 
-        [[nodiscard]] const Path& getResourcePath() const;
-        [[nodiscard]] const Path& getWorkingDirectory() const;
+        PAX_NODISCARD const Path& getResourcePath() const;
+        PAX_NODISCARD const Path& getWorkingDirectory() const;
     };
 }
 

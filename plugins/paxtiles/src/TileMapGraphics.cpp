@@ -6,7 +6,7 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_SOURCE(::PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_ABSTRACT)
+        PAX_PROPERTY_INIT(::PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_ABSTRACT)
 
         /*
         TileMapGraphics * TileMapGraphics::createFromProvider(ContentProvider & provider) {
@@ -22,12 +22,12 @@ namespace PAX {
 
         }
 
-        void TileMapGraphics::attached(PAX::Entity &entity) {
+        void TileMapGraphics::attached(PAX::GameEntity &entity) {
             Transformation & t = entity.getTransformation();
             t.setScale(t.getScale() * glm::vec3(tileLayer.getMap()->getTileSize(), 1));
         }
 
-        void TileMapGraphics::detached(PAX::Entity &entity) {
+        void TileMapGraphics::detached(PAX::GameEntity &entity) {
             Transformation & t = entity.getTransformation();
             t.setScale(t.getScale() / glm::vec3(tileLayer.getMap()->getTileSize(), 1));
         }

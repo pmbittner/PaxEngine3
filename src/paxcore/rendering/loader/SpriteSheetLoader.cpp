@@ -2,7 +2,7 @@
 // Created by paul on 03.01.19.
 //
 
-#include <paxutil/io/Path.h>
+#include <polypropylene/io/Path.h>
 #include <paxcore/rendering/loader/SpriteSheetLoader.h>
 #include <paxcore/service/Services.h>
 

@@ -16,7 +16,7 @@
 #include <SDL2/SDL_ttf.h>
 #endif
 
-#include "../paxcore/system/EntityComponentSystem.h"
+#include "../paxcore/system/GameEntityComponentSystem.h"
 
 namespace SDL_TEST_APPLICATION2 {
 // TEST values

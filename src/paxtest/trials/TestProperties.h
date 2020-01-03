@@ -5,8 +5,8 @@
 #ifndef PAXENGINE3_TESTPROPERTIES_H
 #define PAXENGINE3_TESTPROPERTIES_H
 
-#include <paxutil/property/PropertyContainer.h>
-#include <paxutil/property/construction/PropertyContainerPrefab.h>
+#include <polypropylene/property/PropertyContainer.h>
+#include <polypropylene/property/construction/PropertyContainerPrefab.h>
 
 namespace PAX {
     class ExampleContentProvider : public ContentProvider {
@@ -37,7 +37,7 @@ public: \
 private: \
 )
 
-// TODO: Merge this into PAX_PROPERTY_SOURCE macro
+// TODO: Merge this into PAX_PROPERTY_INIT macro
 #define PAX_TEST_PROPERTY_REFLECTION_SOURCE(Type, IfConcrete) IfConcrete( \
 PAX::PropertyFactory<Type, Type::Container> Type::__ByNameFactory(#Type); \
 void* Type::operator new(std::size_t sz) { \

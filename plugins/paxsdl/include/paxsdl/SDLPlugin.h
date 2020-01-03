@@ -11,7 +11,7 @@
 #include <paxcore/service/Paths.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/InputSystemFactory.h>
-#include <paxutil/log/Log.h>
+#include <polypropylene/log/Log.h>
 #include "SDLInputSystem.h"
 #include "SDLImageTextureLoader.h"
 

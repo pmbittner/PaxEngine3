@@ -3,7 +3,7 @@
 //
 
 #include <paxutil/math/json/JsonToTransformation.h>
-#include <paxutil/json/Json.h>
+#include <polypropylene/serialisation/json/Json.h>
 #include <iostream>
 
 namespace PAX {

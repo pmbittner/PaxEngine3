@@ -3,18 +3,16 @@
 //
 
 #include <paxcore/rendering/Graphics.h>
-#include <paxcore/entity/Entity.h>
+#include <paxcore/gameentity/GameEntity.h>
+#include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Graphics, PAX_PROPERTY_IS_ABSTRACT)
+    PAX_PROPERTY_INIT(PAX::Graphics) {}
 
-    void Graphics::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-
-        // A shader is required only if it has not been set by a subtype yet.
-        if (!_shader) {
-            setShader(provider.requireResource<Shader>("Shader"));
-        }
+    ClassMetadata Graphics::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(Field("Shader", paxtypeof(_shader), &_shader, Field::IsMandatory & EngineFieldFlags::IsResource));
+        return m;
     }
 
     Graphics::~Graphics() = default;

@@ -5,7 +5,7 @@
 #include "TestProperties.h"
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Bla, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::Bla, PAX_PROPERTY_IS_CONCRETE)
 
     PAX::Bla * PAX::Bla::createFromProvider(PAX::ContentProvider & provider) {
         return new PAX::Bla(provider.requireResource<int>("secretValue"), provider.require<std::string>("secretMessage"));

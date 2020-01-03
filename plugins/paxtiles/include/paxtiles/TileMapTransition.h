@@ -5,14 +5,14 @@
 #ifndef PAXENGINE3_TILEMAPTRANSITION_H
 #define PAXENGINE3_TILEMAPTRANSITION_H
 
-#include <paxcore/entity/EntityProperty.h>
+#include <paxcore/entity/GameEntityProperty.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 
 namespace PAX {
     namespace Tiles {
-        class TileMapTransition : public EntityProperty {
+        class TileMapTransition : public GameEntityProperty {
             PAX_PROPERTY(TileMapTransition, PAX_PROPERTY_IS_CONCRETE)
-            PAX_PROPERTY_DERIVES(EntityProperty)
+            PAX_PROPERTY_DERIVES(GameEntityProperty)
             PAX_PROPERTY_IS_SINGLE
 
             Path targetMap;

@@ -9,7 +9,7 @@
 
 #include <set>
 #include <memory>
-#include <paxutil/event/EventService.h>
+#include <polypropylene/event/EventService.h>
 #include <paxcore/function/Updateable.h>
 
 #include "System.h"

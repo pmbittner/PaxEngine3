@@ -4,7 +4,7 @@ bin/*
 !bin/core.example.paxconfig
 
 # libraries
-lib/*
+libs/Polypropylene
 
 # Project data
 .idea

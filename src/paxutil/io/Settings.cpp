@@ -7,10 +7,10 @@
 #include <fstream>
 #include <regex>
 
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 #include <paxutil/io/Settings.h>
-#include <paxutil/stdutils/CollectionUtils.h>
-#include <paxutil/StringVariables.h>
+#include <polypropylene/stdutils/CollectionUtils.h>
+#include <polypropylene/reflection/VariableRegister.h>
 
 namespace PAX {
     SettingsFileRow::SettingsFileRow(char separator,  bool trimValues) : separator(separator), trimValues(trimValues) {}

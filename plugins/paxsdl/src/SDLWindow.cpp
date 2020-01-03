@@ -3,7 +3,7 @@
 //
 
 #include <paxsdl/SDLWindow.h>
-#include <paxutil/log/Log.h>
+#include <polypropylene/log/Log.h>
 
 namespace PAX {
     namespace SDL {

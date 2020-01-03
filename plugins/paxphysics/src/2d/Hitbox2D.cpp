@@ -5,7 +5,7 @@
 #include <paxphysics/2d/Hitbox2D.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_SOURCE(PAX::Physics::Hitbox2D, PAX_PROPERTY_IS_ABSTRACT)
+    PAX_PROPERTY_INIT(PAX::Physics::Hitbox2D, PAX_PROPERTY_IS_ABSTRACT)
 
     void Hitbox2D::initializeFromProvider(ContentProvider & provider) {
         Super::initializeFromProvider(provider);

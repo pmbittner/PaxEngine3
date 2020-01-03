@@ -5,7 +5,7 @@
 #include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::WorldLayerSize, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::WorldLayerSize, PAX_PROPERTY_IS_CONCRETE)
 
     WorldLayerSize::This * WorldLayerSize::createFromProvider(PAX::ContentProvider & p) {
         return new WorldLayerSize(p.require<glm::vec3>("size"));

@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JUMPNRUNDEMO_H
 #define PAXENGINE3_JUMPNRUNDEMO_H
 
-#include <paxutil/io/Path.h>
+#include <polypropylene/io/Path.h>
 
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
@@ -27,7 +27,7 @@
 
 #include "behaviour/PlayerControls.h"
 #include "behaviour/PlayerSpriteAnimation.h"
-#include "paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h"
+#include "paxcore/entity/property/behaviours/2d/FollowGameEntityBehaviour.h"
 
 namespace PAX {
     namespace PlatformerDemo {
@@ -57,8 +57,8 @@ namespace PAX {
                 );
             }
 
-            Entity* createPlatform(int span) {
-                Entity* platform = new Entity();
+            GameEntity* createPlatform(int span) {
+                GameEntity* platform = new GameEntity();
                 platform->i_setMotionType(MotionType::Static);
                 float w = centerBlockTexture->getWidth();
                 float xMax = (span-1)*(w/2);
@@ -68,7 +68,7 @@ namespace PAX {
                     if (x >= xMax)
                         tex = rightBlockTexture;
 
-                    Entity *block = new Entity();
+                    GameEntity *block = new GameEntity();
                     block->i_setMotionType(MotionType::Static);
                     SpriteGraphics * g = new SpriteGraphics(tex);
                     g->setShader(spriteShader);
@@ -113,27 +113,27 @@ namespace PAX {
                 int y = resolution.y - 2*h;
 
                 {
-                    Entity *p1 = createPlatform(5);
+                    GameEntity *p1 = createPlatform(5);
                     p1->getTransformation().position2D() = {0, -40};
                     mainLayer->spawn(p1);
                 }
 
                 {
-                    Entity *p2 = createPlatform(2);
+                    GameEntity *p2 = createPlatform(2);
                     p2->getTransformation().position2D() = {60, 20};
                     p2->add(new DragNDrop());
                     mainLayer->spawn(p2);
                 }
 
                 { // create background in its own layer
-                    Entity *background = new Entity();
+                    GameEntity *background = new GameEntity();
                     SpriteGraphics * backgroundGraphics = new SpriteGraphics(
                             res.loadOrGet<Texture>(imgPath + "/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
                     background->add(backgroundGraphics);
 
-                    Entity *backgroundCam = new Entity();
+                    GameEntity *backgroundCam = new GameEntity();
                     backgroundCam->add(new Camera(
                             Services::GetFactoryService().get<ViewportFactory>()->create(),
                             std::make_shared<PixelScreenProjection>()

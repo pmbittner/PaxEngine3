@@ -5,21 +5,12 @@
 #include <paxcore/rendering/light/PointLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::PointLight, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::PointLight) {}
 
-    PointLight * PointLight::createFromProvider(PAX::ContentProvider & provider) {
-        if (auto color = provider.get<glm::vec4>("color")) {
-            return new PointLight(color.value());
-        } else {
-            return new PointLight();
-        }
-    }
-
-    void PointLight::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
+    PointLight::PointLight(const glm::vec4 &color) : Super(color) {}
+    PointLight::~PointLight() = default;
 
     void PointLight::uploadTo(PAX::Shader * shader, int index) {
-
+        PAX_NOT_IMPLEMENTED();
     }
 }

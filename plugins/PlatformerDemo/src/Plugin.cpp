@@ -12,7 +12,7 @@
 
 #include "platformerdemo/behaviour/Dance2D.h"
 #include "platformerdemo/behaviour/DragNDrop.h"
-#include "paxcore/entity/property/behaviours/2d/FollowEntityBehaviour.h"
+#include "paxcore/entity/property/behaviours/2d/FollowGameEntityBehaviour.h"
 #include "platformerdemo/behaviour/PlayerControls.h"
 #include "platformerdemo/behaviour/PlayerSpriteAnimation.h"
 #include "platformerdemo/behaviour/ProfileGameLoopBehaviour.h"

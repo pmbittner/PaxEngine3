@@ -6,26 +6,33 @@
 
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/service/Services.h>
-#include <paxcore/entity/property/Size.h>
+#include <paxcore/gameentity/property/Size.h>
 #include <paxcore/rendering/factory/MeshFactory.h>
 #include <paxutil/resources/Resources.h>
+#include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::SpriteGraphics, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::SpriteGraphics) {
+        if (_texture)
+            _texture->setWrapMode(Texture::WrapMode::ClampToEdge, Texture::WrapMode::ClampToEdge);
+        _textureNode.setTexture(_texture);
 
-    SpriteGraphics * SpriteGraphics::createFromProvider(PAX::ContentProvider & provider) {
-        return new SpriteGraphics(provider.requireResource<Texture>("Sprite"));
+        SceneGraphGraphics::_scenegraph <<= _trafoNode <<= _textureNode <<= _meshNode;
     }
 
-    void SpriteGraphics::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
+    SpriteGraphics::SpriteGraphics() : _textureNode(_texture) {}
+
+    ClassMetadata SpriteGraphics::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add({"Sprite", paxtypeof(_texture), &_texture, Field::IsMandatory | EngineFieldFlags::IsResource});
+        return m;
     }
 
     std::shared_ptr<Mesh> SpriteGraphics::QuadMesh = nullptr;
 
     std::shared_ptr<Mesh> SpriteGraphics::GetMesh() {
         if (!QuadMesh) {
-            MeshFactory* meshFactory = Services::GetFactoryService().get<MeshFactory>();
+            auto* meshFactory = Services::GetFactoryService().get<MeshFactory>();
 
             if (meshFactory) {
                 std::vector<glm::vec3> vertices = {
@@ -66,8 +73,7 @@ namespace PAX {
                                                                               _textureNode(texture),
                                                                               _meshNode(GetMesh())
     {
-        texture->setWrapMode(Texture::WrapMode::ClampToEdge, Texture::WrapMode::ClampToEdge);
-        _scenegraph <<= _trafoNode <<= _textureNode <<= &_meshNode;
+        init();
     }
 
     glm::vec2 SpriteGraphics::getSpriteSize() const {
@@ -80,7 +86,7 @@ namespace PAX {
         );
     }
 
-    void SpriteGraphics::attached(Entity &entity) {
+    void SpriteGraphics::attached(GameEntity &entity) {
         SceneGraphGraphics::attached(entity);
 
         entity.getEventService().add<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
@@ -95,7 +101,7 @@ namespace PAX {
         }
     }
 
-    void SpriteGraphics::detached(Entity &entity) {
+    void SpriteGraphics::detached(GameEntity &entity) {
         SceneGraphGraphics::detached(entity);
         entity.getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
     }

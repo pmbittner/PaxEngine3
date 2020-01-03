@@ -1,29 +1,12 @@
 set(HEADERS_FOR_CLION
-        ../../include/paxutil/event/Delegate.h
-        ../../include/paxutil/event/Event.h
-        ../../include/paxutil/event/EventHandler.h
-        ../../include/paxutil/event/EventService.h
-
         ../../include/paxutil/genericfactory/GenericFactory.h
         ../../include/paxutil/genericfactory/GenericFactoryService.h
 
-        ../../include/paxutil/io/FileTypeChecker.h
-        ../../include/paxutil/io/Path.h
         ../../include/paxutil/io/Settings.h
-
-        ../../include/paxutil/json/JsonLoader.h
-        ../../include/paxutil/json/JsonParser.h
-        ../../include/paxutil/json/JsonUtil.h
 
         ../../include/paxutil/lib/GlmIncludes.h
         ../../include/paxutil/lib/LibIncludes.h
 
-        ../../include/paxutil/log/Errors.h
-        ../../include/paxutil/log/Log.h
-
-        ../../include/paxutil/macros/CompilerDetection.h
-        ../../include/paxutil/macros/Definitions.h
-        ../../include/paxutil/macros/OSDetection.h
         ../../include/paxutil/macros/PlatformIncludes.h
 
         ../../include/paxutil/math/Angles.h
@@ -35,68 +18,32 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Transformation.h
         ../../include/paxutil/math/json/JsonToTransformation.h
 
-        ../../include/paxutil/memory/Allocator.h
-        ../../include/paxutil/memory/AllocationService.h
-        ../../include/paxutil/memory/allocators/MallocAllocator.h
-        ../../include/paxutil/memory/allocators/PoolAllocator.h
-
-        ../../include/paxutil/property/Property.h
-        ../../include/paxutil/property/PropertyAnnotations.h
-        ../../include/paxutil/property/PropertyContainer.h
-        ../../include/paxutil/property/PropertyContainerManager.h
-        ../../include/paxutil/property/PropertyContainerManagerView.h
-        ../../include/paxutil/property/PropertyDependencies.h
-        ../../include/paxutil/property/construction/PropertyFactory.h
-        ../../include/paxutil/property/construction/ContentProvider.h
-        ../../include/paxutil/property/construction/PropertyContainerPrefab.h
-        ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefab.h
-        ../../include/paxutil/property/construction/json/JsonPropertyContainerPrefabLoader.h
-        ../../include/paxutil/property/construction/json/JsonPropertyContent.h
         ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h
 
         ../../include/paxutil/reflection/MemberCheck.h
-        ../../include/paxutil/reflection/TemplateTypeToString.h
-        ../../include/paxutil/reflection/TypeHandle.h
         ../../include/paxutil/reflection/TypeHierarchy.h
-        ../../include/paxutil/reflection/TypeMap.h
         ../../include/paxutil/reflection/TypeRegister.h
 
         ../../include/paxutil/resources/Resources.h
         ../../include/paxutil/resources/ResourceHandle.h
         ../../include/paxutil/resources/ResourceLoader.h
 
-        ../../include/paxutil/stdutils/CollectionUtils.h
         ../../include/paxutil/stdutils/OstreamOverloads.h
 
-        ../../include/paxutil/Dependency.h
         ../../include/paxutil/Signature.h
-        ../../include/paxutil/Sleep.h
-        ../../include/paxutil/StringUtils.h
-        ../../include/paxutil/StringVariables.h
-        ../../include/paxutil/TryParser.h ../../include/paxutil/json/JsonFwd.h)
+        ../../include/paxutil/Sleep.h ../../include/paxutil/reflection/EngineFieldFlags.h)
 
 set(SOURCE_FILES
-        StringUtils.cpp
-        io/Path.cpp
         reflection/TypeHierarchy.cpp
         math/Conversion.cpp
         math/Angles.cpp
         math/Transformation.cpp
-        property/PropertyContainer.cpp
         io/Settings.cpp
         reflection/TypeRegister.cpp
-        property/construction/ContentProvider.cpp
-        json/JsonLoader.cpp
-        property/construction/json/JsonPropertyContent.cpp
-        event/EventService.cpp
-        StringVariables.cpp
         math/json/JsonToTransformation.cpp
         resources/ResourceLoader.cpp
         Signature.cpp
-        resources/Resources.cpp
-        log/Log.cpp
-        property/construction/PropertyContainerPrefab.cpp
-        json/JsonUtil.cpp event/Event.cpp)
+        resources/Resources.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

@@ -6,7 +6,7 @@
 #define PAXENGINE3_SCENEGRAPHNODE_H
 
 #include <vector>
-#include <paxutil/stdutils/CollectionUtils.h>
+#include <polypropylene/stdutils/CollectionUtils.h>
 
 #include <paxcore/rendering/interface/Renderable.h>
 
@@ -36,9 +36,9 @@ namespace PAX {
          * @param child The child to be added to the scenegraph.
          * @return this
          */
-        TypedSceneGraph<ChildrensType>* operator<<=(ChildrensType* child) {
-            _children.push_back(child);
-            return this;
+        TypedSceneGraph<ChildrensType>& operator<<=(ChildrensType& child) {
+            _children.push_back(&child);
+            return *this;
         }
 
         void addChild(ChildrensType* child) {

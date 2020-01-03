@@ -8,10 +8,10 @@
 #include <memory>
 #include <map>
 
-#include "paxutil/StringVariables.h"
+#include "polypropylene/reflection/VariableRegister.h"
 
 // This is just for use in subclasses, where Path is needed almost every time.
-#include "paxutil/io/Path.h"
+#include "polypropylene/io/Path.h"
 
 namespace PAX {
     class Resources;

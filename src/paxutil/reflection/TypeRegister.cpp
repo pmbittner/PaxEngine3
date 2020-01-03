@@ -7,7 +7,7 @@
 namespace PAX {
     TypeRegister::TypeRegister() = default;
 
-    void TypeRegister::set(const TypeHandle &type, void *factory) {
+    void TypeRegister::set(const TypeId &type, void *factory) {
         factories[type] = factory;
     }
 }

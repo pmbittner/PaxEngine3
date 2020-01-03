@@ -1,0 +1,14 @@
+- Setup IJsonParserRegister
+  - register glm vec thingies -> maybe I can find a way for batch registration instead of vec2 vec3 vec4 ivec2 ... everything on its own
+- check names of properties in json files
+  - Graphics::shader -> Shader
+  - AssetGraphics::asset -> Asset
+  - SpriteGraphis::Sprite -> Texture
+  - SpriteSheetGraphics::columns and rows
+- refactor weird fromVariableHierarchy method in resourceloaders to new IJsonParsers and check for IsResource in those
+- remove Graphics::getShaderFlags
+- move resources from util back to core
+- viewportfactory from json -> used indirectly by camera
+  - same for projection (and projection resolution)
+
+- the whole sprite implementation is awkward

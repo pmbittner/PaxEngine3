@@ -7,8 +7,8 @@
 
 #include <map>
 #include <vector>
-#include "../io/Path.h"
-#include "../StringUtils.h"
+#include "polypropylene/io/Path.h"
+#include "polypropylene/stdutils/StringUtils.h"
 
 namespace PAX {
     class SettingsFileRow {
@@ -119,7 +119,7 @@ namespace PAX {
         }
     };
 
-    template<> [[nodiscard]] std::vector<std::string> Settings::getTypeVector<std::string>(const std::string &varName) const;
+    template<> PAX_NODISCARD std::vector<std::string> Settings::getTypeVector<std::string>(const std::string &varName) const;
 }
 
 #endif //PAXENGINE3_SETTINGS_H

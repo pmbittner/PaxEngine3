@@ -4,7 +4,7 @@
 
 #include <paxtiles/tiled/TileSetJsonLoader.h>
 #include <paxcore/service/Services.h>
-#include <paxutil/json/Json.h>
+#include <polypropylene/serialisation/json/Json.h>
 #include <paxcore/rendering/data/Texture.h>
 
 namespace PAX {

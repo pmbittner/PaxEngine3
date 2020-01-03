@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PLATFORMINCLUDES_H
 #define PAXENGINE3_PLATFORMINCLUDES_H
 
-#include "OSDetection.h"
+#include "polypropylene/definitions/OSDetection.h"
 
 #ifdef PAX_OS_WIN
     // Disable min and max macros in windows.h as they conflict with std functions min/max and glm

@@ -8,8 +8,8 @@
 #include <sstream>
 #include <vector>
 
-#include <paxutil/log/Errors.h>
-#include <paxutil/reflection/TemplateTypeToString.h>
+#include <polypropylene/log/Errors.h>
+#include <polypropylene/reflection/TemplateTypeToString.h>
 #include <paxcore/service/FactoryService.h>
 
 namespace PAX {

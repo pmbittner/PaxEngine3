@@ -2,7 +2,7 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <paxutil/log/Log.h>
+#include <polypropylene/log/Log.h>
 #include "paxopengl/resource/OpenGLTexture2D.h"
 
 namespace PAX {

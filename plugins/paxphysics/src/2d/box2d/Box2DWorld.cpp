@@ -6,7 +6,7 @@
 #include <paxphysics/2d/box2d/Box2DUtils.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_SOURCE(PAX::Physics::Box2DWorld, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::Physics::Box2DWorld, PAX_PROPERTY_IS_CONCRETE)
 
     Box2DWorld* Box2DWorld::createFromProvider(ContentProvider & provider) {
         glm::vec2 gravity(0, 0);

@@ -5,23 +5,25 @@
 #include <paxcore/rendering/light/Light.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Light, PAX_PROPERTY_IS_ABSTRACT)
+    PAX_PROPERTY_INIT(PAX::Light) {}
 
-    void Light::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
+    Light::Light(const glm::vec4 &color) : color(color) {
+
     }
 
-    Light::Light(const glm::vec4 &color) {
-        setColor(color);
-    }
+    Light::~Light() = default;
 
-    Light::~Light() {}
+    ClassMetadata Light::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(color));
+        return m;
+    }
 
     const glm::vec4& Light::getColor() const {
-        return _color;
+        return color;
     }
 
     void Light::setColor(const glm::vec4 &color) {
-        _color = color;
+        this->color = color;
     }
 }

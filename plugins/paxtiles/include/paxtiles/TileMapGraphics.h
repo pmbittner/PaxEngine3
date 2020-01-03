@@ -21,8 +21,8 @@ namespace PAX {
         public:
             explicit TileMapGraphics(TileMap::Layer & tileLayer);
 
-            void attached(Entity& entity) override;
-            void detached(Entity& entity) override;
+            void attached(GameEntity& entity) override;
+            void detached(GameEntity& entity) override;
 
             void render(RenderOptions &renderOptions) override;
         };

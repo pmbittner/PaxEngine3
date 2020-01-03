@@ -12,7 +12,7 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_SOURCE(TileMapTransition, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_INIT(TileMapTransition, PAX_PROPERTY_IS_CONCRETE)
 
         TileMapTransition::This * TileMapTransition::createFromProvider(PAX::ContentProvider & c) {
             return new TileMapTransition(c.require<Path>("transition_target_map"), c.require<int>("transition_target_id"));
@@ -53,19 +53,19 @@ namespace PAX {
                 //PAX_PRINT_OUT("Created target world")
 
                 // Find location of target entity
-                Entity * targetEntity = targetWorldLayer->getEntityIDService().getEntity(targetTransitionID);
-                if (!targetEntity) {
+                GameEntity * targetGameEntity = targetWorldLayer->getGameEntityIDService().getGameEntity(targetTransitionID);
+                if (!targetGameEntity) {
                     PAX_LOG(Log::Level::Warn, "Could not detect target entity via id = " << targetTransitionID);
                     return;
                 }
-                glm::vec2 targetPos = targetEntity->getTransformation().position2D();
+                glm::vec2 targetPos = targetGameEntity->getTransformation().position2D();
 
                 // Transfer collided entites:
                 // TODO: Find a way to not hardcode this. Especially for the camera!
                 //*
                 WorldLayer * sourceWorldLayer = getOwner()->getWorldLayer();
-                Entity * player = sourceWorldLayer->getEntityIDService().getEntity(1001);
-                Entity * cam    = sourceWorldLayer->getEntityIDService().getEntity(1002);
+                GameEntity * player = sourceWorldLayer->getGameEntityIDService().getGameEntity(1001);
+                GameEntity * cam    = sourceWorldLayer->getGameEntityIDService().getGameEntity(1002);
                 sourceWorldLayer->despawn(cam);
                 //PAX_PRINT_OUT("Despawned camera from source world")
                 sourceWorldLayer->despawn(player);
@@ -73,8 +73,8 @@ namespace PAX {
                  //*/
 
                 //*
-                targetWorldLayer->getEntityIDService().reserveIDFor(player, 1001);
-                targetWorldLayer->getEntityIDService().reserveIDFor(cam, 1002);
+                targetWorldLayer->getGameEntityIDService().reserveIDFor(player, 1001);
+                targetWorldLayer->getGameEntityIDService().reserveIDFor(cam, 1002);
                 targetWorldLayer->spawn(player);
                 player->getTransformation().position2D() = targetPos;
                 //PAX_PRINT_OUT("Spawned player at target world")

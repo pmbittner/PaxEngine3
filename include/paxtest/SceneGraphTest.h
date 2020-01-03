@@ -19,7 +19,7 @@ namespace PAX {
                 World w;
                 WorldLayer *mainLayer = w.getMainLayer();
 
-                Entity e;
+                GameEntity e;
                 e.add<TestGraphics>(new TestGraphics);
 
                 mainLayer->spawn(&e);

@@ -5,7 +5,7 @@
 #include <paxtiles/topdown/SimpleCharacterKeyboardControls.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_SOURCE(SimpleCharacterKeyboardControls, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(SimpleCharacterKeyboardControls, PAX_PROPERTY_IS_CONCRETE)
     
     SimpleCharacterKeyboardControls * SimpleCharacterKeyboardControls::createFromProvider(PAX::ContentProvider &) {
         return new SimpleCharacterKeyboardControls();
@@ -56,14 +56,14 @@ namespace PAX::Tiles {
         }
     }
 
-    void SimpleCharacterKeyboardControls::attached(PAX::Entity & e) {
+    void SimpleCharacterKeyboardControls::attached(PAX::GameEntity & e) {
         Super::attached(e);
 
         velocityBehaviour = e.get<VelocityBehaviour2D>();
         orientation = e.get<CharacterOrientation>();
     }
 
-    void SimpleCharacterKeyboardControls::detached(PAX::Entity & e) {
+    void SimpleCharacterKeyboardControls::detached(PAX::GameEntity & e) {
         Super::detached(e);
 
         velocityBehaviour = nullptr;

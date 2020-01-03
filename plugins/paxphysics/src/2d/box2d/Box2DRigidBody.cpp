@@ -8,7 +8,7 @@
 #include "paxphysics/2d/box2d/Box2DUtils.h"
 
 namespace PAX::Physics {
-    PAX_PROPERTY_SOURCE(PAX::Physics::Box2DRigidBody, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::Physics::Box2DRigidBody, PAX_PROPERTY_IS_CONCRETE)
 
     Box2DRigidBody * Box2DRigidBody::createFromProvider(ContentProvider & provider) {
         // TODO: FIXME
@@ -23,7 +23,7 @@ namespace PAX::Physics {
 
     }
 
-    void Box2DRigidBody::attached(Entity &entity) {
+    void Box2DRigidBody::attached(GameEntity &entity) {
         PAX::Physics::RigidBody2D::attached(entity);
     }
 

@@ -16,7 +16,7 @@ namespace PAX {
             PAX_PROPERTY_IS_MULTIPLE
 
             std::shared_ptr<TileMap> tileMap;
-            std::vector<Entity> layerEntities;
+            std::vector<GameEntity> layerEntities;
             glm::vec3 scale;
 
             static std::shared_ptr<Shader> tileMapShader;

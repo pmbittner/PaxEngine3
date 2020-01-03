@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONPROPERTYCONTAINERPREFABTRANSFORMATIONPARSER_H
 #define PAXENGINE3_JSONPROPERTYCONTAINERPREFABTRANSFORMATIONPARSER_H
 
-#include "paxutil/property/construction/json/JsonPropertyContainerPrefab.h"
+#include "polypropylene/property/construction/json/JsonPropertyContainerPrefab.h"
 
 namespace PAX {
     namespace Json {

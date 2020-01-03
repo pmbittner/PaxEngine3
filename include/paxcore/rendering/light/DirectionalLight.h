@@ -13,7 +13,10 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(Light)
         PAX_PROPERTY_IS_SINGLE
 
-        glm::vec3 _direction;
+        glm::vec3 direction = glm::vec3(1, 0, 0);
+
+    protected:
+        DirectionalLight();
 
     public:
         explicit DirectionalLight(const glm::vec3 & direction, const glm::vec4 & color = glm::vec4(1));
@@ -22,7 +25,9 @@ namespace PAX {
         void uploadTo(Shader * shader, int index) override;
 
         virtual void setDirection(const glm::vec3 & direction);
-        const glm::vec3 & getDirection() const;
+        PAX_NODISCARD const glm::vec3 & getDirection() const;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

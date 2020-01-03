@@ -36,6 +36,12 @@ include_directories(include)
 
 ### API INCLUDES ########################################
 
+add_subdirectory(libs)
+
+# Polypropylene
+include_directories(libs/Polypropylene/include)
+add_definitions(-DPAX_WITH_JSON)
+
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     include_directories(${PAX_LIB_DIR_RELATIVE}/win/include)
 else()

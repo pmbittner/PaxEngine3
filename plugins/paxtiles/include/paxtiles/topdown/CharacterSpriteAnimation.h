@@ -39,8 +39,8 @@ namespace PAX::Tiles {
         ~CharacterSpriteAnimation() override;
 
         void update(UpdateOptions & options) override;
-        void attached(Entity & e) override;
-        void detached(Entity & e) override;
+        void attached(GameEntity & e) override;
+        void detached(GameEntity & e) override;
     };
 }
 

@@ -3,15 +3,21 @@
 //
 
 #include <paxcore/rendering/camera/Camera.h>
-#include <paxcore/entity/Entity.h>
+#include <paxcore/gameentity/GameEntity.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
 #include <paxcore/rendering/camera/PixelScreenProjection.h>
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::Camera, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::Camera) {
+        viewport->WidthChanged.add<Camera, &Camera::onViewportWidthChanged>(this);
+        viewport->HeightChanged.add<Camera, &Camera::onViewportHeightChanged>(this);
 
-    Camera * Camera::createFromProvider(PAX::ContentProvider & provider) {
+        projection->setResolution({viewport->getWidth(), viewport->getHeight()});
+    }
+
+    ClassMetadata Camera::getMetadata() {
+        /*
         // load viewport
         ViewportFactory * vpFactory = Services::GetFactoryService().get<ViewportFactory>();
         std::shared_ptr<Viewport> vp;
@@ -44,14 +50,6 @@ namespace PAX {
         }
 
         return new Camera(vp, proj);
-    }
-
-    void Camera::initializeFromProvider(PAX::ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-
-        if (auto syncResolutions = provider.get<bool>("syncProjectionResolutionToViewportResolution")) {
-            this->syncProjectionResolutionToViewportResolution = syncResolutions.value();
-        }
 
         if (!this->syncProjectionResolutionToViewportResolution) {
             glm::ivec2 resolution = projection->getResolution();
@@ -63,16 +61,17 @@ namespace PAX {
             }
             projection->setResolution(resolution);
         }
+         //*/
+
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(syncProjectionResolutionToViewportResolution));
+        return m;
     }
 
     Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : viewport(viewport), projection(projection) {
         PAX_ASSERT_NOT_NULL(viewport, "Viewport can't be null!");
         PAX_ASSERT_NOT_NULL(projection, "Projection can't be null!");
-
-        viewport->WidthChanged.add<Camera, &Camera::onViewportWidthChanged>(this);
-        viewport->HeightChanged.add<Camera, &Camera::onViewportHeightChanged>(this);
-
-        projection->setResolution({viewport->getWidth(), viewport->getHeight()});
+        init();
     }
 
     void Camera::render(RenderOptions &renderOptions) {
@@ -85,7 +84,7 @@ namespace PAX {
     }
 
     const glm::mat4 & Camera::getViewTransform() {
-        Entity *owner = getOwner();
+        GameEntity *owner = getOwner();
 
         if (owner) {
             Transformation &transform = owner->getTransformation();

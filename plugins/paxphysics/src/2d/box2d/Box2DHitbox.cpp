@@ -13,7 +13,7 @@
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_SOURCE(PAX::Physics::Box2DHitbox, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::Physics::Box2DHitbox, PAX_PROPERTY_IS_CONCRETE)
 
     Box2DHitbox::This * Box2DHitbox::createFromProvider(PAX::ContentProvider & p) {
         return new Box2DHitbox();
@@ -30,7 +30,7 @@ namespace PAX::Physics {
     Box2DHitbox::~Box2DHitbox() = default;
 
     void Box2DHitbox::uploadToBox2D(Box2DWorld & box2DWorld) {
-        Entity * owner = getOwner();
+        GameEntity * owner = getOwner();
         if (!owner) {
             return;
         }
@@ -70,7 +70,7 @@ namespace PAX::Physics {
     // TODO: Change this to onFixtureChanged and update a b2Fixture, if the correpsonding PAX::Physics::Fixture was changed.
     /*
     void Box2DHitbox::onShapeChanged() {
-        if (Entity * owner = getOwner()) {
+        if (GameEntity * owner = getOwner()) {
             if (owner->isActive()) {
                 if (Box2DWorld *world = owner->getWorldLayer()->get<Box2DWorld>()) {
                     uploadShapeToBox2D(*world);

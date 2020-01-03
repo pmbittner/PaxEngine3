@@ -42,7 +42,7 @@ namespace PAX {
 
         }
 
-        void attached(Entity &entity) override {
+        void attached(GameEntity &entity) override {
             Behaviour::attached(entity);
             v = entity.get<VelocityBehaviour2D>();
             spriteSheet = entity.get<SpriteSheetGraphics>();

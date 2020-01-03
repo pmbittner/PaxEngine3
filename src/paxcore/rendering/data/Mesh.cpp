@@ -3,7 +3,7 @@
 //
 
 #include <paxcore/rendering/data/Mesh.h>
-#include <paxutil/stdutils/CollectionUtils.h>
+#include <polypropylene/stdutils/CollectionUtils.h>
 
 #include <iostream>
 

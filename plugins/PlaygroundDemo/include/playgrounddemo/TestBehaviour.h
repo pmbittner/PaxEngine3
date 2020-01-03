@@ -6,7 +6,7 @@
 #define PAXENGINE3_DANCE2D_H
 
 #include <paxcore/entity/property/Behaviour.h>
-#include <paxcore/entity/Entity.h>
+#include <paxcore/entity/GameEntity.h>
 
 namespace PAX {
     class TestBehaviour : public Behaviour {

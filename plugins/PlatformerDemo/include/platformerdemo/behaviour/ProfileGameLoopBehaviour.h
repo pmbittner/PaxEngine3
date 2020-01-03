@@ -27,7 +27,7 @@ namespace PAX {
         }
 
     protected:
-        void attached(Entity& entity) override {
+        void attached(GameEntity& entity) override {
             start();
         }
 

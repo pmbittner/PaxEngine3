@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <typeindex>
-#include <paxutil/stdutils/CollectionUtils.h>
+#include <polypropylene/stdutils/CollectionUtils.h>
 #include <iostream>
 
 namespace PAX {

@@ -10,29 +10,29 @@
 #include <algorithm>
 #include <paxcore/service/Services.h>
 
-#include <paxutil/property/PropertyContainer.h>
+#include <polypropylene/property/Entity.h>
 
 #include "WorldLayerLayout.h"
-#include "../entity/Entity.h"
+#include "../gameentity/GameEntity.h"
 
 #include "scenegraph/WorldLayerSceneGraph.h"
 #include "paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h"
 
-#include <paxutil/event/EventService.h>
-#include <paxutil/property/PropertyContainerManager.h>
-#include <paxcore/entity/EntityIDService.h>
-#include "event/EntitySpawnedEvent.h"
-#include "event/EntityDespawnedEvent.h"
+#include <polypropylene/event/EventService.h>
+#include <polypropylene/property/EntityManager.h>
+#include <paxcore/gameentity/GameEntityIDService.h>
+#include "event/GameEntitySpawnedEvent.h"
+#include "event/GameEntityDespawnedEvent.h"
 
 namespace PAX {
-    using WorldLayerPrefab = PropertyContainerPrefab<WorldLayer>;
+    using WorldLayerPrefab = EntityPrefab<WorldLayer>;
 
     class World;
 
-    class WorldLayer : public PropertyContainer<WorldLayer> {
+    class WorldLayer : public Entity<WorldLayer> {
         friend class SceneGraphGenerator;
         friend class World;
-        friend class Entity;
+        friend class GameEntity;
 
         std::string name;
 
@@ -43,17 +43,17 @@ namespace PAX {
         std::shared_ptr<WorldLayerSceneGraph> sceneGraph;
         std::shared_ptr<SceneGraphGenerator> sceneGraphGenerator;
 
-        EntityManager entities;
-        EntityIDService idService;
-        std::map<Tag, std::vector<Entity*>> entitiesByTags;
+        GameEntityManager entities;
+        GameEntityIDService idService;
+        std::map<Tag, std::vector<GameEntity*>> entitiesByTags;
 
         World * world = nullptr;
         void setWorld(World * world);
 
         void worldActivityChanged(bool isWorldActive);
 
-        void registerTagForEntity(Entity * entity, const Tag & tag);
-        void unregisterTagForEntity(Entity * entity, const Tag & tag);
+        void registerTagForGameEntity(GameEntity * entity, const Tag & tag);
+        void unregisterTagForGameEntity(GameEntity * entity, const Tag & tag);
 
     public:
         WorldLayer();
@@ -68,20 +68,20 @@ namespace PAX {
         ///                            If this is nullptr, the factory will be queried to create one
         void initialize(const std::string& name, int dimensions, float z = 0, const std::shared_ptr<SceneGraphGenerator> & sceneGraphGenerator = nullptr);
 
-        void spawn(Entity *entity);
-        void despawn(Entity *entity);
+        void spawn(GameEntity *entity);
+        void despawn(GameEntity *entity);
 
-        [[nodiscard]] const std::set<Entity*> & getEntities() const;
-        [[nodiscard]] const EntityManager & getEntityManager() const;
-        EntityIDService & getEntityIDService();
-        const std::vector<Entity*> & getEntitiesWithTag(const Tag & tag);
+        PAX_NODISCARD const std::set<GameEntity*> & getEntities() const;
+        PAX_NODISCARD const GameEntityManager & getGameEntityManager() const;
+        GameEntityIDService & getGameEntityIDService();
+        const std::vector<GameEntity*> & getEntitiesWithTag(const Tag & tag);
 
-        [[nodiscard]] const std::string& getName() const;
-        [[nodiscard]] const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
-        [[nodiscard]] const std::vector<Camera*> & getCameras() const;
-        [[nodiscard]] World * getWorld() const;
+        PAX_NODISCARD const std::string& getName() const;
+        PAX_NODISCARD const std::shared_ptr<WorldLayerSceneGraph>& getSceneGraph() const;
+        PAX_NODISCARD const std::vector<Camera*> & getCameras() const;
+        PAX_NODISCARD World * getWorld() const;
 
-        [[nodiscard]] int getDimensions() const;
+        PAX_NODISCARD int getDimensions() const;
 
         bool operator<(const WorldLayer & rhs) const;
     };
@@ -90,10 +90,10 @@ namespace PAX {
         bool operator()(WorldLayer * a, WorldLayer * b);
     };
 
-    using WorldLayerManager = PropertyContainerManager<WorldLayer>;
+    using WorldLayerManager = EntityManager<WorldLayer>;
 
     template<typename... RequiredProperties>
-    using WorldLayerManagerView = PropertyContainerManagerView<WorldLayer, RequiredProperties...>;
+    using WorldLayerManagerView = EntityManagerView<WorldLayer, RequiredProperties...>;
 }
 
 #endif //PAXENGINE3_WORLDLAYER_H

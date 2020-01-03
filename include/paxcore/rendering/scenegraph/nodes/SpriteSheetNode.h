@@ -10,18 +10,19 @@
 
 namespace PAX {
     class SpriteSheetNode : public SceneGraph, public ShaderFlagsConfigurator {
-        glm::ivec2 _offset;
+        glm::ivec2 _offset{};
         glm::ivec2 _size;
 
     public:
         SpriteSheetNode(int columns, int rows);
 
         void setOffset(int xOffset, int yOffset);
-        glm::ivec2 getOffset() const;
-        glm::ivec2 getSize() const;
+        PAX_NODISCARD const glm::ivec2 & getOffset() const;
+        void setSize(const glm::ivec2 & size);
+        PAX_NODISCARD const glm::ivec2 & getSize() const;
 
-        virtual void render(RenderOptions &options) override;
-        virtual void registerFlags(Shader::Flags &flags) override;
+        void render(RenderOptions &options) override;
+        void registerFlags(Shader::Flags &flags) override;
     };
 }
 

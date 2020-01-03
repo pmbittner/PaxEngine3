@@ -3,7 +3,7 @@
 //
 
 #include <paxopengl/OpenGLError.h>
-#include <paxutil/log/Errors.h>
+#include <polypropylene/log/Errors.h>
 
 namespace PAX {
     namespace OpenGL {

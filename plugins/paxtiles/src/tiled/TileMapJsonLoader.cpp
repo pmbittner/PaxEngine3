@@ -5,8 +5,8 @@
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
 
-#include <paxutil/json/JsonUtil.h>
-#include <paxutil/json/Json.h>
+#include <polypropylene/serialisation/json/JsonUtil.h>
+#include <polypropylene/serialisation/json/Json.h>
 
 namespace PAX {
     namespace Tiles {
@@ -152,7 +152,7 @@ namespace PAX {
             const glm::vec2 mapSize = map->getSizeInTiles() * map->getTileSize();
 
             for (const nlohmann::json & obj : layerj["objects"]) {
-                const EntityID obj_id = obj["id"];
+                const GameEntityID obj_id = obj["id"];
                 const glm::ivec2 obj_size(obj["width"], obj["height"]);
                 glm::vec2 obj_pos = {0, 0};
                 obj_pos += glm::vec2(obj_size) / 2.0f;
@@ -168,7 +168,7 @@ namespace PAX {
                         // all our json resources.
                         // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place like Settings.
                         PAX::Prefab::PreDefinedVariables);
-                std::shared_ptr<PAX::EntityPrefab> prefab = Services::GetResources().loadOrGet<EntityPrefab>(prefabPath);
+                std::shared_ptr<PAX::GameEntityPrefab> prefab = Services::GetResources().loadOrGet<GameEntityPrefab>(prefabPath);
 
                 if (obj.find("properties") != obj.end()) {
                     for (const nlohmann::json &property : obj["properties"]) {
@@ -180,14 +180,14 @@ namespace PAX {
                 }
 
                 if (prefab) {
-                    Entity * entity = prefab->create(varRegister);
+                    GameEntity * entity = prefab->create(varRegister);
                     Transformation & t = entity->getTransformation();
                     t.position() = {obj_pos.x, obj_pos.y, z};
                     // TODO: This is some sort of hack for our orange boxes for now, where we know, that these have
                     //       size 1px x 1px. Find a better solution for this like primitives as entities or so like:
                     //       Rectangle { Size, RectangleGraphics? }
                     t.setScale(t.getScale() * glm::vec3(obj_size, 1));
-                    map->_addEntity(entity, obj_id);
+                    map->_addGameEntity(entity, obj_id);
                 } else {
                     PAX_LOG(Log::Level::Warn, "Object without prefab given. Thus, it will be skipped.");
                 }

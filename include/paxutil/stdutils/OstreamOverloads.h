@@ -7,7 +7,7 @@
 
 #include <vector>
 #include <ostream>
-#include <paxutil/reflection/TemplateTypeToString.h>
+#include <polypropylene/reflection/TemplateTypeToString.h>
 
 #include "../lib/GlmIncludes.h" // allows printing of glm types
 

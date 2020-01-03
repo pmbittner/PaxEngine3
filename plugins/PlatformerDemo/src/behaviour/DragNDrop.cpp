@@ -5,7 +5,7 @@
 #include "platformerdemo/behaviour/DragNDrop.h"
 
 namespace PAX {
-    PAX_PROPERTY_SOURCE(PAX::DragNDrop, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::DragNDrop, PAX_PROPERTY_IS_CONCRETE)
 
     DragNDrop * DragNDrop::createFromProvider(ContentProvider & provider) {
         return new DragNDrop();

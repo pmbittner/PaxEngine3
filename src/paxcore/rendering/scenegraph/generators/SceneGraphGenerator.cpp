@@ -13,21 +13,21 @@ namespace PAX {
         PAX_ASSERT_NOT_NULL(root, "Root can't be null!");
         _root = root;
 
-        eventService.add<EntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntitySpawnedEvent>(this);
-        eventService.add<EntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntityDespawnedEvent>(this);
-        eventService.add<PropertyAttachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
-        eventService.add<PropertyDetachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
-        eventService.add<PropertyAttachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
-        eventService.add<PropertyDetachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
+        eventService.add<GameEntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onGameEntitySpawnedEvent>(this);
+        eventService.add<GameEntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityDespawnedEvent>(this);
+        eventService.add<PropertyAttachedEvent<GameEntity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentAddedEvent>(this);
+        eventService.add<PropertyDetachedEvent<GameEntity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentRemovedEvent>(this);
+        eventService.add<PropertyAttachedEvent<GameEntity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentAddedEvent>(this);
+        eventService.add<PropertyDetachedEvent<GameEntity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphGenerator::terminate(PAX::EventService &eventService) {
-        eventService.remove<EntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntitySpawnedEvent>(this);
-        eventService.remove<EntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onEntityDespawnedEvent>(this);
-        eventService.remove<PropertyAttachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
-        eventService.remove<PropertyDetachedEvent<Entity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
-        eventService.remove<PropertyAttachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentAddedEvent>(this);
-        eventService.remove<PropertyDetachedEvent<Entity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onEntityComponentRemovedEvent>(this);
+        eventService.remove<GameEntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onGameEntitySpawnedEvent>(this);
+        eventService.remove<GameEntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityDespawnedEvent>(this);
+        eventService.remove<PropertyAttachedEvent<GameEntity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentAddedEvent>(this);
+        eventService.remove<PropertyDetachedEvent<GameEntity, Graphics>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentRemovedEvent>(this);
+        eventService.remove<PropertyAttachedEvent<GameEntity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentAddedEvent>(this);
+        eventService.remove<PropertyDetachedEvent<GameEntity, Camera>, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityComponentRemovedEvent>(this);
     }
 
     void SceneGraphGenerator::addCamera(Camera * c) {
@@ -44,35 +44,35 @@ namespace PAX {
         Util::removeFromVector(_cameras, c);
     }
 
-    void SceneGraphGenerator::onEntitySpawnedEvent(EntitySpawnedEvent& e) {
-        Entity *entity = e.entity;
+    void SceneGraphGenerator::onGameEntitySpawnedEvent(GameEntitySpawnedEvent& e) {
+        GameEntity *entity = e.entity;
         if (entity->has<Graphics>())
             addGraphics(entity->get<Graphics>());
         if (entity->has<Camera>())
             addCamera(entity->get<Camera>());
     }
 
-    void SceneGraphGenerator::onEntityDespawnedEvent(EntityDespawnedEvent& e) {
-        Entity *entity = e.entity;
+    void SceneGraphGenerator::onGameEntityDespawnedEvent(GameEntityDespawnedEvent& e) {
+        GameEntity *entity = e.entity;
         if (entity->has<Graphics>())
             removeGraphics(entity->get<Graphics>());
         if (entity->has<Camera>())
             removeCamera(entity->get<Camera>());
     }
 
-    void SceneGraphGenerator::onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Graphics>& e) {
+    void SceneGraphGenerator::onGameEntityComponentAddedEvent(PropertyAttachedEvent<GameEntity, Graphics>& e) {
         addGraphics(e.property);
     }
 
-    void SceneGraphGenerator::onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Graphics>& e) {
+    void SceneGraphGenerator::onGameEntityComponentRemovedEvent(PropertyDetachedEvent<GameEntity, Graphics>& e) {
         removeGraphics(e.property);
     }
 
-    void SceneGraphGenerator::onEntityComponentAddedEvent(PropertyAttachedEvent<Entity, Camera> &e) {
+    void SceneGraphGenerator::onGameEntityComponentAddedEvent(PropertyAttachedEvent<GameEntity, Camera> &e) {
         addCamera(e.property);
     }
 
-    void SceneGraphGenerator::onEntityComponentRemovedEvent(PropertyDetachedEvent<Entity, Camera> &e) {
+    void SceneGraphGenerator::onGameEntityComponentRemovedEvent(PropertyDetachedEvent<GameEntity, Camera> &e) {
         addCamera(e.property);
     }
 

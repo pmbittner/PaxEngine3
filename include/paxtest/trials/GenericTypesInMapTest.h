@@ -29,14 +29,14 @@ namespace GENERIC_TYPES_IN_MAP_TEST_TRIAL {
         }
     };
 
-    class Entity {
+    class GameEntity {
     public:
         std::map<std::type_index, IComponent*> _components;
     };
 
 #define getType(o) std::type_index(typeid(o))
     bool test() {
-        Entity entity;
+        GameEntity entity;
 
         {
             Physics *physics = new Physics;

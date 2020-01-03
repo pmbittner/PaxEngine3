@@ -7,16 +7,16 @@
 
 #include <typeindex>
 
-#include <paxcore/entity/EntityProperty.h>
-#include <paxutil/event/EventHandler.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
+#include <polypropylene/event/EventHandler.h>
 #include <paxcore/rendering/event/GraphicsShaderChangedEvent.h>
 #include <paxcore/rendering/scenegraph/SceneGraph.h>
 #include "data/Shader.h"
 
 namespace PAX {
-    class Graphics : public EntityProperty, public Renderable {
+    class Graphics : public GameEntityProperty, public Renderable {
         PAX_PROPERTY(Graphics, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(EntityProperty)
+        PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
     protected:
@@ -32,6 +32,8 @@ namespace PAX {
         Shader::Flags getShaderFlags();
         std::shared_ptr<Shader>& getShader();
         virtual void setShader(const std::shared_ptr<Shader> &shader);
+
+        ClassMetadata getMetadata() override;
 
         void render(RenderOptions &renderOptions) override;
     };

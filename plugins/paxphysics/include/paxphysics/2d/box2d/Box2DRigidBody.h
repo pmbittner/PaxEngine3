@@ -26,7 +26,7 @@ namespace PAX::Physics {
 
             void createFor(b2World &world);
 
-            void attached(Entity &entity) override;
+            void attached(GameEntity &entity) override;
         };
     }
 
