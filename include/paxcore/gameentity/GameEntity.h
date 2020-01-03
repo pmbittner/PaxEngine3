@@ -63,6 +63,8 @@ namespace PAX {
         bool removeTag(const Tag & tag);
         PAX_NODISCARD bool hasTag(const Tag & tag) const;
         PAX_NODISCARD const std::vector<Tag> & getTags() const;
+
+        PAX_NODISCARD bool isActive() const;
     };
 
     using GameEntityManager = EntityManager<GameEntity>;

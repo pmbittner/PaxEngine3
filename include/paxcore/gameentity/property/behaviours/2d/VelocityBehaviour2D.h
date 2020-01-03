@@ -6,9 +6,9 @@
 #define PAXENGINE3_VELOCITYBEHAVIOUR2D_H
 
 
-#include <paxcore/entity/GameEntityProperty.h>
-#include <paxcore/entity/property/Behaviour.h>
-#include <polypropylene/property/construction/PropertyContainerPrefab.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
+#include <paxcore/gameentity/property/Behaviour.h>
+#include <polypropylene/property/EntityPrefab.h>
 
 namespace PAX {
     class VelocityBehaviour2D : public Behaviour {
@@ -21,6 +21,8 @@ namespace PAX {
         float angularVelocityInDegrees = 0;
 
         void update(UpdateOptions & options) override;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

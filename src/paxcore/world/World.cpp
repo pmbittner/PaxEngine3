@@ -13,7 +13,7 @@ namespace PAX {
 
     World::~World() {
         while (!worldLayers.empty()) {
-            WorldLayer * layer = *worldLayers.getPropertyContainers().begin();
+            WorldLayer * layer = *(worldLayers.begin());
             removeLayer(layer);
             delete layer;
         }
@@ -21,10 +21,6 @@ namespace PAX {
 
     void World::setActive(bool active) {
         this->active = active;
-
-        for (WorldLayer * wl : worldLayers) {
-            wl->worldActivityChanged(active);
-        }
     }
 
     bool World::isActive() const {
@@ -54,7 +50,7 @@ namespace PAX {
     }
 
     const std::set<WorldLayer*>& World::getLayers() {
-        return worldLayers.getPropertyContainers();
+        return worldLayers.getEntities();
     }
 
     const EntityManager<WorldLayer>& World::getWorldLayerManager() const {

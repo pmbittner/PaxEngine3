@@ -2,34 +2,31 @@
 // Created by Paul on 03.02.2018.
 //
 
-#include <paxcore/entity/property/Size.h>
-#include <paxcore/entity/event/SizeChangedEvent.h>
+#include <paxcore/gameentity/property/Size.h>
+#include <paxcore/gameentity/event/SizeChangedEvent.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::Size, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::Size) {}
 
-    Size * Size::createFromProvider(ContentProvider & provider) {
-        return new Size(provider.require<glm::vec3>("size"));
+    ClassMetadata Size::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(size)).flags = Field::IsMandatory;
+        return m;
     }
 
-    void Size::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
-
-    Size::Size(const glm::vec3 &size) {
-        setSize(size);
+    Size::Size(const glm::vec3 & size) : size(size) {
+        // size2D is initialised implicitly because it is inside a union with this->size
     }
 
     void Size::attached(GameEntity &entity) {
-        GameEntityProperty::attached(entity);
-
+        Super::attached(entity);
         SizeChangedEvent e(&entity, glm::vec3(0), this);
         entity.getEventService().fire(e);
     }
 
     void Size::setSize(const glm::vec3 &size) {
-        glm::vec3 oldSize = _size;
-        _size = size;
+        glm::vec3 oldSize = this->size;
+        this->size = size;
 
         if (GameEntity *owner = getOwner()) {
             SizeChangedEvent e(owner, oldSize, this);
@@ -42,27 +39,27 @@ namespace PAX {
     }
 
     float Size::getWidth() const {
-        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().x : 1) * _size.x;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().x : 1) * size.x;
     }
 
     float Size::getHeight() const {
-        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().y : 1) * _size.y;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().y : 1) * size.y;
     }
 
     float Size::getDepth() const {
-        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().z : 1) * _size.z;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale().z : 1) * size.z;
     }
 
     glm::vec3 Size::getSize() const {
-        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale() : glm::vec3(1)) * _size;
+        return (getOwner() ? getOwner()->getTransformation().getAbsoluteScale() : glm::vec3(1)) * size;
     }
 
     glm::vec2 Size::getSize2D() const {
-        return (getOwner() ? glm::vec2(getOwner()->getTransformation().getAbsoluteScale()) : glm::vec2(1)) * _size2D;
+        return (getOwner() ? glm::vec2(getOwner()->getTransformation().getAbsoluteScale()) : glm::vec2(1)) * size2D;
     }
 
     glm::vec3 Size::getSizeUnscaled() const {
-        return _size;
+        return size;
     }
 
     FloatBoundingBox3D Size::toBoundingBox() const {
@@ -72,6 +69,7 @@ namespace PAX {
 
     FloatBoundingBox3D Size::toAbsoluteBoundingBox() const {
         FloatBoundingBox3D box = toBoundingBox();
+
         if (GameEntity *owner = getOwner()) {
             for (GameEntity* child : owner->getChildren()) {
                 if (Size * s = child->get<Size>()) {
@@ -83,6 +81,7 @@ namespace PAX {
                 }
             }
         }
+
         return box;
     }
 }

@@ -5,16 +5,16 @@
 #ifndef PAXENGINE3_JSONENTITYPREFABTAGSPARSER_H
 #define PAXENGINE3_JSONENTITYPREFABTAGSPARSER_H
 
-#include <paxcore/entity/GameEntity.h>
-#include <polypropylene/property/construction/json/JsonPropertyContainerPrefab.h>
+#include <paxcore/gameentity/GameEntity.h>
+#include <polypropylene/serialisation/json/property/JsonEntityPrefab.h>
 
 namespace PAX {
-    class JsonGameEntityPrefabTagsParser : public Json::JsonPropertyContainerPrefabElementParser<GameEntity> {
+    class JsonGameEntityPrefabTagsParser : public Json::JsonEntityPrefabElementParser<GameEntity> {
     public:
         void parse(
                 nlohmann::json & node,
                 GameEntity & e,
-                Json::JsonPropertyContainerPrefab<GameEntity> & prefab,
+                Json::JsonEntityPrefab<GameEntity> & prefab,
                 const VariableRegister & v) override;
     };
 }

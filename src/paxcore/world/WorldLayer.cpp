@@ -111,7 +111,7 @@ namespace PAX {
     }
 
     const std::set<GameEntity*>& WorldLayer::getEntities() const {
-        return entities.getPropertyContainers();
+        return entities.getEntities();
     }
 
     const GameEntityManager & WorldLayer::getGameEntityManager() const {
@@ -138,13 +138,8 @@ namespace PAX {
         return name;
     }
 
-    void WorldLayer::setWorld(PAX::World *world) {
+    void WorldLayer::setWorld(PAX::World * world) {
         this->world = world;
-        if (world) {
-            worldActivityChanged(world->isActive());
-        } else {
-            worldActivityChanged(false);
-        }
     }
 
     World* WorldLayer::getWorld() const {
@@ -153,18 +148,6 @@ namespace PAX {
 
     int WorldLayer::getDimensions() const {
         return dimensions;
-    }
-
-    void WorldLayer::worldActivityChanged(bool isWorldActive) {
-        if (isWorldActive) {
-            activate();
-        } else {
-            deactivate();
-        }
-
-        for (GameEntity * e : entities) {
-            e->updateActiveStatus();
-        }
     }
 
     void WorldLayer::registerTagForGameEntity(PAX::GameEntity *entity, const PAX::Tag &tag) {
@@ -186,5 +169,9 @@ namespace PAX {
 
     bool WorldLayerSort::operator()(PAX::WorldLayer *a, PAX::WorldLayer *b) {
         return *a < *b;
+    }
+
+    bool WorldLayer::isActive() const {
+        return world ? world->isActive() : false;
     }
 }

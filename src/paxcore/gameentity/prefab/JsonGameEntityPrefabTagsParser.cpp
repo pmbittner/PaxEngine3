@@ -2,14 +2,14 @@
 // Created by Paul on 03.11.2019.
 //
 
-#include <paxcore/entity/prefab/JsonGameEntityPrefabTagsParser.h>
+#include <paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h>
 
 namespace PAX {
     void JsonGameEntityPrefabTagsParser::parse(
             nlohmann::json &node,
-            PAX::GameEntity &e,
-            PAX::Json::JsonPropertyContainerPrefab<PAX::GameEntity> &prefab,
-            const PAX::VariableRegister &v)
+            GameEntity &e,
+            Json::JsonEntityPrefab<GameEntity> &prefab,
+            const VariableRegister &v)
     {
         if (node.is_array()) {
             for (auto & element : node) {

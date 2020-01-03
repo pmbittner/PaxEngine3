@@ -63,7 +63,7 @@ namespace PAX {
             const auto & it = m.find(worldLayer);
 
             if (it != m.end()) {
-                return it->second.getContainers();
+                return it->second.getEntities();
             }
 
             PAX_THROW_RUNTIME_ERROR("Could not obtain Entities for WorldLayer " << worldLayer);

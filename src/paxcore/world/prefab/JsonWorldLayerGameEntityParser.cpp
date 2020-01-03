@@ -9,7 +9,7 @@ namespace PAX {
         JsonWorldLayerGameEntityParser::~JsonWorldLayerGameEntityParser() = default;
 
         void JsonWorldLayerGameEntityParser::parse(nlohmann::json &node, PAX::WorldLayer & worldLayer,
-                                               PAX::Json::JsonPropertyContainerPrefab<PAX::WorldLayer> &prefab,
+                                               PAX::Json::JsonEntityPrefab<PAX::WorldLayer> &prefab,
                                                const VariableRegister & v) {
             if (!node.is_array())
                 PAX_LOG(Log::Level::Warn, "Given node is not an array!");
@@ -28,16 +28,7 @@ namespace PAX {
                                 Services::GetResources().loadOrGet<GameEntityPrefab>(prefab.resolvePath(prefabNode.get<std::string>()));
                         entity = entityPrefab->create({});
                     } else {
-                        JsonPropertyContainerPrefab<GameEntity> entityPrefab(
-                                std::shared_ptr<nlohmann::json>(
-                                        &prefabNode,
-                                        [](nlohmann::json*){
-                                            // Nothing to do here:
-                                            // We only need this shared_ptr as a wrapper
-                                            // for prefab construction.
-                                        }
-                                        ),
-                                prefab.getPath());
+                        JsonEntityPrefab<GameEntity> entityPrefab(prefabNode, prefab.getPath());
                         entity = entityPrefab.create({});
                     }
                 } else {
@@ -46,7 +37,7 @@ namespace PAX {
                 }
 
                 if (entityNode.count("id") > 0) {
-                    GameEntityID id = entityNode["id"].get<GameEntityID>();
+                    auto id = entityNode["id"].get<GameEntityID>();
                     worldLayer.getGameEntityIDService().reserveIDFor(entity, id);
                 }
 

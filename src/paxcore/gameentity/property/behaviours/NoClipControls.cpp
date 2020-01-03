@@ -2,23 +2,19 @@
 // Created by Paul on 09.12.2017.
 //
 
-#include <paxcore/entity/property/behaviours/NoClipControls.h>
-
-#include <paxcore/entity/GameEntity.h>
+#include <paxcore/gameentity/property/behaviours/NoClipControls.h>
+#include <paxcore/gameentity/GameEntity.h>
 #include <paxutil/math/Transformation.h>
 #include <paxcore/service/Services.h>
 
-#include <paxutil/lib/GlmIncludes.h>
-
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::NoClipControls, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::NoClipControls) {}
 
-    NoClipControls * NoClipControls::createFromProvider(ContentProvider & provider) {
-        return new NoClipControls();
-    }
-
-    void NoClipControls::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
+    ClassMetadata NoClipControls::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(speed));
+        m.add(paxfieldalias("mouseSensivityInRadiansPerPixel", mousesensivity));
+        return m;
     }
 
     NoClipControls::NoClipControls() : velocity(0), relativeMovement(0) {

@@ -2,7 +2,7 @@
 // Created by Paul on 05.06.2017.
 //
 
-#include <paxcore/system/entity/BehaviourSystem.h>
+#include <paxcore/system/gameentity/BehaviourSystem.h>
 #include <paxcore/Engine.h>
 
 namespace PAX {

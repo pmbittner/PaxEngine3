@@ -18,8 +18,8 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
 
         union {
-            glm::vec2 _size2D;
-            glm::vec3 _size;
+            glm::vec2 size2D;
+            glm::vec3 size = glm::vec3(0);
         };
 
     public:
@@ -37,9 +37,16 @@ namespace PAX {
         PAX_NODISCARD glm::vec2 getSize2D() const;
 
         PAX_NODISCARD FloatBoundingBox3D toBoundingBox() const;
+
+        /**
+         * Also considers all children of the owning entity.
+         * @return
+         */
         PAX_NODISCARD FloatBoundingBox3D toAbsoluteBoundingBox() const;
 
         PAX_NODISCARD glm::vec3 getSizeUnscaled() const;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 #endif //PAXENGINE3_SIZE_H

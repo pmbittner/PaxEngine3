@@ -5,8 +5,8 @@
 #ifndef PAXENGINE3_FOLLOWENTITYBEHAVIOUR_H
 #define PAXENGINE3_FOLLOWENTITYBEHAVIOUR_H
 
-#include <paxcore/entity/property/Behaviour.h>
-#include <paxcore/entity/GameEntityIDService.h>
+#include <paxcore/gameentity/property/Behaviour.h>
+#include <paxcore/gameentity/GameEntityIDService.h>
 
 namespace PAX {
     class FollowGameEntityBehaviour : public PAX::Behaviour {
@@ -14,7 +14,7 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
 
-        GameEntityID targetID = 0;
+        GameEntityID targetID = GameEntityIDService::InvalidID;
         float speed = 2.5f;
 
         bool respectWorldSize = false;
@@ -24,11 +24,13 @@ namespace PAX {
 
         void update(UpdateOptions & options) override;
 
-        bool respectsWorldSize();
+        PAX_NODISCARD bool respectsWorldSize() const;
         void shouldRespectWorldSize(bool respectWorldSize);
 
         void setTarget(GameEntityID id);
-        GameEntityID getTarget() const;
+        PAX_NODISCARD GameEntityID getTarget() const;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

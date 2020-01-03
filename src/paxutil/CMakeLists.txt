@@ -18,7 +18,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/math/Transformation.h
         ../../include/paxutil/math/json/JsonToTransformation.h
 
-        ../../include/paxutil/property/construction/json/parsers/JsonPropertyContainerPrefabTransformationParser.h
+        ../../include/paxutil/property/construction/json/parsers/JsonEntityPrefabTransformationParser.h
 
         ../../include/paxutil/reflection/MemberCheck.h
         ../../include/paxutil/reflection/TypeHierarchy.h

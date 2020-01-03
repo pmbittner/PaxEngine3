@@ -8,7 +8,7 @@
 #include <paxutil/lib/GlmIncludes.h>
 #include <paxutil/math/MathDefines.h>
 
-#include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
 #include <paxcore/io/event/MouseButtonReleasedEvent.h>
@@ -53,6 +53,8 @@ namespace PAX {
 
         void setMouseSensivity(float degreesPerPixel);
         float getMouseSensivity();
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 #endif //PAXENGINE3_NOCLIPCONTROLS_H

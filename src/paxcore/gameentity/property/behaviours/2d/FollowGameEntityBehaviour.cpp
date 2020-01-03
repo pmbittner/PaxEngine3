@@ -2,28 +2,17 @@
 // Created by paul on 07.01.19.
 //
 
-#include "paxcore/entity/property/behaviours/2d/FollowGameEntityBehaviour.h"
+#include "paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h"
 #include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::FollowGameEntityBehaviour, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::FollowGameEntityBehaviour) {}
 
-    FollowGameEntityBehaviour * FollowGameEntityBehaviour::createFromProvider(ContentProvider & provider) {
-        GameEntityID id = GameEntityIDService::InvalidID;
-
-        if (const auto & targetID = provider.get<GameEntityID>("targetGameEntity")) {
-            id = targetID.value();
-        }
-
-        return new FollowGameEntityBehaviour(id);
-    }
-
-    void FollowGameEntityBehaviour::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-
-        if (const auto & respectws = provider.get<bool>("respectWorldSize")) {
-            shouldRespectWorldSize(respectws.value());
-        }
+    ClassMetadata FollowGameEntityBehaviour::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldalias("targetGameEntityID", targetID));
+        m.add(paxfieldof(respectWorldSize));
+        return m;
     }
 
     FollowGameEntityBehaviour::FollowGameEntityBehaviour(GameEntityID targetID) : targetID(targetID) {}
@@ -63,7 +52,7 @@ namespace PAX {
                                         me.position2D()[dim] = 0;
                                     } else {
                                         // check right and then left exceed
-                                        for (int dir : {1, -1}) {
+                                        for (float dir : {1.f, -1.f}) {
                                             float exceed =
                                                     mypos[dim] + dir*((projectionSize[dim] / 2.f) - (worldWidth / 2.f));
 
@@ -81,7 +70,7 @@ namespace PAX {
         }
     }
 
-    bool FollowGameEntityBehaviour::respectsWorldSize() {
+    bool FollowGameEntityBehaviour::respectsWorldSize() const {
         return respectWorldSize;
     }
 

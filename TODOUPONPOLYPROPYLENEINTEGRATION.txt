@@ -5,6 +5,7 @@
   - AssetGraphics::asset -> Asset
   - SpriteGraphis::Sprite -> Texture
   - SpriteSheetGraphics::columns and rows
+  - FollowGameEntityBehaviour::targetGameEntityID
 - refactor weird fromVariableHierarchy method in resourceloaders to new IJsonParsers and check for IsResource in those
 - remove Graphics::getShaderFlags
 - move resources from util back to core

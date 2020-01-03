@@ -13,19 +13,6 @@ namespace PAX {
     GameEntity::GameEntity() = default;
     GameEntity::~GameEntity() = default;
 
-    void GameEntity::updateActiveStatus() {
-        bool active = false;
-        if (WorldLayer * wl = getWorldLayer()) {
-            active = wl->isActive();
-        }
-
-        if (active) {
-            activate();
-        } else {
-            deactivate();
-        }
-    }
-
     Transformation& GameEntity::getTransformation() {
         return transform;
     }
@@ -100,5 +87,9 @@ namespace PAX {
 
     const std::vector<Tag>& GameEntity::getTags() const {
         return tags;
+    }
+
+    bool GameEntity::isActive() const {
+        return worldLayer ? worldLayer->isActive() : false;
     }
 }

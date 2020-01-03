@@ -131,7 +131,6 @@ set(CORE_SOURCE_FILES
         service/Paths.cpp
 
         gameentity/GameEntity.cpp
-        gameentity/GameEntityProperty.cpp
         gameentity/property/Behaviour.cpp
         gameentity/property/Size.cpp
         gameentity/property/behaviours/NoClipControls.cpp

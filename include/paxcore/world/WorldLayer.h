@@ -50,8 +50,6 @@ namespace PAX {
         World * world = nullptr;
         void setWorld(World * world);
 
-        void worldActivityChanged(bool isWorldActive);
-
         void registerTagForGameEntity(GameEntity * entity, const Tag & tag);
         void unregisterTagForGameEntity(GameEntity * entity, const Tag & tag);
 
@@ -84,6 +82,8 @@ namespace PAX {
         PAX_NODISCARD int getDimensions() const;
 
         bool operator<(const WorldLayer & rhs) const;
+
+        PAX_NODISCARD bool isActive() const;
     };
 
     struct WorldLayerSort {
