@@ -18,9 +18,10 @@ namespace PAX {
         NullTextureLoader();
         ~NullTextureLoader() override;
 
-        bool canLoad(Path path) const override;
-        std::shared_ptr<Texture> load(Path path) override;
+        PAX_NODISCARD bool canLoad(Path path) const override;
+        PAX_NODISCARD std::shared_ptr<Texture> load(Path path) override;
         std::shared_ptr<Texture> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+
     };
 }
 

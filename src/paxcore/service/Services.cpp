@@ -86,4 +86,8 @@ namespace PAX {
     WindowService& Services::GetWindowService() {
         return Instance()._windowService;
     }
+
+    Json::JsonParserRegister & Services::GetJsonParserRegister() {
+        return Instance().jsonParserRegister;
+    }
 }

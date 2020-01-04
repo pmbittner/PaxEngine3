@@ -8,7 +8,7 @@
 #include <paxcore/rendering/data/Mesh.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/scenegraph/nodes/MeshNode.h>
-#include <paxcore/entity/GameEntityIDService.h>
+#include <paxcore/gameentity/GameEntityIDService.h>
 
 #include "Tile.h"
 #include "TileSet.h"

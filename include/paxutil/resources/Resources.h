@@ -219,7 +219,7 @@ namespace PAX {
         PAX_LOG(Log::Level::Error, "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!");
 
         return nullptr;
-    }
+    }//*/
 }
 
 #endif //PAXENGINE3_RESOURCES_H

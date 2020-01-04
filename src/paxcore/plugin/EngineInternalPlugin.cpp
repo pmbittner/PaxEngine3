@@ -29,6 +29,7 @@
 #include <paxcore/world/property/WorldLayerBehaviour.h>
 #include <paxcore/world/property/WorldLayerSize.h>
 #include <paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h>
+#include <paxcore/json/JsonEntityPrefabResourceLoader.h>
 
 namespace PAX {
     // TODO: Find a way for easier and better custom json element parsing integration.
@@ -65,8 +66,8 @@ namespace PAX {
         Prefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
         Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
-        Json::JsonEntityPrefab<GameEntity>::initialize();
-        Json::JsonEntityPrefab<WorldLayer>::initialize();
+        Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonParserRegister());
+        Json::JsonEntityPrefab<WorldLayer>::initialize(Services::GetJsonParserRegister());
 
         Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Transform", &transformationParser);
         Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("MotionType", &entityMotionTypeParser);
@@ -89,8 +90,8 @@ namespace PAX {
         resources.registerLoader(&spriteSheetLoader);
         resources.registerLoader(&jsonLoader);
 
-        static Json::JsonEntityPrefabLoader<GameEntity> entityFromJsonLoader;
-        static Json::JsonEntityPrefabLoader<WorldLayer> worldLayerFromJsonLoader;
+        static JsonEntityPrefabResourceLoader<GameEntity> entityFromJsonLoader;
+        static JsonEntityPrefabResourceLoader<WorldLayer> worldLayerFromJsonLoader;
         resources.registerLoader(&entityFromJsonLoader);
         resources.registerLoader(&worldLayerFromJsonLoader);
     }

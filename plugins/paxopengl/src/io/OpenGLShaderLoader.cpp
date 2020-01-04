@@ -29,6 +29,7 @@ std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Shader::FileI
     return shader;
 }
 
+//*
 std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::loadToOrGetFromResources(PAX::Resources &resources,
                                                                                        const PAX::VariableHierarchy &parameters) {
     Shader::FileInfo fileInfo;
@@ -70,3 +71,4 @@ if (it != vars.end()) { \
 
     return resources.loadOrGet<Shader>(fileInfo, flags);
 }
+//*/

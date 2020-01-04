@@ -10,7 +10,7 @@
 #include <polypropylene/property/Entity.h>
 
 #include <paxutil/math/Transformation.h>
-#include <polypropylene/property/EntityPrefab.h>
+#include <polypropylene/Prefab.h>
 #include <polypropylene/property/EntityManagerView.h>
 
 #include "polypropylene/event/EventHandler.h"
@@ -23,10 +23,10 @@
 namespace PAX {
     class World;
     class WorldLayer;
+    class GameEntityProperty;
+    using GameEntityPrefab = Prefab<GameEntity>;
 
-    using GameEntityPrefab = EntityPrefab<GameEntity>;
-
-    class GameEntity : public Entity<GameEntity> {
+    class GameEntity : public Entity<GameEntity, GameEntityProperty> {
         friend class World;
         friend class WorldLayer;
 
@@ -40,8 +40,6 @@ namespace PAX {
         std::vector<GameEntity*> children;
 
         WorldLayer *worldLayer = nullptr;
-
-        void updateActiveStatus();
 
     public:
         EventHandler<GameEntityParentChangedEvent&> OnParentChanged;

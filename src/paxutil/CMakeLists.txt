@@ -3,6 +3,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/genericfactory/GenericFactoryService.h
 
         ../../include/paxutil/io/Settings.h
+        ../../include/paxutil/io/FileTypeChecker.h
 
         ../../include/paxutil/lib/GlmIncludes.h
         ../../include/paxutil/lib/LibIncludes.h

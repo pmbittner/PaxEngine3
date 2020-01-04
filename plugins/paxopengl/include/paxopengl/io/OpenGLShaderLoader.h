@@ -10,15 +10,17 @@
 
 namespace PAX {
     namespace OpenGL {
-        class OpenGLShaderLoader : public ResourceLoader<Shader, Shader::FileInfo>, public ResourceLoader<Shader, Shader::FileInfo, Shader::Flags> {
+        class OpenGLShaderLoader :
+                public ResourceLoader<Shader, Shader::FileInfo>,
+                public ResourceLoader<Shader, Shader::FileInfo, Shader::Flags> {
         public:
             std::shared_ptr<Shader> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
 
-            virtual bool canLoad(Shader::FileInfo) const override;
-            virtual std::shared_ptr<Shader> load(Shader::FileInfo) override;
+            PAX_NODISCARD bool canLoad(Shader::FileInfo) const override;
+            PAX_NODISCARD std::shared_ptr<Shader> load(Shader::FileInfo) override;
 
-            virtual bool canLoad(Shader::FileInfo, Shader::Flags flags) const override;
-            virtual std::shared_ptr<Shader> load(Shader::FileInfo, Shader::Flags flags) override;
+            PAX_NODISCARD bool canLoad(Shader::FileInfo, Shader::Flags flags) const override;
+            PAX_NODISCARD std::shared_ptr<Shader> load(Shader::FileInfo, Shader::Flags flags) override;
         };
     }
 }

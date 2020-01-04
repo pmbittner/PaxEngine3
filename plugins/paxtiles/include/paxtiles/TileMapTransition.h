@@ -5,8 +5,9 @@
 #ifndef PAXENGINE3_TILEMAPTRANSITION_H
 #define PAXENGINE3_TILEMAPTRANSITION_H
 
-#include <paxcore/entity/GameEntityProperty.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
+#include <polypropylene/io/Path.h>
 
 namespace PAX {
     namespace Tiles {

@@ -25,7 +25,7 @@
 #include "event/GameEntityDespawnedEvent.h"
 
 namespace PAX {
-    using WorldLayerPrefab = EntityPrefab<WorldLayer>;
+    using WorldLayerPrefab = Prefab<WorldLayer>;
 
     class World;
 

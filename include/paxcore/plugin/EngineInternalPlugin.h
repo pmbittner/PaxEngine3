@@ -9,7 +9,7 @@
 #include <paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h>
 #include <paxcore/rendering/loader/NullTextureLoader.h>
 #include <paxcore/rendering/loader/SpriteSheetLoader.h>
-#include <polypropylene/serialisation/json/JsonLoader.h>
+#include <paxcore/json/JsonResourceLoader.h>
 
 namespace PAX {
     class EngineInternalPlugin : public PAX::EnginePlugin {
@@ -17,7 +17,7 @@ namespace PAX {
 
         NullTextureLoader nullTextureLoader;
         SpriteSheetLoader spriteSheetLoader;
-        Json::JsonLoader jsonLoader;
+        JsonResourceLoader jsonLoader;
 
     public:
         void initialize(PAX::Engine& engine) override;

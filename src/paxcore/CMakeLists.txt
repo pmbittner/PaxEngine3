@@ -121,7 +121,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h
         ../../include/paxcore/gameentity/Tag.h
         ../../include/paxcore/world/WorldLayerEvent.h
-        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h)
+        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h ../../include/paxcore/json/JsonResourceLoader.h ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -158,7 +158,7 @@ set(CORE_SOURCE_FILES
         gameentity/GameEntityIDService.cpp
         world/prefab/JsonWorldLayerGameEntityParser.cpp
         function/Updateable.cpp world/WorldLayerEvent.cpp
-        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp)
+        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp json/JsonResourceLoader.cpp gameentity/GameEntityProperty.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

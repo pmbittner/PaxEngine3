@@ -19,22 +19,23 @@ namespace PAX {
     class IResourceLoader {
         friend class Resources;
     public:
-        virtual ~IResourceLoader();
+        virtual ~IResourceLoader() = 0;
     };
 
     template<typename Resource>
-    class ResourceLoaderT : public IResourceLoader {
+    class ResourceLoaderT : public virtual IResourceLoader {
         friend class Resources;
     protected:
+        // FIXME: Remove these methods
         virtual std::shared_ptr<Resource> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) = 0;
         std::shared_ptr<Resource> loadFromPath(const std::string & loaderName, Resources & resources, const VariableHierarchy & parameters);
     };
 
     template<typename Resource, typename... Params>
-    class ResourceLoader : public ResourceLoaderT<Resource> {
+    class ResourceLoader : public virtual ResourceLoaderT<Resource> {
     public:
-        virtual bool canLoad(Params...) const = 0;
-        virtual std::shared_ptr<Resource> load(Params...) = 0;
+        PAX_NODISCARD virtual bool canLoad(Params...) const = 0;
+        PAX_NODISCARD virtual std::shared_ptr<Resource> load(Params...) = 0;
     };
 }
 

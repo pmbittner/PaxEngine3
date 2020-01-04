@@ -11,5 +11,6 @@
 - move resources from util back to core
 - viewportfactory from json -> used indirectly by camera
   - same for projection (and projection resolution)
+- GameEntityProperty::spawn and despawn have to be invoked
 
 - the whole sprite implementation is awkward

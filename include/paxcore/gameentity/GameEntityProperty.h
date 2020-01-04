@@ -9,7 +9,15 @@
 #include "GameEntity.h"
 
 namespace PAX {
-    using GameEntityProperty = Property<GameEntity>;
+    class GameEntityProperty : public Property<GameEntity> {
+        PAX_PROPERTY(GameEntityProperty, PAX_PROPERTY_IS_ABSTRACT)
+        PAX_PROPERTY_DERIVES(Property<GameEntity>)
+        PAX_PROPERTY_IS_MULTIPLE
+
+    public:
+        virtual void spawned();
+        virtual void despawned();
+    };
 }
 
 #endif //PAXENGINE3_ENTITYCOMPONENT_H

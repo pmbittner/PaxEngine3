@@ -16,11 +16,12 @@ namespace PAX {
         return std::make_shared<SpriteSheet>(texture, columns, rows);
     }
 
+    //*/
     std::shared_ptr<SpriteSheet>
     SpriteSheetLoader::loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) {
         Path p      = parameters.tryGet("Path");
         int columns = String::tryParse<int>(parameters.tryGet("Columns"));
         int rows    = String::tryParse<int>(parameters.tryGet("Rows"));
         return resources.loadOrGet<SpriteSheet>(p, columns, rows);
-    }
+    }//*/
 }

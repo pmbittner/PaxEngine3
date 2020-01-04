@@ -9,7 +9,6 @@
 #ifdef PAX_WITH_FREEIMAGE
 #define FREEIMAGE_LIB
 #include <FreeImage.h>
-#endif
 
 namespace PAX {
     namespace OpenGL {
@@ -30,7 +29,6 @@ namespace PAX {
         }
 
         std::shared_ptr<PAX::Texture> PAX::OpenGL::FreeImageOpenGLTextureLoader::load(const char *path) {
-#ifdef PAX_WITH_FREEIMAGE
             GLenum image_format = GL_RGB;		//format the image is in
             GLint internal_format = GL_RGB;		//format to store the image in
             GLint level = 0;					//mipmapping level
@@ -85,9 +83,8 @@ namespace PAX {
 
             //return success
             return std::make_shared<OpenGLTexture2D>(gl_texID, width, height);
-#else
-            return nullptr;
-#endif
         }
     }
 }
+
+#endif //PAX_WITH_FREEIMAGE
