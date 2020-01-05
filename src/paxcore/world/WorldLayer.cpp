@@ -79,11 +79,12 @@ namespace PAX {
 
             entity->worldLayer = this;
             entity->getEventService().setParent(&getEventService());
-            entity->updateActiveStatus();
 
             for (const Tag & tag : entity->getTags()) {
                 registerTagForGameEntity(entity, tag);
             }
+
+            entity->spawned();
 
             GameEntitySpawnedEvent e(entity);
             getEventService()(e);
@@ -99,11 +100,12 @@ namespace PAX {
 
             entity->worldLayer = nullptr;
             entity->getEventService().setParent(nullptr);
-            entity->updateActiveStatus();
 
             for (const Tag & tag : entity->getTags()) {
                 unregisterTagForGameEntity(entity, tag);
             }
+
+            entity->despawned();
 
             GameEntityDespawnedEvent e(entity, this);
             getEventService()(e);

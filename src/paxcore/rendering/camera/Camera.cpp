@@ -68,6 +68,8 @@ namespace PAX {
         return m;
     }
 
+    Camera::Camera() = default;
+
     Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : viewport(viewport), projection(projection) {
         PAX_ASSERT_NOT_NULL(viewport, "Viewport can't be null!");
         PAX_ASSERT_NOT_NULL(projection, "Projection can't be null!");

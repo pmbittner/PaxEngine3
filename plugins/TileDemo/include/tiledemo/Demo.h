@@ -9,14 +9,14 @@
 
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
-#include <paxcore/entity/property/Size.h>
+#include <paxcore/gameentity/property/Size.h>
 #include <paxcore/rendering/camera/FullPixelScreenProjection.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
-#include <paxcore/entity/property/behaviours/2d/FollowGameEntityBehaviour.h>
+#include <paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h>
 
 #include "paxtiles/Tile.h"
 #include "paxtiles/TileMap.h"

@@ -6,17 +6,7 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_INIT(::PAX::Tiles::TileMapGraphics, PAX_PROPERTY_IS_ABSTRACT)
-
-        /*
-        TileMapGraphics * TileMapGraphics::createFromProvider(ContentProvider & provider) {
-            return;//new TileMapGraphics(provider.requireResource<TileMap>("map"));
-        }*/
-
-
-        void TileMapGraphics::initializeFromProvider(ContentProvider & provider) {
-            Super::initializeFromProvider(provider);
-        }//*/
+        PAX_PROPERTY_INIT(::PAX::Tiles::TileMapGraphics) {}
 
         TileMapGraphics::TileMapGraphics(TileMap::Layer & tileLayer) : Super(), tileLayer(tileLayer) {
 

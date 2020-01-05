@@ -22,6 +22,8 @@ namespace PAX {
             static std::shared_ptr<Shader> tileMapShader;
             static void initialize();
 
+            TileMapProperty();
+
         public:
             explicit TileMapProperty(const std::shared_ptr<TileMap> & tilemap);
 
@@ -29,7 +31,9 @@ namespace PAX {
             void detached(WorldLayer & worldLayer) override;
 
             void setScale(const glm::vec3 & scale);
-            const glm::vec3 & getScale() const;
+            PAX_NODISCARD const glm::vec3 & getScale() const;
+
+            PAX_NODISCARD ClassMetadata getMetadata() override;
         };
     }
 }

@@ -30,6 +30,8 @@ namespace PAX {
         void onViewportWidthChanged(int oldWidth, int newWidth);
         void onViewportHeightChanged(int oldHeight, int newHeight);
 
+        Camera();
+
     public:
         explicit Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection = std::make_shared<PerspectiveProjection>());
 

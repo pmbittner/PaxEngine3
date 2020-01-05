@@ -5,7 +5,7 @@
 #include <paxtiles/topdown/CharacterSpriteAnimation.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_INIT(CharacterSpriteAnimation, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(CharacterSpriteAnimation) {}
 
     CharacterSpriteAnimation::CharacterSpriteAnimation() :
         Behaviour(),
@@ -23,14 +23,6 @@ namespace PAX::Tiles {
     }
 
     CharacterSpriteAnimation::~CharacterSpriteAnimation() = default;
-
-    CharacterSpriteAnimation * CharacterSpriteAnimation::createFromProvider(PAX::ContentProvider &) {
-        return new CharacterSpriteAnimation();
-    }
-
-    void CharacterSpriteAnimation::initializeFromProvider(PAX::ContentProvider & c) {
-        Behaviour::initializeFromProvider(c);
-    }
 
     Animation<glm::ivec2> & CharacterSpriteAnimation::getAnimationFromOrientation() {
         if (orientation) {

@@ -5,18 +5,14 @@
 #include <paxtiles/topdown/SimpleCharacterKeyboardControls.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_INIT(SimpleCharacterKeyboardControls, PAX_PROPERTY_IS_CONCRETE)
-    
-    SimpleCharacterKeyboardControls * SimpleCharacterKeyboardControls::createFromProvider(PAX::ContentProvider &) {
-        return new SimpleCharacterKeyboardControls();
-    }
-    
-    void SimpleCharacterKeyboardControls::initializeFromProvider(PAX::ContentProvider & c) {
-        if (const auto & speed = c.get<float>("speed")) {
-            this->speed = speed.value();
-        }
+    PAX_PROPERTY_INIT(SimpleCharacterKeyboardControls) {
 
-        Super::initializeFromProvider(c);
+    }
+
+    ClassMetadata SimpleCharacterKeyboardControls::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(speed));
+        return m;
     }
 
     SimpleCharacterKeyboardControls::SimpleCharacterKeyboardControls() {
@@ -70,15 +66,15 @@ namespace PAX::Tiles {
         orientation = nullptr;
     }
 
-    void SimpleCharacterKeyboardControls::activated() {
-        Behaviour::activated();
+    void SimpleCharacterKeyboardControls::spawned() {
+        Super::spawned();
         EventService& e = Services::GetEventService();
         e.add<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
         e.add<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);
     }
 
-    void SimpleCharacterKeyboardControls::deactivated() {
-        Behaviour::deactivated();
+    void SimpleCharacterKeyboardControls::despawned() {
+        Super::despawned();
         EventService& e = Services::GetEventService();
         e.remove<KeyPressedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyPressed>(this);
         e.remove<KeyReleasedEvent, SimpleCharacterKeyboardControls, &SimpleCharacterKeyboardControls::onKeyReleased>(this);

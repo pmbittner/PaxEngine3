@@ -3,23 +3,32 @@
 //
 
 #include <paxcore/world/property/WorldLayerSize.h>
+#include <paxutil/reflection/EngineFieldFlags.h>
 #include "paxtiles/TileMapProperty.h"
 #include "paxtiles/TileMapGraphics.h"
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_INIT(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_INIT(PAX::Tiles::TileMapProperty) {
+            initialize();
 
-        TileMapProperty * TileMapProperty::createFromProvider(ContentProvider & provider) {
-            return new TileMapProperty(provider.requireResource<TileMap>("map"));
+            int i = 0;
+            for (TileMap::Layer & layer : tileMap->getLayers()) {
+                auto graphics = new TileMapGraphics(layer);
+                graphics->setShader(tileMapShader);
+                GameEntity & e = layerEntities[i];
+                e.add(graphics);
+                e.getTransformation().z() = static_cast<float>(layer.z);
+                //std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
+                ++i;
+            }
         }
 
-        void TileMapProperty::initializeFromProvider(ContentProvider & provider) {
-            Super::initializeFromProvider(provider);
-
-            if (auto s = provider.get<glm::vec3>("scale")) {
-                setScale(s.value());
-            }
+        ClassMetadata TileMapProperty::getMetadata() {
+            ClassMetadata m = Super::getMetadata();
+            m.add(paxfieldalias("map", tileMap)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
+            m.add(paxfieldof(scale));
+            return m;
         }
 
         std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
@@ -60,26 +69,17 @@ namespace PAX {
             scale(1),
             layerEntities(tileMap->getLayers().size())
         {
-            initialize();
-
-            int i = 0;
-            for (TileMap::Layer & layer : tileMap->getLayers()) {
-                auto graphics = new TileMapGraphics(layer);
-                graphics->setShader(tileMapShader);
-                GameEntity & e = layerEntities[i];
-                e.add(graphics);
-                e.getTransformation().z() = static_cast<float>(layer.z);
-                //std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
-                ++i;
-            }
+            init();
         }
+
+        TileMapProperty::TileMapProperty() = default;
 
         void TileMapProperty::attached(PAX::WorldLayer & worldLayer) {
             const glm::ivec2 worldSize = tileMap->getTileSize() * tileMap->getSizeInTiles();
 
             WorldLayerSize * worldLayerSize = getOwner()->get<WorldLayerSize>();
             if (!worldLayerSize) {
-                worldLayerSize = new WorldLayerSize(worldSize);
+                worldLayerSize = new (WorldLayer::GetPropertyAllocator().allocate<WorldLayerSize>()) WorldLayerSize(glm::vec3(worldSize, -1));
                 getOwner()->add(worldLayerSize);
             } else {
                 worldLayerSize->setSize2D(worldSize);

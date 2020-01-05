@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_CHARACTERORIENTATION_H
 #define PAXENGINE3_CHARACTERORIENTATION_H
 
-#include <paxcore/entity/GameEntityProperty.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
 
 namespace PAX::Tiles {
     class CharacterOrientation : public GameEntityProperty {

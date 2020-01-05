@@ -2,7 +2,7 @@
 // Created by paul on 08.11.18.
 //
 
-#include <paxcore/system/entity/LightSystem.h>
+#include <paxcore/system/gameentity/LightSystem.h>
 #include <paxcore/Engine.h>
 #include <paxcore/world/WorldLayer.h>
 #include <paxcore/rendering/light/AmbientLight.h>

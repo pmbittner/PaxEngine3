@@ -5,9 +5,9 @@
 #ifndef PAXENGINE3_SIMPLECHARACTERKEYBOARDCONTROLS_H
 #define PAXENGINE3_SIMPLECHARACTERKEYBOARDCONTROLS_H
 
-#include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
-#include <paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h>
+#include <paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
 #include <paxcore/service/Services.h>
 
@@ -39,8 +39,10 @@ namespace PAX::Tiles {
 
         void update(UpdateOptions & options) override;
 
-        void activated() override;
-        void deactivated() override;
+        void spawned() override;
+        void despawned() override;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

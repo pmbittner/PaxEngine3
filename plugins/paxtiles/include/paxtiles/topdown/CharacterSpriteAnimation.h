@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_CHARACTERSPRITEANIMATION_H
 #define PAXENGINE3_CHARACTERSPRITEANIMATION_H
 
-#include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/animation/Animation.h>
 

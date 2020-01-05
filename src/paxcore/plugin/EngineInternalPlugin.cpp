@@ -63,8 +63,8 @@ namespace PAX {
         static Json::JsonWorldLayerPrefabInitParser worldLayerPrefabInitParser;
         static Json::JsonWorldLayerGameEntityParser worldLayerPrefabGameEntityParser;
 
-        Prefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
-        Prefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
+        IPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
+        IPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
         Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonParserRegister());
         Json::JsonEntityPrefab<WorldLayer>::initialize(Services::GetJsonParserRegister());

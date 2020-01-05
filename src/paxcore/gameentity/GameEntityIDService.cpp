@@ -2,7 +2,7 @@
 // Created by Paul on 22.06.2019.
 //
 
-#include <paxcore/entity/GameEntityIDService.h>
+#include <paxcore/gameentity/GameEntityIDService.h>
 
 namespace PAX {
     GameEntityIDService::GameEntityIDService() = default;

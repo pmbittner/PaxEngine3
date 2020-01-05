@@ -13,6 +13,18 @@ namespace PAX {
     GameEntity::GameEntity() = default;
     GameEntity::~GameEntity() = default;
 
+    void GameEntity::onPropertyAdded(GameEntityProperty *property) {
+        if (worldLayer) {
+            property->spawned();
+        }
+    }
+
+    void GameEntity::onPropertyRemoved(GameEntityProperty *property) {
+        if (worldLayer) {
+            property->despawned();
+        }
+    }
+
     Transformation& GameEntity::getTransformation() {
         return transform;
     }
@@ -87,6 +99,18 @@ namespace PAX {
 
     const std::vector<Tag>& GameEntity::getTags() const {
         return tags;
+    }
+
+    void GameEntity::spawned() {
+        for (GameEntityProperty * p : getProperties()) {
+            p->spawned();
+        }
+    }
+
+    void GameEntity::despawned() {
+        for (GameEntityProperty * p : getProperties()) {
+            p->despawned();
+        }
     }
 
     bool GameEntity::isActive() const {

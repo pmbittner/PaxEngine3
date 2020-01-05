@@ -19,13 +19,17 @@ namespace PAX {
             Path targetMap;
             int targetTransitionID;
 
+            TileMapTransition();
+
         public:
             TileMapTransition(const Path & targetMap, int targetTransitionID);
 
-            void activated() override;
-            void deactivated() override;
+            void spawned() override;
+            void despawned() override;
 
             void onKeyDown(KeyPressedEvent & keyPressedEvent);
+
+            PAX_NODISCARD ClassMetadata getMetadata() override;
         };
     }
 }

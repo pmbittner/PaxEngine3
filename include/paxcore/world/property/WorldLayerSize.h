@@ -22,12 +22,13 @@ namespace PAX {
 
     public:
         explicit WorldLayerSize(const glm::vec3 & size = {-1.f, -1.f, -1.f});
-        explicit WorldLayerSize(const glm::vec2 & size = {-1.f, -1.f});
 
-        const glm::vec3 & getSize() const;
-        const glm::vec2 & getSize2D() const;
+        PAX_NODISCARD const glm::vec3 & getSize() const;
+        PAX_NODISCARD const glm::vec2 & getSize2D() const;
         void setSize(const glm::vec3& size);
         void setSize2D(const glm::vec2& size);
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
 

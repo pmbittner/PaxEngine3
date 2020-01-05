@@ -6,9 +6,10 @@
 #define PAXENGINE3_ENTITYCOMPONENT_H
 
 #include <polypropylene/property/Property.h>
-#include "GameEntity.h"
 
 namespace PAX {
+    class GameEntity;
+
     class GameEntityProperty : public Property<GameEntity> {
         PAX_PROPERTY(GameEntityProperty, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(Property<GameEntity>)
@@ -19,5 +20,7 @@ namespace PAX {
         virtual void despawned();
     };
 }
+
+#include "GameEntity.h"
 
 #endif //PAXENGINE3_ENTITYCOMPONENT_H

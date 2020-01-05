@@ -12,26 +12,29 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_INIT(TileMapTransition, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_INIT(TileMapTransition) {}
 
-        TileMapTransition::This * TileMapTransition::createFromProvider(PAX::ContentProvider & c) {
-            return new TileMapTransition(c.require<Path>("transition_target_map"), c.require<int>("transition_target_id"));
+        ClassMetadata TileMapTransition::getMetadata() {
+            ClassMetadata m = Super::getMetadata();
+            m.add(paxfieldalias("transition_target_map", targetMap)).flags = Field::IsMandatory;
+            m.add(paxfieldalias("transition_target_id", targetTransitionID)).flags = Field::IsMandatory;
+            return m;
         }
 
-        void TileMapTransition::initializeFromProvider(PAX::ContentProvider & c) {
-            Super::initializeFromProvider(c);
-        }
+        TileMapTransition::TileMapTransition() = default;
 
         TileMapTransition::TileMapTransition(const PAX::Path &targetMap, int targetTransitionID)
         : targetMap(targetMap), targetTransitionID(targetTransitionID)
         {
         }
 
-        void TileMapTransition::activated() {
+        void TileMapTransition::spawned() {
+            Super::spawned();
             Services::GetEventService().add<KeyPressedEvent, TileMapTransition, &TileMapTransition::onKeyDown>(this);
         }
 
-        void TileMapTransition::deactivated() {
+        void TileMapTransition::despawned() {
+            Super::despawned();
             Services::GetEventService().remove<KeyPressedEvent, TileMapTransition, &TileMapTransition::onKeyDown>(this);
         }
 

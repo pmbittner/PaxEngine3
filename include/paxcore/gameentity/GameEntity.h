@@ -20,13 +20,14 @@
 #include "MotionType.h"
 #include "Tag.h"
 
+#include "GameEntityProperty.h"
+
 namespace PAX {
     class World;
     class WorldLayer;
-    class GameEntityProperty;
     using GameEntityPrefab = Prefab<GameEntity>;
 
-    class GameEntity : public Entity<GameEntity, GameEntityProperty> {
+    class GameEntity final : public Entity<GameEntity, GameEntityProperty> {
         friend class World;
         friend class WorldLayer;
 
@@ -40,6 +41,10 @@ namespace PAX {
         std::vector<GameEntity*> children;
 
         WorldLayer *worldLayer = nullptr;
+
+    protected:
+        void onPropertyAdded(GameEntityProperty *property) override;
+        void onPropertyRemoved(GameEntityProperty *property) override;
 
     public:
         EventHandler<GameEntityParentChangedEvent&> OnParentChanged;
@@ -61,6 +66,9 @@ namespace PAX {
         bool removeTag(const Tag & tag);
         PAX_NODISCARD bool hasTag(const Tag & tag) const;
         PAX_NODISCARD const std::vector<Tag> & getTags() const;
+
+        void spawned();
+        void despawned();
 
         PAX_NODISCARD bool isActive() const;
     };

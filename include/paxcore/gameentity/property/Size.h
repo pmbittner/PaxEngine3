@@ -23,7 +23,7 @@ namespace PAX {
         };
 
     public:
-        explicit Size(const glm::vec3& size);
+        explicit Size(const glm::vec3& size = glm::vec3(0));
 
         void attached(GameEntity& entity) override;
 

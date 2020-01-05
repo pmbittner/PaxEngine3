@@ -22,8 +22,8 @@ namespace PAX {
             worldLayerProperties.erase(event.world);
         }
 
-        const std::set<WorldLayer*> & getWorldLayers() const {
-            return worldLayerProperties.at(WorldSystem::activeWorld).getContainers();
+        PAX_NODISCARD const std::set<WorldLayer*> & getWorldLayers() const {
+            return worldLayerProperties.at(WorldSystem::activeWorld).getEntities();
         }
     };
 }

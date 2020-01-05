@@ -6,6 +6,7 @@
 #define PAXENGINE3_JSONENTITYPREFABTRANSFORMATIONPARSER_H
 
 #include "polypropylene/serialisation/json/property/JsonEntityPrefab.h"
+#include "paxutil/math/json/JsonToTransformation.h"
 
 namespace PAX {
     namespace Json {

@@ -9,7 +9,7 @@
 
 #include <paxcore/rendering/RenderOptions.h>
 #include <paxcore/rendering/light/Light.h>
-#include <paxcore/system/entity/GameEntityPropertySystem.h>
+#include <paxcore/system/gameentity/GameEntityPropertySystem.h>
 
 namespace PAX {
     class LightSystem : public GameEntityPropertySystem<Light> {

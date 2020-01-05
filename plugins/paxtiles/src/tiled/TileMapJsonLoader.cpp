@@ -167,7 +167,7 @@ namespace PAX {
                         // We use these predefined variables as these are intended to be used in
                         // all our json resources.
                         // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place like Settings.
-                        PAX::Prefab::PreDefinedVariables);
+                        PAX::IPrefab::PreDefinedVariables);
                 std::shared_ptr<PAX::GameEntityPrefab> prefab = Services::GetResources().loadOrGet<GameEntityPrefab>(prefabPath);
 
                 if (obj.find("properties") != obj.end()) {
@@ -175,7 +175,7 @@ namespace PAX {
                         varRegister[property["name"]] =
                                 VariableResolver::resolveVariables(
                                         JsonToString(property["value"]),
-                                        PAX::Prefab::PreDefinedVariables);
+                                        PAX::IPrefab::PreDefinedVariables);
                     }
                 }
 

@@ -5,19 +5,15 @@
 #include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::WorldLayerSize, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_INIT(PAX::WorldLayerSize) {}
 
-    WorldLayerSize::This * WorldLayerSize::createFromProvider(PAX::ContentProvider & p) {
-        return new WorldLayerSize(p.require<glm::vec3>("size"));
-    }
-
-    void WorldLayerSize::initializeFromProvider(PAX::ContentProvider & p) {
-        Super::initializeFromProvider(p);
+    ClassMetadata WorldLayerSize::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(size));
+        return m;
     }
 
     WorldLayerSize::WorldLayerSize(const glm::vec3 &size) : size(size) {}
-
-    WorldLayerSize::WorldLayerSize(const glm::vec2 &size) : This(glm::vec3(size, -1.f)) {}
 
     const glm::vec3 & WorldLayerSize::getSize() const {
         return size;

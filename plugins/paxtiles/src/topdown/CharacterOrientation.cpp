@@ -5,15 +5,7 @@
 #include <paxtiles/topdown/CharacterOrientation.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_INIT(CharacterOrientation, PAX_PROPERTY_IS_CONCRETE)
-
-    CharacterOrientation * CharacterOrientation::createFromProvider(PAX::ContentProvider & c) {
-        return new CharacterOrientation();
-    }
-
-    void CharacterOrientation::initializeFromProvider(PAX::ContentProvider & c) {
-        Super::initializeFromProvider(c);
-    }
+    PAX_PROPERTY_INIT(CharacterOrientation) {}
 
     CharacterOrientation::CharacterOrientation() : GameEntityProperty(), facingDirection(0, 0) {}
 
