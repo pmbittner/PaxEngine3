@@ -6,7 +6,7 @@
 #define PAXENGINE3_CUBE_H
 
 #include <paxutil/lib/GlmIncludes.h>
-#include <paxcore/entity/GameEntity.h>
+#include <paxcore/gameentity/GameEntity.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/data/Mesh.h>
 #include <paxcore/rendering/factory/MeshFactory.h>

@@ -12,15 +12,13 @@
 #include <paxcore/rendering/camera/PerspectiveProjection.h>
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
 #include <paxcore/rendering/data/Texture.h>
-#include <paxcore/entity/property/behaviours/NoClipControls.h>
+#include <paxcore/gameentity/property/behaviours/NoClipControls.h>
 #include <paxcore/rendering/graphics/AssetGraphics.h>
 #include <paxcore/rendering/data/Material.h>
 #include <paxcore/rendering/light/DirectionalLight.h>
 #include <paxcore/rendering/light/AmbientLight.h>
-#include <paxcore/system/entity/LightSystem.h>
+#include <paxcore/system/gameentity/LightSystem.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
-
-#include "TestBehaviour.h"
 
 namespace PAX {
     namespace PlaygroundDemo {
