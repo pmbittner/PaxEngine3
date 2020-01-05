@@ -5,11 +5,7 @@
 #include "paxphysics/2d/RigidBody2D.h"
 
 namespace PAX::Physics {
-    PAX_PROPERTY_INIT(PAX::Physics::RigidBody2D, PAX_PROPERTY_IS_ABSTRACT)
-
-    void RigidBody2D::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
+    PAX_PROPERTY_INIT(PAX::Physics::RigidBody2D) {}
 
     RigidBody2D::RigidBody2D() = default;
 }

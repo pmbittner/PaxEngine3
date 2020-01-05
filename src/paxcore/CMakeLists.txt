@@ -117,7 +117,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h
         ../../include/paxcore/rendering/factory/TextureFactory.h
         ../../include/paxcore/gameentity/MotionType.h
-        ../../include/paxcore/system/PropertyOwningSystem.h
         ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h
         ../../include/paxcore/gameentity/Tag.h
         ../../include/paxcore/world/WorldLayerEvent.h

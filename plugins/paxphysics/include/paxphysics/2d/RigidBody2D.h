@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PHYSICS_H
 #define PAXENGINE3_PHYSICS_H
 
-#include <paxcore/entity/GameEntityProperty.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
 
 namespace PAX::Physics {
     class RigidBody2D : public GameEntityProperty {
