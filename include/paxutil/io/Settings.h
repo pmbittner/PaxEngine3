@@ -67,38 +67,38 @@ namespace PAX {
          * @param value The value the variable should have as a string.
          */
         void set(const std::string& varName, const std::string& value);
-        bool has(const std::string& varName) const;
+        PAX_NODISCARD bool has(const std::string& varName) const;
 
     private:
         void check(const std::string& varName) const;
 
         template<typename T>
-        std::vector<T> getTypeVector(const std::string &varName) const {
+        PAX_NODISCARD std::vector<T> getTypeVector(const std::string &varName) const {
             std::vector<std::string> stringTuple = getTypeVector<std::string>(varName);
             std::vector<T> tuple(stringTuple.size());
 
             for (unsigned int i = 0; i < stringTuple.size(); ++i) {
-                tuple[i] = Util::String::tryParse<T>(stringTuple[i]);
+                tuple[i] = String::tryParse<T>(stringTuple[i]);
             }
 
             return tuple;
         }
 
     public:
-        bool writeToFile(const Path& path, bool overwrite = false) const;
+        PAX_NODISCARD bool writeToFile(const Path& path, bool overwrite = false) const;
 
         /**
          * Returns false if the value is '0' or 'false'. Other values will result
          * in returning true.
          */
         template<typename T = std::string>
-        T get(const std::string& varName) const {
+        PAX_NODISCARD T get(const std::string& varName) const {
             check(varName);
             return String::tryParse<T>(settings.at(varName));
         }
 
         template<typename T = std::string>
-        T getOrDefault(const std::string& varName, const T& defaultValue = T()) const {
+        PAX_NODISCARD T getOrDefault(const std::string& varName, const T& defaultValue = T()) const {
             if (has(varName))
                 return String::tryParse<T>(settings.at(varName));
             else
@@ -119,7 +119,7 @@ namespace PAX {
         }
     };
 
-    template<> PAX_NODISCARD std::vector<std::string> Settings::getTypeVector<std::string>(const std::string &varName) const;
+    template<> PAX_NODISCARD auto Settings::getTypeVector<std::string>(const std::string &varName) const -> std::vector<std::string>;
 }
 
 #endif //PAXENGINE3_SETTINGS_H
