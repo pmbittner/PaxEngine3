@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_VULKANPLUGIN_H
 #define PAXENGINE3_VULKANPLUGIN_H
 
-#include <paxcore/EnginePlugin.h>
+#include <paxcore/plugin/EnginePlugin.h>
 
 namespace PAX {
     namespace Vulkan {
