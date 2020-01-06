@@ -8,7 +8,7 @@ include_directories(${OPENGL_INCLUDE_DIR})
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     #set(GLEW_INCLUDE_DIRS ${PAX_LIB_DIR}/win/lib/glew-2.1.0/include)
-    set(GLEW_LIBRARY ${PAX_LIB_DIR}/win/lib/glew-2.1.0/lib/Release/${PAX_OS_ARCHITECTURE}/glew32.lib)
+    set(GLEW_LIBRARIES ${PAX_LIB_DIR}/win/lib/glew-2.1.0/lib/Release/${PAX_OS_ARCHITECTURE}/glew32.lib)
 else()
     find_package(GLEW REQUIRED)
 endif()
@@ -56,4 +56,4 @@ add_library(paxopengl
         ${PAX_OPENGL_SOURCE_FILES}
         )
 
-target_link_libraries(paxopengl ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})
+target_link_libraries(paxopengl ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
