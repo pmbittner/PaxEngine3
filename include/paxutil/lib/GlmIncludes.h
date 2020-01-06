@@ -6,6 +6,7 @@
 #define PAXENGINE3_GLMINCLUDES_H
 
 #include "../macros/PlatformIncludes.h"
+#include "polypropylene/stdutils/StringUtils.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
@@ -30,6 +31,32 @@ template <template <int, int, typename, glm::qualifier> class matType, int dims0
 std::ostream& operator<<(std::ostream& os, matType<dims0, dims1, T, P> const & x)
 {
     return os << glm::to_string(x);
+}
+
+namespace PAX {
+
+
+    template<glm::length_t L, typename T, glm::qualifier Q>
+    class TryParser<std::string, glm::vec<L, T, Q>> {
+    public:
+        static glm::vec<L, T, Q> tryParse(const std::string &str) {
+            glm::vec<L, T, Q> ret(0);
+            const size_t strlen = str.length();
+
+            if (
+                    (str[0] == '(' && str[strlen-1] == ')')
+                    || (str[0] == '[' && str[strlen-1] == ']')
+                    ) {
+                std::string liststr = str.substr(1, strlen - 2);
+                std::vector<std::string> numbers = String::split(',', liststr, false);
+
+                for (glm::length_t i = 0; i < L && i < numbers.size(); ++i)
+                    ret[i] = String::tryParse<T>(numbers[i]);
+            }
+
+            return ret;
+        }
+    };
 }
 
 #endif //PAXENGINE3_GLMINCLUDES_H
