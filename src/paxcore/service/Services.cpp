@@ -18,7 +18,7 @@ namespace PAX {
     }
 
     void Services::initialize() {
-        _globalSettings.parse("../core.paxconfig");
+        _globalSettings.parse("core.paxconfig");
         Path resDir = _globalSettings.getOrDefault<Path>("core_resourceDirectory", "ResourceDirectoryIsNotSet");
         _paths.setAbsoluteResourceDirectory(resDir);
 

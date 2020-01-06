@@ -41,6 +41,9 @@ namespace PAX {
 
             void initialize() override {
                 Game::initialize();
+
+                PAX_LOG_DEBUG(PAX::Log::Level::Info, "Working Directory = " << Services::GetPaths().getWorkingDirectory());
+
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
                 /// Load the game's initialisation settings
