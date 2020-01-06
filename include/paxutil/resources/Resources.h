@@ -143,6 +143,7 @@ namespace PAX {
             return res;
         }
 
+        // TODO: Delete this function
         template<typename Resource>
         std::shared_ptr<Resource> loadOrGetFromVariableRegister(const VariableHierarchy & vars) {
             const auto & loaders = getLoaders<Resource>();
@@ -197,6 +198,15 @@ namespace PAX {
             if (get<Resource>(p...))
                 throw ResourceAlreadyCachedException(print<Resource>(p...));
             return loadAndRegisterResource<Resource>(p...) != nullptr;
+        }
+
+        /**
+         * Tries to get the resource with the given parameters from the cache.
+         * If this fails, the resource will be loaded and cached.
+         */
+        template<typename Resource>
+        std::shared_ptr<Resource> loadOrGetFromJson(const nlohmann::json & j) {
+            PAX_NOT_IMPLEMENTED();
         }
 
         void collectGarbage();

@@ -11,8 +11,8 @@
 
 #include "polypropylene/log/Log.h"
 
-#include <paxcore/entity/GameEntity.h>
-#include <paxcore/entity/property/behaviours/NoClipControls.h>
+#include <paxcore/gameentity/GameEntity.h>
+#include <paxcore/gameentity/property/behaviours/NoClipControls.h>
 
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
 #include <paxcore/rendering/geometry/ScreenFillingQuad.h>
