@@ -96,6 +96,25 @@ namespace PAX {
         resources.registerLoader(&worldLayerFromJsonLoader);
     }
 
+    void EngineInternalPlugin::registerJsonParsers(Json::JsonParserRegister & parserRegister) {
+        jsonTextureParser.registerAt(parserRegister);
+
+#define PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(type) \
+    { \
+        static Json::JsonParser<type> parser; \
+        parserRegister.registerParser(paxtypeid(type), &parser); \
+    }
+
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::vec2)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::vec3)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::vec4)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec2)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec3)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec4)
+
+#undef PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE
+    }
+
     void EngineInternalPlugin::registerServices(PAX::Services &services) {
 
     }

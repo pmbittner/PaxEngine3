@@ -9,6 +9,7 @@
 
 namespace PAX::EngineFieldFlags {
     constexpr FieldFlag IsResource = Field::CustomFlagsBegin;
+    constexpr FieldFlag IsList = IsResource * 2;
 }
 
 #endif //PAXENGINE3_ENGINEFIELDFLAGS_H

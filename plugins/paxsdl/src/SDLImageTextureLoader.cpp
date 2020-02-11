@@ -62,8 +62,8 @@ namespace PAX {
 #endif
     }
 
-    std::shared_ptr<Texture> SDLImageTextureLoader::loadToOrGetFromResources(Resources &resources,
-                                                                                   const VariableHierarchy &parameters) {
-        return loadFromPath("SDLImageTextureLoader", resources, parameters);
+    std::shared_ptr<Texture> SDLImageTextureLoader::loadOrGetFromJson(Resources &resources,
+            const nlohmann::json & j) const {
+        return resources.loadOrGet<Texture>(JsonToPath(j));
     }
 }

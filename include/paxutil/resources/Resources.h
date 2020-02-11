@@ -11,10 +11,10 @@
 #include <exception>
 
 #include <utility> // std::forward
+#include <iomanip> // std::setw
 
 #include <polypropylene/reflection/TypeMap.h>
 #include <polypropylene/stdutils/CollectionUtils.h>
-#include <polypropylene/reflection/VariableRegister.h>
 
 #include "ResourceLoader.h"
 #include "ResourceHandle.h"
@@ -103,13 +103,21 @@ namespace PAX {
         }
 
         template<typename Resource>
-        const std::vector<ResourceLoaderT<Resource>*> & getLoaders() {
+        PAX_NODISCARD std::vector<ResourceLoaderT<Resource>*> getLoaders() {
             std::vector<IResourceLoader *> &loaders = _loaders[paxtypeid(Resource)];
-            return *reinterpret_cast<std::vector<ResourceLoaderT<Resource>*>*>(&loaders);
+            std::vector<ResourceLoaderT<Resource>*> typedLoaders(loaders.size());
+
+            for (size_t i = 0; i < loaders.size(); ++i) {
+                typedLoaders[i] = dynamic_cast<ResourceLoaderT<Resource>*>(loaders[i]);
+                if (!typedLoaders[i]) {
+                    PAX_THROW_RUNTIME_ERROR("IResourceLoader " << loaders[i] << " is registered for " << paxtypeid(Resource).name() << ", but is not of type ResourceLoaderT<..>!");
+                }
+            }
+            return typedLoaders;
         }
 
         template<typename Resource, typename... Params>
-        ResourceLoader<Resource, Params...>* getLoader(Params... params) {
+        PAX_NODISCARD ResourceLoader<Resource, Params...>* getLoader(Params... params) {
             std::vector<IResourceLoader *> &possibleLoaders = _loaders[paxtypeid(Resource)];
             for (IResourceLoader *possibleLoader : possibleLoaders) {
                 auto *loader = dynamic_cast<ResourceLoader<Resource, Params...> *>(possibleLoader);
@@ -128,7 +136,7 @@ namespace PAX {
          * If this fails, the resource will be loaded and cached.
          */
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource> loadOrGet(Params... p) {
+        PAX_NODISCARD std::shared_ptr<Resource> loadOrGet(Params... p) {
             //std::cout << "[Resources::loadOrGet] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             std::shared_ptr<Resource> &res = get<Resource>(p...);
             if (!res) {
@@ -143,9 +151,10 @@ namespace PAX {
             return res;
         }
 
+        /*
         // TODO: Delete this function
         template<typename Resource>
-        std::shared_ptr<Resource> loadOrGetFromVariableRegister(const VariableHierarchy & vars) {
+        PAX_NODISCARD std::shared_ptr<Resource> loadOrGetFromVariableRegister(const VariableHierarchy & vars) {
             const auto & loaders = getLoaders<Resource>();
 
             for (ResourceLoaderT<Resource> * loader : loaders) {
@@ -154,7 +163,7 @@ namespace PAX {
             }
 
             return nullptr;
-        }
+        }//*/
 
         /**
          * Loads the resource of the given Type with the given parameters. This will only succeed if a
@@ -162,7 +171,7 @@ namespace PAX {
          * will NOT be cached and already cached resources for this type and signature will be ignored!
          */
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource> load(Params... p) {
+        PAX_NODISCARD std::shared_ptr<Resource> load(Params... p) {
             std::shared_ptr<Resource> res = loadResource<Resource>(p...);
 
             if (!res)
@@ -175,7 +184,7 @@ namespace PAX {
          * @return The resource, that is cached for the given parameters. Returns nullptr, if no resource is cached.
          */
         template<typename Resource, typename... Params>
-        std::shared_ptr<Resource>& get(Params... p) {
+        PAX_NODISCARD std::shared_ptr<Resource>& get(Params... p) {
             //std::cout << "[Resources::get_withCorrectPaths] " << print<Resource, Params...>(p...) << std::endl << std::endl;
             TypedResourceHandle<Resource> *handle = getHandle<Resource, Params...>(p...);
             if (handle) {
@@ -205,31 +214,20 @@ namespace PAX {
          * If this fails, the resource will be loaded and cached.
          */
         template<typename Resource>
-        std::shared_ptr<Resource> loadOrGetFromJson(const nlohmann::json & j) {
-            PAX_NOT_IMPLEMENTED();
+        PAX_NODISCARD std::shared_ptr<Resource> loadOrGetFromJson(const nlohmann::json & j) {
+            PAX_LOG_DEBUG(Log::Level::Info, "type = " << paxtypeid(Resource).name() << "; json =\n" << std::setw(2) << j);
+
+            std::vector<ResourceLoaderT<Resource>*> loaders = getLoaders<Resource>();
+            for (ResourceLoaderT<Resource> * possibleLoader : loaders) {
+                std::shared_ptr<Resource> resource = possibleLoader->loadOrGetFromJson(*this, j);
+                if (resource) return resource;
+            }
+
+            PAX_THROW_RUNTIME_ERROR("Could not load resource \"" << paxtypeid(Resource).name() << "\" from json:\n" << std::setw(2) << j);
         }
 
         void collectGarbage();
     };
-
-    template<typename Resource>
-    std::shared_ptr<Resource> ResourceLoaderT<Resource>::loadFromPath(const std::string & loaderName, Resources & resources, const VariableHierarchy & parameters) {
-        // Only one entry is required, namely the Path
-        if (parameters.values.size() == 1) {
-            const std::string & key = parameters.values.begin()->first;
-            if (!key.empty()) {
-                return resources.loadOrGet<Resource>(Path(key));
-            }
-            const std::string & value = parameters.values.begin()->second;
-            if (!value.empty()) {
-                return resources.loadOrGet<Resource>(Path(value));
-            }
-        }
-
-        PAX_LOG(Log::Level::Error, "[" << loaderName << "::loadToOrGetFromResources] Could not obtain path from parameters!");
-
-        return nullptr;
-    }//*/
 }
 
 #endif //PAXENGINE3_RESOURCES_H

@@ -20,7 +20,7 @@ namespace PAX {
 
         PAX_NODISCARD bool canLoad(Path path) const override;
         PAX_NODISCARD std::shared_ptr<Texture> load(Path path) override;
-        std::shared_ptr<Texture> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+        PAX_NODISCARD std::shared_ptr<Texture> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const override;
 
     };
 }

@@ -9,6 +9,9 @@
 
 #include "paxutil/resources/Resources.h"
 
+#include "polypropylene/serialisation/json/Json.h"
+#include "polypropylene/serialisation/json/JsonUtil.h"
+
 bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) const {
     return true;
 }
@@ -30,40 +33,40 @@ std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::load(Shader::FileI
 }
 
 //*
-std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                                       const PAX::VariableHierarchy &parameters) {
+std::shared_ptr<PAX::Shader> PAX::OpenGL::OpenGLShaderLoader::loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const {
     Shader::FileInfo fileInfo;
     Shader::Flags flags;
 
     // required vars
     {
-        fileInfo.VertexPath   = parameters.tryGet("Vertex");
-        fileInfo.FragmentPath = parameters.tryGet("Fragment");
+        fileInfo.VertexPath   = j["Vertex"];
+        fileInfo.FragmentPath = j["Fragment"];
     }
 
     // optional vars
 #define PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(var, str, vars, op) { \
 const auto & it = vars.find(str); \
 if (it != vars.end()) { \
-    var op it->second; \
+    var op ::PAX::JsonToString(it.value()); \
 }}
+
     {
-        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.ComputePath, "Compute", parameters.values, +)
-        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.GeometryPath, "Geometry", parameters.values, +)
-        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.TessControlPath, "TessControl", parameters.values, +)
-        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.TessEvaluationPath, "TessEvaluation", parameters.values, +)
+        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.ComputePath, "Compute", j, =)
+        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.GeometryPath, "Geometry", j, =)
+        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.TessControlPath, "TessControl", j, =)
+        PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(fileInfo.TessEvaluationPath, "TessEvaluation", j, =)
     }
 
     {
-        const auto & flagsIt = parameters.children.find("Flags");
-        if (flagsIt != parameters.children.end()) {
-            VariableHierarchy flagVars = flagsIt->second;
-            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.VertexFlags, "Vertex", flagVars.values, +=)
-            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.FragmentFlags, "Fragment", flagVars.values, +=)
-            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.ComputeFlags, "Compute", flagVars.values, +=)
-            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.GeometryFlags, "Geometry", flagVars.values, +=)
-            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.TessControlFlags, "TessControl", flagVars.values, +=)
-            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.TessEvaluationFlags, "TessEvaluation", flagVars.values, +=)
+        const auto & flagsIt = j.find("Flags");
+        if (flagsIt != j.end()) {
+            const nlohmann::json & flagVars = flagsIt.value();
+            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.VertexFlags, "Vertex", flagVars, +=)
+            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.FragmentFlags, "Fragment", flagVars, +=)
+            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.ComputeFlags, "Compute", flagVars, +=)
+            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.GeometryFlags, "Geometry", flagVars, +=)
+            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.TessControlFlags, "TessControl", flagVars, +=)
+            PAX_OPENGLSHADERLOADER_GETFROMVARREG_IFEXISTS(flags.TessEvaluationFlags, "TessEvaluation", flagVars, +=)
         }
     }
 

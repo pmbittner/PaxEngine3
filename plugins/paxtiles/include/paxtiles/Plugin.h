@@ -8,6 +8,7 @@
 #include <paxcore/plugin/EnginePlugin.h>
 #include "tiled/TileMapJsonLoader.h"
 #include "tiled/TileSetJsonLoader.h"
+#include "paxutil/resources/JsonResourceParser.h"
 
 namespace PAX {
     namespace Tiles {
@@ -15,8 +16,12 @@ namespace PAX {
             TileMapJsonLoader tiledMapLoader;
             TileSetJsonLoader tiledSetLoader;
 
+            ::PAX::JsonResourceParser<::PAX::Tiles::TileMap> jsonTileMapParser;
+            ::PAX::JsonResourceParser<::PAX::Tiles::TileSet> jsonTileSetParser;
+
         public:
             void registerResourceLoaders(PAX::Resources &resources) override;
+            void registerJsonParsers(::PAX::Json::JsonParserRegister & parserRegister) override;
             void registerProperties() override;
         };
     }

@@ -14,7 +14,7 @@ namespace PAX {
                 public ResourceLoader<Shader, Shader::FileInfo>,
                 public ResourceLoader<Shader, Shader::FileInfo, Shader::Flags> {
         public:
-            std::shared_ptr<Shader> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+            PAX_NODISCARD std::shared_ptr<Shader> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const override;
 
             PAX_NODISCARD bool canLoad(Shader::FileInfo) const override;
             PAX_NODISCARD std::shared_ptr<Shader> load(Shader::FileInfo) override;

@@ -11,7 +11,7 @@
 namespace PAX {
     class SpriteSheetLoader : public ResourceLoader<SpriteSheet, Path, int, int> {
     public:
-        std::shared_ptr<SpriteSheet> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+        std::shared_ptr<SpriteSheet> loadOrGetFromJson(Resources & resources, const nlohmann::json & json) const override;
         PAX_NODISCARD bool canLoad(Path, int, int) const override;
         PAX_NODISCARD std::shared_ptr<SpriteSheet> load(Path, int, int) override;
     };

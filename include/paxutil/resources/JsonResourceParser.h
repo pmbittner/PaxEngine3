@@ -14,6 +14,10 @@ namespace PAX {
     template<typename Resource>
     class JsonResourceParser : public Json::IJsonParser {
     public:
+        void registerAt(Json::JsonParserRegister & parserRegister) {
+            parserRegister.registerParser(paxtypeid(std::shared_ptr<Resource>), this);
+        }
+
         PAX_NODISCARD bool loadIntoField(const nlohmann::json & j, Field &field) const override {
             if (field.flags & EngineFieldFlags::IsResource) {
                 if (field.type.id == paxtypeid(std::shared_ptr<Resource>)) {
@@ -31,10 +35,11 @@ namespace PAX {
         PAX_NODISCARD bool loadIntoJson(const Field & field, nlohmann::json & j) const override {
             if (field.flags & EngineFieldFlags::IsResource) {
                 if (field.type.id == paxtypeid(std::shared_ptr<Resource>)) {
-                    j.emplace(field.name, static_cast<std::shared_ptr<Resource>*>(field.data)->get()->toJson());
+                    //j.emplace(field.name, static_cast<std::shared_ptr<Resource>*>(field.data)->get()->toJson());
+                    PAX_NOT_IMPLEMENTED();
                     return true;
                 } else {
-                    PAX_THROW_RUNTIME_ERROR("The type of the given field (" << field.name << ") is not std::shared_ptr<" << paxtypeid(Resource).name() << "> but " << field.type.name());
+                    PAX_THROW_RUNTIME_ERROR("The type of the given field \"" << field.name << "\" is not std::shared_ptr<" << paxtypeid(Resource).name() << "> but " << field.type.name());
                 }
             } else {
                 PAX_THROW_RUNTIME_ERROR("Given field \"" << field.name << "\" is not flagged with EngineFieldFlags::IsResource!");

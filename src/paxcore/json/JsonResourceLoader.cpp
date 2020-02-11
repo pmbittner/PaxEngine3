@@ -17,7 +17,7 @@ namespace PAX {
         return std::make_shared<nlohmann::json>(l.load(p));
     }
 
-    std::shared_ptr<nlohmann::json> JsonResourceLoader::loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) {
-        loadFromPath("JsonResourceLoader", resources, parameters);
+    std::shared_ptr<nlohmann::json> JsonResourceLoader::loadOrGetFromJson(Resources &resources, const nlohmann::json & j) const {
+        return resources.loadOrGet<nlohmann::json>(JsonToPath(j));
     }
 }

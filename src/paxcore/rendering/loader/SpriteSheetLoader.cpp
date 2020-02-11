@@ -18,10 +18,10 @@ namespace PAX {
 
     //*/
     std::shared_ptr<SpriteSheet>
-    SpriteSheetLoader::loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) {
-        Path p      = parameters.tryGet("Path");
-        int columns = String::tryParse<int>(parameters.tryGet("Columns"));
-        int rows    = String::tryParse<int>(parameters.tryGet("Rows"));
+    SpriteSheetLoader::loadOrGetFromJson(Resources &resources, const nlohmann::json & j) const {
+        Path p      = JsonToString(j["Path"]);
+        int columns = String::tryParse<int>(JsonToString(j["Columns"]));
+        int rows    = String::tryParse<int>(JsonToString(j["Rows"]));
         return resources.loadOrGet<SpriteSheet>(p, columns, rows);
     }//*/
 }

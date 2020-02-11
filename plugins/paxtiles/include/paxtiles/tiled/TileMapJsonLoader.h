@@ -26,9 +26,9 @@ namespace PAX {
                     const std::vector<int> & gids);
 
         public:
-            bool canLoad(Path) const override;
-            std::shared_ptr<TileMap> load(Path) override;
-            std::shared_ptr<TileMap> loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) override;
+            PAX_NODISCARD bool canLoad(Path) const override;
+            PAX_NODISCARD std::shared_ptr<TileMap> load(Path) override;
+            PAX_NODISCARD std::shared_ptr<TileMap> loadOrGetFromJson(Resources &resources, const nlohmann::json & j) const override;
         };
     }
 }

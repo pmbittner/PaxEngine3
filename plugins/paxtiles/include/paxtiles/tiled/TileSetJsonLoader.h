@@ -12,9 +12,9 @@ namespace PAX {
     namespace Tiles {
         class TileSetJsonLoader : public ResourceLoader<TileSet, Path> {
         public:
-            bool canLoad(Path) const override;
-            std::shared_ptr<TileSet> load(Path) override;
-            std::shared_ptr<TileSet> loadToOrGetFromResources(Resources &resources, const VariableHierarchy &parameters) override;
+            PAX_NODISCARD bool canLoad(Path) const override;
+            PAX_NODISCARD std::shared_ptr<TileSet> load(Path) override;
+            PAX_NODISCARD std::shared_ptr<TileSet> loadOrGetFromJson(Resources &resources, const nlohmann::json & j) const override;
         };
     }
 }

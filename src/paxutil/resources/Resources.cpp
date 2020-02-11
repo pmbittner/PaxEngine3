@@ -22,6 +22,7 @@ namespace PAX {
     }
 
     void Resources::collectGarbage() {
+        // TODO: Repeat the process until no deallocations happen because there might be dependencies between resources.
         for (std::pair<const std::type_index, std::unordered_set<ResourceHandle*>> &kv : _resourcesInUse) {
             std::unordered_set<ResourceHandle*> &handles = kv.second;
             std::unordered_set<ResourceHandle*> resourcesToDelete;

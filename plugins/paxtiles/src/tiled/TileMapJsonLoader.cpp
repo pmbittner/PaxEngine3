@@ -14,9 +14,9 @@ namespace PAX {
             return Services::GetResources().getLoader<nlohmann::json>(path) != nullptr;
         }
 
-        std::shared_ptr<TileMap> TileMapJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                             const PAX::VariableHierarchy &parameters) {
-            return loadFromPath("TileMapJsonLoader", resources, parameters);
+        std::shared_ptr<TileMap> TileMapJsonLoader::loadOrGetFromJson(PAX::Resources &resources,
+                                                                             const nlohmann::json & j) const {
+            return resources.loadOrGet<TileMap>(JsonToPath(j));
         }
 
         std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {

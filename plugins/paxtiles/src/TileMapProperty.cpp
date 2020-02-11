@@ -12,6 +12,8 @@ namespace PAX {
         PAX_PROPERTY_INIT(PAX::Tiles::TileMapProperty) {
             initialize();
 
+            layerEntities = std::vector<GameEntity>(tileMap->getLayers().size());
+
             int i = 0;
             for (TileMap::Layer & layer : tileMap->getLayers()) {
                 auto graphics = new TileMapGraphics(layer);
@@ -19,7 +21,6 @@ namespace PAX {
                 GameEntity & e = layerEntities[i];
                 e.add(graphics);
                 e.getTransformation().z() = static_cast<float>(layer.z);
-                //std::cout << layer.getMap() << " has z = " << layer.z << std::endl;
                 ++i;
             }
         }
@@ -66,8 +67,7 @@ namespace PAX {
 
         TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) :
             tileMap(tilemap),
-            scale(1),
-            layerEntities(tileMap->getLayers().size())
+            scale(1)
         {
             init();
         }

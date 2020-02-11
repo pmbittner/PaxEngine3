@@ -36,9 +36,9 @@ namespace PAX {
             return tileSet;
         }
 
-        std::shared_ptr<TileSet> TileSetJsonLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                             const PAX::VariableHierarchy &parameters) {
-            return loadFromPath("TileSetJsonLoader", resources, parameters);
+        std::shared_ptr<TileSet> TileSetJsonLoader::loadOrGetFromJson(PAX::Resources &resources,
+                                                                             const nlohmann::json & j) const {
+            return resources.loadOrGet<TileSet>(JsonToPath(j));
         }
     }
 }

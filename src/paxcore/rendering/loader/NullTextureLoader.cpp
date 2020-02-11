@@ -71,8 +71,8 @@ namespace PAX {
         return _texture;
     }
 
-    std::shared_ptr<Texture> NullTextureLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                               const PAX::VariableHierarchy &parameters) {
-        return load(Path());
+    std::shared_ptr<Texture> NullTextureLoader::loadOrGetFromJson(PAX::Resources &resources,
+                                                                               const nlohmann::json & j) const {
+        return resources.loadOrGet<Texture>(JsonToPath(j));
     }
 }

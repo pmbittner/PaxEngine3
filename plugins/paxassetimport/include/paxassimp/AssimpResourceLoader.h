@@ -11,14 +11,12 @@
 namespace PAX {
     namespace AssetImport {
         class AssimpResourceLoader : public ResourceLoader<Asset, Path> {
-        protected:
-            virtual std::shared_ptr<Asset> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
-
         public:
             AssimpResourceLoader() = default;
 
-            virtual bool canLoad(Path p) const override;
-            virtual std::shared_ptr<Asset> load(Path p) override;
+            PAX_NODISCARD bool canLoad(Path p) const override;
+            PAX_NODISCARD std::shared_ptr<Asset> load(Path p) override;
+            PAX_NODISCARD std::shared_ptr<Asset> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const override;
         };
     }
 }

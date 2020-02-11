@@ -10,6 +10,7 @@
 #include <paxcore/rendering/loader/NullTextureLoader.h>
 #include <paxcore/rendering/loader/SpriteSheetLoader.h>
 #include <paxcore/json/JsonResourceLoader.h>
+#include <paxutil/resources/JsonResourceParser.h>
 
 namespace PAX {
     class EngineInternalPlugin : public PAX::EnginePlugin {
@@ -18,6 +19,7 @@ namespace PAX {
         NullTextureLoader nullTextureLoader;
         SpriteSheetLoader spriteSheetLoader;
         JsonResourceLoader jsonLoader;
+        JsonResourceParser<Texture> jsonTextureParser;
 
     public:
         void initialize(PAX::Engine& engine) override;
@@ -25,6 +27,7 @@ namespace PAX {
 
         void registerServices(PAX::Services& services) override;
         void registerResourceLoaders(PAX::Resources& resources) override;
+        void registerJsonParsers(Json::JsonParserRegister & parserRegister) override;
         void registerFactories(PAX::FactoryService& factoryService) override;
         void registerProperties() override;
     };

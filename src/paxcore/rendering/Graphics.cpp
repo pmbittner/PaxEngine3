@@ -11,7 +11,7 @@ namespace PAX {
 
     ClassMetadata Graphics::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(Field("Shader", paxtypeof(_shader), &_shader, Field::IsMandatory & EngineFieldFlags::IsResource));
+        m.add(Field("Shader", paxtypeof(_shader), &_shader, Field::IsMandatory | EngineFieldFlags::IsResource));
         return m;
     }
 

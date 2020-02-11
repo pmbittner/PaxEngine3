@@ -7,7 +7,7 @@
 
 #include <paxutil/math/BoundingBox.h>
 #include <polypropylene/event/EventHandler.h>
-#include <paxutil/StringUtils.h>
+#include <polypropylene/stdutils/StringUtils.h>
 
 namespace PAX::Physics {
     class Shape2D {

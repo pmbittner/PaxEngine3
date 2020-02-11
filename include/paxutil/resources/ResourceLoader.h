@@ -8,7 +8,7 @@
 #include <memory>
 #include <map>
 
-#include "polypropylene/reflection/VariableRegister.h"
+#include "polypropylene/serialisation/json/JsonUtil.h"
 
 // This is just for use in subclasses, where Path is needed almost every time.
 #include "polypropylene/io/Path.h"
@@ -25,10 +25,8 @@ namespace PAX {
     template<typename Resource>
     class ResourceLoaderT : public virtual IResourceLoader {
         friend class Resources;
-    protected:
-        // FIXME: Remove these methods
-        virtual std::shared_ptr<Resource> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) = 0;
-        std::shared_ptr<Resource> loadFromPath(const std::string & loaderName, Resources & resources, const VariableHierarchy & parameters);
+    public:
+        PAX_NODISCARD virtual std::shared_ptr<Resource> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const = 0;
     };
 
     template<typename Resource, typename... Params>

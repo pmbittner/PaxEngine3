@@ -25,8 +25,8 @@ namespace PAX {
             return std::make_shared<Json::JsonEntityPrefab<EntityType>>(loader.load(p));
         }
 
-        PAX_NODISCARD std::shared_ptr<Prefab<EntityType>> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override {
-            return ResourceLoaderT<Prefab<EntityType>>::loadFromPath(std::string("JsonEntityPrefabResourceLoader<") + typeid(EntityType).name() + ">", resources, parameters);
+        PAX_NODISCARD std::shared_ptr<Prefab<EntityType>> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const override {
+            return resources.loadOrGet<Prefab<EntityType>>(JsonToPath(j));
         }
     };
 }

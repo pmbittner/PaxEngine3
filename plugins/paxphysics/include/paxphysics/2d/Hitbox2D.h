@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_HITBOX2D_H
 #define PAXENGINE3_HITBOX2D_H
 
-#include <paxcore/entity/GameEntityProperty.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxphysics/2d/shape/Shape2D.h>
 #include "Fixture2D.h"
 
@@ -22,6 +22,8 @@ namespace PAX::Physics {
     public:
         Hitbox2D();
         ~Hitbox2D() override = 0;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
 
         virtual void setFixtures(const std::vector<Fixture2D> & fixtures);
         PAX_NODISCARD const std::vector<Fixture2D> & getFixtures() const;

@@ -18,9 +18,14 @@ namespace PAX {
     }
 
     void Services::initialize() {
-        _globalSettings.parse("core.paxconfig");
-        Path resDir = _globalSettings.getOrDefault<Path>("core_resourceDirectory", "ResourceDirectoryIsNotSet");
+        const Path configFile = Path("core.paxconfig").toAbsolute();
+        _globalSettings.parse(configFile);
+
+        Log::instance.currentLevel = _globalSettings.getOrDefault("core_loglevel", Log::instance.currentLevel);
+
+        Path resDir = _globalSettings.get<Path>("core_resourceDirectory");
         _paths.setAbsoluteResourceDirectory(resDir);
+        PAX_LOG(Log::Level::Info, "Resource Directory set to \"" << resDir << "\"");
 
         _windowService.initialize();
 

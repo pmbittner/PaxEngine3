@@ -274,9 +274,8 @@ namespace PAX {
             return nullptr;
         }
 
-        std::shared_ptr<Asset> AssimpResourceLoader::loadToOrGetFromResources(PAX::Resources &resources,
-                                                                              const PAX::VariableHierarchy &parameters) {
-            return loadFromPath("AssimpResourceLoader", resources, parameters);
+        std::shared_ptr<Asset> AssimpResourceLoader::loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const {
+            return resources.loadOrGet<Asset>(JsonToPath(j));
         }
     }
 }

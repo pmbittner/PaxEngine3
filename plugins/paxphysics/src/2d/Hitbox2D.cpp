@@ -3,17 +3,18 @@
 //
 
 #include <paxphysics/2d/Hitbox2D.h>
+#include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_INIT(PAX::Physics::Hitbox2D, PAX_PROPERTY_IS_ABSTRACT)
+    PAX_PROPERTY_INIT(PAX::Physics::Hitbox2D) {
 
-    void Hitbox2D::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-        setFixtures(provider.requireList<::PAX::Physics::Fixture2D>("fixtures"));
+    }
 
-        if (auto fixedRot = provider.get<bool>("fixedRotation")) {
-            setFixedRotation(fixedRot.value());
-        }
+    ClassMetadata Hitbox2D::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(Field("fixtures", paxtypeof(Fixture2D), &fixtures, EngineFieldFlags::IsList));
+        m.add(paxfieldof(fixedRotation));
+        return m;
     }
 
     Hitbox2D::Hitbox2D() = default;

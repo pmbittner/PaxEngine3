@@ -34,8 +34,6 @@ std::ostream& operator<<(std::ostream& os, matType<dims0, dims1, T, P> const & x
 }
 
 namespace PAX {
-
-
     template<glm::length_t L, typename T, glm::qualifier Q>
     class TryParser<std::string, glm::vec<L, T, Q>> {
     public:
