@@ -31,6 +31,7 @@ namespace PAX {
         void onViewportHeightChanged(int oldHeight, int newHeight);
 
         Camera();
+        void init();
 
     public:
         explicit Camera(Viewport * viewport, Projection * projection);
@@ -46,6 +47,7 @@ namespace PAX {
         PAX_NODISCARD bool areProjectionResolutionToViewportResolutionSynced() const;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
+        void created() override;
     };
 }
 

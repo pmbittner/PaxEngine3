@@ -9,7 +9,9 @@
 #include <paxcore/rendering/camera/PixelScreenProjection.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::Camera) {
+    PAX_PROPERTY_IMPL(PAX::Camera)
+
+    void Camera::init() {
         PAX_ASSERT_NOT_NULL(viewport, "Viewport not initialised!");
         PAX_ASSERT_NOT_NULL(projection, "Viewport not initialised!");
 
@@ -23,6 +25,11 @@ namespace PAX {
         }
     }
 
+    void Camera::created() {
+        Super::created();
+        init();
+    }
+
     ClassMetadata Camera::getMetadata() {
         ClassMetadata m = Super::getMetadata();
         m.add(paxfieldof(viewport)).flags = Field::IsMandatory;
@@ -34,8 +41,6 @@ namespace PAX {
     Camera::Camera() = default;
 
     Camera::Camera(Viewport * viewport, Projection * projection) : viewport(viewport), projection(projection) {
-        PAX_ASSERT_NOT_NULL(viewport, "Viewport can't be null!");
-        PAX_ASSERT_NOT_NULL(projection, "Projection can't be null!");
         init();
     }
 

@@ -6,7 +6,7 @@
 #include <paxutil/math/Angles.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::SpotLight) {}
+    PAX_PROPERTY_IMPL(PAX::SpotLight)
 
     ClassMetadata SpotLight::getMetadata() {
         ClassMetadata m = Super::getMetadata();

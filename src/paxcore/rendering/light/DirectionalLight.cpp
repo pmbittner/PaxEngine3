@@ -5,7 +5,7 @@
 #include <paxcore/rendering/light/DirectionalLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::DirectionalLight) {}
+    PAX_PROPERTY_IMPL(PAX::DirectionalLight)
 
     ClassMetadata DirectionalLight::getMetadata() {
         ClassMetadata m = Super::getMetadata();

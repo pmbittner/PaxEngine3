@@ -23,6 +23,7 @@ namespace PAX {
             static void initialize();
 
             TileMapProperty();
+            void init();
 
         public:
             explicit TileMapProperty(const std::shared_ptr<TileMap> & tilemap);
@@ -34,6 +35,7 @@ namespace PAX {
             PAX_NODISCARD const glm::vec3 & getScale() const;
 
             PAX_NODISCARD ClassMetadata getMetadata() override;
+            void created() override;
         };
     }
 }

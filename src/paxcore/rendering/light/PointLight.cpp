@@ -5,7 +5,7 @@
 #include <paxcore/rendering/light/PointLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::PointLight) {}
+    PAX_PROPERTY_IMPL(PAX::PointLight)
 
     PointLight::PointLight(const glm::vec4 &color) : Super(color) {}
     PointLight::~PointLight() = default;

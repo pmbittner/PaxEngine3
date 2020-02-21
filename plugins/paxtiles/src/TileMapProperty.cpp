@@ -9,7 +9,9 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_INIT(PAX::Tiles::TileMapProperty) {
+        PAX_PROPERTY_IMPL(PAX::Tiles::TileMapProperty)
+
+        void TileMapProperty::init() {
             initialize();
 
             layerEntities = std::vector<GameEntity>(tileMap->getLayers().size());
@@ -23,6 +25,11 @@ namespace PAX {
                 e.getTransformation().z() = static_cast<float>(layer.z);
                 ++i;
             }
+        }
+
+        void TileMapProperty::created() {
+            Super::created();
+            init();
         }
 
         ClassMetadata TileMapProperty::getMetadata() {

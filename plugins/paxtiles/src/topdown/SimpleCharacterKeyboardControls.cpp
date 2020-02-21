@@ -5,9 +5,7 @@
 #include <paxtiles/topdown/SimpleCharacterKeyboardControls.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_INIT(SimpleCharacterKeyboardControls) {
-
-    }
+    PAX_PROPERTY_IMPL(SimpleCharacterKeyboardControls)
 
     ClassMetadata SimpleCharacterKeyboardControls::getMetadata() {
         ClassMetadata m = Super::getMetadata();

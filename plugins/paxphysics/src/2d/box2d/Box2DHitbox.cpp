@@ -13,7 +13,7 @@
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_INIT(PAX::Physics::Box2DHitbox, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_IMPL(PAX::Physics::Box2DHitbox, PAX_PROPERTY_IS_CONCRETE)
 
     Box2DHitbox::This * Box2DHitbox::createFromProvider(PAX::ContentProvider & p) {
         return new Box2DHitbox();

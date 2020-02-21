@@ -5,5 +5,5 @@
 #include <paxcore/gameentity/property/Behaviour.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::Behaviour) {}
+    PAX_PROPERTY_IMPL(PAX::Behaviour)
 }

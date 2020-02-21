@@ -5,7 +5,7 @@
 #include <paxtiles/topdown/CharacterSpriteAnimation.h>
 
 namespace PAX::Tiles {
-    PAX_PROPERTY_INIT(CharacterSpriteAnimation) {}
+    PAX_PROPERTY_IMPL(CharacterSpriteAnimation)
 
     CharacterSpriteAnimation::CharacterSpriteAnimation() :
         Behaviour(),

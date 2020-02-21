@@ -5,7 +5,7 @@
 #include "paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h"
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::VelocityBehaviour2D) {}
+    PAX_PROPERTY_IMPL(PAX::VelocityBehaviour2D)
 
     ClassMetadata VelocityBehaviour2D::getMetadata() {
         ClassMetadata m = Super::getMetadata();

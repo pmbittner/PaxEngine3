@@ -6,7 +6,7 @@
 #include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::AssetGraphics) {}
+    PAX_PROPERTY_IMPL(PAX::AssetGraphics)
 
     AssetGraphics::AssetGraphics() = default;
 

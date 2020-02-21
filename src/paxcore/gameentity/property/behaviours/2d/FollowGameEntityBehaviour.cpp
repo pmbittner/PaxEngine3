@@ -6,7 +6,7 @@
 #include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::FollowGameEntityBehaviour) {}
+    PAX_PROPERTY_IMPL(PAX::FollowGameEntityBehaviour)
 
     ClassMetadata FollowGameEntityBehaviour::getMetadata() {
         ClassMetadata m = Super::getMetadata();

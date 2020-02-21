@@ -5,7 +5,7 @@
 #include <paxcore/rendering/light/Light.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::Light) {}
+    PAX_PROPERTY_IMPL(PAX::Light)
 
     Light::Light(const glm::vec4 &color) : color(color) {
 

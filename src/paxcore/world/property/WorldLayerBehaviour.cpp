@@ -5,5 +5,5 @@
 #include <paxcore/world/property/WorldLayerBehaviour.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::WorldLayerBehaviour) {}
+    PAX_PROPERTY_IMPL(PAX::WorldLayerBehaviour)
 }

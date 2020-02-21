@@ -4,4 +4,4 @@
 
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
 
-PAX_PROPERTY_INIT(PAX::SceneGraphGraphics) {}
+PAX_PROPERTY_IMPL(PAX::SceneGraphGraphics)

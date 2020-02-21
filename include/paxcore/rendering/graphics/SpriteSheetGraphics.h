@@ -18,6 +18,7 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
 
         SpriteSheetGraphics();
+        void init();
 
     protected:
         SpriteSheetNode _spriteSheet;
@@ -36,6 +37,7 @@ namespace PAX {
         PAX_NODISCARD const glm::ivec2 & getSpriteSheetSize() const;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
+        void created() override;
     };
 }
 

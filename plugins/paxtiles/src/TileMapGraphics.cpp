@@ -6,10 +6,10 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_INIT(::PAX::Tiles::TileMapGraphics) {}
+        PAX_PROPERTY_IMPL(::PAX::Tiles::TileMapGraphics)
 
         TileMapGraphics::TileMapGraphics(TileMap::Layer & tileLayer) : Super(), tileLayer(tileLayer) {
-            init();
+
         }
 
         void TileMapGraphics::attached(PAX::GameEntity &entity) {

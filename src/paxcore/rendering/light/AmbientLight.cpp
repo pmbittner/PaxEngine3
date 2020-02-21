@@ -5,7 +5,7 @@
 #include <paxcore/rendering/light/AmbientLight.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::AmbientLight) {}
+    PAX_PROPERTY_IMPL(PAX::AmbientLight)
 
     ClassMetadata AmbientLight::getMetadata() {
         ClassMetadata m = Super::getMetadata();

@@ -23,6 +23,7 @@ namespace PAX {
 
     protected:
         SpriteGraphics();
+        void init();
 
         TransformationNode _trafoNode;
         TexturingNode _textureNode;
@@ -41,6 +42,8 @@ namespace PAX {
 
         void render(RenderOptions &renderOptions) override;
         PAX_NODISCARD ClassMetadata getMetadata() override;
+
+        void created() override;
     };
 }
 

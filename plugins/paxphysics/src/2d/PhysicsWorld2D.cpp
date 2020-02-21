@@ -5,7 +5,7 @@
 #include <paxphysics/2d/PhysicsWorld2D.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_INIT(PAX::Physics::PhysicsWorld2D, PAX_PROPERTY_IS_ABSTRACT)
+    PAX_PROPERTY_IMPL(PAX::Physics::PhysicsWorld2D, PAX_PROPERTY_IS_ABSTRACT)
 
     void PhysicsWorld2D::initializeFromProvider(PAX::ContentProvider & p) {
         Super::initializeFromProvider(p);

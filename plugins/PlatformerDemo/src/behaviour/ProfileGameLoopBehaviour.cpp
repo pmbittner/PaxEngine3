@@ -5,7 +5,7 @@
 #include "platformerdemo/behaviour/ProfileGameLoopBehaviour.h"
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::ProfileGameLoopBehaviour, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_IMPL(PAX::ProfileGameLoopBehaviour, PAX_PROPERTY_IS_CONCRETE)
 
     ProfileGameLoopBehaviour * ProfileGameLoopBehaviour::createFromProvider(ContentProvider & provider) {
         return new ProfileGameLoopBehaviour();

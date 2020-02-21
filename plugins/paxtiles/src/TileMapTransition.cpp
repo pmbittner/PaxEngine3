@@ -12,7 +12,7 @@
 
 namespace PAX {
     namespace Tiles {
-        PAX_PROPERTY_INIT(TileMapTransition) {}
+        PAX_PROPERTY_IMPL(TileMapTransition)
 
         ClassMetadata TileMapTransition::getMetadata() {
             ClassMetadata m = Super::getMetadata();

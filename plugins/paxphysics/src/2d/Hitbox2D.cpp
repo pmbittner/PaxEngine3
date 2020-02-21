@@ -6,9 +6,7 @@
 #include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_INIT(PAX::Physics::Hitbox2D) {
-
-    }
+    PAX_PROPERTY_IMPL(PAX::Physics::Hitbox2D)
 
     ClassMetadata Hitbox2D::getMetadata() {
         ClassMetadata m = Super::getMetadata();

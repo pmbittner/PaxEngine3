@@ -37,7 +37,7 @@ public: \
 private: \
 )
 
-// TODO: Merge this into PAX_PROPERTY_INIT macro
+// TODO: Merge this into PAX_PROPERTY_IMPL macro
 #define PAX_TEST_PROPERTY_REFLECTION_SOURCE(Type, IfConcrete) IfConcrete( \
 PAX::PropertyFactory<Type, Type::Container> Type::__ByNameFactory(#Type); \
 void* Type::operator new(std::size_t sz) { \

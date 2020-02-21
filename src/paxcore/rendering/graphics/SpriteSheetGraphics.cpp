@@ -6,7 +6,9 @@
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::SpriteSheetGraphics) {
+    PAX_PROPERTY_IMPL(PAX::SpriteSheetGraphics)
+
+    void SpriteSheetGraphics::init() {
         setSpritePosition(startPos);
         _spriteSheet.setSize({columns, rows});
 
@@ -23,6 +25,11 @@ namespace PAX {
 
     SpriteSheetGraphics::SpriteSheetGraphics() : _spriteSheet(0, 0) {
 
+    }
+
+    void SpriteSheetGraphics::created() {
+        Super::created();
+        init();
     }
 
     ClassMetadata SpriteSheetGraphics::getMetadata() {

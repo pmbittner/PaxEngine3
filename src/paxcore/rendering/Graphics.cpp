@@ -7,7 +7,7 @@
 #include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::Graphics) {}
+    PAX_PROPERTY_IMPL(PAX::Graphics)
 
     ClassMetadata Graphics::getMetadata() {
         ClassMetadata m = Super::getMetadata();

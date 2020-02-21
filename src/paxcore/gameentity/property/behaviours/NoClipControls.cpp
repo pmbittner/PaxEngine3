@@ -8,7 +8,7 @@
 #include <paxcore/service/Services.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::NoClipControls) {}
+    PAX_PROPERTY_IMPL(PAX::NoClipControls)
 
     ClassMetadata NoClipControls::getMetadata() {
         ClassMetadata m = Super::getMetadata();

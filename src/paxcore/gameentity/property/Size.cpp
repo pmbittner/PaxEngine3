@@ -6,7 +6,7 @@
 #include <paxcore/gameentity/event/SizeChangedEvent.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::Size) {}
+    PAX_PROPERTY_IMPL(PAX::Size)
 
     ClassMetadata Size::getMetadata() {
         ClassMetadata m = Super::getMetadata();

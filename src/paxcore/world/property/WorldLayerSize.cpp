@@ -5,7 +5,7 @@
 #include <paxcore/world/property/WorldLayerSize.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::WorldLayerSize) {}
+    PAX_PROPERTY_IMPL(PAX::WorldLayerSize)
 
     ClassMetadata WorldLayerSize::getMetadata() {
         ClassMetadata m = Super::getMetadata();

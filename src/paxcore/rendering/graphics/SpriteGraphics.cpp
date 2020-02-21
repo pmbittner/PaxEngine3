@@ -12,7 +12,9 @@
 #include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX {
-    PAX_PROPERTY_INIT(PAX::SpriteGraphics) {
+    PAX_PROPERTY_IMPL(PAX::SpriteGraphics)
+
+    void SpriteGraphics::init() {
         if (_texture)
             _texture->setWrapMode(Texture::WrapMode::ClampToEdge, Texture::WrapMode::ClampToEdge);
         _textureNode.setTexture(_texture);
@@ -23,6 +25,11 @@ namespace PAX {
     }
 
     SpriteGraphics::SpriteGraphics() : _textureNode(_texture) {}
+
+    void SpriteGraphics::created() {
+        Super::created();
+        init();
+    }
 
     ClassMetadata SpriteGraphics::getMetadata() {
         ClassMetadata m = Super::getMetadata();
