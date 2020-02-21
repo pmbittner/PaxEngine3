@@ -32,7 +32,7 @@ namespace PAX {
 
             void render(RenderOptions &renderOptions) override {
                 Shader * shader = renderOptions.getShaderOptions().getShader();
-                glm::vec2 resolution = renderOptions.getCamera()->getProjection()->getResolution();
+                glm::vec2 resolution = renderOptions.getCamera()->getProjection().getResolution();
 
                 shader->setUniform("resolution", resolution);
                 shader->setUniform("camera", glm::inverse(renderOptions.getViewMatrix()), false);
@@ -97,7 +97,7 @@ namespace PAX {
 
                 Camera * camera = new Camera(
                         Services::GetFactoryService().get<ViewportFactory>()->create(),
-                        std::make_shared<Projection>()
+                        new PerspectiveProjection()
                 );
                 camera->setSyncProjectionResolutionToViewportResolution(true);
                 NoClipControls * noClipControls = new NoClipControls();
