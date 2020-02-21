@@ -117,7 +117,7 @@ namespace PAX {
 
                 GameEntity* cam = new GameEntity();
                 {
-                    std::shared_ptr<PerspectiveProjection> proj = std::make_shared<PerspectiveProjection>();
+                    PerspectiveProjection * proj = new PerspectiveProjection();
                     proj->setFOV(90);
                     cam->add(new Camera(Services::GetFactoryService().get<ViewportFactory>()->create(), proj));
                     cam->add(new NoClipControls());
