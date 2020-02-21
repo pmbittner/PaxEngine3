@@ -40,9 +40,9 @@ namespace PAX {
             }
         }
 
-        auto * sceneGraphGeneratorFactory = Services::GetFactoryService().get<WorldLayerSceneGraphFactory>();
-        if (sceneGraphGeneratorFactory) {
-            this->sceneGraph = sceneGraphGeneratorFactory->create(this, z);
+        auto * sceneGraphFactory = Services::GetFactoryService().get<WorldLayerSceneGraphFactory>();
+        if (sceneGraphFactory) {
+            this->sceneGraph = sceneGraphFactory->create(this, z);
         } else {
             PAX_THROW_RUNTIME_ERROR("[WorldLayer::WorldLayer] Could not create SceneGraph because no factory is registered at the FactoryService!");
         }

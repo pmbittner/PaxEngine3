@@ -73,12 +73,24 @@ namespace PAX {
         Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonParserRegister());
         Json::JsonEntityPrefab<WorldLayer>::initialize(Services::GetJsonParserRegister());
 
-        Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Transform", &transformationParser);
-        Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("MotionType", &entityMotionTypeParser);
-        Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Tags", &entityTagsParser);
+        { // register parsers for GameEntityPrefab
+            Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Transform", &transformationParser);
+            Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("MotionType", &entityMotionTypeParser);
+            Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Tags", &entityTagsParser);
+            std::vector<std::string> &GEParseOrder = Json::JsonEntityPrefab<GameEntity>::ParseOrder;
+            GEParseOrder.insert(GEParseOrder.begin(), "Tags");
+        }
 
-        Json::JsonEntityPrefab<WorldLayer>::ElementParsers.registerParser("Constructor", &worldLayerPrefabInitParser);
-        Json::JsonEntityPrefab<WorldLayer>::ElementParsers.registerParser("Entities", &worldLayerPrefabGameEntityParser);
+        { // register parsers for WorldLayerPrefab
+            Json::JsonEntityPrefab<WorldLayer>::ElementParsers.registerParser("Constructor",
+                                                                              &worldLayerPrefabInitParser);
+            Json::JsonEntityPrefab<WorldLayer>::ElementParsers.registerParser("Entities",
+                                                                              &worldLayerPrefabGameEntityParser);
+            std::vector<std::string> &WLParseOrder = Json::JsonEntityPrefab<WorldLayer>::ParseOrder;
+            WLParseOrder.insert(WLParseOrder.begin(), "Constructor");
+            WLParseOrder.emplace_back("Entities");
+        }
+
 
         /// If no texture loaders have been registered, register the null texture loader.
         if (Services::GetResources().getLoaders<Texture>().empty()) {

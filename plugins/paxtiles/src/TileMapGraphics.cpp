@@ -9,7 +9,7 @@ namespace PAX {
         PAX_PROPERTY_INIT(::PAX::Tiles::TileMapGraphics) {}
 
         TileMapGraphics::TileMapGraphics(TileMap::Layer & tileLayer) : Super(), tileLayer(tileLayer) {
-
+            init();
         }
 
         void TileMapGraphics::attached(PAX::GameEntity &entity) {

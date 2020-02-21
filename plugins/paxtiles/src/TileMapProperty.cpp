@@ -16,7 +16,7 @@ namespace PAX {
 
             int i = 0;
             for (TileMap::Layer & layer : tileMap->getLayers()) {
-                auto graphics = new TileMapGraphics(layer);
+                auto graphics = new (GameEntity::GetPropertyAllocator().allocate<TileMapGraphics>()) TileMapGraphics(layer);
                 graphics->setShader(tileMapShader);
                 GameEntity & e = layerEntities[i];
                 e.add(graphics);

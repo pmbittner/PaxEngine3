@@ -6,7 +6,5 @@
   - FollowGameEntityBehaviour::targetGameEntityID
 - remove Graphics::getShaderFlags
 - move resources from util back to core
-- viewportfactory from json -> used indirectly by camera
-  - same for projection (and projection resolution)
 
 - the whole sprite implementation is awkward
