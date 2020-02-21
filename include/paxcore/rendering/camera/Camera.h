@@ -22,8 +22,8 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
 
         glm::mat4 viewMatrix = glm::mat4();
-        std::shared_ptr<Viewport> viewport;
-        std::shared_ptr<Projection> projection;
+        Viewport * viewport = nullptr;
+        Projection * projection = nullptr;
 
         bool syncProjectionResolutionToViewportResolution = false;
 
@@ -33,13 +33,14 @@ namespace PAX {
         Camera();
 
     public:
-        explicit Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection = std::make_shared<PerspectiveProjection>());
+        explicit Camera(Viewport * viewport, Projection * projection);
+        ~Camera() override;
 
         void render(RenderOptions &renderOptions) override;
 
-        const glm::mat4 &getViewTransform();
-        PAX_NODISCARD std::shared_ptr<Viewport> getViewport() const;
-        PAX_NODISCARD std::shared_ptr<Projection> getProjection() const;
+        const glm::mat4 & getViewTransform();
+        PAX_NODISCARD Viewport & getViewport() const;
+        PAX_NODISCARD Projection & getProjection() const;
 
         void setSyncProjectionResolutionToViewportResolution(bool sync);
         PAX_NODISCARD bool areProjectionResolutionToViewportResolutionSynced() const;

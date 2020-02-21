@@ -11,8 +11,8 @@
 namespace PAX {
     class ViewportFactory {
     public:
-        virtual std::shared_ptr<Viewport> create() = 0;
-        virtual std::shared_ptr<Viewport> create(int x, int y, int w, int h, Viewport::ResizePolicy resizePolicy) = 0;
+        virtual Viewport * create() = 0;
+        virtual Viewport * create(int x, int y, int w, int h, Viewport::ResizePolicy resizePolicy) = 0;
     };
 }
 

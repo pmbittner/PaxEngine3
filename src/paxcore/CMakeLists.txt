@@ -120,7 +120,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h
         ../../include/paxcore/gameentity/Tag.h
         ../../include/paxcore/world/WorldLayerEvent.h
-        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h ../../include/paxcore/json/JsonResourceLoader.h ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h)
+        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h ../../include/paxcore/json/JsonResourceLoader.h ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h ../../include/paxcore/rendering/camera/json/ViewportJsonParser.h ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

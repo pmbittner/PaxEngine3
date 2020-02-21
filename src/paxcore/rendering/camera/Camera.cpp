@@ -10,70 +10,38 @@
 
 namespace PAX {
     PAX_PROPERTY_INIT(PAX::Camera) {
+        PAX_ASSERT_NOT_NULL(viewport, "Viewport not initialised!");
+        PAX_ASSERT_NOT_NULL(projection, "Viewport not initialised!");
+
         viewport->WidthChanged.add<Camera, &Camera::onViewportWidthChanged>(this);
         viewport->HeightChanged.add<Camera, &Camera::onViewportHeightChanged>(this);
 
         projection->setResolution({viewport->getWidth(), viewport->getHeight()});
+
+        if (syncProjectionResolutionToViewportResolution) {
+            // FIXME?
+        }
     }
 
     ClassMetadata Camera::getMetadata() {
-        /*
-        // load viewport
-        ViewportFactory * vpFactory = Services::GetFactoryService().get<ViewportFactory>();
-        std::shared_ptr<Viewport> vp;
-
-        if (const auto & vp_x = provider.get<int>("viewport_x")) {
-            int x = vp_x.value();
-            int y = provider.require<int>("viewport_y");
-            int width = provider.require<int>("viewport_width");
-            int height = provider.require<int>("viewport_height");
-            std::string resizePolicyString = provider.require<std::string>("viewport_resizepolicy");
-            Viewport::ResizePolicy resizePolicy =
-                    resizePolicyString == "Relative" ?
-                    Viewport::ResizePolicy::Relative : Viewport::ResizePolicy::Absolute;
-
-            vp = vpFactory->create(x, y, width, height, resizePolicy);
-        } else {
-            vp = vpFactory->create();
-        }
-
-        // TODO: Make this extensible somehow.
-        // load projection
-        std::string projName = provider.require<std::string>("projection");
-        std::shared_ptr<Projection> proj;
-        if (projName == "Perspective") {
-            proj = std::make_shared<PerspectiveProjection>();
-        } else if (projName == "PixelScreen") {
-            proj = std::make_shared<PixelScreenProjection>();
-        } else {
-            PAX_LOG(PAX::Log::Level::Error, "Could not resolve projection type " << projName);
-        }
-
-        return new Camera(vp, proj);
-
-        if (!this->syncProjectionResolutionToViewportResolution) {
-            glm::ivec2 resolution = projection->getResolution();
-            if (auto projection_resolution_width = provider.get<int>("projection_resolution_width")) {
-                resolution.x = projection_resolution_width.value();
-            }
-            if (auto projection_resolution_height = provider.get<int>("projection_resolution_height")) {
-                resolution.y = projection_resolution_height.value();
-            }
-            projection->setResolution(resolution);
-        }
-         //*/
-
         ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(viewport)).flags = Field::IsMandatory;
+        m.add(paxfieldof(projection)).flags = Field::IsMandatory;
         m.add(paxfieldof(syncProjectionResolutionToViewportResolution));
         return m;
     }
 
     Camera::Camera() = default;
 
-    Camera::Camera(const std::shared_ptr<Viewport> & viewport, const std::shared_ptr<Projection> & projection) : viewport(viewport), projection(projection) {
+    Camera::Camera(Viewport * viewport, Projection * projection) : viewport(viewport), projection(projection) {
         PAX_ASSERT_NOT_NULL(viewport, "Viewport can't be null!");
         PAX_ASSERT_NOT_NULL(projection, "Projection can't be null!");
         init();
+    }
+
+    Camera::~Camera() {
+        delete viewport;
+        delete projection;
     }
 
     void Camera::render(RenderOptions &renderOptions) {
@@ -125,12 +93,12 @@ namespace PAX {
         }
     }
 
-    std::shared_ptr<Viewport> Camera::getViewport() const {
-        return viewport;
+    Viewport & Camera::getViewport() const {
+        return *viewport;
     }
 
-    std::shared_ptr<Projection> Camera::getProjection() const {
-        return projection;
+    Projection & Camera::getProjection() const {
+        return *projection;
     }
 
     void Camera::setSyncProjectionResolutionToViewportResolution(bool sync) {

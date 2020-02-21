@@ -45,6 +45,7 @@ namespace PAX {
         if (it != entities.end()) {
             return it->second;
         }
+
         return nullptr;
     }
 
@@ -63,7 +64,7 @@ namespace PAX {
             if (!Util::vectorContains(reservedIDs, id)) {
                 add(entity, id);
                 reservedIDs.emplace_back(id);
-            } else {
+            } else if (getGameEntity(id) != entity) {
                 PAX_THROW_RUNTIME_ERROR("Desired id " << id << " is already reserved!");
             }
         } else {

@@ -10,7 +10,6 @@
 
 #include <paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h>
 #include <paxcore/world/prefab/JsonWorldLayerGameEntityParser.h>
-#include <paxcore/gameentity/GameEntity.h>
 #include <paxcore/world/WorldLayer.h>
 #include <paxcore/service/Services.h>
 
@@ -30,6 +29,11 @@
 #include <paxcore/world/property/WorldLayerSize.h>
 #include <paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h>
 #include <paxcore/json/JsonEntityPrefabResourceLoader.h>
+
+// Do not remove although propably marked as unnecessary because we have template specialisations in here that
+// won't be recognised if not included.
+#include <paxcore/rendering/camera/json/ViewportJsonParser.h>
+#include <paxcore/rendering/camera/json/ProjectionJsonParser.h>
 
 namespace PAX {
     // TODO: Find a way for easier and better custom json element parsing integration.
@@ -111,6 +115,8 @@ namespace PAX {
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec2)
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec3)
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec4)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(Viewport*)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(Projection*)
 
 #undef PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE
     }

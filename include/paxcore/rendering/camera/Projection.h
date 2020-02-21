@@ -6,6 +6,7 @@
 #define PAXENGINE3_PROJECTION_H
 
 #include <glm/glm.hpp>
+#include <polypropylene/definitions/Definitions.h>
 
 namespace PAX {
     class Projection {
@@ -21,7 +22,7 @@ namespace PAX {
     public:
         const glm::mat4& toMatrix();
 
-        const glm::ivec2 & getResolution();
+        PAX_NODISCARD const glm::ivec2 & getResolution() const;
         void setResolution(const glm::ivec2 & res);
     };
 }

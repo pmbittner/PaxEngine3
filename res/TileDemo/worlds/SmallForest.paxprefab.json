@@ -24,12 +24,15 @@
         "Properties": {
           "PAX::Camera": {
             "syncProjectionResolutionToViewportResolution": false,
-            "projection": "PixelScreen",
-            "projection_resolution_width": 800,
-            "projection_resolution_height": 600
+            "projection":{
+              "type": "PixelScreen",
+              "resolution_width": 800,
+              "resolution_height": 600
+            },
+            "viewport": {}
           },
           "PAX::FollowGameEntityBehaviour": {
-            "targetGameEntity": 0,
+            "targetGameEntityID": 0,
             "respectWorldSize": true
           }
         }

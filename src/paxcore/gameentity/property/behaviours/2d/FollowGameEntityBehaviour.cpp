@@ -35,13 +35,13 @@ namespace PAX {
                     // of the world map in any direction.
                     if (WorldLayerSize *worldSizeProperty = getOwner()->getWorldLayer()->get<WorldLayerSize>()) {
                         if (Camera *camera = getOwner()->get<Camera>()) {
-                            const std::shared_ptr<Projection> &projection = camera->getProjection();
+                            const Projection &projection = camera->getProjection();
 
                             // camera->getOwner() can never be null because it is the same as our owner which is not null.
                             const glm::vec2 camScale = camera->getOwner()->getTransformation().getAbsoluteScale2D();
                             const glm::vec2 worldSize = camScale * worldSizeProperty->getSize2D();
                             const glm::vec2 mypos = camScale * me.position2D();
-                            const glm::ivec2 & projectionSize = projection->getResolution();
+                            const glm::ivec2 & projectionSize = projection.getResolution();
 
                             for (int dim = 0; dim < 2; ++dim) {
                                 float worldWidth = worldSize[dim];

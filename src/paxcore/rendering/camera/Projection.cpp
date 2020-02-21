@@ -18,7 +18,7 @@ namespace PAX {
         _matrix = glm::mat4(1);
     }
 
-    const glm::ivec2& Projection::getResolution() {
+    const glm::ivec2& Projection::getResolution() const {
         return _resolution;
     }
 

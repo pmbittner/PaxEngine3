@@ -31,6 +31,7 @@ namespace PAX {
 
         Viewport();
         Viewport(int x, int y, int w, int h, ResizePolicy resizePolicy = ResizePolicy::Absolute);
+        virtual ~Viewport();
 
         virtual void apply() = 0;
 

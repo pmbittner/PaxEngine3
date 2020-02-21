@@ -21,6 +21,8 @@ namespace PAX {
         }
     }
 
+    Viewport::~Viewport() = default;
+
     void Viewport::onWindowResolutionChanged(ResolutionChangedEvent& e) {
         switch(_resizePolicy) {
             case ResizePolicy::Relative: {

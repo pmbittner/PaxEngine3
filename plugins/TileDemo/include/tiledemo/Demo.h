@@ -73,6 +73,7 @@ namespace PAX {
                         player->getTransformation().position2D() = playerSpawns.at(0)->getTransformation().position2D();
                     }
 
+                    startWorldLayer->getGameEntityIDService().reserveIDFor(player, 1001);
                     startWorldLayer->spawn(player);
 
                     const std::vector<GameEntity*> & cameras = startWorldLayer->getEntitiesWithTag(Tags::Camera);

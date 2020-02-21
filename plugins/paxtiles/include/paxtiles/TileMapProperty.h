@@ -17,7 +17,7 @@ namespace PAX {
 
             std::shared_ptr<TileMap> tileMap;
             std::vector<GameEntity> layerEntities;
-            glm::vec3 scale;
+            glm::vec3 scale = glm::vec3(1);
 
             static std::shared_ptr<Shader> tileMapShader;
             static void initialize();

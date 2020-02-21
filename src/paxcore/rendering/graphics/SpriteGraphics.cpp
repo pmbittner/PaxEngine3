@@ -17,6 +17,8 @@ namespace PAX {
             _texture->setWrapMode(Texture::WrapMode::ClampToEdge, Texture::WrapMode::ClampToEdge);
         _textureNode.setTexture(_texture);
 
+        _meshNode.setMesh(GetMesh());
+
         SceneGraphGraphics::_scenegraph <<= _trafoNode <<= _textureNode <<= _meshNode;
     }
 

@@ -12,12 +12,12 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLViewportFactory : public ViewportFactory {
         public:
-            std::shared_ptr<Viewport> create() override {
-                return std::make_shared<OpenGLViewport>();
+            Viewport * create() override {
+                return new OpenGLViewport();
             }
 
-            std::shared_ptr<Viewport> create(int x, int y, int w, int h, Viewport::ResizePolicy resizePolicy) override {
-                return std::make_shared<OpenGLViewport>(x, y, w, h, resizePolicy);
+            Viewport * create(int x, int y, int w, int h, Viewport::ResizePolicy resizePolicy) override {
+                return new OpenGLViewport(x, y, w, h, resizePolicy);
             }
         };
     }
