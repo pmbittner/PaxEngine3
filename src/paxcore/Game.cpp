@@ -88,4 +88,17 @@ namespace PAX {
         ActiveWorldChangedEvent e(oldActive, _activeWorld);
         ActiveWorldChanged(e);
     }
+
+    void Game::update(UpdateOptions &options) {
+        for (auto &system : getSystems()) {
+            // TODO: Fix this
+            if (auto * u = dynamic_cast<Updateable*>(system.get())) {
+                u->update(options);
+            }
+        }
+    }
+
+    EventService & Game::getEventService() {
+        return eventService;
+    }
 }

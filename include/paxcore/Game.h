@@ -6,7 +6,7 @@
 #define PAXENGINE3_GAME_H
 
 #include <vector>
-#include "system/SystemManager.h"
+#include "polypropylene/system/SystemManager.h"
 
 #include "world/World.h"
 #include "world/event/ActiveWorldChangedEvent.h"
@@ -15,11 +15,12 @@
 namespace PAX {
     class BehaviourSystem;
 
-    class Game : public SystemManager<Game>
+    class Game : public SystemManager<Game>, public Updateable
     {
     private:
         std::vector<World*> _worlds;
         World *_activeWorld = nullptr;
+        EventService eventService;
 
     public:
         Game();
@@ -39,6 +40,10 @@ namespace PAX {
 
         World* getActiveWorld();
         void setActiveWorld(World *world);
+
+        void update(UpdateOptions & options) override;
+
+        EventService & getEventService();
     };
 }
 

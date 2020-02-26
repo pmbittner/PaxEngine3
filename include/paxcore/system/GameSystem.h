@@ -6,10 +6,10 @@
 #define PAXENGINE3_GAMESYSTEM_H
 
 #include <paxcore/Game.h>
-#include "System.h"
+#include <polypropylene/system/System.h>
 
 namespace PAX {
-    using GameSystem = System<Game>;
+    using GameSystem = System<Game>;// TODO: This has to be an updateable
 }
 
 #endif //PAXENGINE3_GAMESYSTEM_H

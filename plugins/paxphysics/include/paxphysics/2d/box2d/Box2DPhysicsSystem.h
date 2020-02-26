@@ -6,7 +6,7 @@
 #define PAXENGINE3_BOX2DPHYSICSSYSTEM_H
 
 #include "Box2DHitbox.h"
-#include "polypropylene/system/PropertyOwningSystem.h"
+#include "polypropylene/system/PropertyPool.h"
 
 namespace PAX::Physics {
     class Box2DPhysicsSystem : public PropertyOwningSystem<PAX::Physics::Box2DHitbox> {
