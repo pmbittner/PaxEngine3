@@ -5,6 +5,7 @@ bin/*
 
 # libraries
 libs/Polypropylene
+libs/Polypropylene/*
 
 # Project data
 .idea

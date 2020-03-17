@@ -20,8 +20,8 @@ namespace PAX {
             resources.registerLoader<Shader>(static_cast<ResourceLoader<Shader, Shader::FileInfo> *>(&shaderLoader));
         }
 
-        void OpenGLPlugin::registerJsonParsers(Json::JsonParserRegister & parserRegister) {
-            shaderJsonParser.registerAt(parserRegister);
+        void OpenGLPlugin::registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) {
+            shaderJsonParser.registerAt(writerRegister);
         }
 
         void OpenGLPlugin::registerFactories(FactoryService &factoryService) {

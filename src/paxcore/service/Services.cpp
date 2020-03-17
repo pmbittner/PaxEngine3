@@ -92,7 +92,7 @@ namespace PAX {
         return Instance()._windowService;
     }
 
-    Json::JsonParserRegister & Services::GetJsonParserRegister() {
-        return Instance().jsonParserRegister;
+    Json::JsonFieldWriterRegister & Services::GetJsonWriterRegister() {
+        return Instance().jsonFieldWriterRegister;
     }
 }

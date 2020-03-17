@@ -53,9 +53,9 @@ namespace PAX {
             plugin->registerResourceLoaders(Services::GetResources());
         }
 
-        PAX_LOG(Log::Level::Info, "Plugins: registering JsonParsers");
+        PAX_LOG(Log::Level::Info, "Plugins: registering JsonWriters");
         for (EnginePlugin *plugin : _plugins) {
-            plugin->registerJsonParsers(Services::GetJsonParserRegister());
+            plugin->registerJsonWriters(Services::GetJsonWriterRegister());
         }
 
         PAX_LOG(Log::Level::Info, "Plugins: registering Factories");

@@ -9,7 +9,7 @@
 
 #include "paxutil/resources/Resources.h"
 
-#include "polypropylene/serialisation/json/Json.h"
+#include "polypropylene/serialisation/json/nlohmann/Json.h"
 #include "polypropylene/serialisation/json/JsonUtil.h"
 
 bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) const {

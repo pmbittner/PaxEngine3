@@ -6,11 +6,12 @@
 #define PAXENGINE3_BOX2DPHYSICSSYSTEM_H
 
 #include "Box2DHitbox.h"
+#include "paxcore/system/GameSystem.h"
 #include "polypropylene/memory/PropertyPool.h"
 
 namespace PAX::Physics {
-    class Box2DPhysicsSystem : public PropertyOwningSystem<PAX::Physics::Box2DHitbox> {
-        using Super = PropertyOwningSystem<PAX::Physics::Box2DHitbox>;
+    class Box2DPhysicsSystem : public GameSystem {
+        PropertyPool<PAX::Physics::Box2DHitbox> hitboxes;
 
         float pixelsPerMeter = 1;
         float metersPerPixel = 1;

@@ -31,6 +31,10 @@ namespace PAX::Physics {
         game.addSystem(std::make_unique<Box2DPhysicsSystem>(box2d_pixelsPerMeter));
     }
 
+    void Plugin::registerJsonWriters(Json::JsonFieldWriterRegister &writerRegister) {
+
+    }
+
     void Plugin::registerResourceLoaders(Resources & resources) {
         resources.registerLoader<PhysicsMaterial>(&psxmatLoader);
     }

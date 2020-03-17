@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONTOTRANSFORMATION_H
 #define PAXENGINE3_JSONTOTRANSFORMATION_H
 
-#include <polypropylene/serialisation/json/JsonFwd.h>
+#include <polypropylene/serialisation/json/nlohmann/JsonFwd.h>
 #include <paxutil/math/Transformation.h>
 
 namespace PAX {

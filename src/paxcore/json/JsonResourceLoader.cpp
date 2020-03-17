@@ -5,7 +5,7 @@
 #include <paxcore/json/JsonResourceLoader.h>
 #include <paxutil/io/FileTypeChecker.h>
 #include "polypropylene/serialisation/json/JsonLoader.h"
-#include "polypropylene/serialisation/json/Json.h"
+#include "polypropylene/serialisation/json/nlohmann/Json.h"
 
 namespace PAX {
     bool JsonResourceLoader::canLoad(PAX::Path p) const {

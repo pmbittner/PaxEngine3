@@ -11,7 +11,7 @@ namespace PAX::Physics {
     }
 
     void Box2DPhysicsSystem::initialize(Game *game) {
-        Super::initialize(game);
+        hitboxes.initialize();
     }
 
     void Box2DPhysicsSystem::setPixelsPerMeter(float pixelsPerMeter) {
@@ -28,22 +28,20 @@ namespace PAX::Physics {
     }
 
     void Box2DPhysicsSystem::update(UpdateOptions & options) {
-        Super::update(options);
+        for (World * world : getGame()->getActiveWorld()) {
+            if (Box2DWorld * world = world->get<Box2DWorld>()) {
+                // synchronize engine state to Box2D
+                for (const auto& hitbox : hitboxes) {
+                    hitbox->synchronizeBox2D(metersPerPixel);
+                }
 
-        // synchronize engine state to Box2D
-        for (Box2DHitbox * hitbox : *this) {
-            hitbox->synchronizeBox2D(metersPerPixel);
-        }
-
-        for (WorldLayer * layer : getManager()->getActiveWorld()->getLayers()) {
-            if (Box2DWorld *world = layer->get<Box2DWorld>()) {
                 world->step(options);
-            }
-        }
 
-        // synchronize state in Box2D to engine
-        for (Box2DHitbox * hitbox : *this) {
-            hitbox->synchronizePaxEngine(pixelsPerMeter);
+                // synchronize state in Box2D to engine
+                for (const auto& hitbox : hitboxes) {
+                    hitbox->synchronizePaxEngine(pixelsPerMeter);
+                }
+            }
         }
     }
 }

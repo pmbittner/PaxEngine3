@@ -11,7 +11,7 @@
 #include <paxcore/world/scenegraph/WorldSceneGraphFactory.h>
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
 #include <paxopengl/factory/OpenGLTextureFactory.h>
-#include <paxutil/resources/JsonResourceParser.h>
+#include <paxutil/resources/JsonResourceFieldWriter.h>
 
 #include "factory/OpenGLMeshFactory.h"
 #include "factory/OpenGLViewportFactory.h"
@@ -30,12 +30,12 @@ namespace PAX {
             OpenGLViewportFactory viewportFactory;
             OpenGLTextureFactory textureFactory;
 
-            JsonResourceParser<Shader> shaderJsonParser;
+            JsonResourceFieldWriter<Shader> shaderJsonParser;
 
         public:
             void initialize(Engine& engine) override;
             void registerResourceLoaders(Resources& resources) override;
-            void registerJsonParsers(Json::JsonParserRegister & parserRegister) override;
+            void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override;
             void registerFactories(FactoryService& factoryService) override;
         };
     }

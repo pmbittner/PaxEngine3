@@ -5,7 +5,7 @@
 #include <paxcore/rendering/factory/ViewportFactory.h>
 #include <paxcore/service/Services.h>
 #include "paxcore/rendering/camera/json/ViewportJsonParser.h"
-#include "polypropylene/serialisation/json/Json.h"
+#include "polypropylene/serialisation/json/nlohmann/Json.h"
 
 namespace PAX {
     Viewport * TryParser<nlohmann::json, Viewport*>::tryParse(const nlohmann::json &j) {

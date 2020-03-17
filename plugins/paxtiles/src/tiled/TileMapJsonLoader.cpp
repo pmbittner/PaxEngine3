@@ -6,7 +6,7 @@
 #include <paxcore/service/Services.h>
 
 #include <polypropylene/serialisation/json/JsonUtil.h>
-#include <polypropylene/serialisation/json/Json.h>
+#include <polypropylene/serialisation/json/nlohmann/Json.h>
 
 namespace PAX {
     namespace Tiles {

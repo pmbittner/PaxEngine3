@@ -11,7 +11,7 @@
 #include <polypropylene/log/Errors.h>
 #include <polypropylene/reflection/TemplateTypeToString.h>
 #include <paxcore/service/FactoryService.h>
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonFieldWriterRegister.h>
 
 namespace PAX {
     class Engine;
@@ -31,7 +31,7 @@ namespace PAX {
         virtual void registerServices(Services& services) {}
         virtual void registerSystems(Game& game) {}
         virtual void registerResourceLoaders(Resources& resources) {}
-        virtual void registerJsonParsers(Json::JsonParserRegister & parserRegister) {}
+        virtual void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) {}
         virtual void registerFactories(FactoryService& factoryService) {}
         virtual void registerProperties() {}
 

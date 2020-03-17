@@ -3,7 +3,7 @@
 //
 
 #include <paxphysics/2d/Fixture2D.h>
-#include <polypropylene/serialisation/json/Json.h>
+#include <polypropylene/serialisation/json/nlohmann/Json.h>
 
 #include <polypropylene/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>

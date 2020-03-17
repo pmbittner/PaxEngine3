@@ -22,9 +22,9 @@ namespace PAX {
             resources.registerLoader<TileSet>(&tiledSetLoader);
         }
 
-        void Plugin::registerJsonParsers(Json::JsonParserRegister & parserRegister) {
-            jsonTileMapParser.registerAt(parserRegister);
-            jsonTileSetParser.registerAt(parserRegister);
+        void Plugin::registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) {
+            jsonTileMapParser.registerAt(writerRegister);
+            jsonTileSetParser.registerAt(writerRegister);
         }
 
         void Plugin::registerProperties() {

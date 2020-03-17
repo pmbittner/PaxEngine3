@@ -16,6 +16,7 @@ namespace PAX::Physics {
         void registerProperties() override;
         void registerResourceLoaders(Resources & resources) override;
         void registerSystems(Game& game) override;
+        void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override;
         void postInitialize(Engine & engine) override;
     };
 }

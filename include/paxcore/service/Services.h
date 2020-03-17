@@ -13,7 +13,7 @@
 #include <polypropylene/memory/AllocationService.h>
 #include <paxutil/io/Settings.h>
 #include <paxcore/function/Updateable.h>
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonFieldWriterRegister.h>
 
 #include "Paths.h"
 #include "FactoryService.h"
@@ -35,7 +35,7 @@ namespace PAX {
         Resources _resources;
         Settings _globalSettings;
         WindowService _windowService;
-        Json::JsonParserRegister jsonParserRegister;
+        Json::JsonFieldWriterRegister jsonFieldWriterRegister;
 
         std::shared_ptr<InputSystem> _inputSystem = nullptr;
 
@@ -70,7 +70,7 @@ namespace PAX {
         static Paths& GetPaths();
         static Settings& GetGlobalSettings();
         static WindowService & GetWindowService();
-        static Json::JsonParserRegister & GetJsonParserRegister();
+        static Json::JsonFieldWriterRegister & GetJsonWriterRegister();
 
         void update(UpdateOptions & options) override;
     };

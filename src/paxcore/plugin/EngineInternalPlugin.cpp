@@ -69,8 +69,8 @@ namespace PAX {
         IPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
         IPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
-        Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonParserRegister());
-        Json::JsonEntityPrefab<World>::initialize(Services::GetJsonParserRegister());
+        Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonWriterRegister());
+        Json::JsonEntityPrefab<World>::initialize(Services::GetJsonWriterRegister());
 
         { // register parsers for GameEntityPrefab
             Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Transform", &transformationParser);
@@ -111,13 +111,13 @@ namespace PAX {
         resources.registerLoader(&worldFromJsonLoader);
     }
 
-    void EngineInternalPlugin::registerJsonParsers(Json::JsonParserRegister & parserRegister) {
-        jsonTextureParser.registerAt(parserRegister);
+    void EngineInternalPlugin::registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) {
+        jsonTextureParser.registerAt(writerRegister);
 
 #define PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(type) \
     { \
-        static Json::JsonParser<type> parser; \
-        parserRegister.registerParser(paxtypeid(type), &parser); \
+        static Json::JsonFieldWriter<type> parser; \
+        writerRegister.registerWriter(paxtypeid(type), &parser); \
     }
 
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::vec2)

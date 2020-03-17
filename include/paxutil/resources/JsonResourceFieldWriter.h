@@ -2,8 +2,8 @@
 // Created by paul on 06.01.20.
 //
 
-#ifndef PAXENGINE3_JSONRESOURCEPARSER_H
-#define PAXENGINE3_JSONRESOURCEPARSER_H
+#ifndef PAXENGINE3_JSONRESOURCEFIELDWRITER_H
+#define PAXENGINE3_JSONRESOURCEFIELDWRITER_H
 
 #include <polypropylene/serialisation/json/JsonParser.h>
 #include <paxutil/reflection/EngineFieldFlags.h>
@@ -12,10 +12,10 @@
 
 namespace PAX {
     template<typename Resource>
-    class JsonResourceParser : public Json::IJsonParser {
+    class JsonResourceFieldWriter : public Json::IJsonFieldWriter {
     public:
-        void registerAt(Json::JsonParserRegister & parserRegister) {
-            parserRegister.registerParser(paxtypeid(std::shared_ptr<Resource>), this);
+        void registerAt(Json::JsonFieldWriterRegister & writerRegister) {
+            writerRegister.registerWriter(paxtypeid(std::shared_ptr<Resource>), this);
         }
 
         PAX_NODISCARD bool loadIntoField(const nlohmann::json & j, Field &field) const override {
@@ -48,4 +48,4 @@ namespace PAX {
     };
 }
 
-#endif //PAXENGINE3_JSONRESOURCEPARSER_H
+#endif //PAXENGINE3_JSONRESOURCEFIELDWRITER_H
