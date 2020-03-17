@@ -5,15 +5,19 @@
 #ifndef PAXENGINE3_WORLDSCENEGRAPH_H
 #define PAXENGINE3_WORLDSCENEGRAPH_H
 
-#include "WorldLayerSceneGraph.h"
-#include <paxcore/rendering/scenegraph/nodes/SortingNode.h>
+#include <paxcore/rendering/scenegraph/SceneGraph.h>
 
 namespace PAX {
-    class WorldLayerSceneGraphSort {
-    public:
-        void sort(std::vector<WorldLayerSceneGraph*> &graphics);
-    };
+    class World;
 
-    typedef SortingNode<WorldLayerSceneGraph, WorldLayerSceneGraphSort> WorldSceneGraph;
+    class WorldSceneGraph : public SceneGraph {
+        friend class World;
+        World * world = nullptr;
+
+    public:
+        virtual void render(RenderOptions &renderOptions) override;
+        World* getWorld();
+    };
 }
+
 #endif //PAXENGINE3_WORLDSCENEGRAPH_H

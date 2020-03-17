@@ -2,15 +2,15 @@
 // Created by Paul on 22.06.2019.
 //
 
-#include <paxcore/world/prefab/JsonWorldLayerGameEntityParser.h>
+#include <paxcore/world/prefab/JsonWorldGameEntityParser.h>
 
 namespace PAX {
     namespace Json {
-        JsonWorldLayerGameEntityParser::~JsonWorldLayerGameEntityParser() = default;
+        JsonWorldGameEntityParser::~JsonWorldGameEntityParser() = default;
 
-        void JsonWorldLayerGameEntityParser::parse(nlohmann::json &node, PAX::WorldLayer & worldLayer,
-                                               PAX::Json::JsonEntityPrefab<PAX::WorldLayer> &prefab,
-                                               const VariableRegister & v) {
+        void JsonWorldGameEntityParser::parse(nlohmann::json &node, World & w,
+                                              PAX::Json::JsonEntityPrefab<PAX::World> &prefab,
+                                              const VariableRegister & v) {
             if (!node.is_array())
                 PAX_LOG(Log::Level::Warn, "Given node is not an array!");
 
@@ -38,10 +38,10 @@ namespace PAX {
 
                 if (entityNode.count("id") > 0) {
                     auto id = entityNode["id"].get<GameEntityID>();
-                    worldLayer.getGameEntityIDService().reserveIDFor(entity, id);
+                    w.getGameEntityIDService().reserveIDFor(entity, id);
                 }
 
-                worldLayer.spawn(entity);
+                w.spawn(entity);
             }
         }
     }

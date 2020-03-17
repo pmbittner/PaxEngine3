@@ -10,8 +10,8 @@
 
 namespace PAX {
     namespace OpenGL {
-        std::shared_ptr<WorldLayerSceneGraph> OpenGLPlugin::OpenGLWorldLayerSceneGraphFactory::create(WorldLayer *worldLayer, float z) {
-            return std::make_shared<OpenGLWorldLayerRenderPass>(z);
+        WorldSceneGraph * OpenGLPlugin::OpenGLWorldSceneGraphFactory::create(World *world) {
+            return new OpenGLDefaultWorldSceneGraph();
         }
 
         void OpenGLPlugin::initialize(Engine &engine) {}
@@ -27,7 +27,7 @@ namespace PAX {
         void OpenGLPlugin::registerFactories(FactoryService &factoryService) {
             factoryService.set(paxtypeid(MeshFactory), &meshFactory);
             factoryService.set(paxtypeid(ViewportFactory), &viewportFactory);
-            factoryService.set(paxtypeid(WorldLayerSceneGraphFactory), &worldLayerSceneGraphFactory);
+            factoryService.set(paxtypeid(WorldSceneGraphFactory), &worldSceneGraphFactory);
             factoryService.set(paxtypeid(TextureFactory), &textureFactory);
         }
     }

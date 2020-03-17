@@ -2,10 +2,10 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <cassert>
 #include <paxutil/math/Transformation.h>
 #include <paxcore/rendering/RenderOptions.h>
 #include <paxcore/rendering/Renderer.h>
+#include <paxcore/world/World.h>
 
 namespace PAX {
     bool ShaderOptions::pushShader(void *caller, Shader* shader, ShaderPriority priority) {
@@ -44,7 +44,12 @@ namespace PAX {
         return _shaders.top()._shader;
     }
 
-    RenderOptions::RenderOptions(const Renderer& renderer, float dt, float actualDt) : _renderer(renderer), _camera(nullptr), _worldLayer(nullptr), dt(dt), actual_dt(actualDt) {
+    RenderOptions::RenderOptions(const Renderer& renderer, float dt, float actualDt) :
+    _renderer(renderer),
+    _camera(nullptr),
+    _world(nullptr),
+    dt(dt),
+    actual_dt(actualDt) {
     }
 
     PAX::Camera *PAX::RenderOptions::getCamera() const {
@@ -55,12 +60,12 @@ namespace PAX {
         RenderOptions::_camera = camera;
     }
     
-    WorldLayer* RenderOptions::getWorldLayer() const {
-        return _worldLayer;
+    World * RenderOptions::getWorld() const {
+        return _world;
     }
     
-    void RenderOptions::setWorldLayer(PAX::WorldLayer *worldLayer) {
-        _worldLayer = worldLayer;
+    void RenderOptions::setWorld(World *world) {
+        _world = world;
     }
 
     glm::mat4 & PAX::RenderOptions::getTransformationMatrix() {
@@ -92,11 +97,11 @@ namespace PAX {
         return _shaderOptions;
     }
 
-    float RenderOptions::getDeltaTime() {
+    float RenderOptions::getDeltaTime() const {
         return dt;
     }
 
-    float RenderOptions::getActualDeltaTime() {
+    float RenderOptions::getActualDeltaTime() const {
         return dt;
     }
 }

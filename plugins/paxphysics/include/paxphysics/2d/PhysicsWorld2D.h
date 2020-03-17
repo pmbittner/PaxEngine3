@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PHYSICSWORLD2D_H
 #define PAXENGINE3_PHYSICSWORLD2D_H
 
-#include <paxcore/world/property/WorldLayerBehaviour.h>
+#include <paxcore/world/property/WorldBehaviour.h>
 
 namespace PAX::Physics {
     class PhysicsWorld2D : public WorldLayerProperty {

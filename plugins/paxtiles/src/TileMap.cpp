@@ -34,8 +34,8 @@ namespace PAX {
             // >>>>>
             //
             int index = 0;
-            for (unsigned long row = 0; row < height; ++row) {
-                for (unsigned long column = 0; column < width; ++column) {
+            for (long row = 0; row < height; ++row) {
+                for (long column = 0; column < width; ++column) {
                     const Tile & currentTile = tiles[row * width + column];
 
                     // use vec2 to cast to float

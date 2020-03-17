@@ -8,7 +8,6 @@
 #include <paxcore/entity/property/Behaviour.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/entity/property/Size.h>
-#include <paxcore/world/WorldLayer.h>
 
 #include <paxcore/io/event/MouseMovedEvent.h>
 #include <paxcore/io/event/MouseButtonPressedEvent.h>

@@ -2,15 +2,15 @@
 // Created by Bittner on 21/06/2019.
 //
 
-#ifndef PAXENGINE3_WORLDLAYERSIZE_H
-#define PAXENGINE3_WORLDLAYERSIZE_H
+#ifndef PAXENGINE3_WORLDSIZE_H
+#define PAXENGINE3_WORLDSIZE_H
 
-#include <paxcore/world/WorldLayerProperty.h>
+#include <paxcore/world/WorldProperty.h>
 
 namespace PAX {
-    class WorldLayerSize : public WorldLayerProperty {
-        PAX_PROPERTY(WorldLayerSize, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(WorldLayerProperty)
+    class WorldSize : public WorldProperty {
+        PAX_PROPERTY(WorldSize, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_DERIVES(WorldProperty)
         PAX_PROPERTY_IS_SINGLE
 
         /// width, height and depth of the layer
@@ -21,7 +21,7 @@ namespace PAX {
         };
 
     public:
-        explicit WorldLayerSize(const glm::vec3 & size = {-1.f, -1.f, -1.f});
+        explicit WorldSize(const glm::vec3 & size = {-1.f, -1.f, -1.f});
 
         PAX_NODISCARD const glm::vec3 & getSize() const;
         PAX_NODISCARD const glm::vec2 & getSize2D() const;
@@ -32,4 +32,4 @@ namespace PAX {
     };
 }
 
-#endif //PAXENGINE3_WORLDLAYERSIZE_H
+#endif //PAXENGINE3_WORLDSIZE_H

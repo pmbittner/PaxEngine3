@@ -5,12 +5,12 @@
 #ifndef PAXENGINE3_AMBIENTLIGHT_H
 #define PAXENGINE3_AMBIENTLIGHT_H
 
-#include <paxcore/world/WorldLayerProperty.h>
+#include <paxcore/world/WorldProperty.h>
 
 namespace PAX {
-    class AmbientLight : public WorldLayerProperty {
+    class AmbientLight : public WorldProperty {
         PAX_PROPERTY(AmbientLight, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(WorldLayerProperty)
+        PAX_PROPERTY_DERIVES(WorldProperty)
         PAX_PROPERTY_IS_SINGLE
 
         glm::vec3 color;

@@ -2,12 +2,10 @@
 option(WITH_SDL_IMAGE "True if build with SDL2Image" ON)
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
-    #set(SDL2_INCLUDE_DIR ${PAX_LIB_DIR}/win/lib/SDL2-2.0.7/include)
-    set(SDL2_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2-2.0.7/lib/${PAX_OS_ARCHITECTURE}/SDL2.lib)
+    set(SDL2_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2/lib/${PAX_OS_ARCHITECTURE}/SDL2.lib)
 
     if(WITH_SDL_IMAGE)
-        #set(SDL2_IMAGE_INCLUDE_DIR ${PAX_LIB_DIR}/win/lib/SDL2_image-2.0.2/include)
-        set(SDL2_IMAGE_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2_image-2.0.2/lib/${PAX_OS_ARCHITECTURE}/SDL2_image.lib)
+        set(SDL2_IMAGE_LIBRARY ${PAX_LIB_DIR}/win/lib/SDL2_image/lib/${PAX_OS_ARCHITECTURE}/SDL2_image.lib)
     endif()
 else()
     find_package(SDL2 REQUIRED)
@@ -18,13 +16,12 @@ else()
 
     #find_package(SDL2_ttf REQUIRED)
     #include_directories(${SDL2_TTF_INCLUDE_DIR})
-endif()
 
-include_directories(${SDL2_INCLUDE_DIR})
-if(WITH_SDL_IMAGE)
-    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+    include_directories(${SDL2_INCLUDE_DIR})
+    if(WITH_SDL_IMAGE)
+        include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+    endif()
 endif()
-
 
 ### TARGET ###########################################
 set(PAX_SDL_SOURCE_FILES

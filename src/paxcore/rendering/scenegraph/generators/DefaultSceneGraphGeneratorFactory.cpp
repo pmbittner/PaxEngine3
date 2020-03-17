@@ -7,10 +7,10 @@
 #include <paxcore/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
 
 namespace PAX {
-    std::shared_ptr<SceneGraphGenerator> DefaultSceneGraphGeneratorFactory::create(int dimensions) {
+    SceneGraphGenerator * DefaultSceneGraphGeneratorFactory::create(int dimensions) {
         if (dimensions == 2)
-            return std::make_shared<SortByZSceneGraphGenerator>();
+            return new SortByZSceneGraphGenerator();
         else
-            return std::make_shared<GroupByShadersSceneGraphGenerator>();
+            return new GroupByShadersSceneGraphGenerator();
     }
 }

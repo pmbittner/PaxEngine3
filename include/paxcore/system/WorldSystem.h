@@ -9,7 +9,7 @@
 
 namespace PAX {
     class WorldSystem : public GameSystem {
-    protected:
+    private:
         World * activeWorld = nullptr;
 
         virtual void setActiveWorld(World * world);
@@ -22,6 +22,8 @@ namespace PAX {
         virtual void onWorldUnregistered(WorldEvent &event) {};
 
         void onActiveWorldChanged(ActiveWorldChangedEvent &event);
+
+        PAX_NODISCARD World * getActiveWorld() const;
     };
 }
 

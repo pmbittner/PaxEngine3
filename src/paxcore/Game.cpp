@@ -75,14 +75,12 @@ namespace PAX {
 
         if (oldActive) {
             oldActive->getEventService().setParent(nullptr);
-            oldActive->setActive(false);
         }
 
         _activeWorld = world;
 
         if (_activeWorld) {
             _activeWorld->getEventService().setParent(&Services::GetEventService());
-            _activeWorld->setActive(true);
         }
 
         ActiveWorldChangedEvent e(oldActive, _activeWorld);

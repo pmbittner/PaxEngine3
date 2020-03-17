@@ -19,8 +19,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/scenegraph/sort/GraphicsSort.h
 
         ../../include/paxcore/world/World.h
-        ../../include/paxcore/world/WorldLayer.h
-        ../../include/paxcore/world/WorldLayerLayout.h
 
         ../../include/paxcore/gameentity/event/GameEntityEvent.h
         ../../include/paxcore/world/event/GameEntitySpawnedEvent.h
@@ -67,7 +65,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/data/SpriteSheet.h
         ../../include/paxcore/rendering/scenegraph/nodes/TransformationNode.h
         ../../include/paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h
-        ../../include/paxcore/world/scenegraph/WorldLayerSceneGraph.h
         ../../include/paxcore/world/scenegraph/WorldSceneGraph.h
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h
         ../../include/paxcore/rendering/graphics/SpriteGraphics.h
@@ -86,8 +83,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/DirectionalLight.h
         ../../include/paxcore/rendering/light/SpotLight.h
         ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
-        ../../include/paxcore/world/WorldLayerProperty.h
-        ../../include/paxcore/system/worldlayer/WorldLayerPropertySystem.h
+        ../../include/paxcore/world/WorldProperty.h
         ../../include/paxcore/rendering/light/AmbientLight.h
         ../../include/paxcore/system/gameentity/LightSystem.h
         ../../include/paxcore/service/WindowService.h
@@ -97,30 +93,30 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/factory/MeshFactory.h
         ../../include/paxcore/rendering/factory/ViewportFactory.h
         ../../include/paxcore/io/InputSystemFactory.h
-        ../../include/paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h
+        ../../include/paxcore/world/scenegraph/WorldSceneGraphFactory.h
         ../../include/paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h
         ../../include/paxcore/io/WindowFactory.h
-        ../../include/paxcore/system/SystemManager.h
-        ../../include/paxcore/system/worldlayer/WorldLayerBehaviourSystem.h
+        ../../include/paxcore/system/world/WorldBehaviourSystem.h
         ../../include/paxcore/system/gameentity/GameEntityPropertySystem.h
         ../../include/paxcore/system/WorldSystem.h
-        ../../include/paxcore/system/System.h
-        ../../include/paxcore/system/SystemManager.h
-        ../../include/paxcore/world/property/WorldLayerBehaviour.h
-        ../../include/paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h
+        ../../include/paxcore/world/property/WorldBehaviour.h
+        ../../include/paxcore/world/prefab/JsonWorldPrefabInitParser.h
         ../../include/paxcore/rendering/renderpass/RenderPassChannel.h
         ../../include/paxcore/rendering/renderpass/RenderPassFactory.h
         ../../include/paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h
-        ../../include/paxcore/world/property/WorldLayerSize.h
+        ../../include/paxcore/world/property/WorldSize.h
         ../../include/paxcore/gameentity/GameEntityIDService.h
-        ../../include/paxcore/world/prefab/JsonWorldLayerGameEntityParser.h
+        ../../include/paxcore/world/prefab/JsonWorldGameEntityParser.h
         ../../include/paxcore/rendering/scenegraph/generators/DefaultSceneGraphGeneratorFactory.h
         ../../include/paxcore/rendering/factory/TextureFactory.h
         ../../include/paxcore/gameentity/MotionType.h
         ../../include/paxcore/rendering/geometry/ScreenFillingQuad.h
         ../../include/paxcore/gameentity/Tag.h
-        ../../include/paxcore/world/WorldLayerEvent.h
-        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h ../../include/paxcore/json/JsonResourceLoader.h ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h ../../include/paxcore/rendering/camera/json/ViewportJsonParser.h ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h)
+        ../../include/paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h
+        ../../include/paxcore/json/JsonResourceLoader.h
+        ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h
+        ../../include/paxcore/rendering/camera/json/ViewportJsonParser.h
+        ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -137,9 +133,7 @@ set(CORE_SOURCE_FILES
         gameentity/property/behaviours/2d/FollowGameEntityBehaviour.cpp
 
         world/World.cpp
-        world/WorldLayer.cpp
         world/scenegraph/WorldSceneGraph.cpp
-        world/scenegraph/WorldLayerSceneGraph.cpp
 
         system/gameentity/BehaviourSystem.cpp
 
@@ -150,13 +144,13 @@ set(CORE_SOURCE_FILES
         system/gameentity/LightSystem.cpp
         service/WindowService.cpp
         system/WorldSystem.cpp
-        system/worldlayer/WorldLayerBehaviourSystem.cpp
-        world/prefab/JsonWorldLayerPrefabInitParser.cpp
-        world/property/WorldLayerSize.cpp
-        world/property/WorldLayerBehaviour.cpp
+        system/world/WorldBehaviourSystem.cpp
+        world/prefab/JsonWorldPrefabInitParser.cpp
+        world/property/WorldSize.cpp
+        world/property/WorldBehaviour.cpp
         gameentity/GameEntityIDService.cpp
-        world/prefab/JsonWorldLayerGameEntityParser.cpp
-        function/Updateable.cpp world/WorldLayerEvent.cpp
+        world/prefab/JsonWorldGameEntityParser.cpp
+        function/Updateable.cpp
         gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp json/JsonResourceLoader.cpp gameentity/GameEntityProperty.cpp)
 
 add_subdirectory(io)

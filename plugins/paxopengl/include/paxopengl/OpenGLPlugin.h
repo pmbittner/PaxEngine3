@@ -7,24 +7,23 @@
 
 #include <paxcore/plugin/EnginePlugin.h>
 #include <paxcore/service/Services.h>
-#include <paxcore/world/WorldLayer.h>
-#include <paxcore/world/scenegraph/WorldLayerSceneGraph.h>
-#include <paxcore/world/scenegraph/WorldLayerSceneGraphFactory.h>
+#include <paxcore/world/scenegraph/WorldSceneGraph.h>
+#include <paxcore/world/scenegraph/WorldSceneGraphFactory.h>
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGeneratorFactory.h>
 #include <paxopengl/factory/OpenGLTextureFactory.h>
 #include <paxutil/resources/JsonResourceParser.h>
 
 #include "factory/OpenGLMeshFactory.h"
 #include "factory/OpenGLViewportFactory.h"
-#include "rendernodes/OpenGLWorldLayerRenderPass.h"
+#include "paxopengl/rendernodes/OpenGLDefaultWorldSceneGraph.h"
 #include "io/OpenGLShaderLoader.h"
 
 namespace PAX {
     namespace OpenGL {
         class OpenGLPlugin : public EnginePlugin {
-            class OpenGLWorldLayerSceneGraphFactory : public WorldLayerSceneGraphFactory {
-                std::shared_ptr<WorldLayerSceneGraph> create(WorldLayer *worldLayer, float z) override;
-            } worldLayerSceneGraphFactory;
+            class OpenGLWorldSceneGraphFactory : public WorldSceneGraphFactory {
+                WorldSceneGraph * create(World *world) override;
+            } worldSceneGraphFactory;
 
             OpenGLShaderLoader shaderLoader;
             OpenGLMeshFactory meshFactory;

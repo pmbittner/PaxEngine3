@@ -24,12 +24,10 @@
 
 namespace PAX {
     class World;
-    class WorldLayer;
     using GameEntityPrefab = Prefab<GameEntity>;
 
     class GameEntity final : public Entity<GameEntity, GameEntityProperty> {
         friend class World;
-        friend class WorldLayer;
 
     private:
         Transformation transform;
@@ -40,7 +38,7 @@ namespace PAX {
         GameEntity * parent = nullptr;
         std::vector<GameEntity*> children;
 
-        WorldLayer *worldLayer = nullptr;
+        World *world = nullptr;
 
     protected:
         void onPropertyAdded(GameEntityProperty *property) override;
@@ -56,7 +54,7 @@ namespace PAX {
         void setParent(GameEntity *parent);
         PAX_NODISCARD GameEntity* getParent() const;
         PAX_NODISCARD const std::vector<GameEntity*>& getChildren() const;
-        PAX_NODISCARD WorldLayer* getWorldLayer() const;
+        PAX_NODISCARD World* getWorld() const;
 
         // TODO: This should not be changeable later. Add some sort of finalisation or so.
         void i_setMotionType(MotionType motionType);
@@ -69,8 +67,6 @@ namespace PAX {
 
         void spawned();
         void despawned();
-
-        PAX_NODISCARD bool isActive() const;
     };
 
     using GameEntityManager = EntityManager<GameEntity>;

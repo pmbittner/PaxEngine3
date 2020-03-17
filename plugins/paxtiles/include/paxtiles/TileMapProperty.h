@@ -5,14 +5,14 @@
 #ifndef PAXENGINE3_TILEMAPPROPERTY_H
 #define PAXENGINE3_TILEMAPPROPERTY_H
 
-#include <paxcore/world/WorldLayerProperty.h>
+#include <paxcore/world/WorldProperty.h>
 #include "TileMap.h"
 
 namespace PAX {
     namespace Tiles {
-        class TileMapProperty : public WorldLayerProperty {
+        class TileMapProperty : public WorldProperty {
             PAX_PROPERTY(PAX::Tiles::TileMapProperty, PAX_PROPERTY_IS_CONCRETE)
-            PAX_PROPERTY_DERIVES(PAX::WorldLayerProperty)
+            PAX_PROPERTY_DERIVES(PAX::WorldProperty)
             PAX_PROPERTY_IS_MULTIPLE
 
             std::shared_ptr<TileMap> tileMap;
@@ -20,7 +20,6 @@ namespace PAX {
             glm::vec3 scale = glm::vec3(1);
 
             static std::shared_ptr<Shader> tileMapShader;
-            static void initialize();
 
             TileMapProperty();
             void init();
@@ -28,8 +27,8 @@ namespace PAX {
         public:
             explicit TileMapProperty(const std::shared_ptr<TileMap> & tilemap);
 
-            void attached(WorldLayer & worldLayer) override;
-            void detached(WorldLayer & worldLayer) override;
+            void attached(World & worldLayer) override;
+            void detached(World & worldLayer) override;
 
             void setScale(const glm::vec3 & scale);
             PAX_NODISCARD const glm::vec3 & getScale() const;

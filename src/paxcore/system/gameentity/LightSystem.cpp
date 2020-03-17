@@ -4,7 +4,6 @@
 
 #include <paxcore/system/gameentity/LightSystem.h>
 #include <paxcore/Engine.h>
-#include <paxcore/world/WorldLayer.h>
 #include <paxcore/rendering/light/AmbientLight.h>
 
 namespace PAX {
@@ -30,8 +29,8 @@ namespace PAX {
         });
     }
 
-    void LightSystem::findNearestLights(const glm::vec3 &pos, unsigned int maxLights, std::vector<Light*> &out, WorldLayer* worldLayer) {
-        const std::set<GameEntity*> & lightEntities = getEntities(worldLayer);
+    void LightSystem::findNearestLights(const glm::vec3 &pos, unsigned int maxLights, std::vector<Light*> &out, World * world) {
+        const std::set<GameEntity*> & lightEntities = getEntities(world);
         //Log::out.info() << "[LightSystem::findNearestLights] found " << lightEntities.size() << " lights on layer " << worldLayer->getName();
 
         for (GameEntity* lightGameEntity : lightEntities) {
@@ -60,24 +59,24 @@ namespace PAX {
         Shader* shader = renderOptions.getShaderOptions().getShader();
 
         if (shader) {
-            if (WorldLayer* worldLayer = renderOptions.getWorldLayer()) {
-                const auto& ambientLight = worldLayer->get<AmbientLight>();
+            if (World * world = renderOptions.getWorld()) {
+                const auto& ambientLight = world->get<AmbientLight>();
                 if (ambientLight)
                     ambientLight->uploadTo(shader);
+
+                unsigned int numberOfSupportedLights = 4;//shader->getNumberOfSupportedLights();
+
+                std::vector<Light*> nearestLights;
+                findNearestLights(glm::vec3(renderOptions.getTransformationMatrix()[3]), numberOfSupportedLights, nearestLights, world);
+
+                for (size_t i = 0; i < nearestLights.size(); ++i) {
+                    nearestLights[i]->uploadTo(shader, int(i));
+                }
+
+                // TODO: Fix this, as we assume here, that only directional lights are in the world.
+                //Log::out.info() << "[LightSystem::onRendererTransformationChanged] set lights.num_directional_lights to " << static_cast<int>(nearestLights.size());
+                shader->setUniform("lights.num_directional_lights", static_cast<int>(nearestLights.size()));
             }
-
-            unsigned int numberOfSupportedLights = 4;//shader->getNumberOfSupportedLights();
-
-            std::vector<Light*> nearestLights;
-            findNearestLights(glm::vec3(renderOptions.getTransformationMatrix()[3]), numberOfSupportedLights, nearestLights, renderOptions.getWorldLayer());
-
-            for (int i = 0; i < nearestLights.size(); ++i) {
-                nearestLights[i]->uploadTo(shader, i);
-            }
-
-            // TODO: Fix this, as we assume here, that only directional lights are in the world.
-            //Log::out.info() << "[LightSystem::onRendererTransformationChanged] set lights.num_directional_lights to " << static_cast<int>(nearestLights.size());
-            shader->setUniform("lights.num_directional_lights", static_cast<int>(nearestLights.size()));
         }
     }
 }

@@ -3,7 +3,7 @@ project(PaxEngine3)
 
 ### DEFINITIONS #########################################
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-set(PAX_LIB_DIR_RELATIVE ../lib)
+set(PAX_LIB_DIR_RELATIVE ../pax3libs)
 set(PAX_LIB_DIR ${CMAKE_SOURCE_DIR}/${PAX_LIB_DIR_RELATIVE})
 
 ### DETECT COMPILER #####################################
@@ -43,7 +43,7 @@ include_directories(libs/Polypropylene/include)
 add_definitions(-DPAX_WITH_JSON)
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
-    include_directories(${PAX_LIB_DIR_RELATIVE}/win/include)
+    include_directories(${PAX_LIB_DIR}/win/include)
 else()
 
 endif()

@@ -10,8 +10,8 @@
 
 namespace PAX {
     class Renderer {
-        SceneGraph* _sceneGraphRoot = nullptr;
-        SceneGraph* _generationEntryPoint = nullptr;
+        SceneGraph* sceneGraphRoot = nullptr;
+        SceneGraph* generationEntryPoint = nullptr;
 
     public:
         EventHandler<RenderOptions&> OnTransformationChanged;

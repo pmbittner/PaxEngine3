@@ -38,4 +38,8 @@ namespace PAX {
     void WorldSystem::onActiveWorldChanged(PAX::ActiveWorldChangedEvent &event) {
         setActiveWorld(event.newWorld);
     }
+
+    World * WorldSystem::getActiveWorld() const {
+        return activeWorld;
+    }
 }

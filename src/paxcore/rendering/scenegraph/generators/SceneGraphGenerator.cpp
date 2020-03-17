@@ -3,7 +3,6 @@
 //
 
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h>
-#include <paxcore/world/WorldLayer.h>
 
 namespace PAX {
     SceneGraphGenerator::SceneGraphGenerator() = default;

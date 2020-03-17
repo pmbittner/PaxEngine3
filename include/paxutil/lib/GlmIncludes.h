@@ -48,7 +48,8 @@ namespace PAX {
                 std::string liststr = str.substr(1, strlen - 2);
                 std::vector<std::string> numbers = String::split(',', liststr, false);
 
-                for (glm::length_t i = 0; i < L && i < numbers.size(); ++i)
+                const glm::length_t dims = glm::length_t(numbers.size());
+                for (glm::length_t i = 0; i < L && i < dims; ++i)
                     ret[i] = String::tryParse<T>(numbers[i]);
             }
 

@@ -17,27 +17,27 @@ namespace PAX {
         if (activeWorld) {
             WorldSceneGraph *scene = activeWorld->getSceneGraph();
 
-            _generationEntryPoint->addChild(scene);
-            _sceneGraphRoot->render(options);
-            _generationEntryPoint->removeChild(scene);
+            generationEntryPoint->addChild(scene);
+            sceneGraphRoot->render(options);
+            generationEntryPoint->removeChild(scene);
         }
     }
 
     SceneGraph* Renderer::getSceneGraphGenerationEntryPoint() {
-        return _generationEntryPoint;
+        return generationEntryPoint;
     }
 
-    void Renderer::setSceneGraphGenerationEntryPoint(SceneGraph *generationEntiryPoint) {
-        assert(generationEntiryPoint);
-        _generationEntryPoint = generationEntiryPoint;
+    void Renderer::setSceneGraphGenerationEntryPoint(SceneGraph *generationEntryPoint) {
+        assert(generationEntryPoint);
+        this->generationEntryPoint = generationEntryPoint;
     }
 
     SceneGraph* Renderer::getSceneGraphRoot() {
-        return _sceneGraphRoot;
+        return sceneGraphRoot;
     }
 
     void Renderer::setSceneGraphRoot(SceneGraph *root) {
         assert(root);
-        _sceneGraphRoot = root;
+        sceneGraphRoot = root;
     }
 }

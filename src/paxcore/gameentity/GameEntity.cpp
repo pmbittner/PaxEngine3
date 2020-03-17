@@ -14,13 +14,13 @@ namespace PAX {
     GameEntity::~GameEntity() = default;
 
     void GameEntity::onPropertyAdded(GameEntityProperty *property) {
-        if (worldLayer) {
+        if (world) {
             property->spawned();
         }
     }
 
     void GameEntity::onPropertyRemoved(GameEntityProperty *property) {
-        if (worldLayer) {
+        if (world) {
             property->despawned();
         }
     }
@@ -57,8 +57,8 @@ namespace PAX {
         return children;
     }
 
-    WorldLayer* GameEntity::getWorldLayer() const {
-        return worldLayer;
+    World * GameEntity::getWorld() const {
+        return world;
     }
 
     void GameEntity::i_setMotionType(PAX::MotionType motionType) {
@@ -72,8 +72,8 @@ namespace PAX {
     void GameEntity::addTag(const PAX::Tag &tag) {
         tags.push_back(tag);
 
-        if (worldLayer) {
-            worldLayer->registerTagForGameEntity(this, tag);
+        if (world) {
+            world->registerTagForGameEntity(this, tag);
         }
     }
 
@@ -83,8 +83,8 @@ namespace PAX {
         if (it != tags.end()) {
             tags.erase(it);
 
-            if (worldLayer) {
-                worldLayer->unregisterTagForGameEntity(this, tag);
+            if (world) {
+                world->unregisterTagForGameEntity(this, tag);
             }
 
             return true;
@@ -111,9 +111,5 @@ namespace PAX {
         for (GameEntityProperty * p : getProperties()) {
             p->despawned();
         }
-    }
-
-    bool GameEntity::isActive() const {
-        return worldLayer ? worldLayer->isActive() : false;
     }
 }

@@ -50,14 +50,12 @@ namespace PAX {
                 Settings gameSettings(Services::GetPaths().getResourcePath() + "/TileDemo/game.paxconfig");
 
                 /// Create the starting world
-                World * world = new World();
-                WorldLayer * startWorldLayer = nullptr;
+                World * world = nullptr;
                 {
-                    Path startWorldPath = gameSettings.get("startworld");
-                    std::shared_ptr<WorldLayerPrefab> worldLayerPrefab =
-                            Services::GetResources().loadOrGet<WorldLayerPrefab>(startWorldPath);
-                    startWorldLayer = worldLayerPrefab->create({});
-                    world->addLayer(startWorldLayer);
+                    Path path = gameSettings.get("startworld");
+                    std::shared_ptr<WorldPrefab> worldPrefab =
+                            Services::GetResources().loadOrGet<WorldPrefab>(path);
+                    world = worldPrefab->create({});
                 }
 
                 /// Spawn player
@@ -68,19 +66,19 @@ namespace PAX {
                     GameEntity * player = playerPrefab->create({});
                     player->addTag(Tags::Player);
 
-                    const std::vector<GameEntity*> & playerSpawns = startWorldLayer->getEntitiesWithTag(Tags::PlayerSpawn);
-                    if (!playerSpawns.empty()) {
-                        player->getTransformation().position2D() = playerSpawns.at(0)->getTransformation().position2D();
+                    const std::vector<GameEntity*> & playerSpawn = world->getEntitiesWithTag(Tags::PlayerSpawn);
+                    if (!playerSpawn.empty()) {
+                        player->getTransformation().position2D() = playerSpawn.at(0)->getTransformation().position2D();
                     }
 
-                    startWorldLayer->getGameEntityIDService().reserveIDFor(player, 1001);
-                    startWorldLayer->spawn(player);
+                    world->getGameEntityIDService().reserveIDFor(player, 1001);
+                    world->spawn(player);
 
-                    const std::vector<GameEntity*> & cameras = startWorldLayer->getEntitiesWithTag(Tags::Camera);
+                    const std::vector<GameEntity*> & cameras = world->getEntitiesWithTag(Tags::Camera);
                     if (!cameras.empty()) {
                         GameEntity * camera = cameras[0];
                         if (camera->has<FollowGameEntityBehaviour>()) {
-                            camera->get<FollowGameEntityBehaviour>()->setTarget(startWorldLayer->getGameEntityIDService().getID(player));
+                            camera->get<FollowGameEntityBehaviour>()->setTarget(world->getGameEntityIDService().getID(player));
                             camera->getTransformation().position2D() = player->getTransformation().position2D();
                         }
                     }

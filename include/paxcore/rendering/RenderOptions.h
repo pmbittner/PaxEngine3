@@ -14,7 +14,7 @@
 namespace PAX {
     class Camera;
     class Renderer;
-    class WorldLayer;
+    class World;
 
     enum class ShaderPriority {
         MUTABLE,
@@ -41,7 +41,7 @@ namespace PAX {
         const Renderer& _renderer;
 
         Camera *_camera = nullptr;
-        WorldLayer *_worldLayer = nullptr;
+        World *_world = nullptr;
         
         ShaderOptions _shaderOptions;
         
@@ -55,11 +55,11 @@ namespace PAX {
     public:
         explicit RenderOptions(const Renderer& renderer, float dt, float actualDt);
 
-        Camera *getCamera() const;
+        PAX_NODISCARD Camera *getCamera() const;
         void setCamera(Camera *camera);
 
-        WorldLayer *getWorldLayer() const;
-        void setWorldLayer(WorldLayer *worldLayer);
+        PAX_NODISCARD World *getWorld() const;
+        void setWorld(World *worldLayer);
 
         glm::mat4& getTransformationMatrix();
         void setTransformationMatrix(const glm::mat4& transform);
@@ -72,8 +72,8 @@ namespace PAX {
 
         ShaderOptions& getShaderOptions();
 
-        float getDeltaTime();
-        float getActualDeltaTime();
+        PAX_NODISCARD float getDeltaTime() const;
+        PAX_NODISCARD float getActualDeltaTime() const;
     };
 }
 

@@ -2,7 +2,7 @@
 // Created by paul on 03.01.19.
 //
 
-#include <paxcore/world/property/WorldLayerSize.h>
+#include <paxcore/world/property/WorldSize.h>
 #include <paxutil/reflection/EngineFieldFlags.h>
 #include "paxtiles/TileMapProperty.h"
 #include "paxtiles/TileMapGraphics.h"
@@ -12,36 +12,6 @@ namespace PAX {
         PAX_PROPERTY_IMPL(PAX::Tiles::TileMapProperty)
 
         void TileMapProperty::init() {
-            initialize();
-
-            layerEntities = std::vector<GameEntity>(tileMap->getLayers().size());
-
-            int i = 0;
-            for (TileMap::Layer & layer : tileMap->getLayers()) {
-                auto graphics = new (GameEntity::GetPropertyAllocator().allocate<TileMapGraphics>()) TileMapGraphics(layer);
-                graphics->setShader(tileMapShader);
-                GameEntity & e = layerEntities[i];
-                e.add(graphics);
-                e.getTransformation().z() = static_cast<float>(layer.z);
-                ++i;
-            }
-        }
-
-        void TileMapProperty::created() {
-            Super::created();
-            init();
-        }
-
-        ClassMetadata TileMapProperty::getMetadata() {
-            ClassMetadata m = Super::getMetadata();
-            m.add(paxfieldalias("map", tileMap)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
-            m.add(paxfieldof(scale));
-            return m;
-        }
-
-        std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
-
-        void TileMapProperty::initialize() {
             if (tileMapShader == nullptr) {
                 static constexpr const int NUM_MAX_TILESETS = 16;
 
@@ -70,7 +40,33 @@ namespace PAX {
 
                 tileMapShader->unbind();
             }
+
+            layerEntities = std::vector<GameEntity>(tileMap->getLayers().size());
+
+            int i = 0;
+            for (TileMap::Layer & layer : tileMap->getLayers()) {
+                auto graphics = new (GameEntity::GetPropertyAllocator().allocate<TileMapGraphics>()) TileMapGraphics(layer);
+                graphics->setShader(tileMapShader);
+                GameEntity & e = layerEntities[i];
+                e.add(graphics);
+                e.getTransformation().z() = static_cast<float>(layer.z);
+                ++i;
+            }
         }
+
+        void TileMapProperty::created() {
+            Super::created();
+            init();
+        }
+
+        ClassMetadata TileMapProperty::getMetadata() {
+            ClassMetadata m = Super::getMetadata();
+            m.add(paxfieldalias("map", tileMap)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
+            m.add(paxfieldof(scale));
+            return m;
+        }
+
+        std::shared_ptr<Shader> TileMapProperty::tileMapShader = nullptr;
 
         TileMapProperty::TileMapProperty(const std::shared_ptr<TileMap> & tilemap) :
             tileMap(tilemap),
@@ -81,41 +77,41 @@ namespace PAX {
 
         TileMapProperty::TileMapProperty() = default;
 
-        void TileMapProperty::attached(PAX::WorldLayer & worldLayer) {
+        void TileMapProperty::attached(PAX::World & world) {
             const glm::ivec2 worldSize = tileMap->getTileSize() * tileMap->getSizeInTiles();
 
-            WorldLayerSize * worldLayerSize = getOwner()->get<WorldLayerSize>();
+            WorldSize * worldLayerSize = getOwner()->get<WorldSize>();
             if (!worldLayerSize) {
-                worldLayerSize = new (WorldLayer::GetPropertyAllocator().allocate<WorldLayerSize>()) WorldLayerSize(glm::vec3(worldSize, -1));
+                worldLayerSize = new (World::GetPropertyAllocator().allocate<WorldSize>()) WorldSize(glm::vec3(worldSize, -1));
                 getOwner()->add(worldLayerSize);
             } else {
                 worldLayerSize->setSize2D(worldSize);
             }
 
             for (GameEntity & e : layerEntities) {
-                worldLayer.spawn(&e);
+                world.spawn(&e);
             }
 
             //*
             for (const std::pair<GameEntity *, GameEntityID> & ep : tileMap->getEntities()) {
-                worldLayer.getGameEntityIDService().reserveIDFor(ep.first, ep.second);
-                worldLayer.spawn(ep.first);
+                world.getGameEntityIDService().reserveIDFor(ep.first, ep.second);
+                world.spawn(ep.first);
             }
             //*/
         }
 
-        void TileMapProperty::detached(PAX::WorldLayer & worldLayer) {
+        void TileMapProperty::detached(PAX::World & world) {
             for (GameEntity & e : layerEntities) {
-                if (e.getWorldLayer() == &worldLayer) {
-                    worldLayer.despawn(&e);
+                if (e.getWorld() == &world) {
+                    world.despawn(&e);
                 }
             }
 
             //*
             for (const std::pair<GameEntity *, GameEntityID> & ep : tileMap->getEntities()) {
                 GameEntity * e = ep.first;
-                if (e->getWorldLayer() == &worldLayer) {
-                    worldLayer.despawn(e);
+                if (e->getWorld() == &world) {
+                    world.despawn(e);
                 }
             }
             //*/

@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_WORLDBEHAVIOUR_H
 #define PAXENGINE3_WORLDBEHAVIOUR_H
 
-#include <paxcore/world/WorldLayerProperty.h>
+#include <paxcore/world/WorldProperty.h>
 #include <paxcore/function/Updateable.h>
 
 namespace PAX {
-    class WorldLayerBehaviour : public WorldLayerProperty, public Updateable {
-        PAX_PROPERTY(PAX::WorldLayerBehaviour, PAX_PROPERTY_IS_ABSTRACT)
-        PAX_PROPERTY_DERIVES(PAX::WorldLayerProperty)
+    class WorldBehaviour : public WorldProperty, public Updateable {
+        PAX_PROPERTY(PAX::WorldBehaviour, PAX_PROPERTY_IS_ABSTRACT)
+        PAX_PROPERTY_DERIVES(PAX::WorldProperty)
         PAX_PROPERTY_IS_MULTIPLE
     };
 }

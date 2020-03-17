@@ -3,7 +3,7 @@
 //
 
 #include "paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h"
-#include <paxcore/world/property/WorldLayerSize.h>
+#include <paxcore/world/property/WorldSize.h>
 
 namespace PAX {
     PAX_PROPERTY_IMPL(PAX::FollowGameEntityBehaviour)
@@ -20,9 +20,10 @@ namespace PAX {
     void FollowGameEntityBehaviour::update(UpdateOptions & options) {
         if (GameEntity * owner = getOwner()) {
             GameEntity * target = nullptr;
+            World * world = owner->getWorld();
 
-            if (WorldLayer * layer = owner->getWorldLayer()) {
-                target = layer->getGameEntityIDService().getGameEntity(targetID);
+            if (world) {
+                target = world->getGameEntityIDService().getGameEntity(targetID);
             }
 
             if (target) {
@@ -33,7 +34,7 @@ namespace PAX {
                 if (respectWorldSize) {
                     // This implementation assumes, that the world is centered, i.e., there is no offset
                     // of the world map in any direction.
-                    if (WorldLayerSize *worldSizeProperty = getOwner()->getWorldLayer()->get<WorldLayerSize>()) {
+                    if (WorldSize *worldSizeProperty = world->get<WorldSize>()) {
                         if (Camera *camera = getOwner()->get<Camera>()) {
                             const Projection &projection = camera->getProjection();
 

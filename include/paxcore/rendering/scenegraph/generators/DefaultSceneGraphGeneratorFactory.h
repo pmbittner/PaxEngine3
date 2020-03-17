@@ -10,7 +10,7 @@
 namespace PAX {
     class DefaultSceneGraphGeneratorFactory : public SceneGraphGeneratorFactory {
     public:
-        std::shared_ptr<SceneGraphGenerator> create(int dimensions) override;
+        SceneGraphGenerator * create(int dimensions) override;
     };
 }
 

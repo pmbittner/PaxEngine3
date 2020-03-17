@@ -19,7 +19,7 @@ namespace PAX {
          * @param out Expected to be empty.
          * @param worldLayer The WorldLayer from which lights should be considered.
          */
-        void findNearestLights(const glm::vec3 & pos, unsigned int maxLights, std::vector<Light*>& out, WorldLayer* worldLayer);
+        void findNearestLights(const glm::vec3 & pos, unsigned int maxLights, std::vector<Light*>& out, World * world);
 
     public:
         LightSystem();

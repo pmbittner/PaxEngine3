@@ -10,7 +10,7 @@
 namespace PAX {
     class SceneGraphGeneratorFactory {
     public:
-        virtual std::shared_ptr<SceneGraphGenerator> create(int dimensions) = 0;
+        virtual SceneGraphGenerator * create(int dimensions) = 0;
     };
 }
 

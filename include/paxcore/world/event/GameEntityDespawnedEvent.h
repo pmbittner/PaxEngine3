@@ -10,8 +10,8 @@
 
 namespace PAX {
     struct GameEntityDespawnedEvent : public GameEntityEvent {
-        WorldLayer* oldWorldLayer = nullptr;
-        GameEntityDespawnedEvent(GameEntity *entity, WorldLayer* oldWorldLayer) : GameEntityEvent(entity), oldWorldLayer(oldWorldLayer) {}
+        World* oldWorld = nullptr;
+        GameEntityDespawnedEvent(GameEntity *entity, World* oldWorld) : GameEntityEvent(entity), oldWorld(oldWorld) {}
     };
 }
 

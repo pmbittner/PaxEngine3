@@ -8,9 +8,8 @@
 #include <polypropylene/serialisation/json/property/JsonEntityPrefabLoader.h>
 #include <paxutil/property/construction/json/parsers/JsonEntityPrefabTransformationParser.h>
 
-#include <paxcore/world/prefab/JsonWorldLayerPrefabInitParser.h>
-#include <paxcore/world/prefab/JsonWorldLayerGameEntityParser.h>
-#include <paxcore/world/WorldLayer.h>
+#include <paxcore/world/prefab/JsonWorldPrefabInitParser.h>
+#include <paxcore/world/prefab/JsonWorldGameEntityParser.h>
 #include <paxcore/service/Services.h>
 
 #include <paxcore/gameentity/property/Behaviour.h>
@@ -25,8 +24,8 @@
 #include <paxcore/rendering/light/DirectionalLight.h>
 #include <paxcore/rendering/light/SpotLight.h>
 #include <paxcore/rendering/light/PointLight.h>
-#include <paxcore/world/property/WorldLayerBehaviour.h>
-#include <paxcore/world/property/WorldLayerSize.h>
+#include <paxcore/world/property/WorldBehaviour.h>
+#include <paxcore/world/property/WorldSize.h>
 #include <paxcore/gameentity/prefab/JsonGameEntityPrefabTagsParser.h>
 #include <paxcore/json/JsonEntityPrefabResourceLoader.h>
 
@@ -64,14 +63,14 @@ namespace PAX {
         static JsonGameEntityPrefabTagsParser entityTagsParser;
 
         /// Parsers for WorldLayerPrefab things
-        static Json::JsonWorldLayerPrefabInitParser worldLayerPrefabInitParser;
-        static Json::JsonWorldLayerGameEntityParser worldLayerPrefabGameEntityParser;
+        static Json::JsonWorldPrefabInitParser worldLayerPrefabInitParser;
+        static Json::JsonWorldGameEntityParser worldLayerPrefabGameEntityParser;
 
         IPrefab::PreDefinedVariables["ResourcePath"]     = Services::GetPaths().getResourcePath().convertedToUnix().toString();
         IPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
         Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonParserRegister());
-        Json::JsonEntityPrefab<WorldLayer>::initialize(Services::GetJsonParserRegister());
+        Json::JsonEntityPrefab<World>::initialize(Services::GetJsonParserRegister());
 
         { // register parsers for GameEntityPrefab
             Json::JsonEntityPrefab<GameEntity>::ElementParsers.registerParser("Transform", &transformationParser);
@@ -81,14 +80,14 @@ namespace PAX {
             GEParseOrder.insert(GEParseOrder.begin(), "Tags");
         }
 
-        { // register parsers for WorldLayerPrefab
-            Json::JsonEntityPrefab<WorldLayer>::ElementParsers.registerParser("Constructor",
+        { // register parsers for WorldPrefab
+            Json::JsonEntityPrefab<World>::ElementParsers.registerParser("Constructor",
                                                                               &worldLayerPrefabInitParser);
-            Json::JsonEntityPrefab<WorldLayer>::ElementParsers.registerParser("Entities",
+            Json::JsonEntityPrefab<World>::ElementParsers.registerParser("Entities",
                                                                               &worldLayerPrefabGameEntityParser);
-            std::vector<std::string> &WLParseOrder = Json::JsonEntityPrefab<WorldLayer>::ParseOrder;
-            WLParseOrder.insert(WLParseOrder.begin(), "Constructor");
-            WLParseOrder.emplace_back("Entities");
+            std::vector<std::string> & WParseOrder = Json::JsonEntityPrefab<World>::ParseOrder;
+            WParseOrder.insert(WParseOrder.begin(), "Constructor");
+            WParseOrder.emplace_back("Entities");
         }
 
 
@@ -107,9 +106,9 @@ namespace PAX {
         resources.registerLoader(&jsonLoader);
 
         static JsonEntityPrefabResourceLoader<GameEntity> entityFromJsonLoader;
-        static JsonEntityPrefabResourceLoader<WorldLayer> worldLayerFromJsonLoader;
+        static JsonEntityPrefabResourceLoader<World> worldFromJsonLoader;
         resources.registerLoader(&entityFromJsonLoader);
-        resources.registerLoader(&worldLayerFromJsonLoader);
+        resources.registerLoader(&worldFromJsonLoader);
     }
 
     void EngineInternalPlugin::registerJsonParsers(Json::JsonParserRegister & parserRegister) {
@@ -159,7 +158,7 @@ namespace PAX {
         PAX_PROPERTY_REGISTER(PAX::PointLight);
         PAX_PROPERTY_REGISTER(PAX::SpotLight);
         
-        PAX_PROPERTY_REGISTER(PAX::WorldLayerBehaviour);
-        PAX_PROPERTY_REGISTER(PAX::WorldLayerSize);
+        PAX_PROPERTY_REGISTER(PAX::WorldBehaviour);
+        PAX_PROPERTY_REGISTER(PAX::WorldSize);
     }
 }

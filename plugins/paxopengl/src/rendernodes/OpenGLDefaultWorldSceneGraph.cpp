@@ -3,25 +3,23 @@
 //
 
 #include <GL/glew.h>
-#include <paxcore/world/WorldLayer.h>
 
-#include "paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h"
+#include "paxopengl/rendernodes/OpenGLDefaultWorldSceneGraph.h"
+#include "paxcore/world/World.h"
 
 namespace PAX {
     namespace OpenGL {
-        OpenGLWorldLayerRenderPass::OpenGLWorldLayerRenderPass(float z) : WorldLayerSceneGraph(z) {
+        OpenGLDefaultWorldSceneGraph::OpenGLDefaultWorldSceneGraph() : WorldSceneGraph() {}
 
-        }
-
-        void OpenGLWorldLayerRenderPass::render(RenderOptions &renderOptions) {
+        void OpenGLDefaultWorldSceneGraph::render(RenderOptions &renderOptions) {
             // Clear Depth buffer for each WorldLayer to not let them interfere. Each one should be unconditionally rendered on top of the previous.
             glClear(GL_DEPTH_BUFFER_BIT);
 
-            const bool is2D = this->getWorldLayer()->getDimensions() == 2;
+            const bool is2D = this->getWorld()->getDimensions() == 2;
             if (is2D)
                 glDisable(GL_DEPTH_TEST);
 
-            WorldLayerSceneGraph::render(renderOptions);
+            WorldSceneGraph::render(renderOptions);
 
             if (is2D)
                 glEnable(GL_DEPTH_TEST);

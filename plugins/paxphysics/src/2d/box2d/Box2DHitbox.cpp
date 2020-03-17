@@ -2,7 +2,6 @@
 // Created by Paul on 28.07.2019.
 //
 
-#include <paxcore/world/WorldLayer.h>
 #include <paxphysics/2d/box2d/Box2DHitbox.h>
 #include <paxphysics/2d/box2d/Box2DWorld.h>
 #include <Box2D/Dynamics/b2Body.h>

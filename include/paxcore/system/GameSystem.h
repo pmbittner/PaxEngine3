@@ -9,7 +9,9 @@
 #include <polypropylene/system/System.h>
 
 namespace PAX {
-    using GameSystem = System<Game>;// TODO: This has to be an updateable
+    class GameSystem : public System<Game>, public Updateable {
+
+    };
 }
 
 #endif //PAXENGINE3_GAMESYSTEM_H

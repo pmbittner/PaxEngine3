@@ -21,7 +21,7 @@ set(PAX_OPENGL_HEADERS_FOR_CLION
         include/paxopengl/io/OpenGLShaderLoader.h
         include/paxopengl/io/FreeImageOpenGLTextureLoader.h
         include/paxopengl/OpenGLMacros.h
-        include/paxopengl/rendernodes/OpenGLWorldLayerRenderPass.h
+        include/paxopengl/rendernodes/OpenGLDefaultWorldSceneGraph.h
         include/paxopengl/resource/OpenGLTexture2D.h
         include/paxopengl/resource/OpenGLMesh.h
         include/paxopengl/resource/OpenGLShader.h
@@ -35,7 +35,7 @@ set(PAX_OPENGL_HEADERS_FOR_CLION
 set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLViewport.cpp
         src/io/FreeImageOpenGLTextureLoader.cpp
-        src/rendernodes/OpenGLWorldLayerRenderPass.cpp
+        src/rendernodes/OpenGLDefaultWorldSceneGraph.cpp
         src/rendernodes/OpenGLContext.cpp
         src/resource/OpenGLTexture2D.cpp
         src/resource/OpenGLMesh.cpp

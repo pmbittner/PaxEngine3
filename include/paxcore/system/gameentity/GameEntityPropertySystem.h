@@ -13,65 +13,29 @@
 namespace PAX {
     template<typename... RequiredProperties>
     class GameEntityPropertySystem : public WorldSystem {
-        const static WorldLayerSort worldLayerSorter;
-
-        std::unordered_map<World*, std::unordered_map<WorldLayer*, GameEntityManagerView<RequiredProperties...>>> entities;
-        std::unordered_map<World*, std::vector<WorldLayer*>> layers;
+        std::unordered_map<World*, GameEntityManagerView<RequiredProperties...>> entities;
 
     public:
         void onWorldRegistered(WorldEvent &event) override {
-            for (WorldLayer * worldLayer : event.world->getLayers()) {
-                WorldLayerAddedEvent e(event.world, worldLayer);
-                onWorldLayerAdded(e);
-            }
-
-            event.world->getEventService().add<WorldLayerAddedEvent,   GameEntityPropertySystem, &GameEntityPropertySystem::onWorldLayerAdded>(this);
-            event.world->getEventService().add<WorldLayerRemovedEvent, GameEntityPropertySystem, &GameEntityPropertySystem::onWorldLayerRemoved>(this);
+            const GameEntityManager & manager = event.world->getGameEntityManager();
+            entities.emplace(event.world, manager);
         }
 
         void onWorldUnregistered(WorldEvent & event) override {
-            for (WorldLayer * worldLayer : event.world->getLayers()) {
-                WorldLayerRemovedEvent e(event.world, worldLayer);
-                onWorldLayerRemoved(e);
-            }
-
-            event.world->getEventService().remove<WorldLayerAddedEvent, GameEntityPropertySystem, &GameEntityPropertySystem::onWorldLayerAdded>(this);
-            event.world->getEventService().remove<WorldLayerRemovedEvent, GameEntityPropertySystem, &GameEntityPropertySystem::onWorldLayerRemoved>(this);
+            entities.erase(event.world);
         }
 
-        void onWorldLayerAdded(WorldLayerAddedEvent &event) {
-            layers[event.world].push_back(event.worldLayer);
-            std::sort(layers[event.world].begin(), layers[event.world].end(), worldLayerSorter);
+        PAX_NODISCARD const std::set<GameEntity*> & getEntities(World * world) {
+            // TODO: Make safe
+            return entities.at(world).getEntities();
 
-            const GameEntityManager & manager = event.worldLayer->getGameEntityManager();
-            //GameEntityManagerView<RequiredProperties...> view(manager);
-
-            entities[event.world].emplace(event.worldLayer, manager);
+            //PAX_THROW_RUNTIME_ERROR("Could not obtain Entities for WorldLayer " << worldLayer);
         }
 
-        void onWorldLayerRemoved(WorldLayerRemovedEvent &event) {
-            Util::removeFromVector(layers[event.world], event.worldLayer);
-            entities[event.world].erase(event.worldLayer);
-        }
-
-        PAX_NODISCARD const std::vector<WorldLayer*> & getWorldLayers() {
-            return layers[activeWorld];
-        }
-
-        PAX_NODISCARD const std::set<GameEntity*> & getEntities(WorldLayer * worldLayer) {
-            auto & m = entities[WorldSystem::activeWorld];
-            const auto & it = m.find(worldLayer);
-
-            if (it != m.end()) {
-                return it->second.getEntities();
-            }
-
-            PAX_THROW_RUNTIME_ERROR("Could not obtain Entities for WorldLayer " << worldLayer);
+        PAX_NODISCARD const std::set<GameEntity*> & getEntities() {
+            return getEntities(WorldSystem::getActiveWorld());
         }
     };
-
-    template<typename... RequiredProperties>
-    const WorldLayerSort GameEntityPropertySystem<RequiredProperties...>::worldLayerSorter;
 }
 
 #endif //PAXENGINE3_GAMEENTITYPROPERTYSYSTEM_H

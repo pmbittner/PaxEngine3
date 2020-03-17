@@ -11,13 +11,13 @@
 namespace PAX {
     template<typename Children, typename Sorter>
     class SortingNode : public TypedSceneGraph<Children> {
-        Sorter _sorter;
+        Sorter sorter;
 
     public:
-        explicit SortingNode(Sorter sorter = Sorter()) : TypedSceneGraph<Children>(), _sorter(sorter) {}
+        explicit SortingNode(Sorter sorter = Sorter()) : TypedSceneGraph<Children>(), sorter(sorter) {}
 
         void render(RenderOptions &renderOptions) override {
-            _sorter.sort(TypedSceneGraph<Children>::_children);
+            sorter.sort(TypedSceneGraph<Children>::_children);
             TypedSceneGraph<Children>::render(renderOptions);
         }
     };
