@@ -98,7 +98,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/WindowFactory.h
         ../../include/paxcore/system/world/WorldBehaviourSystem.h
         ../../include/paxcore/system/gameentity/GameEntityPropertySystem.h
-        ../../include/paxcore/system/WorldSystem.h
         ../../include/paxcore/world/property/WorldBehaviour.h
         ../../include/paxcore/world/prefab/JsonWorldPrefabInitParser.h
         ../../include/paxcore/rendering/renderpass/RenderPassChannel.h
@@ -143,7 +142,6 @@ set(CORE_SOURCE_FILES
         plugin/EnginePlugin.cpp
         system/gameentity/LightSystem.cpp
         service/WindowService.cpp
-        system/WorldSystem.cpp
         system/world/WorldBehaviourSystem.cpp
         world/prefab/JsonWorldPrefabInitParser.cpp
         world/property/WorldSize.cpp
@@ -151,7 +149,7 @@ set(CORE_SOURCE_FILES
         gameentity/GameEntityIDService.cpp
         world/prefab/JsonWorldGameEntityParser.cpp
         function/Updateable.cpp
-        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp json/JsonResourceLoader.cpp gameentity/GameEntityProperty.cpp)
+        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp json/JsonResourceLoader.cpp gameentity/GameEntityProperty.cpp system/GameSystem.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

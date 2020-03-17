@@ -13,18 +13,29 @@ namespace PAX {
     Game::~Game() = default;
 
     void Game::initialize() {
+        assert(!initialized);
+
         addSystem(std::make_unique<BehaviourSystem>());
-        SystemManager::initialize();
+
+        for (auto & system : systems) {
+            system->initialize(this);
+        }
+
+        initialized = true;
     }
 
     void Game::terminate() {
+        assert(initialized);
+
         while (!_worlds.empty()) {
             World * world = *(_worlds.end() - 1);
             unregisterWorld(world, true);
             delete world;
         }
 
-        SystemManager::terminate();
+        for (auto & system : systems) {
+            system->terminate(this);
+        }
     }
 
     bool Game::isRegistered(World *world) {
@@ -40,7 +51,7 @@ namespace PAX {
     }
 
     bool Game::unregisterWorld(World *world, bool force) {
-        if (world == _activeWorld) {
+        if (world == activeWorld) {
             if (force) {
                 setActiveWorld(nullptr);
             } else {
@@ -64,39 +75,47 @@ namespace PAX {
     }
 
     World* Game::getActiveWorld() {
-        return _activeWorld;
+        return activeWorld;
     }
 
     void Game::setActiveWorld(World *world) {
         if(world != nullptr && !isRegistered(world))
             registerWorld(world);
 
-        World *oldActive = _activeWorld;
+        World *oldActive = activeWorld;
 
         if (oldActive) {
             oldActive->getEventService().setParent(nullptr);
         }
 
-        _activeWorld = world;
+        activeWorld = world;
 
-        if (_activeWorld) {
-            _activeWorld->getEventService().setParent(&Services::GetEventService());
+        if (activeWorld) {
+            activeWorld->getEventService().setParent(&Services::GetEventService());
         }
 
-        ActiveWorldChangedEvent e(oldActive, _activeWorld);
+        ActiveWorldChangedEvent e(oldActive, activeWorld);
         ActiveWorldChanged(e);
     }
 
     void Game::update(UpdateOptions &options) {
         for (auto &system : getSystems()) {
-            // TODO: Fix this
-            if (auto * u = dynamic_cast<Updateable*>(system.get())) {
-                u->update(options);
-            }
+            system->update(options);
         }
     }
 
     EventService & Game::getEventService() {
         return eventService;
+    }
+
+    void Game::addSystem(std::unique_ptr<GameSystem> system) {
+        if (initialized)
+            system->initialize(this);
+        system->setGame(this);
+        systems.insert(std::move(system));
+    }
+
+    const std::set<std::unique_ptr<GameSystem>> & Game::getSystems() const {
+        return systems;
     }
 }

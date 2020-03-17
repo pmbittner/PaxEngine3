@@ -3,10 +3,11 @@
 //
 
 #include <paxcore/system/world/WorldBehaviourSystem.h>
+#include <paxcore/world/property/WorldBehaviour.h>
 
 namespace PAX {
     void WorldBehaviourSystem::update(UpdateOptions & options) {
-        if (World * w = WorldSystem::getActiveWorld()) {
+        if (World * w = GameSystem::getGame()->getActiveWorld()) {
             for (WorldBehaviour * b : w->get<WorldBehaviour>()) {
                 b->update(options);
             }

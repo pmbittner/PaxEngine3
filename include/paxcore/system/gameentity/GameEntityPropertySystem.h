@@ -6,13 +6,11 @@
 #define PAXENGINE3_GAMEENTITYPROPERTYSYSTEM_H
 
 #include <unordered_map>
-
-#include <polypropylene/property/EntityManagerView.h>
-#include <paxcore/system/WorldSystem.h>
+#include <paxcore/system/GameSystem.h>
 
 namespace PAX {
     template<typename... RequiredProperties>
-    class GameEntityPropertySystem : public WorldSystem {
+    class GameEntityPropertySystem : public GameSystem {
         std::unordered_map<World*, GameEntityManagerView<RequiredProperties...>> entities;
 
     public:
@@ -33,7 +31,7 @@ namespace PAX {
         }
 
         PAX_NODISCARD const std::set<GameEntity*> & getEntities() {
-            return getEntities(WorldSystem::getActiveWorld());
+            return getEntities(GameSystem::getGame()->getActiveWorld());
         }
     };
 }
