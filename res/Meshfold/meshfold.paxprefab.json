@@ -1,0 +1,17 @@
+{
+  "Transform": {
+    "position": [0, 0, 0]
+  },
+  "Properties": {
+    "PAX::PointCloudSprite": {
+      "image": "${ResourcePath}/icon/PaxEngine3/PaxEngine3_128.png",
+      "Shader": {
+        "Vertex": "${ResourcePath}/Meshfold/shader/pointcloud.vert",
+        "Fragment": "${ResourcePath}/Meshfold/shader/pointcloud.frag"
+      }
+    },
+    "PAX::VelocityBehaviour2D": {
+      "velocity": [0, 0]
+    }
+  }
+}

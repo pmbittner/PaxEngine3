@@ -35,6 +35,8 @@ namespace PAX {
             KeyPressedEvent _keyPressed;
             KeyReleasedEvent _keyReleased;
 
+            int max_events_to_process_per_update = 20;
+
         public:
             void initialize() override;
             void terminate() override;

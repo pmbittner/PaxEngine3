@@ -22,11 +22,11 @@
 #include "paxtiles/TileMap.h"
 #include "paxtiles/TileMapProperty.h"
 
-#include "behaviour/DragNDrop.h"
-#include "behaviour/ProfileGameLoopBehaviour.h"
+#include "platformerdemo/behaviour/DragNDrop.h"
+#include "platformerdemo/behaviour/ProfileGameLoopBehaviour.h"
 
-#include "behaviour/PlayerControls.h"
-#include "behaviour/PlayerSpriteAnimation.h"
+#include "platformerdemo/behaviour/PlayerControls.h"
+#include "platformerdemo/behaviour/PlayerSpriteAnimation.h"
 #include "paxcore/entity/property/behaviours/2d/FollowGameEntityBehaviour.h"
 
 namespace PAX {

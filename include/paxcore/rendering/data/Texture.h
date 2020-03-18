@@ -22,24 +22,26 @@ namespace PAX {
             RGB, RGBA, BGR
         };
 
+        static unsigned int GetNumberOfChannels(PixelFormat pixelFormat);
+
     protected:
         int width = 0;
         int height = 0;
         WrapMode wrapHorizontal = WrapMode::ClampToEdge;
         WrapMode wrapVertical   = WrapMode::ClampToEdge;
-        FilterMode filterMode   = FilterMode::Linear;
+        FilterMode filterMode   = FilterMode::Nearest;
 
     public:
         virtual ~Texture();
 
-        int getWidth();
-        int getHeight();
-        glm::ivec2 getSize();
+        PAX_NODISCARD int getWidth() const;
+        PAX_NODISCARD int getHeight() const;
+        PAX_NODISCARD glm::ivec2 getSize() const;
 
-        WrapMode getWrapModeHorizontal();
-        WrapMode getWrapModeVertical();
+        PAX_NODISCARD WrapMode getWrapModeHorizontal() const;
+        PAX_NODISCARD WrapMode getWrapModeVertical() const;
 
-        FilterMode getFilterMode();
+        PAX_NODISCARD FilterMode getFilterMode() const;
 
         virtual void setWrapMode(WrapMode horizontal, WrapMode vertical);
         virtual void setFilterMode(FilterMode mode);

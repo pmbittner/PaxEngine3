@@ -1,0 +1,35 @@
+{
+  "Constructor": {
+    "name": "MeshFold::TestWorld",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Entities": [
+    {
+      "prefab": "meshfold.paxprefab.json"
+    },
+    {
+      "name": "Camera",
+      "prefab": {
+        "Transform": {
+          "position": [0, 0, 10],
+          "scale": [3, 3, 1]
+        },
+        "Tags": [
+          "Camera"
+        ],
+        "Properties": {
+          "PAX::Camera": {
+            "syncProjectionResolutionToViewportResolution": false,
+            "projection":{
+              "type": "PixelScreen",
+              "resolution_width": 800,
+              "resolution_height": 600
+            },
+            "viewport": {}
+          }
+        }
+      }
+    }
+  ]
+}

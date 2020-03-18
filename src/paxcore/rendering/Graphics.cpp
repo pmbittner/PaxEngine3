@@ -17,14 +17,6 @@ namespace PAX {
 
     Graphics::~Graphics() = default;
 
-    void Graphics::registerFlags(Shader::Flags &flags) {}
-
-    Shader::Flags Graphics::getShaderFlags() {
-        Shader::Flags flags;
-        registerFlags(flags);
-        return flags;
-    }
-
     std::shared_ptr<Shader>& Graphics::getShader() {
         return _shader;
     }

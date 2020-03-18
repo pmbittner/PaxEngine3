@@ -1,8 +1,8 @@
 //
-// Created by Paul on 04.11.2017.
+// Created by Paul Bittner on 18.03.2020.
 //
 
-#include "paxsdl/SDLImageTextureLoader.h"
+#include "paxsdl/SDLTextureLoader.h"
 #include "paxopengl/resource/OpenGLTexture2D.h"
 
 #ifdef PAX_WITH_SDLIMAGE
@@ -11,26 +11,22 @@
 
 #include <paxutil/io/FileTypeChecker.h>
 #include <paxutil/resources/Resources.h>
-#include <assert.h>
-#include <paxsdl/SDLImageTextureLoader.h>
+#include <paxsdl/SDLImageLoader.h>
 #include <paxcore/service/Services.h>
-#include <paxcore/rendering/factory/TextureFactory.h>
-
 
 namespace PAX {
-    SDLImageTextureLoader::SDLImageTextureLoader() = default;
+    SDLImageLoader::SDLImageLoader() = default;
 
-    SDLImageTextureLoader::~SDLImageTextureLoader() = default;
+    SDLImageLoader::~SDLImageLoader() = default;
 
-    bool SDLImageTextureLoader::canLoad(Path path) const {
+    bool SDLImageLoader::canLoad(Path path) const {
         Util::FileTypeChecker formats({
-                "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
+              "BMP", "GIF", "JPEG", "LBM", "PCX", "PNG", "PNM", "SVG", "TGA", "TIFF", "WEBP", "XCF", "XPM", "XV"
         });
-
         return formats.check(path.toString());
     }
 
-    std::shared_ptr<Texture> SDLImageTextureLoader::load(Path path) {
+    std::shared_ptr<Image> SDLImageLoader::load(Path path) {
 #ifdef PAX_WITH_SDLIMAGE
         SDL_Surface* tex = nullptr;
 
@@ -49,21 +45,19 @@ namespace PAX {
             format = Texture::PixelFormat::RGBA;
         }
 
-        std::shared_ptr<Texture> texture = Services::GetFactoryService().get<TextureFactory>()->create(tex->w, tex->h);
-        texture->setPixels(tex->pixels, format);
-        texture->setFilterMode(Texture::FilterMode::Nearest);
-
+        std::shared_ptr<Image> image = std::make_shared<Image>(tex->w, tex->h);
+        image->setPixels(tex->pixels, format);
         SDL_FreeSurface(tex);
 
-        return texture;
+        return image;
 #else
         assert(false);
         return nullptr;
 #endif
     }
 
-    std::shared_ptr<Texture> SDLImageTextureLoader::loadOrGetFromJson(Resources &resources,
-            const nlohmann::json & j) const {
-        return resources.loadOrGet<Texture>(JsonToPath(j));
+    std::shared_ptr<Image> SDLImageLoader::loadOrGetFromJson(Resources &resources,
+                                                                 const nlohmann::json & j) const {
+        return resources.loadOrGet<Image>(JsonToPath(j));
     }
 }

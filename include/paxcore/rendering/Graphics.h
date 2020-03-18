@@ -22,14 +22,11 @@ namespace PAX {
     protected:
         std::shared_ptr<Shader> _shader = nullptr;
 
-        virtual void registerFlags(Shader::Flags &flags);
-
     public:
         EventHandler<GraphicsShaderChangedEvent&> OnShaderChanged;
 
         ~Graphics() override = 0;
 
-        Shader::Flags getShaderFlags();
         std::shared_ptr<Shader>& getShader();
         virtual void setShader(const std::shared_ptr<Shader> &shader);
 

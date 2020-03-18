@@ -27,7 +27,8 @@ namespace PAX {
         void SDLInputSystem::update(UpdateOptions & options) {
             _keyboard.setKeyStates(SDL_GetKeyboardState(nullptr));
 
-            while (SDL_PollEvent(&_currentEvent)) {
+            int eventsProcessed = 0;
+            while (SDL_PollEvent(&_currentEvent) && eventsProcessed < max_events_to_process_per_update) {
                 switch (_currentEvent.type) {
                     case SDL_QUIT: {
                         PAX::Engine::Instance().stop();
@@ -112,6 +113,8 @@ namespace PAX {
                     default:
                         break;
                 }
+
+                ++eventsProcessed;
             }
         }
 

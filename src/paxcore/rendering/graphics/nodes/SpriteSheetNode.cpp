@@ -25,10 +25,6 @@ namespace PAX {
         return _size;
     }
 
-    void SpriteSheetNode::registerFlags(Shader::Flags &flags) {
-        flags.VertexFlags += "\n#define SPRITE_SHEET\n";
-    }
-
     void SpriteSheetNode::render(RenderOptions &options) {
         Shader* shader = options.getShaderOptions().getShader();
         shader->setUniform("spriteSheet.offset", _offset);

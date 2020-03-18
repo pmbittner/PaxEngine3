@@ -82,7 +82,6 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/light/PointLight.h
         ../../include/paxcore/rendering/light/DirectionalLight.h
         ../../include/paxcore/rendering/light/SpotLight.h
-        ../../include/paxcore/rendering/interface/ShaderFlagsConfigurator.h
         ../../include/paxcore/world/WorldProperty.h
         ../../include/paxcore/rendering/light/AmbientLight.h
         ../../include/paxcore/system/gameentity/LightSystem.h
@@ -115,7 +114,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/json/JsonResourceLoader.h
         ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h
         ../../include/paxcore/rendering/camera/json/ViewportJsonParser.h
-        ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h)
+        ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h ../../include/paxcore/rendering/data/Image.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

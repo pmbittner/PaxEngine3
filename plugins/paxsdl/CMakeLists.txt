@@ -32,7 +32,7 @@ set(PAX_SDL_SOURCE_FILES
 
         src/opengl/SDLOpenGLWindow.cpp
         src/opengl/SDLOpenGLContext.cpp
-        src/SDLImageTextureLoader.cpp
+        src/SDLTextureLoader.cpp
         src/opengl/SDLOpenGLPlugin.cpp)
 
 include_directories(../paxopengl/include/)
@@ -41,20 +41,19 @@ include_directories(include)
 set(HEADERS_FOR_CLION
         include/paxsdl/opengl/SDLOpenGLPlugin.h
         include/paxsdl/opengl/SDLOpenGLWindow.h
-        include/paxsdl/SDLImageTextureLoader.h
+        include/paxsdl/SDLTextureLoader.h
         include/paxsdl/SDLInputSystem.h
         include/paxsdl/SDLWindow.h
         include/paxsdl/SDLPureContext.h
         include/paxsdl/SDLKeyboard.h
         include/paxsdl/SDLInputSystem.h
 
-        include/paxsdl/utility/SDLImageLoader.h
-        )
+        include/paxsdl/SDLImageLoader.h)
 
 add_library(paxsdl
         ${HEADERS_FOR_CLION}
         ${PAX_SDL_SOURCE_FILES}
-        )
+        src/SDLImageLoader.cpp)
 
 target_link_libraries(paxsdl ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY})# ${SDL2_TTF_LIBRARIES})
 

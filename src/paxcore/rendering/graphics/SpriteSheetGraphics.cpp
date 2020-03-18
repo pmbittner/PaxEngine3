@@ -52,11 +52,6 @@ namespace PAX {
         return glm::vec2(_texture->getWidth() / size.x, _texture->getHeight() / size.y);
     }
 
-    void SpriteSheetGraphics::registerFlags(Shader::Flags &flags) {
-        _spriteSheet.registerFlags(flags);
-        SpriteGraphics::registerFlags(flags);
-    }
-
     void SpriteSheetGraphics::setSpritePosition(int x, int y) {
         _spriteSheet.setOffset(x, y);
     }

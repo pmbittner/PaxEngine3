@@ -8,11 +8,10 @@
 #include <paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h>
 #include <paxcore/rendering/Graphics.h>
 #include "SpriteGraphics.h"
-#include "../interface/ShaderFlagsConfigurator.h"
 
 namespace PAX {
     // TODO: Refactor this to use the SpriteSheet class
-    class SpriteSheetGraphics : public SpriteGraphics, public ShaderFlagsConfigurator {
+    class SpriteSheetGraphics : public SpriteGraphics {
         PAX_PROPERTY(SpriteSheetGraphics, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(SpriteGraphics)
         PAX_PROPERTY_IS_SINGLE
@@ -25,7 +24,6 @@ namespace PAX {
         int columns = 1, rows = 1;
         glm::ivec2 startPos = glm::ivec2();
 
-        void registerFlags(Shader::Flags &flags) override;
         PAX_NODISCARD glm::vec2 getSpriteSize() const override;
 
     public:

@@ -2,17 +2,17 @@
 // Created by Paul on 04.11.2017.
 //
 
-#ifndef PAXENGINE3_SDLIMAGETEXTURELOADER_H
-#define PAXENGINE3_SDLIMAGETEXTURELOADER_H
+#ifndef PAXENGINE3_SDLTEXTURELOADER_H
+#define PAXENGINE3_SDLTEXTURELOADER_H
 
 #include <paxcore/rendering/data/Texture.h>
 #include <paxutil/resources/ResourceLoader.h>
 
 namespace PAX {
-    class SDLImageTextureLoader : public ResourceLoader<Texture, Path> {
+    class SDLTextureLoader : public ResourceLoader<Texture, Path> {
     public:
-        SDLImageTextureLoader();
-        ~SDLImageTextureLoader() override;
+        SDLTextureLoader();
+        ~SDLTextureLoader() override;
 
         PAX_NODISCARD bool canLoad(Path path) const override;
         PAX_NODISCARD std::shared_ptr<Texture> load(Path path) override;
@@ -20,4 +20,4 @@ namespace PAX {
     };
 }
 
-#endif //PAXENGINE3_SDLIMAGETEXTURELOADER_H
+#endif //PAXENGINE3_SDLTEXTURELOADER_H

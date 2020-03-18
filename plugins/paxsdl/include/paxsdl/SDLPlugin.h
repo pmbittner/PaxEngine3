@@ -12,8 +12,10 @@
 #include <paxcore/service/Services.h>
 #include <paxcore/io/InputSystemFactory.h>
 #include <polypropylene/log/Log.h>
+#include <paxutil/resources/JsonResourceFieldWriter.h>
 #include "SDLInputSystem.h"
-#include "SDLImageTextureLoader.h"
+#include "SDLTextureLoader.h"
+#include "SDLImageLoader.h"
 
 #include <paxcore/rendering/loader/NullTextureLoader.h>
 
@@ -27,7 +29,9 @@ namespace PAX {
             } inputSystemFactory;
 
 #ifdef PAX_WITH_SDLIMAGE
-            SDLImageTextureLoader imageLoader;
+            SDLTextureLoader textureLoader;
+            SDLImageLoader imageLoader;
+            JsonResourceFieldWriter<Image> jsonImageParser;
 #endif
 
         public:
@@ -51,8 +55,13 @@ namespace PAX {
 
             void registerResourceLoaders(Resources& resources) override {
 #ifdef PAX_WITH_SDLIMAGE
-                Services::GetResources().registerLoader<Texture>(&imageLoader);
+                Services::GetResources().registerLoader<Texture>(&textureLoader);
+                Services::GetResources().registerLoader<Image>(&imageLoader);
 #endif
+            }
+
+            void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override {
+                jsonImageParser.registerAt(writerRegister);
             }
         };
     }
