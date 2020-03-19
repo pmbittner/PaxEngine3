@@ -32,6 +32,18 @@ namespace PAX {
                 std::shared_ptr<WorldPrefab> worldPrefab = Services::GetResources().loadOrGet<WorldPrefab>(
                         settings.get<Path>("StartWorld"));
                 world = worldPrefab->create({});
+
+                /// Spawn player
+                {
+                    Path playerPrefabPath = settings.get("playerprefab");
+                    std::shared_ptr<GameEntityPrefab> playerPrefab =
+                            Services::GetResources().loadOrGet<GameEntityPrefab>(playerPrefabPath);
+                    GameEntity * player = playerPrefab->create({});
+                    player->addTag(Tags::Player);
+
+                    world->spawn(player);
+                }
+
                 setActiveWorld(world);
             }
         };

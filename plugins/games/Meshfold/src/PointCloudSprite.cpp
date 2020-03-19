@@ -5,6 +5,7 @@
 #include <paxutil/reflection/EngineFieldFlags.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/factory/MeshFactory.h>
+#include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include "meshfold/PointCloudSprite.h"
 
 namespace PAX {
@@ -12,7 +13,7 @@ namespace PAX {
 
     ClassMetadata PointCloudSprite::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(image)).flags = EngineFieldFlags::IsResource;
+        m.add(paxfieldof(texture)).flags = EngineFieldFlags::IsResource;
         return m;
     }
 
@@ -21,11 +22,13 @@ namespace PAX {
     }
 
     void PointCloudSprite::init() {
-        pixels.resize(image->getWidth() * image->getHeight());
+        const float w = float(texture->getWidth());
+        const float h = float(texture->getHeight());
+
+        pixels.resize(size_t(w * h));
+        uvs.resize(pixels.size());
         directions.resize(pixels.size());
 
-        const float w = float(image->getWidth());
-        const float h = float(image->getHeight());
 
         float minX = - w / 2.f;
         float maxX = + w / 2.f;
@@ -39,23 +42,29 @@ namespace PAX {
                         minX + (maxX - minX) * x / w,
                         minY + (maxY - minY) * y / h
                 };
+                uvs[i] = {x / w, 1 - y / h};
                 ++i;
             }
         }
 
         auto * meshFactory = Services::GetFactoryService().get<MeshFactory>();
-        // todo:: enable point clouds:
-        // Todo: uncomment meshnode render
-        //std::shared_ptr<Mesh> mesh = meshFactory->create()
+        std::shared_ptr<Mesh> mesh = meshFactory->create(pixels, {});
+        mesh->addAttribute(Mesh::UVs, uvs);
+        mesh->setFaceMode(Mesh::FaceMode::Points);
+        mesh->upload();
+
+        meshNode.setMesh(mesh);
+        textureNode.setTexture(texture);
+        textureNode.addChild(&meshNode);
     }
 
-    PointCloudSprite::PointCloudSprite() : Graphics() {}
-    PointCloudSprite::PointCloudSprite(const std::shared_ptr<Image> &image) : Graphics(), image(image) {
+    PointCloudSprite::PointCloudSprite() : Graphics(), textureNode(nullptr) {}
+    PointCloudSprite::PointCloudSprite(const std::shared_ptr<Texture> & texture) : Graphics(), texture(texture), textureNode(texture) {
         init();
     }
 
     void PointCloudSprite::render(RenderOptions &renderOptions) {
         Graphics::render(renderOptions);
-        //meshNode.render(renderOptions);
+        textureNode.render(renderOptions);
     }
 }

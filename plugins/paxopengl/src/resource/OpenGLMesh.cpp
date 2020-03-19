@@ -8,21 +8,38 @@
 
 namespace PAX {
     namespace OpenGL {
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces, GLenum faceMode) : _faceMode(faceMode), _indices(faces) {
+        GLenum OpenGLMesh::ToGLFaceMode(PAX::Mesh::FaceMode facemode) {
+            switch (facemode) {
+                case FaceMode::Triangles: {
+                    return GL_TRIANGLES;
+                }
+                case FaceMode::Points: {
+                    return GL_POINTS;
+                }
+                case FaceMode::Lines: {
+                    return GL_LINES;
+                }
+                default: {
+                    PAX_THROW_RUNTIME_ERROR("Unsupported FaceMode " << int(facemode) << " given!");
+                }
+            }
+        }
+
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces) : Mesh(), _indices(faces) {
             initialize(vertices);
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<std::vector<int>> &faces, GLenum faceMode) : _faceMode(faceMode), _indices(faces) {
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<std::vector<int>> &faces) : Mesh(), _indices(faces) {
             initialize(vertices);
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<glm::ivec3> &faces, GLenum faceMode) : _faceMode(faceMode) {
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<glm::ivec3> &faces) : Mesh() {
             for (const glm::ivec3& triangle : faces)
                 _indices.push_back({triangle.x, triangle.y, triangle.z});
             initialize(vertices);
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<glm::ivec3> &faces, GLenum faceMode) : _faceMode(faceMode) {
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<glm::ivec3> &faces) : Mesh() {
             for (const glm::ivec3& triangle : faces)
                 _indices.push_back({triangle.x, triangle.y, triangle.z});
             initialize(vertices);
@@ -36,10 +53,23 @@ namespace PAX {
             }
         }
 
+        void OpenGLMesh::setFaceMode(PAX::Mesh::FaceMode facemode) {
+            Mesh::setFaceMode(facemode);
+            this->_faceMode = ToGLFaceMode(facemode);
+        }
+
         void OpenGLMesh::render(RenderOptions &renderOptions) {
             glBindVertexArray(_vao);
             glEnableVertexAttribArray(0);
-            glDrawElements(_faceMode, _numberOfFaces*_verticesPerFace, GL_UNSIGNED_INT, (GLvoid*) 0);
+
+            if (_numberOfFaces > 0) {
+                glDrawElements(_faceMode, _numberOfFaces*_verticesPerFace, GL_UNSIGNED_INT, (GLvoid*) 0);
+            } else {
+                //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+                glDrawArrays(_faceMode, 0, GLsizei(_numberOfVertices));
+                //glBindBuffer(GL_ARRAY_BUFFER, 0);
+            }
+
             glDisableVertexAttribArray(0);
             glBindVertexArray(0);
         }
@@ -176,13 +206,15 @@ namespace PAX {
                 offset += attrib.dataLen * attrib.elementMemorySize;
             }
 
+            if (_numberOfFaces > 0) {
+                //create an index buffer
+                glGenBuffers(1, &_ibo);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 
-            //create an index buffer
-            glGenBuffers(1,&_ibo);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
-
-            //upload the index data to OpenGL
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfFaces*_verticesPerFace* sizeof(GLint), indexData.data(), GL_STATIC_DRAW);
+                //upload the index data to OpenGL
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, _numberOfFaces * _verticesPerFace * sizeof(GLint),
+                             indexData.data(), GL_STATIC_DRAW);
+            }
 
             //unbind buffers
             glBindVertexArray(0);

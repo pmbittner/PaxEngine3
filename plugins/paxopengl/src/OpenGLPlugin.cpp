@@ -16,6 +16,11 @@ namespace PAX {
 
         void OpenGLPlugin::initialize(Engine &engine) {}
 
+        void OpenGLPlugin::postInitialize(Engine &engine) {
+            glEnable(GL_PROGRAM_POINT_SIZE);
+            glPointSize(3);
+        }
+
         void OpenGLPlugin::registerResourceLoaders(Resources &resources) {
             resources.registerLoader<Shader>(static_cast<ResourceLoader<Shader, Shader::FileInfo> *>(&shaderLoader));
         }

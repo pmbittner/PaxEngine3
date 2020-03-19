@@ -18,34 +18,42 @@ namespace PAX {
     Mesh::~Mesh() = default;
 
     void Mesh::setName(const std::string &name) {
-        _name = name;
+        this->name = name;
     }
 
     const std::string& Mesh::getName() const {
-        return _name;
+        return name;
     }
 
     void Mesh::addAttribName(PAX::Mesh::AttributeName name) {
-        _attributeNames.emplace_back(name);
+        attributeNames.emplace_back(name);
     }
 
     bool Mesh::hasAttribute(PAX::Mesh::AttributeName attribName) {
-        return Util::vectorContains(_attributeNames, attribName);
+        return Util::vectorContains(attributeNames, attribName);
     }
 
     int Mesh::getAttributeLocation(PAX::Mesh::AttributeName attribName) {
-        for (size_t i = 0; i < _attributeNames.size(); ++i) {
-            if (_attributeNames[i] == attribName)
+        for (size_t i = 0; i < attributeNames.size(); ++i) {
+            if (attributeNames[i] == attribName)
                 return static_cast<int>(i);
         }
         return -1;
     }
 
     void Mesh::upload() {
-        _uploaded = true;
+        uploaded = true;
     }
 
-    bool Mesh::isUploaded() {
-        return _uploaded;
+    bool Mesh::isUploaded() const {
+        return uploaded;
+    }
+
+    void Mesh::setFaceMode(PAX::Mesh::FaceMode facemode) {
+        this->facemode = facemode;
+    }
+
+    const Mesh::FaceMode Mesh::getFaceMode() const {
+        return facemode;
     }
 }

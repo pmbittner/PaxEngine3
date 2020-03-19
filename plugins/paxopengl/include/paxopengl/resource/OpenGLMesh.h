@@ -32,9 +32,11 @@ namespace PAX {
                 }
             };
 
+            static GLenum ToGLFaceMode(FaceMode facemode);
+
         private:
             GLuint _vao, _ibo, _vbo;
-            GLenum _faceMode;
+            GLenum _faceMode = GL_TRIANGLES;
 
             GLsizei _numberOfVertices, _numberOfFaces, _verticesPerFace;
             std::vector<VertexAttribute> attributes;
@@ -44,12 +46,17 @@ namespace PAX {
             void initialize(const std::vector<T> &vertices) {
                 _numberOfVertices = static_cast<GLsizei>(vertices.size());
                 _numberOfFaces    = static_cast<GLsizei>(_indices.size());
-                _verticesPerFace  = static_cast<GLsizei>(_indices.at(0).size());
+
+                if (_numberOfFaces > 0) {
+                    _verticesPerFace = static_cast<GLsizei>(_indices.at(0).size());
+                } else {
+                    _verticesPerFace = 0;
+                }
 
                 //this->_vertices.resize(size_t(_numberOfVertices));
 
                 if (_numberOfVertices < _verticesPerFace) {
-                    throw std::runtime_error("Insufficient number of vertices. At least vertices for one face have to be given");
+                    PAX_THROW_RUNTIME_ERROR("Insufficient number of vertices: Vertices for at least one face have to be given!");
                 }
 
                 Mesh::addAttribute(Mesh::Vertices, vertices);
@@ -58,10 +65,10 @@ namespace PAX {
             void checkAttributeValidity(size_t attribLen);
 
         public:
-            OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces, GLenum faceMode = GL_TRIANGLES);
-            OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<std::vector<int>> &faces, GLenum faceMode = GL_TRIANGLES);
-            OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<glm::ivec3> &faces, GLenum faceMode = GL_TRIANGLES);
-            OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<glm::ivec3> &faces, GLenum faceMode = GL_TRIANGLES);
+            OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces);
+            OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<std::vector<int>> &faces);
+            OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<glm::ivec3> &faces);
+            OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<glm::ivec3> &faces);
             ~OpenGLMesh() override;
 
             void render(RenderOptions &renderOptions) override;
@@ -72,7 +79,10 @@ namespace PAX {
             void addAttribute(const std::vector<glm::vec3> &attrib) override;
             void addAttribute(const std::vector<glm::vec4> &attrib) override;
 
+            void setFaceMode(FaceMode facemode) override;
+
             void upload() override;
+
 
             GLuint getID();
         };

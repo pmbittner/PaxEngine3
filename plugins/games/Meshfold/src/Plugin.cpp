@@ -7,7 +7,7 @@
 #include <paxsdl/SDLPlugin.h>
 #include <paxopengl/OpenGLPlugin.h>
 #include <paxsdl/opengl/SDLOpenGLPlugin.h>
-#include <meshfold/PointCloudSprite.h>>
+#include <meshfold/PointCloudSprite.h>
 
 namespace PAX {
     namespace Meshfold {

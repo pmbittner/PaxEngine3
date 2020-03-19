@@ -7,6 +7,7 @@
 
 #include "paxcore/rendering/Graphics.h"
 #include "paxcore/rendering/scenegraph/nodes/MeshNode.h"
+#include "paxcore/rendering/scenegraph/nodes/TexturingNode.h"
 #include <paxcore/rendering/data/Image.h>
 
 namespace PAX {
@@ -16,16 +17,18 @@ namespace PAX {
         PAX_PROPERTY_IS_SINGLE
 
         std::vector<glm::vec2> pixels;
+        std::vector<glm::vec2> uvs;
         std::vector<glm::vec2> directions;
-        std::shared_ptr<Image> image;
+        std::shared_ptr<Texture> texture;
 
+        TexturingNode textureNode;
         MeshNode meshNode;
 
         PointCloudSprite();
         void init();
 
     public:
-        PointCloudSprite(const std::shared_ptr<Image> & image);
+        PointCloudSprite(const std::shared_ptr<Texture> & texture);
 
         void render(RenderOptions& options) override;
 

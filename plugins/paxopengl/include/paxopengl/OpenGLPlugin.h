@@ -34,6 +34,7 @@ namespace PAX {
 
         public:
             void initialize(Engine& engine) override;
+            void postInitialize(Engine& engine) override;
             void registerResourceLoaders(Resources& resources) override;
             void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override;
             void registerFactories(FactoryService& factoryService) override;

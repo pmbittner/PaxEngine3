@@ -24,10 +24,17 @@ namespace PAX {
         static const AttributeName Tangents; // 3
         static const AttributeName Bitangents; // 4
 
+        enum class FaceMode {
+            Triangles,
+            Lines,
+            Points
+        };
+
     private:
-        std::string _name;
-        bool _uploaded = false;
-        std::vector<AttributeName> _attributeNames;
+        std::string name = "Unnamed";
+        bool uploaded = false;
+        FaceMode facemode = FaceMode::Triangles;
+        std::vector<AttributeName> attributeNames;
 
         void addAttribName(AttributeName name);
 
@@ -42,7 +49,7 @@ namespace PAX {
         ~Mesh() override;
 
         void setName(const std::string & name);
-        const std::string & getName() const;
+        PAX_NODISCARD const std::string & getName() const;
 
         /// \tparam T One of float, glm::vec2, glm::vec3, glm::vec4
         /// \param attribName The name of the attribute, for example UVs
@@ -56,8 +63,11 @@ namespace PAX {
         virtual bool hasAttribute(AttributeName attribName);
         virtual int getAttributeLocation(AttributeName attribName);
 
+        virtual void setFaceMode(FaceMode facemode);
+        PAX_NODISCARD const FaceMode getFaceMode() const;
+
         virtual void upload();
-        bool isUploaded();
+        PAX_NODISCARD bool isUploaded() const;
     };
 }
 
