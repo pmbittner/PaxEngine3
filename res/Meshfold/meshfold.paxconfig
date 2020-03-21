@@ -1,2 +1,3 @@
 StartWorld = ${CURRENT_DIR}/testworld.paxprefab.json
-playerprefab = ${CURRENT_DIR}/dummy.paxprefab.json
+dummyprefab = ${CURRENT_DIR}/dummy.paxprefab.json
+spawndummy = false

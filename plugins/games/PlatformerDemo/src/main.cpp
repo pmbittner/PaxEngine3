@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 #include "paxsdl/opengl/SDLOpenGLPlugin.h"
 #include "paxopengl/OpenGLPlugin.h"
 #include "paxphysics/Plugin.h"
-#include "paxtiles/Plugin.h"
+#include "paxtiles/MeshfoldPlugin.h"
 
 int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     int exitcode = 0;

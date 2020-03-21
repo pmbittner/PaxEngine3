@@ -34,16 +34,6 @@ namespace PAX {
         std::string name = "Unnamed";
         bool uploaded = false;
         FaceMode facemode = FaceMode::Triangles;
-        std::vector<AttributeName> attributeNames;
-
-        void addAttribName(AttributeName name);
-
-    protected:
-        virtual void addAttribute(const std::vector<int> &attrib) = 0;
-        virtual void addAttribute(const std::vector<float> &attrib) = 0;
-        virtual void addAttribute(const std::vector<glm::vec2> &attrib) = 0;
-        virtual void addAttribute(const std::vector<glm::vec3> &attrib) = 0;
-        virtual void addAttribute(const std::vector<glm::vec4> &attrib) = 0;
 
     public:
         ~Mesh() override;
@@ -51,20 +41,23 @@ namespace PAX {
         void setName(const std::string & name);
         PAX_NODISCARD const std::string & getName() const;
 
-        /// \tparam T One of float, glm::vec2, glm::vec3, glm::vec4
-        /// \param attribName The name of the attribute, for example UVs
-        /// \param attrib The actual attribute data
-        template<typename T>
-        void addAttribute(AttributeName attribName, const std::vector<T> &attrib) {
-            addAttribName(attribName);
-            addAttribute(attrib);
-        }
+        virtual void addAttribute(AttributeName name, const std::vector<int> &attrib) = 0;
+        virtual void addAttribute(AttributeName name, const std::vector<float> &attrib) = 0;
+        virtual void addAttribute(AttributeName name, const std::vector<glm::vec2> &attrib) = 0;
+        virtual void addAttribute(AttributeName name, const std::vector<glm::vec3> &attrib) = 0;
+        virtual void addAttribute(AttributeName name, const std::vector<glm::vec4> &attrib) = 0;
 
-        virtual bool hasAttribute(AttributeName attribName);
-        virtual int getAttributeLocation(AttributeName attribName);
+        virtual void updateAttribute(AttributeName name, const std::vector<int> &attrib) = 0;
+        virtual void updateAttribute(AttributeName name, const std::vector<float> &attrib) = 0;
+        virtual void updateAttribute(AttributeName name, const std::vector<glm::vec2> &attrib) = 0;
+        virtual void updateAttribute(AttributeName name, const std::vector<glm::vec3> &attrib) = 0;
+        virtual void updateAttribute(AttributeName name, const std::vector<glm::vec4> &attrib) = 0;
+
+        virtual bool hasAttribute(AttributeName attribName) = 0;
+        virtual int getAttributeLocation(AttributeName attribName) = 0;
 
         virtual void setFaceMode(FaceMode facemode);
-        PAX_NODISCARD const FaceMode getFaceMode() const;
+        PAX_NODISCARD FaceMode getFaceMode() const;
 
         virtual void upload();
         PAX_NODISCARD bool isUploaded() const;

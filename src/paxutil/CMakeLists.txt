@@ -46,7 +46,7 @@ set(SOURCE_FILES
         math/json/JsonToTransformation.cpp
         resources/ResourceLoader.cpp
         Signature.cpp
-        resources/Resources.cpp)
+        resources/Resources.cpp math/Functions.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

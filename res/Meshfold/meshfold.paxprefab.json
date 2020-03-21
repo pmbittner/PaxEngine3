@@ -4,7 +4,8 @@
   },
   "Properties": {
     "PAX::PointCloudSprite": {
-      "texture": "${ResourcePath}/icon/PaxEngine3/PaxEngine3_128.png",
+      "texture": "${ResourcePath}/Meshfold/ShovelKnight.png",
+      "pointSize": 2.5,
       "Shader": {
         "Vertex": "${ResourcePath}/Meshfold/shader/pointcloud.vert",
         "Fragment": "${ResourcePath}/Meshfold/shader/pointcloud.frag"
@@ -12,6 +13,10 @@
     },
     "PAX::VelocityBehaviour2D": {
       "velocity": [0, 0]
+    },
+    "PAX::KeyboardControls": {
+      "speed": 40,
+      "angularSpeed": 1
     }
   }
 }

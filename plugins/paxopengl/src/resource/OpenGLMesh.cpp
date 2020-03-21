@@ -8,6 +8,10 @@
 
 namespace PAX {
     namespace OpenGL {
+        size_t OpenGLMesh::VertexAttribute::getSizeInBytes() const {
+            return dataLen * elementMemorySize;
+        }
+
         GLenum OpenGLMesh::ToGLFaceMode(PAX::Mesh::FaceMode facemode) {
             switch (facemode) {
                 case FaceMode::Triangles: {
@@ -75,7 +79,7 @@ namespace PAX {
         }
 
         template<typename T>
-        static OpenGLMesh::VertexAttribute createAttribute(const std::vector<T> &attrib, GLenum type) {
+        static OpenGLMesh::VertexAttribute createAttribute(Mesh::AttributeName name, const std::vector<T> &attrib, GLenum type) {
             auto * data = new T[attrib.size()];
 
             for (int i = 0; i < attrib.size(); ++i) {
@@ -83,6 +87,7 @@ namespace PAX {
             }
 
             return OpenGLMesh::VertexAttribute(
+                    name,
                     type,
                     1,
                     sizeof(T),
@@ -92,7 +97,7 @@ namespace PAX {
         }
 
         template<glm::length_t L, typename T, glm::qualifier Q>
-        static OpenGLMesh::VertexAttribute createAttribute(const std::vector<glm::vec<L, T, Q>> &attrib, GLenum type) {
+        static OpenGLMesh::VertexAttribute createAttribute(Mesh::AttributeName name, const std::vector<glm::vec<L, T, Q>> &attrib, GLenum type) {
             size_t dataLen = attrib.size() * L;
             auto * data = new T[dataLen];
 
@@ -103,6 +108,7 @@ namespace PAX {
             }
 
             return OpenGLMesh::VertexAttribute(
+                    name,
                     type,
                     L,
                     sizeof(T),
@@ -123,29 +129,74 @@ namespace PAX {
             }
         }
 
-        void OpenGLMesh::addAttribute(const std::vector<int> &attrib) {
+        void OpenGLMesh::addAttribute(Mesh::AttributeName name, const std::vector<int> &attrib) {
             checkAttributeValidity(attrib.size());
-            attributes.emplace_back(createAttribute(attrib, GL_INT));
+            attributes.emplace_back(createAttribute(name, attrib, GL_INT));
         }
 
-        void OpenGLMesh::addAttribute(const std::vector<float> &attrib) {
+        void OpenGLMesh::addAttribute(Mesh::AttributeName name, const std::vector<float> &attrib) {
             checkAttributeValidity(attrib.size());
-            attributes.emplace_back(createAttribute(attrib, GL_FLOAT));
+            attributes.emplace_back(createAttribute(name, attrib, GL_FLOAT));
         }
 
-        void OpenGLMesh::addAttribute(const std::vector<glm::vec2> &attrib) {
+        void OpenGLMesh::addAttribute(Mesh::AttributeName name, const std::vector<glm::vec2> &attrib) {
             checkAttributeValidity(attrib.size());
-            attributes.emplace_back(createAttribute(attrib, GL_FLOAT));
+            attributes.emplace_back(createAttribute(name, attrib, GL_FLOAT));
         }
 
-        void OpenGLMesh::addAttribute(const std::vector<glm::vec3> &attrib) {
+        void OpenGLMesh::addAttribute(Mesh::AttributeName name, const std::vector<glm::vec3> &attrib) {
             checkAttributeValidity(attrib.size());
-            attributes.emplace_back(createAttribute(attrib, GL_FLOAT));
+            attributes.emplace_back(createAttribute(name, attrib, GL_FLOAT));
         }
 
-        void OpenGLMesh::addAttribute(const std::vector< glm::vec4 > &attrib) {
+        void OpenGLMesh::addAttribute(Mesh::AttributeName name, const std::vector< glm::vec4 > &attrib) {
             checkAttributeValidity(attrib.size());
-            attributes.emplace_back(createAttribute(attrib, GL_FLOAT));
+            attributes.emplace_back(createAttribute(name, attrib, GL_FLOAT));
+        }
+
+        void OpenGLMesh::uploadNewAttribData(Mesh::AttributeName name, const void * data, size_t dataLenInBytes) const {
+            if (isUploaded()) {
+                glBindVertexArray(_vao);
+                glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+
+                size_t offset = 0;
+                size_t i = 0;
+                while (attributes[i].name != name) {
+                    offset += attributes.at(i).getSizeInBytes();
+                    ++i;
+                }
+
+                size_t len = attributes.at(i).getSizeInBytes();
+                if (len != dataLenInBytes) {
+                    PAX_THROW_RUNTIME_ERROR("Size is different!");
+                }
+
+                glBufferSubData(GL_ARRAY_BUFFER, offset, len, data);
+                glBindBuffer(GL_ARRAY_BUFFER, 0);
+                glBindVertexArray(0);
+            } else {
+                PAX_NOT_IMPLEMENTED_EXCEPTION();
+            }
+        }
+
+        void OpenGLMesh::updateAttribute(Mesh::AttributeName name, const std::vector<int> &attrib) {
+            uploadNewAttribData(name, attrib.data(), attrib.size() * sizeof(int));
+        }
+
+        void OpenGLMesh::updateAttribute(Mesh::AttributeName name, const std::vector<float> &attrib) {
+            uploadNewAttribData(name, attrib.data(), attrib.size() * sizeof(float));
+        }
+
+        void OpenGLMesh::updateAttribute(Mesh::AttributeName name, const std::vector<glm::vec2> &attrib) {
+            uploadNewAttribData(name, attrib.data(), attrib.size() * sizeof(glm::vec2));
+        }
+
+        void OpenGLMesh::updateAttribute(Mesh::AttributeName name, const std::vector<glm::vec3> &attrib) {
+            uploadNewAttribData(name, attrib.data(), attrib.size() * sizeof(glm::vec3));
+        }
+
+        void OpenGLMesh::updateAttribute(Mesh::AttributeName name, const std::vector< glm::vec4 > &attrib) {
+            uploadNewAttribData(name, attrib.data(), attrib.size() * sizeof(glm::vec4));
         }
 
         void OpenGLMesh::upload()
@@ -155,7 +206,7 @@ namespace PAX {
             /// finalize
             size_t totalBufferLength = 0;
             for (VertexAttribute & attrib : attributes) {
-                totalBufferLength += attrib.dataLen * attrib.elementMemorySize;
+                totalBufferLength += attrib.getSizeInBytes();
             }
 
             std::vector<char> vertexData(totalBufferLength);
@@ -174,7 +225,7 @@ namespace PAX {
 
             std::vector<GLint> indexData(_verticesPerFace*_indices.size());
 
-            //create an index array
+            // create an index array
             for (size_t i = 0; i < _indices.size(); i++) {
                 for (size_t j= 0; j < _verticesPerFace; j++) {
                     indexData[i*_verticesPerFace+j] = _indices.at(i).at(j);
@@ -203,7 +254,7 @@ namespace PAX {
                 glVertexAttribPointer(index, attrib.vectorLen, attrib.type, GL_FALSE, 0, reinterpret_cast<GLvoid*>(offset));
                 glEnableVertexAttribArray(index);
                 ++index;
-                offset += attrib.dataLen * attrib.elementMemorySize;
+                offset += attrib.getSizeInBytes();
             }
 
             if (_numberOfFaces > 0) {
@@ -220,6 +271,26 @@ namespace PAX {
             glBindVertexArray(0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
+
+        bool OpenGLMesh::hasAttribute(AttributeName attribName) {
+            for (VertexAttribute & v : attributes) {
+                if (v.name == attribName)
+                    return true;
+            }
+
+            return false;
+        }
+
+        int OpenGLMesh::getAttributeLocation(AttributeName attribName) {
+            int i = 0;
+            for (VertexAttribute & v : attributes) {
+                if (v.name == attribName)
+                    return i;
+                ++i;
+            }
+
+            return -1;
         }
 
         GLuint OpenGLMesh::getID() {

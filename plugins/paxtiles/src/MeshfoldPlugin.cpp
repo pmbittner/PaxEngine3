@@ -2,7 +2,7 @@
 // Created by Paul on 13.08.2018.
 //
 
-#include "paxtiles/Plugin.h"
+#include "paxtiles/MeshfoldPlugin.h"
 
 #include <paxutil/resources/Resources.h>
 #include <paxtiles/TileMap.h>

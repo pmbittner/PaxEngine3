@@ -5,13 +5,14 @@
 #ifndef PAXENGINE3_IMAGE_H
 #define PAXENGINE3_IMAGE_H
 
-#include <paxutil/lib/GlmIncludes.h>
+#include "Colour.h"
 #include "Texture.h"
 
 namespace PAX {
     class Image : public Texture {
+    private:
         // RGBA
-        glm::cvec4 * pixels = nullptr;
+        Colour * pixels = nullptr;
 
         void reallocatePixelBuffer();
 
@@ -20,7 +21,12 @@ namespace PAX {
         ~Image() override;
 
         void setPixels(void * data, PixelFormat dataPixelFormat) override;
-        PAX_NODISCARD const glm::cvec4* getPixels() const;
+        PAX_NODISCARD const Colour* getPixels() const;
+
+        void setColorAt(const glm::ivec2 & pixel, const Colour & colour);
+        void fill(const Colour & colour);
+        void drawLine(const glm::vec2 & p, const glm::vec2 & q, const Colour & colour);
+        void fillRect(const glm::vec2 & p, const glm::vec2 & q, const Colour & colour);
 
         void bind() override;
         void unbind() override;

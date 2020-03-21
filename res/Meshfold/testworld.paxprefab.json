@@ -4,6 +4,17 @@
     "dimensions": 2,
     "z": 0
   },
+  "Properties": {
+    "PAX::WorldSize": {
+      "size": [800, 600, 1]
+    },
+    "PAX::Meshfold": {
+      "backgroundShader": {
+        "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
+        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
+      }
+    }
+  },
   "Entities": [
     {
       "prefab": "meshfold.paxprefab.json"

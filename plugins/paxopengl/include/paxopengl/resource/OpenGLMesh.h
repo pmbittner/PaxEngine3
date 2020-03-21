@@ -18,18 +18,21 @@ namespace PAX {
         class OpenGLMesh : public Mesh {
         public:
             struct VertexAttribute {
+                Mesh::AttributeName name;
                 // Set by constructor
-                size_t elementMemorySize; // sizeof(float)
-                int vectorLen = 1;
+                size_t elementMemorySize; // sizeof(float) or sizeof(int)
+                int vectorLen = 1; // number of entries in vector (2 for glm::vec2, 3 for glm::vec3, ...)
                 GLenum type;
-                size_t dataLen = 0;
+                size_t dataLen = 0; // number of total entries, i.e. vectorLen * vertexCount.
                 std::shared_ptr<void> data;
 
-                VertexAttribute(GLenum type, int vectorLen, size_t elementMemorySize, size_t dataLen, const std::shared_ptr<void> & data)
-                : type(type), vectorLen(vectorLen), elementMemorySize(elementMemorySize), dataLen(dataLen), data(data)
+                VertexAttribute(AttributeName name, GLenum type, int vectorLen, size_t elementMemorySize, size_t dataLen, const std::shared_ptr<void> & data)
+                : name(name), type(type), vectorLen(vectorLen), elementMemorySize(elementMemorySize), dataLen(dataLen), data(data)
                 {
 
                 }
+
+                size_t getSizeInBytes() const;
             };
 
             static GLenum ToGLFaceMode(FaceMode facemode);
@@ -59,10 +62,11 @@ namespace PAX {
                     PAX_THROW_RUNTIME_ERROR("Insufficient number of vertices: Vertices for at least one face have to be given!");
                 }
 
-                Mesh::addAttribute(Mesh::Vertices, vertices);
+                addAttribute(Mesh::Vertices, vertices);
             }
 
             void checkAttributeValidity(size_t attribLen);
+            void uploadNewAttribData(Mesh::AttributeName name, const void * data, size_t dataLenInBytes) const;
 
         public:
             OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces);
@@ -73,16 +77,24 @@ namespace PAX {
 
             void render(RenderOptions &renderOptions) override;
 
-            void addAttribute(const std::vector<int> &attrib) override;
-            void addAttribute(const std::vector<float> &attrib) override;
-            void addAttribute(const std::vector<glm::vec2> &attrib) override;
-            void addAttribute(const std::vector<glm::vec3> &attrib) override;
-            void addAttribute(const std::vector<glm::vec4> &attrib) override;
+            void addAttribute(AttributeName name, const std::vector<int> &attrib) override;
+            void addAttribute(AttributeName name, const std::vector<float> &attrib) override;
+            void addAttribute(AttributeName name, const std::vector<glm::vec2> &attrib) override;
+            void addAttribute(AttributeName name, const std::vector<glm::vec3> &attrib) override;
+            void addAttribute(AttributeName name, const std::vector<glm::vec4> &attrib) override;
+
+            void updateAttribute(AttributeName name, const std::vector<int> &attrib) override;
+            void updateAttribute(AttributeName name, const std::vector<float> &attrib) override;
+            void updateAttribute(AttributeName name, const std::vector<glm::vec2> &attrib) override;
+            void updateAttribute(AttributeName name, const std::vector<glm::vec3> &attrib) override;
+            void updateAttribute(AttributeName name, const std::vector<glm::vec4> &attrib) override;
 
             void setFaceMode(FaceMode facemode) override;
 
-            void upload() override;
+            bool hasAttribute(AttributeName attribName) override;
+            int getAttributeLocation(AttributeName attribName) override;
 
+            void upload() override;
 
             GLuint getID();
         };

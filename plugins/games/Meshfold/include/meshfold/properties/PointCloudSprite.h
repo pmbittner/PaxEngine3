@@ -11,16 +11,20 @@
 #include <paxcore/rendering/data/Image.h>
 
 namespace PAX {
+    class MeshfoldSystem;
+
     class PointCloudSprite : public Graphics {
         PAX_PROPERTY(PointCloudSprite, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(Graphics)
         PAX_PROPERTY_IS_SINGLE
 
-        std::vector<glm::vec2> pixels;
-        std::vector<glm::vec2> uvs;
-        std::vector<glm::vec2> directions;
-        std::shared_ptr<Texture> texture;
+        friend MeshfoldSystem;
 
+        std::vector<glm::vec2> originalpositions;
+        std::vector<glm::vec2> positions;
+        std::vector<glm::vec2> uvs;
+
+        std::shared_ptr<Texture> texture;
         TexturingNode textureNode;
         MeshNode meshNode;
 
@@ -28,6 +32,8 @@ namespace PAX {
         void init();
 
     public:
+        float pointSize = 1;
+
         PointCloudSprite(const std::shared_ptr<Texture> & texture);
 
         void render(RenderOptions& options) override;

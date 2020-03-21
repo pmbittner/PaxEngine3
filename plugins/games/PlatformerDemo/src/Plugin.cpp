@@ -8,7 +8,7 @@
 #include <paxopengl/OpenGLPlugin.h>
 #include <paxsdl/opengl/SDLOpenGLPlugin.h>
 #include <paxphysics/Plugin.h>
-#include <paxtiles/Plugin.h>
+#include <paxtiles/MeshfoldPlugin.h>
 
 #include "platformerdemo/behaviour/Dance2D.h"
 #include "platformerdemo/behaviour/DragNDrop.h"

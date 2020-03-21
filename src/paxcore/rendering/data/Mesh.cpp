@@ -25,22 +25,6 @@ namespace PAX {
         return name;
     }
 
-    void Mesh::addAttribName(PAX::Mesh::AttributeName name) {
-        attributeNames.emplace_back(name);
-    }
-
-    bool Mesh::hasAttribute(PAX::Mesh::AttributeName attribName) {
-        return Util::vectorContains(attributeNames, attribName);
-    }
-
-    int Mesh::getAttributeLocation(PAX::Mesh::AttributeName attribName) {
-        for (size_t i = 0; i < attributeNames.size(); ++i) {
-            if (attributeNames[i] == attribName)
-                return static_cast<int>(i);
-        }
-        return -1;
-    }
-
     void Mesh::upload() {
         uploaded = true;
     }
@@ -53,7 +37,7 @@ namespace PAX {
         this->facemode = facemode;
     }
 
-    const Mesh::FaceMode Mesh::getFaceMode() const {
+    Mesh::FaceMode Mesh::getFaceMode() const {
         return facemode;
     }
 }

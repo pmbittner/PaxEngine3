@@ -4,6 +4,7 @@
 
 #include <paxutil/math/Transformation.h>
 #include <glm/gtx/matrix_decompose.hpp>
+#include <paxutil/math/Functions.h>
 
 namespace PAX {
     const Math::Basis Transformation::Basis = Math::OpenGLBasis;
@@ -128,6 +129,10 @@ namespace PAX {
         setRotation2DInRadians(glm::radians(degrees));
     }
 
+    void Transformation::setRotation2D(const glm::vec2 &direction) {
+        setRotation2DInRadians(Math::directionToRadians(direction));
+    }
+
     const glm::quat & Transformation::getRotationAsQuaternion() const {
         return _rotation;
     }
@@ -151,6 +156,10 @@ namespace PAX {
 
     float Transformation::getRotation2DInDegrees() const {
         return glm::degrees(getRotation2DInRadians());
+    }
+
+    glm::vec2 Transformation::getRotation2DAsDirection() const {
+        return Math::angleToDirection(getRotation2DInRadians());
     }
 
     const glm::vec3 & Transformation::getScale() const {

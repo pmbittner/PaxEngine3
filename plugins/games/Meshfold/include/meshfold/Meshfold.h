@@ -1,53 +1,49 @@
 //
-// Created by Paul on 06.01.2018.
+// Created by Paul Bittner on 21.03.2020.
 //
 
-#ifndef PAXENGINE3_PAXTILEDEMO_H
-#define PAXENGINE3_PAXTILEDEMO_H
+#ifndef PAXENGINE3_MESHFOLD_H
+#define PAXENGINE3_MESHFOLD_H
 
-#include <paxcore/Game.h>
-#include <paxcore/Engine.h>
-#include <paxcore/io/event/KeyPressedEvent.h>
-
-#include "polypropylene/log/Log.h"
-
-#include <paxcore/gameentity/GameEntity.h>
-#include <paxcore/gameentity/property/behaviours/NoClipControls.h>
-
-#include <paxcore/rendering/graphics/SceneGraphGraphics.h>
-#include <paxcore/rendering/geometry/ScreenFillingQuad.h>
-
-#include <paxcore/rendering/factory/ViewportFactory.h>
+#include <paxcore/world/WorldProperty.h>
+#include <paxcore/world/property/WorldSize.h>
+#include "Portal.h"
+#include <paxcore/rendering/data/Image.h>
 
 namespace PAX {
-    namespace Meshfold {
-        class Meshfold : public Game {
-            World * world = nullptr;
-            Settings settings;
+    class Meshfold : public WorldProperty {
+        PAX_PROPERTY(Meshfold, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_DERIVES(WorldProperty)
+        PAX_PROPERTY_IS_SINGLE
 
-        public:
-            void initialize() override {
-                Game::initialize();
-                settings.parse(Services::GetPaths().getResourcePath() + "Meshfold/meshfold.paxconfig");
-                std::shared_ptr<WorldPrefab> worldPrefab = Services::GetResources().loadOrGet<WorldPrefab>(
-                        settings.get<Path>("StartWorld"));
-                world = worldPrefab->create({});
+        PAX_PROPERTY_DEPENDS_ON(WorldSize)
 
-                /// Spawn player
-                {
-                    Path playerPrefabPath = settings.get("playerprefab");
-                    std::shared_ptr<GameEntityPrefab> playerPrefab =
-                            Services::GetResources().loadOrGet<GameEntityPrefab>(playerPrefabPath);
-                    GameEntity * player = playerPrefab->create({});
-                    player->addTag(Tags::Player);
+        std::vector<Portal> portals;
 
-                    world->spawn(player);
-                }
+        GameEntity backgroundPresenter;
+        std::shared_ptr<Shader> backgroundShader;
 
-                setActiveWorld(world);
-            }
+    public:
+        struct Ray {
+            glm::vec2 p, d;
+            Ray(const glm::vec2 & p, const glm::vec2 & d) : p(p), d(d) {}
         };
-    }
+
+        Meshfold();
+        ~Meshfold() override;
+
+        /**
+         * Returns the point p + d considering all portals;
+         */
+        Ray traceRay(const glm::vec2 & p, const glm::vec2 & d);
+
+        PAX_NODISCARD const std::vector<Portal> & Meshfold::getPortals() const;
+
+        void attached(World & world) override;
+        void detached(World & world) override;
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
+    };
 }
 
-#endif //PAXENGINE3_PAXTILEDEMO_H
+#endif //PAXENGINE3_MESHFOLD_H

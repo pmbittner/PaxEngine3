@@ -18,6 +18,8 @@
 #include "paxopengl/rendernodes/OpenGLDefaultWorldSceneGraph.h"
 #include "io/OpenGLShaderLoader.h"
 
+#include "OpenGLPointCloudSettings.h"
+
 namespace PAX {
     namespace OpenGL {
         class OpenGLPlugin : public EnginePlugin {
@@ -29,6 +31,7 @@ namespace PAX {
             OpenGLMeshFactory meshFactory;
             OpenGLViewportFactory viewportFactory;
             OpenGLTextureFactory textureFactory;
+            OpenGLPointCloudSettings pointCloudSettings;
 
             JsonResourceFieldWriter<Shader> shaderJsonParser;
 
@@ -38,6 +41,7 @@ namespace PAX {
             void registerResourceLoaders(Resources& resources) override;
             void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override;
             void registerFactories(FactoryService& factoryService) override;
+            void registerServices(Services & services) override;
         };
     }
 }

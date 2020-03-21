@@ -6,6 +6,7 @@
 #include <paxcore/rendering/RenderOptions.h>
 #include <paxcore/rendering/Renderer.h>
 #include <paxcore/world/World.h>
+#include <paxcore/rendering/config/PointCloudSettings.h>
 
 namespace PAX {
     bool ShaderOptions::pushShader(void *caller, Shader* shader, ShaderPriority priority) {
@@ -103,5 +104,13 @@ namespace PAX {
 
     float RenderOptions::getActualDeltaTime() const {
         return dt;
+    }
+
+    void RenderOptions::setPointSize(float pointSize) {
+        Services::Instance().get<PointCloudSettings>()->setPointSize(pointSize);
+    }
+
+    float RenderOptions::getPointSize() const {
+        return Services::Instance().get<PointCloudSettings>()->getPointSize();
     }
 }

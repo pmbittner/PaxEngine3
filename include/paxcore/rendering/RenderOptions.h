@@ -74,6 +74,9 @@ namespace PAX {
 
         PAX_NODISCARD float getDeltaTime() const;
         PAX_NODISCARD float getActualDeltaTime() const;
+
+        PAX_NODISCARD float getPointSize() const;
+        void setPointSize(float pointSize);
     };
 }
 

@@ -4,16 +4,11 @@
     "scale": [1.33, 1.33, 1]
   },
   "Properties": {
-    "PAX::SpriteSheetGraphics": {
-      "Sprite": "${ResourcePath}/TileDemo/img/Glenys-the-Demonswordsman.png",
-      "rows": 4,
-      "columns": 3,
+    "PAX::SpriteGraphics": {
+      "Sprite": "${ResourcePath}/Meshfold/ShovelKnight.png",
       "Shader": {
         "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
-        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag",
-        "Flags": {
-          "Vertex": "#define SPRITE_SHEET"
-        }
+        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
       }
     },
     "PAX::VelocityBehaviour2D": {

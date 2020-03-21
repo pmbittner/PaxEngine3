@@ -56,7 +56,7 @@ namespace PAX {
         Service* get() {
             const auto & service = _registeredServices.find(paxtypeid(Service));
             if (service != _registeredServices.end())
-                return service->second;
+                return reinterpret_cast<Service*>(service->second);
             return nullptr;
         }
 

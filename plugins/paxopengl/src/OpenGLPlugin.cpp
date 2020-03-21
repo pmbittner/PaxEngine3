@@ -5,6 +5,7 @@
 #include <paxcore/rendering/scenegraph/generators/GroupByShadersSceneGraphGenerator.h>
 #include <paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h>
 #include <paxcore/rendering/data/Shader.h>
+#include <paxopengl/OpenGLPointCloudSettings.h>
 
 #include "paxopengl/OpenGLPlugin.h"
 
@@ -17,8 +18,6 @@ namespace PAX {
         void OpenGLPlugin::initialize(Engine &engine) {}
 
         void OpenGLPlugin::postInitialize(Engine &engine) {
-            glEnable(GL_PROGRAM_POINT_SIZE);
-            glPointSize(3);
         }
 
         void OpenGLPlugin::registerResourceLoaders(Resources &resources) {
@@ -34,6 +33,11 @@ namespace PAX {
             factoryService.set(paxtypeid(ViewportFactory), &viewportFactory);
             factoryService.set(paxtypeid(WorldSceneGraphFactory), &worldSceneGraphFactory);
             factoryService.set(paxtypeid(TextureFactory), &textureFactory);
+        }
+
+        void OpenGLPlugin::registerServices(Services &services) {
+            services.registerService(paxtypeid(PointCloudSettings), &pointCloudSettings);
+            pointCloudSettings.initialize();
         }
     }
 }

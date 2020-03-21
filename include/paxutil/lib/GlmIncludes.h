@@ -15,10 +15,6 @@
 
 #include <ostream>
 
-namespace glm {
-    typedef vec<4, char, defaultp> cvec4;
-}
-
 template <template <typename, glm::qualifier> class matType, typename T, glm::qualifier P>
 std::ostream& operator<<(std::ostream& os, matType<T, P> const & x)
 {

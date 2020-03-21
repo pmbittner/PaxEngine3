@@ -12,8 +12,8 @@ int main(int argc, char* argv[]) {
     PAX::Meshfold_main(argc, argv);
 }
 
-#include "meshfold/Meshfold.h"
-#include "meshfold/Plugin.h"
+#include "meshfold/MeshfoldGame.h"
+#include "meshfold/MeshfoldPlugin.h"
 
 // Plugin Includes
 #include "paxsdl/SDLPlugin.h"
@@ -24,12 +24,12 @@ int main(int argc, char* argv[]) {
 int PAX::Meshfold_main(int argc, char *argv[]) {
     int exitcode = 0;
 
-    PAX::Meshfold::Meshfold game;
+    PAX::Meshfold::MeshfoldGame game;
 
-    PAX::SDL::SDLPlugin                     sdl;
-    PAX::OpenGL::OpenGLPlugin               openGL;
-    PAX::SDL::OpenGL::SDLOpenGLPlugin       sdlOpenGLLink;
-    PAX::Meshfold::Plugin                   meshfoldPlugin;
+    PAX::SDL::SDLPlugin               sdl;
+    PAX::OpenGL::OpenGLPlugin         openGL;
+    PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
+    PAX::MeshfoldPlugin               meshfoldPlugin;
 
     PAX::Engine &engine = PAX::Engine::Instance();
     engine.initialize(

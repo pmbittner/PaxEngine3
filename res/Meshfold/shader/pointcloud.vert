@@ -6,9 +6,9 @@ layout(location = 1) in vec2 texCoords;
 out vec2 fragTextureCoords;
 
 uniform mat4 projection;
-uniform mat4 modelview;
+uniform mat4 view;
 
 void main(void) {
     fragTextureCoords = texCoords;
-    gl_Position = projection * modelview * vec4(position, 0.0, 1.0);
+    gl_Position = projection * view * vec4(position, 0.0, 1.0);
 }
