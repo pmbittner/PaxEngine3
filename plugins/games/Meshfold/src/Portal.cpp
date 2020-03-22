@@ -16,16 +16,18 @@ namespace PAX {
         return a.x * b.y - a.y * b.x;
     }
 
-    float Portal::intersect(const glm::vec2 &p, const glm::vec2 &d, bool& parallel) const {
-        float down = cross2d(to - from, d);
+    glm::vec2 Portal::intersect(const glm::vec2 &p, const glm::vec2 &d, bool& parallel) const {
+        const glm::vec2 me = to - from;
+        float down = cross2d(me, d);
 
         if (down == 0) {
             parallel = true;
-            return 0;
+            return {0, 0};
         }
 
         parallel = false;
-        return cross2d(p - from, d) / down;
+
+        return glm::vec2(cross2d(p - from, d) / down, cross2d(p - from, me) / down);
     }
 
     glm::vec2 Portal::normal() const {

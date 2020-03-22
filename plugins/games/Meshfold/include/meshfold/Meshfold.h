@@ -11,6 +11,8 @@
 #include <paxcore/rendering/data/Image.h>
 
 #define PAX_MESHFOLD_CONSIDER_PORTAL_SIZE 1
+#define PAX_MESHFOLD_PORTAL_SAFETY_OFFSET 1
+#define PAX_MESHFOLD_MULTI_PORTAL 0
 
 namespace PAX {
     class Meshfold : public WorldProperty {
@@ -30,8 +32,11 @@ namespace PAX {
             glm::vec2 position;
             glm::vec2 direction;
             float scale = 1.f;
+            float distanceTraveledAfterPortal = 0;
+            Portal * lastPortal = nullptr;
 
-            Transition(const glm::vec2 & p, const glm::vec2 & d, float s) : position(p), direction(d), scale(s) {}
+            Transition(const glm::vec2 & p, const glm::vec2 & d, float s, float distanceTraveledAfterPortal, Portal * lastPortal)
+            : position(p), direction(d), scale(s), distanceTraveledAfterPortal(distanceTraveledAfterPortal), lastPortal(lastPortal) {}
         };
 
         Meshfold();

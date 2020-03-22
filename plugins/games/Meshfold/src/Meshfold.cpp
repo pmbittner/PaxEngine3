@@ -16,10 +16,10 @@ namespace PAX {
         portals[1].target = &portals[0];
 
         portals[0].from = {50,  -50};
-        portals[0].to   = {50, 50};
+        portals[0].to   = {100, 50};
 
-        portals[1].from = {-50, -100};
-        portals[1].to   = {-50, 100};
+        portals[1].from = {-50, -75};
+        portals[1].to   = {-120, 75};
 
         //portals[1].from = {90,  50};
         //portals[1].to   = {90, -50};
@@ -71,36 +71,39 @@ namespace PAX {
     }
 
     Meshfold::Transition Meshfold::traceRay(const glm::vec2 & p0, const glm::vec2 & d0) {
-        if (glm::length2(d0) == 0) return {p0, d0, 1.f};
+#if PAX_MESHFOLD_PORTAL_SAFETY_OFFSET
+        static const float PortalTraverseSafetyGap = 1;//px
+#endif
 
-        static const float PortalTraverseSafetyGap = 5;//px
+        if (glm::length2(d0) == 0) return {p0, d0, 1.f, 0.f, nullptr};
+
         glm::vec2 p = p0;
         glm::vec2 d = d0;
         glm::vec2 normD = glm::normalize(d);
         float totalScale = 1.0f;
         float distanceToTravel = glm::length(d);
+        float distanceAfterPortal = 1.f;
 
         bool parallel;
         Portal * nearestIntersectedPortal;
         float distance_p_intersection; // p to hitpoint
 
+#if PAX_MESHFOLD_MULTI_PORTAL
         while (distanceToTravel > 0) {
+#endif
             nearestIntersectedPortal = nullptr;
-            distance_p_intersection = std::numeric_limits<float>::max();
+            distance_p_intersection = 1.f;
 
             // Find the next portal we have to traverse
             for (Portal & portal : portals) {
                 parallel = false;
-                float intersection = portal.intersect(p, d, parallel);
-                glm::vec2 hitpoint = portal.from + intersection * (portal.to - portal.from);
-                float distance = glm::length(hitpoint - p);
+                const glm::vec2 intersection = portal.intersect(p, d, parallel);
 
                 if (!parallel
-                    && 0.f <= intersection && intersection <= 1.f
-                    && 0.f <= distance && distance <= 1.f
-                    && distance < distance_p_intersection)
+                    && 0.f <= intersection.x && intersection.x <= 1.f
+                    && 0.f <  intersection.y && intersection.y <= distance_p_intersection)
                 {
-                    distance_p_intersection = distance;
+                    distance_p_intersection = intersection.y;
                     nearestIntersectedPortal = &portal;
                 }
             }
@@ -123,25 +126,36 @@ namespace PAX {
 #if PAX_MESHFOLD_CONSIDER_PORTAL_SIZE
                 const float scale = glm::length(target.to - target.from) / glm::length(source.to - source.from);
                 const glm::mat2 scaleFix = {
-                        {scale, 0}, {0, 1}
+                        {scale, 0}, {0, 1.f}
                 };
                 p = target.from + targetSpace * scaleFix * sourceSpace * (oldP - source.from);
                 totalScale *= scale;
 #endif
 
+                distanceAfterPortal -= distance_p_intersection;
+                float minimumWalk = distance_p_intersection  * glm::length(d);
+#if PAX_MESHFOLD_PORTAL_SAFETY_OFFSET
                 // We move the point a bit away from the target portal.
                 // Otherwise, we are directly sent back and start an infinite portal journey.
                 float entryAngle = glm::angle(normD, targetSpace[0]); // targetSpace[0] is the portal vector (to - from)
-                float minimumWalk = distance_p_intersection + PortalTraverseSafetyGap / sin(entryAngle);
-                distanceToTravel -= minimumWalk;
+                minimumWalk += PortalTraverseSafetyGap / sin(entryAngle);
                 p += minimumWalk * normD;
+#endif
+                distanceToTravel -= minimumWalk;
                 d = std::max(distanceToTravel, 0.f) * normD;
-            } else {
-                break;
             }
+            else {
+#if PAX_MESHFOLD_MULTI_PORTAL
+                distanceToTravel = 0;
+#else
+                distanceAfterPortal = 0;
+#endif
+            }
+#if PAX_MESHFOLD_MULTI_PORTAL
         }
+#endif
 
-        return {p + d, normD, totalScale};
+        return {p + d, normD, totalScale, std::max(0.0f, distanceAfterPortal), nearestIntersectedPortal};
     }
 
     const std::vector<Portal> & Meshfold::getPortals() const {

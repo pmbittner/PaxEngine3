@@ -47,13 +47,28 @@ namespace PAX {
             rotationMatrix[1][1] = c;
 
             for (int i = 0; i < p->positions.size(); ++i) {
-                Meshfold::Transition transition = meshfold->traceRay(t.position2D(), rotationMatrix * p->scale * p->originalpositions[i]);
-                p->positions[i] =
-                        /*
-                        t.position2D() + rotationMatrix * p->originalpositions[i];
-                        /*/
-                        transition.position;
-                         //*/
+                const glm::vec2 dir = rotationMatrix * p->scale * p->originalpositions[i];
+                /*
+
+                float scale = 1.f;
+                Meshfold::Transition transition = meshfold->traceRay(t.position2D(), glm::vec2(dir.x, 0.f));
+                scale *= transition.scale;
+
+                glm::vec2 nextDir = -dir.y * Math::signPositiveNull(dir.x) * glm::vec2(transition.direction.y, -transition.direction.x);
+                glm::vec2 lastPathAfterPortal = transition.distanceTraveledAfterPortal * transition.direction * dir.x;
+                transition = meshfold->traceRay(transition.position
+                        - lastPathAfterPortal + transition.scale * lastPathAfterPortal
+                        , nextDir);
+                scale *= transition.scale;
+                lastPathAfterPortal = transition.distanceTraveledAfterPortal * transition.direction * dir.y;
+
+                // we have to scale the angle but I dont know how
+                p->positions[i] = transition.position +
+                                  - lastPathAfterPortal + transition.scale * lastPathAfterPortal;
+                                  /*/
+                Meshfold::Transition transition = meshfold->traceRay(t.position2D(), dir);
+                                  //*/
+                p->positions[i] = transition.position + (transition.scale - 1) * transition.distanceTraveledAfterPortal * glm::length(dir) *  transition.direction;
                 p->pointsizes[i] = p->pointSize * p->scale * transition.scale;
             }
 
