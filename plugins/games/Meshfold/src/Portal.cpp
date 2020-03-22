@@ -16,7 +16,7 @@ namespace PAX {
         return a.x * b.y - a.y * b.x;
     }
 
-    float Portal::getIntersection(const glm::vec2 &p, const glm::vec2 &d, bool& parallel) {
+    float Portal::intersect(const glm::vec2 &p, const glm::vec2 &d, bool& parallel) const {
         float down = cross2d(to - from, d);
 
         if (down == 0) {
@@ -28,8 +28,12 @@ namespace PAX {
         return cross2d(p - from, d) / down;
     }
 
-    glm::vec2 Portal::normal() {
-        auto axis = glm::vec2(to - from);
+    glm::vec2 Portal::normal() const {
+        auto axis = glm::normalize(glm::vec2(to - from));
         return {axis.y, -axis.x};
+    }
+
+    glm::mat2 Portal::space() const {
+        return {glm::normalize(to - from), normal()};
     }
 }

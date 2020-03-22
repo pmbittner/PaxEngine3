@@ -23,6 +23,8 @@ namespace PAX {
         std::vector<glm::vec2> originalpositions;
         std::vector<glm::vec2> positions;
         std::vector<glm::vec2> uvs;
+        std::vector<float> pointsizes;
+        float scale = 1.f;
 
         std::shared_ptr<Texture> texture;
         TexturingNode textureNode;
@@ -30,13 +32,17 @@ namespace PAX {
 
         PointCloudSprite();
         void init();
+        void initShader();
 
     public:
+        static constexpr const Mesh::AttributeName PointSizes = Mesh::LastAttribute + 1; // 4
+
         float pointSize = 1;
 
         PointCloudSprite(const std::shared_ptr<Texture> & texture);
 
         void render(RenderOptions& options) override;
+        void setShader(const std::shared_ptr<Shader> &shader) override;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
         void created() override;

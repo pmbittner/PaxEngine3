@@ -17,12 +17,14 @@ namespace PAX {
     public:
         using AttributeName = int;
 
-        static const AttributeName Unspecified; // -1
-        static const AttributeName Vertices; // 0
-        static const AttributeName Normals; // 1
-        static const AttributeName UVs; // 2
-        static const AttributeName Tangents; // 3
-        static const AttributeName Bitangents; // 4
+        static constexpr const AttributeName Unspecified = -1; // -1
+        static constexpr const AttributeName Vertices = 0; // 0
+        static constexpr const AttributeName Normals = 1; // 1
+        static constexpr const AttributeName UVs = 2; // 2
+        static constexpr const AttributeName Tangents = 3; // 3
+        static constexpr const AttributeName Bitangents = 4; // 4
+
+        static constexpr const AttributeName LastAttribute = Bitangents;
 
         enum class FaceMode {
             Triangles,

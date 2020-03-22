@@ -13,6 +13,8 @@ namespace PAX {
         public:
             void initialize();
             void setPointSize(float pointSize) override;
+
+            void init(Shader * shader) override;
         };
     }
 }

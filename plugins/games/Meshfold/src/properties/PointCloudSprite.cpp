@@ -5,6 +5,7 @@
 #include <paxutil/reflection/EngineFieldFlags.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/rendering/factory/MeshFactory.h>
+#include <paxcore/rendering/config/PointCloudSettings.h>
 #include "meshfold/properties/PointCloudSprite.h"
 
 namespace PAX {
@@ -28,6 +29,7 @@ namespace PAX {
         originalpositions.resize(size_t(w * h));
         uvs.resize(originalpositions.size());
         positions.resize(originalpositions.size());
+        pointsizes.resize(originalpositions.size());
 
         float minX = - w / 2.f;
         float maxX = + w / 2.f;
@@ -43,8 +45,11 @@ namespace PAX {
                         minX + (maxX - minX) * x / w,
                         minY + (maxY - minY) * y / h
                 };
+
                 uvs[i] = glm::vec2(x / w, y / h) + halfPixel;
                 uvs[i].y = 1 - uvs[i].y;
+
+                pointsizes[i] = 1.f;
                 ++i;
             }
         }
@@ -52,12 +57,19 @@ namespace PAX {
         auto * meshFactory = Services::GetFactoryService().get<MeshFactory>();
         std::shared_ptr<Mesh> mesh = meshFactory->create(originalpositions, {});
         mesh->addAttribute(Mesh::UVs, uvs);
+        mesh->addAttribute(PointSizes, pointsizes);
         mesh->setFaceMode(Mesh::FaceMode::Points);
         mesh->upload();
 
         meshNode.setMesh(mesh);
         textureNode.setTexture(texture);
         textureNode.addChild(&meshNode);
+
+        initShader();
+    }
+
+    void PointCloudSprite::initShader() {
+        Services::Instance().get<PointCloudSettings>()->init(getShader().get());
     }
 
     PointCloudSprite::PointCloudSprite() : Graphics(), textureNode(nullptr) {}
@@ -66,12 +78,17 @@ namespace PAX {
     }
 
     void PointCloudSprite::render(RenderOptions &renderOptions) {
-        float oldPointSize = renderOptions.getPointSize();
-        renderOptions.setPointSize(pointSize);
+        //float oldPointSize = renderOptions.getPointSize();
+        //renderOptions.setPointSize(scale * pointSize);
 
         Graphics::render(renderOptions);
         textureNode.render(renderOptions);
 
-        renderOptions.setPointSize(oldPointSize);
+        //renderOptions.setPointSize(oldPointSize);
+    }
+
+    void PointCloudSprite::setShader(const std::shared_ptr<Shader> &shader) {
+        Super::setShader(shader);
+        initShader();
     }
 }

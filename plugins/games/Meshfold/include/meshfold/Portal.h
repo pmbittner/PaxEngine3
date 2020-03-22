@@ -19,9 +19,9 @@ namespace PAX {
          * Returns a factor "s" such that the ray "p+d" intersects this portal at "from + s*(target - from)"
          * @param parallel is set to true if the ray is parallel to this portal.
          */
-        float getIntersection(const glm::vec2 & p, const glm::vec2 & d, bool& parallel);
-
-        glm::vec2 normal();
+        PAX_NODISCARD float intersect(const glm::vec2 & p, const glm::vec2 & d, bool& parallel) const;
+        PAX_NODISCARD glm::vec2 normal() const;
+        PAX_NODISCARD glm::mat2 space() const;
     };
 }
 

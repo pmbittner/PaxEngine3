@@ -8,13 +8,6 @@
 #include <iostream>
 
 namespace PAX {
-    const Mesh::AttributeName Mesh::Unspecified = -1;
-    const Mesh::AttributeName Mesh::Vertices = 0;
-    const Mesh::AttributeName Mesh::Normals = Mesh::Vertices + 1;
-    const Mesh::AttributeName Mesh::UVs = Mesh::Normals + 1;
-    const Mesh::AttributeName Mesh::Tangents = Mesh::UVs + 1;
-    const Mesh::AttributeName Mesh::Bitangents = Mesh::Tangents + 1;
-
     Mesh::~Mesh() = default;
 
     void Mesh::setName(const std::string &name) {

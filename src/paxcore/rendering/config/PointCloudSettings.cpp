@@ -18,4 +18,6 @@ namespace PAX {
     float PointCloudSettings::getPointSize() {
         return pointSize;
     }
+
+    void PointCloudSettings::init(Shader *shader) {}
 }

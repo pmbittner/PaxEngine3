@@ -30,9 +30,10 @@ namespace PAX {
             }
 
             if (velocity != 0) {
-                Meshfold::Ray r = meshfold->traceRay(t.position2D(), velocity * t.getRotation2DAsDirection());
-                t.position2D() = r.p;
-                t.setRotation2D(Math::sign(velocity)*r.d);
+                Meshfold::Transition r = meshfold->traceRay(t.position2D(), velocity * t.getRotation2DAsDirection());
+                t.position2D() = r.position;
+                t.setRotation2D(Math::sign(velocity)*r.direction);
+                p->scale *= r.scale;
             }
 
             float rot = t.getRotation2DInRadians();
@@ -46,14 +47,18 @@ namespace PAX {
             rotationMatrix[1][1] = c;
 
             for (int i = 0; i < p->positions.size(); ++i) {
+                Meshfold::Transition transition = meshfold->traceRay(t.position2D(), rotationMatrix * p->scale * p->originalpositions[i]);
                 p->positions[i] =
                         /*
                         t.position2D() + rotationMatrix * p->originalpositions[i];
                         /*/
-                        meshfold->traceRay(t.position2D(), rotationMatrix * p->originalpositions[i]).p;//*/
+                        transition.position;
+                         //*/
+                p->pointsizes[i] = p->pointSize * p->scale * transition.scale;
             }
 
             p->meshNode.getMesh()->updateAttribute(Mesh::Vertices, p->positions);
+            p->meshNode.getMesh()->updateAttribute(PointCloudSprite::PointSizes, p->pointsizes);
         }
     }
 }

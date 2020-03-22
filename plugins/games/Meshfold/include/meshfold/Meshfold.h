@@ -10,6 +10,8 @@
 #include "Portal.h"
 #include <paxcore/rendering/data/Image.h>
 
+#define PAX_MESHFOLD_CONSIDER_PORTAL_SIZE 1
+
 namespace PAX {
     class Meshfold : public WorldProperty {
         PAX_PROPERTY(Meshfold, PAX_PROPERTY_IS_CONCRETE)
@@ -24,9 +26,12 @@ namespace PAX {
         std::shared_ptr<Shader> backgroundShader;
 
     public:
-        struct Ray {
-            glm::vec2 p, d;
-            Ray(const glm::vec2 & p, const glm::vec2 & d) : p(p), d(d) {}
+        struct Transition {
+            glm::vec2 position;
+            glm::vec2 direction;
+            float scale = 1.f;
+
+            Transition(const glm::vec2 & p, const glm::vec2 & d, float s) : position(p), direction(d), scale(s) {}
         };
 
         Meshfold();
@@ -35,7 +40,7 @@ namespace PAX {
         /**
          * Returns the point p + d considering all portals;
          */
-        Ray traceRay(const glm::vec2 & p, const glm::vec2 & d);
+        Transition traceRay(const glm::vec2 & p, const glm::vec2 & d);
 
         PAX_NODISCARD const std::vector<Portal> & Meshfold::getPortals() const;
 
