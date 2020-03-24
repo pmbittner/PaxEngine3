@@ -32,14 +32,12 @@ namespace PAX {
             if (velocity != 0) {
                 Meshfold::Transition r = meshfold->traceRay(t.position2D(), p->dir * velocity * t.getRotation2DAsDirection());
                 t.position2D() = r.position;
-                p->dir *= r.flip;
-                t.setRotation2D(p->dir * Math::sign(velocity)*r.direction);
+                p->dir *= float(r.flip);
                 p->scale *= r.scale;
+                t.setRotation2D(p->dir * float(Math::sign(velocity))*r.direction);
             }
 
-            float rot = //0.5f*float(flip - 1)*glm::pi<float>() +
-                    t.getRotation2DInRadians();
-
+            const float rot = t.getRotation2DInRadians();
             glm::mat2 pointTrafo;
             float s = sin(rot);
             float c = cos(rot);
@@ -53,7 +51,7 @@ namespace PAX {
             for (int i = 0; i < p->positions.size(); ++i) {
                 const glm::vec2 dir = pointTrafo * p->scale * p->originalpositions[i];
                 /*
-
+                // This is some not-working try to fix the curvature when traversing portals of different size
                 float scale = 1.f;
                 Meshfold::Transition transition = meshfold->traceRay(t.position2D(), glm::vec2(dir.x, 0.f));
                 scale *= transition.scale;
