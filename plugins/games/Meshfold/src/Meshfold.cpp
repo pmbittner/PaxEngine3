@@ -16,10 +16,11 @@ namespace PAX {
         portals[1].target = &portals[0];
 
         portals[0].from = {50,  -50};
-        portals[0].to   = {100, 50};
+        portals[0].to   = {50, 50};
 
-        portals[1].from = {-50, -75};
-        portals[1].to   = {-120, 75};
+        portals[1].from = {-50, -100};
+        portals[1].to   = {-50, 100};
+        portals[1].direction = Portal::LEFT;
 
         //portals[1].from = {90,  50};
         //portals[1].to   = {90, -50};
@@ -75,7 +76,9 @@ namespace PAX {
         static const float PortalTraverseSafetyGap = 1;//px
 #endif
 
-        if (glm::length2(d0) == 0) return {p0, d0, 1.f, 0.f, nullptr};
+        Transition ret(p0, d0);
+
+        if (glm::length2(d0) == 0) return ret;
 
         glm::vec2 p = p0;
         glm::vec2 d = d0;
@@ -83,6 +86,7 @@ namespace PAX {
         float totalScale = 1.0f;
         float distanceToTravel = glm::length(d);
         float distanceAfterPortal = 1.f;
+        int flip = 1;
 
         bool parallel;
         Portal * nearestIntersectedPortal;
@@ -113,7 +117,7 @@ namespace PAX {
                 Portal & source = *nearestIntersectedPortal;
                 Portal & target = *nearestIntersectedPortal->target;
 
-                const glm::mat2 sourceSpace = source.space();
+                const glm::mat2 sourceSpace = source.direction * source.space();
                 const glm::mat2 targetSpace = target.space();
                 const glm::mat2 teleport = targetSpace * sourceSpace;
 
@@ -143,6 +147,8 @@ namespace PAX {
 #endif
                 distanceToTravel -= minimumWalk;
                 d = std::max(distanceToTravel, 0.f) * normD;
+
+                flip *= source.direction * target.direction;
             }
             else {
 #if PAX_MESHFOLD_MULTI_PORTAL
@@ -155,7 +161,13 @@ namespace PAX {
         }
 #endif
 
-        return {p + d, normD, totalScale, std::max(0.0f, distanceAfterPortal), nearestIntersectedPortal};
+        ret.position = p + d;
+        ret.direction = normD;
+        ret.scale = totalScale;
+        ret.distanceTraveledAfterPortal = std::max(0.0f, distanceAfterPortal);
+        ret.lastPortal = nearestIntersectedPortal;
+        ret.flip = flip;
+        return ret;
     }
 
     const std::vector<Portal> & Meshfold::getPortals() const {

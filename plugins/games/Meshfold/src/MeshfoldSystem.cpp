@@ -24,30 +24,34 @@ namespace PAX {
             float velocity = 0;
             if (controls) {
                 float rot = t.getRotation2DInRadians();
-                rot += controls->angularVelocity * options.dt;
+                rot += p->dir * controls->angularVelocity * options.dt;
                 velocity += controls->velocity * options.dt;
                 t.setRotation2DInRadians(rot);
             }
 
             if (velocity != 0) {
-                Meshfold::Transition r = meshfold->traceRay(t.position2D(), velocity * t.getRotation2DAsDirection());
+                Meshfold::Transition r = meshfold->traceRay(t.position2D(), p->dir * velocity * t.getRotation2DAsDirection());
                 t.position2D() = r.position;
-                t.setRotation2D(Math::sign(velocity)*r.direction);
+                p->dir *= r.flip;
+                t.setRotation2D(p->dir * Math::sign(velocity)*r.direction);
                 p->scale *= r.scale;
             }
 
-            float rot = t.getRotation2DInRadians();
+            float rot = //0.5f*float(flip - 1)*glm::pi<float>() +
+                    t.getRotation2DInRadians();
 
-            glm::mat2 rotationMatrix;
+            glm::mat2 pointTrafo;
             float s = sin(rot);
             float c = cos(rot);
-            rotationMatrix[0][0] = c;
-            rotationMatrix[0][1] = s;
-            rotationMatrix[1][0] = -s;
-            rotationMatrix[1][1] = c;
+            pointTrafo[0][0] = c;
+            pointTrafo[0][1] = s;
+            pointTrafo[1][0] = -s;
+            pointTrafo[1][1] = c;
+
+            pointTrafo = pointTrafo * glm::mat2(glm::vec2(p->dir, 0), glm::vec2(0, 1));
 
             for (int i = 0; i < p->positions.size(); ++i) {
-                const glm::vec2 dir = rotationMatrix * p->scale * p->originalpositions[i];
+                const glm::vec2 dir = pointTrafo * p->scale * p->originalpositions[i];
                 /*
 
                 float scale = 1.f;

@@ -32,7 +32,7 @@ namespace PAX {
 
     glm::vec2 Portal::normal() const {
         auto axis = glm::normalize(glm::vec2(to - from));
-        return {axis.y, -axis.x};
+        return direction * glm::vec2(axis.y, -axis.x);
     }
 
     glm::mat2 Portal::space() const {

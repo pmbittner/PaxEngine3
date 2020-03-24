@@ -9,7 +9,11 @@
 
 namespace PAX {
     struct Portal {
+        static constexpr const int LEFT  = -1;
+        static constexpr const int RIGHT = +1;
+
         glm::vec2 from, to;
+        int direction = RIGHT;
         Portal * target = nullptr;
 
         Portal();

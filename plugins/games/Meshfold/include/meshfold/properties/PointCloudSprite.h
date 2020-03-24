@@ -9,6 +9,7 @@
 #include "paxcore/rendering/scenegraph/nodes/MeshNode.h"
 #include "paxcore/rendering/scenegraph/nodes/TexturingNode.h"
 #include <paxcore/rendering/data/Image.h>
+#include <meshfold/Portal.h>
 
 namespace PAX {
     class MeshfoldSystem;
@@ -25,6 +26,7 @@ namespace PAX {
         std::vector<glm::vec2> uvs;
         std::vector<float> pointsizes;
         float scale = 1.f;
+        float dir = Portal::RIGHT;
 
         std::shared_ptr<Texture> texture;
         TexturingNode textureNode;

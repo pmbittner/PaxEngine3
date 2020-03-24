@@ -15,8 +15,8 @@
       "velocity": [0, 0]
     },
     "PAX::KeyboardControls": {
-      "speed": 40,
-      "angularSpeed": 1
+      "speed": 60,
+      "angularSpeed": 1.5
     }
   }
 }

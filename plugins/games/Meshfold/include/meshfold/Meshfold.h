@@ -32,11 +32,11 @@ namespace PAX {
             glm::vec2 position;
             glm::vec2 direction;
             float scale = 1.f;
-            float distanceTraveledAfterPortal = 0;
+            float distanceTraveledAfterPortal = 0.f;
             Portal * lastPortal = nullptr;
+            int flip = 1;
 
-            Transition(const glm::vec2 & p, const glm::vec2 & d, float s, float distanceTraveledAfterPortal, Portal * lastPortal)
-            : position(p), direction(d), scale(s), distanceTraveledAfterPortal(distanceTraveledAfterPortal), lastPortal(lastPortal) {}
+            Transition(const glm::vec2 & p, const glm::vec2 & d) : position(p), direction(d) {}
         };
 
         Meshfold();
