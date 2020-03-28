@@ -10,12 +10,18 @@
 
 namespace PAX {
     namespace AssetImport {
-        class AssimpResourceLoader : public ResourceLoader<Asset, Path> {
+        using Flag = size_t;
+        namespace Flags {
+            constexpr const Flag None = 0;
+            constexpr const Flag NoUpload = 1;
+        }
+
+        class AssimpResourceLoader : public ResourceLoader<Asset, Path, Flag> {
         public:
             AssimpResourceLoader() = default;
 
-            PAX_NODISCARD bool canLoad(Path p) const override;
-            PAX_NODISCARD std::shared_ptr<Asset> load(Path p) override;
+            PAX_NODISCARD bool canLoad(Path p, Flag f) const override;
+            PAX_NODISCARD std::shared_ptr<Asset> load(Path p, Flag f) override;
             PAX_NODISCARD std::shared_ptr<Asset> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const override;
         };
     }

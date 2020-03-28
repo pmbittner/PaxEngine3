@@ -1,0 +1,39 @@
+{
+  "Constructor": {
+    "name": "MeshWorld",
+    "dimensions": 3,
+    "z": 0
+  },
+  "Entities": [
+    {
+      "prefab": "entities/Cube.paxprefab.json"
+    },
+    {
+      "name": "Camera",
+      "prefab": {
+        "Transform": {
+          "position": [0, 0, 5],
+          "scale": [1, 1, 1]
+        },
+        "Tags": [
+          "Camera"
+        ],
+        "Properties": {
+          "PAX::NoClipControls": {
+            "speed": 3,
+            "mouseSensivityInRadiansPerPixel": 0.006
+          },
+          "PAX::Camera": {
+            "syncProjectionResolutionToViewportResolution": true,
+            "projection":{
+              "type": "Perspective",
+              "resolution_width": 800,
+              "resolution_height": 600
+            },
+            "viewport": {}
+          }
+        }
+      }
+    }
+  ]
+}

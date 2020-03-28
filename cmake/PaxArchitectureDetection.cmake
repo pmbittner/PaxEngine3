@@ -1,8 +1,15 @@
 # Requires: Set variable CMAKE_MODULE_PATH
 # Defines: PAX_OS_ARCHITECTURE
 
-include(${CMAKE_MODULE_PATH}/TargetArch.cmake)
+#include(${CMAKE_MODULE_PATH}/TargetArch.cmake)
 set(PAX_OS_ARCHITECTURE x64) # This is the default value
-target_architecture(PAX_OS_ARCHITECTURE)
-simplifyArchitecture(PAX_OS_ARCHITECTURE)
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set(PAX_OS_ARCHITECTURE x64)
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+    set(PAX_OS_ARCHITECTURE x86)
+endif()
+
+
+#target_architecture(PAX_OS_ARCHITECTURE)
+#simplifyArchitecture(PAX_OS_ARCHITECTURE)
 message("PAX_OS_ARCHITECTURE is ${PAX_OS_ARCHITECTURE}")

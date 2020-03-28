@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <paxopengl/resource/OpenGLMesh.h>
 #include <polypropylene/log/Errors.h>
+#include <polypropylene/reflection/TypeHandle.h>
 
 namespace PAX {
     namespace OpenGL {
@@ -29,23 +30,37 @@ namespace PAX {
             }
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces) : Mesh(), _indices(faces) {
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<std::vector<int>> &faces) : Mesh() {
+            this->indices.resize(faces.size());
+            for (const std::vector<int> & face : faces) {
+                if (face.size() == 3) {
+                    this->indices.emplace_back(face[0], face[1], face[2]);
+                } else {
+                    PAX_THROW_RUNTIME_ERROR("Faces have to be triangulated!");
+                }
+            }
+
             initialize(vertices);
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<std::vector<int>> &faces) : Mesh(), _indices(faces) {
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<std::vector<int>> &faces) : Mesh() {
+            this->indices.resize(faces.size());
+            for (const std::vector<int> & face : faces) {
+                if (face.size() == 3) {
+                    this->indices.emplace_back(face[0], face[1], face[2]);
+                } else {
+                    PAX_THROW_RUNTIME_ERROR("Faces have to be triangulated!");
+                }
+            }
+
             initialize(vertices);
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<glm::ivec3> &faces) : Mesh() {
-            for (const glm::ivec3& triangle : faces)
-                _indices.push_back({triangle.x, triangle.y, triangle.z});
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec3> &vertices, const std::vector<glm::ivec3> &faces) : Mesh(), indices(faces) {
             initialize(vertices);
         }
 
-        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<glm::ivec3> &faces) : Mesh() {
-            for (const glm::ivec3& triangle : faces)
-                _indices.push_back({triangle.x, triangle.y, triangle.z});
+        OpenGLMesh::OpenGLMesh(const std::vector<glm::vec2> &vertices, const std::vector<glm::ivec3> &faces) : Mesh(), indices(faces) {
             initialize(vertices);
         }
 
@@ -199,6 +214,72 @@ namespace PAX {
             uploadNewAttribData(name, attrib.data(), attrib.size() * sizeof(glm::vec4));
         }
 
+        template<typename T>
+        static bool OpenGLMesh_getAttributeTo(const std::vector<OpenGLMesh::VertexAttribute> & attributes, Mesh::AttributeName name, std::vector<T> &data) {
+            for (const OpenGLMesh::VertexAttribute & attrib : attributes) {
+                if (attrib.name == name) {
+                    if (attrib.vectorLen == 1 && attrib.elementMemorySize == sizeof(T)) {
+                        data.resize(attrib.dataLen);
+                        memcpy(data.data(), attrib.data.get(), attrib.dataLen * sizeof(T));
+                        return true;
+                    } else {
+                        PAX_THROW_RUNTIME_ERROR("Wrong data type \"" << paxtypeid(T).name() << " for attribute " << name << "! Correct would be " << attrib.vectorLen << " * " << attrib.elementMemorySize << "bytes per element.");
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        template<glm::length_t L, typename T, glm::qualifier Q>
+        static bool OpenGLMesh_getAttributeTo(const std::vector<OpenGLMesh::VertexAttribute> & attributes, Mesh::AttributeName name, std::vector<glm::vec<L, T, Q>> &data) {
+            for (const OpenGLMesh::VertexAttribute & attrib : attributes) {
+                if (attrib.name == name) {
+                    if (attrib.vectorLen == L && attrib.elementMemorySize == sizeof(T)) {
+                        data.resize(attrib.dataLen);
+                        memcpy(data.data(), attrib.data.get(), attrib.dataLen * sizeof(T));
+                        return true;
+                    } else {
+                        PAX_THROW_RUNTIME_ERROR("Wrong data type \"" << paxtypeid(T).name() << " for attribute " << name << "! Correct would be " << attrib.vectorLen << " * " << attrib.elementMemorySize << "bytes per element.");
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        bool OpenGLMesh::getAttribute(AttributeName name, std::vector<int> &data) const {
+            if (isUploaded()) return false;
+            return OpenGLMesh_getAttributeTo(attributes, name, data);
+        }
+
+        bool OpenGLMesh::getAttribute(AttributeName name, std::vector<float> &data) const {
+            if (isUploaded()) return false;
+            return OpenGLMesh_getAttributeTo(attributes, name, data);
+        }
+
+        bool OpenGLMesh::getAttribute(AttributeName name, std::vector<glm::vec2> &data) const {
+            if (isUploaded()) return false;
+            return OpenGLMesh_getAttributeTo(attributes, name, data);
+        }
+
+        bool OpenGLMesh::getAttribute(AttributeName name, std::vector<glm::vec3> &data) const {
+            if (isUploaded()) return false;
+            return OpenGLMesh_getAttributeTo(attributes, name, data);
+        }
+
+        bool OpenGLMesh::getAttribute(AttributeName name, std::vector<glm::vec4> &data) const {
+            if (isUploaded()) return false;
+            return OpenGLMesh_getAttributeTo(attributes, name, data);
+        }
+
+        bool OpenGLMesh::getFaces(std::vector<glm::ivec3> &data) const {
+            if (isUploaded()) return false;
+            data.resize(indices.size());
+            memcpy(data.data(), indices.data(), indices.size() * 3 * sizeof(int));
+            return true;
+        }
+
         void OpenGLMesh::upload()
         {
             Mesh::upload();
@@ -223,17 +304,17 @@ namespace PAX {
                 }
             }
 
-            std::vector<GLint> indexData(_verticesPerFace*_indices.size());
+            std::vector<GLint> indexData(_verticesPerFace*indices.size());
 
             // create an index array
-            for (size_t i = 0; i < _indices.size(); i++) {
-                for (size_t j= 0; j < _verticesPerFace; j++) {
-                    indexData[i*_verticesPerFace+j] = _indices.at(i).at(j);
+            for (size_t i = 0; i < indices.size(); i++) {
+                for (size_t j= 0; j < _verticesPerFace /*3*/; j++) {
+                    indexData[i*_verticesPerFace+j] = indices.at(i)[static_cast<glm::ivec2::length_type>(j)];
                 }
             }
 
             // empty unnecessary vectors
-            _indices.clear();
+            indices.clear();
 
             /// upload
 

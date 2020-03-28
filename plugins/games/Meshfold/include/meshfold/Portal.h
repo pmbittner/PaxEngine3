@@ -14,10 +14,10 @@ namespace PAX {
 
         glm::vec2 from, to;
         int direction = RIGHT;
-        Portal * target = nullptr;
+        size_t target = 0;
 
         Portal();
-        Portal(const glm::vec2 & from, const glm::vec2 & to, Portal * target = nullptr);
+        Portal(const glm::vec2 & from, const glm::vec2 & to, size_t target = 0);
 
         /**
          * Returns a factor

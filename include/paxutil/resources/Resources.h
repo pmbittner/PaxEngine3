@@ -215,7 +215,7 @@ namespace PAX {
          */
         template<typename Resource>
         PAX_NODISCARD std::shared_ptr<Resource> loadOrGetFromJson(const nlohmann::json & j) {
-            PAX_LOG_DEBUG(Log::Level::Info, "type = " << paxtypeid(Resource).name() << "; json =\n" << std::setw(2) << j);
+            //PAX_LOG_DEBUG(Log::Level::Info, "type = " << paxtypeid(Resource).name() << "; json =\n" << std::setw(2) << j);
 
             std::vector<ResourceLoaderT<Resource>*> loaders = getLoaders<Resource>();
             for (ResourceLoaderT<Resource> * possibleLoader : loaders) {

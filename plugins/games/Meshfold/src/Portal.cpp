@@ -5,9 +5,9 @@
 #include <meshfold/Portal.h>
 
 namespace PAX {
-    Portal::Portal() : from(0), to(0), target(nullptr) {}
+    Portal::Portal() : from(0), to(0), target(0) {}
 
-    Portal::Portal(const glm::vec2 &from, const glm::vec2 &to, PAX::Portal *target)
+    Portal::Portal(const glm::vec2 &from, const glm::vec2 &to, size_t target)
     : from(from), to(to), target(target) {
 
     }

@@ -1,6 +1,6 @@
 {
   "Constructor": {
-    "name": "MeshFold::TestWorld",
+    "name": "UVWorld",
     "dimensions": 2,
     "z": 0
   },
@@ -12,19 +12,23 @@
       "backgroundShader": {
         "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
         "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
+      },
+      "asset": {
+        "path": "${ResourcePath}/Meshfold/meshes/test/cube.obj",
+        "flags": "NoUpload"
       }
     }
   },
   "Entities": [
     {
-      "prefab": "meshfold.paxprefab.json"
+      "prefab": "entities/ShovelKnight.paxprefab.json"
     },
     {
       "name": "Camera",
       "prefab": {
         "Transform": {
           "position": [0, 0, 10],
-          "scale": [3, 3, 1]
+          "scale": [1, 1, 1]
         },
         "Tags": [
           "Camera"

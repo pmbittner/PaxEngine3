@@ -37,7 +37,7 @@ namespace PAX {
         }
 
         if((tex = IMG_Load(path.c_str())) == nullptr) {
-            PAX_LOG(Log::Level::Error, "Loading texture " << path << " failed.");
+            PAX_THROW_RUNTIME_ERROR("Loading texture " << path << " failed.");
         }
 
         Texture::PixelFormat format = Texture::PixelFormat::RGB;

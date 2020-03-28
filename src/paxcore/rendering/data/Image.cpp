@@ -101,7 +101,7 @@ namespace PAX {
 
             if (dataPixelFormat == PixelFormat::RGB) {
                 for (size_t i = 0; i < numPixels; ++i) {
-                    size_t dataIndex = i * sizeof(Colour);
+                    size_t dataIndex = i * 3;
                     pixels[i].r = others[dataIndex];
                     pixels[i].g = others[dataIndex + 1];
                     pixels[i].b = others[dataIndex + 2];

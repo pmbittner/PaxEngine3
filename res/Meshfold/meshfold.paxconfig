@@ -1,3 +1,5 @@
-StartWorld = ${CURRENT_DIR}/testworld.paxprefab.json
+StartWorld = ${CURRENT_DIR}/worlds/uvworld.paxprefab.json
+#StartWorld = ${CURRENT_DIR}/worlds/meshworld.paxprefab.json
+
 dummyprefab = ${CURRENT_DIR}/dummy.paxprefab.json
 spawndummy = false

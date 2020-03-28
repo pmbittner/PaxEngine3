@@ -9,6 +9,7 @@
 #include <paxcore/world/property/WorldSize.h>
 #include "Portal.h"
 #include <paxcore/rendering/data/Image.h>
+#include <paxcore/rendering/data/Asset.h>
 
 #define PAX_MESHFOLD_CONSIDER_PORTAL_SIZE 1
 #define PAX_MESHFOLD_PORTAL_SAFETY_OFFSET 1
@@ -22,10 +23,15 @@ namespace PAX {
 
         PAX_PROPERTY_DEPENDS_ON(WorldSize)
 
+        std::shared_ptr<Asset> asset;
         std::vector<Portal> portals;
 
         GameEntity backgroundPresenter;
         std::shared_ptr<Shader> backgroundShader;
+
+        Meshfold();
+
+        void createPortalsFromAsset();
 
     public:
         struct Transition {
@@ -39,7 +45,6 @@ namespace PAX {
             Transition(const glm::vec2 & p, const glm::vec2 & d) : position(p), direction(d) {}
         };
 
-        Meshfold();
         ~Meshfold() override;
 
         /**
@@ -53,6 +58,7 @@ namespace PAX {
         void detached(World & world) override;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
+        void created() override;
     };
 }
 

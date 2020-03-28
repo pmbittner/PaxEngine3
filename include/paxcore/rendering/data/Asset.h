@@ -17,8 +17,8 @@ namespace PAX {
     public:
         // I know this name is stupid, but I didn't come up with a better one.
         struct Part {
-            const std::shared_ptr<Mesh> _mesh;
-            const std::shared_ptr<Material> _material;
+            const std::shared_ptr<Mesh> mesh;
+            const std::shared_ptr<Material> material;
 
             /// \param mesh Can't be null!
             /// \param material Can't be null!
@@ -27,9 +27,9 @@ namespace PAX {
         };
 
     private:
-        std::vector<std::shared_ptr<Asset>> _children;
-        glm::mat4 _transformation;
-        std::vector<Part> _meshes;
+        std::vector<std::shared_ptr<Asset>> children;
+        glm::mat4 transformation;
+        std::vector<Part> meshes;
 
     public:
         /// Creates a new Asset with the given mesh and material. Optional a relative transformation can be applied to the mesh.
@@ -46,7 +46,13 @@ namespace PAX {
 
         void render(RenderOptions &renderOptions) override;
 
-        virtual void print(const std::string& indent) const;
+        virtual void print(const std::string& indent = "") const;
+
+        void upload();
+
+        PAX_NODISCARD const std::vector<std::shared_ptr<Asset>> &getChildren() const;
+        PAX_NODISCARD const glm::mat4 &getTransformation() const;
+        PAX_NODISCARD const std::vector<Part> &getMeshes() const;
     };
 }
 

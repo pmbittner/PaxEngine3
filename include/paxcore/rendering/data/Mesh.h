@@ -55,6 +55,14 @@ namespace PAX {
         virtual void updateAttribute(AttributeName name, const std::vector<glm::vec3> &attrib) = 0;
         virtual void updateAttribute(AttributeName name, const std::vector<glm::vec4> &attrib) = 0;
 
+        virtual bool getAttribute(AttributeName name, std::vector<int> & data) const = 0;
+        virtual bool getAttribute(AttributeName name, std::vector<float> & data) const = 0;
+        virtual bool getAttribute(AttributeName name, std::vector<glm::vec2> & data) const = 0;
+        virtual bool getAttribute(AttributeName name, std::vector<glm::vec3> & data) const = 0;
+        virtual bool getAttribute(AttributeName name, std::vector<glm::vec4> & data) const = 0;
+
+        virtual bool getFaces(std::vector<glm::ivec3> & data) const = 0;
+
         virtual bool hasAttribute(AttributeName attribName) = 0;
         virtual int getAttributeLocation(AttributeName attribName) = 0;
 

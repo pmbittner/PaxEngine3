@@ -84,7 +84,7 @@ namespace PAX {
 
         SettingsFileRow row(separator, trimValues);
 
-        PAX_LOG_DEBUG(PAX::Log::Level::Info, "Start parsing " << path);
+        //PAX_LOG_DEBUG(PAX::Log::Level::Info, "Start parsing " << path);
 
         int lineNumber = 1;
         while (row.readNextRow(file))
@@ -92,7 +92,7 @@ namespace PAX {
             if (!row[0].empty()) {
                 if (row[0] == IncludeDirective) {
                     std::string newPath = path.getDirectory() + row[1];
-                    PAX_LOG_DEBUG(PAX::Log::Level::Info, "Include file " << newPath);
+                    //PAX_LOG_DEBUG(PAX::Log::Level::Info, "Include file " << newPath);
                     parse(newPath, separator, trimValues);
                 } else {
                     // check for variables in rhs
@@ -107,7 +107,7 @@ namespace PAX {
 
                     settings[row[0]] = VariableResolver::resolveVariables(row[1], resolvableVariables);
 
-                    PAX_LOG_DEBUG(PAX::Log::Level::Info, "Parsed setting " << row[0] << " " << separator << " " << settings[row[0]]);
+                    //PAX_LOG_DEBUG(PAX::Log::Level::Info, "Parsed setting " << row[0] << " " << separator << " " << settings[row[0]]);
                 }
             }
 
@@ -115,7 +115,7 @@ namespace PAX {
         }
 
         parsedFiles.push_back(path);
-        PAX_LOG_DEBUG(PAX::Log::Level::Info, "End parsing " << path);
+        //PAX_LOG_DEBUG(PAX::Log::Level::Info, "End parsing " << path);
     }
 
     bool Settings::writeToFile(const Path & path, bool overwrite) const {

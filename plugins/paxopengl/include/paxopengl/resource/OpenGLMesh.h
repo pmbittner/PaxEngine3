@@ -43,15 +43,15 @@ namespace PAX {
 
             GLsizei _numberOfVertices, _numberOfFaces, _verticesPerFace;
             std::vector<VertexAttribute> attributes;
-            std::vector<std::vector<int>> _indices;
+            std::vector<glm::ivec3> indices;
 
             template<typename T>
             void initialize(const std::vector<T> &vertices) {
                 _numberOfVertices = static_cast<GLsizei>(vertices.size());
-                _numberOfFaces    = static_cast<GLsizei>(_indices.size());
+                _numberOfFaces    = static_cast<GLsizei>(indices.size());
 
                 if (_numberOfFaces > 0) {
-                    _verticesPerFace = static_cast<GLsizei>(_indices.at(0).size());
+                    _verticesPerFace = 3;
                 } else {
                     _verticesPerFace = 0;
                 }
@@ -88,6 +88,14 @@ namespace PAX {
             void updateAttribute(AttributeName name, const std::vector<glm::vec2> &attrib) override;
             void updateAttribute(AttributeName name, const std::vector<glm::vec3> &attrib) override;
             void updateAttribute(AttributeName name, const std::vector<glm::vec4> &attrib) override;
+
+            bool getAttribute(AttributeName name, std::vector<int> & data) const override;
+            bool getAttribute(AttributeName name, std::vector<float> & data) const override;
+            bool getAttribute(AttributeName name, std::vector<glm::vec2> & data) const override;
+            bool getAttribute(AttributeName name, std::vector<glm::vec3> & data) const override;
+            bool getAttribute(AttributeName name, std::vector<glm::vec4> & data) const override;
+
+            bool getFaces(std::vector<glm::ivec3> & data) const override;
 
             void setFaceMode(FaceMode facemode) override;
 

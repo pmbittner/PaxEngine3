@@ -4,8 +4,8 @@
   },
   "Properties": {
     "PAX::PointCloudSprite": {
-      "texture": "${ResourcePath}/Meshfold/ShovelKnight.png",
-      "pointSize": 3,
+      "texture": "${ResourcePath}/Meshfold/img/ShovelKnight.png",
+      "pointSize": 1,
       "Shader": {
         "Vertex": "${ResourcePath}/Meshfold/shader/pointcloud.vert",
         "Fragment": "${ResourcePath}/Meshfold/shader/pointcloud.frag"

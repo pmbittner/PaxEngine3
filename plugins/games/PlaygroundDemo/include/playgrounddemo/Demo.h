@@ -19,6 +19,7 @@
 #include <paxcore/rendering/light/AmbientLight.h>
 #include <paxcore/system/gameentity/LightSystem.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
+#include <paxassimp/AssimpResourceLoader.h>
 
 namespace PAX {
     namespace PlaygroundDemo {
@@ -78,7 +79,7 @@ namespace PAX {
 
             GameEntity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
-                        Services::GetPaths().getResourcePath() + relativeResourcePath
+                        Services::GetPaths().getResourcePath() + relativeResourcePath, AssetImport::Flags::None
                 );
                 GameEntity* treeGameEntity = new GameEntity();
                 AssetGraphics * g = new AssetGraphics(tree);
@@ -112,8 +113,7 @@ namespace PAX {
                 constexpr bool withTree = true;
                 constexpr bool withTank = true;
 
-                _world = new World();
-                WorldLayer* mainLayer = new WorldLayer("PlaygroundDemoMainLayer", 3);
+                _world = new World("PlaygroundDemo", 3);
 
                 GameEntity* cam = new GameEntity();
                 {
@@ -121,7 +121,7 @@ namespace PAX {
                     proj->setFOV(90);
                     cam->add(new Camera(Services::GetFactoryService().get<ViewportFactory>()->create(), proj));
                     cam->add(new NoClipControls());
-                    mainLayer->spawn(cam);
+                    _world->spawn(cam);
                 }
 
                 cam->getTransformation().position() = {0, 0, 0};
@@ -129,19 +129,19 @@ namespace PAX {
                 PAX_CONSTEXPR_IF (withCube) {
                     GameEntity* cube = createCube(simpleMatShader);
                     cube->getTransformation().position() = {0, 0, -4};
-                    mainLayer->spawn(cube);
+                    _world->spawn(cube);
                 }
 
                 PAX_CONSTEXPR_IF (withTree) {
                     GameEntity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
                     tree->getTransformation().position() = {-3, 0, -5};
-                    mainLayer->spawn(tree);
+                    _world->spawn(tree);
                 }
 
                 PAX_CONSTEXPR_IF (withTank) {
                     GameEntity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
                     tank->getTransformation().position() = {1, -2, -5};
-                    mainLayer->spawn(tank);
+                    _world->spawn(tank);
                 }
 
                 // Spawn a light
@@ -153,11 +153,10 @@ namespace PAX {
                                 glm::vec4(1, 1, 1, 1)
                         )
                 );
-                mainLayer->spawn(lightGameEntity);
+                _world->spawn(lightGameEntity);
 
-                mainLayer->add(new AmbientLight(glm::vec3(1, 0.5, 0.7)));
+                _world->add(new AmbientLight(glm::vec3(1, 0.5, 0.7)));
 
-                _world->addLayer(mainLayer);
                 setActiveWorld(_world);
             }
         };

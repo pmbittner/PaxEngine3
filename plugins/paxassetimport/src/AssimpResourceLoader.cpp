@@ -127,7 +127,9 @@ namespace PAX {
         }
 
         static std::shared_ptr<Material> aiMaterialToPaxMaterial(aiMaterial* aimaterial, ImportData & importData) {
-            std::shared_ptr<Material> paxmaterial = std::make_shared<Material>(aimaterial->GetName().C_Str());
+            aiString matName;
+            aimaterial->Get(AI_MATKEY_NAME, matName);
+            std::shared_ptr<Material> paxmaterial = std::make_shared<Material>(matName.C_Str());
 
             { // Diffuse color
                 aiColor3D color;
@@ -218,14 +220,14 @@ namespace PAX {
             return asset;
         }
 
-        bool AssimpResourceLoader::canLoad(Path p) const {
+        bool AssimpResourceLoader::canLoad(Path p, Flag f) const {
             static Util::FileTypeChecker formatChecker({
                 "obj"
             });
             return formatChecker.check(p);
         }
 
-        std::shared_ptr<Asset> AssimpResourceLoader::load(Path p) {
+        std::shared_ptr<Asset> AssimpResourceLoader::load(Path p, Flag f) {
             PAX_ASSERT_NOT_NULL(Services::GetFactoryService().get<MeshFactory>(), "MeshFactory is required, but is not registered!");
 
             Assimp::Importer importer;
@@ -263,9 +265,11 @@ namespace PAX {
 
                 std::shared_ptr<Asset> shared_asset = traverseAiTree(scene, scene->mRootNode, importData);
 
-                // upload all meshes
-                for (auto & mesh : importData._meshes) {
-                    mesh.second->upload();
+                if (!(f & Flags::NoUpload)) {
+                    // upload all meshes
+                    for (auto &mesh : importData._meshes) {
+                        mesh.second->upload();
+                    }
                 }
 
                 return shared_asset;
@@ -275,7 +279,25 @@ namespace PAX {
         }
 
         std::shared_ptr<Asset> AssimpResourceLoader::loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const {
-            return resources.loadOrGet<Asset>(JsonToPath(j));
+            Path p;
+            Flag f = Flags::None;
+            if (j.is_string()) {
+                p = JsonToPath(j);
+            } else {
+                p = JsonToPath(j.at("path"));
+
+                if (j.count("flags") > 0) {
+                    for (const std::string &s : j.at("flags")) {
+                        if (s == "NoUpload") {
+                            f |= Flags::NoUpload;
+                        } else {
+                            PAX_LOG(Log::Level::Warn, "Unsupported Flag \"" << s << "\" will be ignored.");
+                        }
+                    }
+                }
+            }
+
+            return resources.loadOrGet<Asset>(p, f);
         }
     }
 }

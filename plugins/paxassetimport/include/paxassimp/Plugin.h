@@ -15,6 +15,7 @@ namespace PAX {
 
         public:
             void registerResourceLoaders(PAX::Resources &resources) override;
+            void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override;
         };
     }
 }

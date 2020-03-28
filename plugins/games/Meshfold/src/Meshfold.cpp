@@ -4,34 +4,75 @@
 
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxutil/reflection/EngineFieldFlags.h>
+#include <meshfold/PortalGenerator.h>
 #include "meshfold/Meshfold.h"
 
 namespace PAX {
     PAX_PROPERTY_IMPL(Meshfold)
 
     Meshfold::Meshfold() {
+        //*
         portals.resize(2);
 
-        portals[0].target = &portals[1];
-        portals[1].target = &portals[0];
+        portals[0].target = 1;
+        portals[1].target = 0;
 
-        portals[0].from = {50,  -50};
-        portals[0].to   = {50, 50};
+        portals[0].from = {100,  -50};
+        portals[0].to   = {100, 50};
 
-        portals[1].from = {-50, -100};
-        portals[1].to   = {-50, 100};
-        portals[1].direction = Portal::LEFT;
+        portals[1].from = {-100, -100};
+        portals[1].to   = {-100, 100};
+        //portals[1].direction = Portal::LEFT;
 
         //portals[1].from = {90,  50};
         //portals[1].to   = {90, -50};
+         //*/
     }
 
     Meshfold::~Meshfold() = default;
 
     ClassMetadata Meshfold::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(backgroundShader)).flags = EngineFieldFlags::IsResource;
+        m.add(paxfieldof(backgroundShader)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
+        m.add(paxfieldof(asset)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
         return m;
+    }
+
+    void Meshfold::created() {
+        createPortalsFromAsset();
+    }
+
+    static Mesh* getFirstMeshYouCanFindIn(const std::shared_ptr<Asset> & asset) {
+        const auto & meshes = asset->getMeshes();
+        if (meshes.empty()) {
+            for (const std::shared_ptr<Asset> & child : asset->getChildren()) {
+                Mesh * m = getFirstMeshYouCanFindIn(child);
+                if (m) return m;
+            }
+        } else {
+            return meshes[0].mesh.get();
+        }
+
+        return nullptr;
+    }
+
+    void Meshfold::createPortalsFromAsset() {
+        /*
+        PAX_LOG_DEBUG(Log::Level::Info, "Generating Portals from Asset:");
+        asset->print("");
+
+        Mesh * mesh = getFirstMeshYouCanFindIn(asset);
+        if (!mesh) {
+            PAX_THROW_RUNTIME_ERROR("Asset does not contain any mesh!");
+        }
+        if (mesh->isUploaded()) {
+            PAX_THROW_RUNTIME_ERROR("Given mesh is already uploaded!");
+        }
+
+        PortalGenerator generator(mesh);
+        portals = generator.computePortals({800, 600});
+
+        asset->upload();//*/
     }
 
     void Meshfold::attached(PAX::World &world) {
@@ -115,9 +156,9 @@ namespace PAX {
             // If there is a portal in our way, go through it.
             if (nearestIntersectedPortal) {
                 Portal & source = *nearestIntersectedPortal;
-                Portal & target = *nearestIntersectedPortal->target;
+                Portal & target = portals.at(source.target);
 
-                const glm::mat2 sourceSpace = source.direction * source.space();
+                const glm::mat2 sourceSpace = source.space();
                 const glm::mat2 targetSpace = target.space();
                 const glm::mat2 teleport = targetSpace * sourceSpace;
 

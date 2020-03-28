@@ -3,48 +3,80 @@ set(PAX_ASSIMP_SOURCE_FILES
         src/AssimpResourceLoader.cpp)
 
 # Assimp
+option(PAX_ASSIMP_BUILDMANUALLY OFF)
 
 set(ASSIMP_DIRECTORY ${PAX_LIB_DIR}/assimp)
 set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY})
 set(ASSIMP_LINK_DIRECTORIES)
 set(ASSIMP_LIBRARIES)
 
+
+
 if (WIN32)
-    if (${PAX_COMPILER_IS_MSVC})
-        message("Building PaxAssimp with MSVC - Release")
-        set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/cmake-build-release-msvc)
-        set(ASSIMP_LIBRARY_NAME assimp-vc142-mt.lib)
-        set(ASSIMP_IRRXML_NAME IrrXML.lib)
-        set(ASSIMP_ZLIB_NAME zlibstatic.lib)
-    elseif(${PAX_COMPILER_IS_GCC})
-        if (${CMAKE_BUILD_TYPE} MATCHES Release)
-            message("Building PaxAssimp with MinGW - Release")
-            set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/cmake-build-release-mingw)
-            set(ASSIMP_LIBRARY_NAME libassimp.a)
-            set(ASSIMP_IRRXML_NAME libIrrXML.a)
-            set(ASSIMP_ZLIB_NAME libzlibstatic.a)
-        elseif(${CMAKE_BUILD_TYPE} MATCHES Debug)
-            message("Building PaxAssimp with MinGW - Debug")
-            set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/cmake-build-debug-mingw)
-            set(ASSIMP_LIBRARY_NAME libassimpd.a)
-            set(ASSIMP_IRRXML_NAME libIrrXMLd.a)
-            set(ASSIMP_ZLIB_NAME libzlibstaticd.a)
-        endif(${CMAKE_BUILD_TYPE} MATCHES Release)
-    endif(${PAX_COMPILER_IS_MSVC})
+    if (PAX_ASSIMP_BUILDMANUALLY)
+        if (${PAX_COMPILER_IS_MSVC})
+            message("Building PaxAssimp (Manual Build) with MSVC - Release")
+            set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/cmake-build-release-msvc)
+            set(ASSIMP_LIBRARY_NAME assimp-vc142-mt.lib)
+            set(ASSIMP_IRRXML_NAME IrrXML.lib)
+            set(ASSIMP_ZLIB_NAME zlibstatic.lib)
+        elseif(${PAX_COMPILER_IS_GCC})
+            if (${CMAKE_BUILD_TYPE} MATCHES Release)
+                message("Building PaxAssimp (Manual Build) with MinGW - Release")
+                set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/cmake-build-release-mingw)
+                set(ASSIMP_LIBRARY_NAME libassimp.a)
+                set(ASSIMP_IRRXML_NAME libIrrXML.a)
+                set(ASSIMP_ZLIB_NAME libzlibstatic.a)
+            elseif(${CMAKE_BUILD_TYPE} MATCHES Debug)
+                message("Building PaxAssimp with MinGW - Debug")
+                set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/cmake-build-debug-mingw)
+                set(ASSIMP_LIBRARY_NAME libassimpd.a)
+                set(ASSIMP_IRRXML_NAME libIrrXMLd.a)
+                set(ASSIMP_ZLIB_NAME libzlibstaticd.a)
+            endif(${CMAKE_BUILD_TYPE} MATCHES Release)
+        endif(${PAX_COMPILER_IS_MSVC})
 
-    set(ASSIMP_IRRXML_DIR ${ASSIMP_BUILD_DIRECTORY}/contrib/irrXML)
-    set(ASSIMP_ZLIB_DIR   ${ASSIMP_BUILD_DIRECTORY}/contrib/zlib)
+        set(ASSIMP_IRRXML_DIR ${ASSIMP_BUILD_DIRECTORY}/contrib/irrXML)
+        set(ASSIMP_ZLIB_DIR   ${ASSIMP_BUILD_DIRECTORY}/contrib/zlib)
 
-    set(ASSIMP_LINK_DIRECTORIES
-            ${ASSIMP_LINK_DIRECTORIES}
-            ${ASSIMP_IRRXML_DIR}
-            ${ASSIMP_ZLIB_DIR})
+        set(ASSIMP_LINK_DIRECTORIES
+                ${ASSIMP_LINK_DIRECTORIES}
+                ${ASSIMP_IRRXML_DIR}
+                ${ASSIMP_ZLIB_DIR})
 
-    set(ASSIMP_LIBRARIES
-            ${ASSIMP_LIBRARIES}
-            ${ASSIMP_BUILD_DIRECTORY}/code/${ASSIMP_LIBRARY_NAME}
-            ${ASSIMP_IRRXML_DIR}/${ASSIMP_IRRXML_NAME}
-            ${ASSIMP_ZLIB_DIR}/${ASSIMP_ZLIB_NAME})
+        set(ASSIMP_LIBRARIES
+                ${ASSIMP_LIBRARIES}
+                ${ASSIMP_BUILD_DIRECTORY}/code/${ASSIMP_LIBRARY_NAME}
+                ${ASSIMP_IRRXML_DIR}/${ASSIMP_IRRXML_NAME}
+                ${ASSIMP_ZLIB_DIR}/${ASSIMP_ZLIB_NAME})
+
+    else()
+        if (${PAX_COMPILER_IS_MSVC})
+            set(ASSIMP_BUILD_TYPE_DIR Release)
+            set(ASSIMP_ZLIB_NAME zlibstatic.lib)
+
+            if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+                set(ASSIMP_BUILD_TYPE_DIR Debug)
+                set(ASSIMP_ZLIB_NAME zlibstaticd.lib)
+            endif(${CMAKE_BUILD_TYPE} MATCHES Debug)
+            message("Building PaxAssimp with MSVC - ${ASSIMP_BUILD_TYPE_DIR}")
+
+            set(ASSIMP_ARCH x64)
+            if (${PAX_OS_ARCHITECTURE} MATCHES x86)
+                set(ASSIMP_ARCH Win32)
+            endif()
+
+            set(ASSIMP_TEMP_LIBSDIR ${ASSIMP_DIRECTORY}/lib/${ASSIMP_ARCH}/${ASSIMP_BUILD_TYPE_DIR})
+            set(ASSIMP_LINK_DIRECTORIES ${ASSIMP_TEMP_LIBSDIR})
+
+            set(ASSIMP_LIBRARIES
+                    ${ASSIMP_LIBRARIES}
+                    ${ASSIMP_TEMP_LIBSDIR}/assimp-vc140-mt.lib
+                    ${ASSIMP_TEMP_LIBSDIR}/IrrXML.lib
+                    ${ASSIMP_TEMP_LIBSDIR}/${ASSIMP_ZLIB_NAME})
+
+        endif(${PAX_COMPILER_IS_MSVC})
+    endif()
 elseif(UNIX)
     message("Building PaxAssimp on Unix")
     set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/build)
@@ -82,15 +114,19 @@ elseif(UNIX)
 endif(WIN32)
 
 # Add directory of built assimp lib file
-set(ASSIMP_LINK_DIRECTORIES
-        ${ASSIMP_LINK_DIRECTORIES}
-        ${ASSIMP_BUILD_DIRECTORY}/code)
+if (NOT (WIN32 AND NOT PAX_ASSIMP_BUILDMANUALLY))
+    set(ASSIMP_LINK_DIRECTORIES
+            ${ASSIMP_LINK_DIRECTORIES}
+            ${ASSIMP_BUILD_DIRECTORY}/code)
 
+    include_directories(${ASSIMP_BUILD_DIRECTORY}/include)
+endif()
+
+#message("PaxAssimp - Includes: ${ASSIMP_DIRECTORY}/include")
+#message("PaxAssimp - Links: ${ASSIMP_LINK_DIRECTORIES}")
+#message("PaxAssimp - Libs: ${ASSIMP_LIBRARIES}")
 include_directories(${ASSIMP_DIRECTORY}/include)
-include_directories(${ASSIMP_BUILD_DIRECTORY}/include)
 link_directories(${ASSIMP_LINK_DIRECTORIES})
-
-##
 
 include_directories(include)
 set(HEADERS_FOR_CLION include/paxassimp/Plugin.h include/paxassimp/AssimpResourceLoader.h)
