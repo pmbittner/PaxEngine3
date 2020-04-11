@@ -14,8 +14,9 @@ namespace PAX {
             //OpenGLTexture2D texture;
 
         public:
+            /*
             OpenGLRenderPassChannel(Format format, ValueType valueType);
-            ~OpenGLRenderPassChannel() override;
+            ~OpenGLRenderPassChannel() override;//*/
 
             //virtual const OpenGLTexture2D &getTexture() const;
         };

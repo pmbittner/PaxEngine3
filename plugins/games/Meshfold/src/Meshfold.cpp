@@ -5,23 +5,24 @@
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxutil/reflection/EngineFieldFlags.h>
 #include <meshfold/PortalGenerator.h>
+#include <paxcore/rendering/data/ColourPalette.h>
 #include "meshfold/Meshfold.h"
 
 namespace PAX {
     PAX_PROPERTY_IMPL(Meshfold)
 
     Meshfold::Meshfold() {
-        //*
+        /*
         portals.resize(2);
 
         portals[0].target = 1;
         portals[1].target = 0;
 
-        portals[0].from = {100,  -50};
-        portals[0].to   = {100, 50};
+        portals[0].from = {40,  -50};
+        portals[0].to   = {130, 50};
 
-        portals[1].from = {-100, -100};
-        portals[1].to   = {-100, 100};
+        portals[1].from = {-70, -100};
+        portals[1].to   = {-80, 100};
         //portals[1].direction = Portal::LEFT;
 
         //portals[1].from = {90,  50};
@@ -57,7 +58,7 @@ namespace PAX {
     }
 
     void Meshfold::createPortalsFromAsset() {
-        /*
+        //*
         PAX_LOG_DEBUG(Log::Level::Info, "Generating Portals from Asset:");
         asset->print("");
 
@@ -70,19 +71,44 @@ namespace PAX {
         }
 
         PortalGenerator generator(mesh);
-        portals = generator.computePortals({800, 600});
-
+        glm::mat3 portalTrafo(0);
+        glm::vec2 worldSize{600, 600};
+        portalTrafo[0][0] = worldSize.x;
+        portalTrafo[1][1] = worldSize.y;
+        portalTrafo[2] = glm::vec3(-0.5f * worldSize, 1);
+        portals = generator.computePortals(portalTrafo);
         asset->upload();//*/
     }
 
     void Meshfold::attached(PAX::World &world) {
         glm::vec2 size = world.get<WorldSize>()->getSize2D();
         glm::vec2 halfsize = 0.5f * size;
-        Image background(size.x, size.y);
+        Image background(size.x,  size.y);
 
         glm::vec2 halfCornerSize = {3, 3};
         const static float PortalNormalLength = 15.f;
-        for (Portal & p : portals) {
+
+        std::vector<Colour> portalColour(portals.size(), Colour(0));
+        {
+            RandomColourPalette colourPalette;
+            std::vector<bool> portalColourSet(portals.size(), false);
+
+            for (size_t i = 0; i < portals.size(); ++i) {
+                if (!portalColourSet[i]) {
+                    Colour colour = colourPalette.getNext(); // get from palette
+
+                    portalColour[i] = colour;
+                    portalColourSet[i] = true;
+
+                    portalColour[portals[i].target] = colour;
+                    portalColourSet[portals[i].target] = true;
+                }
+            }
+        }
+
+        for (size_t i = 0; i < portals.size(); ++i) {
+            const Portal & p = portals.at(i);
+
             glm::vec2 from = halfsize + p.from;
             glm::vec2   to = halfsize + p.to;
             glm::vec2 normal = p.normal();
@@ -95,7 +121,7 @@ namespace PAX {
             background.drawLine(normalStart, normalStart + (PortalNormalLength * normal), Colours::Green);
 
             // draw portal
-            background.drawLine(from, to, Colours::Blue);
+            background.drawLine(from, to, portalColour.at(i));
 
             // draw corners
             background.fillRect(from - halfCornerSize, from + halfCornerSize, Colours::Red);

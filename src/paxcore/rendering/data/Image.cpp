@@ -24,7 +24,10 @@ namespace PAX {
     }
 
     void Image::setColorAt(const glm::ivec2 &pixel, const Colour &colour) {
-        pixels[pixel.x + pixel.y * width] = colour;
+        const int index = pixel.x + pixel.y * width;
+        if (0 < index && index < width * height) {
+            pixels[index] = colour;
+        }
     }
 
     void Image::fill(const PAX::Colour &colour) {
@@ -78,10 +81,10 @@ namespace PAX {
     }
 
     void Image::fillRect(const glm::vec2 &p, const glm::vec2 & q, const Colour & colour) {
-        int startX = std::min(p.x, q.x);
-        int startY = std::min(p.y, q.y);
-        int toX = std::max(p.x, q.x);
-        int toY = std::max(p.y, q.y);
+        int startX = std::max(0.f, std::min(p.x, q.x));
+        int startY = std::max(0.f, std::min(p.y, q.y));
+        int toX = std::min(float(width) - 1.f, std::max(p.x, q.x));
+        int toY = std::min(float(height) - 1, std::max(p.y, q.y));
 
         for (int y = startY; y <= toY; ++y) {
             Colour * first = pixels + width*y + startX;

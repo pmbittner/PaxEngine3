@@ -8,42 +8,15 @@
 #include <paxcore/rendering/data/Texture.h>
 
 namespace PAX {
-    class RenderPass;
-
     class RenderPassChannel {
-        friend class RenderPass;
-
-    public:
-        enum class Format {
-            RGBA,
-            Depth
-        };
-
-        enum class ValueType {
-            Float,
-            Depth = Float
-        };
-
     private:
-        RenderPass * renderPass = nullptr;
-        int id = 0;
-        Format format;
-        ValueType valueType;
-
-    protected:
-        virtual void attached(RenderPass * renderPass);
-        virtual void detached(RenderPass * renderPass);
+        Texture * texture;
 
     public:
-        RenderPassChannel(Format format, ValueType valueType);
-        virtual ~RenderPassChannel();
+        RenderPassChannel(Texture::PixelFormat format);
+        ~RenderPassChannel();
 
-        RenderPass * getRenderPass() const;
-        int getID() const;
-        Format getFormat() const;
-        ValueType getValueType() const;
-
-        virtual const Texture & getTexture() const = 0;
+        Texture * getTexture() const;
     };
 }
 

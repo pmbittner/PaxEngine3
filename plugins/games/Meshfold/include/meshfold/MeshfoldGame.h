@@ -34,7 +34,7 @@ namespace PAX {
                 world = worldPrefab->create({});
 
                 /// Spawn player
-                if (settings.getOrDefault<bool>("spawndummy", true)) {
+                if (settings.getOrDefault<bool>("spawndummy")) {
                     Path playerPrefabPath = settings.get("dummyprefab");
                     std::shared_ptr<GameEntityPrefab> playerPrefab =
                             Services::GetResources().loadOrGet<GameEntityPrefab>(playerPrefabPath);

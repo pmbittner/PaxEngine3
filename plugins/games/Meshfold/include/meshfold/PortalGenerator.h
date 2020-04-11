@@ -20,7 +20,7 @@ namespace PAX {
 
     public:
         explicit PortalGenerator(Mesh* mesh);
-        PAX_NODISCARD std::vector<Portal> computePortals(const glm::vec2 & worldSize) const;
+        PAX_NODISCARD std::vector<Portal> computePortals(const glm::mat3 & trafo) const;
     };
 }
 #endif //PAXENGINE3_PORTALGENERATOR_H

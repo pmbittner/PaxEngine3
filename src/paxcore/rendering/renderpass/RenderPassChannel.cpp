@@ -6,39 +6,13 @@
 #include <cassert>
 
 namespace PAX {
-    RenderPassChannel::RenderPassChannel(PAX::RenderPassChannel::Format format,
-                                         PAX::RenderPassChannel::ValueType valueType)
-                                         : format(format), valueType(valueType)
-                                         {
+    RenderPassChannel::RenderPassChannel(Texture::PixelFormat format) {
 
     }
 
     RenderPassChannel::~RenderPassChannel() = default;
 
-    void RenderPassChannel::attached(PAX::RenderPass *renderPass) {
-        assert(!this->renderPass);
-        this->renderPass = renderPass;
-    }
-
-    void RenderPassChannel::detached(PAX::RenderPass *renderPass) {
-        if (this->renderPass == renderPass) {
-            this->renderPass = nullptr;
-        }
-    }
-
-    RenderPassChannel::Format RenderPassChannel::getFormat() const {
-        return format;
-    }
-
-    RenderPassChannel::ValueType RenderPassChannel::getValueType() const {
-        return valueType;
-    }
-
-    int RenderPassChannel::getID() const {
-        return id;
-    }
-
-    RenderPass* RenderPassChannel::getRenderPass() const {
-        return renderPass;
+    Texture * RenderPassChannel::getTexture() const {
+        return texture;
     }
 }

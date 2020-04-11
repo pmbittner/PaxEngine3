@@ -19,7 +19,7 @@ namespace PAX {
         return uv0 == uv1 || uvs.at(uv0) == uvs.at(uv1);
     }
 
-    std::vector<Portal> PortalGenerator::computePortals(const glm::vec2 &worldSize) const {
+    std::vector<Portal> PortalGenerator::computePortals(const glm::mat3 & trafo) const {
         std::vector<Portal> portals;
 
         for (size_t i = 0; i < faces.size(); ++i) {
@@ -43,8 +43,14 @@ namespace PAX {
                             if (vertex0 != vertex1 || vertex0Next != vertex1Prev) {
                                 if (! (areUVsEqual(vertex0, vertex1) && areUVsEqual(vertex0Next, vertex1Prev))) {
                                     // We have detected an edge with a discontinuity in the uv space
-                                    Portal p0(worldSize * uvs.at(vertex0), worldSize * uvs.at(vertex0Next));
-                                    Portal p1(worldSize * uvs.at(vertex1), worldSize * uvs.at(vertex1Prev));
+                                    Portal p0(
+                                            trafo * glm::vec3(uvs.at(vertex0), 1),
+                                            trafo * glm::vec3(uvs.at(vertex0Next), 1)
+                                            );
+                                    Portal p1(
+                                            glm::vec2(trafo * glm::vec3(uvs.at(vertex1), 1)),
+                                            glm::vec2(trafo * glm::vec3(uvs.at(vertex1Prev), 1))
+                                            );
                                     portals.push_back(p0);
                                     portals.push_back(p1);
 
