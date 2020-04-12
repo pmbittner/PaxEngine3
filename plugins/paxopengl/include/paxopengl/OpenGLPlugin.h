@@ -15,6 +15,7 @@
 
 #include "factory/OpenGLMeshFactory.h"
 #include "factory/OpenGLViewportFactory.h"
+#include "factory/OpenGLRenderPassFactory.h"
 #include "paxopengl/rendernodes/OpenGLDefaultWorldSceneGraph.h"
 #include "io/OpenGLShaderLoader.h"
 
@@ -31,6 +32,7 @@ namespace PAX {
             OpenGLMeshFactory meshFactory;
             OpenGLViewportFactory viewportFactory;
             OpenGLTextureFactory textureFactory;
+            OpenGLRenderPassFactory renderPassFactory;
             OpenGLPointCloudSettings pointCloudSettings;
 
             JsonResourceFieldWriter<Shader> shaderJsonParser;

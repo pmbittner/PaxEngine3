@@ -1,6 +1,6 @@
 add_library(paxrendering
         Renderer.cpp
-        Viewport.cpp
+        camera/Viewport.cpp
         Graphics.cpp
         SceneGraphGraphics.cpp
         RenderOptions.cpp

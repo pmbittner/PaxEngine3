@@ -6,6 +6,7 @@
 #include <paxcore/rendering/scenegraph/generators/SortByZSceneGraphGenerator.h>
 #include <paxcore/rendering/data/Shader.h>
 #include <paxopengl/OpenGLPointCloudSettings.h>
+#include <paxcore/rendering/renderpass/RenderPassFactory.h>
 
 #include "paxopengl/OpenGLPlugin.h"
 
@@ -33,6 +34,7 @@ namespace PAX {
             factoryService.set(paxtypeid(ViewportFactory), &viewportFactory);
             factoryService.set(paxtypeid(WorldSceneGraphFactory), &worldSceneGraphFactory);
             factoryService.set(paxtypeid(TextureFactory), &textureFactory);
+            factoryService.set(paxtypeid(RenderPassFactory), &renderPassFactory);
         }
 
         void OpenGLPlugin::registerServices(Services &services) {

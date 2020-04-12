@@ -7,7 +7,7 @@
 
 namespace PAX {
     void BehaviourSystem::update(UpdateOptions & options) {
-        for (GameEntity * e : getEntities()) {
+        for (GameEntity * e : getEntities(options.activeWorld)) {
             for (const auto &b : e->get<Behaviour>()) {
                 b->update(options);
             }

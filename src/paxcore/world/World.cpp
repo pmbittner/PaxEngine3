@@ -63,8 +63,12 @@ namespace PAX {
         initialised = true;
     }
 
-    WorldSceneGraph* World::getSceneGraph() {
+    WorldSceneGraph* World::getSceneGraph() const {
         return sceneGraph;
+    }
+
+    SceneGraphGenerator * World::getSceneGraphGenerator() const {
+        return sceneGraphGenerator;
     }
 
     void World::spawn(GameEntity * entity) {

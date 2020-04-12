@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::WorldSize": {
-      "size": [800, 600, 1]
+      "size": [400, 400, 1]
     },
     "PAX::Meshfold": {
       "backgroundShader": {
@@ -38,10 +38,16 @@
             "syncProjectionResolutionToViewportResolution": false,
             "projection":{
               "type": "PixelScreen",
-              "resolution_width": 800,
-              "resolution_height": 600
+              "resolution_width": 400,
+              "resolution_height": 400
             },
-            "viewport": {}
+            "viewport": {
+              "x": 0,
+              "y": 0,
+              "width": 400,
+              "height": 400,
+              "resizepolicy": "Relative"
+            }
           }
         }
       }

@@ -13,5 +13,15 @@ namespace PAX {
             glGenTextures(1, &id);
             return std::make_shared<OpenGLTexture2D>(id, width, height);
         }
+
+        std::shared_ptr<Texture> OpenGLTextureFactory::create(int width, int height,
+                                                              PAX::Texture::PixelFormat pixelFormat,
+                                                              Texture::ColourType colourType) {
+            GLuint id;
+            glGenTextures(1, &id);
+            std::shared_ptr<OpenGLTexture2D> t = std::make_shared<OpenGLTexture2D>(id, width, height);
+            t->initEmptyTexture(pixelFormat, colourType);
+            return t;
+        }
     }
 }

@@ -6,7 +6,7 @@
 #define PAXENGINE3_VIEWPORTFACTORY_H
 
 #include <memory>
-#include <paxcore/rendering/Viewport.h>
+#include <paxcore/rendering/camera/Viewport.h>
 
 namespace PAX {
     class ViewportFactory {

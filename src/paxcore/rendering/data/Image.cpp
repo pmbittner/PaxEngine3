@@ -10,6 +10,8 @@ namespace PAX {
     Image::Image(int width, int height) : Texture() {
         this->width = width;
         this->height = height;
+        this->pixelFormat = PixelFormat::RGBA;
+        this->colourType = ColourType::Byte;
         reallocatePixelBuffer();
     }
 
@@ -96,7 +98,11 @@ namespace PAX {
     void Image::bind() {}
     void Image::unbind() {}
 
-    void Image::setPixels(void *data, PixelFormat dataPixelFormat) {
+    void Image::setPixels(void *data, PixelFormat dataPixelFormat, ColourType colourType) {
+        if (colourType != this->colourType) {
+            PAX_NOT_IMPLEMENTED_EXCEPTION();
+        }
+
         size_t numPixels = width * height;
 
         if (dataPixelFormat != PixelFormat::RGBA) {
@@ -124,6 +130,8 @@ namespace PAX {
         }
     }
 
+    void Image::initEmptyTexture(PixelFormat dataPixelFormat, ColourType colourType) {}
+
     const Colour * Image::getPixels() const {
         return pixels;
     }
@@ -133,7 +141,7 @@ namespace PAX {
         tex->bind();
         tex->setFilterMode(getFilterMode());
         tex->setWrapMode(getWrapModeHorizontal(), getWrapModeVertical());
-        tex->setPixels(pixels, PixelFormat::RGBA);
+        tex->setPixels(pixels, getPixelFormat(), getColourType());
         tex->unbind();
         return tex;
     }

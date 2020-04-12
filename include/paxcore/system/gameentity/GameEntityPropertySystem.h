@@ -14,24 +14,18 @@ namespace PAX {
         std::unordered_map<World*, GameEntityManagerView<RequiredProperties...>> entities;
 
     public:
-        void onWorldRegistered(WorldEvent &event) override {
+        void onWorldAdded(WorldEvent &event) override {
             const GameEntityManager & manager = event.world->getGameEntityManager();
             entities.emplace(event.world, manager);
         }
 
-        void onWorldUnregistered(WorldEvent & event) override {
+        void onWorldRemoved(WorldEvent & event) override {
             entities.erase(event.world);
         }
 
         PAX_NODISCARD const std::set<GameEntity*> & getEntities(World * world) {
             // TODO: Make safe
             return entities.at(world).getEntities();
-
-            //PAX_THROW_RUNTIME_ERROR("Could not obtain Entities for WorldLayer " << worldLayer);
-        }
-
-        PAX_NODISCARD const std::set<GameEntity*> & getEntities() {
-            return getEntities(GameSystem::getGame()->getActiveWorld());
         }
     };
 }

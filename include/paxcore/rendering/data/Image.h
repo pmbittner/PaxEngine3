@@ -20,7 +20,8 @@ namespace PAX {
         Image(int width, int height);
         ~Image() override;
 
-        void setPixels(void * data, PixelFormat dataPixelFormat) override;
+        void setPixels(void * data, PixelFormat dataPixelFormat, ColourType colourType) override;
+        void initEmptyTexture(PixelFormat dataPixelFormat, ColourType colourType) override;
         PAX_NODISCARD const Colour* getPixels() const;
 
         void setColorAt(const glm::ivec2 & pixel, const Colour & colour);

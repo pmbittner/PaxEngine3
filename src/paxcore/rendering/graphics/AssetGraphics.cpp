@@ -24,4 +24,8 @@ namespace PAX {
         Super::render(renderOptions);
         _asset->render(renderOptions);
     }
+
+    const std::shared_ptr<Asset>& AssetGraphics::getAsset() const {
+        return _asset;
+    }
 }

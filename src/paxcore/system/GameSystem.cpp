@@ -9,23 +9,23 @@ namespace PAX {
     GameSystem::~GameSystem() = default;
 
     void GameSystem::initialize(Game * game) {
-        game->WorldRegistered.add<GameSystem, &GameSystem::onWorldRegistered>(this);
-        game->WorldUnregistered.add<GameSystem, &GameSystem::onWorldUnregistered>(this);
+        game->WorldAdded.add<GameSystem, &GameSystem::onWorldAdded>(this);
+        game->WorldRemoved.add<GameSystem, &GameSystem::onWorldRemoved>(this);
 
-        for(World *world : game->getRegisteredWorlds()) {
+        for(World *world : game->getWorlds()) {
             WorldEvent e(world);
-            onWorldRegistered(e);
+            onWorldAdded(e);
         }
     }
 
     void GameSystem::terminate(Game *game) {
-        for(World *world : game->getRegisteredWorlds()) {
+        for(World *world : game->getWorlds()) {
             WorldEvent e(world);
-            onWorldUnregistered(e);
+            onWorldRemoved(e);
         }
 
-        game->WorldRegistered.remove<GameSystem, &GameSystem::onWorldRegistered>(this);
-        game->WorldUnregistered.remove<GameSystem, &GameSystem::onWorldUnregistered>(this);
+        game->WorldAdded.remove<GameSystem, &GameSystem::onWorldAdded>(this);
+        game->WorldRemoved.remove<GameSystem, &GameSystem::onWorldRemoved>(this);
     }
 
     void GameSystem::setGame(PAX::Game *game) {

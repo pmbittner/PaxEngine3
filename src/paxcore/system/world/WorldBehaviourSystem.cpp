@@ -7,7 +7,7 @@
 
 namespace PAX {
     void WorldBehaviourSystem::update(UpdateOptions & options) {
-        if (World * w = GameSystem::getGame()->getActiveWorld()) {
+        if (World * w = options.activeWorld) {
             for (WorldBehaviour * b : w->get<WorldBehaviour>()) {
                 b->update(options);
             }

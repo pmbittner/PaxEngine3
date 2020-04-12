@@ -64,7 +64,7 @@ namespace PAX {
             }
 
             _texture = Services::GetFactoryService().get<TextureFactory>()->create(w, h);
-            _texture->setPixels(&pixels.front(), pixelFormat);
+            _texture->setPixels(&pixels.front(), pixelFormat, Texture::ColourType::Byte);
             _texture->setFilterMode(Texture::FilterMode::Nearest);
         }
 

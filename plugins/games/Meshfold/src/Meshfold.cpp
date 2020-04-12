@@ -3,6 +3,7 @@
 //
 
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
+#include <paxcore/gameentity/property/Size.h>
 #include <paxutil/reflection/EngineFieldFlags.h>
 #include <meshfold/PortalGenerator.h>
 #include <paxcore/rendering/data/ColourPalette.h>
@@ -72,10 +73,10 @@ namespace PAX {
 
         PortalGenerator generator(mesh);
         glm::mat3 portalTrafo(0);
-        glm::vec2 worldSize{600, 600};
+        glm::vec2 worldSize{400, 400};
         portalTrafo[0][0] = worldSize.x;
-        portalTrafo[1][1] = worldSize.y;
-        portalTrafo[2] = glm::vec3(-0.5f * worldSize, 1);
+        portalTrafo[1][1] = -worldSize.y;
+        portalTrafo[2] = glm::vec3(-0.5f * worldSize.x, 0.5f * worldSize.y, 1);
         portals = generator.computePortals(portalTrafo);
         asset->upload();//*/
     }
@@ -87,6 +88,8 @@ namespace PAX {
 
         glm::vec2 halfCornerSize = {3, 3};
         const static float PortalNormalLength = 15.f;
+
+        //background.fillRect({0, 0}, {size.x - 1, size.y - 1}, Colours::White);
 
         std::vector<Colour> portalColour(portals.size(), Colour(0));
         {
@@ -128,14 +131,31 @@ namespace PAX {
             background.fillRect(to - halfCornerSize, to + halfCornerSize, Colours::Red);
         }
 
-        backgroundPresenter.add(new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(background.toGPUTexture()));
-        backgroundPresenter.getTransformation().position() = {0, 0, -999};
-        backgroundPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
+        portalPresenter.add(new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(background.toGPUTexture()));
+        portalPresenter.getTransformation().position() = {0, 0, -999};
+        portalPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
+        world.spawn(&portalPresenter);
         world.spawn(&backgroundPresenter);
+
     }
 
     void Meshfold::detached(PAX::World &world) {
+        world.despawn(&portalPresenter);
         world.despawn(&backgroundPresenter);
+    }
+
+    void Meshfold::setBackground(const std::shared_ptr<Texture> &backgroundImage) {
+        backgroundPresenter.add(new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(backgroundImage));
+        backgroundPresenter.getTransformation().position() = {0, 0, -1000};
+        backgroundPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
+
+        // TODO: Move to attached(World)
+        WorldSize * w = getOwner()->get<WorldSize>();
+        Size * s = backgroundPresenter.get<Size>();
+        glm::vec3 backgroundScale = glm::vec3(w->getSize2D().x, w->getSize2D().y, 1);
+        backgroundScale /= s->getSizeUnscaled();
+        backgroundScale.z = 1;
+        backgroundPresenter.getTransformation().setScale(backgroundScale);
     }
 
     Meshfold::Transition Meshfold::traceRay(const glm::vec2 & p0, const glm::vec2 & d0) {

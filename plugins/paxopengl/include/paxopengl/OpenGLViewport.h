@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_OPENGLVIEWPORT_H
 #define PAXENGINE3_OPENGLVIEWPORT_H
 
-#include <paxcore/rendering/Viewport.h>
+#include <paxcore/rendering/camera/Viewport.h>
 
 namespace PAX {
     namespace OpenGL {

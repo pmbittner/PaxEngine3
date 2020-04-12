@@ -12,7 +12,7 @@
 
 #include "paxcore/gameentity/GameEntityProperty.h"
 #include "../scenegraph/SceneGraph.h"
-#include "../Viewport.h"
+#include "Viewport.h"
 #include "../RenderOptions.h"
 
 namespace PAX {

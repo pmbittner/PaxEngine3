@@ -63,6 +63,21 @@ namespace PAX {
             }
         }
 
+        static GLint paxColourTypeToColourType(Texture::ColourType c) {
+            switch (c) {
+                case Texture::ColourType::Float: {
+                    return GL_FLOAT;
+                }
+                case Texture::ColourType::Byte: {
+                    return GL_UNSIGNED_BYTE;
+                }
+                default: {
+                    PAX_LOG(Log::Level::Warn, "Unknown ColourType given! Was " << int(c));
+                    return GL_UNSIGNED_BYTE;
+                }
+            }
+        }
+
         OpenGLTexture2D::OpenGLTexture2D(GLuint id, int width, int height) : id(id) {
             this->width = width;
             this->height = height;
@@ -71,6 +86,10 @@ namespace PAX {
         OpenGLTexture2D::~OpenGLTexture2D() {
             // TODO: Schedule for cleanup instead of deleting directly.
             glDeleteTextures(1, &id);
+        }
+
+        void OpenGLTexture2D::setPixelFormat(PAX::Texture::PixelFormat format) {
+            this->pixelFormat = format;
         }
 
         GLuint OpenGLTexture2D::getID() {
@@ -82,8 +101,7 @@ namespace PAX {
 
             // FIXME: Binding here is bad, if there is currently another texture bound.
             bind();
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, paxWrapModeToGLWrapMode(horizontal));
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, paxWrapModeToGLWrapMode(vertical));
+            ensureWrappingMode();
             unbind();
         }
 
@@ -92,16 +110,19 @@ namespace PAX {
 
             // FIXME: Binding here is bad, if there is currently another texture bound.
             bind();
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, paxFilterModeToGLFilterMode(mode));
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, paxFilterModeToGLFilterMode(mode));
+            ensureFilterMode();
             unbind();
         }
 
-        void OpenGLTexture2D::setPixels(void *data, PAX::Texture::PixelFormat dataPixelFormat) {
+        void OpenGLTexture2D::setPixels(void *data, PAX::Texture::PixelFormat dataPixelFormat, ColourType colourType) {
+            setPixelFormat(dataPixelFormat);
+            this->colourType = colourType;
+
             // FIXME: Binding here is bad, if there is currently another texture bound.
             bind();
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
             GLenum glPixelFormat = paxPixelFormatToGLPixelFormat(dataPixelFormat);
+            GLenum glColourType = paxColourTypeToColourType(colourType);
             glTexImage2D(
                     GL_TEXTURE_2D,
                     0,
@@ -110,8 +131,17 @@ namespace PAX {
                     getHeight(),
                     0,
                     glPixelFormat,
-                    GL_UNSIGNED_BYTE,
+                    glColourType,
                     data);
+            unbind();
+        }
+
+        void OpenGLTexture2D::initEmptyTexture(PAX::Texture::PixelFormat dataPixelFormat,
+                                               PAX::Texture::ColourType colourType) {
+            setPixels(nullptr, dataPixelFormat, colourType);
+            bind();
+            ensureWrappingMode();
+            ensureFilterMode();
             unbind();
         }
 
@@ -127,6 +157,17 @@ namespace PAX {
             //std::cout << "[OpenGLTexture2D::unbind] " << _id << " from unit " << NumberOfActiveTextures << std::endl;
             glActiveTexture(GL_TEXTURE0 + NumberOfActiveTextures);
             glBindTexture(GL_TEXTURE_2D, 0);
+        }
+
+        void OpenGLTexture2D::ensureFilterMode() {
+            FilterMode mode = getFilterMode();
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, paxFilterModeToGLFilterMode(mode));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, paxFilterModeToGLFilterMode(mode));
+        }
+
+        void OpenGLTexture2D::ensureWrappingMode() {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, paxWrapModeToGLWrapMode(getWrapModeHorizontal()));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, paxWrapModeToGLWrapMode(getWrapModeVertical()));
         }
     }
 }

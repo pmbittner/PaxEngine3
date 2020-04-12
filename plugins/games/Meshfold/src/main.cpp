@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 int PAX::Meshfold_main(int argc, char *argv[]) {
     int exitcode = 0;
 
-    PAX::Meshfold::MeshfoldGame game;
+    PAX::MeshfoldGame game;
 
     PAX::SDL::SDLPlugin               sdl;
     PAX::OpenGL::OpenGLPlugin         openGL;

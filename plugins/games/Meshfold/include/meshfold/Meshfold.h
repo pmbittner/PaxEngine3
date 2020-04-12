@@ -26,6 +26,7 @@ namespace PAX {
         std::shared_ptr<Asset> asset;
         std::vector<Portal> portals;
 
+        GameEntity portalPresenter;
         GameEntity backgroundPresenter;
         std::shared_ptr<Shader> backgroundShader;
 
@@ -59,6 +60,8 @@ namespace PAX {
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
         void created() override;
+
+        void setBackground(const std::shared_ptr<Texture> & backgroundImage);
     };
 }
 

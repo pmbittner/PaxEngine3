@@ -29,9 +29,9 @@ namespace PAX {
     void Game::terminate() {
         assert(initialized);
 
-        while (!_worlds.empty()) {
-            World * world = *(_worlds.end() - 1);
-            unregisterWorld(world, true);
+        while (!worlds.empty()) {
+            World * world = *(worlds.end() - 1);
+            removeWorld(world);
             delete world;
         }
 
@@ -42,70 +42,44 @@ namespace PAX {
         eventService.setParent(nullptr);
     }
 
-    bool Game::isRegistered(World *world) {
-        return Util::vectorContains(_worlds, world);
+    bool Game::hasWorld(World *world) {
+        return Util::vectorContains(worlds, world);
     }
 
-    void Game::registerWorld(World *world) {
-        if (!isRegistered(world)) {
-            _worlds.push_back(world);
+    void Game::addWorld(World *world) {
+        if (!hasWorld(world)) {
+            worlds.push_back(world);
+            world->getEventService().setParent(&getEventService());
             WorldEvent e(world);
-            WorldRegistered(e);
+            WorldAdded(e);
         }
     }
 
-    bool Game::unregisterWorld(World *world, bool force) {
-        if (world == activeWorld) {
-            if (force) {
-                setActiveWorld(nullptr);
-            } else {
-                PAX_LOG(Log::Level::Warn, "Trying to unregister the active World " << world);
-                return false;
-            }
-        }
-
-        if (Util::removeFromVector(_worlds, world)) {
+    bool Game::removeWorld(World *world) {
+        if (Util::removeFromVector(worlds, world)) {
             WorldEvent e(world);
-            WorldUnregistered(e);
-
+            WorldRemoved(e);
+            world->getEventService().setParent(nullptr);
             return true;
         }
 
         return false;
     }
 
-    const std::vector<World*>& Game::getRegisteredWorlds() {
-        return _worlds;
-    }
-
-    World* Game::getActiveWorld() {
-        return activeWorld;
-    }
-
-    void Game::setActiveWorld(World *world) {
-        if(world != nullptr && !isRegistered(world))
-            registerWorld(world);
-
-        World *oldActive = activeWorld;
-
-        if (oldActive) {
-            oldActive->getEventService().setParent(nullptr);
-        }
-
-        activeWorld = world;
-
-        if (activeWorld) {
-            activeWorld->getEventService().setParent(&getEventService());
-        }
-
-        ActiveWorldChangedEvent e(oldActive, activeWorld);
-        ActiveWorldChanged(e);
+    const std::vector<World*>& Game::getWorlds() {
+        return worlds;
     }
 
     void Game::update(UpdateOptions &options) {
-        for (auto &system : getSystems()) {
-            system->update(options);
+        for (World * w : worlds) {
+            options.activeWorld = w;
+
+            for (auto &system : getSystems()) {
+                system->update(options);
+            }
         }
+
+        options.activeWorld = nullptr;
     }
 
     EventService & Game::getEventService() {

@@ -26,10 +26,10 @@ namespace PAX {
                     if (prefabNode.is_string()) {
                         std::shared_ptr<GameEntityPrefab> entityPrefab =
                                 Services::GetResources().loadOrGet<GameEntityPrefab>(prefab.resolvePath(prefabNode.get<std::string>()));
-                        entity = entityPrefab->create({});
+                        entity = entityPrefab->create(v);
                     } else {
                         JsonEntityPrefab<GameEntity> entityPrefab(prefabNode, prefab.getPath());
-                        entity = entityPrefab.create({});
+                        entity = entityPrefab.create(v);
                     }
                 } else {
                     // TODO: Write GameEntityAllocator

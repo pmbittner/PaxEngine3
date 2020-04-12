@@ -11,7 +11,8 @@
 namespace PAX {
     class TextureFactory {
     public:
-        virtual std::shared_ptr<Texture> create(int width, int height) = 0;
+        PAX_NODISCARD virtual std::shared_ptr<Texture> create(int width, int height) = 0;
+        PAX_NODISCARD virtual std::shared_ptr<Texture> create(int width, int height, Texture::PixelFormat pixelFormat, Texture::ColourType colourType) = 0;
     };
 }
 

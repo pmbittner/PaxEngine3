@@ -12,14 +12,16 @@ namespace PAX {
     }
 
     void Renderer::render(RenderOptions & options) {
-        World *activeWorld = Engine::Instance().getGame()->getActiveWorld();
+        const std::vector<World*> & worlds = Engine::Instance().getGame()->getWorlds();
 
-        if (activeWorld) {
-            WorldSceneGraph *scene = activeWorld->getSceneGraph();
+        for (World * w : worlds) {
+            generationEntryPoint->addChild(w->getSceneGraph());
+        }
 
-            generationEntryPoint->addChild(scene);
-            sceneGraphRoot->render(options);
-            generationEntryPoint->removeChild(scene);
+        sceneGraphRoot->render(options);
+
+        for (World * w : worlds) {
+            generationEntryPoint->removeChild(w->getSceneGraph());
         }
     }
 

@@ -4,7 +4,7 @@
 
 #include <paxcore/service/Services.h>
 #include <paxcore/Engine.h>
-#include <paxcore/rendering/Viewport.h>
+#include <paxcore/rendering/camera/Viewport.h>
 
 namespace PAX {
     Viewport::Viewport() : _x(0), _y(0), _resizePolicy(ResizePolicy::Relative) {

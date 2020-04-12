@@ -19,7 +19,11 @@ namespace PAX {
         };
 
         enum class PixelFormat {
-            RGB, RGBA, BGR
+            None, RGB, RGBA, BGR
+        };
+
+        enum class ColourType {
+            Float, Byte
         };
 
         static unsigned int GetNumberOfChannels(PixelFormat pixelFormat);
@@ -30,6 +34,8 @@ namespace PAX {
         WrapMode wrapHorizontal = WrapMode::ClampToEdge;
         WrapMode wrapVertical   = WrapMode::ClampToEdge;
         FilterMode filterMode   = FilterMode::Nearest;
+        PixelFormat pixelFormat = PixelFormat::None;
+        ColourType colourType   = ColourType::Byte;
 
     public:
         virtual ~Texture();
@@ -40,13 +46,15 @@ namespace PAX {
 
         PAX_NODISCARD WrapMode getWrapModeHorizontal() const;
         PAX_NODISCARD WrapMode getWrapModeVertical() const;
-
         PAX_NODISCARD FilterMode getFilterMode() const;
+        PAX_NODISCARD PixelFormat getPixelFormat() const;
+        PAX_NODISCARD ColourType getColourType() const;
 
         virtual void setWrapMode(WrapMode horizontal, WrapMode vertical);
         virtual void setFilterMode(FilterMode mode);
 
-        virtual void setPixels(void * data, PixelFormat dataPixelFormat);
+        virtual void setPixels(void * data, PixelFormat dataPixelFormat, ColourType colourType) = 0;
+        virtual void initEmptyTexture(PixelFormat dataPixelFormat, ColourType colourType) = 0;
 
         virtual void bind() = 0;
         virtual void unbind() = 0;

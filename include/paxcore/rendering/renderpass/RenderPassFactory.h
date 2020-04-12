@@ -11,7 +11,7 @@
 namespace PAX {
     class RenderPassFactory {
     public:
-        virtual std::shared_ptr<RenderPass> create() = 0;
+        PAX_NODISCARD virtual RenderPass * create(const glm::ivec2 & resolution) = 0;
     };
 }
 

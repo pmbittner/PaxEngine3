@@ -60,7 +60,8 @@ namespace PAX {
         ///                            If this is nullptr, the factory will be queried to create one
         void initialize(const std::string& name, int dimensions, float z = 0, SceneGraphGenerator * sceneGraphGenerator = nullptr);
 
-        WorldSceneGraph * getSceneGraph();
+        PAX_NODISCARD WorldSceneGraph * getSceneGraph() const;
+        PAX_NODISCARD SceneGraphGenerator * getSceneGraphGenerator() const;
 
         PAX_NODISCARD float getZ() const;
         void setZ(float z);

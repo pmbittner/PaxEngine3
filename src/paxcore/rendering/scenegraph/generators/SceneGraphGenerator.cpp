@@ -3,6 +3,7 @@
 //
 
 #include <paxcore/rendering/scenegraph/generators/SceneGraphGenerator.h>
+#include <paxcore/rendering/renderpass/RenderPass.h>
 
 namespace PAX {
     SceneGraphGenerator::SceneGraphGenerator() = default;
@@ -10,7 +11,9 @@ namespace PAX {
 
     void SceneGraphGenerator::initialize(SceneGraph* root, EventService& eventService) {
         PAX_ASSERT_NOT_NULL(root, "Root can't be null!");
-        _root = root;
+        targetRoot = root;
+
+        cameraChild.addChild(&sceneRoot);
 
         eventService.add<GameEntitySpawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onGameEntitySpawnedEvent>(this);
         eventService.add<GameEntityDespawnedEvent, SceneGraphGenerator, &SceneGraphGenerator::onGameEntityDespawnedEvent>(this);
@@ -30,17 +33,17 @@ namespace PAX {
     }
 
     void SceneGraphGenerator::addCamera(Camera * c) {
-        _root->addChild(c);
-        c->addChild(&sceneRoot);
+        targetRoot->addChild(c);
+        c->addChild(&cameraChild);
 
-        _cameras.push_back(c);
+        cameras.push_back(c);
     }
 
     void SceneGraphGenerator::removeCamera(Camera * c) {
-        _root->removeChild(c);
-        c->removeChild(&sceneRoot);
+        targetRoot->removeChild(c);
+        c->removeChild(&cameraChild);
 
-        Util::removeFromVector(_cameras, c);
+        Util::removeFromVector(cameras, c);
     }
 
     void SceneGraphGenerator::onGameEntitySpawnedEvent(GameEntitySpawnedEvent& e) {
@@ -76,6 +79,22 @@ namespace PAX {
     }
 
     const std::vector<Camera*>& SceneGraphGenerator::getCameras() const {
-        return _cameras;
+        return cameras;
+    }
+
+    void SceneGraphGenerator::addRenderPass(RenderPass *renderPass) {
+        bool first = renderPasses.empty();
+        renderPasses.push_back(renderPass);
+
+        if (first) {
+            cameraChild.dropChildren();
+        }
+
+        cameraChild.addChild(renderPass);
+        renderPass->addChild(&sceneRoot);
+    }
+
+    const std::vector<RenderPass *> & SceneGraphGenerator::getRenderPasses() const {
+        return renderPasses;
     }
 }

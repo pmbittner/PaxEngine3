@@ -1,0 +1,17 @@
+{
+  "Transform": {
+    "position": [0, -1, 0]
+  },
+  "Tags": [
+    "Meshfold"
+  ],
+  "Properties": {
+    "PAX::AssetGraphics": {
+      "asset": "${ResourcePath}/Meshfold/meshes/${Meshfold_Mesh}",
+      "Shader": {
+        "Vertex": "${ResourcePath}/Meshfold/shader/mesh.vert",
+        "Fragment": "${ResourcePath}/Meshfold/shader/mesh.frag"
+      }
+    }
+  }
+}

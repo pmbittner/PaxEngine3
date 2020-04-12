@@ -6,22 +6,39 @@
 #define PAXENGINE3_OPENGLRENDERPASS_H
 
 #include <paxcore/rendering/renderpass/RenderPass.h>
-#include "OpenGLRenderPassChannel.h"
+#include <GL/glew.h>
 
 namespace PAX {
     namespace OpenGL {
         class OpenGLRenderPass : public RenderPass {
-            std::vector<std::unique_ptr<OpenGLRenderPassChannel>> channels;
+            GLuint fbo;
+            GLuint depth_rb;
 
         public:
-            OpenGLRenderPass();
+            struct RenderPassBind {
+                struct Passes {
+                    GLuint drawBuffer;
+                    GLuint readBuffer;
+
+                    Passes(GLuint drawBuffer, GLuint readBuffer = 0);
+                };
+
+                void push(Passes p);
+                void pop();
+
+            private:
+                std::stack<Passes> frameBuffers;
+                void bindTop();
+            };
+
+            static RenderPassBind RenderPassBinder;
+
+            OpenGLRenderPass(const glm::ivec2 & resolution);
             ~OpenGLRenderPass() override;
 
-            void bind() override;
-            void unbind() override;
+            void finalize() override;
 
-            //const std::unique_ptr<OpenGLRenderPassChannel> & addChannel(RenderPassChannel::Format format, RenderPassChannel::ValueType valueType) override;
-            //const std::unique_ptr<OpenGLRenderPassChannel> & getChannel(int id) const override;
+            void render(RenderOptions &renderOptions) override;
         };
     }
 }

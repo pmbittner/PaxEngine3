@@ -49,6 +49,10 @@ namespace PAX {
             return Util::removeFromVector(_children, child);
         }
 
+        void dropChildren() {
+            _children.clear();
+        }
+
         const std::vector<ChildrensType*>& getChildren() const {
             return _children;
         };

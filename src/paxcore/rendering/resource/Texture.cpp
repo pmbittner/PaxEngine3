@@ -11,6 +11,8 @@ namespace PAX {
             return 3;
         } else if (pixelFormat == PixelFormat::RGBA) {
             return 4;
+        } else if (pixelFormat == PixelFormat::None) {
+            return 0;
         }
 
         PAX_THROW_RUNTIME_ERROR("Unsupported Pixelformat: " << int(pixelFormat));
@@ -42,6 +44,14 @@ namespace PAX {
         return filterMode;
     }
 
+    Texture::PixelFormat Texture::getPixelFormat() const {
+        return pixelFormat;
+    }
+
+    Texture::ColourType Texture::getColourType() const {
+        return colourType;
+    }
+
     void Texture::setWrapMode(PAX::Texture::WrapMode horizontal, PAX::Texture::WrapMode vertical) {
         wrapHorizontal = horizontal;
         wrapVertical   = vertical;
@@ -49,9 +59,5 @@ namespace PAX {
 
     void Texture::setFilterMode(PAX::Texture::FilterMode mode) {
         filterMode = mode;
-    }
-
-    void Texture::setPixels(void *data, PAX::Texture::PixelFormat dataPixelFormat) {
-        PAX_NOT_IMPLEMENTED();
     }
 }

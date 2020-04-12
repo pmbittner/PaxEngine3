@@ -46,7 +46,7 @@ namespace PAX {
         }
 
         std::shared_ptr<Image> image = std::make_shared<Image>(tex->w, tex->h);
-        image->setPixels(tex->pixels, format);
+        image->setPixels(tex->pixels, format, Texture::ColourType::Byte);
         SDL_FreeSurface(tex);
 
         return image;

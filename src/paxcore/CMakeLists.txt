@@ -34,7 +34,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/io/event/MouseButtonEvent.h
         ../../include/paxcore/function/Updateable.h
         ../../include/paxcore/function/UpdateOptions.h
-        ../../include/paxcore/rendering/Viewport.h
+        ../../include/paxcore/rendering/camera/Viewport.h
         ../../include/paxcore/rendering/scenegraph/nodes/TexturingNode.h
         ../../include/paxcore/rendering/data/Mesh.h
         ../../include/paxcore/rendering/data/Texture.h

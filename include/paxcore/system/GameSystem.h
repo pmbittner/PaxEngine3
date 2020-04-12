@@ -25,8 +25,8 @@ namespace PAX {
 
         Game * getGame();
 
-        virtual void onWorldRegistered(WorldEvent &event) {};
-        virtual void onWorldUnregistered(WorldEvent &event) {};
+        virtual void onWorldAdded(WorldEvent &event) {};
+        virtual void onWorldRemoved(WorldEvent &event) {};
     };
 }
 

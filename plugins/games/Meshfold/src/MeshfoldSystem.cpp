@@ -15,7 +15,9 @@ namespace PAX {
     void MeshfoldSystem::update(UpdateOptions &options) {
         GameSystem::update(options);
 
-        Meshfold * meshfold = getGame()->getActiveWorld()->get<Meshfold>();
+        Meshfold * meshfold = options.activeWorld->get<Meshfold>();
+
+        if (!meshfold) return;
 
         for (PointCloudSprite * p : sprites) {
             KeyboardControls * controls = p->getOwner()->get<KeyboardControls>();

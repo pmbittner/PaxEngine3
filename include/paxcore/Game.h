@@ -22,27 +22,22 @@ namespace PAX {
         bool initialized = false;
         EventService eventService;
         std::set<std::unique_ptr<GameSystem>> systems;
-        std::vector<World*> _worlds;
-        World * activeWorld = nullptr;
+        std::vector<World*> worlds;
 
     public:
         Game();
         ~Game() override;
 
-        EventHandler<ActiveWorldChangedEvent&> ActiveWorldChanged;
-        EventHandler<WorldEvent&> WorldRegistered;
-        EventHandler<WorldEvent&> WorldUnregistered;
+        EventHandler<WorldEvent&> WorldAdded;
+        EventHandler<WorldEvent&> WorldRemoved;
 
         virtual void initialize();
         virtual void terminate();
 
-        bool isRegistered(World *world);
-        void registerWorld(World *world);
-        bool unregisterWorld(World *world, bool force = false);
-        const std::vector<World*>& getRegisteredWorlds();
-
-        World* getActiveWorld();
-        void setActiveWorld(World *world);
+        bool hasWorld(World *world);
+        void addWorld(World *world);
+        bool removeWorld(World *world);
+        const std::vector<World*>& getWorlds();
 
         void update(UpdateOptions & options) override;
 

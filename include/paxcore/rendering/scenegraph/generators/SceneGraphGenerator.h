@@ -12,15 +12,19 @@
 #include "paxcore/world/event/GameEntityDespawnedEvent.h"
 
 namespace PAX {
+    class RenderPass;
+
     class SceneGraphGenerator {
-        SceneGraph *_root = nullptr;
-        std::vector<Camera*> _cameras;
+        SceneGraph * targetRoot = nullptr;
+        std::vector<Camera*> cameras;
+        std::vector<RenderPass*> renderPasses;
 
         void addCamera(Camera * g);
         void removeCamera(Camera * g);
 
     protected:
         SceneGraph sceneRoot;
+        SceneGraph cameraChild;
 
         virtual void addGraphics(Graphics * g) = 0;
         virtual void removeGraphics(Graphics * g) = 0;
@@ -39,7 +43,10 @@ namespace PAX {
         void onGameEntityComponentAddedEvent(PropertyAttachedEvent<GameEntity, Camera>& e);
         void onGameEntityComponentRemovedEvent(PropertyDetachedEvent<GameEntity, Camera>& e);
 
-        const std::vector<Camera*> & getCameras() const;
+        PAX_NODISCARD const std::vector<Camera*> & getCameras() const;
+
+        void addRenderPass(RenderPass * renderPass);
+        PAX_NODISCARD const std::vector<RenderPass*> & getRenderPasses() const;
     };
 }
 

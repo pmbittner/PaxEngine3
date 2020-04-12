@@ -6,23 +6,28 @@
 #define PAXENGINE3_RENDERPASS_H
 
 #include <paxcore/rendering/scenegraph/SceneGraph.h>
+#include <paxcore/rendering/data/Colour.h>
 #include "RenderPassChannel.h"
 
 namespace PAX {
     class RenderPass : public SceneGraph {
+        glm::ivec2 resolution;
+        Colour clearColour = Colours::White;
+        std::vector<RenderPassChannel> channels;
+
     public:
-        RenderPass();
+        RenderPass(const glm::ivec2 & resolution);
         ~RenderPass() override;
 
-        virtual void bind() = 0;
-        virtual void unbind() = 0;
+        PAX_NODISCARD const glm::ivec2 & getResolution() const;
+        PAX_NODISCARD void setClearColour(const Colour & colour);
+        PAX_NODISCARD const Colour & getClearColour() const;
 
-        /*
-        virtual const std::unique_ptr<RenderPassChannel> & addChannel(RenderPassChannel::Format format, RenderPassChannel::ValueType valueType) = 0;
-        virtual const std::unique_ptr<RenderPassChannel> & getChannel(int id) const = 0;
-         */
+        void addChannel(RenderPassChannel renderPassChannel);
+        PAX_NODISCARD const RenderPassChannel & getChannel(const std::string & name) const;
+        PAX_NODISCARD const std::vector<RenderPassChannel> & getChannels() const;
 
-        void render(RenderOptions &renderOptions) override;
+        virtual void finalize();
     };
 }
 

@@ -1,5 +1,7 @@
-StartWorld = ${CURRENT_DIR}/worlds/uvworld.paxprefab.json
-#StartWorld = ${CURRENT_DIR}/worlds/meshworld.paxprefab.json
+UVWorld = ${CURRENT_DIR}/worlds/uvworld.paxprefab.json
+MeshWorld = ${CURRENT_DIR}/worlds/meshworld.paxprefab.json
+#ScreenWorld = ${CURRENT_DIR}/worlds/screenworld.paxprefab.json
 
-dummyprefab = ${CURRENT_DIR}/dummy.paxprefab.json
-spawndummy = false
+Meshfold_Mesh = cube/cube.obj
+
+showUVWorld = !true

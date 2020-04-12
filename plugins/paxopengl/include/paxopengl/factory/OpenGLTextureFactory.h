@@ -11,7 +11,8 @@ namespace PAX {
     namespace OpenGL {
         class OpenGLTextureFactory : public TextureFactory {
         public:
-            std::shared_ptr<Texture> create(int width, int height) override;
+            PAX_NODISCARD std::shared_ptr<Texture> create(int width, int height) override;
+            PAX_NODISCARD std::shared_ptr<Texture> create(int width, int height, Texture::PixelFormat pixelFormat, Texture::ColourType colourType) override;
         };
     }
 }

@@ -24,6 +24,8 @@ namespace PAX {
 
         void render(RenderOptions &renderOptions) override;
         PAX_NODISCARD ClassMetadata getMetadata() override;
+
+        PAX_NODISCARD const std::shared_ptr<Asset> & getAsset() const;
     };
 }
 

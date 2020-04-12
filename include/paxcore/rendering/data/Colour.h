@@ -8,12 +8,14 @@
 #include <paxutil/lib/GlmIncludes.h>
 
 namespace PAX {
-    using Colour = glm::vec<4, char, glm::defaultp>;
+    using Colour = glm::vec<4, unsigned char, glm::defaultp>;
 
     namespace Colours {
         static constexpr const Colour Red = Colour(255, 0, 0, 255);
         static constexpr const Colour Green = Colour(0, 255, 0, 255);
         static constexpr const Colour Blue = Colour(0, 0, 255, 255);
+        static constexpr const Colour White = Colour(255, 255, 255, 255);
+        static constexpr const Colour Black = Colour(0, 0, 0, 255);
     }
 }
 
