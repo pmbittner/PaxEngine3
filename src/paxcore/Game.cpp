@@ -21,6 +21,8 @@ namespace PAX {
             system->initialize(this);
         }
 
+        eventService.setParent(&Services::GetEventService());
+
         initialized = true;
     }
 
@@ -36,6 +38,8 @@ namespace PAX {
         for (auto & system : systems) {
             system->terminate(this);
         }
+
+        eventService.setParent(nullptr);
     }
 
     bool Game::isRegistered(World *world) {
@@ -91,7 +95,7 @@ namespace PAX {
         activeWorld = world;
 
         if (activeWorld) {
-            activeWorld->getEventService().setParent(&Services::GetEventService());
+            activeWorld->getEventService().setParent(&getEventService());
         }
 
         ActiveWorldChangedEvent e(oldActive, activeWorld);
