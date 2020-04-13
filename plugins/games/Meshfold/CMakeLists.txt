@@ -10,7 +10,7 @@ set(PAX_MESHFOLD_SOURCE_FILES
         src/MeshfoldSystem.cpp
         src/Portal.cpp
         src/Meshfold.cpp
-        src/PortalGenerator.cpp)
+        src/PortalGenerator.cpp src/MeshfoldGame.cpp src/util/AssetUtils.cpp)
 
 include_directories(include)
 include_directories(../../paxsdl/include)
@@ -25,7 +25,7 @@ set(HEADERS_FOR_CLION
         include/meshfold/MeshfoldSystem.h
         include/meshfold/Portal.h
         include/meshfold/Meshfold.h
-        include/meshfold/PortalGenerator.h)
+        include/meshfold/PortalGenerator.h include/meshfold/util/AssetUtils.h)
 
 add_executable(Meshfold ${PAX_MESHFOLD_SOURCE_FILES} ${HEADERS_FOR_CLION})
 target_link_libraries(Meshfold paxutil paxsdl paxopengl paxassimp paxcore)

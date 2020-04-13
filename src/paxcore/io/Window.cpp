@@ -13,6 +13,10 @@ namespace PAX {
         return _fullscreen;
     }
 
+    void Window::setResolution(const glm::ivec2 &resolution) {
+        this->_resolution = resolution;
+    }
+
     glm::ivec2 Window::getResolution() {
         return _resolution;
     }

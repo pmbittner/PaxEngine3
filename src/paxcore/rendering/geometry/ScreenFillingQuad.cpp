@@ -14,6 +14,13 @@ namespace PAX {
                 {left,  top,    0.f}
         };
 
+        std::vector<glm::vec2> uvs = {
+                {0, 0},
+                {1, 0},
+                {1, 1},
+                {0, 1}
+        };
+
         std::vector<glm::ivec3> faces = {
                 {0,1,2},
                 {0,2,3}
@@ -22,6 +29,7 @@ namespace PAX {
         auto * meshFactory = Services::GetFactoryService().get<MeshFactory>();
         PAX_ASSERT_NOT_NULL(meshFactory, "MeshFactory is required, but is not registered!");
         std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
+        mesh->addAttribute(Mesh::UVs, uvs);
         return mesh;
     }
 

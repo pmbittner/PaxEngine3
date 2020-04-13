@@ -9,21 +9,9 @@
 #include <paxcore/rendering/data/ColourPalette.h>
 #include "meshfold/Meshfold.h"
 
+#include "meshfold/util/AssetUtils.h"
+
 namespace PAX {
-    static Mesh* getFirstMeshYouCanFindIn(const std::shared_ptr<Asset> & asset) {
-        const auto & meshes = asset->getMeshes();
-        if (meshes.empty()) {
-            for (const std::shared_ptr<Asset> & child : asset->getChildren()) {
-                Mesh * m = getFirstMeshYouCanFindIn(child);
-                if (m) return m;
-            }
-        } else {
-            return meshes[0].mesh.get();
-        }
-
-        return nullptr;
-    }
-
     PAX_PROPERTY_IMPL(Meshfold)
 
     Meshfold::Meshfold() {
@@ -60,7 +48,7 @@ namespace PAX {
         //PAX_LOG_DEBUG(Log::Level::Info, "Generating Portals from Asset:");
         //asset->print("");
 
-        Mesh * mesh = getFirstMeshYouCanFindIn(asset);
+        Mesh * mesh = AssetUtils::getFirstMeshYouCanFind(asset);
         if (!mesh) {
             PAX_THROW_RUNTIME_ERROR("Asset does not contain any mesh!");
         }
@@ -183,7 +171,7 @@ namespace PAX {
     }
 
     void Meshfold::onKeyDown(KeyPressedEvent & e) {
-        if (!e.repeated && e.button == Key::F1 && getOwner()) {
+        if (!e.repeated && e.button == Key::F2 && getOwner()) {
             World * w = getOwner();
             if (portalPresenter.getWorld()) {
                 w->despawn(&portalPresenter);

@@ -1,8 +1,10 @@
 UVWorld = ${CURRENT_DIR}/worlds/uvworld.paxprefab.json
 MeshWorld = ${CURRENT_DIR}/worlds/meshworld.paxprefab.json
-#ScreenWorld = ${CURRENT_DIR}/worlds/screenworld.paxprefab.json
+ScreenWorld = ${CURRENT_DIR}/worlds/screenworld.paxprefab.json
 
-showUVWorld = !true
+resolutionWidth = 800
+resolutionHeight = 600
+fullscreen = off
 
 Meshfold_Mesh = cube/cube.obj
 uvworld_size_x = 400

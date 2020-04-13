@@ -27,8 +27,8 @@
             "syncProjectionResolutionToViewportResolution": true,
             "projection":{
               "type": "Perspective",
-              "resolution_width": 800,
-              "resolution_height": 600
+              "resolution_width": "${resolutionWidth}",
+              "resolution_height": "${resolutionHeight}"
             },
             "viewport": {}
           }

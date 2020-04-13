@@ -19,15 +19,16 @@
           "PAX::Camera": {
             "syncProjectionResolutionToViewportResolution": true,
             "projection": {
+              "comment": "Projection is irrelevant here but expected in json.",
               "type": "Perspective",
-              "resolution_width": 800,
-              "resolution_height": 600
+              "resolution_width": "${uvworld_size_x}",
+              "resolution_height": "${uvworld_size_y}"
             },
             "viewport": {
-              "x": 0,
+              "x": "${resolutionWidth_half}",
               "y": 0,
-              "width": 400,
-              "height": 600,
+              "width": "${resolutionWidth_half}",
+              "height": "${resolutionHeight}",
               "resizepolicy": "Relative"
             }
           }
