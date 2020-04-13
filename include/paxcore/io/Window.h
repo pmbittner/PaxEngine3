@@ -27,6 +27,7 @@ namespace PAX {
 
         EventHandler<ResolutionChangedEvent&> OnResolutionChanged;
 
+        virtual void setResolution(const glm::ivec2 & resolution);
         virtual glm::ivec2 getResolution();
 
         virtual void setFullscreen(bool fullscreen);

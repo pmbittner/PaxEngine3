@@ -51,6 +51,11 @@ namespace PAX {
             Window::setFullscreen(fullscreen);
         }
 
+        void SDLWindow::setResolution(const glm::ivec2 &res) {
+            SDL_SetWindowSize(_window, res.x, res.y);
+            Window::setResolution(res);
+        }
+
         SDL_Window *SDLWindow::getSDL_Window() {
             return _window;
         }
