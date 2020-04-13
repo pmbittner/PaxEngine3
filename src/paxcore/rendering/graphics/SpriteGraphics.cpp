@@ -115,6 +115,14 @@ namespace PAX {
         entity.getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
     }
 
+    void SpriteGraphics::setTexture(const std::shared_ptr<Texture> &texture) {
+        _textureNode.setTexture(texture);
+    }
+
+    const std::shared_ptr<Texture>& SpriteGraphics::getTexture() {
+        return _textureNode.getTexture();
+    }
+
     void SpriteGraphics::render(PAX::RenderOptions &renderOptions) {
         if (Shader * shader = renderOptions.getShaderOptions().getShader()) {
             shader->setUniform("spriteResolution", _texture->getSize());

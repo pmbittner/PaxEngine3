@@ -43,6 +43,9 @@ namespace PAX {
         void render(RenderOptions &renderOptions) override;
         PAX_NODISCARD ClassMetadata getMetadata() override;
 
+        void setTexture(const std::shared_ptr<Texture> &texture);
+        PAX_NODISCARD const std::shared_ptr<Texture> & getTexture();
+
         void created() override;
     };
 }

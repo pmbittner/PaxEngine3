@@ -10,6 +10,20 @@
 #include "meshfold/Meshfold.h"
 
 namespace PAX {
+    static Mesh* getFirstMeshYouCanFindIn(const std::shared_ptr<Asset> & asset) {
+        const auto & meshes = asset->getMeshes();
+        if (meshes.empty()) {
+            for (const std::shared_ptr<Asset> & child : asset->getChildren()) {
+                Mesh * m = getFirstMeshYouCanFindIn(child);
+                if (m) return m;
+            }
+        } else {
+            return meshes[0].mesh.get();
+        }
+
+        return nullptr;
+    }
+
     PAX_PROPERTY_IMPL(Meshfold)
 
     Meshfold::Meshfold() {
@@ -40,28 +54,11 @@ namespace PAX {
         return m;
     }
 
-    void Meshfold::created() {
-        createPortalsFromAsset();
-    }
-
-    static Mesh* getFirstMeshYouCanFindIn(const std::shared_ptr<Asset> & asset) {
-        const auto & meshes = asset->getMeshes();
-        if (meshes.empty()) {
-            for (const std::shared_ptr<Asset> & child : asset->getChildren()) {
-                Mesh * m = getFirstMeshYouCanFindIn(child);
-                if (m) return m;
-            }
-        } else {
-            return meshes[0].mesh.get();
-        }
-
-        return nullptr;
-    }
+    void Meshfold::created() {}
 
     void Meshfold::createPortalsFromAsset() {
-        //*
-        PAX_LOG_DEBUG(Log::Level::Info, "Generating Portals from Asset:");
-        asset->print("");
+        //PAX_LOG_DEBUG(Log::Level::Info, "Generating Portals from Asset:");
+        //asset->print("");
 
         Mesh * mesh = getFirstMeshYouCanFindIn(asset);
         if (!mesh) {
@@ -71,18 +68,41 @@ namespace PAX {
             PAX_THROW_RUNTIME_ERROR("Given mesh is already uploaded!");
         }
 
+        glm::vec2 worldSize = getOwner()->get<WorldSize>()->getSize2D();
+
         PortalGenerator generator(mesh);
         glm::mat3 portalTrafo(0);
-        glm::vec2 worldSize{400, 400};
         portalTrafo[0][0] = worldSize.x;
         portalTrafo[1][1] = -worldSize.y;
         portalTrafo[2] = glm::vec3(-0.5f * worldSize.x, 0.5f * worldSize.y, 1);
         portals = generator.computePortals(portalTrafo);
-        asset->upload();//*/
+        asset->upload();
     }
 
     void Meshfold::attached(PAX::World &world) {
-        glm::vec2 size = world.get<WorldSize>()->getSize2D();
+        Services::GetEventService().add<KeyPressedEvent, Meshfold, &Meshfold::onKeyDown>(this);
+
+        createPortalsFromAsset();
+        drawPortalPresenter();
+        portalPresenter.getTransformation().position() = {0, 0, -999};
+        portalPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
+        world.spawn(&backgroundPresenter);
+
+        resizeBackground();
+    }
+
+    void Meshfold::detached(PAX::World &world) {
+        world.despawn(&portalPresenter);
+        world.despawn(&backgroundPresenter);
+
+        Services::GetEventService().remove<KeyPressedEvent, Meshfold, &Meshfold::onKeyDown>(this);
+    }
+
+    void Meshfold::drawPortalPresenter() {
+        World * world = getOwner();
+        if (!world) return;
+
+        glm::vec2 size = world->get<WorldSize>()->getSize2D();
         glm::vec2 halfsize = 0.5f * size;
         Image background(size.x,  size.y);
 
@@ -91,6 +111,7 @@ namespace PAX {
 
         //background.fillRect({0, 0}, {size.x - 1, size.y - 1}, Colours::White);
 
+        /// Set Portal Colours
         std::vector<Colour> portalColour(portals.size(), Colour(0));
         {
             RandomColourPalette colourPalette;
@@ -109,6 +130,7 @@ namespace PAX {
             }
         }
 
+        /// draw portals
         for (size_t i = 0; i < portals.size(); ++i) {
             const Portal & p = portals.at(i);
 
@@ -131,31 +153,48 @@ namespace PAX {
             background.fillRect(to - halfCornerSize, to + halfCornerSize, Colours::Red);
         }
 
-        portalPresenter.add(new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(background.toGPUTexture()));
-        portalPresenter.getTransformation().position() = {0, 0, -999};
-        portalPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
-        world.spawn(&portalPresenter);
-        world.spawn(&backgroundPresenter);
-
-    }
-
-    void Meshfold::detached(PAX::World &world) {
-        world.despawn(&portalPresenter);
-        world.despawn(&backgroundPresenter);
+        SpriteGraphics * g = portalPresenter.get<SpriteGraphics>();
+        std::shared_ptr<Texture> tex = background.toGPUTexture();
+        if (g) {
+            g->setTexture(tex);
+        } else {
+            g = new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(tex);
+            portalPresenter.add(g);
+        }
     }
 
     void Meshfold::setBackground(const std::shared_ptr<Texture> &backgroundImage) {
         backgroundPresenter.add(new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(backgroundImage));
         backgroundPresenter.getTransformation().position() = {0, 0, -1000};
         backgroundPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
+        resizeBackground();
+    }
 
-        // TODO: Move to attached(World)
-        WorldSize * w = getOwner()->get<WorldSize>();
+    void Meshfold::resizeBackground() {
         Size * s = backgroundPresenter.get<Size>();
-        glm::vec3 backgroundScale = glm::vec3(w->getSize2D().x, w->getSize2D().y, 1);
-        backgroundScale /= s->getSizeUnscaled();
-        backgroundScale.z = 1;
-        backgroundPresenter.getTransformation().setScale(backgroundScale);
+
+        if (getOwner() && s) {
+            WorldSize *w = getOwner()->get<WorldSize>();
+            glm::vec3 backgroundScale = glm::vec3(w->getSize2D().x, w->getSize2D().y, 1);
+            backgroundScale /= s->getSizeUnscaled();
+            backgroundScale.z = 1;
+            backgroundPresenter.getTransformation().setScale(backgroundScale);
+        }
+    }
+
+    void Meshfold::onKeyDown(KeyPressedEvent & e) {
+        if (!e.repeated && e.button == Key::F1 && getOwner()) {
+            World * w = getOwner();
+            if (portalPresenter.getWorld()) {
+                w->despawn(&portalPresenter);
+            } else {
+                w->spawn(&portalPresenter);
+            }
+        }
+    }
+
+    const std::vector<Portal> & Meshfold::getPortals() const {
+        return portals;
     }
 
     Meshfold::Transition Meshfold::traceRay(const glm::vec2 & p0, const glm::vec2 & d0) {
@@ -255,9 +294,5 @@ namespace PAX {
         ret.lastPortal = nearestIntersectedPortal;
         ret.flip = flip;
         return ret;
-    }
-
-    const std::vector<Portal> & Meshfold::getPortals() const {
-        return portals;
     }
 }

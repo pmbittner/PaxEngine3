@@ -9,6 +9,7 @@
 #include <vector>
 #include "polypropylene/io/Path.h"
 #include "polypropylene/stdutils/StringUtils.h"
+#include "polypropylene/reflection/VariableRegister.h"
 
 namespace PAX {
     class SettingsFileRow {
@@ -117,6 +118,8 @@ namespace PAX {
             else
                 return defaultValue;
         }
+
+        const VariableRegister & toVariableRegister();
     };
 
     template<> PAX_NODISCARD auto Settings::getTypeVector<std::string>(const std::string &varName) const -> std::vector<std::string>;

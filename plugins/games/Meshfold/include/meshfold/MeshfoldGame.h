@@ -69,13 +69,14 @@ namespace PAX {
             Game::initialize();
 
             settings.parse(Services::GetPaths().getResourcePath() + "Meshfold/meshfold.paxconfig");
+
             const bool showUVWorld = settings.getOrDefault<bool>("showUVWorld");
 
             auto uvWorldPrefab = Services::GetResources().loadOrGet<WorldPrefab>(settings.get<Path>("UVWorld"));
-            uv_world = uvWorldPrefab->create({});
+            uv_world = uvWorldPrefab->create(settings.toVariableRegister());
 
             auto meshWorldPrefab = Services::GetResources().loadOrGet<WorldPrefab>(settings.get<Path>("MeshWorld"));
-            mesh_world = meshWorldPrefab->create({{"Meshfold_Mesh", settings.get<std::string>("Meshfold_Mesh")}});
+            mesh_world = meshWorldPrefab->create(settings.toVariableRegister());
 
             std::vector<GameEntity *> meshes = mesh_world->getEntitiesWithTag("Meshfold");
             if (meshes.size() == 1) {

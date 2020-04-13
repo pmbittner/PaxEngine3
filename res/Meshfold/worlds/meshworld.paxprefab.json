@@ -30,13 +30,7 @@
               "resolution_width": 800,
               "resolution_height": 600
             },
-            "viewport": {
-              "x": 0,
-              "y": 0,
-              "width": 400,
-              "height": 600,
-              "resizepolicy": "Relative"
-            }
+            "viewport": {}
           }
         }
       }

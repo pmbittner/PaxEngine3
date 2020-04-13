@@ -10,6 +10,7 @@
 #include "Portal.h"
 #include <paxcore/rendering/data/Image.h>
 #include <paxcore/rendering/data/Asset.h>
+#include "paxcore/io/event/KeyPressedEvent.h"
 
 #define PAX_MESHFOLD_CONSIDER_PORTAL_SIZE 1
 #define PAX_MESHFOLD_PORTAL_SAFETY_OFFSET 1
@@ -32,6 +33,8 @@ namespace PAX {
 
         Meshfold();
 
+        void resizeBackground();
+        void drawPortalPresenter();
         void createPortalsFromAsset();
 
     public:
@@ -53,15 +56,15 @@ namespace PAX {
          */
         Transition traceRay(const glm::vec2 & p, const glm::vec2 & d);
 
-        PAX_NODISCARD const std::vector<Portal> & Meshfold::getPortals() const;
-
         void attached(World & world) override;
         void detached(World & world) override;
-
         PAX_NODISCARD ClassMetadata getMetadata() override;
         void created() override;
 
+        PAX_NODISCARD const std::vector<Portal> & Meshfold::getPortals() const;
         void setBackground(const std::shared_ptr<Texture> & backgroundImage);
+
+        void onKeyDown(KeyPressedEvent & keyPressedEvent);
     };
 }
 

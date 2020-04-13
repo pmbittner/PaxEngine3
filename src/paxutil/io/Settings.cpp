@@ -186,6 +186,10 @@ namespace PAX {
 
         return tuple;
     }
+
+    const VariableRegister & Settings::toVariableRegister() {
+        return settings;
+    }
 }
 
 #undef PAX_SETTINGS_PRINT
