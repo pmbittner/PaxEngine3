@@ -14,7 +14,7 @@
         "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
       },
       "asset": {
-        "path": "${ResourcePath}/Meshfold/meshes/test/cube.obj",
+        "path": "${ResourcePath}/Meshfold/meshes/cube/cube.obj",
         "flags": "NoUpload"
       }
     }
