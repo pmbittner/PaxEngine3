@@ -11,6 +11,7 @@
 #include <meshfold/Meshfold.h>
 #include <meshfold/properties/PointCloudSprite.h>
 #include <meshfold/properties/KeyboardControls.h>
+#include <meshfold/properties/MeshControls.h>
 
 namespace PAX {
     void MeshfoldPlugin::checkDependencies(const std::vector<PAX::EnginePlugin *> &plugins) const {
@@ -29,6 +30,7 @@ namespace PAX {
         PAX_PROPERTY_REGISTER(PAX::KeyboardControls);
 
         PAX_PROPERTY_REGISTER(PAX::Meshfold);
+        PAX_PROPERTY_REGISTER(PAX::MeshControls);
     }
 
     void MeshfoldPlugin::registerSystems(Game &game) {

@@ -4,6 +4,12 @@
     "dimensions": 3,
     "z": 0
   },
+  "Properties": {
+    "PAX::MeshControls": {
+      "mouseSensivityInRadiansPerPixel": 0.006,
+      "scrollSensivity": 0.1
+    }
+  },
   "Entities": [
     {
       "prefab": "entities/Meshfold.paxprefab.json"
@@ -19,10 +25,6 @@
           "Camera"
         ],
         "Properties": {
-          "PAX::NoClipControls": {
-            "speed": 3,
-            "mouseSensivityInRadiansPerPixel": 0.006
-          },
           "PAX::Camera": {
             "syncProjectionResolutionToViewportResolution": true,
             "projection":{

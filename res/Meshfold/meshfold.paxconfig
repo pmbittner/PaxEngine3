@@ -7,5 +7,6 @@ resolutionHeight = 600
 fullscreen = off
 
 Meshfold_Mesh = cube/cube.obj
-uvworld_size_x = 400
-uvworld_size_y = 400
+
+uvworld_size_x = 300
+uvworld_size_y = 300

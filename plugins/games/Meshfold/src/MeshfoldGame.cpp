@@ -5,6 +5,7 @@
 #include <meshfold/MeshfoldGame.h>
 #include <meshfold/util/AssetUtils.h>
 #include <paxcore/rendering/data/Material.h>
+#include <meshfold/properties/MeshControls.h>
 
 namespace PAX {
     void MeshfoldGame::initialize() {
@@ -30,7 +31,13 @@ namespace PAX {
 
         std::vector<GameEntity *> meshes = mesh_world->getEntitiesWithTag("Meshfold");
         if (meshes.size() == 1) {
-            AssetGraphics *g = meshes.at(0)->get<AssetGraphics>();
+            GameEntity * meshfold = meshes.at(0);
+            AssetGraphics *g = meshfold->get<AssetGraphics>();
+
+            if (MeshControls * meshControls = mesh_world->get<MeshControls>()) {
+                meshControls->setExhibit(meshfold);
+                meshControls->setCamera(mesh_world->getEntitiesWithTag(Tags::Camera).at(0));
+            }
 
             if (g) {
                 std::shared_ptr<Texture> meshTexture = AssetUtils::getFirstTextureYouCanFind(g->getAsset());

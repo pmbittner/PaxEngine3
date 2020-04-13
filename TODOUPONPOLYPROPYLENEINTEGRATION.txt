@@ -1,10 +1,1 @@
-- check names of properties in json files
-  - Graphics::shader -> Shader
-  - AssetGraphics::asset -> Asset
-  - SpriteGraphis::Sprite -> Texture
-  - SpriteSheetGraphics::columns and rows
-  - FollowGameEntityBehaviour::targetGameEntityID
-- remove Graphics::getShaderFlags
-- move resources from util back to core
-
-- the whole sprite implementation is awkward
+- glClearColor -> create centralized stack (OGLRenderPass is currently hacky in that way)
