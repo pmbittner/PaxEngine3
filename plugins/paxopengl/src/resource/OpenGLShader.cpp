@@ -65,8 +65,7 @@ namespace PAX {
             std::ifstream codeFile;
             codeFile.open(filename);
             if (!codeFile.is_open()) {
-                PAX_LOG(Log::Level::Error, "Unable to open shader file [ " << filename << " ] ");
-                throw std::runtime_error("Unable to open shader file " + filename);
+                PAX_THROW_RUNTIME_ERROR("Unable to open shader file \"" << filename << "\"!");
             }
 
 

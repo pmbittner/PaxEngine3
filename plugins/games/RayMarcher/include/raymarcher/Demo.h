@@ -107,11 +107,11 @@ namespace PAX {
                 cameraGameEntity.add(noClipControls);
                 cameraGameEntity.getTransformation().position() = settings.get<glm::vec3>("camerapos");
 
-                world = new World("ScreenLayer", 2);
+                world = new World("Screen", 2);
                 world->spawn(&screenGameEntity);
                 world->spawn(&cameraGameEntity);
 
-                setActiveWorld(world);
+                addWorld(world);
             }
         };
     }
