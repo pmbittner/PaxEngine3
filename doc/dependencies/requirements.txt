@@ -1,1 +1,1 @@
--e git://github.com/PaulAtTUBS/Polypropylene.git
+-e git://github.com/PaulAtTUBS/Polypropylene#egg=Polypropylene
