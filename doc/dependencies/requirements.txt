@@ -1,1 +1,1 @@
-git+git://github.com/PaulAtTUBS/Polypropylene@master
+git+git://github.com/PaulAtTUBS/Polypropylene.git
