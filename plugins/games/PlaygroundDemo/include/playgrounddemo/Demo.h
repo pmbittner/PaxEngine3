@@ -157,7 +157,7 @@ namespace PAX {
 
                 _world->add(new AmbientLight(glm::vec3(1, 0.5, 0.7)));
 
-                setActiveWorld(_world);
+                addWorld(_world);
             }
         };
     }
