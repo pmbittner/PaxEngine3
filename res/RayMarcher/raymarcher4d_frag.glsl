@@ -158,15 +158,15 @@ float de_cube4(vec4 pos, vec4 cubepos, float halfSideLength) {
 
 float DE(in vec4 pos) {
     //mat4 R = rotationMatrix(vec3(0, 1, 0), 0.1 * gameTime);
-    mat4 R = rotmat_yw(0.4 * gameTime);
-    R = R * rotmat_zw(0.3 * gameTime);
-    R = R * rotmat_xw(0.25423 * gameTime);
+    //mat4 R = rotmat_yw(0.4 * gameTime);
+    //R = R * rotmat_zw(0.3 * gameTime);
+    //R = R * rotmat_xw(0.25423 * gameTime);
     //R = R * rotmat_y(0.1 * gameTime);
 
-    pos = R * pos;
+    //pos = R * pos;
 
-    //return de_sphere4(pos, vec4(0, 0, 0, sin(gameTime)), 1);
-    return de_cube4(pos, vec4(0, 0, 0, 0), 0.3);
+    return de_sphere4(pos, vec4(0, 0, 0, sin(gameTime)), 1);
+    //return de_cube4(pos, vec4(0, 0, 0, 0), 0.3);
 }
 
 vec3 hsv2rgb(vec3 c)
