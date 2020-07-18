@@ -84,7 +84,7 @@ namespace PAX {
                     }
                 }
 
-                setActiveWorld(world);
+                addWorld(world);
                 PAX_LOG(PAX::Log::Level::Info, "Done");
             }
 

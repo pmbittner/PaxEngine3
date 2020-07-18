@@ -89,13 +89,13 @@ namespace PAX {
                 // Load new world
                 //*
                 //PAX_PRINT_OUT("Switching active world")
-                Engine::Instance().getGame()->setActiveWorld(targetWorld);
+                Engine::Instance().getGame()->addWorld(targetWorld);
                 //PAX_PRINT_OUT("Done")
                 //*/
 
                 // Delete the old one because we can't handle caching so far.
                 //*
-                Engine::Instance().getGame()->unregisterWorld(sourceWorld);
+                Engine::Instance().getGame()->removeWorld(sourceWorld);
                 delete sourceWorld;
                 //*/
             }
