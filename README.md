@@ -8,6 +8,8 @@ It does not provide sophisticated graphics but allows to integrate those at any 
 ![2D/3D Interaction](res/screenshots/meshfold.PNG "2D/3D Interaction")
 
 ![3D Scene](res/screenshots/3d.PNG "3D Scene")
+The assets in these screenshots are custom or from [opengameart.org](opengameart.org) and [itch.io](itch.io).
+
 
 GameEntities and Worlds are implemented as entities of the custom entity-component system [Polypropylene](https://github.com/PaulAtTUBS/Polypropylene).
 This allows defining and changing worlds and game objects arbitrarily, flexibly, and serializable.
