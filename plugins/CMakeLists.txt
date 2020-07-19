@@ -1,6 +1,5 @@
 add_subdirectory(paxsdl)
 add_subdirectory(paxopengl)
-add_subdirectory(paxvulkan)
 add_subdirectory(paxphysics)
 add_subdirectory(paxtiles)
 add_subdirectory(paxassetimport)
