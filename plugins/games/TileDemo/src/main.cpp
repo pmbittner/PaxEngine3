@@ -27,12 +27,11 @@ int PAX::Tile_main(int argc, char *argv[]) {
 
     PAX::TileDemo::Demo game;
 
-    PAX::SDL::SDLPlugin                     sdl;
+    PAX::SDL::SDLPlugin               sdl;
     PAX::OpenGL::OpenGLPlugin         openGL;
-    PAX::SDL::OpenGL::SDLOpenGLPlugin       sdlOpenGLLink;
-    //PAX::Physics::Plugin                    physics;
-    PAX::Tiles::Plugin                      tiles;
-    PAX::TileDemo::Plugin                   demoPlugin;
+    PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
+    PAX::Tiles::Plugin                tiles;
+    PAX::TileDemo::Plugin             demoPlugin;
 
     PAX::Engine &engine = PAX::Engine::Instance();
     engine.initialize(
@@ -41,7 +40,6 @@ int PAX::Tile_main(int argc, char *argv[]) {
                     &sdl,
                     &openGL,
                     &sdlOpenGLLink,
-                    //&physics,
                     &tiles,
                     &demoPlugin
             }
