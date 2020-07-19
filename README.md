@@ -1,4 +1,5 @@
-# PaxEngine3
+![PaxEngine3](res/icon/PaxEngine3/PaxEngine3_128.png "PaxEngine3")
+
 PaxEngine3 is a game engine centered about designing an extensible, transparent, and intuitive API.
 Finding easy but sufficiently expressive ways for creating your game is the central motivation of this project.
 It does not provide sophisticated graphics like deferred shading but allows to integrate those at any time.
