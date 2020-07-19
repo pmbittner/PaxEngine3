@@ -11,37 +11,39 @@ It does not provide sophisticated graphics like deferred shading but allows to i
 ![3D Scene](res/screenshots/3d.PNG "3D Scene")
 The assets in these screenshots are custom or from [opengameart.org](opengameart.org) and [itch.io](itch.io).
 
-##Architecture
+## Architecture
 
 PaxEngine3 is a framework implemented in the libraries `paxcore` and `paxutil`.
 The [Engine](include/paxcore/Engine.h) is started with a custom [Game](include/paxcore/Game.h) and a set of [Plugins](include/paxcore/plugin/EnginePlugin.h):
 
-    int PAX::Tile_main(int argc, char *argv[]) {
-        int exitcode = 0;
-    
-        PAX::TileDemo::Demo game;
-    
-        PAX::SDL::SDLPlugin               sdl;
-        PAX::OpenGL::OpenGLPlugin         openGL;
-        PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
-        PAX::Tiles::Plugin                tiles;
-        PAX::TileDemo::Plugin             demoPlugin;
-    
-        PAX::Engine &engine = PAX::Engine::Instance();
-        engine.initialize(
-                &game,
-                {
-                        &sdl,
-                        &openGL,
-                        &sdlOpenGLLink,
-                        &tiles,
-                        &demoPlugin
-                }
-        );
-        exitcode = engine.run();
-    
-        return exitcode;
-    }
+```c++
+int PAX::Tile_main(int argc, char *argv[]) {
+    int exitcode = 0;
+
+    PAX::TileDemo::Demo game;
+
+    PAX::SDL::SDLPlugin               sdl;
+    PAX::OpenGL::OpenGLPlugin         openGL;
+    PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
+    PAX::Tiles::Plugin                tiles;
+    PAX::TileDemo::Plugin             demoPlugin;
+
+    PAX::Engine &engine = PAX::Engine::Instance();
+    engine.initialize(
+            &game,
+            {
+                    &sdl,
+                    &openGL,
+                    &sdlOpenGLLink,
+                    &tiles,
+                    &demoPlugin
+            }
+    );
+    exitcode = engine.run();
+
+    return exitcode;
+}
+```
 (This example is taken from the [TileDemo](plugins/games/TileDemo/src/main.cpp), shown in the first screenshot.)
 
 Plugins delivered with the engine can be found in the [plugins](plugins) directory and consist of:
@@ -50,7 +52,7 @@ Plugins delivered with the engine can be found in the [plugins](plugins) directo
 - [paxsdl](plugins/paxsdl): Implementation of window management via SDL. This plugin also contains the optional second plugin [SDLOpenGLPlugin](plugins/paxsdl/include/paxsdl/opengl/SDLOpenGLPlugin.h) to link SDL against OpenGL.
 - [paxphysics](plugins/paxphysics): Implementation of 2D rigid body physics with [Box2D](https://box2d.org/).
 - [paxtiles](plugins/paxtiles): Tilemaps and importer for the [Tiled](https://www.mapeditor.org) map editor [json format](https://doc.mapeditor.org/en/stable/reference/json-map-format/).
-- [games](plugins/games): Directory of several demo game plugins from which the screenshots above are taken.
+- [games](plugins/games): Directory of several demo games from which the screenshots above are taken.
 
 ### paxcore
 
