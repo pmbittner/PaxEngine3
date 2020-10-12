@@ -4,7 +4,7 @@ PaxEngine3 is a game engine centered about designing an extensible, transparent,
 Finding easy but sufficiently expressive ways for creating your game is the central motivation of this project.
 It does not provide sophisticated graphics yet but allows to integrate those at any time.
 Below you can find screenshots from three demo projects.
-The assets in these screenshots are custom or from [opengameart.org](opengameart.org) and [itch.io](itch.io).
+The assets in these screenshots are custom or from [opengameart.org](opengameart.org), [itch.io](itch.io), and the [Shovel Knight Press Kit](https://yachtclubgames.com/shovel-knight-treasure-trove/).
 
 ![Tiled Map Editor Import](res/screenshots/tiled.PNG "Tiled Map Editor Import")
 The [TileDemo][1] is a showcase for importing tile maps created in the [Tiled Map Editor][2].
