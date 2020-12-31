@@ -10,7 +10,7 @@
 #include <polypropylene/property/Entity.h>
 
 #include <paxutil/math/Transformation.h>
-#include <polypropylene/Prefab.h>
+#include <polypropylene/prefab/Prefab.h>
 #include <polypropylene/property/EntityManagerView.h>
 
 #include "polypropylene/event/EventHandler.h"

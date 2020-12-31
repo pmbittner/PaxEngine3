@@ -54,7 +54,9 @@ namespace PAX {
         }
     };
 
-    void EngineInternalPlugin::initialize(PAX::Engine &engine) {}
+    void EngineInternalPlugin::initialize(PAX::Engine &engine) {
+        PAX_LOG(Log::Level::Info, "PAX_CXX_STANDARD = " << PAX_CXX_STANDARD);
+    }
 
     void EngineInternalPlugin::postInitialize(PAX::Engine &engine) {
         /// Parsers for GameEntityPrefab things

@@ -11,7 +11,7 @@
 #include <paxcore/service/Services.h>
 
 #include <polypropylene/property/Entity.h>
-#include <polypropylene/Prefab.h>
+#include <polypropylene/prefab/Prefab.h>
 
 #include "../gameentity/GameEntity.h"
 

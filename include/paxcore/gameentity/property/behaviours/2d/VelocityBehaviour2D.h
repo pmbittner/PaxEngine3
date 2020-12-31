@@ -8,7 +8,6 @@
 
 #include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxcore/gameentity/property/Behaviour.h>
-#include <polypropylene/Prefab.h>
 
 namespace PAX {
     class VelocityBehaviour2D : public Behaviour {

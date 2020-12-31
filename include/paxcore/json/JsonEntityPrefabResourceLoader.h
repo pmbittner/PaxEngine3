@@ -6,7 +6,7 @@
 #define PAXENGINE3_JSONENTITYPREFABRESOURCELOADER_H
 
 #include <polypropylene/io/Path.h>
-#include <polypropylene/Prefab.h>
+#include <polypropylene/prefab/Prefab.h>
 #include <paxutil/resources/ResourceLoader.h>
 #include <paxutil/io/FileTypeChecker.h>
 #include <polypropylene/serialisation/json/property/JsonEntityPrefabLoader.h>
