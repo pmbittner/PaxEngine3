@@ -11,7 +11,7 @@
 namespace PAX::Physics {
     class PhysicsMaterialLoader : public ResourceLoader<PhysicsMaterial, Path> {
     public:
-        bool canLoad(Path p) const override;
+        PAX_NODISCARD bool canLoad(Path p) const override;
         std::shared_ptr<PhysicsMaterial> load(Path p) override;
         std::shared_ptr<PhysicsMaterial> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
     };

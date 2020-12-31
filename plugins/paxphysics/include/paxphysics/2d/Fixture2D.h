@@ -22,8 +22,6 @@ namespace PAX {
             ~Fixture2D();
         };
     }
-
-    PAX_SPECIALIZE_JSONTRYPARSE_HEADER(::PAX::Physics::Fixture2D)
 }
 
 #endif //PAXENGINE3_FIXTURE2D_H
