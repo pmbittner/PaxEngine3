@@ -1,5 +1,9 @@
 ![PaxEngine3](res/icon/PaxEngine3/PaxEngine3_128.png "PaxEngine3")
 
+[![Language](https://img.shields.io/badge/language-C++-blue.svg)](https://isocpp.org/)
+[![Standard](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)
+[![Standard](https://img.shields.io/badge/ECS-Polypropylene-blue)](https://github.com/pmbittner/Polypropylene)
+
 PaxEngine3 is a game engine centered about designing an extensible, transparent, and intuitive API.
 Finding easy but sufficiently expressive ways for creating your game is the central motivation of this project.
 It does not provide sophisticated graphics yet but allows to integrate those at any time.
