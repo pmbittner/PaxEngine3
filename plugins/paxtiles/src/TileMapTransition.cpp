@@ -16,8 +16,8 @@ namespace PAX {
 
         ClassMetadata TileMapTransition::getMetadata() {
             ClassMetadata m = Super::getMetadata();
-            m.add(paxfieldalias("transition_target_map", targetMap)).flags = Field::IsMandatory;
-            m.add(paxfieldalias("transition_target_id", targetTransitionID)).flags = Field::IsMandatory;
+            m.add(paxfieldalias("transition_target_map", targetMap)).flags |= Field::IsMandatory;
+            m.add(paxfieldalias("transition_target_id", targetTransitionID)).flags |= Field::IsMandatory;
             return m;
         }
 

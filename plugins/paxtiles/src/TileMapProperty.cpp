@@ -45,7 +45,7 @@ namespace PAX {
 
             int i = 0;
             for (TileMap::Layer & layer : tileMap->getLayers()) {
-                auto graphics = new (GameEntity::GetPropertyAllocator().allocate<TileMapGraphics>()) TileMapGraphics(layer);
+                auto graphics = pax_new(TileMapGraphics)(layer);
                 graphics->setShader(tileMapShader);
                 GameEntity & e = layerEntities[i];
                 e.add(graphics);
@@ -61,7 +61,7 @@ namespace PAX {
 
         ClassMetadata TileMapProperty::getMetadata() {
             ClassMetadata m = Super::getMetadata();
-            m.add(paxfieldalias("map", tileMap)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
+            m.add(paxfieldalias("map", tileMap)).flags |= Field::IsMandatory | EngineFieldFlags::IsResource;
             m.add(paxfieldof(scale));
             return m;
         }
@@ -82,7 +82,7 @@ namespace PAX {
 
             WorldSize * worldLayerSize = getOwner()->get<WorldSize>();
             if (!worldLayerSize) {
-                worldLayerSize = new (World::GetPropertyAllocator().allocate<WorldSize>()) WorldSize(glm::vec3(worldSize, -1));
+                worldLayerSize = pax_new(WorldSize)(glm::vec3(worldSize, -1));
                 getOwner()->add(worldLayerSize);
             } else {
                 worldLayerSize->setSize2D(worldSize);
