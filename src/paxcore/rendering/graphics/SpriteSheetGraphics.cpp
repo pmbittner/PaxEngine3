@@ -34,8 +34,8 @@ namespace PAX {
 
     ClassMetadata SpriteSheetGraphics::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(columns)).flags = Field::IsMandatory;
-        m.add(paxfieldof(rows)).flags = Field::IsMandatory;
+        m.add(paxfieldof(columns)).flags |= Field::IsMandatory;
+        m.add(paxfieldof(rows)).flags |= Field::IsMandatory;
         m.add(paxfieldalias("position", startPos));
         return m;
     }

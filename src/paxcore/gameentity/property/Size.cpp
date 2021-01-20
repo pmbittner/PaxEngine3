@@ -10,7 +10,7 @@ namespace PAX {
 
     ClassMetadata Size::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(size)).flags = Field::IsMandatory;
+        m.add(paxfieldof(size)).flags |= Field::IsMandatory;
         return m;
     }
 

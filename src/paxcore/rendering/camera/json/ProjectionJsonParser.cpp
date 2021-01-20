@@ -5,6 +5,7 @@
 #include <paxcore/rendering/camera/PerspectiveProjection.h>
 #include <paxcore/rendering/camera/PixelScreenProjection.h>
 #include "paxcore/rendering/camera/json/ProjectionJsonParser.h"
+#include "polypropylene/serialisation/json/nlohmann/Json.h"
 
 namespace PAX {
     Projection * TryParser<nlohmann::json, Projection*>::tryParse(const nlohmann::json &j) {

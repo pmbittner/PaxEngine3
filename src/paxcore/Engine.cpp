@@ -11,9 +11,6 @@
 #include <paxcore/plugin/EngineInternalPlugin.h>
 
 #include <paxutil/Sleep.h>
-#include <paxutil/io/Settings.h>
-#include <polypropylene/log/Log.h>
-#include <paxcore/function/UpdateOptions.h>
 
 namespace PAX {
     Engine *Engine::instance = nullptr;

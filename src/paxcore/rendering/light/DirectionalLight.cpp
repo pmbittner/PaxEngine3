@@ -9,7 +9,7 @@ namespace PAX {
 
     ClassMetadata DirectionalLight::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(direction)).flags = Field::IsMandatory;
+        m.add(paxfieldof(direction)).flags |= Field::IsMandatory;
         return m;
     }
 

@@ -19,4 +19,5 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T> & v)
         os << t;
     return os << "]";
 }
+
 #endif //PAXENGINE3_OSTREAMOVERLOADS_H

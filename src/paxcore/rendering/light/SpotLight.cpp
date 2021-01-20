@@ -10,8 +10,8 @@ namespace PAX {
 
     ClassMetadata SpotLight::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(direction)).flags = Field::IsMandatory;
-        m.add(paxfieldof(openingAngleInDegrees)).flags = Field::IsMandatory;
+        m.add(paxfieldof(direction)).flags |= Field::IsMandatory;
+        m.add(paxfieldof(openingAngleInDegrees)).flags |= Field::IsMandatory;
         return m;
     }
 

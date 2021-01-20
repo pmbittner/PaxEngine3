@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_MAIN_H
 #define PAXENGINE3_MAIN_H
 
+#include <paxutil/lib/LibIncludes.h>
 #include <paxcore/function/Updateable.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/Window.h>

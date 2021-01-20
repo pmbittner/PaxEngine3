@@ -18,18 +18,26 @@ namespace PAX {
             writerRegister.registerWriter(paxtypeid(std::shared_ptr<Resource>), this);
         }
 
-        PAX_NODISCARD bool loadIntoField(const nlohmann::json & j, Field &field) const override {
+        PAX_NODISCARD Field::WriteResult loadIntoField(const nlohmann::json & j, Field &field) const override {
             if (field.flags & EngineFieldFlags::IsResource) {
                 if (field.type.id == paxtypeid(std::shared_ptr<Resource>)) {
                     std::shared_ptr<Resource> resource = Services::GetResources().loadOrGetFromJson<Resource>(j);
                     *static_cast<std::shared_ptr<Resource>*>(field.data) = resource;
-                    return true;
+                    return Field::WriteResult::Success;
                 } else {
-                    PAX_THROW_RUNTIME_ERROR("The type of the given field (" << field.name << ") is not std::shared_ptr<" << paxtypeid(Resource).name() << "> but " << field.type.name());
+                    std::stringstream ss;
+                    ss << "The type of the given field (" << field.name << ") is not std::shared_ptr<" << paxtypeid(Resource).name() << "> but " << field.type.name();
+                    return Field::WriteResult(Field::WriteResult::TypeMismatch, ss.str());
                 }
             } else {
-                PAX_THROW_RUNTIME_ERROR("Given field \"" << field.name << "\" is not flagged with EngineFieldFlags::IsResource!");
+                std::stringstream ss;
+                ss << "Given field \"" << field.name << "\" is not flagged with EngineFieldFlags::IsResource!";
+                return Field::WriteResult(Field::WriteResult::Other, ss.str());
             }
+        }
+
+        PAX_NODISCARD Field::WriteResult loadIntoVector(const nlohmann::json &j, Field &field) const override {
+            PAX_NOT_IMPLEMENTED_EXCEPTION();
         }
 
         PAX_NODISCARD bool loadIntoJson(const Field & field, nlohmann::json & j) const override {

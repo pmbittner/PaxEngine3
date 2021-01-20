@@ -21,7 +21,7 @@ namespace PAX {
         const Path configFile = Path("core.paxconfig").toAbsolute();
         _globalSettings.parse(configFile);
 
-        Log::instance.currentLevel = _globalSettings.getOrDefault("core_loglevel", Log::instance.currentLevel);
+        Log::Instance().currentLevel = _globalSettings.getOrDefault("core_loglevel", Log::Instance().currentLevel);
 
         Path resDir = _globalSettings.get<Path>("core_resourceDirectory");
         _paths.setAbsoluteResourceDirectory(resDir);

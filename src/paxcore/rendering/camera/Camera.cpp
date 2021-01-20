@@ -32,8 +32,8 @@ namespace PAX {
 
     ClassMetadata Camera::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(viewport)).flags = Field::IsMandatory;
-        m.add(paxfieldof(projection)).flags = Field::IsMandatory;
+        m.add(paxfieldof(viewport)).flags |= Field::IsMandatory;
+        m.add(paxfieldof(projection)).flags |= Field::IsMandatory;
         m.add(paxfieldof(syncProjectionResolutionToViewportResolution));
         return m;
     }

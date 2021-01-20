@@ -102,13 +102,13 @@ namespace PAX {
     }
 
     void GameEntity::spawned() {
-        for (GameEntityProperty * p : getProperties()) {
+        for (GameEntityProperty * p : getAllProperties()) {
             p->spawned();
         }
     }
 
     void GameEntity::despawned() {
-        for (GameEntityProperty * p : getProperties()) {
+        for (GameEntityProperty * p : getAllProperties()) {
             p->despawned();
         }
     }

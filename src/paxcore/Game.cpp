@@ -7,6 +7,7 @@
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
 #include <paxcore/system/gameentity/BehaviourSystem.h>
+#include <polypropylene/log/Assert.h>
 
 namespace PAX {
     Game::Game() = default;
@@ -32,7 +33,7 @@ namespace PAX {
         while (!worlds.empty()) {
             World * world = *(worlds.end() - 1);
             removeWorld(world);
-            delete world;
+            PAX_ASSERT(pax_delete(world));
         }
 
         for (auto & system : systems) {

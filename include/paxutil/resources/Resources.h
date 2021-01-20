@@ -22,6 +22,9 @@
 #include <polypropylene/io/Path.h>
 #include <polypropylene/log/Errors.h>
 
+// TODO: Avoid
+#include "polypropylene/serialisation/json/nlohmann/Json.h"
+
 namespace PAX {
     class ResourceAlreadyCachedException : public std::exception {
         std::string msg;

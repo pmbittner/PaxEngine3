@@ -4,13 +4,11 @@
 
 #include <paxcore/plugin/EngineInternalPlugin.h>
 
-#include <paxutil/resources/Resources.h>
 #include <polypropylene/serialisation/json/property/JsonEntityPrefabLoader.h>
 #include <paxutil/property/construction/json/parsers/JsonEntityPrefabTransformationParser.h>
 
 #include <paxcore/world/prefab/JsonWorldPrefabInitParser.h>
 #include <paxcore/world/prefab/JsonWorldGameEntityParser.h>
-#include <paxcore/service/Services.h>
 
 #include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/gameentity/property/Size.h>
@@ -33,6 +31,7 @@
 // won't be recognised if not included.
 #include <paxcore/rendering/camera/json/ViewportJsonParser.h>
 #include <paxcore/rendering/camera/json/ProjectionJsonParser.h>
+
 
 namespace PAX {
     // TODO: Find a way for easier and better custom json element parsing integration.
