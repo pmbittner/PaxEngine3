@@ -5,12 +5,12 @@
 #ifndef PAXENGINE3_PLAYERSPRITEANIMATION_H
 #define PAXENGINE3_PLAYERSPRITEANIMATION_H
 
-#include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/animation/Animation.h>
 #include <paxutil/math/Functions.h>
 
-#include "paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h"
+#include "paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h"
 
 namespace PAX {
     class PlayerSpriteAnimation : public Behaviour {
@@ -42,10 +42,10 @@ namespace PAX {
 
         }
 
-        void attached(GameEntity &entity) override {
-            Behaviour::attached(entity);
-            v = entity.get<VelocityBehaviour2D>();
-            spriteSheet = entity.get<SpriteSheetGraphics>();
+        void spawned() override {
+            Behaviour::spawned();
+            v = getOwner()->get<VelocityBehaviour2D>();
+            spriteSheet = getOwner()->get<SpriteSheetGraphics>();
             idleAnimation.start();
         }
 

@@ -9,7 +9,6 @@
 namespace PAX {
     void MeshfoldSystem::initialize(PAX::Game * game) {
         GameSystem::initialize(game);
-        sprites.initialize();
     }
 
     void MeshfoldSystem::update(UpdateOptions &options) {

@@ -5,7 +5,8 @@
   "Properties": {
     "PAX::PlayerControls": {},
     "PAX::VelocityBehaviour2D": {
-      "velocity": [0, 0]
+      "velocity": [0, 0],
+      "angularVelocityInDegrees": 0
     }
   }
 }

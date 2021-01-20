@@ -81,7 +81,7 @@ namespace PAX {
             std::shared_ptr<Asset> a = std::make_shared<Asset>(
                     std::vector<Asset::Part>{Asset::Part(screenQuad, mat)});
 
-            AssetGraphics * g = new (GameEntity::GetPropertyAllocator().allocate<AssetGraphics>()) AssetGraphics(a);
+            AssetGraphics * g = new (GameEntity::GetAllocationService().allocate(paxtypeof(AssetGraphics))) AssetGraphics(a);
             g->setShader(Services::GetResources().loadOrGet<Shader>(Shader::FileInfo(
                     shaderPath + "/screen.vert",
                     shaderPath + "/screen.frag")));

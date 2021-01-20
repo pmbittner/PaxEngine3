@@ -1,13 +1,13 @@
 vertfile = ${CURRENT_DIR}/vert.glsl
 
 # raymarcher settings
-#camerapos = (0, 0, 2)
-#fragfile = ${CURRENT_DIR}/raymarcher_frag.glsl
+camerapos = (0, 0, 2)
+fragfile = ${CURRENT_DIR}/raymarcher_frag.glsl
 
 # 4d raymarcher settings
 #camerapos = (0, 0, 2)
 #fragfile = ${CURRENT_DIR}/raymarcher4d_frag.glsl
 
 # mandelbrot settings
-camerapos = (0, 0, 0)
-fragfile = ${CURRENT_DIR}/mandelbrot_frag.glsl
+#camerapos = (0, 0, 0)
+#fragfile = ${CURRENT_DIR}/mandelbrot_frag.glsl

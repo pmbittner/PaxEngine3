@@ -6,8 +6,8 @@
 #define PAXENGINE3_DANCE2D_H
 
 #include <paxutil/math/MathDefines.h>
-#include <paxcore/entity/property/Behaviour.h>
-#include <paxcore/entity/GameEntity.h>
+#include <paxcore/gameentity/property/Behaviour.h>
+#include <paxcore/gameentity/GameEntity.h>
 
 namespace PAX {
     class Dance2D : public Behaviour {

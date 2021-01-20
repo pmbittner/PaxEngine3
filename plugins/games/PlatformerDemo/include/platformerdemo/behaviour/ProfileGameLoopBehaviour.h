@@ -5,9 +5,10 @@
 #ifndef PAXENGINE3_PROFILEGAMELOOPBEHAVIOUR_H
 #define PAXENGINE3_PROFILEGAMELOOPBEHAVIOUR_H
 
-#include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/Engine.h>
 #include <chrono>
+#include <iostream>
 
 namespace PAX {
     class ProfileGameLoopBehaviour : public Behaviour {
@@ -27,13 +28,14 @@ namespace PAX {
         }
 
     protected:
-        void attached(GameEntity& entity) override {
+        void spawned() override {
             start();
         }
 
     public:
         void update(UpdateOptions & options) override {
             if (time() > secondsBetweenPrints) {
+                // TODO: Use log
                 Engine &e = Engine::Instance();
                 std::cout << "[ProfileGameLoopBehaviour::update] FPS = " << e.getFPS() << std::endl
                           << "[ProfileGameLoopBehaviour::update] UPS = " << e.getUPS() << std::endl << std::endl;

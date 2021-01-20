@@ -5,13 +5,13 @@
 #ifndef PAXENGINE3_PLAYERCONTROLS_H
 #define PAXENGINE3_PLAYERCONTROLS_H
 
-#include <paxcore/entity/GameEntity.h>
-#include <paxcore/entity/GameEntityProperty.h>
-#include <paxcore/entity/property/Behaviour.h>
+#include <paxcore/gameentity/GameEntity.h>
+#include <paxcore/gameentity/GameEntityProperty.h>
+#include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
-#include "paxcore/entity/property/behaviours/2d/VelocityBehaviour2D.h"
+#include "paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h"
 
 namespace PAX {
     class PlayerControls : public GameEntityProperty {

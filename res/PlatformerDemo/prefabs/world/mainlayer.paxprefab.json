@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::Physics::PhysicsWorld2D": {
-      "gravity": [0, -10]
+      "gravity": [0, -3]
     }
   },
   "Entities": [
@@ -28,13 +28,20 @@
           "position": [0, 0, 10],
           "scale": [5, 5, 1]
         },
+        "Tags": [
+          "Camera"
+        ],
         "Properties": {
           "PAX::Camera": {
             "syncProjectionResolutionToViewportResolution": true,
-            "projection": "PixelScreen"
+            "projection":{
+              "type": "PixelScreen"
+            },
+            "viewport": {}
           },
           "PAX::FollowGameEntityBehaviour": {
-            "targetGameEntity": 1
+            "targetGameEntityID": 1,
+            "respectWorldSize": false
           }
         }
       }

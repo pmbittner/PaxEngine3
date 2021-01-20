@@ -9,7 +9,7 @@
 
 #include <paxcore/Game.h>
 #include <paxcore/Engine.h>
-#include <paxcore/entity/property/Size.h>
+#include <paxcore/gameentity/property/Size.h>
 #include <paxcore/rendering/camera/FullPixelScreenProjection.h>
 #include <paxcore/rendering/data/SpriteSheet.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
@@ -27,14 +27,13 @@
 
 #include "platformerdemo/behaviour/PlayerControls.h"
 #include "platformerdemo/behaviour/PlayerSpriteAnimation.h"
-#include "paxcore/entity/property/behaviours/2d/FollowGameEntityBehaviour.h"
+#include "paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h"
 
 namespace PAX {
     namespace PlatformerDemo {
         class Demo : public Game {
             // World
             World * world = nullptr;
-            WorldLayer* mainLayer = nullptr;
 
             // Resources
             std::shared_ptr<Texture> centerBlockTexture;
@@ -58,9 +57,9 @@ namespace PAX {
             }
 
             GameEntity* createPlatform(int span) {
-                GameEntity* platform = new GameEntity();
+                GameEntity* platform = pax_new(GameEntity)();
                 platform->i_setMotionType(MotionType::Static);
-                float w = centerBlockTexture->getWidth();
+                float w = (float) centerBlockTexture->getWidth();
                 float xMax = (span-1)*(w/2);
 
                 std::shared_ptr<Texture> tex = leftBlockTexture;
@@ -68,9 +67,9 @@ namespace PAX {
                     if (x >= xMax)
                         tex = rightBlockTexture;
 
-                    GameEntity *block = new GameEntity();
+                    GameEntity *block = pax_new(GameEntity)();
                     block->i_setMotionType(MotionType::Static);
-                    SpriteGraphics * g = new SpriteGraphics(tex);
+                    SpriteGraphics * g = pax_new(SpriteGraphics)(tex);
                     g->setShader(spriteShader);
                     block->add(g);
 
@@ -83,10 +82,10 @@ namespace PAX {
                 }
 
                 platform->getTransformation().z() = depthFor.platforms;
-                platform->add(new Size(glm::vec3(0, 0, 1)));
+                platform->add(pax_new(Size)(glm::vec3(0, 0, 1)));
 
                 FloatBoundingBox3D aabb = platform->get<Size>()->toAbsoluteBoundingBox();
-                Physics::Hitbox2D * hitbox = new Physics::Box2DHitbox();
+                Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)();
                 //hitbox->setShape(std::make_unique<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))));
                 hitbox->setFixtures({
                    Physics::Fixture2D(
@@ -115,35 +114,35 @@ namespace PAX {
                 {
                     GameEntity *p1 = createPlatform(5);
                     p1->getTransformation().position2D() = {0, -40};
-                    mainLayer->spawn(p1);
+                    world->spawn(p1);
                 }
 
                 {
                     GameEntity *p2 = createPlatform(2);
                     p2->getTransformation().position2D() = {60, 20};
-                    p2->add(new DragNDrop());
-                    mainLayer->spawn(p2);
+                    p2->add(pax_new(DragNDrop)());
+                    world->spawn(p2);
                 }
 
                 { // create background in its own layer
-                    GameEntity *background = new GameEntity();
-                    SpriteGraphics * backgroundGraphics = new SpriteGraphics(
+                    GameEntity *background = pax_new(GameEntity)();
+                    SpriteGraphics * backgroundGraphics = pax_new(SpriteGraphics)(
                             res.loadOrGet<Texture>(imgPath + "/bg.png")
                     );
                     backgroundGraphics->setShader(spriteShader);
                     background->add(backgroundGraphics);
 
-                    GameEntity *backgroundCam = new GameEntity();
-                    backgroundCam->add(new Camera(
+                    GameEntity *backgroundCam = pax_new(GameEntity)();
+                    backgroundCam->add(pax_new(Camera)(
                             Services::GetFactoryService().get<ViewportFactory>()->create(),
-                            std::make_shared<PixelScreenProjection>()
+                            new PixelScreenProjection()
                     ));
                     backgroundCam->getTransformation().z() = 1;
 
-                    WorldLayer *bg = new WorldLayer("Background", 2, -10);
+                    World *bg = pax_new(World)("Background", 2, -10);
                     bg->spawn(background);
                     bg->spawn(backgroundCam);
-                    world->addLayer(bg);
+                    addWorld(bg);
                 }
             }
 
@@ -165,17 +164,13 @@ namespace PAX {
 
                 gatherResources();
 
-                std::cout << "[PAX::PlatformerDemo::Demo::initialize] After gather resources" << std::endl;
-
-                mainLayer = Services::GetResources().loadOrGet<WorldLayerPrefab>(
+                world = Services::GetResources().loadOrGet<WorldPrefab>(
                         Services::GetPaths().getResourcePath() + "PlatformerDemo/prefabs/world/mainlayer.paxprefab.json"
                         )->create({});
 
-                world = new World();
                 createEnvironment();
 
-                world->addLayer(mainLayer);
-                setActiveWorld(world);
+                addWorld(world);
             }
         };
     }

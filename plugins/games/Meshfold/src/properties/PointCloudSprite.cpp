@@ -13,7 +13,7 @@ namespace PAX {
 
     ClassMetadata PointCloudSprite::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(texture)).flags = EngineFieldFlags::IsResource | Field::IsMandatory;
+        m.add(paxfieldof(texture)).addFlag(EngineFieldFlags::IsResource | Field::IsMandatory);
         m.add(paxfieldof(pointSize));
         return m;
     }

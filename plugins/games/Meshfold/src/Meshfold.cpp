@@ -37,8 +37,8 @@ namespace PAX {
 
     ClassMetadata Meshfold::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(backgroundShader)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
-        m.add(paxfieldof(asset)).flags = Field::IsMandatory | EngineFieldFlags::IsResource;
+        m.add(paxfieldof(backgroundShader)).addFlag(Field::IsMandatory | EngineFieldFlags::IsResource);
+        m.add(paxfieldof(asset)).addFlag(Field::IsMandatory | EngineFieldFlags::IsResource);
         return m;
     }
 
@@ -146,13 +146,13 @@ namespace PAX {
         if (g) {
             g->setTexture(tex);
         } else {
-            g = new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(tex);
+            g = new (GameEntity::GetAllocationService().allocate(paxtypeof(SpriteGraphics))) SpriteGraphics(tex);
             portalPresenter.add(g);
         }
     }
 
     void Meshfold::setBackground(const std::shared_ptr<Texture> &backgroundImage) {
-        backgroundPresenter.add(new (GameEntity::GetPropertyAllocator().allocate<SpriteGraphics>()) SpriteGraphics(backgroundImage));
+        backgroundPresenter.add(new (GameEntity::GetAllocationService().allocate(paxtypeof(SpriteGraphics))) SpriteGraphics(backgroundImage));
         backgroundPresenter.getTransformation().position() = {0, 0, -1000};
         backgroundPresenter.get<SpriteGraphics>()->setShader(backgroundShader);
         resizeBackground();
