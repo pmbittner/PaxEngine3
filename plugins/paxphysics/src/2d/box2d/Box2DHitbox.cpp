@@ -12,15 +12,7 @@
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_IMPL(PAX::Physics::Box2DHitbox, PAX_PROPERTY_IS_CONCRETE)
-
-    Box2DHitbox::This * Box2DHitbox::createFromProvider(PAX::ContentProvider & p) {
-        return new Box2DHitbox();
-    }
-
-    void Box2DHitbox::initializeFromProvider(PAX::ContentProvider & p) {
-        Super::initializeFromProvider(p);
-    }
+    PAX_PROPERTY_IMPL(PAX::Physics::Box2DHitbox)
 
     Box2DHitbox::Box2DHitbox() : Hitbox2D() {
 
@@ -31,18 +23,18 @@ namespace PAX::Physics {
     void Box2DHitbox::uploadToBox2D(Box2DWorld & box2DWorld) {
         GameEntity * owner = getOwner();
         if (!owner) {
-            return;
+            PAX_THROW_RUNTIME_ERROR("");
         }
 
         b2World & world = box2DWorld.getb2World();
 
         // Convert shape to box2d shape
         if (body) {
-            for (b2Fixture * f : fixtures) {
+            for (b2Fixture * f : b2Fixtures) {
                 body->DestroyFixture(f);
             }
 
-            fixtures.clear();
+            b2Fixtures.clear();
         } else {
             b2BodyDef bodyDef;
             bodyDef.type = toBox2D(owner->getMotionType());
@@ -59,7 +51,7 @@ namespace PAX::Physics {
                 fixtureDef.density = f.material->density;
                 fixtureDef.friction = f.material->friction;
                 fixtureDef.restitution = f.material->elasticity;
-                fixtures.push_back(body->CreateFixture(&fixtureDef));
+                b2Fixtures.push_back(body->CreateFixture(&fixtureDef));
                 /// "Box2D does not keep a reference to the shape. It clones the data into a new b2Shape object."
                 delete bshape;
             }
@@ -86,14 +78,14 @@ namespace PAX::Physics {
         }
     }
 
-    void Box2DHitbox::activated() {
-        WorldLayer * worldLayer = getOwner()->getWorldLayer();
-        if (Box2DWorld * world = worldLayer->get<Box2DWorld>()) {
-            uploadToBox2D(*world);
+    void Box2DHitbox::spawned() {
+        World * world = getOwner()->getWorld();
+        if (Box2DWorld * b2world = world->get<Box2DWorld>()) {
+            uploadToBox2D(*b2world);
         }
     }
 
-    void Box2DHitbox::deactivated() {
+    void Box2DHitbox::despawned() {
         PAX_NOT_IMPLEMENTED();
     }
 
@@ -101,6 +93,7 @@ namespace PAX::Physics {
 
     void Box2DHitbox::synchronizeBox2D(float metersPerPixel) {
         if (body) {
+//            PAX_LOG(Log::Level::Info, "");
             Transformation & t = getOwner()->getTransformation();
             body->SetTransform(toBox2D(metersPerPixel * t.position2D()), t.getRotation2DInRadians());
             // TODO: update velocity

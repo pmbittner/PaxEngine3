@@ -6,12 +6,12 @@
 #include "paxphysics/2d/box2d/Box2DPhysicsSystem.h"
 
 namespace PAX::Physics {
-    Box2DPhysicsSystem::Box2DPhysicsSystem(float pixelsPerMeter) {
+    Box2DPhysicsSystem::Box2DPhysicsSystem(float pixelsPerMeter) : hitboxes() {
         setPixelsPerMeter(pixelsPerMeter);
     }
 
     void Box2DPhysicsSystem::initialize(Game *game) {
-        hitboxes.initialize();
+
     }
 
     void Box2DPhysicsSystem::setPixelsPerMeter(float pixelsPerMeter) {
@@ -28,14 +28,14 @@ namespace PAX::Physics {
     }
 
     void Box2DPhysicsSystem::update(UpdateOptions & options) {
-        for (World * world : getGame()->getActiveWorld()) {
-            if (Box2DWorld * world = world->get<Box2DWorld>()) {
+        for (World * world : getGame()->getWorlds()) {
+            if (Box2DWorld * b2world = world->get<Box2DWorld>()) {
                 // synchronize engine state to Box2D
                 for (const auto& hitbox : hitboxes) {
                     hitbox->synchronizeBox2D(metersPerPixel);
                 }
 
-                world->step(options);
+                b2world->step(options);
 
                 // synchronize state in Box2D to engine
                 for (const auto& hitbox : hitboxes) {

@@ -8,7 +8,7 @@
 #include <paxutil/lib/GlmIncludes.h>
 #include <paxphysics/2d/shape/Shape2D.h>
 #include <Box2D/Box2D.h>
-#include <paxcore/entity/MotionType.h>
+#include <paxcore/gameentity/MotionType.h>
 
 namespace PAX::Physics {
     glm::vec2 toGLM(const b2Vec2 & b2vec);

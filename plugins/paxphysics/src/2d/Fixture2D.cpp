@@ -19,5 +19,10 @@ namespace PAX {
         }
 
         Fixture2D::~Fixture2D() = default;
+
+        std::ostream& operator<< (std::ostream& stream, const Fixture2D& fixture) {
+            // TODO: Implement << for shape and material, too. I dont know if this works virtually with shape.
+            return stream << "Fixture2D(shape = " << fixture.shape.get() << ", material = " << fixture.material.get() << ")" << std::endl;
+        }
     }
 }

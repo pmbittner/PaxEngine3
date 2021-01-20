@@ -13,7 +13,7 @@ namespace PAX::Physics {
     public:
         PAX_NODISCARD bool canLoad(Path p) const override;
         std::shared_ptr<PhysicsMaterial> load(Path p) override;
-        std::shared_ptr<PhysicsMaterial> loadToOrGetFromResources(Resources & resources, const VariableHierarchy & parameters) override;
+        PAX_NODISCARD std::shared_ptr<PhysicsMaterial> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const override;
     };
 }
 

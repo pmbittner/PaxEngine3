@@ -10,24 +10,27 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 
 namespace PAX::Physics {
-        class Box2DRigidBody : public PAX::Physics::RigidBody2D {
-            PAX_PROPERTY(PAX::Physics::Box2DRigidBody, PAX_PROPERTY_IS_CONCRETE)
-            PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody2D)
-            PAX_PROPERTY_IS_MULTIPLE
+    class Box2DRigidBody : public PAX::Physics::RigidBody2D {
+        PAX_PROPERTY(PAX::Physics::Box2DRigidBody, PAX_PROPERTY_IS_CONCRETE)
+        PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody2D)
+        PAX_PROPERTY_IS_MULTIPLE
 
-            b2BodyDef _bodyDef;
-            b2FixtureDef _fixtureDef;
+        b2BodyDef _bodyDef;
+        b2FixtureDef _fixtureDef;
 
-            b2Body *_body;
-            b2Fixture *_fixture;
+        b2Body * _body = nullptr;
+        b2Fixture * _fixture = nullptr;
 
-        public:
-            explicit Box2DRigidBody(const b2BodyDef &bodyDef);
+        Box2DRigidBody();
 
-            void createFor(b2World &world);
+    public:
+        explicit Box2DRigidBody(const b2BodyDef &bodyDef);
 
-            void attached(GameEntity &entity) override;
-        };
-    }
+        void createFor(b2World &world);
+
+        // TODO:
+        //PAX_NODISCARD ClassMetadata getMetadata() override;
+    };
+}
 
 #endif //PAXENGINE3_BOX2DPHYSICS_H

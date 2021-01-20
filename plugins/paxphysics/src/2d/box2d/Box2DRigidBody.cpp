@@ -8,23 +8,12 @@
 #include "paxphysics/2d/box2d/Box2DUtils.h"
 
 namespace PAX::Physics {
-    PAX_PROPERTY_IMPL(PAX::Physics::Box2DRigidBody, PAX_PROPERTY_IS_CONCRETE)
+    PAX_PROPERTY_IMPL(PAX::Physics::Box2DRigidBody)
 
-    Box2DRigidBody * Box2DRigidBody::createFromProvider(ContentProvider & provider) {
-        // TODO: FIXME
-        return new Box2DRigidBody(b2BodyDef());//provider.require<b2BodyDef>("b2BodyDef"));
-    }
-
-    void Box2DRigidBody::initializeFromProvider(ContentProvider & provider) {
-        Super::initializeFromProvider(provider);
-    }
+    Box2DRigidBody::Box2DRigidBody() : Box2DRigidBody(b2BodyDef()) {}
 
     Box2DRigidBody::Box2DRigidBody(const b2BodyDef &bodyDef) : RigidBody2D(), _bodyDef(bodyDef) {
 
-    }
-
-    void Box2DRigidBody::attached(GameEntity &entity) {
-        PAX::Physics::RigidBody2D::attached(entity);
     }
 
     void Box2DRigidBody::createFor(b2World &world) {

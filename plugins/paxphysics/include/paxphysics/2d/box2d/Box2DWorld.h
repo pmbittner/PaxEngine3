@@ -18,6 +18,8 @@ namespace PAX::Physics {
         int32 velocityIterations = 8; // This value is recommended by Box2D.
         int32 positionIterations = 3; // This value is recommended by Box2D.
 
+        Box2DWorld();
+
     public:
         explicit Box2DWorld(const glm::vec2 & gravity);
 
@@ -25,6 +27,8 @@ namespace PAX::Physics {
         void step(UpdateOptions & options);
 
         b2World & getb2World();
+
+        void created() override;
     };
 }
 

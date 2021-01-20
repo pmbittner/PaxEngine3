@@ -20,7 +20,11 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/shape/Shape2D.h
         include/paxphysics/2d/shape/Rectangle.h
         include/paxphysics/2d/PhysicsWorld2D.h
-        include/paxphysics/2d/box2d/Box2DHitbox.h include/paxphysics/2d/material/PhysicsMaterial.h include/paxphysics/2d/Fixture2D.h include/paxphysics/2d/material/PhysicsMaterialLoader.h include/paxphysics/2d/json/JsonFixture2DParser.h)
+        include/paxphysics/2d/box2d/Box2DHitbox.h
+        include/paxphysics/2d/material/PhysicsMaterial.h
+        include/paxphysics/2d/Fixture2D.h
+        include/paxphysics/2d/material/PhysicsMaterialLoader.h
+        include/paxphysics/2d/json/JsonFixture2DParser.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)

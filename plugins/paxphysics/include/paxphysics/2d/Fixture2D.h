@@ -20,8 +20,12 @@ namespace PAX {
             /// \param shape Takes ownership
             Fixture2D(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material);
             ~Fixture2D();
+
+            friend std::ostream& operator<< (std::ostream& stream, const Fixture2D& fixture);
         };
+
     }
 }
+
 
 #endif //PAXENGINE3_FIXTURE2D_H

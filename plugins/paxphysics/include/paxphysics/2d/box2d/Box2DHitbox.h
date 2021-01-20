@@ -18,7 +18,7 @@ namespace PAX::Physics {
         PAX_PROPERTY_IS_SINGLE
 
         b2Body * body = nullptr;
-        std::vector<b2Fixture *> fixtures;
+        std::vector<b2Fixture *> b2Fixtures;
 
         void uploadToBox2D(Box2DWorld & box2DWorld);
 
@@ -26,8 +26,8 @@ namespace PAX::Physics {
         explicit Box2DHitbox();
         ~Box2DHitbox() override;
 
-        void activated() override;
-        void deactivated() override;
+        void spawned() override;
+        void despawned() override;
 
         void synchronizeBox2D(float metersPerPixel);
         void synchronizePaxEngine(float pixelsPerMeter);

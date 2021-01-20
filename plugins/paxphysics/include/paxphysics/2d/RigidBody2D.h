@@ -13,7 +13,6 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
-
     public:
         RigidBody2D();
     };

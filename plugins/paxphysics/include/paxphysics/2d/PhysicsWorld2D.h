@@ -12,11 +12,13 @@ namespace PAX::Physics {
         PAX_PROPERTY(PAX::Physics::PhysicsWorld2D, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(WorldProperty)
         PAX_PROPERTY_IS_SINGLE
-        
+
         glm::vec2 gravity;
-    
+
     public:
         explicit PhysicsWorld2D(const glm::vec2 & gravity);
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
         
         virtual void setGravity(const glm::vec2 & gravity);
         const glm::vec2 & getGravity();

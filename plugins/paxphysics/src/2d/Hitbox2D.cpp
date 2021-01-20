@@ -10,7 +10,7 @@ namespace PAX::Physics {
 
     ClassMetadata Hitbox2D::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(Field("fixtures", paxtypeof(Fixture2D), &fixtures, EngineFieldFlags::IsList));
+        m.add(paxfieldof(fixtures));
         m.add(paxfieldof(fixedRotation));
         return m;
     }

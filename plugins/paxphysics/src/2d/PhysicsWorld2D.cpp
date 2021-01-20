@@ -5,13 +5,15 @@
 #include <paxphysics/2d/PhysicsWorld2D.h>
 
 namespace PAX::Physics {
-    PAX_PROPERTY_IMPL(PAX::Physics::PhysicsWorld2D, PAX_PROPERTY_IS_ABSTRACT)
-
-    void PhysicsWorld2D::initializeFromProvider(PAX::ContentProvider & p) {
-        Super::initializeFromProvider(p);
-    }
+    PAX_PROPERTY_IMPL(PAX::Physics::PhysicsWorld2D)
 
     PhysicsWorld2D::PhysicsWorld2D(const glm::vec2 &gravity) : gravity(gravity) {}
+
+    ClassMetadata PhysicsWorld2D::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(gravity)).addFlag(Field::IsMandatory);
+        return m;
+    }
 
     void PhysicsWorld2D::setGravity(const glm::vec2 &gravity) {
         this->gravity = gravity;
