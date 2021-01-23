@@ -5,6 +5,7 @@
 #include <paxcore/Engine.h>
 #include <paxcore/Game.h>
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
+#include <paxphysics/2d/gravityfields/SphereGravityField.h>
 
 #include "paxphysics/Plugin.h"
 #include "paxphysics/2d/Hitbox2D.h"
@@ -27,6 +28,9 @@ namespace PAX::Physics {
         
         //PAX_PROPERTY_REGISTER(PAX::Physics::PhysicsWorld2D)
         PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DWorld, "PAX::Physics::PhysicsWorld2D");
+
+        PAX_PROPERTY_REGISTER(GravityField);
+        PAX_PROPERTY_REGISTER(SphereGravityField);
     }
 
     void Plugin::registerSystems(PAX::Game &game) {

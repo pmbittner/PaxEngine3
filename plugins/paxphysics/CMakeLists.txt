@@ -5,7 +5,9 @@ set(PAXPHYSICS_SOURCE
         src/2d/box2d/Box2DRigidBody.cpp
         src/2d/Hitbox2D.cpp
         src/2d/box2d/Box2DWorld.cpp
-        src/2d/JsonFixture2DParser.cpp)
+        src/2d/JsonFixture2DParser.cpp
+        src/2d/gravityfields/GravityField.cpp
+        src/2d/gravityfields/SphereGravityField.cpp)
 
 include_directories(include)
 
@@ -24,7 +26,9 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/material/PhysicsMaterial.h
         include/paxphysics/2d/Fixture2D.h
         include/paxphysics/2d/material/PhysicsMaterialLoader.h
-        include/paxphysics/2d/json/JsonFixture2DParser.h)
+        include/paxphysics/2d/json/JsonFixture2DParser.h
+        include/paxphysics/2d/gravityfields/GravityField.h
+        include/paxphysics/2d/gravityfields/SphereGravityField.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)
