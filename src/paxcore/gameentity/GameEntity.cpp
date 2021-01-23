@@ -29,6 +29,10 @@ namespace PAX {
         return transform;
     }
 
+    const Transformation & GameEntity::getTransformation() const {
+        return transform;
+    }
+
     void GameEntity::setParent(GameEntity * parent) {
         GameEntity * oldParent = parent;//#PRANT
         this->parent = parent;

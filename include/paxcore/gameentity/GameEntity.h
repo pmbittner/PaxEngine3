@@ -50,7 +50,8 @@ namespace PAX {
         GameEntity();
         ~GameEntity() override;
 
-        Transformation& getTransformation();
+        PAX_NODISCARD Transformation& getTransformation();
+        PAX_NODISCARD const Transformation& getTransformation() const;
         void setParent(GameEntity *parent);
         PAX_NODISCARD GameEntity* getParent() const;
         PAX_NODISCARD const std::vector<GameEntity*>& getChildren() const;
