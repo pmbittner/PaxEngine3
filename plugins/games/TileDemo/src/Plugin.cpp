@@ -7,7 +7,7 @@
 #include <paxsdl/SDLPlugin.h>
 #include <paxopengl/OpenGLPlugin.h>
 #include <paxsdl/opengl/SDLOpenGLPlugin.h>
-#include <paxtiles/MeshfoldPlugin.h>
+#include <paxtiles/Plugin.h>
 
 namespace PAX {
     namespace TileDemo {
