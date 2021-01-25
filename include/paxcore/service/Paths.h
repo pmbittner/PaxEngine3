@@ -17,16 +17,19 @@ namespace PAX {
     private:
         static std::string GetCurrentWorkingDirectory();
 
-        Path _absoluteResourcePath;
-        Path _workingDirectory;
+        Path absoluteEngineResourceDirectory;
+        Path absoluteCustomResourceDirectory;
+        Path workingDirectory;
 
-        void setAbsoluteResourceDirectory(const Path& resourceDirectory);
+        void setEngineResourceDirectory(const Path& engineResourceDirectory);
+        void setCustomResourceDirectory(const Path& customResourceDirectory);
 
     public:
         Paths();
         ~Paths();
 
-        PAX_NODISCARD const Path& getResourcePath() const;
+        PAX_NODISCARD const Path& getEngineResourceDirectory() const;
+        PAX_NODISCARD const Path& getCustomResourceDirectory() const;
         PAX_NODISCARD const Path& getWorkingDirectory() const;
     };
 }

@@ -3,13 +3,12 @@
 //
 
 #include <paxcore/service/Paths.h>
+#include <polypropylene/log/Log.h>
 
 #include <cstdio>  /* defines FILENAME_MAX */
 #ifdef PAX_OS_WIN
     #include <direct.h>
-#include <polypropylene/log/Log.h>
-
-#define PAX_GetCurrentDir _getcwd
+    #define PAX_GetCurrentDir _getcwd
 #else
     #include <unistd.h>
     #define PAX_GetCurrentDir getcwd
@@ -27,26 +26,36 @@ namespace PAX {
         }
     }
 
-    Paths::Paths() : _workingDirectory(GetCurrentWorkingDirectory())
+    Paths::Paths() : workingDirectory(GetCurrentWorkingDirectory())
     {
-        // Initialize after _workingDirectory is initialized, as this cannot be guaranteed, if this is also placed
+        // Initialize after workingDirectory is initialized, as this cannot be guaranteed, if this is also placed
         // inside the initializer list.
-        _absoluteResourcePath = _workingDirectory;
+        absoluteEngineResourceDirectory = workingDirectory;
+        absoluteCustomResourceDirectory = workingDirectory;
     }
 
     Paths::~Paths() = default;
 
-    void Paths::setAbsoluteResourceDirectory(const Path & resourceDirectory) {
-        PAX_LOG(PAX::Log::Level::Info, "set resource directory to " << resourceDirectory);
-        _absoluteResourcePath = resourceDirectory;
+    void Paths::setEngineResourceDirectory(const Path & engineResourceDirectory) {
+        absoluteEngineResourceDirectory = engineResourceDirectory.toAbsolute();
+        PAX_LOG(PAX::Log::Level::Info, "Set engine's resource directory to " << absoluteEngineResourceDirectory);
     }
 
-    const Path& Paths::getResourcePath() const {
-        return _absoluteResourcePath;
+    void Paths::setCustomResourceDirectory(const Path & customResourceDirectory) {
+        absoluteCustomResourceDirectory = customResourceDirectory.toAbsolute();
+        PAX_LOG(PAX::Log::Level::Info, "Set custom resource directory to " << absoluteCustomResourceDirectory);
+    }
+
+    const Path& Paths::getEngineResourceDirectory() const {
+        return absoluteEngineResourceDirectory;
+    }
+
+    const Path& Paths::getCustomResourceDirectory() const {
+        return absoluteCustomResourceDirectory;
     }
 
     const Path& Paths::getWorkingDirectory() const {
-        return _workingDirectory;
+        return workingDirectory;
     }
 }
 

@@ -50,8 +50,8 @@ namespace PAX {
             void gatherResources() {
                 spriteShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
-                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.vert",
-                                Services::GetPaths().getResourcePath() + "/shader/sprite/sprite.frag"
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/sprite/sprite.vert",
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/sprite/sprite.frag"
                         )
                 );
             }
@@ -101,7 +101,7 @@ namespace PAX {
             void createEnvironment() {
                 glm::ivec2 resolution = Services::GetWindowService().getWindow()->getResolution();
                 Resources &res = Services::GetResources();
-                Path imgPath = Services::GetPaths().getResourcePath() + "/PlatformerDemo/img/";
+                Path imgPath = Services::GetPaths().getEngineResourceDirectory() + "/PlatformerDemo/img/";
 
                 centerBlockTexture = res.loadOrGet<Texture>(imgPath + "/Block/Center.png");
                 leftBlockTexture   = res.loadOrGet<Texture>(imgPath + "/Block/Left.png");
@@ -165,7 +165,7 @@ namespace PAX {
                 gatherResources();
 
                 world = Services::GetResources().loadOrGet<WorldPrefab>(
-                        Services::GetPaths().getResourcePath() + "PlatformerDemo/prefabs/world/mainlayer.paxprefab.json"
+                        Services::GetPaths().getEngineResourceDirectory() + "PlatformerDemo/prefabs/world/mainlayer.paxprefab.json"
                         )->create({});
 
                 createEnvironment();

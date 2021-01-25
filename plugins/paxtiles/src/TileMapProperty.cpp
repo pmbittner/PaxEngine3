@@ -21,8 +21,8 @@ namespace PAX {
 
                 tileMapShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
-                                Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.vert",
-                                Services::GetPaths().getResourcePath() + "/shader/tilemap/tilemap.frag"
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/tilemap/tilemap.vert",
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/tilemap/tilemap.frag"
                         ),
                         flags
                 );
@@ -34,7 +34,7 @@ namespace PAX {
                     std::stringstream stream;
                     stream << "tileSets[" << i << "]";
                     if (!tileMapShader->setUniform(stream.str(), i)) {
-                        std::cerr << "[TileMapProperty::initialize] Could not set uniform " << stream.str() << std::endl;
+                        PAX_LOG(Log::Level::Error, "Could not set uniform " << stream.str());
                     }
                 }
 

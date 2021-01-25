@@ -6,7 +6,7 @@
   },
   "Properties": {
     "PAX::Tiles::TileMapProperty": {
-      "map": "${ResourcePath}/TileDemo/worlds/tiled/SmallForest/SmallForest.json"
+      "map": "${EngineResourceDir}/TileDemo/worlds/tiled/SmallForest/SmallForest.json"
     }
   },
   "Entities": [

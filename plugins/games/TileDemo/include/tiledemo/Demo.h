@@ -47,7 +47,7 @@ namespace PAX {
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
                 /// Load the game's initialisation settings
-                Settings gameSettings(Services::GetPaths().getResourcePath() + "/TileDemo/game.paxconfig");
+                Settings gameSettings(Services::GetPaths().getEngineResourceDirectory() + "/TileDemo/game.paxconfig");
 
                 /// Create the starting world
                 World * world = nullptr;

@@ -1,4 +1,4 @@
-core_engineResourceDirectory = ${CURRENT_DIR}/../res
+core_engineResourceDirectory = ${CURRENT_DIR}/../../res
 core_customResourceDirectory = undefined
 
 core_windowTitle = PaxEngine3

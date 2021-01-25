@@ -91,7 +91,7 @@ namespace PAX {
                 Game::initialize();
                 Services::GetEventService().add<KeyPressedEvent, Demo, &Demo::onKeyDown>(this);
 
-                settings.parse(Services::GetPaths().getResourcePath() + "RayMarcher/raymarcher.paxconfig");
+                settings.parse(Services::GetPaths().getEngineResourceDirectory() + "RayMarcher/raymarcher.paxconfig");
 
                 createScreen();
 

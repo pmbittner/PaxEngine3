@@ -37,20 +37,20 @@ namespace PAX {
             void prepareAssets() {
                 texShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
-                                Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.vert",
-                                Services::GetPaths().getResourcePath() + "/shader/test/PlainTexture.frag"
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/test/PlainTexture.vert",
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/test/PlainTexture.frag"
                         )
                 );
                 simpleMatShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
-                                Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.vert",
-                                Services::GetPaths().getResourcePath() + "/shader/material/simple/simplemat.frag"
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/material/simple/simplemat.vert",
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/material/simple/simplemat.frag"
                         )
                 );
                 redShader = Services::GetResources().loadOrGet<Shader>(
                         Shader::FileInfo(
-                                Services::GetPaths().getResourcePath() + "/shader/test/red/red.vert",
-                                Services::GetPaths().getResourcePath() + "/shader/test/red/red.frag"
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/test/red/red.vert",
+                                Services::GetPaths().getEngineResourceDirectory() + "/shader/test/red/red.frag"
                         )
                 );
 
@@ -58,7 +58,7 @@ namespace PAX {
                 cube->upload();
 
                 std::shared_ptr<Texture> texture = Services::GetResources().loadOrGet<Texture>(
-                        Services::GetPaths().getResourcePath() + "icon/PaxEngine3/PaxEngine3_128.png"
+                        Services::GetPaths().getEngineResourceDirectory() + "icon/PaxEngine3/PaxEngine3_128.png"
                 );
                 cubeMaterial = std::make_shared<Material>("CubeMaterial_createdInCode");
                 cubeMaterial->diffuse.texture = texture;
@@ -79,7 +79,7 @@ namespace PAX {
 
             GameEntity* createFromFile(const std::string & relativeResourcePath, std::shared_ptr<Shader> & shader) {
                 std::shared_ptr<Asset> tree = Services::GetResources().load<Asset>(
-                        Services::GetPaths().getResourcePath() + relativeResourcePath, AssetImport::Flags::None
+                        Services::GetPaths().getEngineResourceDirectory() + relativeResourcePath, AssetImport::Flags::None
                 );
                 GameEntity* treeGameEntity = new GameEntity();
                 AssetGraphics * g = new AssetGraphics(tree);

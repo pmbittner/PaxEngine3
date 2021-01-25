@@ -18,9 +18,8 @@ int main(int argc, char* argv[]) {
 // Plugin Includes
 #include "paxsdl/SDLPlugin.h"
 #include "paxsdl/opengl/SDLOpenGLPlugin.h"
-#include "paxopengl/OpenGLPlugin.h"
 #include "paxphysics/Plugin.h"
-#include "paxtiles/MeshfoldPlugin.h"
+#include "paxtiles/Plugin.h"
 
 int PAX::PlatformerDemo_main(int argc, char *argv[]) {
     int exitcode = 0;

@@ -5,12 +5,12 @@
   },
   "Properties": {
     "PAX::SpriteSheetGraphics": {
-      "Sprite": "${ResourcePath}/TileDemo/img/Glenys-the-Demonswordsman.png",
+      "Sprite": "${EngineResourceDir}/TileDemo/img/Glenys-the-Demonswordsman.png",
       "rows": 4,
       "columns": 3,
       "Shader": {
-        "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
-        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag",
+        "Vertex": "${EngineResourceDir}/shader/sprite/sprite.vert",
+        "Fragment": "${EngineResourceDir}/shader/sprite/sprite.frag",
         "Flags": {
           "Vertex": "#define SPRITE_SHEET"
         }

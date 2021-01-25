@@ -13,12 +13,12 @@
     {
       "name": "Player",
       "id": 1,
-      "prefab": "${ResourcePath}/PlatformerDemo/prefabs/entity/Player.paxprefab.json"
+      "prefab": "${EngineResourceDir}/PlatformerDemo/prefabs/entity/Player.paxprefab.json"
     },
     {
       "name": "GreenGuy",
       "id": 2,
-      "prefab": "${ResourcePath}/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
+      "prefab": "${EngineResourceDir}/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
     },
     {
       "name": "Camera",

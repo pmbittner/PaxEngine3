@@ -1,10 +1,10 @@
 {
   "Properties": {
     "PAX::SpriteGraphics": {
-      "Sprite": "${ResourcePath}/TileDemo/img/orangepixel.png",
+      "Sprite": "${EngineResourceDir}/TileDemo/img/orangepixel.png",
       "Shader": {
-        "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
-        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag"
+        "Vertex": "${EngineResourceDir}/shader/sprite/sprite.vert",
+        "Fragment": "${EngineResourceDir}/shader/sprite/sprite.frag"
       }
     },
     "PAX::Tiles::TileMapTransition": {

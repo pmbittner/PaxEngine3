@@ -5,13 +5,13 @@
   "MotionType": "Dynamic",
   "Properties": {
     "PAX::SpriteSheetGraphics": {
-      "Sprite": "${ResourcePath}/PlatformerDemo/img/GreenBot16.png",
+      "Sprite": "${EngineResourceDir}/PlatformerDemo/img/GreenBot16.png",
       "rows": 4,
       "columns": 7,
       "position": [0, 0],
       "Shader": {
-        "Vertex": "${ResourcePath}/shader/sprite/sprite.vert",
-        "Fragment": "${ResourcePath}/shader/sprite/sprite.frag",
+        "Vertex": "${EngineResourceDir}/shader/sprite/sprite.vert",
+        "Fragment": "${EngineResourceDir}/shader/sprite/sprite.frag",
         "Flags": {
           "Vertex": "#define SPRITE_SHEET"
         }
@@ -29,7 +29,7 @@
           "type": "Rectangle",
           "synchroniseToSize": false,
           "size": [14, 16],
-          "material": "${ResourcePath}/PlatformerDemo/material/GreenGuy.psxmat"
+          "material": "${EngineResourceDir}/PlatformerDemo/material/GreenGuy.psxmat"
         }
       ]
     }

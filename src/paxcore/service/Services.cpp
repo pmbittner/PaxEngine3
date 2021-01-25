@@ -23,9 +23,8 @@ namespace PAX {
 
         Log::Instance().currentLevel = _globalSettings.getOrDefault("core_loglevel", Log::Instance().currentLevel);
 
-        Path resDir = _globalSettings.get<Path>("core_resourceDirectory");
-        _paths.setAbsoluteResourceDirectory(resDir);
-        PAX_LOG(Log::Level::Info, "Resource Directory set to \"" << resDir << "\"");
+        _paths.setEngineResourceDirectory(_globalSettings.get<Path>("core_engineResourceDirectory"));
+        _paths.setCustomResourceDirectory(_globalSettings.get<Path>("core_customResourceDirectory"));
 
         _windowService.initialize();
 
