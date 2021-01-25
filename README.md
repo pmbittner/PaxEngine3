@@ -13,8 +13,15 @@ The assets in these screenshots are custom or from [opengameart.org](opengameart
 ![Tiled Map Editor Import](res/screenshots/tiled.PNG "Tiled Map Editor Import")
 The [TileDemo][1] is a showcase for importing tile maps created in the [Tiled Map Editor][2].
 
+![2D Platformer](res/screenshots/platformer.PNG "2D Platformer")
+The [Platformer][platformer] is a tiny showcase for the usage of Box2D to model solid platforms.
+Sadly, the little green guy has no jumping implemented until today.
+
 ![2D/3D Interaction](res/screenshots/meshfold.PNG "2D/3D Interaction")
 [Meshfold][3] is a _proof of concept_ for an idea where a two-dimensional game world is modelled as the surfaces of a three-dimensional shape given as a mesh.
+
+![Raymarcher](res/screenshots/raymarcher.PNG "Raymarcher")
+[Mandelbulb](https://en.wikipedia.org/wiki/Mandelbulb) rendered with a small [raymarcher][rayma] implemented in the [fragment shader](res/RayMarcher/raymarcher_frag.glsl).
 
 ![3D Scene](res/screenshots/3d.PNG "3D Scene")
 [Small demo][5] on rendering 3D meshes imported with the [assimp library][4].
@@ -83,3 +90,5 @@ This allows defining and changing worlds and game objects arbitrarily, flexibly,
 [3]: plugins/games/Meshfold/
 [4]: http://www.assimp.org/
 [5]: plugins/games/PlaygroundDemo/
+[platformer]: plugins/games/PlatformerDemo/
+[rayma]: plugins/games/RayMarcher/
