@@ -1,7 +1,10 @@
 # Binaries
 !bin/
 bin/*
-!bin/core.example.paxconfig
+!bin/core.example.paxconfig!
+!bin/Demo/
+bin/Demo/*
+!bin/Demo/core.paxconfig
 
 # libraries
 libs/Polypropylene
