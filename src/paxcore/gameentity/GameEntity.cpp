@@ -51,6 +51,8 @@ namespace PAX {
         GameEntityParentChangedEvent e(this, oldParent, parent);
         OnParentChanged(e);
         getEventService()(e);
+
+        // TODO: Spawn ourselves if parent is spawned?
     }
 
     GameEntity* GameEntity::getParent() const {
