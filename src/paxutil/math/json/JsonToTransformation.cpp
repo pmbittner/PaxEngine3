@@ -29,9 +29,11 @@ namespace PAX {
         JsonToTransformation::JsonToTransformation() = default;
 
         void JsonToTransformation::convert(const nlohmann::json & node, Transformation & t) {
+            // todo check with lower case such that "POSITION" and "position" are fine.
             static constexpr const char* POSITION = "position";
             static constexpr const char* SCALING  = "scale";
             static constexpr const char* ROTATION_EULER = "rotation";
+            static constexpr const char* ROTATION_2D = "rotation2D";
             static constexpr const char* ROTATION_QUAT = "rotation_quaternion";
             using namespace nlohmann;
 
@@ -49,6 +51,10 @@ namespace PAX {
                 glm::vec3 rot = t.getRotationAsEulerAngles();
                 fillVec3(rot, node[ROTATION_EULER]);
                 t.setRotation(rot);
+            }
+
+            if (node.count(ROTATION_2D) > 0) {
+                t.setRotation2DInDegrees(node[ROTATION_2D]);
             }
 
             if (node.count(ROTATION_QUAT) > 0) {
