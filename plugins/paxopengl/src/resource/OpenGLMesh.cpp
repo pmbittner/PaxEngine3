@@ -21,7 +21,7 @@ namespace PAX {
                     return GL_POINTS;
                 }
                 case FaceMode::Lines: {
-                    return GL_LINES;
+                    return GL_LINE_LOOP; // GL_LINES
                 }
                 default: {
                     PAX_THROW_RUNTIME_ERROR("Unsupported FaceMode " << int(facemode) << " given!");
