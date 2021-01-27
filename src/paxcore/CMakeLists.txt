@@ -114,7 +114,12 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/json/JsonResourceLoader.h
         ../../include/paxcore/json/JsonEntityPrefabResourceLoader.h
         ../../include/paxcore/rendering/camera/json/ViewportJsonParser.h
-        ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h ../../include/paxcore/rendering/data/Image.h ../../include/paxcore/rendering/config/PointCloudSettings.h ../../include/paxcore/rendering/data/Colour.h ../../include/paxcore/rendering/data/ColourPalette.h)
+        ../../include/paxcore/rendering/camera/json/ProjectionJsonParser.h
+        ../../include/paxcore/rendering/data/Image.h
+        ../../include/paxcore/rendering/config/PointCloudSettings.h
+        ../../include/paxcore/rendering/data/Colour.h
+        ../../include/paxcore/rendering/data/ColourPalette.h
+        ../../include/paxcore/rendering/primitives/PrimitiveFactory.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp

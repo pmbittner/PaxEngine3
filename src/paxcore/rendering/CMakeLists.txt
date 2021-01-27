@@ -49,6 +49,13 @@ add_library(paxrendering
         scenegraph/nodes/TransformationNode.cpp
         scenegraph/generators/SortByZSceneGraphGenerator.cpp
         scenegraph/generators/DefaultSceneGraphGeneratorFactory.cpp
-        scenegraph/sort/GraphicsSort.cpp geometry/ScreenFillingQuad.cpp camera/json/ViewportJsonParser.cpp camera/json/ProjectionJsonParser.cpp data/Image.cpp config/PointCloudSettings.cpp data/Colour.cpp data/ColourPalette.cpp)
+        scenegraph/sort/GraphicsSort.cpp geometry/ScreenFillingQuad.cpp
+        camera/json/ViewportJsonParser.cpp
+        camera/json/ProjectionJsonParser.cpp
+        data/Image.cpp
+        config/PointCloudSettings.cpp
+        data/Colour.cpp
+        data/ColourPalette.cpp
+        primitives/PrimitiveFactory.cpp)
 
 target_link_libraries(paxrendering paxcore)
