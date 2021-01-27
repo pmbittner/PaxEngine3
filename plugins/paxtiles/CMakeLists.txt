@@ -11,6 +11,7 @@ set(HEADERS_FOR_CLION
         include/paxtiles/topdown/CharacterSpriteAnimation.h
         include/paxtiles/topdown/SimpleCharacterKeyboardControls.h
         include/paxtiles/TileMapTransition.h)
+
 set(SOURCE_FILES
         src/Plugin.cpp
         src/TileMapProperty.cpp
@@ -25,4 +26,10 @@ set(SOURCE_FILES
         src/TileMapTransition.cpp)
 
 include_directories(include)
+include_directories(../paxphysics/include)
+
+#TODO: Remove this later
+include_directories(${PAX_LIB_DIR}/Box2D)
+
 add_library(paxtiles ${SOURCE_FILES} ${HEADERS_FOR_CLION})
+target_link_libraries(paxtiles paxphysics)

@@ -4,9 +4,9 @@
 
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
-
-#include <polypropylene/serialisation/json/JsonUtil.h>
-#include <polypropylene/serialisation/json/nlohmann/Json.h>
+#include <paxphysics/2d/Hitbox2D.h>
+#include <paxphysics/2d/box2d/Box2DHitbox.h>
+#include <paxphysics/2d/shape/Rectangle.h>
 
 namespace PAX {
     namespace Tiles {
@@ -22,8 +22,8 @@ namespace PAX {
         std::shared_ptr<TileMap> TileMapJsonLoader::load(PAX::Path path) {
             //std::cout << "[TileMapJsonLoader::load] " << path << std::endl;
             std::shared_ptr<nlohmann::json> jptr = Services::GetResources().loadOrGet<nlohmann::json>(path);
-            PAX_ASSERT_NOT_NULL(jptr, "[TileMapJsonLoader::load] TileMap json file " << path << " could not be loaded!");
-            const nlohmann::json & j = *jptr.get();
+            PAX_ASSERT_NOT_NULL(jptr, "TileMap json file " << path << " could not be loaded!");
+            const nlohmann::json & j = *jptr;
 
 
             if (j["orientation"] != "orthogonal") {
@@ -118,22 +118,25 @@ namespace PAX {
                 const std::vector<int> & gids,
                 const int z)
         {
-            int layerWidth = layerj["width"];
-            int layerHeight = layerj["height"];
+            const int layerWidth = layerj["width"];
+            const int layerHeight = layerj["height"];
 
-            int layerX = layerj["x"];
-            int layerY = layerj["y"];
-            float opacity = layerj["opacity"];
+            const int layerX = layerj["x"];
+            const int layerY = layerj["y"];
+            const float opacity = layerj["opacity"];
 
-            std::vector<int> tileData = layerj["data"];
+            const std::vector<int> tileData = layerj["data"];
             assert(tileData.size() == layerWidth * layerHeight);
             std::vector<Tile> tiles(tileData.size());
 
+            int tileX = layerX;
+            int tileY = layerY;
             for (int i = 0; i < tileData.size(); ++i) {
                 int datai = tileData[i];
                 int tilesetIndex = 0;
                 bool isEmpty = false;
 
+                // Detects isEmpty, tilesetIndex and datai somehow
                 for (int k = 0; k < gids.size(); ++k) {
                     int cur_gid  = gids[k];
                     int next_gid = std::numeric_limits<int>::max();
@@ -153,16 +156,50 @@ namespace PAX {
                     }
                 }
 
-                int myTileSetWidth = tilesets[tilesetIndex]->getSpriteSheet().getDimensions().x;
+                const std::shared_ptr<TileSet> & myTileSet = tilesets[tilesetIndex];
+                const int myTileSetWidth = myTileSet->getSpriteSheet().getDimensions().x;
 
-                tiles[i].isEmpty = isEmpty;
-                tiles[i].textureColumn = datai % myTileSetWidth;
-                tiles[i].textureRow = datai / myTileSetWidth;
-                tiles[i].tileSetIndex = tilesetIndex;
+                Tile & tile = tiles[i];
+                tile.isEmpty = isEmpty;
+                tile.textureColumn = datai % myTileSetWidth;
+                tile.textureRow = datai / myTileSetWidth;
+                tile.tileSetIndex = tilesetIndex;
 
-                // TODO: Check if solid
+                TileInfo & tileInfo = myTileSet->getTileInfo(tile.textureColumn, tile.textureRow);
+
+                // check if tile is solid
+                if (tileInfo.isSolid) {
+                    const glm::ivec2 & tileSize = myTileSet->getTileSize();
+                    GameEntity * tileEntity = pax_new(GameEntity)();
+                    tileEntity->i_setMotionType(MotionType::Static);
+                    tileEntity->addTag("Tile"); // TODO: Make this a variable
+
+                    // set position
+                    tileEntity->getTransformation().position2D() = glm::vec2(
+                            tileSize.x * (0.5f + (float)tileX - ((float)layerWidth  / 2.f)),
+                            -tileSize.y * (0.5f + (float)tileY - ((float)layerHeight / 2.f))
+                            );
+
+                    // add a hitbox because solid
+                    // TODO: Indicate to the hitbox if it should be solid or not. CUrrently, everything is solid
+                    Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)();
+                    hitbox->setFixtures({Physics::Fixture2D(
+                            std::make_shared<Physics::Rectangle>(tileSize),
+                            std::make_shared<Physics::PhysicsMaterial>())});
+                    hitbox->setFixedRotation(true);
+                    tileEntity->add(hitbox);
+                    map->_addGameEntity(tileEntity);
+//                    PAX_LOG(Log::Level::Info, "Added hitbox for tile " << tileX << ", " << tileY << " at " << tileEntity->getTransformation().position2D());
+                }
+
                 // TODO: Check if has hitbox
-                // TODO: Check for other properties?
+
+                // update pos
+                ++tileX;
+                if (tileX >= layerX + layerWidth) {
+                    tileX = layerX;
+                    ++tileY;
+                }
             }
 
             TileMap::Layer & layer = map->addLayer(tiles, layerWidth);

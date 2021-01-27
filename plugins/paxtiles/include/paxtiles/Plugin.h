@@ -20,6 +20,7 @@ namespace PAX {
             ::PAX::JsonResourceFieldWriter<::PAX::Tiles::TileSet> jsonTileSetParser;
 
         public:
+            void checkDependencies(const std::vector<EnginePlugin*> & plugins) const override;
             void registerResourceLoaders(PAX::Resources &resources) override;
             void registerJsonWriters(::PAX::Json::JsonFieldWriterRegister & writerRegister) override;
             void registerProperties() override;

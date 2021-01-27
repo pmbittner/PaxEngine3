@@ -5,17 +5,17 @@
 #ifndef PAXENGINE3_TILE_H
 #define PAXENGINE3_TILE_H
 
-namespace PAX {
-    namespace Tiles {
-        struct Tile {
-            int textureColumn = 0;
-            int textureRow = 0;
-            int tileSetIndex = -1;
-            bool isEmpty = false;
+namespace PAX::Tiles {
+    struct TileInfo {
+        bool isSolid = false;
+    };
 
-
-        };
-    }
+    struct Tile {
+        int tileSetIndex = -1;
+        int textureColumn = 0;
+        int textureRow = 0;
+        bool isEmpty = false;
+    };
 }
 
 #endif //PAXENGINE3_TILE_H

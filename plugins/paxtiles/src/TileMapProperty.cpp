@@ -27,7 +27,6 @@ namespace PAX {
                         flags
                 );
 
-
                 tileMapShader->bind();
 
                 for (int i = 0; i < NUM_MAX_TILESETS; ++i) {
@@ -94,7 +93,10 @@ namespace PAX {
 
             //*
             for (const std::pair<GameEntity *, GameEntityID> & ep : tileMap->getEntities()) {
-                world.getGameEntityIDService().reserveIDFor(ep.first, ep.second);
+                const GameEntityID id = ep.second;
+                if (id != GameEntityIDService::InvalidID) {
+                    world.getGameEntityIDService().reserveIDFor(ep.first, id);
+                }
                 world.spawn(ep.first);
             }
             //*/

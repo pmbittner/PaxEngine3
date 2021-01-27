@@ -14,9 +14,15 @@
 #include <paxtiles/topdown/CharacterOrientation.h>
 #include <paxtiles/topdown/CharacterSpriteAnimation.h>
 #include <paxtiles/topdown/SimpleCharacterKeyboardControls.h>
+#include <paxphysics/Plugin.h>
 
 namespace PAX {
     namespace Tiles {
+        void Plugin::checkDependencies(const std::vector<EnginePlugin *> &plugins) const {
+            static EnginePluginTypedDependencies<Physics::Plugin> dependencies("paxtiles");
+            return dependencies.checkDependencies(plugins);
+        }
+
         void Plugin::registerResourceLoaders(PAX::Resources & resources) {
             resources.registerLoader<TileMap>(&tiledMapLoader);
             resources.registerLoader<TileSet>(&tiledSetLoader);
