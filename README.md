@@ -18,7 +18,7 @@ The [Platformer][platformer] is a tiny showcase for the usage of Box2D to model 
 Sadly, the little green guy has no jumping implemented until today.
 
 ![2D/3D Interaction](res/screenshots/meshfold.PNG "2D/3D Interaction")
-[Meshfold][3] is a _proof of concept_ for an idea where a two-dimensional game world is modelled as the surfaces of a three-dimensional shape given as a mesh.
+Meshfold is a _proof of concept_ for an idea where a two-dimensional game world is modelled as the surfaces of a three-dimensional shape given as a mesh.
 
 ![Raymarcher](res/screenshots/raymarcher.PNG "Raymarcher")
 [Mandelbulb](https://en.wikipedia.org/wiki/Mandelbulb) rendered with a small [raymarcher][rayma] implemented in the [fragment shader](res/RayMarcher/raymarcher_frag.glsl).
@@ -87,7 +87,6 @@ This allows defining and changing worlds and game objects arbitrarily, flexibly,
 
 [1]: plugins/games/TileDemo/src/main.cpp
 [2]: https://www.mapeditor.org
-[3]: plugins/games/Meshfold/
 [4]: http://www.assimp.org/
 [5]: plugins/games/PlaygroundDemo/
 [platformer]: plugins/games/PlatformerDemo/
