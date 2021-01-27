@@ -44,4 +44,18 @@ namespace PAX::Physics {
             }
         }
     }
+
+    void Box2DPhysicsSystem::toggleShowHitboxes() {
+        if (showingHitboxes) {
+            for (Hitbox2D * h : hitboxes) {
+                h->hide();
+            }
+        } else {
+            for (Hitbox2D * h : hitboxes) {
+                h->show();
+            }
+        }
+
+        showingHitboxes = !showingHitboxes;
+    }
 }

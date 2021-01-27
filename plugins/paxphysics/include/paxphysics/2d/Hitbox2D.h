@@ -18,9 +18,12 @@ namespace PAX::Physics {
     private:
         bool fixedRotation = false;
         std::vector<Fixture2D> fixtures;
+        std::vector<GameEntity*> fixtureVisualizers;
+
+    protected:
+        Hitbox2D();
 
     public:
-        Hitbox2D();
         ~Hitbox2D() override = 0;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
@@ -30,6 +33,9 @@ namespace PAX::Physics {
 
         virtual void setFixedRotation(bool fixedRotation);
         PAX_NODISCARD bool hasFixedRotation() const;
+
+        void show();
+        void hide();
     };
 }
 

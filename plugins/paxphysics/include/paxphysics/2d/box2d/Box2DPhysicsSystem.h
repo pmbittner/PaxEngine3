@@ -16,6 +16,8 @@ namespace PAX::Physics {
         float pixelsPerMeter = 1;
         float metersPerPixel = 1;
 
+        bool showingHitboxes = false;
+
     public:
         explicit Box2DPhysicsSystem(float pixelsPerMeter);
 
@@ -25,6 +27,8 @@ namespace PAX::Physics {
         void setPixelsPerMeter(float pixelsPerMeter);
         float getMetersPerPixel();
         float getPixelsPerMeter();
+
+        void toggleShowHitboxes();
     };
 }
 
