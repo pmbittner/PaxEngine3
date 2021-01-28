@@ -30,10 +30,32 @@ namespace PAX {
                     {1, 0}
             };
 
-//                PAX_LOG(Log::Level::Info, "create QuadMesh");
-
             std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, indices);
+            mesh->setFaceMode(Mesh::FaceMode::Triangles);
             mesh->addAttribute(Mesh::UVs, texCoords);
+
+            if (upload) {
+                mesh->upload();
+            }
+            return mesh;
+        } else {
+            PAX_THROW_RUNTIME_ERROR("Could not create sprite mesh because no MeshFactory is registered at the FactoryService!");
+        }
+    }
+
+    std::shared_ptr<Mesh> PrimitiveFactory::CreateFrame(bool upload) {
+        auto* meshFactory = Services::GetFactoryService().get<MeshFactory>();
+
+        if (meshFactory) {
+            std::vector<glm::vec3> vertices = {
+                    {-0.5f, 0.5f,  0},  // V0
+                    {-0.5f, -0.5f, 0},  // V1
+                    {0.5f,  -0.5f, 0},  // V2
+                    {0.5f,  0.5f,  0}   // V3
+            };
+
+            std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, {});
+            mesh->setFaceMode(Mesh::FaceMode::Lines);
 
             if (upload) {
                 mesh->upload();

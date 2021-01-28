@@ -10,6 +10,7 @@
 namespace PAX {
     struct PrimitiveFactory {
         static std::shared_ptr<Mesh> CreateQuad(bool upload = true);
+        static std::shared_ptr<Mesh> CreateFrame(bool upload = true);
     };
 }
 
