@@ -12,12 +12,12 @@ namespace PAX {
         glm::mat4 _transformation;
 
     public:
-        TransformationNode(const glm::mat4& transformation = glm::mat4(1.0));
+        explicit TransformationNode(const glm::mat4& transformation = glm::mat4(1.0));
 
         void setTransformation(const glm::mat4& transformation);
         glm::mat4& getTransformation();
 
-        virtual void render(RenderOptions& options) override;
+        void render(RenderOptions& options) override;
     };
 }
 

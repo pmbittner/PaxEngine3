@@ -18,7 +18,7 @@ namespace PAX {
     }
 
     void TransformationNode::render(RenderOptions &options) {
-        const glm::mat4 parentTransform = options.getTransformationMatrix();
+        const glm::mat4 & parentTransform = options.getTransformationMatrix();
 
         options.setTransformationMatrix(parentTransform * _transformation);
         SceneGraph::render(options);
