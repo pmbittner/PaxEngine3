@@ -50,6 +50,7 @@ namespace PAX::Physics {
                 for (Fixture2D & fixture : fixtures) {
                     GameEntity * visualizer = pax_new(GameEntity)();
                     visualizer->add(pax_new(HitboxGraphics)(fixture));
+                    visualizer->getTransformation().z() = HitboxVisualizationZ;
                     fixtureVisualizers.push_back(visualizer);
                 }
             }
@@ -57,8 +58,12 @@ namespace PAX::Physics {
             World * w = owner->getWorld();
             if (w) {
                 for (GameEntity * visualizer : fixtureVisualizers) {
-                    visualizer->setParent(owner);
-                    w->spawn(visualizer);
+                    if (visualizer->getParent() != owner) {
+                        visualizer->setParent(owner);
+                    }
+                    if (visualizer->getWorld() != w) {
+                        w->spawn(visualizer);
+                    }
                 }
             }
         }
@@ -69,7 +74,9 @@ namespace PAX::Physics {
             if (World * w = visualizer->getWorld()) {
                 w->despawn(visualizer);
             }
-            visualizer->setParent(nullptr);
+            if (visualizer->getParent()) {
+                visualizer->setParent(nullptr);
+            }
         }
     }
 }

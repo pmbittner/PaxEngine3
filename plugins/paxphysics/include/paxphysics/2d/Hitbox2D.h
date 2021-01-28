@@ -15,7 +15,6 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(PAX::GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
-    private:
         bool fixedRotation = false;
         std::vector<Fixture2D> fixtures;
         std::vector<GameEntity*> fixtureVisualizers;
@@ -24,6 +23,8 @@ namespace PAX::Physics {
         Hitbox2D();
 
     public:
+        static constexpr int HitboxVisualizationZ = 100;
+
         ~Hitbox2D() override = 0;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;

@@ -18,10 +18,16 @@ namespace PAX::Physics {
         PAX_PROPERTY_IS_SINGLE
 
         static std::shared_ptr<Shader> rectangleShader;
+        static std::shared_ptr<Mesh> GetRectangleMesh();
+        static std::shared_ptr<Mesh> GetRectangleBorderMesh();
+        static const glm::vec4 & GetFillColorFor(Fixture2D & fixture);
+        static const glm::vec4 & GetBorderColorFor(Fixture2D & fixture);
 
+        glm::mat4 trafo;
         Fixture2D & fixture;
-        TransformationNode trafoNode;
-        MeshNode meshNode;
+        MeshNode shape, frame;
+        const glm::vec4 & fillColor;
+        const glm::vec4 & borderColor;
 
         static void initShaders();
 
