@@ -10,6 +10,8 @@
 #include <polypropylene/stdutils/StringUtils.h>
 
 namespace PAX::Physics {
+    // TODO: This should actually be a sum type.
+    //       So maybe we can implement it as such and avoid inheritance.
     class Shape2D {
         bool synchroniseToSize = false;
 

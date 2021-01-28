@@ -9,7 +9,7 @@
 #include <paxcore/rendering/data/Mesh.h>
 #include <paxcore/rendering/scenegraph/nodes/MeshNode.h>
 #include <paxcore/rendering/scenegraph/nodes/TransformationNode.h>
-#include "../Fixture2D.h"
+#include <paxphysics/2d/shape/Shape2D.h>
 
 namespace PAX::Physics {
     class HitboxGraphics : public Graphics {
@@ -20,19 +20,18 @@ namespace PAX::Physics {
         static std::shared_ptr<Shader> rectangleShader;
         static std::shared_ptr<Mesh> GetRectangleMesh();
         static std::shared_ptr<Mesh> GetRectangleBorderMesh();
-        static const glm::vec4 & GetFillColorFor(Fixture2D & fixture);
-        static const glm::vec4 & GetBorderColorFor(Fixture2D & fixture);
+        static const glm::vec4 & GetFillColorFor(const Shape2D & fixture);
+        static const glm::vec4 & GetBorderColorFor(const Shape2D & fixture);
 
         glm::mat4 trafo;
-        Fixture2D & fixture;
-        MeshNode shape, frame;
+        MeshNode shapeNode, frameNode;
         const glm::vec4 & fillColor;
         const glm::vec4 & borderColor;
 
         static void initShaders();
 
     public:
-        explicit HitboxGraphics(Fixture2D & fixture);
+        explicit HitboxGraphics(const Shape2D & shape);
         ClassMetadata getMetadata() override;
         void render(RenderOptions &renderOptions) override;
     };

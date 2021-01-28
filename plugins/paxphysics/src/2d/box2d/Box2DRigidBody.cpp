@@ -43,15 +43,17 @@ namespace PAX::Physics {
         if (Box2DPhysicsSystem * b2PhysicsSystem = Engine::Instance().getGame()->getSystem<Box2DPhysicsSystem>()) {
             const std::vector<Box2DHitbox*> & hitboxes = owner->get<Box2DHitbox>();
             for (Box2DHitbox * hitbox : hitboxes) {
-                const Fixture2D & f = hitbox->getFixture();
-                b2Shape *bshape = toBox2D(f.shape.get(), b2PhysicsSystem->getMetersPerPixel());
+                const Shape2D & shape = hitbox->getShape();
+                const std::shared_ptr<PhysicsMaterial> & material = hitbox->getMaterial();
+                b2Shape *bshape = toBox2D(&shape, b2PhysicsSystem->getMetersPerPixel());
 
                 b2FixtureDef fixtureDef;
                 fixtureDef.shape = bshape;
-                fixtureDef.density = f.material->density;
-                fixtureDef.friction = f.material->friction;
-                fixtureDef.restitution = f.material->elasticity;
+                fixtureDef.density = material->density;
+                fixtureDef.friction = material->friction;
+                fixtureDef.restitution = material->elasticity;
                 b2Fixtures.push_back(body->CreateFixture(&fixtureDef));
+
                 /// "Box2D does not keep a reference to the shape. It clones the data into a new b2Shape object."
                 delete bshape;
             }

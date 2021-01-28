@@ -17,8 +17,15 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(PAX::Physics::Hitbox2D)
         PAX_PROPERTY_IS_MULTIPLE
 
-    public:
         explicit Box2DHitbox();
+
+    public:
+        /**
+         *
+         * @param shape takes ownership
+         * @param material
+         */
+        Box2DHitbox(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material);
         ~Box2DHitbox() override;
     };
 }

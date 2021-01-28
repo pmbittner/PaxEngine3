@@ -4,6 +4,7 @@
 
 #include <paxcore/Engine.h>
 #include <paxcore/Game.h>
+#include <paxutil/resources/JsonResourceFieldWriter.h>
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
 #include <paxphysics/2d/gravityfields/SphereGravityField.h>
 
@@ -15,8 +16,8 @@
 #include "paxphysics/2d/box2d/Box2DHitbox.h"
 #include "paxphysics/2d/box2d/Box2DWorld.h"
 
-// TODO: Do not remove. This is necessary such that the compiler finds the specialization of the parser.
-#include "paxphysics/2d/json/JsonFixture2DParser.h"
+// Do not remove. This is necessary such that the compiler finds the specialization of the parser.
+#include "paxphysics/2d/json/JsonShape2DParser.h"
 
 namespace PAX::Physics {
     void Plugin::registerProperties() {
@@ -41,8 +42,11 @@ namespace PAX::Physics {
     void Plugin::registerJsonWriters(Json::JsonFieldWriterRegister &writerRegister) {
         using namespace Json;
 
-        static JsonFieldWriter<Fixture2D> fixture2dWriter;
-        writerRegister.registerWriter(paxtypeid(Fixture2D), &fixture2dWriter);
+        static JsonFieldWriter<Shape2D*> shape2dWriter;
+        writerRegister.registerWriter(paxtypeid(Shape2D*), &shape2dWriter);
+
+        static JsonResourceFieldWriter<PhysicsMaterial> materialWriter;
+        materialWriter.registerAt(writerRegister);
     }
 
     void Plugin::registerResourceLoaders(Resources & resources) {

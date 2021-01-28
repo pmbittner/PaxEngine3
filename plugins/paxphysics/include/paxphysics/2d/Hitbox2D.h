@@ -7,7 +7,7 @@
 
 #include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxphysics/2d/shape/Shape2D.h>
-#include "Fixture2D.h"
+#include <paxphysics/2d/material/PhysicsMaterial.h>
 
 namespace PAX::Physics {
     class Hitbox2D : public GameEntityProperty {
@@ -15,12 +15,15 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(PAX::GameEntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
-        // TODO: Inline fixture here?
-        Fixture2D fixture;
+        Shape2D * shape = nullptr;
+        std::shared_ptr<PhysicsMaterial> material;
         GameEntity* visualizer = nullptr;
 
         // TODO: Implement
-        bool isSensor;
+        bool isSensor = false;
+
+    protected:
+        Hitbox2D(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material);
 
     public:
         static constexpr int HitboxVisualizationZ = 100;
@@ -29,11 +32,11 @@ namespace PAX::Physics {
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
 
-        virtual void setFixture(const Fixture2D & fixture);
-        PAX_NODISCARD const Fixture2D & getFixture() const;
-
         void show();
         void hide();
+
+        PAX_NODISCARD const Shape2D & getShape() const;
+        PAX_NODISCARD const std::shared_ptr<PhysicsMaterial> & getMaterial() const;
     };
 }
 

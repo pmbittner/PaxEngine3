@@ -5,7 +5,6 @@ set(PAXPHYSICS_SOURCE
         src/2d/box2d/Box2DRigidBody.cpp
         src/2d/Hitbox2D.cpp
         src/2d/box2d/Box2DWorld.cpp
-        src/2d/JsonFixture2DParser.cpp
         src/2d/gravityfields/GravityField.cpp
         src/2d/gravityfields/SphereGravityField.cpp
         src/2d/visualization/HitboxGraphics.cpp)
@@ -25,12 +24,11 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/PhysicsWorld2D.h
         include/paxphysics/2d/box2d/Box2DHitbox.h
         include/paxphysics/2d/material/PhysicsMaterial.h
-        include/paxphysics/2d/Fixture2D.h
         include/paxphysics/2d/material/PhysicsMaterialLoader.h
-        include/paxphysics/2d/json/JsonFixture2DParser.h
         include/paxphysics/2d/gravityfields/GravityField.h
         include/paxphysics/2d/gravityfields/SphereGravityField.h
-        include/paxphysics/2d/visualization/HitboxGraphics.h)
+        include/paxphysics/2d/visualization/HitboxGraphics.h
+        include/paxphysics/2d/json/JsonShape2DParser.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)
@@ -56,5 +54,13 @@ endif()
 
 include_directories(${BOX2D_INCLUDE_DIRS})
 
-add_library(paxphysics ${HEADERS_FOR_CLION} ${PAXPHYSICS_SOURCE} src/2d/box2d/Box2DUtils.cpp src/2d/shape/Shape2D.cpp src/2d/shape/Rectangle.cpp src/2d/PhysicsWorld2D.cpp src/2d/box2d/Box2DHitbox.cpp src/2d/Fixture2D.cpp src/2d/material/PhysicsMaterialLoader.cpp src/2d/material/PhysicsMaterial.cpp)
+add_library(paxphysics ${HEADERS_FOR_CLION} ${PAXPHYSICS_SOURCE}
+        src/2d/box2d/Box2DUtils.cpp
+        src/2d/shape/Shape2D.cpp
+        src/2d/shape/Rectangle.cpp
+        src/2d/PhysicsWorld2D.cpp
+        src/2d/box2d/Box2DHitbox.cpp
+        src/2d/material/PhysicsMaterialLoader.cpp
+        src/2d/material/PhysicsMaterial.cpp
+        src/2d/json/JsonShape2DParser.cpp)
 target_link_libraries(paxphysics ${BOX2D_LIBRARY})

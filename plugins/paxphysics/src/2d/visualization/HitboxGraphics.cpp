@@ -26,12 +26,12 @@ namespace PAX::Physics {
         return mesh;
     }
 
-    const glm::vec4 & HitboxGraphics::GetFillColorFor(Fixture2D &fixture) {
+    const glm::vec4 & HitboxGraphics::GetFillColorFor(const Shape2D &fixture) {
         static glm::vec4 color = glm::vec4(0, 1, 0, 0.3f);
         return color;
     }
 
-    const glm::vec4 & HitboxGraphics::GetBorderColorFor(Fixture2D &fixture) {
+    const glm::vec4 & HitboxGraphics::GetBorderColorFor(const Shape2D &fixture) {
         static glm::vec4 color = glm::vec4(0, 1, 0, 1);
         return color;
     }
@@ -46,16 +46,16 @@ namespace PAX::Physics {
         }
     }
 
-    HitboxGraphics::HitboxGraphics(Fixture2D &fixture)
-    : fixture(fixture),
-    fillColor(GetFillColorFor(fixture)),
-    borderColor(GetBorderColorFor(fixture))
+    HitboxGraphics::HitboxGraphics(const Shape2D & shape)
+    :
+    fillColor(GetFillColorFor(shape)),
+    borderColor(GetBorderColorFor(shape))
     {
         initShaders();
 
         std::shared_ptr<Mesh> shapeMesh;
         std::shared_ptr<Mesh> frameMesh;
-        if (auto * rect = dynamic_cast<Rectangle*>(fixture.shape.get())) {
+        if (const auto * rect = dynamic_cast<const Rectangle*>(&shape)) {
             shapeMesh = GetRectangleMesh();
             frameMesh = GetRectangleBorderMesh();
             const FloatBoundingBox2D & aabb = rect->getAABB();
@@ -68,8 +68,8 @@ namespace PAX::Physics {
             PAX_NOT_IMPLEMENTED_EXCEPTION();
         }
 
-        shape = MeshNode(shapeMesh);
-        frame = MeshNode(frameMesh);
+        shapeNode = MeshNode(shapeMesh);
+        frameNode = MeshNode(frameMesh);
     }
 
     void HitboxGraphics::render(RenderOptions &renderOptions) {
@@ -80,10 +80,10 @@ namespace PAX::Physics {
         renderOptions.setTransformationMatrix(parentTransform * trafo);
 
         shader->setUniform("color", fillColor);
-        shape.render(renderOptions);
+        shapeNode.render(renderOptions);
 
         shader->setUniform("color", borderColor);
-        frame.render(renderOptions);
+        frameNode.render(renderOptions);
 
         renderOptions.setTransformationMatrix(parentTransform);
     }

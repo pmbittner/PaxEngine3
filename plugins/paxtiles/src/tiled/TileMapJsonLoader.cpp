@@ -184,11 +184,10 @@ namespace PAX {
 
                     // add a hitbox because solid
                     // TODO: Indicate to the hitbox if it should be solid or not. CUrrently, everything is solid
-                    Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)();
+                    Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)(
+                            new Physics::Rectangle(tileSize),
+                            std::make_shared<Physics::PhysicsMaterial>());
                     Physics::RigidBody2D * rigidBody = pax_new(Physics::Box2DRigidBody)();
-                    hitbox->setFixture(Physics::Fixture2D(
-                            std::make_shared<Physics::Rectangle>(tileSize),
-                            std::make_shared<Physics::PhysicsMaterial>()));
                     rigidBody->setFixedRotation(true);
                     tileEntity->add(hitbox);
                     tileEntity->add(rigidBody);

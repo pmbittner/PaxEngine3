@@ -26,12 +26,12 @@
       "fixedRotation": true
     },
     "PAX::Physics::Hitbox2D": {
-      "fixture": {
+      "shape": {
         "type": "Rectangle",
         "synchroniseToSize": false,
-        "size": [14, 16],
-        "material": "${EngineResourceDir}/PlatformerDemo/material/GreenGuy.psxmat"
-      }
+        "size": [14, 16]
+      },
+      "material": "${EngineResourceDir}/PlatformerDemo/material/GreenGuy.psxmat"
     }
   }
 }

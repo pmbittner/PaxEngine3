@@ -6,26 +6,24 @@
 #include <paxcore/world/World.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
 #include <paxphysics/2d/visualization/HitboxGraphics.h>
+#include <paxutil/reflection/EngineFieldFlags.h>
 
 namespace PAX::Physics {
     PAX_PROPERTY_IMPL(PAX::Physics::Hitbox2D)
 
     ClassMetadata Hitbox2D::getMetadata() {
         ClassMetadata m = Super::getMetadata();
-        m.add(paxfieldof(fixture));
+        m.add(paxfieldof(shape)).addFlag(Field::IsMandatory);
+        m.add(paxfieldof(material)).addFlag(Field::IsMandatory | EngineFieldFlags::IsResource);
         return m;
     }
 
+    Hitbox2D::Hitbox2D(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material)
+    : shape(shape), material(material) {}
+
     Hitbox2D::~Hitbox2D() {
+        delete shape;
         pax_delete(visualizer);
-    }
-
-    void Hitbox2D::setFixture(const Fixture2D & fixture) {
-        this->fixture = fixture;
-    }
-
-    const Fixture2D & Hitbox2D::getFixture() const {
-        return fixture;
     }
 
     void Hitbox2D::show() {
@@ -33,7 +31,7 @@ namespace PAX::Physics {
         if (owner) {
             if (visualizer == nullptr) {
                 visualizer = pax_new(GameEntity)();
-                visualizer->add(pax_new(HitboxGraphics)(fixture));
+                visualizer->add(pax_new(HitboxGraphics)(*shape));
                 visualizer->getTransformation().z() = HitboxVisualizationZ;
             }
 
@@ -56,5 +54,13 @@ namespace PAX::Physics {
         if (visualizer->getParent()) {
             visualizer->setParent(nullptr);
         }
+    }
+
+    const Shape2D & Hitbox2D::getShape() const {
+        return *shape;
+    }
+
+    const std::shared_ptr<PhysicsMaterial> & Hitbox2D::getMaterial() const {
+        return material;
     }
 }
