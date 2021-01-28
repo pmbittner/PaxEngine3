@@ -11,7 +11,7 @@ namespace PAX::Physics {
     class RigidBody2D : public GameEntityProperty {
         PAX_PROPERTY(PAX::Physics::RigidBody2D, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(GameEntityProperty)
-        PAX_PROPERTY_IS_MULTIPLE
+        PAX_PROPERTY_IS_SINGLE
 
         bool fixedRotation = false;
 
