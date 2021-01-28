@@ -17,6 +17,7 @@ namespace PAX {
             std::shared_ptr<Shape2D> shape;
             std::shared_ptr<PhysicsMaterial> material;
 
+            Fixture2D();
             /// \param shape Takes ownership
             Fixture2D(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material);
             ~Fixture2D();

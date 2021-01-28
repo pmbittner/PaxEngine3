@@ -31,15 +31,15 @@ namespace PAX::Physics {
         for (World * world : getGame()->getWorlds()) {
             if (Box2DWorld * b2world = world->get<Box2DWorld>()) {
                 // synchronize engine state to Box2D
-                for (const auto& hitbox : hitboxes) {
-                    hitbox->synchronizeBox2D(metersPerPixel);
+                for (const auto& body : rigidBodies) {
+                    body->synchronizeBox2D(metersPerPixel);
                 }
 
                 b2world->step(options);
 
                 // synchronize state in Box2D to engine
-                for (const auto& hitbox : hitboxes) {
-                    hitbox->synchronizePaxEngine(pixelsPerMeter);
+                for (const auto& body : rigidBodies) {
+                    body->synchronizePaxEngine(pixelsPerMeter);
                 }
             }
         }

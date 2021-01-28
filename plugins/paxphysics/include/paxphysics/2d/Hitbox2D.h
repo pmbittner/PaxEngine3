@@ -13,14 +13,14 @@ namespace PAX::Physics {
     class Hitbox2D : public GameEntityProperty {
         PAX_PROPERTY(PAX::Physics::Hitbox2D, PAX_PROPERTY_IS_ABSTRACT)
         PAX_PROPERTY_DERIVES(PAX::GameEntityProperty)
-        PAX_PROPERTY_IS_SINGLE
+        PAX_PROPERTY_IS_MULTIPLE
 
-        bool fixedRotation = false;
-        std::vector<Fixture2D> fixtures;
-        std::vector<GameEntity*> fixtureVisualizers;
+        // TODO: Inline fixture here?
+        Fixture2D fixture;
+        GameEntity* visualizer = nullptr;
 
-    protected:
-        Hitbox2D();
+        // TODO: Implement
+        bool isSensor;
 
     public:
         static constexpr int HitboxVisualizationZ = 100;
@@ -29,11 +29,8 @@ namespace PAX::Physics {
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
 
-        virtual void setFixtures(const std::vector<Fixture2D> & fixtures);
-        PAX_NODISCARD const std::vector<Fixture2D> & getFixtures() const;
-
-        virtual void setFixedRotation(bool fixedRotation);
-        PAX_NODISCARD bool hasFixedRotation() const;
+        virtual void setFixture(const Fixture2D & fixture);
+        PAX_NODISCARD const Fixture2D & getFixture() const;
 
         void show();
         void hide();

@@ -22,16 +22,16 @@
       "velocity": [15, 0],
       "angularVelocityInDegrees": 0
     },
+    "PAX::Physics::RigidBody2D": {
+      "fixedRotation": true
+    },
     "PAX::Physics::Hitbox2D": {
-      "fixedRotation": true,
-      "fixtures": [
-        {
-          "type": "Rectangle",
-          "synchroniseToSize": false,
-          "size": [14, 16],
-          "material": "${EngineResourceDir}/PlatformerDemo/material/GreenGuy.psxmat"
-        }
-      ]
+      "fixture": {
+        "type": "Rectangle",
+        "synchroniseToSize": false,
+        "size": [14, 16],
+        "material": "${EngineResourceDir}/PlatformerDemo/material/GreenGuy.psxmat"
+      }
     }
   }
 }

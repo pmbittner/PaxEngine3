@@ -12,6 +12,8 @@
 
 namespace PAX {
     namespace Physics {
+        Fixture2D::Fixture2D() = default;
+
         Fixture2D::Fixture2D(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr <PhysicsMaterial> &material)
         :shape(shape), material(material)
         {

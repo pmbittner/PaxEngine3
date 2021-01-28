@@ -7,5 +7,17 @@
 namespace PAX::Physics {
     PAX_PROPERTY_IMPL(PAX::Physics::RigidBody2D)
 
-    RigidBody2D::RigidBody2D() = default;
+    ClassMetadata RigidBody2D::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(fixedRotation));
+        return m;
+    }
+
+    bool RigidBody2D::hasFixedRotation() const {
+        return fixedRotation;
+    }
+
+    void RigidBody2D::setFixedRotation(bool fixedRotation) {
+        this->fixedRotation = fixedRotation;
+    }
 }

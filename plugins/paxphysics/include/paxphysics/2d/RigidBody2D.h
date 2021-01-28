@@ -13,8 +13,13 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
+        bool fixedRotation = false;
+
     public:
-        RigidBody2D();
+        PAX_NODISCARD ClassMetadata getMetadata() override;
+
+        virtual void setFixedRotation(bool fixedRotation);
+        PAX_NODISCARD bool hasFixedRotation() const;
     };
 }
 

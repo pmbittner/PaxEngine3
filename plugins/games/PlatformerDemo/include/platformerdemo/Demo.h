@@ -17,6 +17,7 @@
 #include <paxcore/rendering/factory/ViewportFactory.h>
 #include <paxphysics/2d/shape/Rectangle.h>
 #include <paxphysics/2d/box2d/Box2DHitbox.h>
+#include <paxphysics/2d/box2d/Box2DRigidBody.h>
 
 #include "paxtiles/Tile.h"
 #include "paxtiles/TileMap.h"
@@ -87,12 +88,13 @@ namespace PAX {
                 FloatBoundingBox3D aabb = platform->get<Size>()->toAbsoluteBoundingBox();
                 Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)();
                 //hitbox->setShape(std::make_unique<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))));
-                hitbox->setFixtures({
+                hitbox->setFixture(
                    Physics::Fixture2D(
                            std::make_shared<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))),
                            std::make_shared<Physics::PhysicsMaterial>()
                    )
-                });
+                );
+                platform->add(pax_new(Physics::Box2DRigidBody)());
                 platform->add(hitbox);
 
                 return platform;

@@ -8,6 +8,7 @@
 #include <paxphysics/2d/RigidBody2D.h>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2Fixture.h>
+#include "Box2DWorld.h"
 
 namespace PAX::Physics {
     class Box2DRigidBody : public PAX::Physics::RigidBody2D {
@@ -15,21 +16,22 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(PAX::Physics::RigidBody2D)
         PAX_PROPERTY_IS_MULTIPLE
 
-        b2BodyDef _bodyDef;
-        b2FixtureDef _fixtureDef;
+        b2Body * body = nullptr;
+        std::vector<b2Fixture *> b2Fixtures;
 
-        b2Body * _body = nullptr;
-        b2Fixture * _fixture = nullptr;
-
-        Box2DRigidBody();
+        void uploadToBox2D(Box2DWorld & box2DWorld);
 
     public:
-        explicit Box2DRigidBody(const b2BodyDef &bodyDef);
+        Box2DRigidBody();
+        ~Box2DRigidBody() override;
 
-        void createFor(b2World &world);
+        void spawned() override;
+        void despawned() override;
 
-        // TODO:
-        //PAX_NODISCARD ClassMetadata getMetadata() override;
+        void synchronizeBox2D(float metersPerPixel);
+        void synchronizePaxEngine(float pixelsPerMeter);
+
+        void setFixedRotation(bool fixedRotation) override;
     };
 }
 
