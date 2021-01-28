@@ -52,11 +52,11 @@ namespace PAX {
     void GameEntityIDService::generateIDFor(PAX::GameEntity *entity) {
         const auto it = ids.find(entity);
         if (it != ids.end()) {
-            PAX_LOG(Log::Level::Info, "Overwriting existing id " << it->second << " with new id " << nextId);
+            add(entity, it->second);
+        } else {
+            add(entity, nextId);
+            ++nextId;
         }
-
-        add(entity, nextId);
-        ++nextId;
     }
 
     void GameEntityIDService::reserveIDFor(PAX::GameEntity *entity, PAX::GameEntityID id) {
@@ -73,7 +73,7 @@ namespace PAX {
     }
 
     void GameEntityIDService::releaseIDOf(PAX::GameEntity * entity) {
-        /// We do not clean the reservedIDs vector!
-        PAX_NOT_IMPLEMENTED();
+        // do nothing to keep ids consistent when something is respawned
+        // also redistirbuting ids away may break references
     }
 }
