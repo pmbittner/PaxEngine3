@@ -18,7 +18,7 @@
       }
     },
     "PlayerSpriteAnimation": {},
-    "VelocityBehaviour2D": {
+    "Movement2D": {
       "velocity": [15, 0],
       "angularVelocityInDegrees": 0
     },

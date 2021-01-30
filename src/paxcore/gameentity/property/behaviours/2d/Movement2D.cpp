@@ -2,19 +2,19 @@
 // Created by paul on 06.01.19.
 //
 
-#include "paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h"
+#include "paxcore/gameentity/property/behaviours/2d/Movement2D.h"
 
 namespace PAX {
-    PAX_PROPERTY_IMPL(PAX::VelocityBehaviour2D)
+    PAX_PROPERTY_IMPL(PAX::Movement2D)
 
-    ClassMetadata VelocityBehaviour2D::getMetadata() {
+    ClassMetadata Movement2D::getMetadata() {
         ClassMetadata m = Super::getMetadata();
         m.add(paxfieldof(velocity));
         m.add(paxfieldof(angularVelocityInDegrees));
         return m;
     }
 
-    void VelocityBehaviour2D::update(UpdateOptions & options) {
+    void Movement2D::update(UpdateOptions & options) {
         Transformation& t = getOwner()->getTransformation();
         t.position2D() += velocity * options.dt;
         t.setRotation2DInDegrees(

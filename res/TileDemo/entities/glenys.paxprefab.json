@@ -16,7 +16,7 @@
         }
       }
     },
-    "VelocityBehaviour2D": {
+    "Movement2D": {
       "velocity": [0, 0]
     },
     "CharacterOrientation": {},

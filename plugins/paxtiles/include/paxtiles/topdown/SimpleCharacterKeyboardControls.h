@@ -7,7 +7,7 @@
 
 #include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/io/event/KeyPressedEvent.h>
-#include <paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h>
+#include <paxcore/gameentity/property/behaviours/2d/Movement2D.h>
 #include <paxcore/io/event/KeyReleasedEvent.h>
 #include <paxcore/service/Services.h>
 
@@ -18,10 +18,10 @@ namespace PAX::Tiles {
         PAX_PROPERTY(SimpleCharacterKeyboardControls, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
-        PAX_PROPERTY_DEPENDS_ON(VelocityBehaviour2D, CharacterOrientation)
+        PAX_PROPERTY_DEPENDS_ON(Movement2D, CharacterOrientation)
 
         CharacterOrientation * orientation = nullptr;
-        VelocityBehaviour2D  * velocityBehaviour = nullptr;
+        Movement2D  * velocityBehaviour = nullptr;
         std::map<Key, glm::vec2> controls;
         float speed = 1;
 

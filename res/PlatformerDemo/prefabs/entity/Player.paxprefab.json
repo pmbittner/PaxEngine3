@@ -4,7 +4,7 @@
   ],
   "Properties": {
     "PlayerControls": {},
-    "VelocityBehaviour2D": {
+    "Movement2D": {
       "velocity": [0, 0],
       "angularVelocityInDegrees": 0
     }

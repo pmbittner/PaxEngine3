@@ -7,6 +7,7 @@ set(PAX_TILEDEMO_SOURCE_FILES
 include_directories(include)
 include_directories(../../paxsdl/include)
 include_directories(../../paxopengl/include)
+include_directories(../../paxphysics/include)
 include_directories(../../paxtiles/include)
 
 set(HEADERS_FOR_CLION

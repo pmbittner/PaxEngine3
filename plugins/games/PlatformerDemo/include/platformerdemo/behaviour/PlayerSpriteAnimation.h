@@ -10,14 +10,14 @@
 #include <paxcore/animation/Animation.h>
 #include <paxutil/math/Functions.h>
 
-#include "paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h"
+#include "paxcore/gameentity/property/behaviours/2d/Movement2D.h"
 
 namespace PAX {
     class PlayerSpriteAnimation : public Behaviour {
         PAX_PROPERTY(PlayerSpriteAnimation, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
-        PAX_PROPERTY_DEPENDS_ON(SpriteSheetGraphics, VelocityBehaviour2D)
+        PAX_PROPERTY_DEPENDS_ON(SpriteSheetGraphics, Movement2D)
 
         Animation<int> walkingAnimation;
         Animation<int> idleAnimation;
@@ -28,7 +28,7 @@ namespace PAX {
 
         int moving = 0;
 
-        VelocityBehaviour2D * v = nullptr;
+        Movement2D * v = nullptr;
         SpriteSheetGraphics * spriteSheet = nullptr;
 
     public:
@@ -44,7 +44,7 @@ namespace PAX {
 
         void spawned() override {
             Behaviour::spawned();
-            v = getOwner()->get<VelocityBehaviour2D>();
+            v = getOwner()->get<Movement2D>();
             spriteSheet = getOwner()->get<SpriteSheetGraphics>();
             idleAnimation.start();
         }

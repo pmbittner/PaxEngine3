@@ -53,7 +53,7 @@ namespace PAX::Tiles {
     void SimpleCharacterKeyboardControls::attached(PAX::GameEntity & e) {
         Super::attached(e);
 
-        velocityBehaviour = e.get<VelocityBehaviour2D>();
+        velocityBehaviour = e.get<Movement2D>();
         orientation = e.get<CharacterOrientation>();
     }
 

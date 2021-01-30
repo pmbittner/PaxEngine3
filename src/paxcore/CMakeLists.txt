@@ -69,7 +69,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/graphics/SpriteSheetGraphics.h
         ../../include/paxcore/rendering/graphics/SpriteGraphics.h
         ../../include/paxcore/rendering/scenegraph/nodes/SpriteSheetNode.h
-        ../../include/paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h
+        ../../include/paxcore/gameentity/property/behaviours/2d/Movement2D.h
         ../../include/paxcore/gameentity/property/Size.h
         ../../include/paxcore/gameentity/event/SizeChangedEvent.h
         ../../include/paxcore/gameentity/event/ScaleChangedEvent.h
@@ -135,7 +135,7 @@ set(CORE_SOURCE_FILES
         gameentity/property/Behaviour.cpp
         gameentity/property/Size.cpp
         gameentity/property/behaviours/NoClipControls.cpp
-        gameentity/property/behaviours/2d/VelocityBehaviour2D.cpp
+        gameentity/property/behaviours/2d/Movement2D.cpp
         gameentity/property/behaviours/2d/FollowGameEntityBehaviour.cpp
 
         world/World.cpp

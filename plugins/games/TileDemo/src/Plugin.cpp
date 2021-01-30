@@ -3,6 +3,7 @@
 //
 
 #include "tiledemo/Plugin.h"
+#include "../../../paxphysics/include/paxphysics/Plugin.h"
 
 #include <paxsdl/SDLPlugin.h>
 #include <paxopengl/OpenGLPlugin.h>
@@ -17,7 +18,7 @@ namespace PAX {
                     PAX::SDL::SDLPlugin,
                     PAX::OpenGL::OpenGLPlugin,
                     PAX::SDL::OpenGL::SDLOpenGLPlugin,
-                    //PAX::Physics::Plugin,
+                    PAX::Physics::Plugin,
                     PAX::Tiles::Plugin> dependencies("PAX::TileDemo::Plugin");
             dependencies.checkDependencies(plugins);
         }

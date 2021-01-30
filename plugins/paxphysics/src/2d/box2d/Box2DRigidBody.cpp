@@ -9,7 +9,7 @@
 #include <paxcore/Engine.h>
 #include <paxcore/Game.h>
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
-#include <paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h>
+#include <paxcore/gameentity/property/behaviours/2d/Movement2D.h>
 
 
 namespace PAX::Physics {
@@ -102,7 +102,7 @@ namespace PAX::Physics {
             Transformation & t = owner->getTransformation();
             body->SetTransform(toBox2D(metersPerPixel * t.position2D()), t.getRotation2DInRadians());
 
-            if (VelocityBehaviour2D * v = owner->get<VelocityBehaviour2D>()) {
+            if (Movement2D * v = owner->get<Movement2D>()) {
                 body->SetAngularVelocity(Math::toRadians(v->angularVelocityInDegrees));
                 body->SetLinearVelocity(toBox2D(metersPerPixel * v->velocity));
             }
@@ -117,7 +117,7 @@ namespace PAX::Physics {
             paxTransform.position2D() = pixelsPerMeter * toGLM(box2DTransform.p);
             paxTransform.setRotation2DInRadians(box2DTransform.q.GetAngle());
 
-            if (VelocityBehaviour2D * v = owner->get<VelocityBehaviour2D>()) {
+            if (Movement2D * v = owner->get<Movement2D>()) {
                 v->velocity = pixelsPerMeter * toGLM(body->GetLinearVelocity());
                 v->angularVelocityInDegrees = Math::toDegrees(body->GetAngularVelocity());
             }

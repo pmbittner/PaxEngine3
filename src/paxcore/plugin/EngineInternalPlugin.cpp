@@ -13,7 +13,7 @@
 #include <paxcore/gameentity/property/Behaviour.h>
 #include <paxcore/gameentity/property/Size.h>
 #include <paxcore/gameentity/property/behaviours/NoClipControls.h>
-#include <paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h>
+#include <paxcore/gameentity/property/behaviours/2d/Movement2D.h>
 #include <paxcore/gameentity/property/behaviours/2d/FollowGameEntityBehaviour.h>
 #include <paxcore/rendering/graphics/AssetGraphics.h>
 #include <paxcore/rendering/graphics/SpriteGraphics.h>
@@ -142,7 +142,7 @@ namespace PAX {
     void EngineInternalPlugin::registerProperties() {
         PAX_PROPERTY_REGISTER(Behaviour);
         PAX_PROPERTY_REGISTER(NoClipControls);
-        PAX_PROPERTY_REGISTER(VelocityBehaviour2D);
+        PAX_PROPERTY_REGISTER(Movement2D);
         PAX_PROPERTY_REGISTER(FollowGameEntityBehaviour);
 
         PAX_PROPERTY_REGISTER(InputAbilityController);

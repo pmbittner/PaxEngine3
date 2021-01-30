@@ -16,7 +16,7 @@
 #include "platformerdemo/behaviour/PlayerControls.h"
 #include "platformerdemo/behaviour/PlayerSpriteAnimation.h"
 #include "platformerdemo/behaviour/ProfileGameLoopBehaviour.h"
-#include "paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h"
+#include "paxcore/gameentity/property/behaviours/2d/Movement2D.h"
 
 namespace PAX {
     namespace PlatformerDemo {
@@ -32,11 +32,11 @@ namespace PAX {
         }
 
         void Plugin::registerProperties() {
-            PAX_PROPERTY_REGISTER(PAX::Dance2D);
-            PAX_PROPERTY_REGISTER(PAX::DragNDrop);
-            PAX_PROPERTY_REGISTER(PAX::PlayerControls);
-            PAX_PROPERTY_REGISTER(PAX::PlayerSpriteAnimation);
-            PAX_PROPERTY_REGISTER(PAX::ProfileGameLoopBehaviour);
+            PAX_PROPERTY_REGISTER(Dance2D);
+            PAX_PROPERTY_REGISTER(DragNDrop);
+            PAX_PROPERTY_REGISTER(PlayerControls);
+            PAX_PROPERTY_REGISTER(PlayerSpriteAnimation);
+            PAX_PROPERTY_REGISTER(ProfileGameLoopBehaviour);
         }
     }
 }

@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 #include "paxsdl/SDLPlugin.h"
 #include "paxsdl/opengl/SDLOpenGLPlugin.h"
 #include "paxopengl/OpenGLPlugin.h"
-//#include "paxphysics/Plugin.h"
+#include "paxphysics/Plugin.h"
 #include "paxtiles/Plugin.h"
 
 int PAX::Tile_main(int argc, char *argv[]) {
@@ -31,6 +31,7 @@ int PAX::Tile_main(int argc, char *argv[]) {
     PAX::OpenGL::OpenGLPlugin         openGL;
     PAX::SDL::OpenGL::SDLOpenGLPlugin sdlOpenGLLink;
     PAX::Tiles::Plugin                tiles;
+    PAX::Physics::Plugin              physics;
     PAX::TileDemo::Plugin             demoPlugin;
 
     PAX::Engine &engine = PAX::Engine::Instance();
@@ -40,6 +41,7 @@ int PAX::Tile_main(int argc, char *argv[]) {
                     &sdl,
                     &openGL,
                     &sdlOpenGLLink,
+                    &physics,
                     &tiles,
                     &demoPlugin
             }
