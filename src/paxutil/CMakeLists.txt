@@ -37,16 +37,18 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/resources/JsonResourceFieldWriter.h)
 
 set(SOURCE_FILES
-        reflection/TypeHierarchy.cpp
+        Signature.cpp
+        math/Functions.cpp
         math/Conversion.cpp
         math/Angles.cpp
         math/Transformation.cpp
+        math/json/JsonToTransformation.cpp
         io/Settings.cpp
         reflection/TypeRegister.cpp
-        math/json/JsonToTransformation.cpp
-        resources/ResourceLoader.cpp
-        Signature.cpp
-        resources/Resources.cpp math/Functions.cpp)
+        reflection/TypeHierarchy.cpp
+        resources/ResourceHandle.cpp
+        resources/Resources.cpp
+        resources/ResourceLoader.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)

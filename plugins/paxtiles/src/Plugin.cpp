@@ -34,13 +34,13 @@ namespace PAX {
         }
 
         void Plugin::registerProperties() {
-            PAX_PROPERTY_REGISTER(PAX::Tiles::TileMapProperty);
+            PAX_PROPERTY_REGISTER_AS(TileMapProperty, "TileMap");
 
-            PAX_PROPERTY_REGISTER(PAX::Tiles::CharacterOrientation);
-            PAX_PROPERTY_REGISTER(PAX::Tiles::CharacterSpriteAnimation);
-            PAX_PROPERTY_REGISTER(PAX::Tiles::SimpleCharacterKeyboardControls);
+            PAX_PROPERTY_REGISTER(CharacterOrientation);
+            PAX_PROPERTY_REGISTER(CharacterSpriteAnimation);
+            PAX_PROPERTY_REGISTER(SimpleCharacterKeyboardControls);
 
-            PAX_PROPERTY_REGISTER(PAX::Tiles::TileMapTransition);
+            PAX_PROPERTY_REGISTER(TileMapTransition);
         }
     }
 }

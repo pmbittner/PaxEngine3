@@ -3,8 +3,8 @@
     "GreenGuy.paxprefab.json"
   ],
   "Properties": {
-    "PAX::PlayerControls": {},
-    "PAX::VelocityBehaviour2D": {
+    "PlayerControls": {},
+    "VelocityBehaviour2D": {
       "velocity": [0, 0],
       "angularVelocityInDegrees": 0
     }

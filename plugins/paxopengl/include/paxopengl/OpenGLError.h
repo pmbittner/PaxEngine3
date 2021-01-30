@@ -12,7 +12,7 @@
 namespace PAX {
     namespace OpenGL {
 
-#define PAX_CRASH_ON_GLERROR
+//#define PAX_CRASH_ON_GLERROR
 
         // Automatic version
         void GLAPIENTRY

@@ -1,11 +1,11 @@
 {
   "Constructor": {
-    "name": "TileDemo::MainLayer",
+    "name": "SmallForest",
     "dimensions": 2,
     "z": 0
   },
   "Properties": {
-    "PAX::Tiles::TileMapProperty": {
+    "TileMap": {
       "map": "${EngineResourceDir}/TileDemo/worlds/tiled/SmallForest/SmallForest.json"
     }
   },
@@ -22,7 +22,7 @@
           "Camera"
         ],
         "Properties": {
-          "PAX::Camera": {
+          "Camera": {
             "syncProjectionResolutionToViewportResolution": false,
             "projection":{
               "type": "PixelScreen",
@@ -31,7 +31,7 @@
             },
             "viewport": {}
           },
-          "PAX::FollowGameEntityBehaviour": {
+          "FollowGameEntityBehaviour": {
             "targetGameEntityID": 0,
             "respectWorldSize": true
           }

@@ -22,13 +22,13 @@
 namespace PAX::Physics {
     void Plugin::registerProperties() {
         //PAX_PROPERTY_REGISTER(PAX::Physics::RigidBody2D)
-        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DRigidBody, "PAX::Physics::RigidBody2D");
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DRigidBody, "RigidBody2D");
 
         //PAX_PROPERTY_REGISTER(PAX::Physics::Hitbox2D)
-        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DHitbox, "PAX::Physics::Hitbox2D");
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DHitbox, "Hitbox2D");
         
         //PAX_PROPERTY_REGISTER(PAX::Physics::PhysicsWorld2D)
-        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DWorld, "PAX::Physics::PhysicsWorld2D");
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DWorld, "PhysicsWorld2D");
 
         PAX_PROPERTY_REGISTER(GravityField);
         PAX_PROPERTY_REGISTER(SphereGravityField);

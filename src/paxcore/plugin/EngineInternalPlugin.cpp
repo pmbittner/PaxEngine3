@@ -31,6 +31,7 @@
 // won't be recognised if not included.
 #include <paxcore/rendering/camera/json/ViewportJsonParser.h>
 #include <paxcore/rendering/camera/json/ProjectionJsonParser.h>
+#include <paxcore/io/properties/InputAbilityController.h>
 
 
 namespace PAX {
@@ -139,28 +140,30 @@ namespace PAX {
     }
     
     void EngineInternalPlugin::registerProperties() {
-        PAX_PROPERTY_REGISTER(PAX::Behaviour);
-        PAX_PROPERTY_REGISTER(PAX::NoClipControls);
-        PAX_PROPERTY_REGISTER(PAX::VelocityBehaviour2D);
-        PAX_PROPERTY_REGISTER(PAX::FollowGameEntityBehaviour);
-        
-        PAX_PROPERTY_REGISTER(PAX::Size);
-        
-        PAX_PROPERTY_REGISTER(PAX::Camera);
+        PAX_PROPERTY_REGISTER(Behaviour);
+        PAX_PROPERTY_REGISTER(NoClipControls);
+        PAX_PROPERTY_REGISTER(VelocityBehaviour2D);
+        PAX_PROPERTY_REGISTER(FollowGameEntityBehaviour);
 
-        PAX_PROPERTY_REGISTER(PAX::Graphics);
-        PAX_PROPERTY_REGISTER(PAX::SceneGraphGraphics);
-        PAX_PROPERTY_REGISTER(PAX::SpriteGraphics);
-        PAX_PROPERTY_REGISTER(PAX::SpriteSheetGraphics);
-        PAX_PROPERTY_REGISTER(PAX::AssetGraphics);
-
-        PAX_PROPERTY_REGISTER(PAX::Light);
-        PAX_PROPERTY_REGISTER(PAX::AmbientLight);
-        PAX_PROPERTY_REGISTER(PAX::DirectionalLight);
-        PAX_PROPERTY_REGISTER(PAX::PointLight);
-        PAX_PROPERTY_REGISTER(PAX::SpotLight);
+        PAX_PROPERTY_REGISTER(InputAbilityController);
         
-        PAX_PROPERTY_REGISTER(PAX::WorldBehaviour);
-        PAX_PROPERTY_REGISTER(PAX::WorldSize);
+        PAX_PROPERTY_REGISTER(Size);
+        
+        PAX_PROPERTY_REGISTER(Camera);
+
+        PAX_PROPERTY_REGISTER(Graphics);
+        PAX_PROPERTY_REGISTER(SceneGraphGraphics);
+        PAX_PROPERTY_REGISTER(SpriteGraphics);
+        PAX_PROPERTY_REGISTER(SpriteSheetGraphics);
+        PAX_PROPERTY_REGISTER(AssetGraphics);
+
+        PAX_PROPERTY_REGISTER(Light);
+        PAX_PROPERTY_REGISTER(AmbientLight);
+        PAX_PROPERTY_REGISTER(DirectionalLight);
+        PAX_PROPERTY_REGISTER(PointLight);
+        PAX_PROPERTY_REGISTER(SpotLight);
+        
+        PAX_PROPERTY_REGISTER(WorldBehaviour);
+        PAX_PROPERTY_REGISTER(WorldSize);
     }
 }

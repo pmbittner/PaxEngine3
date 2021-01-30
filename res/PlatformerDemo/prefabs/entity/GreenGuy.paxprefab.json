@@ -4,7 +4,7 @@
   ],
   "MotionType": "Dynamic",
   "Properties": {
-    "PAX::SpriteSheetGraphics": {
+    "SpriteSheetGraphics": {
       "Sprite": "${EngineResourceDir}/PlatformerDemo/img/GreenBot16.png",
       "rows": 4,
       "columns": 7,
@@ -17,15 +17,15 @@
         }
       }
     },
-    "PAX::PlayerSpriteAnimation": {},
-    "PAX::VelocityBehaviour2D": {
+    "PlayerSpriteAnimation": {},
+    "VelocityBehaviour2D": {
       "velocity": [15, 0],
       "angularVelocityInDegrees": 0
     },
-    "PAX::Physics::RigidBody2D": {
+    "RigidBody2D": {
       "fixedRotation": true
     },
-    "PAX::Physics::Hitbox2D": {
+    "Hitbox2D": {
       "shape": {
         "type": "Rectangle",
         "synchroniseToSize": false,

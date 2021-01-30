@@ -5,7 +5,7 @@
     "z": 0
   },
   "Properties": {
-    "PAX::Physics::PhysicsWorld2D": {
+    "PhysicsWorld2D": {
       "gravity": [0, -3]
     }
   },
@@ -32,14 +32,14 @@
           "Camera"
         ],
         "Properties": {
-          "PAX::Camera": {
+          "Camera": {
             "syncProjectionResolutionToViewportResolution": true,
             "projection":{
               "type": "PixelScreen"
             },
             "viewport": {}
           },
-          "PAX::FollowGameEntityBehaviour": {
+          "FollowGameEntityBehaviour": {
             "targetGameEntityID": 1,
             "respectWorldSize": false
           }

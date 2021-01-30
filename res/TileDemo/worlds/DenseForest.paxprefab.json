@@ -1,11 +1,11 @@
 {
   "Constructor": {
-    "name": "TileDemo::MainLayer",
+    "name": "DenseForest",
     "dimensions": 2,
     "z": 0
   },
   "Properties": {
-    "PAX::Tiles::TileMapProperty": {
+    "TileMap": {
       "map": "${EngineResourceDir}/TileDemo/worlds/tiled/SmallForest/DenseForest.json"
     }
   }
