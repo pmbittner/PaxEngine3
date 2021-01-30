@@ -85,12 +85,20 @@ namespace PAX {
         entity.getEventService().remove<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
     }
 
+    void SpriteGraphics::setMesh(const std::shared_ptr<Mesh> &mesh) {
+        _meshNode.setMesh(mesh);
+    }
+
     void SpriteGraphics::setTexture(const std::shared_ptr<Texture> &texture) {
         _textureNode.setTexture(texture);
     }
 
-    const std::shared_ptr<Texture>& SpriteGraphics::getTexture() {
+    const std::shared_ptr<Texture>& SpriteGraphics::getTexture() const {
         return _textureNode.getTexture();
+    }
+
+    const std::shared_ptr<Mesh> & SpriteGraphics::getMesh() const {
+        return _meshNode.getMesh();
     }
 
     void SpriteGraphics::render(PAX::RenderOptions &renderOptions) {

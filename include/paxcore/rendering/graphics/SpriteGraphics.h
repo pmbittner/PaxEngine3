@@ -34,6 +34,8 @@ namespace PAX {
         void onSizeChanged(SizeChangedEvent& event);
         PAX_NODISCARD virtual glm::vec2 getSpriteSize() const;
 
+        void setMesh(const std::shared_ptr<Mesh> & mesh);
+
     public:
         explicit SpriteGraphics(const std::shared_ptr<Texture> &texture);
 
@@ -44,7 +46,8 @@ namespace PAX {
         PAX_NODISCARD ClassMetadata getMetadata() override;
 
         void setTexture(const std::shared_ptr<Texture> &texture);
-        PAX_NODISCARD const std::shared_ptr<Texture> & getTexture();
+        PAX_NODISCARD const std::shared_ptr<Texture> & getTexture() const;
+        PAX_NODISCARD const std::shared_ptr<Mesh> & getMesh() const;
 
         void created() override;
     };
