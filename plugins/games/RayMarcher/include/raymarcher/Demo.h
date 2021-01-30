@@ -15,9 +15,9 @@
 #include <paxcore/gameentity/property/behaviours/NoClipControls.h>
 
 #include <paxcore/rendering/graphics/SceneGraphGraphics.h>
-#include <paxcore/rendering/geometry/ScreenFillingQuad.h>
 
 #include <paxcore/rendering/factory/ViewportFactory.h>
+#include <paxcore/rendering/primitives/PrimitiveFactory.h>
 
 namespace PAX {
     namespace RayMarcher {
@@ -63,7 +63,7 @@ namespace PAX {
 
                 rayMarchingShader = Services::GetResources().loadOrGet<Shader>(Shader::FileInfo(vert, frag));
 
-                renderer.screen = PAX::CreateScreenFillingQuad();
+                renderer.screen = PrimitiveFactory::CreateScreenFillingQuad();
                 renderer.screen->upload();
 
                 SceneGraphGraphics * g = new SceneGraphGraphics();
