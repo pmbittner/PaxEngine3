@@ -15,6 +15,8 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(PAX::Behaviour)
         PAX_PROPERTY_IS_SINGLE
 
+        bool active = true;
+
     public:
         glm::vec2 velocity = glm::vec2(0);
         float angularVelocityInDegrees = 0;
@@ -22,6 +24,10 @@ namespace PAX {
         void update(UpdateOptions & options) override;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
+
+        void activate();
+        void deactivate();
+        PAX_NODISCARD bool isActive() const;
     };
 }
 

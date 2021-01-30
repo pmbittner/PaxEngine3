@@ -76,24 +76,6 @@ namespace PAX::Physics {
     }
      */
 
-    void Box2DRigidBody::setFixedRotation(bool fixedRotation) {
-        Super::setFixedRotation(fixedRotation);
-        if (body) {
-            body->SetFixedRotation(fixedRotation);
-        }
-    }
-
-    void Box2DRigidBody::spawned() {
-        World * world = getOwner()->getWorld();
-        if (Box2DWorld * b2world = world->get<Box2DWorld>()) {
-            uploadToBox2D(*b2world);
-        }
-    }
-
-    void Box2DRigidBody::despawned() {
-        PAX_NOT_IMPLEMENTED();
-    }
-
     // TODO: Consider scale of engine to box2d
 
     void Box2DRigidBody::synchronizeBox2D(float metersPerPixel) {
@@ -121,6 +103,36 @@ namespace PAX::Physics {
                 v->velocity = pixelsPerMeter * toGLM(body->GetLinearVelocity());
                 v->angularVelocityInDegrees = Math::toDegrees(body->GetAngularVelocity());
             }
+        }
+    }
+
+    void Box2DRigidBody::spawned() {
+        World * world = getOwner()->getWorld();
+        if (Box2DWorld * b2world = world->get<Box2DWorld>()) {
+            uploadToBox2D(*b2world);
+        }
+    }
+
+    void Box2DRigidBody::despawned() {
+        PAX_NOT_IMPLEMENTED();
+    }
+
+    void Box2DRigidBody::setFixedRotation(bool fixedRotation) {
+        Super::setFixedRotation(fixedRotation);
+        if (body) {
+            body->SetFixedRotation(fixedRotation);
+        }
+    }
+
+    void Box2DRigidBody::attached(GameEntity &entity) {
+        if (Movement2D * movement = entity.get<Movement2D>()) {
+            movement->deactivate();
+        }
+    }
+
+    void Box2DRigidBody::detached(GameEntity &entity) {
+        if (Movement2D * movement = entity.get<Movement2D>()) {
+            movement->activate();
         }
     }
 }

@@ -15,10 +15,24 @@ namespace PAX {
     }
 
     void Movement2D::update(UpdateOptions & options) {
-        Transformation& t = getOwner()->getTransformation();
-        t.position2D() += velocity * options.dt;
-        t.setRotation2DInDegrees(
-                t.getRotation2DInDegrees() + angularVelocityInDegrees * options.dt
-        );
+        if (active) {
+            Transformation &t = getOwner()->getTransformation();
+            t.position2D() += velocity * options.dt;
+            t.setRotation2DInDegrees(
+                    t.getRotation2DInDegrees() + angularVelocityInDegrees * options.dt
+            );
+        }
+    }
+
+    void Movement2D::activate() {
+        active = true;
+    }
+
+    void Movement2D::deactivate() {
+        active = false;
+    }
+
+    bool Movement2D::isActive() const {
+        return active;
     }
 }

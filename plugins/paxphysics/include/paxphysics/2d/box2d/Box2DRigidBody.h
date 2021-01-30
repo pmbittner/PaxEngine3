@@ -25,6 +25,9 @@ namespace PAX::Physics {
         Box2DRigidBody();
         ~Box2DRigidBody() override;
 
+        void attached(GameEntity & entity) override;
+        void detached(GameEntity & entity) override;
+
         void spawned() override;
         void despawned() override;
 
