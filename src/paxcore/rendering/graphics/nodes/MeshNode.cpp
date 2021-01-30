@@ -34,7 +34,7 @@ namespace PAX {
         _mesh = mesh;
     }
 
-    std::shared_ptr<Mesh> MeshNode::getMesh() const {
+    const std::shared_ptr<Mesh> & MeshNode::getMesh() const {
         return _mesh;
     }
 }

@@ -18,7 +18,7 @@ namespace PAX {
         ~MeshNode() override;
 
         void setMesh(const std::shared_ptr<Mesh> & mesh);
-        std::shared_ptr<Mesh> getMesh() const;
+        PAX_NODISCARD const std::shared_ptr<Mesh> & getMesh() const;
 
         void render(RenderOptions &options) override;
     };
