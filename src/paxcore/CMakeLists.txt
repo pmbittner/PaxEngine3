@@ -120,6 +120,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/data/ColourPalette.h
         ../../include/paxcore/rendering/primitives/PrimitiveFactory.h
         ../../include/paxcore/state/StateMachine.h
+        ../../include/paxcore/gameentity/property/AbilityIdentifier.h
         ../../include/paxcore/gameentity/property/Ability.h
         ../../include/paxcore/io/properties/InputAbilityController.h)
 
