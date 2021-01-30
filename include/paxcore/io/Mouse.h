@@ -19,7 +19,7 @@ namespace PAX {
         glm::ivec2 screenPos;
 
     public:
-        const glm::ivec2 & getScreenPosition() const;
+        PAX_NODISCARD const glm::ivec2 & getScreenPosition() const;
         bool isButtonDown(MouseButton button);
 
         static glm::ivec2 ScreenPosToViewportPos(const glm::ivec2 &, Camera&);

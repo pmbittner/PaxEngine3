@@ -22,12 +22,12 @@ namespace PAX {
         virtual void terminate() = 0;
 
     protected:
-        inline void setMouseScreenPosition(Mouse& mouse, int x, int y) {
+        inline static void setMouseScreenPosition(Mouse& mouse, int x, int y) {
             mouse.screenPos.x = x;
             mouse.screenPos.y = y;
         }
 
-        inline void setWindowResolution(Window& window, const glm::ivec2 & res) {
+        inline static void setWindowResolution(Window& window, const glm::ivec2 & res) {
             window._resolution = res;
         }
     };

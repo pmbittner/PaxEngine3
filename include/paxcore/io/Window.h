@@ -23,7 +23,7 @@ namespace PAX {
         glm::ivec2 _resolution;
 
     public:
-        virtual ~Window() {};
+        virtual ~Window() = default;
 
         EventHandler<ResolutionChangedEvent&> OnResolutionChanged;
 
