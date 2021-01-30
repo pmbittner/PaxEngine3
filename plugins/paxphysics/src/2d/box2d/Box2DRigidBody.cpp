@@ -9,6 +9,7 @@
 #include <paxcore/Engine.h>
 #include <paxcore/Game.h>
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
+#include <paxcore/gameentity/property/behaviours/2d/VelocityBehaviour2D.h>
 
 
 namespace PAX::Physics {
@@ -58,6 +59,8 @@ namespace PAX::Physics {
                 delete bshape;
             }
         }
+
+        body->ResetMassData();
     }
 
     // TODO: Change this to onFixtureChanged and update a b2Fixture, if the correpsonding PAX::Physics::Fixture was changed.
@@ -94,20 +97,30 @@ namespace PAX::Physics {
     // TODO: Consider scale of engine to box2d
 
     void Box2DRigidBody::synchronizeBox2D(float metersPerPixel) {
-        if (body) {
-//            PAX_LOG(Log::Level::Info, "");
-            Transformation & t = getOwner()->getTransformation();
+        GameEntity * owner = getOwner();
+        if (body && owner) {
+            Transformation & t = owner->getTransformation();
             body->SetTransform(toBox2D(metersPerPixel * t.position2D()), t.getRotation2DInRadians());
-            // TODO: update velocity
+
+            if (VelocityBehaviour2D * v = owner->get<VelocityBehaviour2D>()) {
+                body->SetAngularVelocity(Math::toRadians(v->angularVelocityInDegrees));
+                body->SetLinearVelocity(toBox2D(metersPerPixel * v->velocity));
+            }
         }
     }
 
     void Box2DRigidBody::synchronizePaxEngine(float pixelsPerMeter) {
-        if (body) {
-            Transformation & t = getOwner()->getTransformation();
-            t.position2D() = pixelsPerMeter * toGLM(body->GetPosition());
-            t.setRotation2DInRadians(body->GetAngle());
-            // TODO: update velocity
+        GameEntity * owner = getOwner();
+        if (body && owner) {
+            Transformation & paxTransform = owner->getTransformation();
+            const b2Transform & box2DTransform = body->GetTransform();
+            paxTransform.position2D() = pixelsPerMeter * toGLM(box2DTransform.p);
+            paxTransform.setRotation2DInRadians(box2DTransform.q.GetAngle());
+
+            if (VelocityBehaviour2D * v = owner->get<VelocityBehaviour2D>()) {
+                v->velocity = pixelsPerMeter * toGLM(body->GetLinearVelocity());
+                v->angularVelocityInDegrees = Math::toDegrees(body->GetAngularVelocity());
+            }
         }
     }
 }
