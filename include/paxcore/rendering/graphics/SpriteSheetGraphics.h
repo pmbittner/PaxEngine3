@@ -16,13 +16,14 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(SpriteGraphics)
         PAX_PROPERTY_IS_SINGLE
 
-        SpriteSheetGraphics();
         void init();
 
     protected:
         SpriteSheetNode _spriteSheet;
         int columns = 1, rows = 1;
         glm::ivec2 startPos = glm::ivec2();
+
+        SpriteSheetGraphics();
 
         PAX_NODISCARD glm::vec2 getSpriteSize() const override;
 

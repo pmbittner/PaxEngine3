@@ -23,7 +23,7 @@ namespace PAX {
         _scenegraph <<= _spriteSheet;
     }
 
-    SpriteSheetGraphics::SpriteSheetGraphics() : _spriteSheet(0, 0) {
+    SpriteSheetGraphics::SpriteSheetGraphics() : SpriteGraphics(), _spriteSheet(0, 0) {
 
     }
 
@@ -48,7 +48,7 @@ namespace PAX {
     }
 
     glm::vec2 SpriteSheetGraphics::getSpriteSize() const {
-        glm::ivec2 size = getSpriteSheetSize();
+        const glm::ivec2 & size = getSpriteSheetSize();
         return glm::vec2(_texture->getWidth() / size.x, _texture->getHeight() / size.y);
     }
 
