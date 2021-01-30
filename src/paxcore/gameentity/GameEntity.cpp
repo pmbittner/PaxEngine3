@@ -8,6 +8,7 @@
 #include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxcore/service/Services.h>
 #include <paxcore/world/World.h>
+#include <paxcore/gameentity/property/Ability.h>
 
 namespace PAX {
     GameEntity::GameEntity() = default;
@@ -105,6 +106,18 @@ namespace PAX {
 
     const std::vector<Tag>& GameEntity::getTags() const {
         return tags;
+    }
+
+    AbilityResult GameEntity::perform(const AbilityIdentifier & abilityName) const {
+        const std::vector<Ability*> & abilities = get<Ability>();
+        // TODO: Can we make this more efficient, e.g. with a map or so?
+        for (Ability * ability : abilities) {
+            if (ability->name == abilityName) {
+                return ability->run();
+            }
+        }
+
+        return AbilityResult::NoSuchAbility;
     }
 
     void GameEntity::spawned() {

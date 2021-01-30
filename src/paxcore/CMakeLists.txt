@@ -119,7 +119,10 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/rendering/config/PointCloudSettings.h
         ../../include/paxcore/rendering/data/Colour.h
         ../../include/paxcore/rendering/data/ColourPalette.h
-        ../../include/paxcore/rendering/primitives/PrimitiveFactory.h)
+        ../../include/paxcore/rendering/primitives/PrimitiveFactory.h
+        ../../include/paxcore/state/StateMachine.h
+        ../../include/paxcore/gameentity/property/Ability.h
+        ../../include/paxcore/io/properties/InputAbilityController.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -153,7 +156,11 @@ set(CORE_SOURCE_FILES
         gameentity/GameEntityIDService.cpp
         world/prefab/JsonWorldGameEntityParser.cpp
         function/Updateable.cpp
-        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp json/JsonResourceLoader.cpp gameentity/GameEntityProperty.cpp system/GameSystem.cpp)
+        gameentity/prefab/JsonGameEntityPrefabTagsParser.cpp
+        json/JsonResourceLoader.cpp
+        gameentity/GameEntityProperty.cpp
+        system/GameSystem.cpp state/StateMachine.cpp
+        gameentity/property/Ability.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)

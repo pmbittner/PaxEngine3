@@ -5,22 +5,20 @@
 #ifndef PAXENGINE3_GAMEENTITY_H
 #define PAXENGINE3_GAMEENTITY_H
 
-#include <vector>
-
 #include <polypropylene/property/Entity.h>
-
-#include <paxutil/math/Transformation.h>
 #include <polypropylene/prefab/Prefab.h>
 #include <polypropylene/property/EntityManagerView.h>
-
 #include "polypropylene/event/EventHandler.h"
 #include "polypropylene/event/EventService.h"
-#include "event/GameEntityParentChangedEvent.h"
+
+#include <paxutil/math/Transformation.h>
 
 #include "MotionType.h"
 #include "Tag.h"
+#include "event/GameEntityParentChangedEvent.h"
 
 #include "GameEntityProperty.h"
+#include "property/AbilityIdentifier.h"
 
 namespace PAX {
     class World;
@@ -65,6 +63,8 @@ namespace PAX {
         bool removeTag(const Tag & tag);
         PAX_NODISCARD bool hasTag(const Tag & tag) const;
         PAX_NODISCARD const std::vector<Tag> & getTags() const;
+
+        AbilityResult perform(const AbilityIdentifier & abilityName) const;
 
         void spawned();
         void despawned();
