@@ -7,7 +7,6 @@
 
 #include <string>
 #include <vector>
-#include <ostream>
 
 #include <paxutil/lib/GlmIncludes.h>
 #include <polypropylene/io/Path.h>
@@ -81,7 +80,6 @@ namespace PAX {
     };
 }
 
-std::ostream &operator<<(std::ostream &os, PAX::Shader::Flags const &flags);
-std::ostream &operator<<(std::ostream &os, PAX::Shader::FileInfo const &fileInfo);
+#include <paxcore/OStreamOverloads.h>
 
 #endif //PAXENGINE3_SHADER_H

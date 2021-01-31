@@ -3,14 +3,7 @@
 //
 
 #include <paxopengl/io/OpenGLShaderLoader.h>
-
-#include "paxopengl/io/OpenGLShaderLoader.h"
 #include "paxopengl/resource/OpenGLShader.h"
-
-#include "paxutil/resources/Resources.h"
-
-#include "polypropylene/serialisation/json/nlohmann/Json.h"
-#include "polypropylene/serialisation/json/JsonUtil.h"
 
 bool PAX::OpenGL::OpenGLShaderLoader::canLoad(Shader::FileInfo fileInfo) const {
     return true;

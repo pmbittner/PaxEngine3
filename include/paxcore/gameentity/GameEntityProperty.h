@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_ENTITYCOMPONENT_H
 #define PAXENGINE3_ENTITYCOMPONENT_H
 
+#include <paxcore/OStreamOverloads.h>
 #include <polypropylene/property/Property.h>
 
 namespace PAX {

@@ -3,6 +3,7 @@
 //
 
 #include <paxcore/rendering/data/Shader.h>
+#include <paxcore/OStreamOverloads.h>
 
 namespace PAX {
     Shader::Flags::Flags() {

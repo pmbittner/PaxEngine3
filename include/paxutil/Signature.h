@@ -9,6 +9,7 @@
 #include <string>
 #include <sstream>
 #include <polypropylene/stdutils/TuplePrinter.h>
+#include <polypropylene/definitions/Definitions.h>
 
 namespace PAX {
     class ISignature {
@@ -34,7 +35,7 @@ namespace PAX {
 
         ~Signature() override = default;
 
-        std::string toString() const override {
+        PAX_NODISCARD std::string toString() const override {
             std::stringstream ss;
             Util::TuplePrinter<decltype(_values), sizeof...(S)>::print(_values, ss);
             return ss.str();

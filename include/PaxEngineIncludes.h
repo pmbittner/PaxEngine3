@@ -7,6 +7,7 @@
 
 #include "paxutil/macros/PlatformIncludes.h"
 #include "paxutil/lib/LibIncludes.h"
+#include "paxcore/OStreamOverloads.h"
 #include "paxcore/Engine.h"
 
 #endif //PAXENGINE3_MAININCLUDES_H

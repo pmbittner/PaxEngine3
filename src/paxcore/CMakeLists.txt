@@ -123,7 +123,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/gameentity/property/AbilityIdentifier.h
         ../../include/paxcore/gameentity/property/Ability.h
         ../../include/paxcore/io/properties/InputAbilityController.h
-        ../../include/paxcore/animation/DiscreteAnimation.h ../../include/paxcore/animation/AnimationBehaviour.h ../../include/paxcore/animation/Timing.h)
+        ../../include/paxcore/animation/DiscreteAnimation.h ../../include/paxcore/animation/AnimationBehaviour.h ../../include/paxcore/animation/Timing.h ../../include/paxcore/OStreamOverloads.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
