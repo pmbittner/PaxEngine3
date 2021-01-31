@@ -43,10 +43,10 @@
                         {
                          "name":"transition_target_map",
                          "type":"string",
-                         "value":"${ResourcePath}\/TileDemo\/worlds\/DenseForest.paxprefab.json"
+                         "value":"${EngineResourcePath}\/demos\/TileDemo\/worlds\/DenseForest.paxprefab.json"
                         }],
                  "rotation":0,
-                 "type":"${ResourcePath}\/TileDemo\/entities\/transitionarea.paxprefab.json",
+                 "type":"${EngineResourcePath}\/demos\/TileDemo\/entities\/transitionarea.paxprefab.json",
                  "visible":true,
                  "width":16,
                  "x":0,
@@ -58,7 +58,7 @@
                  "name":"PlayerSpawn",
                  "point":true,
                  "rotation":0,
-                 "type":"${ResourcePath}\/TileDemo\/entities\/playerspawn.paxprefab.json",
+                 "type":"${EngineResourcePath}\/prefabs\/playerspawn.paxprefab.json",
                  "visible":true,
                  "width":0,
                  "x":207.666666666667,

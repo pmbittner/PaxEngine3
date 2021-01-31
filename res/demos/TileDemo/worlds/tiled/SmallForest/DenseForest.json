@@ -43,10 +43,10 @@
                         {
                          "name":"transition_target_map",
                          "type":"string",
-                         "value":"${ResourcePath}\/TileDemo\/worlds\/SmallForest.paxprefab.json"
+                         "value":"${EngineResourcePath}\/demos\/TileDemo\/worlds\/SmallForest.paxprefab.json"
                         }],
                  "rotation":0,
-                 "type":"${ResourcePath}\/TileDemo\/entities\/transitionarea.paxprefab.json",
+                 "type":"${EngineResourcePath}\/demos\/TileDemo\/entities\/transitionarea.paxprefab.json",
                  "visible":true,
                  "width":16,
                  "x":464,

@@ -1,0 +1,19 @@
+{
+  "Properties": [
+    {
+      "SpriteGraphics": {
+        "Sprite": "${EngineResourceDir}/demos/TileDemo/img/orangepixel.png",
+        "Shader": {
+          "Vertex": "${EngineResourceDir}/shader/sprite/sprite.vert",
+          "Fragment": "${EngineResourceDir}/shader/sprite/sprite.frag"
+        }
+      }
+    },
+    {
+      "TileMapTransition": {
+        "transition_target_id": "${transition_target_id}",
+        "transition_target_map": "${transition_target_map}"
+      }
+    }
+  ]
+}

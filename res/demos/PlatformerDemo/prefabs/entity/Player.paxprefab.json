@@ -1,0 +1,16 @@
+{
+  "Inherits": [
+    "GreenGuy.paxprefab.json"
+  ],
+  "Properties": [
+    {
+      "PlayerControls": {}
+    },
+    {
+      "Movement2D": {
+        "velocity": [0, 0],
+        "angularVelocityInDegrees": 0
+      }
+    }
+  ]
+}

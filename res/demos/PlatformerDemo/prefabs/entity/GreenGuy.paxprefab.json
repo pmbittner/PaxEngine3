@@ -1,0 +1,45 @@
+{
+  "Inherits": [
+    "DemoGameObject.paxprefab.json"
+  ],
+  "MotionType": "Dynamic",
+  "Properties": [
+    {
+      "SpriteSheetGraphics": {
+        "Sprite": "${EngineResourceDir}/demos/PlatformerDemo/img/GreenBot16.png",
+        "rows": 4,
+        "columns": 7,
+        "position": [0, 0],
+        "Shader": {
+          "Vertex": "${EngineResourceDir}/shader/sprite/sprite.vert",
+          "Fragment": "${EngineResourceDir}/shader/sprite/sprite.frag",
+          "Flags": {
+            "Vertex": "#define SPRITE_SHEET"
+          }
+        }
+      }
+    },
+    {"PlayerSpriteAnimation": {}},
+    {
+      "Movement2D": {
+        "velocity": [15, 0],
+        "angularVelocityInDegrees": 0
+      }
+    },
+    {
+      "RigidBody2D": {
+        "fixedRotation": true
+      }
+    },
+    {
+      "Hitbox2D": {
+        "shape": {
+          "type": "Rectangle",
+          "synchroniseToSize": false,
+          "size": [14, 16]
+        },
+        "material": "${EngineResourceDir}/demos/PlatformerDemo/material/GreenGuy.psxmat"
+      }
+    }
+  ]
+}

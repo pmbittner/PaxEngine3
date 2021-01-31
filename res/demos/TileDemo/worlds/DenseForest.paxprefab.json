@@ -1,0 +1,14 @@
+{
+  "Constructor": {
+    "name": "DenseForest",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Properties": [
+    {
+      "TileMap": {
+        "map": "${EngineResourceDir}/demos/TileDemo/worlds/tiled/SmallForest/DenseForest.json"
+      }
+    }
+  ]
+}

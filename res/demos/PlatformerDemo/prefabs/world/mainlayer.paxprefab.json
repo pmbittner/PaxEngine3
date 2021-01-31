@@ -1,0 +1,56 @@
+{
+  "Constructor": {
+    "name": "PlatformerDemo::MainLayer",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Properties": [
+    {
+      "PhysicsWorld2D": {
+        "gravity": [0, -3]
+      }
+    }
+  ],
+  "Entities": [
+    {
+      "name": "Player",
+      "id": 1,
+      "prefab": "${EngineResourceDir}/demos/PlatformerDemo/prefabs/entity/Player.paxprefab.json"
+    },
+    {
+      "name": "GreenGuy",
+      "id": 2,
+      "prefab": "${EngineResourceDir}/demos/PlatformerDemo/prefabs/entity/GreenGuy.paxprefab.json"
+    },
+    {
+      "name": "Camera",
+      "id": 3,
+      "prefab": {
+        "Transform": {
+          "position": [0, 0, 10],
+          "scale": [5, 5, 1]
+        },
+        "Tags": [
+          "Camera"
+        ],
+        "Properties": [
+          {
+            "Camera": {
+              "syncProjectionResolutionToViewportResolution": true,
+              "projection":{
+                "type": "PixelScreen"
+              },
+              "viewport": {}
+            }
+          },
+          {
+            "FollowGameEntityBehaviour": {
+              "targetGameEntityID": 1,
+              "respectWorldSize": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -133,13 +133,13 @@ namespace PAX {
                 }
 
                 PAX_CONSTEXPR_IF (withTree) {
-                    GameEntity* tree  = createFromFile("PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
+                    GameEntity* tree  = createFromFile("demos/PlaygroundDemo/mesh/lowpolytree/lowpolytree.obj", simpleMatShader);
                     tree->getTransformation().position() = {-3, 0, -5};
                     _world->spawn(tree);
                 }
 
                 PAX_CONSTEXPR_IF (withTank) {
-                    GameEntity* tank  = createFromFile("PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
+                    GameEntity* tank  = createFromFile("demos/PlaygroundDemo/mesh/ltp/LTP.obj", simpleMatShader);
                     tank->getTransformation().position() = {1, -2, -5};
                     _world->spawn(tank);
                 }

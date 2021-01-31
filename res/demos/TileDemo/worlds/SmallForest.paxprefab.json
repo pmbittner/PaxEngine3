@@ -1,0 +1,48 @@
+{
+  "Constructor": {
+    "name": "SmallForest",
+    "dimensions": 2,
+    "z": 0
+  },
+  "Properties": [
+    {
+      "TileMap": {
+        "map": "${EngineResourceDir}/demos/TileDemo/worlds/tiled/SmallForest/SmallForest.json"
+      }
+    }
+  ],
+  "Entities": [
+    {
+      "name": "Camera",
+      "id": 1002,
+      "prefab": {
+        "Transform": {
+          "position": [0, 0, 10],
+          "scale": [3, 3, 1]
+        },
+        "Tags": [
+          "Camera"
+        ],
+        "Properties": [
+          {
+            "Camera": {
+              "syncProjectionResolutionToViewportResolution": false,
+              "projection":{
+                "type": "PixelScreen",
+                "resolution_width": 800,
+                "resolution_height": 600
+              },
+              "viewport": {}
+            }
+          },
+          {
+            "FollowGameEntityBehaviour": {
+              "targetGameEntityID": 0,
+              "respectWorldSize": true
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
