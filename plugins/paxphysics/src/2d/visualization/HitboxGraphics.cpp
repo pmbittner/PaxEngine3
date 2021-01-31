@@ -75,9 +75,14 @@ namespace PAX::Physics {
     void HitboxGraphics::render(RenderOptions &renderOptions) {
         Graphics::render(renderOptions);
 
+        // Currently, hitboxes are independent of scale.
+        // Thus, we have to undo any scaling from our parent.
+        // Otherwise, the shown hitbox will be shown scaled although it is not scaled in the physics world.
+        const glm::mat4 undoParentScale = glm::scale(1.f / getOwner()->getTransformation().getAbsoluteScale());
+
         const std::shared_ptr<Shader> shader = getShader();
         const glm::mat4 & parentTransform = renderOptions.getTransformationMatrix();
-        renderOptions.setTransformationMatrix(parentTransform * trafo);
+        renderOptions.setTransformationMatrix(parentTransform * undoParentScale * trafo);
 
         shader->setUniform("color", fillColor);
         shapeNode.render(renderOptions);
