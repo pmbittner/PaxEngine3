@@ -5,36 +5,26 @@
 #ifndef PAXENGINE3_ANIMATION_H
 #define PAXENGINE3_ANIMATION_H
 
-#include <chrono>
+#include "Timing.h"
+#include "AnimationBehaviour.h"
 
 namespace PAX {
-    enum class AnimationBehaviour {
-        LOOP,
-        STOP,
-        PINGPONG
-    };
-
     template<typename T>
     class Animation {
-        typedef std::chrono::duration<double> Timespan;
-        typedef std::chrono::time_point<std::chrono::high_resolution_clock, Timespan> Timepoint;
-        typedef std::chrono::high_resolution_clock Clock;
-
         T min, max;
         T* value = nullptr;
 
-        Timespan seconds;
-        Timepoint startTime;
+        Time::Timespan seconds;
+        Time::Timepoint startTime;
 
         bool running = false;
 
     protected:
-        double interpolate(Timepoint time) {
+        double interpolate(Time::Timepoint time) {
             return (time - startTime) / seconds;
         }
 
     public:
-
         AnimationBehaviour overflowBehaviour = AnimationBehaviour::LOOP;
 
         Animation(T min, T max, double seconds, T* value, AnimationBehaviour overflowBehaviour = AnimationBehaviour::LOOP) :
@@ -48,7 +38,7 @@ namespace PAX {
 
         void start() {
             *value = min;
-            startTime = Clock::now();
+            startTime = Time::Clock::now();
             running = true;
         }
 
@@ -59,7 +49,7 @@ namespace PAX {
 
         void update() {
             if (running) {
-                double i = interpolate(Clock::now());
+                double i = interpolate(Time::Clock::now());
                 if (i > 1) {
                     switch (overflowBehaviour) {
                         case AnimationBehaviour::PINGPONG: {
@@ -75,7 +65,7 @@ namespace PAX {
                             break;
                         }
 
-                        case AnimationBehaviour::STOP: {
+                        case AnimationBehaviour::ONCE: {
                             stop();
                             return;
                         }
