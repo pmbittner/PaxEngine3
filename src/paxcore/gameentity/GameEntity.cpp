@@ -108,12 +108,24 @@ namespace PAX {
         return tags;
     }
 
-    AbilityResult GameEntity::perform(const AbilityIdentifier & abilityName) const {
+    AbilityResult GameEntity::startPerforming(const AbilityIdentifier & abilityName) const {
         const std::vector<Ability*> & abilities = get<Ability>();
         // TODO: Can we make this more efficient, e.g. with a map or so?
         for (Ability * ability : abilities) {
-            if (ability->name == abilityName) {
-                return ability->run();
+            if (ability->getName() == abilityName) {
+                return ability->start();
+            }
+        }
+
+        return AbilityResult::NoSuchAbility;
+    }
+
+    AbilityResult GameEntity::endPerforming(const AbilityIdentifier &abilityName) const {
+        const std::vector<Ability*> & abilities = get<Ability>();
+        // TODO: Can we make this more efficient, e.g. with a map or so?
+        for (Ability * ability : abilities) {
+            if (ability->getName() == abilityName) {
+                return ability->stop();
             }
         }
 

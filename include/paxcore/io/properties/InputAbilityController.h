@@ -29,7 +29,7 @@ namespace PAX {
         void despawned() override;
 
         void onKeyPressed(KeyPressedEvent & e);
-//        void onKeyReleased(KeyReleasedEvent & e);
+        void onKeyReleased(KeyReleasedEvent & e);
     };
 }
 

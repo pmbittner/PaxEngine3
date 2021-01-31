@@ -64,7 +64,8 @@ namespace PAX {
         PAX_NODISCARD bool hasTag(const Tag & tag) const;
         PAX_NODISCARD const std::vector<Tag> & getTags() const;
 
-        AbilityResult perform(const AbilityIdentifier & abilityName) const;
+        AbilityResult startPerforming(const AbilityIdentifier & abilityName) const;
+        AbilityResult endPerforming(const AbilityIdentifier & abilityName) const;
 
         void spawned();
         void despawned();

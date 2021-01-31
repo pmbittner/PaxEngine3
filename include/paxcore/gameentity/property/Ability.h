@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_ABILITY_H
 #define PAXENGINE3_ABILITY_H
 
-#include "../GameEntityProperty.h"
+#include "Behaviour.h"
 #include "AbilityIdentifier.h"
 
 /**
@@ -16,7 +16,6 @@
 #define PAX_ABILITY(name) \
     PAX_PROPERTY(name, PAX_PROPERTY_IS_CONCRETE) \
     PAX_PROPERTY_DERIVES(Ability) \
-    PAX_PROPERTY_IS_SINGLE \
 public: \
     static constexpr const char* GetName() { return #name; } \
 private:
@@ -24,17 +23,24 @@ private:
 #define PAX_ABILITY_IMPL(...) PAX_PROPERTY_IMPL(__VA_ARGS__)
 
 namespace PAX {
-    class Ability : public GameEntityProperty {
+    class Ability : public Behaviour {
         PAX_PROPERTY(Ability, PAX_PROPERTY_IS_CONCRETE)
-        PAX_PROPERTY_DERIVES(GameEntityProperty)
+        PAX_PROPERTY_DERIVES(Behaviour)
         PAX_PROPERTY_IS_MULTIPLE
 
     protected:
+        bool isActive;
+        AbilityIdentifier name;
         explicit Ability(const AbilityIdentifier & name);
 
     public:
-        const AbilityIdentifier name;
-        virtual AbilityResult run() = 0;
+        void update(UpdateOptions & options) final;
+
+        virtual AbilityResult start();
+        virtual void act(UpdateOptions & options);
+        virtual AbilityResult stop();
+
+        PAX_NODISCARD const AbilityIdentifier & getName();
     };
 }
 

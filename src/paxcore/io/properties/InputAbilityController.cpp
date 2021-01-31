@@ -17,25 +17,28 @@ namespace PAX {
     void InputAbilityController::spawned() {
         EventService & events = Services::GetEventService();
         events.add<KeyPressedEvent,  InputAbilityController, &InputAbilityController::onKeyPressed>(this);
-//        events.add<KeyReleasedEvent, InputAbilityController, &InputAbilityController::onKeyReleased>(this);
+        events.add<KeyReleasedEvent, InputAbilityController, &InputAbilityController::onKeyReleased>(this);
     }
 
     void InputAbilityController::despawned() {
         EventService & events = Services::GetEventService();
         events.remove<KeyPressedEvent, InputAbilityController, &InputAbilityController::onKeyPressed>(this);
-//        events.remove<KeyReleasedEvent, InputAbilityController, &InputAbilityController::onKeyReleased>(this);
+        events.remove<KeyReleasedEvent, InputAbilityController, &InputAbilityController::onKeyReleased>(this);
     }
 
     void InputAbilityController::onKeyPressed(KeyPressedEvent & e) {
         if (!e.repeated) {
             const auto binding = keyBindings.find(e.button);
             if (binding != keyBindings.end()) {
-                getOwner()->perform(binding->second);
+                getOwner()->startPerforming(binding->second);
             }
         }
     }
 
-//    void InputAbilityController::onKeyReleased(KeyReleasedEvent & e) {
-//
-//    }
+    void InputAbilityController::onKeyReleased(KeyReleasedEvent & e) {
+        const auto binding = keyBindings.find(e.button);
+        if (binding != keyBindings.end()) {
+            getOwner()->endPerforming(binding->second);
+        }
+    }
 }
