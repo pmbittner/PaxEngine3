@@ -27,5 +27,13 @@ namespace PAX {
                     std::cos(theta) * std::sin(phi)
             );
         }
+
+        glm::vec2 Rotate90DegreesToLeft(const glm::vec2 & dir) {
+            return {-dir.y, dir.x};
+        }
+
+        glm::vec2 Rotate90DegreesToRight(const glm::vec2 & dir) {
+            return {dir.y, -dir.x};
+        }
     }
 }

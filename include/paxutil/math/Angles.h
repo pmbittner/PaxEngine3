@@ -11,18 +11,21 @@
 namespace PAX {
     namespace Math {
         template<typename T>
-        constexpr T toRadians(T degrees) {
+        PAX_NODISCARD constexpr T toRadians(T degrees) {
             return T(degrees * M_PI / 180.0);
         }
 
         template<typename T>
-        constexpr T toDegrees(T radians) {
+        PAX_NODISCARD constexpr T toDegrees(T radians) {
             return T(radians * 180 / M_PI);
         }
 
-        glm::vec3 sphericalCoordinatesToDirection(float theta, float phi);
-        glm::vec2 lookDirToSphericalCoordinates(const glm::vec3 & lookdir);
-        glm::vec3 sphericalCoordinatesToUpDirection(float theta, float phi);
+        PAX_NODISCARD glm::vec3 sphericalCoordinatesToDirection(float theta, float phi);
+        PAX_NODISCARD glm::vec2 lookDirToSphericalCoordinates(const glm::vec3 & lookdir);
+        PAX_NODISCARD glm::vec3 sphericalCoordinatesToUpDirection(float theta, float phi);
+
+        PAX_NODISCARD glm::vec2 Rotate90DegreesToLeft(const glm::vec2 & dir);
+        PAX_NODISCARD glm::vec2 Rotate90DegreesToRight(const glm::vec2 & dir);
     }
 }
 
