@@ -260,10 +260,11 @@ namespace PAX {
                         GameEntity *entity = prefab->create(varRegister);
                         Transformation &t = entity->getTransformation();
                         t.position() = {obj_pos.x, obj_pos.y, z};
-                        // TODO: This is some sort of hack for our orange boxes for now, where we know, that these have
-                        //       size 1px x 1px. Find a better solution for this like primitives as entities or so like:
-                        //       Rectangle { Size, RectangleGraphics? }
-                        t.setScale(t.getScale() * glm::vec3(obj_size, 1));
+                        t.setRotation2DInDegrees(-obj["rotation"].get<int>());
+//                        // TODO: This is some sort of hack for our orange boxes for now, where we know, that these have
+//                        //       size 1px x 1px. Find a better solution for this like primitives as entities or so like:
+//                        //       Rectangle { Size, RectangleGraphics? }
+//                        t.setScale(t.getScale() * glm::vec3(obj_size, 1));
                         map->_addGameEntity(entity, obj_id);
                     } else {
                         PAX_LOG(Log::Level::Warn, "Object without prefab given. Thus, it will be skipped.");
