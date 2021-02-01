@@ -96,4 +96,53 @@ namespace PAX {
     std::shared_ptr<Mesh> PrimitiveFactory::CreateScreenFillingQuad() {
         return CreateScreenQuad(-1, 1, -1, 1);
     }
+
+    std::shared_ptr<Mesh> PrimitiveFactory::CreateCircle(int steps, bool upload) {
+        auto* meshFactory = Services::GetFactoryService().get<MeshFactory>();
+
+        if (meshFactory) {
+            std::vector<glm::vec3> vertices(steps);
+            for (int i = 0; i < steps; ++i) {
+                const float rad = float(i) / float(steps) * glm::two_pi<float>();
+                vertices[i] = {glm::sin(rad), glm::cos(rad), 0};
+            }
+
+            std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, {});
+            mesh->setFaceMode(Mesh::FaceMode::Lines);
+
+            if (upload) {
+                mesh->upload();
+            }
+            return mesh;
+        } else {
+            PAX_THROW_RUNTIME_ERROR("Could not create sprite mesh because no MeshFactory is registered at the FactoryService!");
+        }
+    }
+
+    std::shared_ptr<Mesh> PrimitiveFactory::CreateFilledCircle(int steps, bool upload) {
+        auto* meshFactory = Services::GetFactoryService().get<MeshFactory>();
+
+        if (meshFactory) {
+            // +1 for the center of the circle
+            const int center = steps;
+            std::vector<glm::vec3> vertices(steps + 1);
+            std::vector<glm::ivec3> faces(steps);
+            vertices[center] = {0, 0, 0};
+            for (int i = 1; i < steps + 1; ++i) {
+                const float rad = float(i) / float(steps) * glm::two_pi<float>();
+                vertices[i] = {glm::sin(rad), glm::cos(rad), 0};
+                faces[i-1] = {i, center, (i+1) % steps};
+            }
+
+            std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
+            mesh->setFaceMode(Mesh::FaceMode::Triangles);
+
+            if (upload) {
+                mesh->upload();
+            }
+            return mesh;
+        } else {
+            PAX_THROW_RUNTIME_ERROR("Could not create sprite mesh because no MeshFactory is registered at the FactoryService!");
+        }
+    }
 }

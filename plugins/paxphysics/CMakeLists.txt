@@ -28,7 +28,7 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/gravityfields/GravityField.h
         include/paxphysics/2d/gravityfields/SphereGravityField.h
         include/paxphysics/2d/visualization/HitboxGraphics.h
-        include/paxphysics/2d/json/JsonShape2DParser.h)
+        include/paxphysics/2d/json/JsonShape2DParser.h include/paxphysics/2d/shape/Circle.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)
@@ -62,5 +62,5 @@ add_library(paxphysics ${HEADERS_FOR_CLION} ${PAXPHYSICS_SOURCE}
         src/2d/box2d/Box2DHitbox.cpp
         src/2d/material/PhysicsMaterialLoader.cpp
         src/2d/material/PhysicsMaterial.cpp
-        src/2d/json/JsonShape2DParser.cpp)
+        src/2d/json/JsonShape2DParser.cpp src/2d/shape/Circle.cpp)
 target_link_libraries(paxphysics ${BOX2D_LIBRARY})

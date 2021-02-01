@@ -6,6 +6,7 @@
 #include <polypropylene/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+#include <paxphysics/2d/shape/Circle.h>
 
 namespace PAX::Physics {
     b2Vec2 toBox2D(const glm::vec2 & glmvec) {
@@ -34,6 +35,10 @@ namespace PAX::Physics {
                     toBox2D(metersPerPixel * aabb.getCenter()),
                     0);
             ret = rectShape;
+        } else if (auto * circle = dynamic_cast<const Circle*>(shape)) {
+            auto * circleShape = new b2CircleShape();
+            circleShape->m_radius = metersPerPixel * circle->getRadius();
+            ret = circleShape;
         }
 
         if (!ret) {

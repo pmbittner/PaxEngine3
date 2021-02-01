@@ -13,6 +13,8 @@ namespace PAX {
         static std::shared_ptr<Mesh> CreateFrame(bool upload = true);
         static std::shared_ptr<Mesh> CreateScreenQuad(float left, float right, float bottom, float top);
         static std::shared_ptr<Mesh> CreateScreenFillingQuad();
+        static std::shared_ptr<Mesh> CreateCircle(int steps, bool upload = true);
+        static std::shared_ptr<Mesh> CreateFilledCircle(int steps, bool upload = true);
     };
 }
 

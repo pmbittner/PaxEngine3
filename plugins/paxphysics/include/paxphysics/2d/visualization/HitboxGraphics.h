@@ -20,6 +20,8 @@ namespace PAX::Physics {
         static std::shared_ptr<Shader> rectangleShader;
         static std::shared_ptr<Mesh> GetRectangleMesh();
         static std::shared_ptr<Mesh> GetRectangleBorderMesh();
+        static std::shared_ptr<Mesh> GetCircleMesh();
+        static std::shared_ptr<Mesh> GetCircleBorderMesh();
         static const glm::vec4 & GetFillColorFor(const Shape2D & fixture);
         static const glm::vec4 & GetBorderColorFor(const Shape2D & fixture);
 

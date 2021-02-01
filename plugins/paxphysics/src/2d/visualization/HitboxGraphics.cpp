@@ -6,6 +6,7 @@
 #include <paxphysics/2d/shape/Rectangle.h>
 #include <paxcore/rendering/primitives/PrimitiveFactory.h>
 #include <paxcore/service/Services.h>
+#include <paxphysics/2d/shape/Circle.h>
 
 namespace PAX::Physics {
     PAX_PROPERTY_IMPL(HitboxGraphics)
@@ -23,6 +24,16 @@ namespace PAX::Physics {
 
     std::shared_ptr<Mesh> HitboxGraphics::GetRectangleBorderMesh() {
         static auto mesh = PrimitiveFactory::CreateFrame();
+        return mesh;
+    }
+
+    std::shared_ptr<Mesh> HitboxGraphics::GetCircleMesh() {
+        static auto mesh = PrimitiveFactory::CreateFilledCircle(64); // about 10 * two pi
+        return mesh;
+    }
+
+    std::shared_ptr<Mesh> HitboxGraphics::GetCircleBorderMesh() {
+        static auto mesh = PrimitiveFactory::CreateCircle(64);
         return mesh;
     }
 
@@ -63,6 +74,11 @@ namespace PAX::Physics {
                             aabb.getLength(0),
                             aabb.getLength(1),
                             1));
+            _shader = rectangleShader;
+        } else if (const auto * circle = dynamic_cast<const Circle*>(&shape)) {
+            shapeMesh = GetCircleMesh();
+            frameMesh = GetCircleBorderMesh();
+            trafo = glm::scale(glm::vec3(circle->getRadius(), circle->getRadius(), 1));
             _shader = rectangleShader;
         } else {
             PAX_NOT_IMPLEMENTED_EXCEPTION();

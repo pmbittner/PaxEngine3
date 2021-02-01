@@ -23,6 +23,11 @@ namespace PAX::Physics {
         bool isSensor = false;
 
     protected:
+        /**
+         * Takes ownership of shape and deletes it on destruction.
+         * @param shape
+         * @param material
+         */
         Hitbox2D(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material);
 
     public:
