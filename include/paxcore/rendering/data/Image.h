@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_IMAGE_H
 #define PAXENGINE3_IMAGE_H
 
+#include <memory>
 #include "Colour.h"
 #include "Texture.h"
 

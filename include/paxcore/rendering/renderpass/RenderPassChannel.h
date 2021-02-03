@@ -5,6 +5,7 @@
 #ifndef PAXENGINE3_RENDERPASSCHANNEL_H
 #define PAXENGINE3_RENDERPASSCHANNEL_H
 
+#include <memory>
 #include <paxcore/rendering/data/Texture.h>
 
 namespace PAX {
