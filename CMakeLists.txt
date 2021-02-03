@@ -4,10 +4,21 @@ cmake_policy(SET CMP0091 NEW) # for specifying MSVC RuntimeLibrary
 project(PaxEngine3)
 
 ### DEFINITIONS #########################################
+
+# Detect if standalone or included as subdirectory
+if (CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    set(PAX3STANDALONE TRUE)
+    message("Building PaxEngine3 as standalone.")
+else()
+    set(PAX3STANDALONE FALSE)
+    message("Building PaxEngine3 as library.")
+endif()
+
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-set(PAX_LIB_DIR_RELATIVE ../pax3libs)
-set(PAX_LIB_DIR ${CMAKE_SOURCE_DIR}/${PAX_LIB_DIR_RELATIVE})
-include(cmake/PaxSetup.cmake)
+if (${PAX3STANDALONE})
+    set(PAX_LIB_DIR_RELATIVE ../pax3libs)
+    include(cmake/PaxSetup.cmake)
+endif()
 
 ### CONFIGURE MSVC #####################################
 
@@ -21,8 +32,10 @@ if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
 endif()
 
 ### FLAGS ###############################################
-set(CMAKE_CXX_STANDARD ${PAX_CXX_STANDARD_MINIMUM})
-message("CMAKE_CXX_STANDARD is ${CMAKE_CXX_STANDARD}")
+if (${PAX3ENGINE_STANDALONE})
+    set(CMAKE_CXX_STANDARD ${PAX_CXX_STANDARD_MINIMUM})
+    message("CMAKE_CXX_STANDARD is ${CMAKE_CXX_STANDARD}")
+endif()
 
 ### INCLUDES ########################################
 
