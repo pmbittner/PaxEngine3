@@ -1,5 +1,6 @@
 add_definitions(-DPAX_WITH_JSON)
 
+include(${CMAKE_CURRENT_LIST_DIR}/AssertPathExists.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/PaxCompilerDetection.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/PaxArchitectureDetection.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/PaxFlagsDefinition.cmake)
@@ -10,6 +11,10 @@ set(PAX_LIB_DIR ${CMAKE_SOURCE_DIR}/${PAX_LIB_DIR_RELATIVE})
 message("[PaxSetup.cmake] Setting PAX3_DIR to ${PAX3_DIR}")
 message("[PaxSetup.cmake] Setting PAX3_PLUGINS_DIR to ${PAX3_PLUGINS_DIR}")
 message("[PaxSetup.cmake] Setting PAX_LIB_DIR to ${PAX_LIB_DIR}")
+
+assertPathExists(PAX3_DIR ${PAX3_DIR})
+assertPathExists(PAX3_PLUGINS_DIR ${PAX3_PLUGINS_DIR})
+assertPathExists(PAX_LIB_DIR ${PAX_LIB_DIR})
 
 include_directories(${PAX3_DIR}/libs/Polypropylene/include)
 include_directories(${PAX3_DIR}/include)
