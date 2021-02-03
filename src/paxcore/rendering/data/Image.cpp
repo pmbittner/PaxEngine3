@@ -16,7 +16,7 @@ namespace PAX {
     }
 
     Image::~Image() {
-        delete pixels;
+        delete[] pixels;
     }
 
     void Image::reallocatePixelBuffer() {
