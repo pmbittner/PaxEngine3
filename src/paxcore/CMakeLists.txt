@@ -123,7 +123,7 @@ set(HEADERS_FOR_CLION
         ../../include/paxcore/gameentity/property/AbilityIdentifier.h
         ../../include/paxcore/gameentity/property/Ability.h
         ../../include/paxcore/io/properties/InputAbilityController.h
-        ../../include/paxcore/animation/DiscreteAnimation.h ../../include/paxcore/animation/AnimationBehaviour.h ../../include/paxcore/animation/Timing.h ../../include/paxcore/OStreamOverloads.h)
+        ../../include/paxcore/animation/DiscreteAnimation.h ../../include/paxcore/animation/AnimationBehaviour.h ../../include/paxcore/animation/Timing.h ../../include/paxcore/OStreamOverloads.h ../../include/paxcore/system/gameentity/GameEntityPropertyPool.h)
 
 set(CORE_SOURCE_FILES
         Engine.cpp
@@ -161,7 +161,7 @@ set(CORE_SOURCE_FILES
         json/JsonResourceLoader.cpp
         gameentity/GameEntityProperty.cpp
         system/GameSystem.cpp state/StateMachine.cpp
-        gameentity/property/Ability.cpp animation/Timing.cpp)
+        gameentity/property/Ability.cpp animation/Timing.cpp system/gameentity/GameEntityPropertyPool.cpp)
 
 add_subdirectory(io)
 add_subdirectory(rendering)
