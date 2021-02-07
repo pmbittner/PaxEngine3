@@ -55,4 +55,39 @@ namespace PAX::Physics {
     void Plugin::postInitialize(PAX::Engine &engine) {
 
     }
+
+    static GameEntityProperty * CreateProp(const char* name) {
+        IPropertyFactory<GameEntity> * f =
+                PropertyFactoryRegister<GameEntity>::getFactoryFor(name);
+        if (f) {
+            GameEntityProperty * p = f->create();
+            if (p) {
+                return p;
+            } else {
+                PAX_THROW_RUNTIME_ERROR("Could not create " << name << "!");
+            }
+        } else {
+            PAX_THROW_RUNTIME_ERROR("There is no IPropertyFactory registered for type \"" << name << "\"!");
+        }
+    }
+
+    Hitbox2D * Plugin::CreateHitbox(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material) {
+        return pax_new(Box2DHitbox)(shape, material);
+    }
+
+    RigidBody2D * Plugin::CreateRigidBody2D() {
+        if (auto * r = dynamic_cast<RigidBody2D*>(CreateProp(RIGIDBODY2D))) {
+            return r;
+        }
+        PAX_THROW_RUNTIME_ERROR("Could not cast property created by IPropertyFactory registered for "
+                                        << RIGIDBODY2D << " to RigidBody2D.");
+    }
+
+    PhysicsWorld2D * Plugin::CreatePhysicsWorld2D() {
+        if (auto * w = dynamic_cast<PhysicsWorld2D*>(CreateProp(PHYSICSWORLD2D))) {
+            return w;
+        }
+        PAX_THROW_RUNTIME_ERROR("Could not cast property created by IPropertyFactory registered for "
+                                        << PHYSICSWORLD2D << " to PhysicsWorld2D.");
+    }
 }

@@ -4,11 +4,10 @@
 
 #include <paxtiles/tiled/TileMapJsonLoader.h>
 #include <paxcore/service/Services.h>
-#include <paxphysics/2d/Hitbox2D.h>
-#include <paxphysics/2d/box2d/Box2DHitbox.h>
 #include <paxphysics/2d/shape/Rectangle.h>
+#include <paxphysics/2d/Hitbox2D.h>
 #include <paxphysics/2d/RigidBody2D.h>
-#include <paxphysics/2d/box2d/Box2DRigidBody.h>
+#include <paxphysics/Plugin.h>
 
 namespace PAX {
     namespace Tiles {
@@ -196,10 +195,10 @@ namespace PAX {
 
                     // add a hitbox because solid
                     // TODO: Indicate to the hitbox if it should be solid or not. CUrrently, everything is solid
-                    Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)(
+                    Physics::Hitbox2D * hitbox = Physics::Plugin::CreateHitbox(
                             tileShape,
                             std::make_shared<Physics::PhysicsMaterial>());
-                    Physics::RigidBody2D * rigidBody = pax_new(Physics::Box2DRigidBody)();
+                    Physics::RigidBody2D * rigidBody = Physics::Plugin::CreateRigidBody2D();
                     rigidBody->setFixedRotation(true);
                     tileEntity->add(hitbox);
                     tileEntity->add(rigidBody);

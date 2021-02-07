@@ -16,8 +16,9 @@
 #include <paxcore/rendering/graphics/SpriteSheetGraphics.h>
 #include <paxcore/rendering/factory/ViewportFactory.h>
 #include <paxphysics/2d/shape/Rectangle.h>
-#include <paxphysics/2d/box2d/Box2DHitbox.h>
-#include <paxphysics/2d/box2d/Box2DRigidBody.h>
+#include <paxphysics/2d/Hitbox2D.h>
+#include <paxphysics/2d/RigidBody2D.h>
+#include <paxphysics/Plugin.h>
 
 #include "paxtiles/Tile.h"
 #include "paxtiles/TileMap.h"
@@ -86,11 +87,11 @@ namespace PAX {
                 platform->add(pax_new(Size)(glm::vec3(0, 0, 1)));
 
                 FloatBoundingBox3D aabb = platform->get<Size>()->toAbsoluteBoundingBox();
-                platform->add(pax_new(Physics::Box2DHitbox)(
+                platform->add(Physics::Plugin::CreateHitbox(
                         std::make_shared<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))),
                         std::make_shared<Physics::PhysicsMaterial>()
                         ));
-                platform->add(pax_new(Physics::Box2DRigidBody)());
+                platform->add(Physics::Plugin::CreateRigidBody2D());
 
                 return platform;
             }

@@ -28,8 +28,5 @@ set(SOURCE_FILES
 include_directories(include)
 include_directories(../paxphysics/include)
 
-#TODO: Remove this later
-include_directories(${PAX_LIB_DIR}/Box2D)
-
 add_library(paxtiles ${SOURCE_FILES} ${HEADERS_FOR_CLION})
 target_link_libraries(paxtiles paxphysics)

@@ -16,9 +16,6 @@ include_directories(../../paxopengl/include)
 include_directories(../../paxphysics/include)
 include_directories(../../paxtiles/include)
 
-#TODO: Remove this later
-include_directories(${PAX_LIB_DIR}/Box2D)
-
 set(HEADERS_FOR_CLION
         include/platformerdemo/Plugin.h
         include/platformerdemo/Demo.h
