@@ -27,12 +27,14 @@ namespace PAX::Physics {
     }
 
     void Box2DRigidBody::attached(GameEntity &entity) {
+        Super::attached(entity);
         if (Movement2D * movement = entity.get<Movement2D>()) {
             movement->deactivate();
         }
     }
 
     void Box2DRigidBody::detached(GameEntity &entity) {
+        Super::detached(entity);
         if (Movement2D * movement = entity.get<Movement2D>()) {
             movement->activate();
         }

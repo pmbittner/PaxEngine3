@@ -201,6 +201,7 @@ namespace PAX::Physics {
     }
 
     void Box2DWorld::attached(World &world) {
+        Super::attached(world);
         paxWorld = &world;
 
         EventService & e = world.getEventService();
@@ -214,6 +215,7 @@ namespace PAX::Physics {
     }
 
     void Box2DWorld::detached(World &world) {
+        Super::detached(world);
         EventService & e = world.getEventService();
         using B = Box2DWorld;
         e.remove<GameEntitySpawnedEvent, B, &B::onGameEntitySpawned>(this);
