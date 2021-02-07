@@ -86,12 +86,11 @@ namespace PAX {
                 platform->add(pax_new(Size)(glm::vec3(0, 0, 1)));
 
                 FloatBoundingBox3D aabb = platform->get<Size>()->toAbsoluteBoundingBox();
-                Physics::Hitbox2D * hitbox = pax_new(Physics::Box2DHitbox)(
-                        new Physics::Rectangle(glm::vec2(aabb.getLength(0), aabb.getLength(1))),
+                platform->add(pax_new(Physics::Box2DHitbox)(
+                        std::make_shared<Physics::Rectangle>(glm::vec2(aabb.getLength(0), aabb.getLength(1))),
                         std::make_shared<Physics::PhysicsMaterial>()
-                        );
+                        ));
                 platform->add(pax_new(Physics::Box2DRigidBody)());
-                platform->add(hitbox);
 
                 return platform;
             }

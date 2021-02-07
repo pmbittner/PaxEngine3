@@ -15,20 +15,13 @@ namespace PAX::Physics {
         PropertyPool<PAX::Physics::Box2DHitbox> hitboxes;
         PropertyPool<PAX::Physics::Box2DRigidBody> rigidBodies;
 
-        float pixelsPerMeter = 1;
-        float metersPerPixel = 1;
-
         bool showingHitboxes = false;
 
     public:
-        explicit Box2DPhysicsSystem(float pixelsPerMeter);
+        explicit Box2DPhysicsSystem();
 
         void initialize(Game * game) override;
         void update(UpdateOptions & options) override;
-
-        void setPixelsPerMeter(float pixelsPerMeter);
-        float getMetersPerPixel();
-        float getPixelsPerMeter();
 
         void toggleShowHitboxes();
     };

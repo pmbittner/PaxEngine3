@@ -14,7 +14,7 @@ namespace PAX::Physics {
 
     }
 
-    Box2DHitbox::Box2DHitbox(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material)
+    Box2DHitbox::Box2DHitbox(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material)
     : Hitbox2D(shape, material)
     {}
 

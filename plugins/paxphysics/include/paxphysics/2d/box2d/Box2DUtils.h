@@ -11,12 +11,12 @@
 #include <paxcore/gameentity/MotionType.h>
 
 namespace PAX::Physics {
-    glm::vec2 toGLM(const b2Vec2 & b2vec);
-    b2Vec2 toBox2D(const glm::vec2 &glmvec);
-    b2Vec2 toBox2D(const glm::vec3 &glmvec);
+    glm::vec2 ToGLM(const b2Vec2 & b2vec);
+    b2Vec2 ToBox2D(const glm::vec2 &glmvec);
+    b2Vec2 ToBox2D(const glm::vec3 &glmvec);
 
-    b2Shape * toBox2D(const Shape2D * shape, float metersPerPixel);
-    b2BodyType toBox2D(MotionType motionType);
+    b2Shape * ToBox2D(const Shape2D & shape, float metersPerPixel);
+    b2BodyType ToBox2D(MotionType motionType);
 }
 
 #endif //PAXENGINE3_BOX2DUTILS_H

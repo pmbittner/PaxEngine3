@@ -15,20 +15,16 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(PAX::GameEntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
-        Shape2D * shape = nullptr;
-        std::shared_ptr<PhysicsMaterial> material;
         GameEntity* visualizer = nullptr;
 
-        // TODO: Implement
-        bool isSensor = false;
+        /// Begin Fields
+        std::shared_ptr<Shape2D> shape = nullptr;
+        std::shared_ptr<PhysicsMaterial> material;
+        bool isTrigger = false;
+        /// End Fields
 
     protected:
-        /**
-         * Takes ownership of shape and deletes it on destruction.
-         * @param shape
-         * @param material
-         */
-        Hitbox2D(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material);
+        Hitbox2D(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material);
 
     public:
         static constexpr int HitboxVisualizationZ = 100;
@@ -40,7 +36,17 @@ namespace PAX::Physics {
         void show();
         void hide();
 
-        PAX_NODISCARD const Shape2D & getShape() const;
+        /**
+         * @param isTrigger Defines if this hitbox will behave as a trigger.
+         *                  If set to true, this hitbox will never be solid, even if
+         *                  paired with a RigidBody2D.
+         *                  If set to false, this hitbox will be solid when attached to
+         *                  an entity with a RigidBody2D.
+         *                  Default value is `false`.
+         */
+        virtual void setTriggerArea(bool isTrigger);
+        PAX_NODISCARD bool isTriggerArea() const;
+        PAX_NODISCARD const std::shared_ptr<Shape2D> & getShape() const;
         PAX_NODISCARD const std::shared_ptr<PhysicsMaterial> & getMaterial() const;
     };
 }

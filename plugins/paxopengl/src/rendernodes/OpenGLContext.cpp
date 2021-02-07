@@ -32,7 +32,7 @@ namespace PAX {
             // ----- enable alpha blending
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+//            glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
             //glMatrixMode(GL_PROJECTION);
 
             // TODO: Make this configurable

@@ -8,6 +8,6 @@
 #include <polypropylene/serialisation/json/JsonParser.h>
 #include "../shape/Shape2D.h"
 
-PAX_DECLARE_JSONPARSER_FOR(Physics::Shape2D*)
+PAX_DECLARE_JSONPARSER_FOR(std::shared_ptr<Physics::Shape2D>)
 
 #endif //MESHFOLD_JSONSHAPE2DPARSER_H

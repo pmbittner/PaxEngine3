@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/ext.hpp>
+#include <glm/gtx/hash.hpp>
 
 #include <ostream>
 

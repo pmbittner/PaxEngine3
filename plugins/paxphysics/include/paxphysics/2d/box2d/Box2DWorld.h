@@ -16,7 +16,12 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(::PAX::Physics::PhysicsWorld2D)
         PAX_PROPERTY_IS_SINGLE
 
-        World * paxWorld = nullptr;
+        /// Begin Fields
+        float pixelsPerMeter = 1;
+        /// End Fields
+        float metersPerPixel = 1; // = 1.f / pixelsPerMeter
+
+        World * paxWorld = nullptr; // cached owner
         b2World box2dWorld;
         int32 velocityIterations = 8; // This value is recommended by Box2D.
         int32 positionIterations = 3; // This value is recommended by Box2D.
@@ -24,6 +29,9 @@ namespace PAX::Physics {
         std::map<GameEntity*, b2Body*> bodies;
 
         Box2DWorld();
+
+        void synchronizeBox2D();
+        void synchronizePaxEngine();
 
         void spawnInBox2D(GameEntity & entity);
         void despawnInBox2D(GameEntity & entity);
@@ -36,13 +44,14 @@ namespace PAX::Physics {
         explicit Box2DWorld(const glm::vec2 & gravity);
 
         void setGravity(const glm::vec2 & gravity) override;
+        void setPixelsPerMeter(float pixelsPerMeter);
+        PAX_NODISCARD float getMetersPerPixel() const;
+        PAX_NODISCARD float getPixelsPerMeter() const;
+        PAX_NODISCARD const b2World & getb2World() const;
+
         void step(UpdateOptions & options);
 
-        b2World & getb2World();
-
-        void synchronizeBox2D(float metersPerPixel);
-        void synchronizePaxEngine(float pixelsPerMeter);
-
+        PAX_NODISCARD ClassMetadata getMetadata() override;
         void created() override;
         void attached(World & world) override;
         void detached(World & world) override;

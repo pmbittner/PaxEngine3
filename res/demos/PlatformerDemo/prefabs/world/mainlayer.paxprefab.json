@@ -7,7 +7,8 @@
   "Properties": [
     {
       "PhysicsWorld2D": {
-        "gravity": [0, -3]
+        "gravity": [0, -3],
+        "pixelsPerMeter": 16
       }
     }
   ],

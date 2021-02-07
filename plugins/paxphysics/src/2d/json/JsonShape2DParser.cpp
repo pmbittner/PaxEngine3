@@ -8,19 +8,19 @@
 #include "paxphysics/2d/shape/Rectangle.h"
 #include "paxcore/service/Services.h"
 
-PAX_IMPLEMENT_JSONPARSER_FOR(PAX::Physics::Shape2D*) {
+PAX_IMPLEMENT_JSONPARSER_FOR(std::shared_ptr<PAX::Physics::Shape2D>) {
     using namespace PAX;
-    Physics::Shape2D* shape;
+    std::shared_ptr<Physics::Shape2D> shape;
 
     PAX_ASSERT(!json.is_array());
 
     std::string shapeType = json.at("type");
     if (shapeType == "Rectangle") {
         const glm::vec2 size = String::tryParse<glm::vec2>(JsonToString(json.at("size")));
-        shape = new Physics::Rectangle(size);
+        shape = std::make_shared<Physics::Rectangle>(size);
     } else if (shapeType == "Circle") {
         const float radius = String::tryParse<float>(JsonToString(json.at("radius")));
-        shape = new Physics::Circle(radius);
+        shape = std::make_shared<Physics::Circle>(radius);
     } else {
         PAX_THROW_RUNTIME_ERROR("Unknown shape type given! (" << shapeType << ")");
     }

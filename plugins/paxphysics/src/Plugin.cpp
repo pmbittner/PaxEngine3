@@ -35,15 +35,14 @@ namespace PAX::Physics {
     }
 
     void Plugin::registerSystems(PAX::Game &game) {
-        auto box2d_pixelsPerMeter = Services::GetGlobalSettings().getOrDefault<float>("physics2d_pixels_per_meter", 1);
-        game.addSystem(std::make_unique<Box2DPhysicsSystem>(box2d_pixelsPerMeter));
+        game.addSystem(std::make_unique<Box2DPhysicsSystem>());
     }
 
     void Plugin::registerJsonWriters(Json::JsonFieldWriterRegister &writerRegister) {
         using namespace Json;
 
-        static JsonFieldWriter<Shape2D*> shape2dWriter;
-        writerRegister.registerWriter(paxtypeid(Shape2D*), &shape2dWriter);
+        static JsonFieldWriter<std::shared_ptr<Shape2D>> shape2dWriter;
+        writerRegister.registerWriter(paxtypeid(std::shared_ptr<Shape2D>), &shape2dWriter);
 
         static JsonResourceFieldWriter<PhysicsMaterial> materialWriter;
         materialWriter.registerAt(writerRegister);

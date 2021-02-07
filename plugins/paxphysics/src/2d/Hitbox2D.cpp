@@ -15,14 +15,14 @@ namespace PAX::Physics {
         ClassMetadata m = Super::getMetadata();
         m.add(paxfieldof(shape)).addFlag(Field::IsMandatory);
         m.add(paxfieldof(material)).addFlag(Field::IsMandatory | EngineFieldFlags::IsResource);
+        m.add(paxfieldof(isTrigger));
         return m;
     }
 
-    Hitbox2D::Hitbox2D(Shape2D * shape, const std::shared_ptr<PhysicsMaterial> &material)
+    Hitbox2D::Hitbox2D(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material)
     : shape(shape), material(material) {}
 
     Hitbox2D::~Hitbox2D() {
-        delete shape;
         pax_delete(visualizer);
     }
 
@@ -56,8 +56,16 @@ namespace PAX::Physics {
         }
     }
 
-    const Shape2D & Hitbox2D::getShape() const {
-        return *shape;
+    void Hitbox2D::setTriggerArea(bool isTrigger) {
+        this->isTrigger = isTrigger;
+    }
+
+    bool Hitbox2D::isTriggerArea() const {
+        return isTrigger;
+    }
+
+    const std::shared_ptr<Shape2D> & Hitbox2D::getShape() const {
+        return shape;
     }
 
     const std::shared_ptr<PhysicsMaterial> & Hitbox2D::getMaterial() const {
