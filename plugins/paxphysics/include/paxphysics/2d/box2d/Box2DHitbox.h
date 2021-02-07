@@ -6,7 +6,6 @@
 #define PAXENGINE3_BOX2DHITBOX_H
 
 #include <paxphysics/2d/Hitbox2D.h>
-#include "Box2DWorld.h"
 
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Dynamics/b2Fixture.h>

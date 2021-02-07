@@ -7,6 +7,8 @@
 
 #include <Box2D/Dynamics/b2World.h>
 #include <paxphysics/2d/PhysicsWorld2D.h>
+#include "Box2DHitbox.h"
+#include "Box2DRigidBody.h"
 
 namespace PAX::Physics {
     class Box2DWorld : public PhysicsWorld2D {
@@ -14,11 +16,21 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(::PAX::Physics::PhysicsWorld2D)
         PAX_PROPERTY_IS_SINGLE
 
+        World * paxWorld = nullptr;
         b2World box2dWorld;
         int32 velocityIterations = 8; // This value is recommended by Box2D.
         int32 positionIterations = 3; // This value is recommended by Box2D.
 
+        std::map<GameEntity*, b2Body*> bodies;
+
         Box2DWorld();
+
+        void spawnInBox2D(GameEntity & entity);
+        void despawnInBox2D(GameEntity & entity);
+        void addHitboxToBodyOf(GameEntity & entity, Box2DHitbox & hitbox);
+        void removeHitboxFromBodyOf(GameEntity & entity, Box2DHitbox & hitbox);
+        void turnIntoRigidBody(GameEntity & entity, Box2DRigidBody & rigidBody);
+        void removeRigidBody(GameEntity & entity, Box2DRigidBody & rigidBody);
 
     public:
         explicit Box2DWorld(const glm::vec2 & gravity);
@@ -28,7 +40,19 @@ namespace PAX::Physics {
 
         b2World & getb2World();
 
+        void synchronizeBox2D(float metersPerPixel);
+        void synchronizePaxEngine(float pixelsPerMeter);
+
         void created() override;
+        void attached(World & world) override;
+        void detached(World & world) override;
+
+        void onGameEntitySpawned(GameEntitySpawnedEvent & e);
+        void onGameEntityDespawned(GameEntityDespawnedEvent & e);
+        void onHitboxSpawned(PropertyAttachedEvent<GameEntity, Box2DHitbox> & e);
+        void onHitboxDespawned(PropertyDetachedEvent<GameEntity, Box2DHitbox> & e);
+        void onRigidBodySpawned(PropertyAttachedEvent<GameEntity, Box2DRigidBody> & e);
+        void onRigidBodyDespawned(PropertyDetachedEvent<GameEntity, Box2DRigidBody> & e);
     };
 }
 

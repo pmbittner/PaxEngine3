@@ -23,7 +23,7 @@ namespace PAX::Physics {
     public:
         explicit Box2DPhysicsSystem(float pixelsPerMeter);
 
-        void initialize(Game *game) override;
+        void initialize(Game * game) override;
         void update(UpdateOptions & options) override;
 
         void setPixelsPerMeter(float pixelsPerMeter);
