@@ -5,16 +5,17 @@
 #ifndef PAXENGINE3_BOX2DPHYSICSSYSTEM_H
 #define PAXENGINE3_BOX2DPHYSICSSYSTEM_H
 
-#include "paxcore/system/GameSystem.h"
-#include "polypropylene/memory/PropertyPool.h"
+#include "paxphysics/2d/PhysicsSystem2D.h"
+#include "paxcore/system/gameentity/GameEntityPropertyPool.h"
 #include "Box2DHitbox.h"
 #include "Box2DRigidBody.h"
 
 namespace PAX::Physics {
-    class Box2DPhysicsSystem : public GameSystem {
-        PropertyPool<PAX::Physics::Box2DHitbox> hitboxes;
-        PropertyPool<PAX::Physics::Box2DRigidBody> rigidBodies;
+    class Box2DPhysicsSystem : public PhysicsSystem2D {
+        using Super = PhysicsSystem2D;
 
+        GameEntityPropertyPool<PAX::Physics::Box2DHitbox> hitboxes;
+//        PropertyPool<PAX::Physics::Box2DRigidBody> rigidBodies;
         bool showingHitboxes = false;
 
     public:
@@ -23,7 +24,7 @@ namespace PAX::Physics {
         void initialize(Game * game) override;
         void update(UpdateOptions & options) override;
 
-        void toggleShowHitboxes();
+        void toggleShowHitboxes() override;
     };
 }
 

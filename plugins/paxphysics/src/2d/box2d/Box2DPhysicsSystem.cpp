@@ -6,15 +6,16 @@
 #include "paxphysics/2d/box2d/Box2DPhysicsSystem.h"
 
 namespace PAX::Physics {
-    Box2DPhysicsSystem::Box2DPhysicsSystem() : hitboxes() {
+    Box2DPhysicsSystem::Box2DPhysicsSystem() : Super(), hitboxes() {
 
     }
 
     void Box2DPhysicsSystem::initialize(Game *game) {
-
+        Super::initialize(game);
     }
 
     void Box2DPhysicsSystem::update(UpdateOptions & options) {
+        Super::update(options);
         for (World * world : getGame()->getWorlds()) {
             if (Box2DWorld * b2world = world->get<Box2DWorld>()) {
                 b2world->step(options);

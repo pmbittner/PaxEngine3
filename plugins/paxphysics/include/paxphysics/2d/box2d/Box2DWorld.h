@@ -44,6 +44,7 @@ namespace PAX::Physics {
         explicit Box2DWorld(const glm::vec2 & gravity);
 
         void setGravity(const glm::vec2 & gravity) override;
+        // todo: Move meters per pixel up to PhysicsWorld2D
         void setPixelsPerMeter(float pixelsPerMeter);
         PAX_NODISCARD float getMetersPerPixel() const;
         PAX_NODISCARD float getPixelsPerMeter() const;

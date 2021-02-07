@@ -43,7 +43,7 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/shape/Circle.h
         include/paxphysics/2d/gravityfields/DirectionalGravityField.h
         include/paxphysics/2d/gravityfields/GravityFieldSystem.h
-        include/paxphysics/2d/gravityfields/GravityFieldSensitive.h)
+        include/paxphysics/2d/gravityfields/GravityFieldSensitive.h include/paxphysics/2d/PhysicsSystem2D.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)
