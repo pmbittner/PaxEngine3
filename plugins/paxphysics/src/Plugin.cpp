@@ -6,15 +6,12 @@
 #include <paxcore/Game.h>
 #include <paxutil/resources/JsonResourceFieldWriter.h>
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
-#include <paxphysics/2d/gravityfields/SphereGravityField.h>
 
 #include "paxphysics/Plugin.h"
-#include "paxphysics/2d/Hitbox2D.h"
-#include "paxphysics/2d/RigidBody2D.h"
-#include "paxphysics/2d/PhysicsWorld2D.h"
-#include "paxphysics/2d/box2d/Box2DRigidBody.h"
-#include "paxphysics/2d/box2d/Box2DHitbox.h"
 #include "paxphysics/2d/box2d/Box2DWorld.h"
+#include "paxphysics/2d/gravityfields/SphereGravityField.h"
+#include "paxphysics/2d/gravityfields/DirectionalGravityField.h"
+#include "paxphysics/2d/gravityfields/GravityFieldSensitive.h"
 
 // Do not remove. This is necessary such that the compiler finds the specialization of the parser.
 #include "paxphysics/2d/json/JsonShape2DParser.h"
@@ -22,16 +19,17 @@
 namespace PAX::Physics {
     void Plugin::registerProperties() {
         //PAX_PROPERTY_REGISTER(PAX::Physics::RigidBody2D)
-        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DRigidBody, "RigidBody2D");
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DRigidBody, RIGIDBODY2D);
 
         //PAX_PROPERTY_REGISTER(PAX::Physics::Hitbox2D)
-        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DHitbox, "Hitbox2D");
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DHitbox, HITBOX2D);
         
         //PAX_PROPERTY_REGISTER(PAX::Physics::PhysicsWorld2D)
-        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DWorld, "PhysicsWorld2D");
+        PAX_PROPERTY_REGISTER_AS(PAX::Physics::Box2DWorld, PHYSICSWORLD2D);
 
-        PAX_PROPERTY_REGISTER(GravityField);
         PAX_PROPERTY_REGISTER(SphereGravityField);
+        PAX_PROPERTY_REGISTER(DirectionalGravityField);
+        PAX_PROPERTY_REGISTER(GravityFieldSensitive);
     }
 
     void Plugin::registerSystems(PAX::Game &game) {

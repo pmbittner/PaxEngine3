@@ -13,14 +13,31 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(GravityField)
         PAX_PROPERTY_IS_SINGLE
 
-        float radius;
+        /// BEGIN FIELDS
+        glm::vec2 offset = glm::vec2(0);
+        float radius = 1;
+        /// END FIELDS
 
         SphereGravityField();
 
     public:
-        SphereGravityField(float intensity, float radius);
+        SphereGravityField(
+                const std::shared_ptr<Shape2D> & shape,
+                float intensity,
+                float radius,
+                const glm::vec2 & offset = glm::vec2(0));
 
-        PAX_NODISCARD bool isInside(const glm::vec2 & point) const override;
+        /**
+         * Creates a SphereGravityField with circular shape.
+         * @param intensity
+         * @param radius
+         */
+        SphereGravityField(
+                float intensity,
+                float radius,
+                const glm::vec2 & offset = glm::vec2(0));
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
         PAX_NODISCARD glm::vec2 getFallingDirection(const glm::vec2 & point) const override;
 
         void setRadius(float radius);
