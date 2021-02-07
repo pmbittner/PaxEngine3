@@ -28,6 +28,8 @@ namespace PAX::Physics {
          */
         Box2DHitbox(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material);
         ~Box2DHitbox() override;
+
+        PAX_NODISCARD bool isInside(const glm::vec2 & point) const override;
     };
 }
 

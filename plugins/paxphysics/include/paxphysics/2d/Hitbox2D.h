@@ -36,6 +36,8 @@ namespace PAX::Physics {
         void show();
         void hide();
 
+        PAX_NODISCARD virtual bool isInside(const glm::vec2 & point) const = 0;
+
         /**
          * @param isTrigger Defines if this hitbox will behave as a trigger.
          *                  If set to true, this hitbox will never be solid, even if
