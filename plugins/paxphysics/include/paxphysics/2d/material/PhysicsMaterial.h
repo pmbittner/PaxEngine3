@@ -5,9 +5,14 @@
 #ifndef PAXENGINE3_PHYSICSMATERIAL_H
 #define PAXENGINE3_PHYSICSMATERIAL_H
 
+#include <polypropylene/definitions/Definitions.h>
+#include <memory>
+
 namespace PAX::Physics {
     class PhysicsMaterial {
     public:
+        PAX_NODISCARD static const std::shared_ptr<PhysicsMaterial> & GetDefaultMaterial();
+
         const float density; // [0, inf]
         const float friction; // [0, inf], 0 = no friction, 1 = strong friction
         const float elasticity; // aka restitution, bouncyness, [0, 1], 0 = no bounce, 1 = perfect elastic collisions
