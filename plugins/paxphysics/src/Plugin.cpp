@@ -6,6 +6,8 @@
 #include <paxcore/Game.h>
 #include <paxutil/resources/JsonResourceFieldWriter.h>
 #include <paxphysics/2d/box2d/Box2DPhysicsSystem.h>
+#include <paxphysics/2d/gravityfields/GravityFieldSystem.h>
+#include <paxphysics/2d/gravityfields/GravityFieldRegister.h>
 
 #include "paxphysics/Plugin.h"
 #include "paxphysics/2d/box2d/Box2DWorld.h"
@@ -30,10 +32,12 @@ namespace PAX::Physics {
         PAX_PROPERTY_REGISTER(SphereGravityField);
         PAX_PROPERTY_REGISTER(DirectionalGravityField);
         PAX_PROPERTY_REGISTER(GravityFieldSensitive);
+        PAX_PROPERTY_REGISTER(GravityFieldRegister);
     }
 
     void Plugin::registerSystems(PAX::Game &game) {
         game.addSystem(std::make_unique<Box2DPhysicsSystem>());
+        game.addSystem(std::make_unique<GravityFieldSystem>());
     }
 
     void Plugin::registerJsonWriters(Json::JsonFieldWriterRegister &writerRegister) {
