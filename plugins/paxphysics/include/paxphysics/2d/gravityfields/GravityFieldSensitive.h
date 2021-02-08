@@ -5,6 +5,7 @@
 #ifndef MESHFOLD_GRAVITYFIELDSENSITIVE_H
 #define MESHFOLD_GRAVITYFIELDSENSITIVE_H
 
+#include <paxcore/gameentity/property/behaviours/2d/Movement2D.h>
 #include "paxcore/gameentity/GameEntityProperty.h"
 
 namespace PAX::Physics {
@@ -12,6 +13,8 @@ namespace PAX::Physics {
         PAX_PROPERTY(GravityFieldSensitive, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
+
+        PAX_PROPERTY_DEPENDS_ON(Movement2D)
     };
 }
 
