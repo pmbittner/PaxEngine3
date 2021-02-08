@@ -25,7 +25,7 @@ namespace PAX::Physics {
 
     void Box2DWorld::setGravity(const glm::vec2 &gravity) {
         Super::setGravity(gravity);
-        box2dWorld.SetGravity(ToBox2D(gravity));
+        box2dWorld.SetGravity(metersPerPixel * ToBox2D(gravity));
     }
 
     const b2World & Box2DWorld::getb2World() const {
