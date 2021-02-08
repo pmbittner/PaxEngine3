@@ -68,8 +68,12 @@ namespace PAX {
         static Json::JsonWorldPrefabInitParser worldLayerPrefabInitParser;
         static Json::JsonWorldGameEntityParser worldLayerPrefabGameEntityParser;
 
-        IPrefab::PreDefinedVariables["EngineResourceDir"] = Services::GetPaths().getEngineResourceDirectory().convertedToUnix().toString();
-        IPrefab::PreDefinedVariables["CustomResourceDir"] = Services::GetPaths().getCustomResourceDirectory().convertedToUnix().toString();
+        IPrefab::PreDefinedVariables["EngineResourceDirectory"] = Services::GetPaths().getEngineResourceDirectory().convertedToUnix().toString();
+        IPrefab::PreDefinedVariables["EngineResourceDir"] = IPrefab::PreDefinedVariables["EngineResourceDirectory"];
+        IPrefab::PreDefinedVariables["ERD"] = IPrefab::PreDefinedVariables["EngineResourceDirectory"];
+        IPrefab::PreDefinedVariables["CustomResourceDirectory"] = Services::GetPaths().getCustomResourceDirectory().convertedToUnix().toString();
+        IPrefab::PreDefinedVariables["CustomResourceDir"] = IPrefab::PreDefinedVariables["CustomResourceDirectory"];
+        IPrefab::PreDefinedVariables["CRD"] = IPrefab::PreDefinedVariables["CustomResourceDirectory"];
         IPrefab::PreDefinedVariables["WorkingDirectory"] = Services::GetPaths().getWorkingDirectory().convertedToUnix().toString();
 
         Json::JsonEntityPrefab<GameEntity>::initialize(Services::GetJsonWriterRegister());
