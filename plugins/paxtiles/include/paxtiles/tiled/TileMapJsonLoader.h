@@ -27,6 +27,54 @@ namespace PAX {
          *   the physics system. It will get a quadratic hitbox fitting that tile.
          */
         class TileMapJsonLoader : public ResourceLoader<TileMap, Path> {
+#define PAX_TILED_NAME static constexpr const char*
+            PAX_TILED_NAME MainLayerName = "Main";
+            struct TiledName {
+                PAX_TILED_NAME Orientation = "orientation";
+                PAX_TILED_NAME Objects = "objects";
+                PAX_TILED_NAME Layers = "layers";
+                PAX_TILED_NAME TileSets = "tilesets";
+                PAX_TILED_NAME TileLayer = "tilelayer";
+                PAX_TILED_NAME ObjectLayer = "objectgroup";
+                PAX_TILED_NAME ImageLayer = "imagelayer";
+                PAX_TILED_NAME Width = "width";
+                PAX_TILED_NAME Height = "height";
+                PAX_TILED_NAME TileWidth = "tilewidth";
+                PAX_TILED_NAME TileHeight = "tileheight";
+                struct Orientations {
+                    PAX_TILED_NAME Orthogonal = "orthogonal";
+                };
+                struct Layer {
+                    PAX_TILED_NAME Name = "name";
+                    PAX_TILED_NAME Type = "type";
+                    PAX_TILED_NAME X = "x";
+                    PAX_TILED_NAME Y = "y";
+                    PAX_TILED_NAME Width = "width";
+                    PAX_TILED_NAME Height = "height";
+                    PAX_TILED_NAME Opacity = "opacity";
+                    PAX_TILED_NAME Data = "data";
+                    PAX_TILED_NAME Visible = "visible";
+                };
+                struct TileSet {
+                    PAX_TILED_NAME FirstGID = "firstgid";
+                    PAX_TILED_NAME Source = "source";
+                };
+                struct Object {
+                    PAX_TILED_NAME Id = "id";
+                    PAX_TILED_NAME Name = "name";
+                    PAX_TILED_NAME Type = "type";
+                    PAX_TILED_NAME Width = "width";
+                    PAX_TILED_NAME Height = "height";
+                    PAX_TILED_NAME X = "x";
+                    PAX_TILED_NAME Y = "y";
+                    PAX_TILED_NAME Properties = "properties";
+                    PAX_TILED_NAME Rotation = "rotation";
+                    PAX_TILED_NAME CustomPropertiesName = "name";
+                    PAX_TILED_NAME CustomPropertiesValue = "value";
+                };
+            };
+#undef PAX_TILED_NAME
+
             void loadTileLayer(
                     const nlohmann::json & layerj,
                     std::shared_ptr<TileMap> & map,

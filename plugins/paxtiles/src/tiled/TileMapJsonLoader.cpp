@@ -27,23 +27,23 @@ namespace PAX {
             const nlohmann::json & j = *jptr;
 
 
-            if (j["orientation"] != "orthogonal") {
-                PAX_LOG(Log::Level::Error, "Only orthogonal maps are supported yet! \"orientation\" was " << j["orientation"]);
+            if (j[TiledName::Orientation] != TiledName::Orientations::Orthogonal) {
+                PAX_LOG(Log::Level::Error, "Only orthogonal maps are supported yet! \"orientation\" was " << j[TiledName::Orientation]);
                 return nullptr;
             }
 
-            int  width      = j["width"];
-            int  height     = j["height"];
-            int  tilewidth  = j["tilewidth"];
-            int  tileheight = j["tileheight"];
+            const int width      = j[TiledName::Width];
+            const int height     = j[TiledName::Height];
+            const int tilewidth  = j[TiledName::TileWidth];
+            const int tileheight = j[TiledName::TileHeight];
             //bool infinite   = j["infinite"];
 
             std::vector<std::shared_ptr<TileSet>> tilesets;
             std::vector<int> gids;
 
-            for (const nlohmann::json & tilesetj : j["tilesets"]) {
-                int firstgid = tilesetj["firstgid"];
-                Path tilesetPath = path.getDirectory() + tilesetj["source"];
+            for (const nlohmann::json & tilesetj : j[TiledName::TileSets]) {
+                int firstgid = tilesetj[TiledName::TileSet::FirstGID];
+                Path tilesetPath = path.getDirectory() + tilesetj[TiledName::TileSet::Source];
                 std::shared_ptr<TileSet> tileset = Services::GetResources().loadOrGet<TileSet>(tilesetPath);
 
                 // Insert the tileset and firstgid such that the vectors are sorted.
@@ -72,11 +72,11 @@ namespace PAX {
             // Find z of main layer
             int zOffset = 0;
             bool mainLayerFound = false;
-            for (const nlohmann::json & layerj : j["layers"]) {
-                const std::string layerName = layerj["name"];
-                const std::string layerType = layerj["type"];
+            for (const nlohmann::json & layerj : j[TiledName::Layers]) {
+                const std::string layerName = layerj[TiledName::Layer::Name];
+                const std::string layerType = layerj[TiledName::Layer::Type];
 //                PAX_LOG(Log::Level::Info, "Inspect layer " << layerType << ": " << layerName);
-                if (layerType == "objectgroup" && layerName == "Main") {
+                if (layerType == TiledName::ObjectLayer && layerName == MainLayerName) {
 //                    PAX_LOG(Log::Level::Info, "Found main layer at z = " << zOffset);
                     mainLayerFound = true;
                     break;
@@ -89,21 +89,21 @@ namespace PAX {
             if (mainLayerFound) {
                 z = zOffset;
             }
-            for (const nlohmann::json & layerj : j["layers"]) {
-                const std::string layerName = layerj["name"];
-                const std::string layerType = layerj["type"];
+            for (const nlohmann::json & layerj : j[TiledName::Layers]) {
+                const std::string layerName = layerj[TiledName::Layer::Name];
+                const std::string layerType = layerj[TiledName::Layer::Type];
 
-                const bool visible = layerj["visible"];
+                const bool visible = layerj[TiledName::Layer::Visible];
                 if (!visible) {
                     PAX_LOG(Log::Level::Info, "Layer \"" << layerName << "\" is skipped because it is invisible.");
                     continue;
                 }
 
-                if (layerType == "tilelayer") {
+                if (layerType == TiledName::TileLayer) {
                     loadTileLayer(layerj, tilemap, tilesets, gids, z);
-                } else if (layerType == "objectgroup") {
+                } else if (layerType == TiledName::ObjectLayer) {
                     loadObjectGroup(layerj, tilemap, tilesets, gids, z);
-                } else if (layerType == "imagelayer") {
+                } else if (layerType == TiledName::ImageLayer) {
                     PAX_LOG(Log::Level::Warn, "Loading imagelayers is not supported yet! Skipping layer \"" << layerName << "\".");
                 }
                 ++z;
@@ -119,14 +119,14 @@ namespace PAX {
                 const std::vector<int> & gids,
                 const int z)
         {
-            const int layerWidth = layerj["width"];
-            const int layerHeight = layerj["height"];
+            const int layerWidth = layerj[TiledName::Layer::Width];
+            const int layerHeight = layerj[TiledName::Layer::Height];
 
-            const int layerX = layerj["x"];
-            const int layerY = layerj["y"];
-            const float opacity = layerj["opacity"];
+            const int layerX = layerj[TiledName::Layer::X];
+            const int layerY = layerj[TiledName::Layer::Y];
+            const float opacity = layerj[TiledName::Layer::Opacity];
 
-            const std::vector<int> tileData = layerj["data"];
+            const std::vector<int> tileData = layerj[TiledName::Layer::Data];
             assert(tileData.size() == layerWidth * layerHeight);
             std::vector<Tile> tiles(tileData.size());
 
@@ -221,7 +221,7 @@ namespace PAX {
             layer.y = layerY;
             layer.z = z;
             layer.opacity = opacity;
-            layer.name = layerj["name"];
+            layer.name = layerj[TiledName::Layer::Name];
         }
 
         void TileMapJsonLoader::loadObjectGroup(const nlohmann::json &layerj,
@@ -230,40 +230,52 @@ namespace PAX {
                                                 const std::vector<int> &gids,
                                                 const int z)
         {
-            const int layerX = layerj["x"];
-            const int layerY = layerj["y"];
+            const int layerX = layerj[TiledName::Layer::X];
+            const int layerY = layerj[TiledName::Layer::Y];
 
             const glm::vec2 mapSize = map->getSizeInTiles() * map->getTileSize();
 
-            for (const nlohmann::json & obj : layerj["objects"]) {
-                const GameEntityID obj_id = obj["id"];
-                const glm::ivec2 obj_size(obj["width"], obj["height"]);
+            for (const nlohmann::json & obj : layerj[TiledName::Objects]) {
+                const GameEntityID obj_id = obj[TiledName::Object::Id];
+                const glm::ivec2 obj_size(obj[TiledName::Object::Width], obj[TiledName::Object::Height]);
                 glm::vec2 obj_pos = {0, 0};
                 obj_pos += glm::vec2(obj_size) / 2.0f;
                 obj_pos += -mapSize / 2.0f;
-                obj_pos += glm::vec2(obj["x"].get<int>(), obj["y"].get<int>());
+                obj_pos += glm::vec2(obj[TiledName::Object::X].get<int>(), obj[TiledName::Object::Y].get<int>());
                 obj_pos += glm::vec2(layerX, layerY);
                 obj_pos.y *= -1;
 
                 Path prefabPath = VariableResolver::resolveVariables(
-                        JsonToString(obj["type"]),
+                        JsonToString(obj[TiledName::Object::Type]),
                         // We use these predefined variables as these are intended to be used in
                         // all our json resources.
                         // TODO: Move PAX::Prefab::PreDefinedVariables to a more common place like Settings.
                         PAX::IPrefab::PreDefinedVariables);
                 if (prefabPath.isEmpty()) {
-                    PAX_LOG(Log::Level::Error, "Object with name=" << obj["name"] << ", id=" << obj_id << " has empty type (which should be the path to a prefab).");
+                    PAX_LOG(Log::Level::Error, "Object with name=" << obj[TiledName::Object::Name] << ", id=" << obj_id << " has empty type (which should be the path to a prefab).");
                 } else {
                     std::shared_ptr<PAX::GameEntityPrefab> prefab = Services::GetResources().loadOrGet<GameEntityPrefab>(
                             prefabPath);
 
                     if (prefab) {
                         VariableRegister varRegister;
-                        if (obj.find("properties") != obj.end()) {
-                            for (const nlohmann::json &property : obj["properties"]) {
-                                varRegister[property["name"]] =
+
+                        // Add all default properties of the tiled object to the variable register
+                        for (const auto& defaultProperty : obj.items()) {
+                            const std::string & name = defaultProperty.key();
+                            if (name != TiledName::Object::Properties) {
+                                varRegister[name] = VariableResolver::resolveVariables(
+                                                JsonToString(defaultProperty.value()),
+                                                PAX::IPrefab::PreDefinedVariables);
+                            }
+                        }
+
+                        // Add all custom properties of the tiled object to the variable register
+                        if (obj.find(TiledName::Object::Properties) != obj.end()) {
+                            for (const nlohmann::json &property : obj[TiledName::Object::Properties]) {
+                                varRegister[property[TiledName::Object::CustomPropertiesName]] =
                                         VariableResolver::resolveVariables(
-                                                JsonToString(property["value"]),
+                                                JsonToString(property[TiledName::Object::CustomPropertiesValue]),
                                                 PAX::IPrefab::PreDefinedVariables);
                             }
                         }
@@ -271,7 +283,7 @@ namespace PAX {
                         GameEntity *entity = prefab->create(varRegister);
                         Transformation &t = entity->getTransformation();
                         t.position() = {obj_pos.x, obj_pos.y, z};
-                        t.setRotation2DInDegrees(-obj["rotation"].get<float>());
+                        t.setRotation2DInDegrees(-obj[TiledName::Object::Rotation].get<float>());
 //                        // TODO: This is some sort of hack for our orange boxes for now, where we know, that these have
 //                        //       size 1px x 1px. Find a better solution for this like primitives as entities or so like:
 //                        //       Rectangle { Size, RectangleGraphics? }
