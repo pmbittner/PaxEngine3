@@ -18,6 +18,7 @@ namespace PAX::Physics {
         /// BEGIN FIELDS
         std::shared_ptr<Shape2D> shape = nullptr;
         float intensity = 1;
+        float priority = 0;
         /// END FIELDS
 
         Hitbox2D * hitbox = nullptr;
@@ -28,6 +29,8 @@ namespace PAX::Physics {
         explicit GravityField(const std::shared_ptr<Shape2D> & shape, float intensity);
 
     public:
+        EventHandler<GravityField&, int, int> OnPriorityChanged;
+
         ~GravityField() override;
 
         PAX_NODISCARD static const Tag & GetTag();
@@ -37,6 +40,8 @@ namespace PAX::Physics {
 
         void setIntensity(float intensity);
         PAX_NODISCARD float getIntensity() const;
+        void setPriority(float priority);
+        PAX_NODISCARD float getPriority() const;
 
         PAX_NODISCARD ClassMetadata getMetadata() override;
         void created() override;

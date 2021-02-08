@@ -1,0 +1,15 @@
+{
+  "Properties": [
+    {
+      "DirectionalGravityField": {
+        "intensity": "${gf_intensity}",
+        "priority": "${gf_priority}",
+        "direction": "[${gf_dir_x}, ${gf_dir_y}]",
+        "shape": {
+          "type": "Rectangle",
+          "size": "[${width}, ${height}]"
+        }
+      }
+    }
+  ]
+}

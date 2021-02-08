@@ -36,6 +36,7 @@ namespace PAX::Physics {
         ClassMetadata c = Super::getMetadata();
         c.add(paxfieldof(shape)).addFlag(Field::IsMandatory);
         c.add(paxfieldof(intensity)).addFlag(Field::IsMandatory);
+        c.add(paxfieldof(priority));
         return c;
     }
 
@@ -62,6 +63,16 @@ namespace PAX::Physics {
 
     float GravityField::getIntensity() const {
         return intensity;
+    }
+
+    void GravityField::setPriority(float newPriority) {
+        const float oldPriority = priority;
+        priority = newPriority;
+        OnPriorityChanged(*this, oldPriority, newPriority);
+    }
+
+    float GravityField::getPriority() const {
+        return priority;
     }
 
     bool GravityField::isInside(const glm::vec2 &point) const {
