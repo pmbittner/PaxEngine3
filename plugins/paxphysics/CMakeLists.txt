@@ -18,7 +18,7 @@ set(PAXPHYSICS_SOURCE
         src/2d/json/JsonShape2DParser.cpp
         src/2d/shape/Circle.cpp
         src/2d/gravityfields/DirectionalGravityField.cpp
-        src/2d/gravityfields/GravityFieldSystem.cpp src/2d/gravityfields/GravityFieldSensitive.cpp)
+        src/2d/gravityfields/GravityFieldSystem.cpp src/2d/gravityfields/GravityFieldSensitive.cpp src/2d/gravityfields/GravityFieldRegister.cpp)
 
 include_directories(include)
 
@@ -43,7 +43,7 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/shape/Circle.h
         include/paxphysics/2d/gravityfields/DirectionalGravityField.h
         include/paxphysics/2d/gravityfields/GravityFieldSystem.h
-        include/paxphysics/2d/gravityfields/GravityFieldSensitive.h include/paxphysics/2d/PhysicsSystem2D.h)
+        include/paxphysics/2d/gravityfields/GravityFieldSensitive.h include/paxphysics/2d/PhysicsSystem2D.h include/paxphysics/2d/gravityfields/GravityFieldRegister.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(BOX2D_INCLUDE_DIRS ${PAX_LIB_DIR}/Box2D)
