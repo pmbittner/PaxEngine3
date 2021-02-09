@@ -36,8 +36,14 @@ namespace PAX::Physics {
     }
 
     void Plugin::registerSystems(PAX::Game &game) {
-        game.addSystem(std::make_unique<Box2DPhysicsSystem>());
+        // This order is important.
+        // We first add the GravityFieldSystem as it will add gravity to the velocity of all entitites.
+        // Then, the PhysicsSystem will check for collisions.
+        // In particular, it will stop movement if the falling direction is blocked (or the entity is grounded).
+        // If we would not have this order, the entity could gain speed from gravity although its way is blocked
+        // because the collision would be resolved first and afterwards the speed would increase.
         game.addSystem(std::make_unique<GravityFieldSystem>());
+        game.addSystem(std::make_unique<Box2DPhysicsSystem>());
     }
 
     void Plugin::registerJsonWriters(Json::JsonFieldWriterRegister &writerRegister) {
