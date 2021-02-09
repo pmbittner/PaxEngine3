@@ -21,7 +21,7 @@ namespace PAX {
     private:
         bool initialized = false;
         EventService eventService;
-        std::set<std::unique_ptr<GameSystem>> systems;
+        std::vector<std::unique_ptr<GameSystem>> systems;
         std::vector<World*> worlds;
 
     public:
@@ -44,12 +44,12 @@ namespace PAX {
         EventService & getEventService();
 
         /**
-         * Takes ownership if the given system.
+         * Takes ownership of the given system.
          * @param system
          */
-        void addSystem(std::unique_ptr<GameSystem> system);
+        void addSystem(std::unique_ptr<GameSystem>&& system);
 
-        PAX_NODISCARD const std::set<std::unique_ptr<GameSystem>> & getSystems() const;
+        PAX_NODISCARD const std::vector<std::unique_ptr<GameSystem>> & getSystems() const;
 
         template<class T>
         T * getSystem() const {

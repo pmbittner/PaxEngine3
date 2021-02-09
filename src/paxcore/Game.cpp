@@ -87,14 +87,15 @@ namespace PAX {
         return eventService;
     }
 
-    void Game::addSystem(std::unique_ptr<GameSystem> system) {
-        if (initialized)
+    void Game::addSystem(std::unique_ptr<GameSystem>&& system) {
+        if (initialized) {
             system->initialize(this);
+        }
         system->setGame(this);
-        systems.insert(std::move(system));
+        systems.emplace_back(std::move(system));
     }
 
-    const std::set<std::unique_ptr<GameSystem>> & Game::getSystems() const {
+    const std::vector<std::unique_ptr<GameSystem>> & Game::getSystems() const {
         return systems;
     }
 }
