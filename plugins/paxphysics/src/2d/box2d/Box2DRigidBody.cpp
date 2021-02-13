@@ -39,4 +39,8 @@ namespace PAX::Physics {
             movement->activate();
         }
     }
+
+    b2Body * Box2DRigidBody::getBody() const {
+        return body;
+    }
 }

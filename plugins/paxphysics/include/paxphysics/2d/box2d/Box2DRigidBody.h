@@ -29,6 +29,8 @@ namespace PAX::Physics {
         void detached(GameEntity & entity) override;
 
         void setFixedRotation(bool fixedRotation) override;
+
+        b2Body * getBody() const;
     };
 }
 
