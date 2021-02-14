@@ -28,6 +28,15 @@ namespace PAX::Physics {
 
         std::map<GameEntity*, b2Body*> bodies;
 
+        class ContactFilterDelegate : public b2ContactFilter {
+        public:
+            std::vector<b2ContactFilter*> contactFilters;
+
+            /// Return true if contact calculations should be performed between these two shapes.
+            /// @warning for performance reasons this is only called when the AABBs begin to overlap.
+            bool ShouldCollide(b2Fixture* fixtureA, b2Fixture* fixtureB) override;
+        } contactFilterDelegate;
+
         Box2DWorld();
 
         void synchronizeBox2D();
@@ -49,6 +58,10 @@ namespace PAX::Physics {
         PAX_NODISCARD float getMetersPerPixel() const;
         PAX_NODISCARD float getPixelsPerMeter() const;
         PAX_NODISCARD const b2World & getb2World() const;
+
+        void addContactFilter(b2ContactFilter & filter);
+        void removeContactFilter(b2ContactFilter & filter);
+        PAX_NODISCARD const std::vector<b2ContactFilter*> & getContactFilters() const;
 
         void step(UpdateOptions & options);
 

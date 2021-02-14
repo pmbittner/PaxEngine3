@@ -32,6 +32,35 @@ namespace PAX::Physics {
         return box2dWorld;
     }
 
+    bool Box2DWorld::ContactFilterDelegate::ShouldCollide(b2Fixture *fixtureA, b2Fixture *fixtureB) {
+        for (b2ContactFilter * filter : contactFilters) {
+            if (!filter->ShouldCollide(fixtureA, fixtureB)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void Box2DWorld::addContactFilter(b2ContactFilter &filter) {
+        if (contactFilterDelegate.contactFilters.empty()) {
+            // If this is the first filter, we have to add our delegate to Box2D.
+            box2dWorld.SetContactFilter(&contactFilterDelegate);
+        }
+        contactFilterDelegate.contactFilters.push_back(&filter);
+    }
+
+    void Box2DWorld::removeContactFilter(b2ContactFilter &filter) {
+        Util::removeFromVector(contactFilterDelegate.contactFilters, &filter);
+        if (contactFilterDelegate.contactFilters.empty()) {
+            // Is this correct?
+            box2dWorld.SetContactFilter(nullptr);
+        }
+    }
+
+    const std::vector<b2ContactFilter *> & Box2DWorld::getContactFilters() const {
+        return contactFilterDelegate.contactFilters;
+    }
+
     void Box2DWorld::step(PAX::UpdateOptions &options) {
         synchronizeBox2D();
         box2dWorld.Step(options.dt, velocityIterations, positionIterations);
