@@ -6,8 +6,8 @@
 #define PAXENGINE3_BOX2DPHYSICS_H
 
 #include <paxphysics/2d/RigidBody2D.h>
-#include <Box2D/Dynamics/b2Body.h>
-#include <Box2D/Dynamics/b2Fixture.h>
+#include <box2d/b2_body.h>
+#include <box2d/b2_fixture.h>
 #include "Box2DHitbox.h"
 
 namespace PAX::Physics {

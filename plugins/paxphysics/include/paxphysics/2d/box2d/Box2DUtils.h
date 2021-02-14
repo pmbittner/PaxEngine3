@@ -7,7 +7,7 @@
 
 #include <paxutil/lib/GlmIncludes.h>
 #include <paxphysics/2d/shape/Shape2D.h>
-#include <Box2D/Box2D.h>
+#include <box2d/box2d.h>
 #include <paxcore/gameentity/MotionType.h>
 
 namespace PAX::Physics {

@@ -3,9 +3,7 @@
 //
 
 #include <paxphysics/2d/box2d/Box2DUtils.h>
-#include <polypropylene/log/Errors.h>
 #include <paxphysics/2d/shape/Rectangle.h>
-#include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <paxphysics/2d/shape/Circle.h>
 
 namespace PAX::Physics {

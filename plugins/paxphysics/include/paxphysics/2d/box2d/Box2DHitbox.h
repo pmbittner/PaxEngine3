@@ -6,7 +6,7 @@
 #define PAXENGINE3_BOX2DHITBOX_H
 
 #include <paxphysics/2d/Hitbox2D.h>
-#include <Box2D/Dynamics/b2Fixture.h>
+#include <box2d/b2_fixture.h>
 
 namespace PAX::Physics {
     class Box2DHitbox : public Hitbox2D {

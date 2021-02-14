@@ -106,11 +106,12 @@ namespace PAX::Physics {
 
         b2BodyDef bodyDef;
         bodyDef.type = ToBox2D(entity.getMotionType());
+        // Box2D docs instruct us to use user data so this is fine.
+        bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(&entity);
         if (isRigidBody) {
             bodyDef.fixedRotation = rigidBody->hasFixedRotation();
         }
         body = box2dWorld.CreateBody(&bodyDef);
-        body->SetUserData(&entity);
         bodies[&entity] = body;
 
         if (isRigidBody) {
@@ -151,7 +152,7 @@ namespace PAX::Physics {
         fixtureDef.density = material->density;
         fixtureDef.friction = material->friction;
         fixtureDef.restitution = material->elasticity;
-        fixtureDef.userData = &hitbox;
+        fixtureDef.userData.pointer = reinterpret_cast<uintptr_t>(&hitbox);
         fixtureDef.isSensor = !isRigidBody || hitbox.isTriggerArea();
         hitbox.fixture = body->CreateFixture(&fixtureDef);
 
@@ -180,7 +181,7 @@ namespace PAX::Physics {
                 fixture != nullptr;
                 fixture = fixture->GetNext())
         {
-            Box2DHitbox * hitbox = static_cast<Box2DHitbox *>(fixture->GetUserData());
+            Box2DHitbox * hitbox = reinterpret_cast<Box2DHitbox *>(fixture->GetUserData().pointer);
             fixture->SetSensor(hitbox->isTriggerArea());
         }
     }

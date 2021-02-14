@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_BOX2DWORLD_H
 #define PAXENGINE3_BOX2DWORLD_H
 
-#include <Box2D/Dynamics/b2World.h>
+#include <box2d/b2_world.h>
 #include <paxphysics/2d/PhysicsWorld2D.h>
 #include "Box2DHitbox.h"
 #include "Box2DRigidBody.h"
