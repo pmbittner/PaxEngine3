@@ -238,10 +238,12 @@ namespace PAX {
             for (const nlohmann::json & obj : layerj[TiledName::Objects]) {
                 const GameEntityID obj_id = obj[TiledName::Object::Id];
                 const glm::ivec2 obj_size(obj[TiledName::Object::Width], obj[TiledName::Object::Height]);
-                glm::vec2 obj_pos = {0, 0};
-                obj_pos += glm::vec2(obj_size) / 2.0f;
+                const float obj_rotation = obj[TiledName::Object::Rotation];
+                glm::vec2 obj_pos = glm::vec2(
+                        obj[TiledName::Object::X].get<float>(),
+                        obj[TiledName::Object::Y].get<float>());
+                obj_pos += glm::rotate(glm::vec2(obj_size) / 2.0f, Math::toRadians(obj_rotation));
                 obj_pos += -mapSize / 2.0f;
-                obj_pos += glm::vec2(obj[TiledName::Object::X].get<int>(), obj[TiledName::Object::Y].get<int>());
                 obj_pos += glm::vec2(layerX, layerY);
                 obj_pos.y *= -1;
 
@@ -283,7 +285,7 @@ namespace PAX {
                         GameEntity *entity = prefab->create(varRegister);
                         Transformation &t = entity->getTransformation();
                         t.position() = {obj_pos.x, obj_pos.y, z};
-                        t.setRotation2DInDegrees(-obj[TiledName::Object::Rotation].get<float>());
+                        t.setRotation2DInDegrees(-obj_rotation);
 //                        // TODO: This is some sort of hack for our orange boxes for now, where we know, that these have
 //                        //       size 1px x 1px. Find a better solution for this like primitives as entities or so like:
 //                        //       Rectangle { Size, RectangleGraphics? }
