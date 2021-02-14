@@ -28,6 +28,10 @@ namespace PAX::Physics {
         box2dWorld.SetGravity(metersPerPixel * ToBox2D(gravity));
     }
 
+    b2World & Box2DWorld::getb2World() {
+        return box2dWorld;
+    }
+
     const b2World & Box2DWorld::getb2World() const {
         return box2dWorld;
     }
@@ -39,6 +43,31 @@ namespace PAX::Physics {
             }
         }
         return true;
+    }
+
+    void Box2DWorld::ContactListenersDelegate::BeginContact(b2Contact *contact) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->BeginContact(contact);
+            if (!contact->IsEnabled()) break;
+        }
+    }
+
+    void Box2DWorld::ContactListenersDelegate::EndContact(b2Contact *contact) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->EndContact(contact);
+        }
+    }
+
+    void Box2DWorld::ContactListenersDelegate::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->PreSolve(contact, oldManifold);
+        }
+    }
+
+    void Box2DWorld::ContactListenersDelegate::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->PostSolve(contact, impulse);
+        }
     }
 
     void Box2DWorld::addContactFilter(b2ContactFilter &filter) {
@@ -59,6 +88,26 @@ namespace PAX::Physics {
 
     const std::vector<b2ContactFilter *> & Box2DWorld::getContactFilters() const {
         return contactFilterDelegate.contactFilters;
+    }
+
+    void Box2DWorld::addContactListener(b2ContactListener & listener) {
+        if (contactListenerDelegate.contactListeners.empty()) {
+            // If this is the first listener, we have to add our delegate to Box2D.
+            box2dWorld.SetContactListener(&contactListenerDelegate);
+        }
+        contactListenerDelegate.contactListeners.push_back(&listener);
+    }
+
+    void Box2DWorld::removeContactListener(b2ContactListener & listener) {
+        Util::removeFromVector(contactListenerDelegate.contactListeners, &listener);
+        if (contactListenerDelegate.contactListeners.empty()) {
+            // Is this correct?
+            box2dWorld.SetContactListener(nullptr);
+        }
+    }
+
+    const std::vector<b2ContactListener *> & Box2DWorld::getContactListeners() const {
+        return contactListenerDelegate.contactListeners;
     }
 
     void Box2DWorld::step(PAX::UpdateOptions &options) {
