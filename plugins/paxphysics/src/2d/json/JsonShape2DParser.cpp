@@ -32,5 +32,9 @@ PAX_IMPLEMENT_JSONPARSER_FOR(std::shared_ptr<PAX::Physics::Shape2D>) {
     }
     shape->setSynchroniseToSize(synchroniseToSize);
 
+    if (json.count("offset") > 0) {
+        shape->setOffset(Json::tryParse<glm::vec2>(json["offset"]));
+    }
+
     return shape;
 }

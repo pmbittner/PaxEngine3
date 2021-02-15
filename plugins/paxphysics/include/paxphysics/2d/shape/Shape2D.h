@@ -17,6 +17,7 @@ namespace PAX::Physics {
 
     protected:
         FloatBoundingBox2D aabb;
+        glm::vec2 offset;
 
     public:
         EventHandler<> ShapeChanged;
@@ -28,6 +29,8 @@ namespace PAX::Physics {
         PAX_NODISCARD const FloatBoundingBox2D &getAABB() const;
         PAX_NODISCARD bool synchronisesToSize() const;
         void setSynchroniseToSize(bool synchroniseToSize);
+        PAX_NODISCARD const glm::vec2 &getOffset() const;
+        void setOffset(const glm::vec2 &offset);
     };
 }
 

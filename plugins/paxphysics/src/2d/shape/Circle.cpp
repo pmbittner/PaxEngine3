@@ -5,7 +5,7 @@
 #include <paxphysics/2d/shape/Circle.h>
 
 namespace PAX::Physics {
-    Circle::Circle(float radius) : radius(radius) {
+    Circle::Circle(float radius) : Shape2D(), radius(radius) {
         const glm::vec2 aabbSize = glm::vec2(2) * radius;
         aabb = FloatBoundingBox2D(aabbSize);
     }

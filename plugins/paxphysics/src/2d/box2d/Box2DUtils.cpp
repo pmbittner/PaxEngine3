@@ -30,12 +30,13 @@ namespace PAX::Physics {
             rectShape->SetAsBox(
                     metersPerPixel * aabb.getLength(0) / 2.f,
                     metersPerPixel * aabb.getLength(1) / 2.f,
-                    ToBox2D(metersPerPixel * aabb.getCenter()),
+                    ToBox2D(metersPerPixel * (aabb.getCenter() + shape.getOffset())),
                     0);
             ret = rectShape;
         } else if (auto * circle = dynamic_cast<const Circle*>(&shape)) {
             auto * circleShape = new b2CircleShape();
             circleShape->m_radius = metersPerPixel * circle->getRadius();
+            circleShape->m_p = ToBox2D(metersPerPixel * shape.getOffset());
             ret = circleShape;
         }
 

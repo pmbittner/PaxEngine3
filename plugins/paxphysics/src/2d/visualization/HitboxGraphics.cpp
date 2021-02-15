@@ -84,6 +84,8 @@ namespace PAX::Physics {
             PAX_NOT_IMPLEMENTED_EXCEPTION();
         }
 
+        trafo = glm::translate(glm::vec3(shape.getOffset(), 0)) * trafo;
+
         shapeNode = MeshNode(shapeMesh);
         frameNode = MeshNode(frameMesh);
     }
