@@ -67,6 +67,7 @@ namespace PAX {
             };
 
         GameEntityIDService();
+        GameEntityIDService(const GameEntityIDService & other) = delete;
         virtual ~GameEntityIDService();
 
         bool hasID(GameEntity * entity) const;
