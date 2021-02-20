@@ -36,80 +36,6 @@ namespace PAX::Physics {
         return box2dWorld;
     }
 
-    bool Box2DWorld::ContactFilterDelegate::ShouldCollide(b2Fixture *fixtureA, b2Fixture *fixtureB) {
-        for (b2ContactFilter * filter : contactFilters) {
-            if (!filter->ShouldCollide(fixtureA, fixtureB)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    void Box2DWorld::ContactListenersDelegate::BeginContact(b2Contact *contact) {
-        for (b2ContactListener * listener : contactListeners) {
-            listener->BeginContact(contact);
-            if (!contact->IsEnabled()) break;
-        }
-    }
-
-    void Box2DWorld::ContactListenersDelegate::EndContact(b2Contact *contact) {
-        for (b2ContactListener * listener : contactListeners) {
-            listener->EndContact(contact);
-        }
-    }
-
-    void Box2DWorld::ContactListenersDelegate::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
-        for (b2ContactListener * listener : contactListeners) {
-            listener->PreSolve(contact, oldManifold);
-        }
-    }
-
-    void Box2DWorld::ContactListenersDelegate::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse) {
-        for (b2ContactListener * listener : contactListeners) {
-            listener->PostSolve(contact, impulse);
-        }
-    }
-
-    void Box2DWorld::addContactFilter(b2ContactFilter &filter) {
-        if (contactFilterDelegate.contactFilters.empty()) {
-            // If this is the first filter, we have to add our delegate to Box2D.
-            box2dWorld.SetContactFilter(&contactFilterDelegate);
-        }
-        contactFilterDelegate.contactFilters.push_back(&filter);
-    }
-
-    void Box2DWorld::removeContactFilter(b2ContactFilter &filter) {
-        Util::removeFromVector(contactFilterDelegate.contactFilters, &filter);
-        if (contactFilterDelegate.contactFilters.empty()) {
-            // Is this correct?
-            box2dWorld.SetContactFilter(nullptr);
-        }
-    }
-
-    const std::vector<b2ContactFilter *> & Box2DWorld::getContactFilters() const {
-        return contactFilterDelegate.contactFilters;
-    }
-
-    void Box2DWorld::addContactListener(b2ContactListener & listener) {
-        if (contactListenerDelegate.contactListeners.empty()) {
-            // If this is the first listener, we have to add our delegate to Box2D.
-            box2dWorld.SetContactListener(&contactListenerDelegate);
-        }
-        contactListenerDelegate.contactListeners.push_back(&listener);
-    }
-
-    void Box2DWorld::removeContactListener(b2ContactListener & listener) {
-        Util::removeFromVector(contactListenerDelegate.contactListeners, &listener);
-        if (contactListenerDelegate.contactListeners.empty()) {
-            // Is this correct?
-            box2dWorld.SetContactListener(nullptr);
-        }
-    }
-
-    const std::vector<b2ContactListener *> & Box2DWorld::getContactListeners() const {
-        return contactListenerDelegate.contactListeners;
-    }
-
     void Box2DWorld::step(PAX::UpdateOptions &options) {
         synchronizeBox2D();
         box2dWorld.Step(options.dt, velocityIterations, positionIterations);
@@ -279,6 +205,8 @@ namespace PAX::Physics {
         }
     }
 
+    /// Listen to Spawning and Despawing Hitboxes and RigidBodies
+
     void Box2DWorld::attached(World &world) {
         Super::attached(world);
         paxWorld = &world;
@@ -358,5 +286,81 @@ namespace PAX::Physics {
             // There are neither a rigidbody nor hitboxes attached to this entity anymore.
             despawnInBox2D(*entity);
         }
+    }
+
+    /// Filters and Listeners
+
+    bool Box2DWorld::ContactFilterDelegate::ShouldCollide(b2Fixture *fixtureA, b2Fixture *fixtureB) {
+        for (b2ContactFilter * filter : contactFilters) {
+            if (!filter->ShouldCollide(fixtureA, fixtureB)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void Box2DWorld::ContactListenersDelegate::BeginContact(b2Contact *contact) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->BeginContact(contact);
+            if (!contact->IsEnabled()) break;
+        }
+    }
+
+    void Box2DWorld::ContactListenersDelegate::EndContact(b2Contact *contact) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->EndContact(contact);
+        }
+    }
+
+    void Box2DWorld::ContactListenersDelegate::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->PreSolve(contact, oldManifold);
+        }
+    }
+
+    void Box2DWorld::ContactListenersDelegate::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse) {
+        for (b2ContactListener * listener : contactListeners) {
+            listener->PostSolve(contact, impulse);
+        }
+    }
+
+    void Box2DWorld::addContactFilter(b2ContactFilter &filter) {
+        if (contactFilterDelegate.contactFilters.empty()) {
+            // If this is the first filter, we have to add our delegate to Box2D.
+            box2dWorld.SetContactFilter(&contactFilterDelegate);
+        }
+        contactFilterDelegate.contactFilters.push_back(&filter);
+    }
+
+    void Box2DWorld::removeContactFilter(b2ContactFilter &filter) {
+        Util::removeFromVector(contactFilterDelegate.contactFilters, &filter);
+        if (contactFilterDelegate.contactFilters.empty()) {
+            // Is this correct?
+            box2dWorld.SetContactFilter(nullptr);
+        }
+    }
+
+    const std::vector<b2ContactFilter *> & Box2DWorld::getContactFilters() const {
+        return contactFilterDelegate.contactFilters;
+    }
+
+    void Box2DWorld::addContactListener(b2ContactListener & listener) {
+        if (contactListenerDelegate.contactListeners.empty()) {
+            // If this is the first listener, we have to add our delegate to Box2D.
+            box2dWorld.SetContactListener(&contactListenerDelegate);
+        }
+        contactListenerDelegate.contactListeners.push_back(&listener);
+    }
+
+    void Box2DWorld::removeContactListener(b2ContactListener & listener) {
+        Util::removeFromVector(contactListenerDelegate.contactListeners, &listener);
+        if (contactListenerDelegate.contactListeners.empty()) {
+            // Is this correct?
+            box2dWorld.SetContactListener(nullptr);
+        }
+    }
+
+    const std::vector<b2ContactListener *> & Box2DWorld::getContactListeners() const {
+        return contactListenerDelegate.contactListeners;
     }
 }
