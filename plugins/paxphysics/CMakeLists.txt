@@ -18,7 +18,9 @@ set(PAXPHYSICS_SOURCE
         src/2d/json/JsonShape2DParser.cpp
         src/2d/shape/Circle.cpp
         src/2d/gravityfields/DirectionalGravityField.cpp
-        src/2d/gravityfields/GravityFieldSystem.cpp src/2d/gravityfields/GravityFieldSensitive.cpp src/2d/gravityfields/GravityFieldRegister.cpp)
+        src/2d/gravityfields/GravityFieldSystem.cpp
+        src/2d/gravityfields/GravityFieldSensitive.cpp
+        src/2d/gravityfields/GravityFieldRegister.cpp)
 
 include_directories(include)
 
@@ -43,7 +45,9 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/shape/Circle.h
         include/paxphysics/2d/gravityfields/DirectionalGravityField.h
         include/paxphysics/2d/gravityfields/GravityFieldSystem.h
-        include/paxphysics/2d/gravityfields/GravityFieldSensitive.h include/paxphysics/2d/PhysicsSystem2D.h include/paxphysics/2d/gravityfields/GravityFieldRegister.h)
+        include/paxphysics/2d/gravityfields/GravityFieldSensitive.h
+        include/paxphysics/2d/PhysicsSystem2D.h
+        include/paxphysics/2d/gravityfields/GravityFieldRegister.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(PAX_BOX2D_PATH ${PAX_LIB_DIR}/box2d)
@@ -60,10 +64,10 @@ if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
 else()
     if(${CMAKE_BUILD_TYPE} MATCHES Debug)
         message("Building paxphysics - Debug")
-        set(BOX_LIB_DIR ${PAX_LIB_DIR}/bin/build-debug/bin)
+        set(BOX_LIB_DIR ${PAX_BOX2D_PATH}/bin/build-debug/bin)
     else()
         message("Building paxphysics - Release")
-        set(BOX_LIB_DIR ${PAX_LIB_DIR}/bin/build-release/bin)
+        set(BOX_LIB_DIR ${PAX_BOX2D_PATH}/bin/build-release/bin)
     endif(${CMAKE_BUILD_TYPE} MATCHES Debug)
     set(BOX2D_LIBRARY ${BOX_LIB_DIR}/libbox2d.a)
 endif()
