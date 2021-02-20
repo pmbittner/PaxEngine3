@@ -1,0 +1,16 @@
+{
+  "Properties": [
+    {
+      "SphereGravityField": {
+        "intensity": "${gf_intensity}",
+        "priority": "${gf_priority}",
+        "offset": [0, 0],
+        "radius": "${gf_radius}",
+        "shape": {
+          "type": "Circle",
+          "radius": "${gf_radius}"
+        }
+      }
+    }
+  ]
+}

@@ -15,9 +15,13 @@ namespace PAX::Physics {
                 const glm::vec2 &pos = owner->getTransformation().position2D();
                 for (GravityField *gf : gravityFields) {
                     if (gf->isInside(pos)) {
-                        // TODO: Only move when not blocked / grounded
-                        owner->get<Movement2D>()->velocity += options.dt * gf->getIntensity() * gf->getFallingDirection(pos);
-                        break;
+                        glm::vec2 fallDir = gf->getFallingDirection(pos);
+                        if (fallDir != glm::vec2(0)) {
+                            owner->get<Movement2D>()->velocity += options.dt * gf->getIntensity() * glm::normalize(fallDir);
+                            break; // We can only be in one gravity field
+                        } else {
+                            PAX_LOG(Log::Level::Error, "GravityField " << gf << " computed illegal falling direction 0!");
+                        }
                     }
                 }
             }
