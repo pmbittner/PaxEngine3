@@ -79,18 +79,22 @@ if (WIN32)
     endif()
 elseif(UNIX)
     message("Building PaxAssimp on Unix")
-    set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/build)
-    set(ASSIMP_IRRXML_DIR ${ASSIMP_BUILD_DIRECTORY}/contrib/irrXML)
-    set(ASSIMP_ZLIB_DIR   ${ASSIMP_BUILD_DIRECTORY}/contrib/zlib)
+    set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY}/bin/build-release)
+    set(ASSIMP_LIBS_DIRECTORY ${ASSIMP_BUILD_DIRECTORY}/lib)
+    set(ASSIMP_ZLIB_DIR ${ASSIMP_BUILD_DIRECTORY}/contrib/zlib)
 
     set(ASSIMP_LINK_DIRECTORIES
             ${ASSIMP_LINK_DIRECTORIES}
-            ${ASSIMP_IRRXML_DIR})
+            ${ASSIMP_LIBS_DIRECTORY}
+            ${ASSIMP_ZLIB_DIR}
+            )
 
     set(ASSIMP_LIBRARIES
             ${ASSIMP_LIBRARIES}
-            ${ASSIMP_BUILD_DIRECTORY}/code/libassimp.a
-            ${ASSIMP_IRRXML_DIR}/libIrrXML.a)
+            ${ASSIMP_LIBS_DIRECTORY}/libassimp.a
+            ${ASSIMP_LIBS_DIRECTORY}/libdraco.a
+            ${ASSIMP_ZLIB_DIR}/libzlibstatic.a
+            )
 
 
     # For now we always use the zlib version, assimp builds on its own to
@@ -103,13 +107,6 @@ elseif(UNIX)
     #            ${ZLIB_LIBRARIES})
     #else()
         # use z3 files built by assimp
-        set(ASSIMP_LINK_DIRECTORIES
-                ${ASSIMP_LINK_DIRECTORIES}
-                ${ASSIMP_ZLIB_DIR})
-
-        set(ASSIMP_LIBRARIES
-                ${ASSIMP_LIBRARIES}
-                ${ASSIMP_ZLIB_DIR}/libzlibstatic.a)
     #endif(ZLIB_FOUND)
 endif(WIN32)
 
