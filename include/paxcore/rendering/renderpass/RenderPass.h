@@ -16,11 +16,11 @@ namespace PAX {
         std::vector<RenderPassChannel> channels;
 
     public:
-        RenderPass(const glm::ivec2 & resolution);
+        explicit RenderPass(const glm::ivec2 & resolution);
         ~RenderPass() override;
 
         PAX_NODISCARD const glm::ivec2 & getResolution() const;
-        PAX_NODISCARD void setClearColour(const Colour & colour);
+        void setClearColour(const Colour & colour);
         PAX_NODISCARD const Colour & getClearColour() const;
 
         void addChannel(RenderPassChannel renderPassChannel);
