@@ -34,7 +34,8 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/Signature.h
         ../../include/paxutil/Sleep.h
         ../../include/paxutil/reflection/EngineFieldFlags.h
-        ../../include/paxutil/resources/JsonResourceFieldWriter.h)
+        ../../include/paxutil/resources/JsonResourceFieldWriter.h
+        ../../include/paxutil/macros/Functional.h)
 
 set(SOURCE_FILES
         Signature.cpp

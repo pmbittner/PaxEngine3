@@ -4,6 +4,7 @@
 
 #include <paxphysics/2d/box2d/Box2DWorld.h>
 #include "paxphysics/2d/box2d/Box2DPhysicsSystem.h"
+#include "paxutil/macros/Functional.h"
 
 namespace PAX::Physics {
     Box2DPhysicsSystem::Box2DPhysicsSystem() : Super(), hitboxes() {
@@ -25,13 +26,9 @@ namespace PAX::Physics {
 
     void Box2DPhysicsSystem::toggleShowHitboxes() {
         if (showingHitboxes) {
-            for (Hitbox2D * h : hitboxes) {
-                h->hide();
-            }
+            PAX_FMAP_ON_POINTERS(hitboxes, hide());
         } else {
-            for (Hitbox2D * h : hitboxes) {
-                h->show();
-            }
+            PAX_FMAP_ON_POINTERS(hitboxes, show());
         }
 
         showingHitboxes = !showingHitboxes;
