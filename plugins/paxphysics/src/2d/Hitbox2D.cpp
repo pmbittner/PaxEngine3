@@ -16,6 +16,7 @@ namespace PAX::Physics {
         m.add(paxfieldof(shape)).addFlag(Field::IsMandatory);
         m.add(paxfieldof(material)).addFlag(Field::IsMandatory | EngineFieldFlags::IsResource);
         m.add(paxfieldof(isTrigger));
+        m.add(paxfieldof(name));
         return m;
     }
 
@@ -29,12 +30,7 @@ namespace PAX::Physics {
     void Hitbox2D::show() {
         GameEntity * owner = getOwner();
         if (owner) {
-            if (visualizer == nullptr) {
-                visualizer = pax_new(GameEntity)();
-                visualizer->add(pax_new(HitboxGraphics)(*shape));
-                visualizer->getTransformation().z() = HitboxVisualizationZ;
-            }
-
+            GameEntity * visualizer = getVisualizer();
             World * w = owner->getWorld();
             if (w) {
                 if (visualizer->getParent() != owner) {
@@ -70,5 +66,32 @@ namespace PAX::Physics {
 
     const std::shared_ptr<PhysicsMaterial> & Hitbox2D::getMaterial() const {
         return material;
+    }
+
+    GameEntity * Hitbox2D::getVisualizer() {
+        if (visualizer == nullptr) {
+            MotionType m = MotionType::Static;
+            if (GameEntity * owner = getOwner()) {
+                m = owner->getMotionType();
+            }
+            visualizer = pax_new(GameEntity)();
+            visualizer->i_setMotionType(m);
+            visualizer->add(pax_new(HitboxGraphics)(*shape, m));
+            visualizer->getTransformation().z() = HitboxVisualizationZ;
+        }
+
+        return visualizer;
+    }
+
+    HitboxGraphics * Hitbox2D::getVisualisation() {
+        return getVisualizer()->get<HitboxGraphics>();
+    }
+
+    const std::string &Hitbox2D::getName() const {
+        return name;
+    }
+
+    void Hitbox2D::setName(const std::string &name) {
+        Hitbox2D::name = name;
     }
 }

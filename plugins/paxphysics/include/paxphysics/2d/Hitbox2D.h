@@ -8,6 +8,7 @@
 #include <paxcore/gameentity/GameEntityProperty.h>
 #include <paxphysics/2d/shape/Shape2D.h>
 #include <paxphysics/2d/material/PhysicsMaterial.h>
+#include <paxphysics/2d/visualization/HitboxGraphics.h>
 
 namespace PAX::Physics {
     class Hitbox2D : public GameEntityProperty {
@@ -16,8 +17,10 @@ namespace PAX::Physics {
         PAX_PROPERTY_IS_MULTIPLE
 
         GameEntity* visualizer = nullptr;
+        PAX_NODISCARD GameEntity * getVisualizer();
 
         /// Begin Fields
+        std::string name = "<unknown>";
         std::shared_ptr<Shape2D> shape = nullptr;
         std::shared_ptr<PhysicsMaterial> material;
         bool isTrigger = false;
@@ -50,6 +53,9 @@ namespace PAX::Physics {
         PAX_NODISCARD bool isTriggerArea() const;
         PAX_NODISCARD const std::shared_ptr<Shape2D> & getShape() const;
         PAX_NODISCARD const std::shared_ptr<PhysicsMaterial> & getMaterial() const;
+        PAX_NODISCARD HitboxGraphics * getVisualisation();
+        PAX_NODISCARD const std::string &getName() const;
+        void setName(const std::string &name);
     };
 }
 
