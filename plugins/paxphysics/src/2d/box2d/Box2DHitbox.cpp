@@ -33,4 +33,8 @@ namespace PAX::Physics {
         }
         return false;
     }
+
+    b2Fixture * Box2DHitbox::getFixture() const {
+        return fixture;
+    }
 }
