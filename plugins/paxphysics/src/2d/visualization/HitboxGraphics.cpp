@@ -37,14 +37,34 @@ namespace PAX::Physics {
         return mesh;
     }
 
-    const glm::vec4 & HitboxGraphics::GetFillColorFor(const Shape2D &fixture) {
-        static glm::vec4 color = glm::vec4(0, 1, 0, 0.3f);
-        return color;
+    const glm::vec4 & HitboxGraphics::GetDefaultFillColorFor(MotionType  m, const Shape2D &fixture) {
+        static glm::vec4 dynamicColor   = glm::vec4(0, 1, 0, 0.3f);
+        static glm::vec4 staticColor    = glm::vec4(0, 0, 1, 0.3f);
+        static glm::vec4 kinematicColor = glm::vec4(1, 0, 0, 0.3f);
+
+        switch (m) {
+            case MotionType::Static:
+                return staticColor;
+            case MotionType::Kinematic:
+                return kinematicColor;
+            case MotionType::Dynamic:
+                return dynamicColor;
+        }
     }
 
-    const glm::vec4 & HitboxGraphics::GetBorderColorFor(const Shape2D &fixture) {
-        static glm::vec4 color = glm::vec4(0, 1, 0, 1);
-        return color;
+    const glm::vec4 & HitboxGraphics::GetDefaultBorderColorFor(MotionType  m, const Shape2D &fixture) {
+        static glm::vec4 dynamicColor   = glm::vec4(0, 1, 0, 1);
+        static glm::vec4 staticColor    = glm::vec4(0, 0, 1, 1);
+        static glm::vec4 kinematicColor = glm::vec4(1, 0, 0, 1);
+
+        switch (m) {
+            case MotionType::Static:
+                return staticColor;
+            case MotionType::Kinematic:
+                return kinematicColor;
+            case MotionType::Dynamic:
+                return dynamicColor;
+        }
     }
 
     void HitboxGraphics::initShaders() {
@@ -57,10 +77,10 @@ namespace PAX::Physics {
         }
     }
 
-    HitboxGraphics::HitboxGraphics(const Shape2D & shape)
+    HitboxGraphics::HitboxGraphics(const Shape2D & shape, MotionType m)
     :
-    fillColor(GetFillColorFor(shape)),
-    borderColor(GetBorderColorFor(shape))
+    fillColor(GetDefaultFillColorFor(m, shape)),
+    borderColor(GetDefaultBorderColorFor(m, shape))
     {
         initShaders();
 
@@ -109,5 +129,21 @@ namespace PAX::Physics {
         frameNode.render(renderOptions);
 
         renderOptions.setTransformationMatrix(parentTransform);
+    }
+
+    const glm::vec4 &HitboxGraphics::getFillColor() const {
+        return fillColor;
+    }
+
+    void HitboxGraphics::setFillColor(const glm::vec4 &fillColor) {
+        HitboxGraphics::fillColor = fillColor;
+    }
+
+    const glm::vec4 &HitboxGraphics::getBorderColor() const {
+        return borderColor;
+    }
+
+    void HitboxGraphics::setBorderColor(const glm::vec4 &borderColor) {
+        HitboxGraphics::borderColor = borderColor;
     }
 }

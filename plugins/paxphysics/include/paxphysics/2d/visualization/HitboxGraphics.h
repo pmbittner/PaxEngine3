@@ -22,20 +22,28 @@ namespace PAX::Physics {
         static std::shared_ptr<Mesh> GetRectangleBorderMesh();
         static std::shared_ptr<Mesh> GetCircleMesh();
         static std::shared_ptr<Mesh> GetCircleBorderMesh();
-        static const glm::vec4 & GetFillColorFor(const Shape2D & fixture);
-        static const glm::vec4 & GetBorderColorFor(const Shape2D & fixture);
 
         glm::mat4 trafo;
         MeshNode shapeNode, frameNode;
-        const glm::vec4 & fillColor;
-        const glm::vec4 & borderColor;
+        glm::vec4 fillColor;
+
+    private:
+        glm::vec4 borderColor;
 
         static void initShaders();
 
     public:
-        explicit HitboxGraphics(const Shape2D & shape);
+        static const glm::vec4 & GetDefaultFillColorFor(MotionType  m, const Shape2D & fixture);
+        static const glm::vec4 & GetDefaultBorderColorFor(MotionType  m, const Shape2D & fixture);
+
+        explicit HitboxGraphics(const Shape2D & shape, MotionType m);
         ClassMetadata getMetadata() override;
         void render(RenderOptions &renderOptions) override;
+
+        PAX_NODISCARD const glm::vec4 &getFillColor() const;
+        void setFillColor(const glm::vec4 &fillColor);
+        PAX_NODISCARD const glm::vec4 &getBorderColor() const;
+        void setBorderColor(const glm::vec4 &borderColor);
     };
 }
 
