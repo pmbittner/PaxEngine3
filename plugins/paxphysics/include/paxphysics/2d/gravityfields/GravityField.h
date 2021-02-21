@@ -21,6 +21,9 @@ namespace PAX::Physics {
         float priority = 0;
         /// END FIELDS
 
+        const static glm::vec4 & GetDefaultVisualizerFillColor();
+        const static glm::vec4 & GetDefaultVisualizerBorderColor();
+
         Hitbox2D * hitbox = nullptr;
         void initializeHitbox();
 

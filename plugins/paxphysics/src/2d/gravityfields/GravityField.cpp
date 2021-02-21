@@ -13,6 +13,16 @@ namespace PAX::Physics {
         return t;
     }
 
+    const glm::vec4 & GravityField::GetDefaultVisualizerFillColor() {
+        static auto c = glm::vec4(1, 1, 1, 0.4f);
+        return c;
+    }
+
+    const glm::vec4 & GravityField::GetDefaultVisualizerBorderColor() {
+        static auto c = glm::vec4(1);
+        return c;
+    }
+
     GravityField::GravityField() = default;
 
     GravityField::GravityField(const std::shared_ptr<Shape2D> & shape, float intensity)
@@ -30,6 +40,9 @@ namespace PAX::Physics {
     void GravityField::initializeHitbox() {
         hitbox = Plugin::CreateHitbox(shape);
         hitbox->setTriggerArea(true);
+        HitboxGraphics * g = hitbox->getVisualisation();
+        g->setBorderColor(GetDefaultVisualizerBorderColor());
+        g->setFillColor(GetDefaultVisualizerFillColor());
     }
 
     ClassMetadata GravityField::getMetadata() {
