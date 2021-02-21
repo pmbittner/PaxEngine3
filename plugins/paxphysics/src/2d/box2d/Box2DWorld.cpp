@@ -302,7 +302,6 @@ namespace PAX::Physics {
     void Box2DWorld::ContactListenersDelegate::BeginContact(b2Contact *contact) {
         for (b2ContactListener * listener : contactListeners) {
             listener->BeginContact(contact);
-            if (!contact->IsEnabled()) break;
         }
     }
 
