@@ -52,6 +52,20 @@ namespace PAX::Physics {
         }
     }
 
+    void Hitbox2D::onHitBeginWith(Hitbox2D &hitbox) {
+        contacts.push_back(&hitbox);
+        OnHitBegin(hitbox);
+    }
+
+    void Hitbox2D::onHitEndWith(Hitbox2D &hitbox) {
+        OnHitEnd(hitbox);
+        Util::removeFromVector(contacts, &hitbox);
+    }
+
+    const std::vector<Hitbox2D *> & Hitbox2D::getCurrentContacts() const {
+        return contacts;
+    }
+
     void Hitbox2D::setTriggerArea(bool isTrigger) {
         this->isTrigger = isTrigger;
     }

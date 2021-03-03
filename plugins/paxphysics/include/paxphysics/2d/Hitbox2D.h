@@ -16,6 +16,9 @@ namespace PAX::Physics {
         PAX_PROPERTY_DERIVES(PAX::GameEntityProperty)
         PAX_PROPERTY_IS_MULTIPLE
 
+        friend class PhysicsSystem2D;
+        friend class PhysicsWorld2D;
+
         GameEntity* visualizer = nullptr;
         PAX_NODISCARD GameEntity * getVisualizer();
 
@@ -26,11 +29,18 @@ namespace PAX::Physics {
         bool isTrigger = false;
         /// End Fields
 
+        std::vector<Hitbox2D*> contacts;
+
+        void onHitBeginWith(Hitbox2D & hitbox);
+        void onHitEndWith(Hitbox2D & hitbox);
+
     protected:
         Hitbox2D(const std::shared_ptr<Shape2D> & shape, const std::shared_ptr<PhysicsMaterial> &material);
 
     public:
         static constexpr int HitboxVisualizationZ = 100;
+        EventHandler<Hitbox2D&> OnHitBegin;
+        EventHandler<Hitbox2D&> OnHitEnd;
 
         ~Hitbox2D() override = 0;
 
@@ -54,6 +64,7 @@ namespace PAX::Physics {
         PAX_NODISCARD const std::shared_ptr<Shape2D> & getShape() const;
         PAX_NODISCARD const std::shared_ptr<PhysicsMaterial> & getMaterial() const;
         PAX_NODISCARD HitboxGraphics * getVisualisation();
+        PAX_NODISCARD const std::vector<Hitbox2D*> & getCurrentContacts() const;
         PAX_NODISCARD const std::string &getName() const;
         void setName(const std::string &name);
     };

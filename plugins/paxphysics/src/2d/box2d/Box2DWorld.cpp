@@ -15,6 +15,7 @@ namespace PAX::Physics {
 
     Box2DWorld::Box2DWorld(const glm::vec2 & gravity) : PhysicsWorld2D(gravity), box2dWorld(ToBox2D(gravity)) {
         box2dWorld.SetAllowSleeping(false);
+        contactListenerDelegate.world = this;
     }
 
     ClassMetadata Box2DWorld::getMetadata() {
@@ -299,7 +300,16 @@ namespace PAX::Physics {
         return true;
     }
 
+    Box2DWorld::FixtureMetadata::FixtureMetadata(b2Fixture & f)
+    : fixture(f)
+    {
+        hitbox = reinterpret_cast<Box2DHitbox *>(f.GetUserData().pointer);
+    }
+
     void Box2DWorld::ContactListenersDelegate::BeginContact(b2Contact *contact) {
+        FixtureMetadata a(*contact->GetFixtureA());
+        FixtureMetadata b(*contact->GetFixtureB());
+        world->onHitBegin(Collision(a.hitbox, b.hitbox));
         for (b2ContactListener * listener : contactListeners) {
             listener->BeginContact(contact);
         }
@@ -309,6 +319,9 @@ namespace PAX::Physics {
         for (b2ContactListener * listener : contactListeners) {
             listener->EndContact(contact);
         }
+        FixtureMetadata a(*contact->GetFixtureA());
+        FixtureMetadata b(*contact->GetFixtureB());
+        world->onHitEnd(Collision(a.hitbox, b.hitbox));
     }
 
     void Box2DWorld::ContactListenersDelegate::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {

@@ -28,6 +28,13 @@ namespace PAX::Physics {
 
         std::map<GameEntity*, b2Body*> bodies;
 
+        struct FixtureMetadata {
+            b2Fixture & fixture;
+            Box2DHitbox * hitbox;
+
+            explicit FixtureMetadata(b2Fixture & f);
+        };
+
         class ContactFilterDelegate : public b2ContactFilter {
         public:
             std::vector<b2ContactFilter*> contactFilters;
@@ -40,6 +47,7 @@ namespace PAX::Physics {
         class ContactListenersDelegate : public b2ContactListener {
         public:
             std::vector<b2ContactListener*> contactListeners;
+            Box2DWorld * world;
 
             /// Called when two fixtures begin to touch.
             void BeginContact(b2Contact* contact) override;
@@ -67,6 +75,7 @@ namespace PAX::Physics {
             /// Note: this is only called for contacts that are touching, solid, and awake.
             void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
         } contactListenerDelegate;
+        friend ContactListenersDelegate;
 
         Box2DWorld();
 
