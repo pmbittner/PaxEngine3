@@ -48,7 +48,8 @@ set(HEADERS_FOR_CLION
         include/paxphysics/2d/gravityfields/GravityFieldSystem.h
         include/paxphysics/2d/gravityfields/GravityFieldSensitive.h
         include/paxphysics/2d/PhysicsSystem2D.h
-        include/paxphysics/2d/gravityfields/GravityFieldRegister.h include/paxphysics/2d/event/Collision.h)
+        include/paxphysics/2d/gravityfields/GravityFieldRegister.h
+        include/paxphysics/2d/event/Collision.h)
 set(PAXPHYSICS_LINK_LIBRARIES)
 
 set(PAX_BOX2D_PATH ${PAX_LIB_DIR}/box2d)
