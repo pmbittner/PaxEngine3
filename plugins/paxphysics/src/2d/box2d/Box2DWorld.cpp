@@ -39,7 +39,10 @@ namespace PAX::Physics {
 
     void Box2DWorld::step(PAX::UpdateOptions &options) {
         synchronizeBox2D();
+        insideBox2DStep = true;
         box2dWorld.Step(options.dt, velocityIterations, positionIterations);
+        insideBox2DStep = false;
+        cleanupDeadBodies();
         synchronizePaxEngine();
     }
 
@@ -99,6 +102,13 @@ namespace PAX::Physics {
         }
     }
 
+    void Box2DWorld::cleanupDeadBodies() {
+        for (b2Body * zombie : queuedForDeletion) {
+            box2dWorld.DestroyBody(zombie);
+        }
+        queuedForDeletion.clear();
+    }
+
     void Box2DWorld::spawnInBox2D(GameEntity &entity) {
         Box2DRigidBody * rigidBody = entity.get<Box2DRigidBody>();
         const std::vector<Box2DHitbox*> & hitboxes = entity.get<Box2DHitbox>();
@@ -132,10 +142,13 @@ namespace PAX::Physics {
 
     void Box2DWorld::despawnInBox2D(GameEntity &entity) {
         if (b2Body * body = bodies[&entity]) {
-            box2dWorld.DestroyBody(body);
+            queuedForDeletion.push_back(body);
             bodies.erase(&entity);
             if (Box2DRigidBody * rigidBody = entity.get<Box2DRigidBody>()) {
                 rigidBody->body = nullptr;
+            }
+            if (!insideBox2DStep) {
+                cleanupDeadBodies();
             }
         }
     }

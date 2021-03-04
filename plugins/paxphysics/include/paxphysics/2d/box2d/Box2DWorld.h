@@ -25,8 +25,10 @@ namespace PAX::Physics {
         b2World box2dWorld;
         int32 velocityIterations = 8; // This value is recommended by Box2D.
         int32 positionIterations = 3; // This value is recommended by Box2D.
+        bool insideBox2DStep = false;
 
         std::map<GameEntity*, b2Body*> bodies;
+        std::vector<b2Body*> queuedForDeletion;
 
         struct FixtureMetadata {
             b2Fixture & fixture;
@@ -81,6 +83,7 @@ namespace PAX::Physics {
 
         void synchronizeBox2D();
         void synchronizePaxEngine();
+        void cleanupDeadBodies();
 
         void spawnInBox2D(GameEntity & entity);
         void despawnInBox2D(GameEntity & entity);
