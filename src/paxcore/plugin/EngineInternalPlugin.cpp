@@ -31,7 +31,12 @@
 // won't be recognised if not included.
 #include <paxcore/rendering/camera/json/ViewportJsonParser.h>
 #include <paxcore/rendering/camera/json/ProjectionJsonParser.h>
+#include <paxcore/animation/json/AnimationBehaviourParser.h>
+#include <paxcore/animation/json/DiscreteAnimationParser.h>
 #include <paxcore/io/properties/InputAbilityController.h>
+#include <paxcore/animation/DiscreteAnimation.h>
+#include <paxcore/rendering/animation/SpriteSheetAnimations.h>
+#include <paxcore/rendering/animation/SpriteSheetAnimator.h>
 
 
 namespace PAX {
@@ -116,10 +121,14 @@ namespace PAX {
         static JsonEntityPrefabResourceLoader<World> worldFromJsonLoader;
         resources.registerLoader(&entityFromJsonLoader);
         resources.registerLoader(&worldFromJsonLoader);
+
+        static SpriteSheetAnimationsLoader spriteSheetAnimationsLoader;
+        resources.registerLoader(&spriteSheetAnimationsLoader);
     }
 
     void EngineInternalPlugin::registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) {
         jsonTextureParser.registerAt(writerRegister);
+        jsonSpriteSheetAnimationsParser.registerAt(writerRegister);
 
 #define PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(type) \
     { \
@@ -135,6 +144,8 @@ namespace PAX {
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::ivec4)
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(Viewport*)
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(Projection*)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(AnimationBehaviour)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(DiscreteAnimation<glm::ivec2>)
 
 #undef PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE
     }
@@ -159,6 +170,7 @@ namespace PAX {
         PAX_PROPERTY_REGISTER(SceneGraphGraphics);
         PAX_PROPERTY_REGISTER(SpriteGraphics);
         PAX_PROPERTY_REGISTER(SpriteSheetGraphics);
+        PAX_PROPERTY_REGISTER(SpriteSheetAnimator);
         PAX_PROPERTY_REGISTER(AssetGraphics);
 
         PAX_PROPERTY_REGISTER(Light);

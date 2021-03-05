@@ -11,6 +11,7 @@
 #include <paxcore/rendering/loader/SpriteSheetLoader.h>
 #include <paxcore/json/JsonResourceLoader.h>
 #include <paxutil/resources/JsonResourceFieldWriter.h>
+#include <paxcore/rendering/animation/SpriteSheetAnimations.h>
 
 namespace PAX {
     class EngineInternalPlugin : public PAX::EnginePlugin {
@@ -20,6 +21,7 @@ namespace PAX {
         SpriteSheetLoader spriteSheetLoader;
         JsonResourceLoader jsonLoader;
         JsonResourceFieldWriter<Texture> jsonTextureParser;
+        JsonResourceFieldWriter<SpriteSheetAnimations> jsonSpriteSheetAnimationsParser;
 
     public:
         void initialize(PAX::Engine& engine) override;

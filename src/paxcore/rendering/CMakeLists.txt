@@ -56,6 +56,6 @@ add_library(paxrendering
         config/PointCloudSettings.cpp
         data/Colour.cpp
         data/ColourPalette.cpp
-        primitives/PrimitiveFactory.cpp)
+        primitives/PrimitiveFactory.cpp animation/SpriteSheetAnimator.cpp animation/SpriteSheetAnimations.cpp)
 
 target_link_libraries(paxrendering paxcore)
