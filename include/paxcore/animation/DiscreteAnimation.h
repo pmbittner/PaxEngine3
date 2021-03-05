@@ -86,7 +86,24 @@ namespace PAX {
                 }
             }
         }
+
+        PAX_NODISCARD const std::vector<KeyFrame> & getFrames() const {
+            return frames;
+        }
+
+        PAX_NODISCARD const AnimationBehaviour & getBehaviour() const {
+            return behaviour;
+        }
     };
+}
+
+template<typename T>
+std::ostream & operator<<(std::ostream & str, const PAX::DiscreteAnimation<T> & d) {
+    str << "{ \"type\": " << d.getBehaviour() << ", \"frames\": [";
+    for (const typename PAX::DiscreteAnimation<T>::KeyFrame & f : d.getFrames()) {
+        str << "{ \"value\": " << f.value << ", \"duration\": " << f.duration.count() << "}";
+    }
+    return str << "]}";
 }
 
 #endif //MESHFOLD_DISCRETEANIMATION_H
