@@ -94,6 +94,9 @@ namespace PAX {
                 const std::shared_ptr<Texture> & channelTexture = getChannel(channelName).getTexture();
                 GLenum attachment = it->second;
 
+//                PAX_LOG(Log::Level::Info, channelName);
+//                PAX_LOG(Log::Level::Info, "Attachement no = " << attachment - GL_COLOR_ATTACHMENT0);
+
                 const int fromX = upperLeft.x;
                 const int fromY = upperLeft.y;
                 const int w = size.x;
@@ -107,11 +110,12 @@ namespace PAX {
                 PAX_OPENGL_ASSERT(channelTexture->getPixelFormat() == Texture::PixelFormat::RGBA)
 #undef PAX_OPENGL_ASSERT
                 std::shared_ptr<Image> img = std::make_shared<Image>(w, h);
-
-                img->getPixels()[100] = Colour(255, 255, 255, 255);
+//
+//                img->getPixels()[100] = Colour(255, 255, 255, 255);
 
                 RenderPassBinder.push({fbo, fbo});
                 glReadBuffer(attachment);
+//                glViewport(0, 0, w, h);
 //                glReadBuffer(GL_FRONT);
                 glReadPixels(fromX, fromY, w, h,
                              ToOpenGL(Texture::PixelFormat::RGBA),
@@ -148,7 +152,7 @@ namespace PAX {
 
                 RenderPassBinder.push({fbo, fbo});
                 glReadBuffer(attachment);
-                glReadPixels(fromX, fromY, w, h, ToOpenGL(channelTexture->getPixelFormat()), GL_FLOAT, &pixel.x);
+                glReadPixels(fromX, fromY, w, h, ToOpenGL(channelTexture->getPixelFormat()), GL_FLOAT, &pixel);
                 RenderPassBinder.pop();
 
                 return pixel;
