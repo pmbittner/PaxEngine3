@@ -6,6 +6,7 @@
 #define PAXENGINE3_GAME_H
 
 #include <vector>
+#include <queue>
 
 #include "system/GameSystem.h"
 
@@ -23,6 +24,12 @@ namespace PAX {
         EventService eventService;
         std::vector<std::unique_ptr<GameSystem>> systems;
         std::vector<World*> worlds;
+
+        bool worldsLocked = false;
+        std::queue<World*> worldAddingQueue;
+        std::queue<World*> worldRemovingQueue;
+        void handleWorldAddingQueue();
+        void handleWorldRemovingQueue();
 
     public:
         Game();

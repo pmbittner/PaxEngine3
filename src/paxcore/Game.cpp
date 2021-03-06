@@ -49,18 +49,48 @@ namespace PAX {
 
     void Game::addWorld(World *world) {
         if (!hasWorld(world)) {
-            worlds.push_back(world);
-            world->getEventService().setParent(&getEventService());
-            WorldEvent e(world);
-            WorldAdded(e);
+            worldAddingQueue.push(world);
+            if (!worldsLocked) {
+                handleWorldAddingQueue();
+            }
         }
     }
 
+    void Game::handleWorldAddingQueue() {
+        worldsLocked = true;
+        while (!worldAddingQueue.empty()) {
+            World * current = worldAddingQueue.front();
+            worldAddingQueue.pop();
+            worlds.push_back(current);
+            current->getEventService().setParent(&getEventService());
+            WorldEvent e(current);
+            WorldAdded(e);
+        }
+        worldsLocked = false;
+    }
+
+    void Game::handleWorldRemovingQueue() {
+        worldsLocked = true;
+        while (!worldRemovingQueue.empty()) {
+            World * current = worldRemovingQueue.front();
+            worldRemovingQueue.pop();
+            if (Util::removeFromVector(worlds, current)) {
+                WorldEvent e(current);
+                WorldRemoved(e);
+                current->getEventService().setParent(nullptr);
+            } else {
+                PAX_THROW_RUNTIME_ERROR("Could not remove world from vector.");
+            }
+        }
+        worldsLocked = false;
+    }
+
     bool Game::removeWorld(World *world) {
-        if (Util::removeFromVector(worlds, world)) {
-            WorldEvent e(world);
-            WorldRemoved(e);
-            world->getEventService().setParent(nullptr);
+        if (Util::vectorContains(worlds, world)) {
+            worldRemovingQueue.push(world);
+            if (!worldsLocked) {
+                handleWorldRemovingQueue();
+            }
             return true;
         }
 
@@ -72,6 +102,7 @@ namespace PAX {
     }
 
     void Game::update(UpdateOptions &options) {
+        worldsLocked = true;
         for (World * w : worlds) {
             options.activeWorld = w;
 
@@ -79,8 +110,11 @@ namespace PAX {
                 system->update(options);
             }
         }
-
         options.activeWorld = nullptr;
+        worldsLocked = false;
+
+        handleWorldAddingQueue();
+        handleWorldRemovingQueue();
     }
 
     EventService & Game::getEventService() {
