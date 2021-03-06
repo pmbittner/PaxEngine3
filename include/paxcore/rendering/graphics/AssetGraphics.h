@@ -14,10 +14,10 @@ namespace PAX {
         PAX_PROPERTY_DERIVES(Graphics)
         PAX_PROPERTY_IS_SINGLE
 
-        AssetGraphics();
-
     protected:
         std::shared_ptr<Asset> _asset;
+
+        AssetGraphics();
 
     public:
         explicit AssetGraphics(const std::shared_ptr<Asset> & asset);
