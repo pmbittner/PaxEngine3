@@ -36,6 +36,7 @@ namespace PAX {
             void setFilterMode(FilterMode mode) override;
 
             void setPixels(void * data, PixelFormat dataPixelFormat, ColourType colourType) override;
+            //            PAX_NODISCARD glm::vec4 getPixelAt(const glm::ivec2 & pos) override;
             void initEmptyTexture(PixelFormat dataPixelFormat, ColourType colourType) override;
 
             void bind() override;

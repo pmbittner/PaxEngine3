@@ -14,6 +14,8 @@ namespace PAX {
             GLuint fbo;
             GLuint depth_rb;
 
+            std::map<std::string, GLenum> attachmentOfRenderPass;
+
         public:
             struct RenderPassBind {
                 struct Passes {
@@ -39,6 +41,8 @@ namespace PAX {
             void finalize() override;
 
             void render(RenderOptions &renderOptions) override;
+            PAX_NODISCARD std::shared_ptr<Image> getPixelsOfChannel(const std::string & channelName, const glm::ivec2 & upperLeft, const glm::ivec2 & size) const override;
+            PAX_NODISCARD glm::vec4 getPixelOfChannelAt(const std::string & channelName, const glm::ivec2 & pos) const override;
         };
     }
 }

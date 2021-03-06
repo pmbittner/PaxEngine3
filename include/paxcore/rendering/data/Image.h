@@ -24,6 +24,7 @@ namespace PAX {
         void setPixels(void * data, PixelFormat dataPixelFormat, ColourType colourType) override;
         void initEmptyTexture(PixelFormat dataPixelFormat, ColourType colourType) override;
         PAX_NODISCARD const Colour* getPixels() const;
+        PAX_NODISCARD Colour* getPixels();
 
         void setColorAt(const glm::ivec2 & pixel, const Colour & colour);
         void fill(const Colour & colour);

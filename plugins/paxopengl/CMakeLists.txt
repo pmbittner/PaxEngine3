@@ -30,7 +30,7 @@ set(PAX_OPENGL_HEADERS_FOR_CLION
         include/paxopengl/factory/OpenGLViewportFactory.h
         include/paxopengl/OpenGLError.h
         include/paxopengl/rendernodes/OpenGLRenderPass.h
-        include/paxopengl/OpenGLPointCloudSettings.h include/paxopengl/factory/OpenGLRenderPassFactory.h)
+        include/paxopengl/OpenGLPointCloudSettings.h include/paxopengl/factory/OpenGLRenderPassFactory.h include/paxopengl/Conversion.h)
 
 set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLViewport.cpp
@@ -45,7 +45,7 @@ set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLError.cpp
         src/rendernodes/OpenGLRenderPass.cpp
         include/paxopengl/factory/OpenGLTextureFactory.h
-        src/factory/OpenGLTextureFactory.cpp src/OpenGLPointCloudSettings.cpp src/factory/OpenGLRenderPassFactory.cpp)
+        src/factory/OpenGLTextureFactory.cpp src/OpenGLPointCloudSettings.cpp src/factory/OpenGLRenderPassFactory.cpp src/Conversion.cpp)
 
 ### TARGET ###########################################
 include_directories(include)

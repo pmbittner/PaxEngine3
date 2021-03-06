@@ -3,65 +3,12 @@
 //
 
 #include <polypropylene/log/Log.h>
+#include <paxopengl/Conversion.h>
 #include "paxopengl/resource/OpenGLTexture2D.h"
 
 namespace PAX {
     namespace OpenGL {
         unsigned int OpenGLTexture2D::NumberOfActiveTextures = 0;
-
-        static GLint paxWrapModeToGLWrapMode(Texture::WrapMode wrapMode) {
-            switch (wrapMode) {
-                case Texture::WrapMode::Repeat: {
-                    return GL_REPEAT;
-                }
-                case Texture::WrapMode::MirrorRepeat: {
-                    return GL_MIRRORED_REPEAT;
-                }
-                case Texture::WrapMode::ClampToEdge: {
-                    return GL_CLAMP_TO_EDGE;
-                }
-                case Texture::WrapMode::ClampToBorder: {
-                    return GL_CLAMP_TO_BORDER;
-                }
-                default: {
-                    PAX_LOG(Log::Level::Warn, "Unknown WrapMode given! Was " << int(wrapMode));
-                    return GL_REPEAT;
-                }
-            }
-        }
-
-        static GLint paxFilterModeToGLFilterMode(Texture::FilterMode filterMode) {
-            switch (filterMode) {
-                case Texture::FilterMode::Nearest: {
-                    return GL_NEAREST;
-                }
-                case Texture::FilterMode::Linear: {
-                    return GL_LINEAR;
-                }
-                default: {
-                    PAX_LOG(Log::Level::Warn, "Unknown FilterMode given! Was " << int(filterMode));
-                    return GL_NEAREST;
-                }
-            }
-        }
-
-        static GLint paxPixelFormatToGLPixelFormat(Texture::PixelFormat pixelFormat) {
-            switch (pixelFormat) {
-                case Texture::PixelFormat::RGB: {
-                    return GL_RGB;
-                }
-                case Texture::PixelFormat::RGBA: {
-                    return GL_RGBA;
-                }
-                case Texture::PixelFormat::BGR: {
-                    return GL_BGR;
-                }
-                default: {
-                    PAX_LOG(Log::Level::Warn, "Unknown PixelFormat given! Was " << int(pixelFormat));
-                    return GL_RGB;
-                }
-            }
-        }
 
         static GLint paxColourTypeToColourType(Texture::ColourType c) {
             switch (c) {
@@ -121,7 +68,7 @@ namespace PAX {
             // FIXME: Binding here is bad, if there is currently another texture bound.
             bind();
             glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-            GLenum glPixelFormat = paxPixelFormatToGLPixelFormat(dataPixelFormat);
+            GLenum glPixelFormat = ToOpenGL(dataPixelFormat);
             GLenum glColourType = paxColourTypeToColourType(colourType);
             glTexImage2D(
                     GL_TEXTURE_2D,
@@ -161,13 +108,13 @@ namespace PAX {
 
         void OpenGLTexture2D::ensureFilterMode() {
             FilterMode mode = getFilterMode();
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, paxFilterModeToGLFilterMode(mode));
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, paxFilterModeToGLFilterMode(mode));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, ToOpenGL(mode));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, ToOpenGL(mode));
         }
 
         void OpenGLTexture2D::ensureWrappingMode() {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, paxWrapModeToGLWrapMode(getWrapModeHorizontal()));
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, paxWrapModeToGLWrapMode(getWrapModeVertical()));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, ToOpenGL(getWrapModeHorizontal()));
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, ToOpenGL(getWrapModeVertical()));
         }
     }
 }

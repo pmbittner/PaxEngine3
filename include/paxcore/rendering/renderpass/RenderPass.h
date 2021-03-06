@@ -7,6 +7,7 @@
 
 #include <paxcore/rendering/scenegraph/SceneGraph.h>
 #include <paxcore/rendering/data/Colour.h>
+#include <paxcore/rendering/data/Image.h>
 #include "RenderPassChannel.h"
 
 namespace PAX {
@@ -26,6 +27,9 @@ namespace PAX {
         void addChannel(RenderPassChannel renderPassChannel);
         PAX_NODISCARD const RenderPassChannel & getChannel(const std::string & name) const;
         PAX_NODISCARD const std::vector<RenderPassChannel> & getChannels() const;
+
+        PAX_NODISCARD virtual std::shared_ptr<Image> getPixelsOfChannel(const std::string & channelName, const glm::ivec2 & upperLeft, const glm::ivec2 & size) const = 0;
+        PAX_NODISCARD virtual glm::vec4 getPixelOfChannelAt(const std::string & channelName, const glm::ivec2 & pos) const = 0;
 
         virtual void finalize();
     };

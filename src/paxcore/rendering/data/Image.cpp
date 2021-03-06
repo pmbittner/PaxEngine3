@@ -136,6 +136,10 @@ namespace PAX {
         return pixels;
     }
 
+    Colour * Image::getPixels() {
+        return pixels;
+    }
+
     std::shared_ptr<Texture> Image::toGPUTexture() const {
         std::shared_ptr<Texture> tex = Services::GetFactoryService().get<TextureFactory>()->create(width, height);
         tex->bind();

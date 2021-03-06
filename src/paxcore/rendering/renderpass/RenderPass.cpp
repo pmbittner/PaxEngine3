@@ -30,6 +30,7 @@ namespace PAX {
                 return c;
             }
         }
+        PAX_THROW_RUNTIME_ERROR("There is no RenderPassChannel with the given name \"" << name << "\"!");
     }
 
     const std::vector<RenderPassChannel>& RenderPass::getChannels() const {
