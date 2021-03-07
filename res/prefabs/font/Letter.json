@@ -1,0 +1,23 @@
+{
+  "MotionType": "Kinematic",
+  "Properties": [
+    {
+      "SpriteSheetGraphics": {
+        "Sprite": "${fontSpriteSheet}",
+        "rows": "${fontSpriteSheetRows}",
+        "columns": "${fontSpriteSheetColumns}",
+        "position": [0, 0],
+        "Shader": {
+          "Vertex": "${ERD}/shader/sprite/sprite.vert",
+          "Fragment": "${ERD}/shader/sprite/sprite.frag",
+          "Flags": {
+            "Vertex": "#define SPRITE_SHEET"
+          }
+        }
+      },
+      "Letter": {
+        "character": "${character}"
+      }
+    }
+  ]
+}
