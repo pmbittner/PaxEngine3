@@ -236,7 +236,12 @@ namespace PAX {
             // FIXME: FlipUVs may only be necessary for some assets (see TODO ^^)
             // Hint aiProcess_MakeLeftHanded is needed for DirectX
             // IMPORTANT: Always pass aiProcess_Triangulate
-            unsigned int postProcessingFlags = aiProcessPreset_TargetRealtime_Fast | aiProcess_Triangulate | aiProcess_FlipUVs;
+            unsigned int postProcessingFlags =
+                    aiProcess_GenNormals
+                    | aiProcess_Triangulate
+                    | aiProcess_GenUVCoords
+                    | aiProcess_SortByPType
+                    | aiProcess_FlipUVs;
             const aiScene* scene = importer.ReadFile(p.toString(), postProcessingFlags);
 
             if (!scene) {
