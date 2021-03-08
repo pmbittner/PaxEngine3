@@ -26,14 +26,15 @@ namespace PAX {
         }
 
         void OpenGLRenderPass::RenderPassBind::bindTop() {
-            if (frameBuffers.empty()) {
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-                glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-            } else {
+            GLuint draw = 0;
+            GLuint read = 0;
+            if (!frameBuffers.empty()) {
                 Passes & p = frameBuffers.top();
-                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, p.drawBuffer);
-                glBindFramebuffer(GL_READ_FRAMEBUFFER, p.readBuffer);
+                draw = p.drawBuffer;
+                read = p.readBuffer;
             }
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, draw);
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, read);
         }
 
         OpenGLRenderPass::OpenGLRenderPass(const glm::ivec2 & resolution) : RenderPass(resolution) {}
@@ -86,6 +87,7 @@ namespace PAX {
             glClearColor(0.8, 0.8, 0.8, 1);
         }
 
+#define PAX_OPENGL_ASSERT(cond) if (!(cond)) {PAX_THROW_RUNTIME_ERROR("Out of bounds: Assertion \"" << #cond << "\" failed");}
         std::shared_ptr<Image> OpenGLRenderPass::getPixelsOfChannel(const std::string &channelName,
                                                                     const glm::ivec2 &upperLeft,
                                                                     const glm::ivec2 &size) const {
@@ -102,29 +104,21 @@ namespace PAX {
                 const int w = size.x;
                 const int h = size.y;
 
-#define PAX_OPENGL_ASSERT(cond) if (!(cond)) {PAX_THROW_RUNTIME_ERROR("Out of bounds: Assertion \"" << #cond << "\" failed");}
                 PAX_OPENGL_ASSERT(fromX >= 0)
                 PAX_OPENGL_ASSERT(fromY >= 0)
                 PAX_OPENGL_ASSERT(fromX + w < channelTexture->getWidth())
                 PAX_OPENGL_ASSERT(fromY + h < channelTexture->getHeight())
                 PAX_OPENGL_ASSERT(channelTexture->getPixelFormat() == Texture::PixelFormat::RGBA)
-#undef PAX_OPENGL_ASSERT
                 std::shared_ptr<Image> img = std::make_shared<Image>(w, h);
-//
-//                img->getPixels()[100] = Colour(255, 255, 255, 255);
 
                 RenderPassBinder.push({fbo, fbo});
                 glReadBuffer(attachment);
-//                glViewport(0, 0, w, h);
-//                glReadBuffer(GL_FRONT);
                 glReadPixels(fromX, fromY, w, h,
                              ToOpenGL(Texture::PixelFormat::RGBA),
                              GL_UNSIGNED_BYTE,
-                             img->getPixels());
+                             img->getPixels()
+                             );
                 RenderPassBinder.pop();
-//                img->getPixels()[100] = Colour(255, 0, 255, 255);
-
-                getGLError("OpenGLRenderPass::getPixelsOfChannel");
 
                 return img;
             }
@@ -142,12 +136,10 @@ namespace PAX {
                 const int w = 1;
                 const int h = 1;
 
-#define PAX_OPENGL_ASSERT(cond) if (!(cond)) {PAX_THROW_RUNTIME_ERROR("Out of bounds: Assertion \"" << #cond << "\" failed");}
                 PAX_OPENGL_ASSERT(fromX >= 0)
                 PAX_OPENGL_ASSERT(fromY >= 0)
                 PAX_OPENGL_ASSERT(fromX < channelTexture->getWidth())
                 PAX_OPENGL_ASSERT(fromY < channelTexture->getHeight())
-#undef PAX_OPENGL_ASSERT
                 glm::vec4 pixel(0, 0, 0, 0);
 
                 RenderPassBinder.push({fbo, fbo});
@@ -161,3 +153,5 @@ namespace PAX {
         }
     }
 }
+
+#undef PAX_OPENGL_ASSERT
