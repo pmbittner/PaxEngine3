@@ -93,7 +93,7 @@ namespace PAX {
 
         explicit operator glm::mat4&();
         Transformation & operator=(const glm::mat4 & mat);
-        glm::mat4 operator*(const glm::mat4 & mat);
+        glm::mat4 operator*(const glm::mat4 & mat) const;
         void operator*=(const glm::mat4 & mat);
 
         void setParent(Transformation *parent);
