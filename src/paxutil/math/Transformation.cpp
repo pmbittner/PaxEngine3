@@ -210,7 +210,7 @@ namespace PAX {
         return *this;
     }
 
-    glm::mat4 Transformation::operator*(const glm::mat4 & mat) {
+    glm::mat4 Transformation::operator*(const glm::mat4 & mat) const {
         return _relativeMat * mat;
     }
 
