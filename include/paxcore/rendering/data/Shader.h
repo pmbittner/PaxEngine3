@@ -57,8 +57,13 @@ namespace PAX {
         virtual void unbind() = 0;
 
         Shader(const FileInfo& fileInfo, const Flags & flags);
+        virtual ~Shader() = 0;
 
         virtual void initialize();
+
+        virtual void hotreload() = 0;
+
+        PAX_NODISCARD const FileInfo & getFileInfo() const;
 
         virtual bool hasUniform(const std::string& uniformName) = 0;
 

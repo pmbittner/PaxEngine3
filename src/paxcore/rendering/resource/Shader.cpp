@@ -46,9 +46,15 @@ namespace PAX {
 
     }
 
+    Shader::~Shader() = default;
+
     void Shader::initialize() {
         upload();
         detectUniforms();
+    }
+
+    const Shader::FileInfo & Shader::getFileInfo() const {
+        return _fileInfo;
     }
 
     bool Shader::setUniform(const std::string &uniformName, bool value) {

@@ -2,7 +2,6 @@
 // Created by Paul on 30.06.2017.
 //
 
-#include <iomanip>
 #include "paxopengl/OpenGLMacros.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <polypropylene/log/Log.h>
@@ -14,7 +13,7 @@
 
 namespace PAX {
     namespace OpenGL {
-        bool OpenGLShader::compileShaderAndPrintErrors(GLuint shader) {
+        bool OpenGLShader::CompileShaderAndPrintErrors(GLuint shader) {
             glCompileShader(shader);
 
             int logMaxLength;
@@ -22,7 +21,6 @@ namespace PAX {
 
             GLint isCompiled = 0;
             glGetShaderiv(shader,GL_COMPILE_STATUS,&isCompiled);
-
 
             bool hasErrors = (isCompiled==GL_FALSE);
 
@@ -37,11 +35,11 @@ namespace PAX {
             return !hasErrors;
         }
 
-        bool OpenGLShader::setupShaderFromCodeString(GLuint shader, const std::string & code) {
+        bool OpenGLShader::SetupShaderFromCodeString(GLuint shader, const std::string & code) {
             const char* shader_src = code.c_str();
             glShaderSource(shader,1,&shader_src, NULL);
 
-            bool compiled = compileShaderAndPrintErrors(shader);
+            bool compiled = CompileShaderAndPrintErrors(shader);
             /*
             if (!compiled) {
                 PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Error - Code was:");
@@ -58,7 +56,7 @@ namespace PAX {
             return compiled;
         }
 
-        std::string OpenGLShader::loadCodeFromFile(const std::string & filename)
+        std::string OpenGLShader::LoadCodeFromFile(const std::string & filename)
         {
             std::string code;
 
@@ -67,7 +65,6 @@ namespace PAX {
             if (!codeFile.is_open()) {
                 PAX_THROW_RUNTIME_ERROR("Unable to open shader file \"" << filename << "\"!");
             }
-
 
             std::string line;
             while (std::getline(codeFile,line)) {
@@ -78,11 +75,11 @@ namespace PAX {
             return code;
         }
 
-        void OpenGLShader::insertFlags(std::string& shader, const std::string& flags) {
+        void OpenGLShader::InsertFlags(std::string& shader, const std::string& flags) {
             std::size_t foundversion = shader.find("#version");
 
             if (foundversion != std::string::npos) {
-                std::size_t foundendline = shader.find("\n", foundversion);
+                std::size_t foundendline = shader.find('\n', foundversion);
                 std::string flagsWithLinebreak = "\n" + flags;
 
                 shader.replace(foundendline, 0, flagsWithLinebreak);
@@ -92,88 +89,34 @@ namespace PAX {
             }
         }
 
-
-        OpenGLShader::OpenGLShader(
-                const std::string & name,
-                const FileInfo & fileInfo,
-                const Flags & flags)
-                : Shader(fileInfo, flags), _name(name) {
-            _shaderProgram  = glCreateProgram();
-            _vertexShader   = 0;
-            _fragmentShader = 0;
-        }
-
-        OpenGLShader::~OpenGLShader() {
-            glDetachShader(_shaderProgram, _vertexShader);
-            glDetachShader(_shaderProgram, _fragmentShader);
-            glDeleteShader(_vertexShader);
-            glDeleteShader(_fragmentShader);
-            glDeleteProgram(_shaderProgram);
-        }
-
-        bool OpenGLShader::upload() {
-            if (!_uploaded) {
-                {
-                    std::string vertexCode = loadCodeFromFile(_fileInfo.VertexPath);
-                    insertFlags(vertexCode, _flags.VertexFlags);
-
-                    if (!loadShaderFromCode(GL_VERTEX_SHADER, vertexCode, _vertexShader)) {
-                        PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid vertex file: " << _fileInfo.VertexPath);
-                        return false;
-                    }
-                }
-
-                {
-                    std::string fragmentCode = loadCodeFromFile(_fileInfo.FragmentPath);
-                    insertFlags(fragmentCode, _flags.FragmentFlags);
-
-                    if (!loadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, _fragmentShader)) {
-                        PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid fragment file: " << _fileInfo.FragmentPath);
-                        return false;
-                    }
-                }
-
-
-                glBindAttribLocation(_shaderProgram, 0, "position");
-                if (linkShader()) {
-                    glBindFragDataLocation(_shaderProgram, 0, "out_Color");
-                }
-
-                _flags.reset();
-                _uploaded = true;
-            }
-
-            return true;
-        }
-
-        bool OpenGLShader::loadShaderFromCode(GLenum type, const std::string & code, GLuint& out_id) {
+        bool OpenGLShader::LoadShaderFromCode(GLenum type, const std::string & code, const ShaderProgram & program, GLuint& out_id) {
             if (out_id == 0) {
                 out_id = glCreateShader(type);
             }
             //Compile Shader
-            bool result = setupShaderFromCodeString(out_id, code);
+            bool result = SetupShaderFromCodeString(out_id, code);
             /*if (!result) {
                 PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Error in file: " << _name);
             }//*/
 
             //Attach shader to the program
-            glAttachShader(_shaderProgram, out_id);
+            glAttachShader(program.id, out_id);
 
             return result;
         }
 
-        bool OpenGLShader::linkShader() {
-            glLinkProgram(_shaderProgram);
+        bool OpenGLShader::Link(ShaderProgram & program) {
+            glLinkProgram(program.id);
 
             // get log //
             int logMaxLength = 0;
-            glGetProgramiv(_shaderProgram, GL_INFO_LOG_LENGTH, &logMaxLength);
+            glGetProgramiv(program.id, GL_INFO_LOG_LENGTH, &logMaxLength);
             char* log = new char[logMaxLength]();
             int logLength = 0;
-            glGetProgramInfoLog(_shaderProgram, logMaxLength, &logLength, log);
+            glGetProgramInfoLog(program.id, logMaxLength, &logLength, log);
 
             if (logLength > 0) {
-                PAX_LOG_RAW(Log::Level::Info, "Shader Compilation - " << _name << " - Linker log:\n------------------\n" << log << "\n------------------");
+                PAX_LOG_RAW(Log::Level::Info, "Shader Compilation - " << program.name << " - Linker log:\n------------------\n" << log << "\n------------------");
                 return false;
             }
 
@@ -181,31 +124,54 @@ namespace PAX {
             return true;
         }
 
-        void OpenGLShader::bind() {
-            glUseProgram(_shaderProgram);
+        bool OpenGLShader::Finalize(ShaderProgram &program, const Flags & flags, const FileInfo & fileInfo) {
+            if (!program.uploaded) {
+                {
+                    std::string vertexCode = LoadCodeFromFile(fileInfo.VertexPath);
+                    InsertFlags(vertexCode, flags.VertexFlags);
+
+                    if (!LoadShaderFromCode(GL_VERTEX_SHADER, vertexCode, program, program.vertexShaderId)) {
+                        PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid vertex file: " << fileInfo.VertexPath);
+                        return false;
+                    }
+                }
+
+                {
+                    std::string fragmentCode = LoadCodeFromFile(fileInfo.FragmentPath);
+                    InsertFlags(fragmentCode, flags.FragmentFlags);
+
+                    if (!LoadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, program, program.fragmentShaderId)) {
+                        PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid fragment file: " << fileInfo.FragmentPath);
+                        return false;
+                    }
+                }
+
+                glBindAttribLocation(program.id, 0, "position");
+                if (Link(program)) {
+                    glBindFragDataLocation(program.id, 0, "out_Color");
+                }
+
+//                flags.reset();
+                program.uploaded = true;
+            }
+
+            return true;
         }
 
-        void OpenGLShader::unbind() {
-            glUseProgram(0);
-        }
+        void OpenGLShader::DetectUniforms(ShaderProgram & program) {
+            program.uniforms.clear();
 
-        GLuint OpenGLShader::getID() {
-            return _shaderProgram;
-        }
-
-        void OpenGLShader::detectUniforms() {
             // iterate through all active uniforms
             GLint numUniforms = -1;
-            glGetProgramiv(_shaderProgram, GL_ACTIVE_UNIFORMS, &numUniforms);
+            glGetProgramiv(program.id, GL_ACTIVE_UNIFORMS, &numUniforms);
             //Log::out.info() << "[OpenGLShader::detectUniforms] Found " << numUniforms << " uniforms in shader " << _name;
             for (int i = 0; i < numUniforms; i++) {
-
                 // get uniform informtion
                 GLsizei name_len = -1;
                 GLint size = -1;
                 GLenum type = GL_ZERO;
                 GLchar c_name[100];
-                glGetActiveUniform(_shaderProgram, GLuint(i), sizeof(c_name) - 1, &name_len, &size, &type, c_name);
+                glGetActiveUniform(program.id, GLuint(i), sizeof(c_name) - 1, &name_len, &size, &type, c_name);
                 c_name[name_len] = 0;
                 std::string nameS = c_name;
 
@@ -218,23 +184,26 @@ namespace PAX {
 
                 // check single uniform and possible further array indices
                 for (int j = 0; j < size; j++) {
+                    std::string uniformName = nameS;
 
-                    std::string uniformName = isArray
-                                              ? nameS + "[" + std::to_string(j) + "]"
-                                              : nameS;
+                    if (isArray) {
+                        uniformName = nameS + "[" + std::to_string(j) + "]";
+                    }
 
-                    // get uniform location
-                    GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
+                    UniformInfo uniformInfo{};
+                    uniformInfo.size = size;
+                    uniformInfo.type = type;
+                    uniformInfo.location = glGetUniformLocation(program.id, uniformName.c_str());
 
                     // check if uniform location is valid
-                    if (location > -1) {
+                    if (uniformInfo.location > -1) {
 
                         // store uniform type
                         //uniformTypes[uniformName] = type;
 
                         // store uniform location
                         //Log::out.info() << "[OpenGLShader::detectUniforms]     Found " << uniformName << " at " << location;
-                        _uniformLocations[uniformName] = location;
+                        program.uniforms[uniformName] = uniformInfo;
                     }
 
                         // stop for-loop if invalid index was found
@@ -243,23 +212,144 @@ namespace PAX {
                 }
             }
 
-        /*
-            if (!hasUniform(uniformName)) {
-                GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
-                if (PAX_OPENGL_doesUniformExist(location)) {
-                    _uniformLocations[uniformName] = location;
+            /*
+                if (!hasUniform(uniformName)) {
+                    GLint location = glGetUniformLocation(_shaderProgram, uniformName.c_str());
+                    if (PAX_OPENGL_doesUniformExist(location)) {
+                        _uniformLocations[uniformName] = location;
+                    }
+                }
+                */
+        }
+
+        OpenGLShader::ShaderProgram::ShaderProgram(const std::string & name)
+        : uploaded(false), id(0), vertexShaderId(0), fragmentShaderId(0) {}
+
+        void OpenGLShader::ShaderProgram::init() {
+            id = glCreateProgram();
+        }
+
+        void OpenGLShader::ShaderProgram::deleteGPUContent() {
+            glDetachShader(id, vertexShaderId);
+            glDetachShader(id, fragmentShaderId);
+            glDeleteShader(vertexShaderId);
+            glDeleteShader(fragmentShaderId);
+            glDeleteProgram(id);
+
+            id = 0;
+            vertexShaderId = 0;
+            fragmentShaderId = 0;
+
+            uploaded = false;
+        }
+
+        OpenGLShader::OpenGLShader(
+                const std::string & name,
+                const FileInfo & fileInfo,
+                const Flags & flags)
+                : Shader(fileInfo, flags), shaderProgram(name) {}
+
+        OpenGLShader::~OpenGLShader() {
+            shaderProgram.deleteGPUContent();
+        }
+
+        bool OpenGLShader::upload() {
+            shaderProgram.init();
+            return Finalize(shaderProgram, _flags, _fileInfo);
+        }
+
+        void OpenGLShader::detectUniforms() {
+            DetectUniforms(shaderProgram);
+        }
+
+        void OpenGLShader::bind() {
+            glUseProgram(shaderProgram.id);
+        }
+
+        void OpenGLShader::unbind() {
+            glUseProgram(0);
+        }
+
+//        GLuint OpenGLShader::getID() const {
+//            return shaderProgram.id;
+//        }
+
+        void OpenGLShader::ShaderProgram::copyUniformsTo(const ShaderProgram &other) {
+            for (const auto& uniformEntryOfSource : uniforms) {
+                const auto & uniformEntryOfTarget = other.uniforms.find(uniformEntryOfSource.first);
+                if (uniformEntryOfTarget != other.uniforms.end()) {
+                    const UniformInfo & uniformInSource = uniformEntryOfSource.second;
+                    const UniformInfo & uniformInTarget = uniformEntryOfTarget->second;
+                    if (uniformInTarget.type == uniformInSource.type && uniformInTarget.size == uniformInSource.size) {
+#define PAXGL_COPYUNIFORM_GETADDR(val) &val
+#define PAXGL_COPYUNIFORM_GETVECBEGIN(val) &val.x
+#define PAXGL_COPYUNIFORM_GETMATBEGIN(val) glm::value_ptr(val)
+#define PAXGL_COPYUNIFORM_PUT1(val) val
+#define PAXGL_COPYUNIFORM_PUT2(val) val.x, val.y
+#define PAXGL_COPYUNIFORM_PUT3(val) val.x, val.y, val.z
+#define PAXGL_COPYUNIFORM_PUT4(val) val.x, val.y, val.z, val.w
+#define PAXGL_COPYUNIFORM_PUTMAT(val) 1, false, glm::value_ptr(val)
+#define PAXGL_COPYUNIFORM(oldP, newP, oldU, newU, valtype, get, put, GETTER, PUTTER) \
+    glUseProgram(oldP.id); \
+    valtype val; \
+    get(oldP.id, oldU.location, GETTER(val)); \
+    glUseProgram(newP.id); \
+    put(newU.location, PUTTER(val));
+#define PAXGL_COPYUNIFORM_HERE(valtype, get, put, GETTER, PUTTER) PAXGL_COPYUNIFORM((*this), other, uniformInSource, uniformInTarget, valtype, get, put, GETTER, PUTTER)
+#define PAXGL_COPYUNIFORM_CASE(argtype, valtype, get, put, GETTER, PUTTER) case argtype: { PAXGL_COPYUNIFORM_HERE(valtype, get, put, GETTER, PUTTER) break;}
+#define PAXGL_COPYUNIFORM_CASES_FOR_ALL_DIMENSIONS_OF_TYPE(type, valtypename, vectypename, get, typeShort) \
+    PAXGL_COPYUNIFORM_CASE(type, valtypename, get, glUniform##1##typeShort, PAXGL_COPYUNIFORM_GETADDR, PAXGL_COPYUNIFORM_PUT1) \
+    PAXGL_COPYUNIFORM_CASE(type##_VEC2, vectypename##2, get, glUniform##2##typeShort, PAXGL_COPYUNIFORM_GETVECBEGIN, PAXGL_COPYUNIFORM_PUT2) \
+    PAXGL_COPYUNIFORM_CASE(type##_VEC3, vectypename##3, get, glUniform##3##typeShort, PAXGL_COPYUNIFORM_GETVECBEGIN, PAXGL_COPYUNIFORM_PUT3) \
+    PAXGL_COPYUNIFORM_CASE(type##_VEC4, vectypename##4, get, glUniform##4##typeShort, PAXGL_COPYUNIFORM_GETVECBEGIN, PAXGL_COPYUNIFORM_PUT4)
+#define PAXGL_COPYUNIFORM_CASES_FOR_ALL_MATS_OF_TYPE(type, mattypename, get, typeShort) \
+    PAXGL_COPYUNIFORM_CASE(type##_MAT2, mattypename##2, get, glUniformMatrix##2##typeShort, PAXGL_COPYUNIFORM_GETMATBEGIN, PAXGL_COPYUNIFORM_PUTMAT) \
+    PAXGL_COPYUNIFORM_CASE(type##_MAT3, mattypename##3, get, glUniformMatrix##3##typeShort, PAXGL_COPYUNIFORM_GETMATBEGIN, PAXGL_COPYUNIFORM_PUTMAT) \
+    PAXGL_COPYUNIFORM_CASE(type##_MAT4, mattypename##4, get, glUniformMatrix##4##typeShort, PAXGL_COPYUNIFORM_GETMATBEGIN, PAXGL_COPYUNIFORM_PUTMAT)
+
+                        switch (uniformInTarget.type) {
+                            // To add more types have a look here
+                            // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetActiveUniform.xhtml
+                            // and here
+                            // https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetUniform.xhtml
+
+                            // We just treat booleans as floats because there is no proper tool support at the side of OpenGL
+                            PAXGL_COPYUNIFORM_CASES_FOR_ALL_DIMENSIONS_OF_TYPE(GL_BOOL, GLfloat, glm::fvec, glGetUniformfv, f)
+                            PAXGL_COPYUNIFORM_CASES_FOR_ALL_DIMENSIONS_OF_TYPE(GL_FLOAT, GLfloat, glm::vec, glGetUniformfv, f)
+                            PAXGL_COPYUNIFORM_CASES_FOR_ALL_DIMENSIONS_OF_TYPE(GL_DOUBLE, GLdouble, glm::dvec, glGetUniformdv, d)
+                            PAXGL_COPYUNIFORM_CASES_FOR_ALL_DIMENSIONS_OF_TYPE(GL_INT, GLint, glm::ivec, glGetUniformiv, i)
+                            // There is not glm::uivec. We have to add it ourselfs with the template.
+                            // As uploading unsigned ints is not supported yet, we skip this for now, too.
+//                                PAXGL_COPYUNIFORM_CASES_FOR_ALL_DIMENSIONS_OF_TYPE(GL_UNSIGNED_INT, GLuint, glm::uivec, glGetUniformuiv, ui)
+
+                            PAXGL_COPYUNIFORM_CASES_FOR_ALL_MATS_OF_TYPE(GL_FLOAT, glm::mat, glGetUniformfv, fv)
+                            PAXGL_COPYUNIFORM_CASES_FOR_ALL_MATS_OF_TYPE(GL_DOUBLE, glm::dmat, glGetUniformdv, dv)
+                        }
+                        glUseProgram(0);
+                    }
                 }
             }
-            */
+        }
+
+        void OpenGLShader::hotreload() {
+            ShaderProgram reloadedProgram(shaderProgram.name);
+            reloadedProgram.init();
+            if (Finalize(reloadedProgram, _flags, _fileInfo)) {
+                // compilation was successful
+                DetectUniforms(reloadedProgram);
+                shaderProgram.copyUniformsTo(reloadedProgram);
+                shaderProgram.deleteGPUContent();
+                shaderProgram = reloadedProgram;
+            }
         }
 
         bool OpenGLShader::hasUniform(const std::string &uniformName) {
-            return _uniformLocations.find(uniformName) != _uniformLocations.end();
+            return shaderProgram.uniforms.find(uniformName) != shaderProgram.uniforms.end();
         }
 
 #define PAX_OPENGL_LOADUNIFORM(funcname, ...) \
         if (hasUniform(uniformName)) { \
-            funcname(_uniformLocations[uniformName], __VA_ARGS__); \
+            funcname(shaderProgram.uniforms[uniformName].location, __VA_ARGS__); \
             return true; \
         } else { /*Log::out.warn() << "The uniform " << uniformName << " does not exist!" << std::endl;*/ } \
         return false;

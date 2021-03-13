@@ -14,58 +14,67 @@
 namespace PAX {
     namespace OpenGL {
         class OpenGLShader : public Shader {
-            bool _uploaded = false;
+            struct UniformInfo {
+                GLint location;
+                GLint size;
+                GLenum type;
+            };
 
-        private:
-            bool loadShaderFromCode(GLenum type, const std::string & code, GLuint& out_id);
+            struct ShaderProgram {
+                bool uploaded = false;
+                std::string name;
+                GLuint id = 0;
+                GLuint vertexShaderId = 0;
+                GLuint fragmentShaderId = 0;
+                std::map<std::string, UniformInfo> uniforms;
+
+                explicit ShaderProgram(const std::string & name);
+                void init();
+                void deleteGPUContent();
+                void copyUniformsTo(const ShaderProgram & other);
+            } shaderProgram;
 
         protected:
-            std::string _name;
+            static std::string LoadCodeFromFile(const std::string & filename);
+            static bool LoadShaderFromCode(GLenum type, const std::string & code, const ShaderProgram & program, GLuint& out_id);
+            static bool CompileShaderAndPrintErrors(GLuint shader);
+            static bool SetupShaderFromCodeString(GLuint shader, const std::string & code);
+            static void InsertFlags(std::string& shader, const std::string& flags);
+            static bool Link(ShaderProgram & program);
+            static bool Finalize(ShaderProgram & program, const Flags & flags, const FileInfo & fileInfo);
+            static void DetectUniforms(ShaderProgram & program);
 
-            GLuint _shaderProgram;
-            GLuint _vertexShader;
-            GLuint _fragmentShader;
-
-            std::map<std::string, GLint> _uniformLocations;
-
-            static std::string loadCodeFromFile(const std::string & filename);
-            static bool compileShaderAndPrintErrors(GLuint shader);
-            static bool setupShaderFromCodeString(GLuint shader, const std::string & code);
-
-            void insertFlags(std::string& shader, const std::string& flags);
-
-            virtual bool upload() override;
-            virtual void detectUniforms() override;
+            bool upload() override;
+            void detectUniforms() override;
 
         public:
             OpenGLShader(const std::string & name, const FileInfo& fileInfo, const Flags & flags = Flags());
-            ~OpenGLShader();
+            ~OpenGLShader() override;
 
-            bool linkShader();
+            void hotreload() override;
 
+            void bind() override;
+            void unbind() override;
 
-            virtual void bind() override;
-            virtual void unbind() override;
+            bool hasUniform(const std::string& uniformName) override;
 
-            virtual bool hasUniform(const std::string& uniformName) override;
+            bool setUniform(const std::string& uniformName, bool value) override;
 
-            virtual bool setUniform(const std::string& uniformName, bool value) override;
+            bool setUniform(const std::string& uniformName, float value) override;
+            bool setUniform(const std::string& uniformName, const glm::vec2& value) override;
+            bool setUniform(const std::string& uniformName, const glm::vec3& value) override;
+            bool setUniform(const std::string& uniformName, const glm::vec4& value) override;
 
-            virtual bool setUniform(const std::string& uniformName, float value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::vec2& value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::vec3& value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::vec4& value) override;
+            bool setUniform(const std::string& uniformName, int value) override;
+            bool setUniform(const std::string& uniformName, const glm::ivec2& value) override;
+            bool setUniform(const std::string& uniformName, const glm::ivec3& value) override;
+            bool setUniform(const std::string& uniformName, const glm::ivec4& value) override;
 
-            virtual bool setUniform(const std::string& uniformName, int value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::ivec2& value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::ivec3& value) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::ivec4& value) override;
+            bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose) override;
+            bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose) override;
+            bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose) override;
 
-            virtual bool setUniform(const std::string& uniformName, const glm::mat2& value, bool transpose) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::mat3& value, bool transpose) override;
-            virtual bool setUniform(const std::string& uniformName, const glm::mat4& value, bool transpose) override;
-
-            GLuint getID();
+//            PAX_NODISCARD GLuint getID() const;
         };
     }
 }
