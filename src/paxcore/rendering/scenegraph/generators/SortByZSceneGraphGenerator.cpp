@@ -15,13 +15,15 @@ namespace PAX {
         bool reassignShader;
 
         for (Graphics* g : _children) {
-            reassignShader = currentShader != g->getShader().get();
+            Shader * shaderOfG = g->getShader().get();
+            reassignShader = currentShader != shaderOfG;
 
             if (reassignShader) {
-                if (currentShader)
+                if (currentShader) {
                     renderOptions.getShaderOptions().popShader(this);
+                }
 
-                currentShader = g->getShader().get();
+                currentShader = shaderOfG;
                 renderOptions.getShaderOptions().pushShader(this, currentShader, ShaderPriority::MUTABLE);
             }
 
