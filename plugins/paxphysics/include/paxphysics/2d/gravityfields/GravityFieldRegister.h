@@ -28,7 +28,7 @@ namespace PAX::Physics {
         void onGameEntityDespawned(GameEntityDespawnedEvent & e);
         void onGravityFieldSpawned(PropertyAttachedEvent<GameEntity, GravityField> & e);
         void onGravityFieldDespawned(PropertyDetachedEvent<GameEntity, GravityField> & e);
-        void onGravityFieldPriorityChanged(GravityField & f, int oldPrio, int newPrio);
+        void onGravityFieldPriorityChanged(GravityField & f, float oldPrio, float newPrio);
 
         PAX_NODISCARD const std::vector<GravityField *> & getGravityFields() const;
     };

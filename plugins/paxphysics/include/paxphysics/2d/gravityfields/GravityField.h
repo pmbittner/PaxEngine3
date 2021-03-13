@@ -32,7 +32,7 @@ namespace PAX::Physics {
         explicit GravityField(const std::shared_ptr<Shape2D> & shape, float intensity);
 
     public:
-        EventHandler<GravityField&, int, int> OnPriorityChanged;
+        EventHandler<GravityField&, float, float> OnPriorityChanged;
 
         ~GravityField() override;
 

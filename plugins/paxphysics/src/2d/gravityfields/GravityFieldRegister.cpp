@@ -56,7 +56,7 @@ namespace PAX::Physics {
         removeGravityField(e.property);
     }
 
-    void GravityFieldRegister::onGravityFieldPriorityChanged(GravityField &f, int oldPrio, int newPrio) {
+    void GravityFieldRegister::onGravityFieldPriorityChanged(GravityField &f, float oldPrio, float newPrio) {
         resort();
     }
 
