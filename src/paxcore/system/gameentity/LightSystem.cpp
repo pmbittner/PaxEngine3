@@ -30,7 +30,7 @@ namespace PAX {
     }
 
     void LightSystem::findNearestLights(const glm::vec3 &pos, unsigned int maxLights, std::vector<Light*> &out, World * world) {
-        const std::set<GameEntity*> & lightEntities = getEntities(world);
+        const std::vector<GameEntity*> & lightEntities = getEntities(world);
         //Log::out.info() << "[LightSystem::findNearestLights] found " << lightEntities.size() << " lights on layer " << worldLayer->getName();
 
         for (GameEntity* lightGameEntity : lightEntities) {

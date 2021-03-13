@@ -23,7 +23,7 @@ namespace PAX {
             entities.erase(event.world);
         }
 
-        PAX_NODISCARD const std::set<GameEntity*> & getEntities(World * world) {
+        PAX_NODISCARD const std::vector<GameEntity*> & getEntities(World * world) {
             // TODO: Make safe
             return entities.at(world).getEntities();
         }
