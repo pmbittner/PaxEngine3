@@ -134,6 +134,7 @@ namespace PAX {
                         PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid vertex file: " << fileInfo.VertexPath);
                         return false;
                     }
+                    program.hasVertexShaderId = true;
                 }
 
                 {
@@ -144,11 +145,14 @@ namespace PAX {
                         PAX_LOG(Log::Level::Error, "Shader Compilation - Invalid fragment file: " << fileInfo.FragmentPath);
                         return false;
                     }
+                    program.hasFragmentShaderId = true;
                 }
 
                 glBindAttribLocation(program.id, 0, "position");
                 if (Link(program)) {
                     glBindFragDataLocation(program.id, 0, "out_Color");
+                } else {
+                    return false;
                 }
 
 //                flags.reset();
@@ -222,23 +226,39 @@ namespace PAX {
                 */
         }
 
-        OpenGLShader::ShaderProgram::ShaderProgram(const std::string & name)
-        : uploaded(false), id(0), vertexShaderId(0), fragmentShaderId(0) {}
+        OpenGLShader::ShaderProgram::ShaderProgram(const std::string & name) :
+        uploaded(false),
+        id(0),
+        vertexShaderId(0),
+        fragmentShaderId(0),
+        hasId(false),
+        hasVertexShaderId(false),
+        hasFragmentShaderId(false)
+        {}
 
         void OpenGLShader::ShaderProgram::init() {
             id = glCreateProgram();
+            hasId = true;
         }
 
         void OpenGLShader::ShaderProgram::deleteGPUContent() {
-            glDetachShader(id, vertexShaderId);
-            glDetachShader(id, fragmentShaderId);
-            glDeleteShader(vertexShaderId);
-            glDeleteShader(fragmentShaderId);
-            glDeleteProgram(id);
-
-            id = 0;
-            vertexShaderId = 0;
-            fragmentShaderId = 0;
+            if (hasId) {
+                if (hasVertexShaderId) {
+                    glDetachShader(id, vertexShaderId);
+                    glDeleteShader(vertexShaderId);
+                    vertexShaderId = 0;
+                    hasVertexShaderId = false;
+                }
+                if (hasFragmentShaderId) {
+                    glDetachShader(id, fragmentShaderId);
+                    glDeleteShader(fragmentShaderId);
+                    fragmentShaderId = 0;
+                    hasFragmentShaderId = false;
+                }
+                glDeleteProgram(id);
+                hasId = false;
+                id = 0;
+            }
 
             uploaded = false;
         }
@@ -340,6 +360,8 @@ namespace PAX {
                 shaderProgram.copyUniformsTo(reloadedProgram);
                 shaderProgram.deleteGPUContent();
                 shaderProgram = reloadedProgram;
+            } else {
+                reloadedProgram.deleteGPUContent();
             }
         }
 

@@ -23,6 +23,9 @@ namespace PAX {
             struct ShaderProgram {
                 bool uploaded = false;
                 std::string name;
+                bool hasId;
+                bool hasVertexShaderId;
+                bool hasFragmentShaderId;
                 GLuint id = 0;
                 GLuint vertexShaderId = 0;
                 GLuint fragmentShaderId = 0;
