@@ -46,18 +46,23 @@ namespace PAX {
         static glm::vec<L, T, Q> tryParse(const std::string &str) {
             glm::vec<L, T, Q> ret(0);
             const size_t strlen = str.length();
-
+            std::string vecStr = str;
             if (
                     (str[0] == '(' && str[strlen-1] == ')')
                     || (str[0] == '[' && str[strlen-1] == ']')
                     ) {
-                std::string liststr = str.substr(1, strlen - 2);
-                std::vector<std::string> numbers = String::split(',', liststr, false);
+                vecStr = vecStr.substr(1, strlen - 2);
+            }
 
-                const glm::length_t dims = glm::length_t(numbers.size());
-                for (glm::length_t i = 0; i < L && i < dims; ++i) {
-                    ret[i] = String::tryParse<T>(numbers[i]);
-                }
+            char separator = ' ';
+            if (vecStr.find_first_of(',') != std::string::npos) {
+                separator = ',';
+            }
+            std::vector<std::string> numbers = String::split(separator, vecStr, false);
+
+            const glm::length_t dims = glm::length_t(numbers.size());
+            for (glm::length_t i = 0; i < L && i < dims; ++i) {
+                ret[i] = String::tryParse<T>(numbers[i]);
             }
 
             return ret;
