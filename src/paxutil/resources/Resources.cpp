@@ -38,4 +38,9 @@ namespace PAX {
             }
         }
     }
+
+    bool Resources::terminate() {
+        collectGarbage();
+        return _resourcesInUse.empty();
+    }
 }

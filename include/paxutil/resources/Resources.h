@@ -230,7 +230,13 @@ namespace PAX {
         }
 
         void collectGarbage();
+        bool terminate();
     };
+
+    template<typename Resource>
+    PAX_NODISCARD std::shared_ptr<Resource> ResourceLoaderT<Resource>::loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const {
+        return resources.loadOrGet<Resource>(JsonToPath(j));
+    }
 }
 
 #endif //PAXENGINE3_RESOURCES_H

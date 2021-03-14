@@ -26,7 +26,7 @@ namespace PAX {
     class ResourceLoaderT : public virtual IResourceLoader {
         friend class Resources;
     public:
-        PAX_NODISCARD virtual std::shared_ptr<Resource> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const = 0;
+        PAX_NODISCARD virtual std::shared_ptr<Resource> loadOrGetFromJson(Resources & resources, const nlohmann::json & j) const;
     };
 
     template<typename Resource, typename... Params>

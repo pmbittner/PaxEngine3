@@ -19,9 +19,4 @@ namespace PAX::Physics {
                 s.getOrDefault<float>("friction", 0),
                 s.getOrDefault<float>("elasticity", 1));
     }
-
-    std::shared_ptr<PhysicsMaterial> PhysicsMaterialLoader::loadOrGetFromJson(Resources &resources,
-                                                                              const nlohmann::json &j) const {
-        return resources.loadOrGet<PhysicsMaterial>(JsonToPath(j));
-    }
 }
