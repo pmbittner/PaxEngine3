@@ -40,6 +40,9 @@ namespace PAX {
     void Services::terminate() {
         _inputSystem->terminate();
         _windowService.terminate();
+        if (!_resources.terminate()) {
+            PAX_LOG(Log::Level::Error, "Terminating resource manager (PAX::Resources) failed. There are still some resources in use!");
+        }
     }
 
     void Services::update(UpdateOptions & options) {
