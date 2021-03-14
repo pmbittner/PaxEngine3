@@ -6,14 +6,18 @@
 #define PAXENGINE3_PAXFONTPLUGIN_PLUGIN_H
 
 #include <paxcore/plugin/EnginePlugin.h>
-//#include "paxutil/resources/JsonResourceFieldWriter.h"
+#include <paxfont/bitmap/loader/XMLBitmapFontLoader.h>
+#include "paxutil/resources/JsonResourceFieldWriter.h"
 
 namespace PAX::Font {
     class Plugin : public PAX::EnginePlugin {
+        XMLBitmapFontLoader xmlBitmapFontLoader;
+        JsonResourceFieldWriter<BitmapFont> bitmapFontJsonResourceWriter;
+
     public:
 //        void checkDependencies(const std::vector<EnginePlugin*> & plugins) const override;
-//        void registerResourceLoaders(PAX::Resources &resources) override;
-//        void registerJsonWriters(::PAX::Json::JsonFieldWriterRegister & writerRegister) override;
+        void registerResourceLoaders(PAX::Resources &resources) override;
+        void registerJsonWriters(::PAX::Json::JsonFieldWriterRegister & writerRegister) override;
         void registerProperties() override;
     };
 }

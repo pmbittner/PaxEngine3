@@ -3,13 +3,19 @@
 //
 
 #include "paxfont/Plugin.h"
+#include "paxfont/bitmap/BitmapText.h"
 #include "polypropylene/property/PropertyFactory.h"
 
-#include "paxfont/monospace/Text.h"
-
 namespace PAX::Font {
+    void Plugin::registerResourceLoaders(Resources &resources) {
+        resources.registerLoader(&xmlBitmapFontLoader);
+    }
+
+    void Plugin::registerJsonWriters(::PAX::Json::JsonFieldWriterRegister &writerRegister) {
+        bitmapFontJsonResourceWriter.registerAt(writerRegister);
+    }
+
     void Plugin::registerProperties() {
-        PAX_PROPERTY_REGISTER(Text);
-        PAX_PROPERTY_REGISTER(Letter);
+        PAX_PROPERTY_REGISTER(BitmapText);
     }
 }
