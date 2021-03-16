@@ -13,10 +13,14 @@ namespace PAX {
     class WorldSceneGraph : public SceneGraph {
         friend class World;
         World * world = nullptr;
+        float z;
 
     public:
-        virtual void render(RenderOptions &renderOptions) override;
-        World* getWorld();
+        void render(RenderOptions &renderOptions) override;
+        PAX_NODISCARD World* getWorld() const;
+        PAX_NODISCARD float getZ() const;
+
+        PAX_NODISCARD bool operator<(const WorldSceneGraph& other) const;
     };
 }
 

@@ -20,6 +20,14 @@ namespace PAX {
         }
 
         delete this->sceneGraph;
+
+//        while (!entities.empty()) {
+//            GameEntity * victim = *entities.begin();
+//            despawn(victim);
+//            pax_delete(victim);
+//        }
+//        // should do nothing
+//        entities.clear();
     }
 
     World::World(const std::string &name, int dimensions, float z, SceneGraphGenerator * sceneGraphGenerator)
@@ -34,7 +42,6 @@ namespace PAX {
             return;
         }
 
-        this->z = z;
         this->name = name;
         this->dimensions = dimensions;
 
@@ -59,6 +66,7 @@ namespace PAX {
 
         this->sceneGraphGenerator->initialize(this->sceneGraph, getEventService());
         this->sceneGraph->world = this;
+        this->sceneGraph->z = z;
 
         initialised = true;
     }
@@ -152,10 +160,10 @@ namespace PAX {
     }
 
     float World::getZ() const {
-        return z;
+        return sceneGraph->getZ();
     }
 
     void World::setZ(float z) {
-        this->z = z;
+        sceneGraph->z = z;
     }
 }

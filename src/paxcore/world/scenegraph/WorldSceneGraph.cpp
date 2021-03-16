@@ -13,7 +13,15 @@ namespace PAX {
         renderOptions.setWorld(nullptr);
     }
 
-    World* WorldSceneGraph::getWorld() {
+    World* WorldSceneGraph::getWorld() const {
         return world;
+    }
+
+    float WorldSceneGraph::getZ() const {
+        return z;
+    }
+
+    bool WorldSceneGraph::operator<(const WorldSceneGraph &other) const {
+        return z < other.z;// || (z == other.z && this < &other);
     }
 }

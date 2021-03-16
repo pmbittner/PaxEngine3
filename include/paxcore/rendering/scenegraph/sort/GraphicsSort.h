@@ -12,10 +12,8 @@
 namespace PAX {
     namespace Sort {
         template<bool isSmaller(Graphics*,Graphics*)>
-        class GraphicsSort {
-
-        public:
-            void sort(std::vector<Graphics*> &graphics) {
+        struct GraphicsSort {
+            static void sort(std::vector<Graphics*> &graphics) {
                 size_t l = 0;
                 size_t r = graphics.size() - 1;
                 size_t i, j;

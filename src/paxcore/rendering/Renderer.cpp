@@ -15,31 +15,38 @@ namespace PAX {
         const std::vector<World*> & worlds = Engine::Instance().getGame()->getWorlds();
 
         for (World * w : worlds) {
-            generationEntryPoint->addChild(w->getSceneGraph());
+            sortingNode.addChild(w->getSceneGraph());
         }
 
         sceneGraphRoot->render(options);
 
         for (World * w : worlds) {
-            generationEntryPoint->removeChild(w->getSceneGraph());
+            sortingNode.removeChild(w->getSceneGraph());
         }
     }
 
-    SceneGraph* Renderer::getSceneGraphGenerationEntryPoint() {
+    SceneGraph* Renderer::getSceneGraphGenerationEntryPoint() const {
         return generationEntryPoint;
     }
 
     void Renderer::setSceneGraphGenerationEntryPoint(SceneGraph *generationEntryPoint) {
         assert(generationEntryPoint);
         this->generationEntryPoint = generationEntryPoint;
+        this->generationEntryPoint->addChild(&sortingNode);
     }
 
-    SceneGraph* Renderer::getSceneGraphRoot() {
+    SceneGraph* Renderer::getSceneGraphRoot() const {
         return sceneGraphRoot;
     }
 
     void Renderer::setSceneGraphRoot(SceneGraph *root) {
         assert(root);
         sceneGraphRoot = root;
+    }
+
+    void WorldSorter::sort(std::vector<WorldSceneGraph *> &worlds) {
+        std::sort(worlds.begin(), worlds.end(), [](WorldSceneGraph * a, WorldSceneGraph * b){
+            return *a < *b;
+        });
     }
 }

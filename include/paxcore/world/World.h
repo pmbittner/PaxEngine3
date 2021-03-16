@@ -35,7 +35,6 @@ namespace PAX {
     private:
         bool initialised = false;
         std::string name = "unnamed";
-        float z = 0;
         unsigned int dimensions = 2;
 
         WorldSceneGraph * sceneGraph = nullptr;
