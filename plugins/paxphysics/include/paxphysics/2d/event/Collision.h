@@ -14,6 +14,9 @@ namespace PAX::Physics {
         Hitbox2D * b;
         explicit Collision(Hitbox2D * a, Hitbox2D * b);
         bool operator==(const Collision & other) const;
+
+        PAX_NODISCARD Hitbox2D * getMe(const GameEntity * me) const;
+        PAX_NODISCARD Hitbox2D * getOther(const GameEntity * me) const;
     };
 
     struct PAX_MAYBEUNUSED CollisionBegin : public Event {
