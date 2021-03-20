@@ -10,6 +10,12 @@ namespace PAX {
 
     InputAbilityController::InputAbilityController() = default;
 
+    ClassMetadata InputAbilityController::getMetadata() {
+        ClassMetadata m = Super::getMetadata();
+        m.add(paxfieldof(keyBindings));
+        return m;
+    }
+
     void InputAbilityController::bind(Key key, const AbilityIdentifier & ability) {
         keyBindings[key] = ability;
     }

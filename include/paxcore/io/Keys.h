@@ -5,6 +5,10 @@
 #ifndef PAXENGINE3_KEYS_H
 #define PAXENGINE3_KEYS_H
 
+#include "polypropylene/serialisation/TryParser.h"
+#include <string>
+#include <map>
+
 namespace PAX {
     enum class Key {
         NONE = 0, // Added for PaxEngine, not contained in SDL2
@@ -325,6 +329,23 @@ namespace PAX {
         SDL_NUM_SCANCODES = 512 /**< not a key, just marks the number of scancodes
                                  for array bounds */
     };
+
+    template<>
+    class TryParser<std::string, Key> {
+        static std::map<std::string, Key> & GetUninitializedStringToKeyMap();
+        static std::map<Key, std::string> & GetUninitializedKeyToStringMap();
+        static std::map<std::string, Key> & GetMutableStringToKeyMap();
+        static std::map<Key, std::string> & GetMutableKeyToStringMap();
+        static void InitMaps();
+
+    public:
+        static const std::map<std::string, Key> & GetStringToKeyMap();
+        static const std::map<Key, std::string> & GetKeyToStringMap();
+
+        PAX_NODISCARD static Key tryParse(const std::string & f);
+    };
 }
+
+std::ostream & operator<<(std::ostream & str, const PAX::Key & k);
 
 #endif //PAXENGINE3_KEYS_H

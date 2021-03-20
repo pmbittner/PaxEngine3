@@ -3,6 +3,7 @@
 //
 
 #include <paxcore/world/prefab/JsonWorldGameEntityParser.h>
+#include <polypropylene/serialisation/json/JsonDefaultParsers.h>
 
 namespace PAX {
     namespace Json {

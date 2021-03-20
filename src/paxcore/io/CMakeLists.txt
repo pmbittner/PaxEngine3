@@ -3,4 +3,4 @@ add_library(paxio
         Mouse.cpp
         Window.cpp
         event/ResolutionChangedEvent.cpp
-        properties/InputAbilityController.cpp)
+        properties/InputAbilityController.cpp Keys.cpp)

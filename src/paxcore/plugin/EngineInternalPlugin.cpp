@@ -37,6 +37,8 @@
 #include <paxcore/animation/DiscreteAnimation.h>
 #include <paxcore/rendering/animation/SpriteSheetAnimations.h>
 #include <paxcore/rendering/animation/SpriteSheetAnimator.h>
+#include <polypropylene/serialisation/json/JsonDefaultParsers.h>
+#include <paxcore/io/Keys.h>
 
 
 namespace PAX {
@@ -130,10 +132,10 @@ namespace PAX {
         jsonTextureParser.registerAt(writerRegister);
         jsonSpriteSheetAnimationsParser.registerAt(writerRegister);
 
-#define PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(type) \
+#define PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(...) \
     { \
-        static Json::JsonFieldWriter<type> parser; \
-        writerRegister.registerWriter(paxtypeid(type), &parser); \
+        static Json::JsonFieldWriter<__VA_ARGS__> parser; \
+        writerRegister.registerWriter(paxtypeid(__VA_ARGS__), &parser); \
     }
 
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(glm::vec2)
@@ -146,6 +148,8 @@ namespace PAX {
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(Projection*)
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(AnimationBehaviour)
         PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(DiscreteAnimation<glm::ivec2>)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(Key)
+        PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE(InputAbilityController::KeyBindings)
 
 #undef PAX_ENGINEINTERNALPLUGIN_REGISTERPRIMITIVE
     }

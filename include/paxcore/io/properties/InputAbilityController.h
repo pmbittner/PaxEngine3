@@ -14,14 +14,22 @@
 
 namespace PAX {
     class InputAbilityController : public GameEntityProperty {
+    public:
+        using KeyBindings = std::map<Key, AbilityIdentifier>;
+
+    private:
         PAX_PROPERTY(InputAbilityController, PAX_PROPERTY_IS_CONCRETE)
         PAX_PROPERTY_DERIVES(GameEntityProperty)
         PAX_PROPERTY_IS_SINGLE
 
-        std::map<Key, AbilityIdentifier> keyBindings;
+        /// BEGIN Fields
+        KeyBindings keyBindings;
+        /// END Fields
 
     public:
         InputAbilityController();
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
 
         void bind(Key key, const AbilityIdentifier & ability);
 
