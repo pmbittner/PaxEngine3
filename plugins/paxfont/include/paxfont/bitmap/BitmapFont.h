@@ -8,6 +8,7 @@
 #include "paxutil/lib/GlmIncludes.h"
 #include "paxcore/rendering/data/Texture.h"
 #include "paxcore/rendering/data/Mesh.h"
+#include "polypropylene/serialisation/json/JsonParser.h"
 
 namespace PAX::Font {
     // Looks bad but simple for now + for utf8 + for emojis
@@ -24,6 +25,7 @@ namespace PAX::Font {
     struct TextLine {
         std::vector<Character> chars;
         static TextLine fromString(const std::string & s);
+        PAX_NODISCARD std::string toString() const;
     };
 
     struct TextBlock {
@@ -55,5 +57,10 @@ namespace PAX::Font {
         PAX_NODISCARD const std::shared_ptr<Texture> & getBitmap() const;
     };
 }
+
+PAX_DECLARE_JSONPARSER_FOR(Font::TextLine)
+PAX_DECLARE_JSONPARSER_FOR(Font::TextBlock)
+std::ostream & operator<<(std::ostream & str, const PAX::Font::TextLine & l);
+std::ostream & operator<<(std::ostream & str, const PAX::Font::TextBlock & b);
 
 #endif //PAXENGINE3_BITMAPFONT_H

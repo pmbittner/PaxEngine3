@@ -115,4 +115,53 @@ namespace PAX::Font {
         }
         return l;
     }
+
+    std::string TextLine::toString() const {
+        std::stringstream s;
+        for (const Character & c : chars) {
+            s << c;
+        }
+        return s.str();
+    }
+}
+
+namespace PAX {
+    PAX_IMPLEMENT_JSONPARSER_FOR(Font::TextLine) {
+        return Font::TextLine::fromString(JsonToString(json));
+    }
+
+    PAX_IMPLEMENT_JSONPARSER_FOR(Font::TextBlock) {
+        Font::TextBlock block;
+
+        if (json.is_array()) {
+            for (const nlohmann::json & jline : json) {
+                block.lines.push_back(
+                        Json::tryParse<Font::TextLine>(jline)
+                        );
+            }
+        } else {
+            // interpret as single line
+            block.lines.push_back(Json::tryParse<Font::TextLine>(json));
+        }
+
+        return block;
+    }
+}
+
+std::ostream & operator<<(std::ostream & str, const PAX::Font::TextLine & l) {
+    return str << l.toString();
+}
+
+std::ostream & operator<<(std::ostream & str, const PAX::Font::TextBlock & b) {
+    str << "[";
+    bool first = true;
+    for (const PAX::Font::TextLine & line : b.lines) {
+        if (first) {
+            first = false;
+        } else {
+            str << ", ";
+        }
+        str << line;
+    }
+    return str << "]";
 }

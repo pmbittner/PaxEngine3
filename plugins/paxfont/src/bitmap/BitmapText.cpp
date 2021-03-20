@@ -10,18 +10,17 @@ namespace PAX::Font {
 
     BitmapText::BitmapText() = default;
 
-    BitmapText::BitmapText(const std::string &text, const std::shared_ptr<BitmapFont> &font, float fontsize) :
+    BitmapText::BitmapText(const TextBlock &text, const std::shared_ptr<BitmapFont> &font, float fontsize) :
     SpriteGraphics(font->getBitmap()),
     text(text),
     font(font),
     fontsize(fontsize)
     {
-        initBitmapText();
+        updateText();
     }
 
-    void BitmapText::initBitmapText() {
-        textBlock.lines.push_back(TextLine::fromString(text));
-        setMesh(font->bakeText(textBlock, size));
+    void BitmapText::updateText() {
+        setMesh(font->bakeText(text, size));
     }
 
     glm::vec2 BitmapText::getSpriteSize() const {
@@ -30,7 +29,7 @@ namespace PAX::Font {
 
     void BitmapText::created() {
         Super::created();
-        initBitmapText();
+        updateText();
     }
 
     ClassMetadata BitmapText::getMetadata() {
@@ -42,13 +41,13 @@ namespace PAX::Font {
     }
 
     const TextBlock & BitmapText::getText() const {
-        return textBlock;
+        return text;
     }
 
     void BitmapText::setText(const TextBlock &t) {
-        textBlock = t;
+        text = t;
         // very naive and expensive
-        setMesh(font->bakeText(textBlock, size));
+        updateText();
         updateSizeProperty();
     }
 }

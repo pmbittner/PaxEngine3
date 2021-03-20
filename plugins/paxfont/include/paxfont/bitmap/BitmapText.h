@@ -14,9 +14,8 @@ namespace PAX::Font {
         PAX_PROPERTY_DERIVES(SpriteGraphics)
         PAX_PROPERTY_IS_SINGLE
 
-        TextBlock textBlock;
         /// BEGIN FIELDS
-        std::string text;
+        TextBlock text;
         std::shared_ptr<BitmapFont> font;
         float fontsize = 1;
         /// END FIELDS
@@ -24,10 +23,10 @@ namespace PAX::Font {
         glm::vec2 size;
 
         BitmapText();
-        void initBitmapText();
+        void updateText();
 
     public:
-        explicit BitmapText(const std::string & text, const std::shared_ptr<BitmapFont> & font, float fontsize);
+        explicit BitmapText(const TextBlock & text, const std::shared_ptr<BitmapFont> & font, float fontsize);
 
         void created() override;
         PAX_NODISCARD glm::vec2 getSpriteSize() const override;

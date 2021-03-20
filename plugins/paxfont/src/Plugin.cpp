@@ -13,6 +13,12 @@ namespace PAX::Font {
 
     void Plugin::registerJsonWriters(::PAX::Json::JsonFieldWriterRegister &writerRegister) {
         bitmapFontJsonResourceWriter.registerAt(writerRegister);
+
+        static Json::JsonFieldWriter<TextLine> textLineWriter;
+        writerRegister.registerWriter(paxtypeid(TextLine), &textLineWriter);
+
+        static Json::JsonFieldWriter<TextBlock> textBlockWriter;
+        writerRegister.registerWriter(paxtypeid(TextBlock), &textBlockWriter);
     }
 
     void Plugin::registerProperties() {
