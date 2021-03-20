@@ -22,7 +22,6 @@ namespace PAX::Font {
     void BitmapText::initBitmapText() {
         textBlock.lines.push_back(TextLine::fromString(text));
         setMesh(font->bakeText(textBlock, size));
-        PAX_LOG(Log::Level::Info, "Size of \"" << text << "\" = " << size);
     }
 
     glm::vec2 BitmapText::getSpriteSize() const {
@@ -40,5 +39,16 @@ namespace PAX::Font {
         m.add(paxfieldof(font)).addFlag(Field::IsMandatory).addFlag(EngineFieldFlags::IsResource);
         m.add(paxfieldof(fontsize)).addFlag(Field::IsMandatory);
         return m;
+    }
+
+    const TextBlock & BitmapText::getText() const {
+        return textBlock;
+    }
+
+    void BitmapText::setText(const TextBlock &t) {
+        textBlock = t;
+        // very naive and expensive
+        setMesh(font->bakeText(textBlock, size));
+        updateSizeProperty();
     }
 }

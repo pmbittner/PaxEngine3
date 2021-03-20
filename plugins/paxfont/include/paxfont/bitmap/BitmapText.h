@@ -32,6 +32,9 @@ namespace PAX::Font {
         void created() override;
         PAX_NODISCARD glm::vec2 getSpriteSize() const override;
         PAX_NODISCARD ClassMetadata getMetadata() override;
+
+        PAX_NODISCARD const TextBlock & getText() const;
+       void setText(const TextBlock & t);
     };
 }
 

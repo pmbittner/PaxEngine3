@@ -59,6 +59,18 @@ namespace PAX {
         return glm::vec2(_texture->getWidth(), _texture->getHeight());
     }
 
+    void SpriteGraphics::updateSizeProperty() {
+        GameEntity * owner = getOwner();
+        glm::vec3 spriteSize = glm::vec3(getSpriteSize(), 0);
+        Size* size = owner->get<Size>();
+        if (size) {
+            size->setSize(spriteSize);
+        } else {
+            size = new Size(spriteSize);
+            owner->add(size);
+        }
+    }
+
     void SpriteGraphics::onSizeChanged(SizeChangedEvent &event) {
         _trafoNode.setTransformation(
                 glm::scale(glm::mat4(1.f), event.size->getSizeUnscaled())
@@ -67,17 +79,8 @@ namespace PAX {
 
     void SpriteGraphics::attached(GameEntity &entity) {
         SceneGraphGraphics::attached(entity);
-
         entity.getEventService().add<SizeChangedEvent, SpriteGraphics, &SpriteGraphics::onSizeChanged>(this);
-
-        glm::vec3 spriteSize = glm::vec3(getSpriteSize(), 0);
-        Size* size = entity.get<Size>();
-        if (size) {
-            size->setSize(spriteSize);
-        } else {
-            size = new Size(spriteSize);
-            entity.add(size);
-        }
+        updateSizeProperty();
     }
 
     void SpriteGraphics::detached(GameEntity &entity) {

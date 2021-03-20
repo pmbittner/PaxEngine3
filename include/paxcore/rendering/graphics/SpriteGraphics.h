@@ -33,6 +33,7 @@ namespace PAX {
 
         void onSizeChanged(SizeChangedEvent& event);
         PAX_NODISCARD virtual glm::vec2 getSpriteSize() const;
+        void updateSizeProperty();
 
         void setMesh(const std::shared_ptr<Mesh> & mesh);
 
