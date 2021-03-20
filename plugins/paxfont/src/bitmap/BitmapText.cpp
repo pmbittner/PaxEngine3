@@ -21,11 +21,12 @@ namespace PAX::Font {
 
     void BitmapText::initBitmapText() {
         textBlock.lines.push_back(TextLine::fromString(text));
-        setMesh(font->bakeText(textBlock));
+        setMesh(font->bakeText(textBlock, size));
+        PAX_LOG(Log::Level::Info, "Size of \"" << text << "\" = " << size);
     }
 
-    glm::vec3 BitmapText::computeScaling(const glm::vec3 &spriteSize) const {
-        return glm::vec3(fontsize);
+    glm::vec2 BitmapText::getSpriteSize() const {
+        return fontsize * size;
     }
 
     void BitmapText::created() {

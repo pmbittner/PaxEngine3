@@ -51,7 +51,7 @@ namespace PAX::Font {
                 const std::shared_ptr<Texture> & bitmap,
                 const std::vector<CharacterInfo> & charInfo);
 
-        PAX_NODISCARD std::shared_ptr<Mesh> bakeText(const TextBlock & text);
+        PAX_NODISCARD std::shared_ptr<Mesh> bakeText(const TextBlock & text, glm::vec2 & outMeshSize);
         PAX_NODISCARD const std::shared_ptr<Texture> & getBitmap() const;
     };
 }

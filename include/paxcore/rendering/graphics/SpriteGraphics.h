@@ -32,7 +32,6 @@ namespace PAX {
         std::shared_ptr<Texture> _texture = nullptr;
 
         void onSizeChanged(SizeChangedEvent& event);
-        PAX_NODISCARD virtual glm::vec3 computeScaling(const glm::vec3 & spriteSize) const;
         PAX_NODISCARD virtual glm::vec2 getSpriteSize() const;
 
         void setMesh(const std::shared_ptr<Mesh> & mesh);

@@ -61,12 +61,8 @@ namespace PAX {
 
     void SpriteGraphics::onSizeChanged(SizeChangedEvent &event) {
         _trafoNode.setTransformation(
-                glm::scale(glm::mat4(1.f), computeScaling(event.size->getSizeUnscaled()))
+                glm::scale(glm::mat4(1.f), event.size->getSizeUnscaled())
         );
-    }
-
-    glm::vec3 SpriteGraphics::computeScaling(const glm::vec3 &spriteSize) const {
-        return spriteSize;
     }
 
     void SpriteGraphics::attached(GameEntity &entity) {

@@ -25,7 +25,7 @@ namespace PAX::Font {
         return ret;
     }
 
-    std::shared_ptr<Mesh> BitmapFont::bakeText(const TextBlock &text) {
+    std::shared_ptr<Mesh> BitmapFont::bakeText(const TextBlock &text, glm::vec2 & outMeshSize) {
         auto * meshFactory = Services::GetFactoryService().get<MeshFactory>();
         if (!meshFactory) {
             PAX_THROW_RUNTIME_ERROR("There is no MeshFactory registered at the Services!");
@@ -35,7 +35,7 @@ namespace PAX::Font {
         std::vector<glm::vec2> uvs;
         std::vector<glm::ivec3> faces;
 
-        const auto fontSize = float(metadata.size);
+        const auto invFontSize = 1.f / float(metadata.size);
         const glm::vec2 halfPixelOffsetUL(+0.5f, +0.5f);
         const glm::vec2 halfPixelOffsetUR(-0.5f, +0.5f);
         const glm::vec2 halfPixelOffsetLL(+0.5f, -0.5f);
@@ -53,12 +53,6 @@ namespace PAX::Font {
                     glm::vec2 lowerRight = lowerLeft + glm::vec2(cinfo.width, 0);
                     glm::vec2 upperLeft  = lowerLeft - glm::vec2(0, cinfo.size.y);
                     glm::vec2 upperRight = upperLeft + glm::vec2(cinfo.width, 0);
-
-                    // scale down because of fontsize
-                    lowerLeft /= fontSize;
-                    lowerRight /= fontSize;
-                    upperLeft /= fontSize;
-                    upperRight /= fontSize;
 
                     const glm::vec2 fpos = cinfo.pos;
                     const glm::vec2 fsize = cinfo.size;
@@ -78,6 +72,7 @@ namespace PAX::Font {
                     faces.emplace_back(ur, ul, ll);
                     faces.emplace_back(ur, ll, lr);
 
+                    // Maybe better not add cinfo.textLineOffset.x here.
                     float step = float(cinfo.width) + cinfo.textLineOffset.x;
                     cursor.x += step;
                     currentLineWidth += step;
@@ -88,18 +83,20 @@ namespace PAX::Font {
             cursor.x = 0;
             cursor.y -= metadata.height;
 
-            currentLineWidth /= fontSize;
             if (currentLineWidth > dimensions.x) {
                 dimensions.x = currentLineWidth;
             }
             currentLineWidth = 0;
         }
-        dimensions.y = cursor.y / fontSize;
+        dimensions.y = cursor.y;
 
         const glm::vec2 centerOffset = 0.5f *  dimensions;
+        const glm::vec2 size = glm::vec2(dimensions.x, -dimensions.y);
+        // normalize all vertices into a quad
         for (glm::vec2 & p : vertices) {
-            p -= centerOffset;
+            p = (p - centerOffset) / size;
         }
+        outMeshSize = invFontSize * size;
 
         std::shared_ptr<Mesh> mesh = meshFactory->create(vertices, faces);
         mesh->addAttribute(Mesh::UVs, uvs);

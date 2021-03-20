@@ -21,6 +21,8 @@ namespace PAX::Font {
         float fontsize = 1;
         /// END FIELDS
 
+        glm::vec2 size;
+
         BitmapText();
         void initBitmapText();
 
@@ -28,7 +30,7 @@ namespace PAX::Font {
         explicit BitmapText(const std::string & text, const std::shared_ptr<BitmapFont> & font, float fontsize);
 
         void created() override;
-        PAX_NODISCARD glm::vec3 computeScaling(const glm::vec3 & spriteSize) const override;
+        PAX_NODISCARD glm::vec2 getSpriteSize() const override;
         PAX_NODISCARD ClassMetadata getMetadata() override;
     };
 }
