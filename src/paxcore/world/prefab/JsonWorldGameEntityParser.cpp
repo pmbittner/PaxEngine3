@@ -23,17 +23,23 @@ namespace PAX {
                 if (entityNode.count("prefab") > 0) {
                     nlohmann::json & prefabNode = entityNode["prefab"];
 
+                    VariableRegister parameters = v;
+                    if (entityNode.count("parameters") > 0) {
+                        parameters = PAX::ComposeVariableRegisters(
+                                parameters,
+                                Json::tryParse<VariableRegister>(entityNode["parameters"]));
+                    }
+
                     if (prefabNode.is_string()) {
                         std::shared_ptr<GameEntityPrefab> entityPrefab =
                                 Services::GetResources().loadOrGet<GameEntityPrefab>(prefab.resolvePath(prefabNode.get<std::string>()));
-                        entity = entityPrefab->create(v);
+                        entity = entityPrefab->create(parameters);
                     } else {
                         JsonEntityPrefab<GameEntity> entityPrefab(prefabNode, prefab.getPath());
-                        entity = entityPrefab.create(v);
+                        entity = entityPrefab.create(parameters);
                     }
                 } else {
-                    // TODO: Write GameEntityAllocator
-                    entity = new GameEntity();
+                    entity = pax_new(GameEntity)();
                 }
 
                 if (entityNode.count("id") > 0) {
