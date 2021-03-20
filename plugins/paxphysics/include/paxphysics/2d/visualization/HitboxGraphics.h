@@ -26,17 +26,15 @@ namespace PAX::Physics {
         glm::mat4 trafo;
         MeshNode shapeNode, frameNode;
         glm::vec4 fillColor;
-
-    private:
         glm::vec4 borderColor;
 
         static void initShaders();
 
     public:
-        static const glm::vec4 & GetDefaultFillColorFor(MotionType  m, const Shape2D & fixture);
-        static const glm::vec4 & GetDefaultBorderColorFor(MotionType  m, const Shape2D & fixture);
+        static const glm::vec4 & GetDefaultFillColorFor(bool isTriggerArea, MotionType m, const Shape2D & fixture);
+        static const glm::vec4 & GetDefaultBorderColorFor(bool isTriggerArea, MotionType m, const Shape2D & fixture);
 
-        explicit HitboxGraphics(const Shape2D & shape, MotionType m);
+        explicit HitboxGraphics(bool isTriggerArea, const Shape2D & shape, MotionType m);
         ClassMetadata getMetadata() override;
         void render(RenderOptions &renderOptions) override;
 

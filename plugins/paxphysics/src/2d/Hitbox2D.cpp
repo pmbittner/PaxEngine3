@@ -89,7 +89,7 @@ namespace PAX::Physics {
             }
             visualizer = pax_new(GameEntity)();
             visualizer->i_setMotionType(m);
-            visualizer->add(pax_new(HitboxGraphics)(*shape, m));
+            visualizer->add(pax_new(HitboxGraphics)(isTriggerArea(), *shape, m));
             visualizer->getTransformation().z() = HitboxVisualizationZ;
         }
 

@@ -11,6 +11,7 @@ namespace PAX::Physics {
     class PhysicsSystem2D : public GameSystem {
     public:
         virtual void toggleShowHitboxes() = 0;
+        virtual bool isShowingHitboxes() const = 0;
     };
 }
 

@@ -37,10 +37,15 @@ namespace PAX::Physics {
         return mesh;
     }
 
-    const glm::vec4 & HitboxGraphics::GetDefaultFillColorFor(MotionType  m, const Shape2D &fixture) {
+    const glm::vec4 & HitboxGraphics::GetDefaultFillColorFor(bool isTriggerArea, MotionType  m, const Shape2D &fixture) {
+        static glm::vec4 triggerColor   = glm::vec4(1, 1, 1, 0.4f);
         static glm::vec4 dynamicColor   = glm::vec4(0, 1, 0, 0.3f);
         static glm::vec4 staticColor    = glm::vec4(0, 0, 1, 0.3f);
         static glm::vec4 kinematicColor = glm::vec4(1, 0, 0, 0.3f);
+
+        if (isTriggerArea) {
+            return triggerColor;
+        }
 
         switch (m) {
             case MotionType::Static:
@@ -52,10 +57,15 @@ namespace PAX::Physics {
         }
     }
 
-    const glm::vec4 & HitboxGraphics::GetDefaultBorderColorFor(MotionType  m, const Shape2D &fixture) {
+    const glm::vec4 & HitboxGraphics::GetDefaultBorderColorFor(bool isTriggerArea, MotionType  m, const Shape2D &fixture) {
+        static glm::vec4 triggerColor   = glm::vec4(1, 1, 1, 1);
         static glm::vec4 dynamicColor   = glm::vec4(0, 1, 0, 1);
         static glm::vec4 staticColor    = glm::vec4(0, 0, 1, 1);
         static glm::vec4 kinematicColor = glm::vec4(1, 0, 0, 1);
+
+        if (isTriggerArea) {
+            return triggerColor;
+        }
 
         switch (m) {
             case MotionType::Static:
@@ -77,10 +87,10 @@ namespace PAX::Physics {
         }
     }
 
-    HitboxGraphics::HitboxGraphics(const Shape2D & shape, MotionType m)
+    HitboxGraphics::HitboxGraphics(bool isTriggerArea, const Shape2D & shape, MotionType m)
     :
-    fillColor(GetDefaultFillColorFor(m, shape)),
-    borderColor(GetDefaultBorderColorFor(m, shape))
+    fillColor(GetDefaultFillColorFor(isTriggerArea, m, shape)),
+    borderColor(GetDefaultBorderColorFor(isTriggerArea, m, shape))
     {
         initShaders();
 

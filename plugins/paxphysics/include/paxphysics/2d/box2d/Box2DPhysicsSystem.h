@@ -25,6 +25,7 @@ namespace PAX::Physics {
         void update(UpdateOptions & options) override;
 
         void toggleShowHitboxes() override;
+        bool isShowingHitboxes() const override;
     };
 }
 

@@ -14,12 +14,12 @@ namespace PAX::Physics {
     }
 
     const glm::vec4 & GravityField::GetDefaultVisualizerFillColor() {
-        static auto c = glm::vec4(1, 1, 1, 0.4f);
+        static auto c = glm::vec4(1, 1, 0, 0.4f);
         return c;
     }
 
     const glm::vec4 & GravityField::GetDefaultVisualizerBorderColor() {
-        static auto c = glm::vec4(1);
+        static auto c = glm::vec4(1, 1, 0, 1);
         return c;
     }
 

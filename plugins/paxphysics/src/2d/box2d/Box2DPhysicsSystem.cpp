@@ -33,4 +33,8 @@ namespace PAX::Physics {
 
         showingHitboxes = !showingHitboxes;
     }
+
+    bool Box2DPhysicsSystem::isShowingHitboxes() const {
+        return showingHitboxes;
+    }
 }
