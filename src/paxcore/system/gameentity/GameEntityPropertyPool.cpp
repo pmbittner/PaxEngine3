@@ -6,11 +6,19 @@
 #include <paxcore/gameentity/GameEntityProperty.h>
 
 namespace PAX {
-    bool GameEntityChunkValidator::isValid(const PoolAllocator &pool, PoolAllocator::Index i) {
-        if (DefaultChunkValidator::isValid(pool, i)) {
-            auto * prop = static_cast<GameEntityProperty *>(pool.getData(i));
-            GameEntity * owner = prop->getOwner();
-            return owner && owner->getWorld();
+    bool GameEntityChunkValidator::isValid(const PoolAllocator &pool, PoolAllocator::Index i) const {
+        static DefaultChunkValidator d;
+        if (d.isValid(pool, i)) {
+            return static_cast<GameEntityProperty *>(pool.getData(i))->getWorld();
+        }
+        return false;
+    }
+
+    // TODO: Maybe also cache a world pointer in the properties to speed things up a bit.
+    bool GameEntityIsInWorldChunkValidator::isValid(const PoolAllocator &pool, PoolAllocator::Index i) const {
+        static DefaultChunkValidator d;
+        if (d.isValid(pool, i)) {
+            return static_cast<GameEntityProperty *>(pool.getData(i))->getWorld() == world;
         }
         return false;
     }

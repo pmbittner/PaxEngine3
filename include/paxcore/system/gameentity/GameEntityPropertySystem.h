@@ -9,6 +9,7 @@
 #include <paxcore/system/GameSystem.h>
 
 namespace PAX {
+    // TODO: Write specialization for single properties to use pool then
     template<typename... RequiredProperties>
     class GameEntityPropertySystem : public GameSystem {
         std::unordered_map<World*, GameEntityManagerView<RequiredProperties...>> entities;
