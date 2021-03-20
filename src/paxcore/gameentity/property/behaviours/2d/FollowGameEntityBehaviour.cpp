@@ -20,7 +20,7 @@ namespace PAX {
     void FollowGameEntityBehaviour::update(UpdateOptions & options) {
         if (GameEntity * owner = getOwner()) {
             GameEntity * target = nullptr;
-            World * world = owner->getWorld();
+            World * world = getWorld();
 
             if (world) {
                 target = world->getGameEntityIDService().getGameEntity(targetID);

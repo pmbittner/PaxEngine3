@@ -10,6 +10,7 @@
 
 namespace PAX {
     class GameEntity;
+    class World;
 
     class GameEntityProperty : public Property<GameEntity> {
         PAX_PROPERTY(GameEntityProperty, PAX_PROPERTY_IS_ABSTRACT)
@@ -19,6 +20,8 @@ namespace PAX {
     public:
         virtual void spawned();
         virtual void despawned();
+
+        PAX_NODISCARD World * getWorld() const;
     };
 }
 

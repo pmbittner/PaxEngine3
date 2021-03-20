@@ -9,4 +9,12 @@ namespace PAX {
 
     void GameEntityProperty::spawned() {}
     void GameEntityProperty::despawned() {}
+
+    World * GameEntityProperty::getWorld() const {
+        GameEntity * owner = getOwner();
+        if (owner) {
+            return owner->getWorld();
+        }
+        return nullptr;
+    }
 }
