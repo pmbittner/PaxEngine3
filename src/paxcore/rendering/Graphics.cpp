@@ -29,5 +29,16 @@ namespace PAX {
 
     void Graphics::render(RenderOptions &renderOptions) {
         renderOptions.setTransformationMatrix(getOwner()->getTransformation().getWorldMatrix());
+        if (Shader * s = renderOptions.getShaderOptions().getShader()) {
+            s->setUniform("opacity", opacity);
+        }
+    }
+
+    float Graphics::getOpacity() const {
+        return opacity;
+    }
+
+    void Graphics::setOpacity(float opacity) {
+        Graphics::opacity = opacity;
     }
 }

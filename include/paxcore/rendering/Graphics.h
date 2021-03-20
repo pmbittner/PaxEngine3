@@ -21,16 +21,20 @@ namespace PAX {
 
     protected:
         std::shared_ptr<Shader> _shader = nullptr;
+        float opacity = 1.f;
 
     public:
         EventHandler<GraphicsShaderChangedEvent&> OnShaderChanged;
 
         ~Graphics() override = 0;
 
-        std::shared_ptr<Shader>& getShader();
+        PAX_NODISCARD std::shared_ptr<Shader>& getShader();
         virtual void setShader(const std::shared_ptr<Shader> &shader);
 
-        ClassMetadata getMetadata() override;
+        PAX_NODISCARD float getOpacity() const;
+        virtual void setOpacity(float opacity);
+
+        PAX_NODISCARD ClassMetadata getMetadata() override;
 
         void render(RenderOptions &renderOptions) override;
     };
