@@ -66,7 +66,7 @@ namespace PAX {
                 // Transfer collided entites:
                 // TODO: Find a way to not hardcode this. Especially for the camera!
                 //*
-                World * sourceWorld = getOwner()->getWorld();
+                World * sourceWorld = getWorld();
                 GameEntity * player = sourceWorld->getGameEntityIDService().getGameEntity(1001);
                 GameEntity * cam    = sourceWorld->getGameEntityIDService().getGameEntity(1002);
                 sourceWorld->despawn(cam);

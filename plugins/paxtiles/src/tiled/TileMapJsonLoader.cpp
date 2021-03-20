@@ -236,6 +236,9 @@ namespace PAX {
             const glm::vec2 mapSize = map->getSizeInTiles() * map->getTileSize();
 
             for (const nlohmann::json & obj : layerj[TiledName::Objects]) {
+                const bool obj_visible = obj[TiledName::Object::Visible];
+                if (!obj_visible) continue;
+
                 const GameEntityID obj_id = obj[TiledName::Object::Id];
                 const glm::ivec2 obj_size(obj[TiledName::Object::Width], obj[TiledName::Object::Height]);
                 const float obj_rotation = obj[TiledName::Object::Rotation];

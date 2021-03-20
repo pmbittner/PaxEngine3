@@ -60,6 +60,7 @@ namespace PAX {
                     PAX_TILED_NAME Source = "source";
                 };
                 struct Object {
+                    PAX_TILED_NAME Visible = "visible";
                     PAX_TILED_NAME Id = "id";
                     PAX_TILED_NAME Name = "name";
                     PAX_TILED_NAME Type = "type";
