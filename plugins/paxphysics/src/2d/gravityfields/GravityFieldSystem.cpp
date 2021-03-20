@@ -7,7 +7,9 @@
 
 namespace PAX::Physics {
     void GravityFieldSystem::update(UpdateOptions &options) {
-        if (GravityFieldRegister * gravityFieldRegister = options.activeWorld->get<GravityFieldRegister>()) {
+        World * world = options.activeWorld;
+        if (GravityFieldRegister * gravityFieldRegister = world->get<GravityFieldRegister>()) {
+            WorldsGameEntityPropertiesPool<GravityFieldSensitive> sensitives(*world);
             const std::vector<GravityField*> & gravityFields = gravityFieldRegister->getGravityFields();
             GameEntity *owner;
             for (GravityFieldSensitive *s : sensitives) {

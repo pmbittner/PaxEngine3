@@ -31,8 +31,7 @@ namespace PAX::Physics {
         GameEntity * owner = getOwner();
         if (owner) {
             GameEntity * visualizer = getVisualizer();
-            World * w = owner->getWorld();
-            if (w) {
+            if (World * w = getWorld()) {
                 if (visualizer->getParent() != owner) {
                     visualizer->setParent(owner);
                 }

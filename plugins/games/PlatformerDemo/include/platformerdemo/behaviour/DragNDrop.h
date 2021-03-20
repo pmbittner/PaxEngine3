@@ -30,7 +30,7 @@ namespace PAX {
         glm::vec3 relativeMousePos = {0, 0, 0};
 
         glm::vec3 getMouseWorldPos(Mouse* mouse) {
-            Camera* cam = getOwner()->getWorld()->getEntitiesWithTag(Tags::Camera)[0]->get<Camera>();
+            Camera* cam = getWorld()->getEntitiesWithTag(Tags::Camera)[0]->get<Camera>();
             // TODO: Check in which viewport the mouse is to determine the camera instead of using always camera 0.
             return {Mouse::ScreenPosToWorldPos(mouse->getScreenPosition(), *cam), 0};
         }

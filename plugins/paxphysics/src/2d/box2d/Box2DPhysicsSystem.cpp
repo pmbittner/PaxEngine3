@@ -26,9 +26,9 @@ namespace PAX::Physics {
 
     void Box2DPhysicsSystem::toggleShowHitboxes() {
         if (showingHitboxes) {
-            PAX_FMAP_ON_POINTERS(hitboxes, hide());
+            PAX_FORALL_ON_POINTERS(hitboxes, hide());
         } else {
-            PAX_FMAP_ON_POINTERS(hitboxes, show());
+            PAX_FORALL_ON_POINTERS(hitboxes, show());
         }
 
         showingHitboxes = !showingHitboxes;

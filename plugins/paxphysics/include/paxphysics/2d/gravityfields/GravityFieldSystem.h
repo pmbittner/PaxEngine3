@@ -5,15 +5,13 @@
 #ifndef MESHFOLD_GRAVITYFIELDSYSTEM_H
 #define MESHFOLD_GRAVITYFIELDSYSTEM_H
 
-#include "paxcore/system/gameentity/GameEntityPropertySystem.h"
+#include "paxcore/system/GameSystem.h"
 #include "paxcore/system/gameentity/GameEntityPropertyPool.h"
 #include "GravityFieldSensitive.h"
 #include "GravityField.h"
 
 namespace PAX::Physics {
-    class GravityFieldSystem : public GameEntityPropertySystem<GravityField> {
-        GameEntityPropertyPool<GravityFieldSensitive> sensitives;
-
+    class GravityFieldSystem : public GameSystem {
     public:
         void update(UpdateOptions & options) override;
     };

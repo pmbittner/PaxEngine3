@@ -23,9 +23,8 @@ namespace PAX::Physics {
     Box2DHitbox::~Box2DHitbox() = default;
 
     bool Box2DHitbox::isInside(const glm::vec2 &point) const {
-        GameEntity * owner = getOwner();
-        if (fixture && owner) {
-            if (World * w = owner->getWorld()) {
+        if (fixture) {
+            if (World * w = getWorld()) {
                 if (Box2DWorld * box2DWorld = w->get<Box2DWorld>()) {
                     return fixture->TestPoint(ToBox2D(box2DWorld->getMetersPerPixel() * point));
                 }

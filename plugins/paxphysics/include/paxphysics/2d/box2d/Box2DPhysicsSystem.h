@@ -14,7 +14,7 @@ namespace PAX::Physics {
     class Box2DPhysicsSystem : public PhysicsSystem2D {
         using Super = PhysicsSystem2D;
 
-        GameEntityPropertyPool<PAX::Physics::Box2DHitbox> hitboxes;
+        AllGameEntityPropertiesPool<PAX::Physics::Box2DHitbox> hitboxes;
 //        PropertyPool<PAX::Physics::Box2DRigidBody> rigidBodies;
         bool showingHitboxes = false;
 
