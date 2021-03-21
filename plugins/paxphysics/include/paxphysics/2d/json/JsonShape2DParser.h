@@ -5,9 +5,9 @@
 #ifndef MESHFOLD_JSONSHAPE2DPARSER_H
 #define MESHFOLD_JSONSHAPE2DPARSER_H
 
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonTypeConverter.h>
 #include "../shape/Shape2D.h"
 
-PAX_DECLARE_JSONPARSER_FOR(std::shared_ptr<Physics::Shape2D>)
+PAX_DECLARE_JSON_CONVERTER_FOR(std::shared_ptr<Physics::Shape2D>)
 
 #endif //MESHFOLD_JSONSHAPE2DPARSER_H

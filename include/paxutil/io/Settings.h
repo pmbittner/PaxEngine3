@@ -79,7 +79,7 @@ namespace PAX {
             std::vector<T> tuple(stringTuple.size());
 
             for (unsigned int i = 0; i < stringTuple.size(); ++i) {
-                tuple[i] = String::tryParse<T>(stringTuple[i]);
+                tuple[i] = String::convertTo<T>(stringTuple[i]);
             }
 
             return tuple;
@@ -95,13 +95,13 @@ namespace PAX {
         template<typename T = std::string>
         PAX_NODISCARD T get(const std::string& varName) const {
             check(varName);
-            return String::tryParse<T>(settings.at(varName));
+            return String::convertTo<T>(settings.at(varName));
         }
 
         template<typename T = std::string>
         PAX_NODISCARD T getOrDefault(const std::string& varName, const T& defaultValue = T()) const {
             if (has(varName))
-                return String::tryParse<T>(settings.at(varName));
+                return String::convertTo<T>(settings.at(varName));
             else
                 return defaultValue;
         }

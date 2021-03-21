@@ -5,15 +5,9 @@
 #ifndef PAXENGINE3_PROJECTIONJSONPARSER_H
 #define PAXENGINE3_PROJECTIONJSONPARSER_H
 
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonTypeConverter.h>
 #include "../Projection.h"
 
-namespace PAX {
-    template<>
-    class TryParser<nlohmann::json, Projection*> {
-    public:
-        PAX_NODISCARD static Projection * tryParse(const nlohmann::json & j);
-    };
-}
+PAX_DECLARE_JSON_CONVERTER_FOR(Projection *)
 
 #endif //PAXENGINE3_PROJECTIONJSONPARSER_H

@@ -8,7 +8,7 @@
 #include "paxutil/lib/GlmIncludes.h"
 #include "paxcore/rendering/data/Texture.h"
 #include "paxcore/rendering/data/Mesh.h"
-#include "polypropylene/serialisation/json/JsonParser.h"
+#include "polypropylene/serialisation/json/JsonTypeConverter.h"
 
 namespace PAX::Font {
     // Looks bad but simple for now + for utf8 + for emojis
@@ -58,8 +58,8 @@ namespace PAX::Font {
     };
 }
 
-PAX_DECLARE_JSONPARSER_FOR(Font::TextLine)
-PAX_DECLARE_JSONPARSER_FOR(Font::TextBlock)
+PAX_DECLARE_JSON_CONVERTER_FOR(Font::TextLine)
+PAX_DECLARE_JSON_CONVERTER_FOR(Font::TextBlock)
 std::ostream & operator<<(std::ostream & str, const PAX::Font::TextLine & l);
 std::ostream & operator<<(std::ostream & str, const PAX::Font::TextBlock & b);
 

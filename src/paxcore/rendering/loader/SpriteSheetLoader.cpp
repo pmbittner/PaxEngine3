@@ -21,8 +21,8 @@ namespace PAX {
     std::shared_ptr<SpriteSheet>
     SpriteSheetLoader::loadOrGetFromJson(Resources &resources, const nlohmann::json & j) const {
         Path p      = JsonToString(j.at("Path"));
-        int columns = String::tryParse<int>(JsonToString(j["Columns"]));
-        int rows    = String::tryParse<int>(JsonToString(j["Rows"]));
+        int columns = String::convertTo<int>(JsonToString(j["Columns"]));
+        int rows    = String::convertTo<int>(JsonToString(j["Rows"]));
         return resources.loadOrGet<SpriteSheet>(p, columns, rows);
     }//*/
 }

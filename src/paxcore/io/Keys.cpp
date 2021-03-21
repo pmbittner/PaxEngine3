@@ -10,11 +10,11 @@
     stok[#k] = Key::k;
 
 std::ostream & operator<<(std::ostream & str, const PAX::Key & k) {
-    return str << PAX::TryParser<std::string, PAX::Key>::GetKeyToStringMap().at(k);
+    return str << PAX::TypeConverter<std::string, PAX::Key>::GetKeyToStringMap().at(k);
 }
 
 namespace PAX {
-    Key TryParser<std::string, Key>::tryParse(const std::string & inputKey) {
+    Key TypeConverter<std::string, Key>::convertTo(const std::string & inputKey) {
         const std::string s = String::UpperCase(inputKey);
         const auto & keyMap = GetStringToKeyMap();
         const auto & it = keyMap.find(s);
@@ -24,17 +24,21 @@ namespace PAX {
         PAX_THROW_RUNTIME_ERROR("Given key \"" << inputKey << "\" could not be parsed!");
     }
 
-    std::map<std::string, Key> & TryParser<std::string, Key>::GetUninitializedStringToKeyMap() {
+    std::string TypeConverter<std::string, Key>::convertFrom(Key const & k) {
+        return GetKeyToStringMap().at(k);
+    }
+
+    std::map<std::string, Key> & TypeConverter<std::string, Key>::GetUninitializedStringToKeyMap() {
         static std::map<std::string, Key> strToK;
         return strToK;
     }
 
-    std::map<Key, std::string> & TryParser<std::string, Key>::GetUninitializedKeyToStringMap() {
+    std::map<Key, std::string> & TypeConverter<std::string, Key>::GetUninitializedKeyToStringMap() {
         static std::map<Key, std::string> kToStr;
         return kToStr;
     }
 
-    std::map<std::string, Key> & TryParser<std::string, Key>::GetMutableStringToKeyMap() {
+    std::map<std::string, Key> & TypeConverter<std::string, Key>::GetMutableStringToKeyMap() {
         auto & strToK = GetUninitializedStringToKeyMap();
         if (strToK.empty()) {
             InitMaps();
@@ -42,7 +46,7 @@ namespace PAX {
         return strToK;
     }
 
-    std::map<Key, std::string> & TryParser<std::string, Key>::GetMutableKeyToStringMap() {
+    std::map<Key, std::string> & TypeConverter<std::string, Key>::GetMutableKeyToStringMap() {
         auto & kToStr = GetUninitializedKeyToStringMap();
         if (kToStr.empty()) {
             InitMaps();
@@ -50,15 +54,15 @@ namespace PAX {
         return kToStr;
     }
 
-    const std::map<std::string, Key> & TryParser<std::string, Key>::GetStringToKeyMap() {
+    const std::map<std::string, Key> & TypeConverter<std::string, Key>::GetStringToKeyMap() {
         return GetMutableStringToKeyMap();
     }
 
-    const std::map<Key, std::string> & TryParser<std::string, Key>::GetKeyToStringMap() {
+    const std::map<Key, std::string> & TypeConverter<std::string, Key>::GetKeyToStringMap() {
         return GetMutableKeyToStringMap();
     }
     
-    void TryParser<std::string, Key>::InitMaps() {
+    void TypeConverter<std::string, Key>::InitMaps() {
         auto & stok = GetUninitializedStringToKeyMap();
         auto & ktos = GetUninitializedKeyToStringMap();
 

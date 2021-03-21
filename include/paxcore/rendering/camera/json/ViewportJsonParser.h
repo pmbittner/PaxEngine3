@@ -5,15 +5,9 @@
 #ifndef PAXENGINE3_VIEWPORTJSONPARSER_H
 #define PAXENGINE3_VIEWPORTJSONPARSER_H
 
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonTypeConverter.h>
 #include "paxcore/rendering/camera/Viewport.h"
 
-namespace PAX {
-    template<>
-    class TryParser<nlohmann::json, Viewport*> {
-    public:
-        PAX_NODISCARD static Viewport * tryParse(const nlohmann::json & j);
-    };
-}
+PAX_DECLARE_JSON_CONVERTER_FOR(Viewport*)
 
 #endif //PAXENGINE3_VIEWPORTJSONPARSER_H

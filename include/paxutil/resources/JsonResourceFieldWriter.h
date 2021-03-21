@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_JSONRESOURCEFIELDWRITER_H
 #define PAXENGINE3_JSONRESOURCEFIELDWRITER_H
 
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonTypeConverter.h>
 #include <paxutil/reflection/EngineFieldFlags.h>
 #include <polypropylene/log/Errors.h>
 #include <paxcore/service/Services.h>

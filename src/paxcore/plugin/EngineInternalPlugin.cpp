@@ -37,7 +37,7 @@
 #include <paxcore/animation/DiscreteAnimation.h>
 #include <paxcore/rendering/animation/SpriteSheetAnimations.h>
 #include <paxcore/rendering/animation/SpriteSheetAnimator.h>
-#include <polypropylene/serialisation/json/JsonDefaultParsers.h>
+#include <polypropylene/serialisation/json/JsonStdContainerConverters.h>
 #include <paxcore/io/Keys.h>
 
 

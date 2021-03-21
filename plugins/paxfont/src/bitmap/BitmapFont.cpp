@@ -126,26 +126,29 @@ namespace PAX::Font {
 }
 
 namespace PAX {
-    PAX_IMPLEMENT_JSONPARSER_FOR(Font::TextLine) {
-        return Font::TextLine::fromString(JsonToString(json));
+    PAX_IMPLEMENT_JSON_CONVERT_TO(Font::TextLine) {
+        return Font::TextLine::fromString(JsonToString(x));
     }
 
-    PAX_IMPLEMENT_JSONPARSER_FOR(Font::TextBlock) {
+    PAX_IMPLEMENT_JSON_CONVERT_TO(Font::TextBlock) {
         Font::TextBlock block;
 
-        if (json.is_array()) {
-            for (const nlohmann::json & jline : json) {
+        if (x.is_array()) {
+            for (const nlohmann::json & jline : x) {
                 block.lines.push_back(
-                        Json::tryParse<Font::TextLine>(jline)
+                        Json::convertTo<Font::TextLine>(jline)
                         );
             }
         } else {
             // interpret as single line
-            block.lines.push_back(Json::tryParse<Font::TextLine>(json));
+            block.lines.push_back(Json::convertTo<Font::TextLine>(x));
         }
 
         return block;
     }
+
+    PAX_IMPLEMENT_JSON_CONVERT_FROM_WITH_OSTREAM(Font::TextLine)
+    PAX_IMPLEMENT_JSON_CONVERT_FROM_WITH_OSTREAM(Font::TextBlock)
 }
 
 std::ostream & operator<<(std::ostream & str, const PAX::Font::TextLine & l) {

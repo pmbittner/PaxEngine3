@@ -14,7 +14,6 @@ set(ASSIMP_LOCAL_BUILD_DIR)
 
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     if (PAX_ASSIMP_BUILDMANUALLY)
-
         if(${CMAKE_BUILD_TYPE} MATCHES Debug)
             message("Building PaxAssimp (Manual Build) with MSVC - Debug")
             set(ASSIMP_LOCAL_BUILD_DIR bin/msvc-debug)

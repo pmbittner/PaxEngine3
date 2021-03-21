@@ -3,7 +3,7 @@
 //
 
 #include <paxcore/world/prefab/JsonWorldGameEntityParser.h>
-#include <polypropylene/serialisation/json/JsonDefaultParsers.h>
+#include <polypropylene/serialisation/json/JsonStdContainerConverters.h>
 
 namespace PAX {
     namespace Json {
@@ -28,7 +28,7 @@ namespace PAX {
                     if (entityNode.count("parameters") > 0) {
                         parameters = PAX::ComposeVariableRegisters(
                                 parameters,
-                                Json::tryParse<VariableRegister>(entityNode["parameters"]));
+                                Json::convertTo<VariableRegister>(entityNode["parameters"]));
                     }
 
                     if (prefabNode.is_string()) {

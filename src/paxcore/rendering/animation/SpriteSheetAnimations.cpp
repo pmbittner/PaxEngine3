@@ -32,8 +32,8 @@ namespace PAX {
         const nlohmann::json & j = *jptr;
 
         for (const auto & entry : j.items()) {
-            auto name = String::tryParse<SpriteSheetAnimations::AnimationName>(entry.key());
-            auto anim = Json::tryParse<DiscreteAnimation<glm::ivec2>>(entry.value());
+            auto name = String::convertTo<SpriteSheetAnimations::AnimationName>(entry.key());
+            auto anim = Json::convertTo<DiscreteAnimation<glm::ivec2>>(entry.value());
             animations.insert_or_assign(name, anim);
         }
 

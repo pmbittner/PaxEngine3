@@ -60,21 +60,21 @@ namespace PAX::Font {
 
                 if (parseMetadata) {
                     if (key == "size") {
-                        metadata.size = String::tryParse<int>(val);
+                        metadata.size = String::convertTo<int>(val);
                     } else if (key == "family") {
                         metadata.family = val;
                     } else if (key == "height") {
-                        metadata.height = String::tryParse<int>(val);
+                        metadata.height = String::convertTo<int>(val);
                     } else if (key == "style") {
                         metadata.style = val;
                     }
                 } else {
                     if (key == "width") {
-                        c.width = String::tryParse<int>(val);
+                        c.width = String::convertTo<int>(val);
                     } else if (key == "offset") {
-                        c.textLineOffset = String::tryParse<glm::ivec2>(val);
+                        c.textLineOffset = String::convertTo<glm::ivec2>(val);
                     } else if (key == "rect") {
-                        const auto rect = String::tryParse<glm::ivec4>(val);
+                        const auto rect = String::convertTo<glm::ivec4>(val);
                         c.pos  = glm::ivec2(rect.x, rect.y);
                         c.size = glm::ivec2(rect.z, rect.w);
                     } else if (key == "code") {

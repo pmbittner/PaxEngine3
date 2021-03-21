@@ -41,9 +41,9 @@ std::ostream& operator<<(std::ostream& os, matType<dims0, dims1, T, P> const & x
 
 namespace PAX {
     template<glm::length_t L, typename T, glm::qualifier Q>
-    class TryParser<std::string, glm::vec<L, T, Q>> {
+    class TypeConverter<std::string, glm::vec<L, T, Q>> {
     public:
-        static glm::vec<L, T, Q> tryParse(const std::string &str) {
+        static glm::vec<L, T, Q> convertTo(const std::string &str) {
             glm::vec<L, T, Q> ret(0);
             const size_t strlen = str.length();
             std::string vecStr = str;
@@ -62,10 +62,13 @@ namespace PAX {
 
             const glm::length_t dims = glm::length_t(numbers.size());
             for (glm::length_t i = 0; i < L && i < dims; ++i) {
-                ret[i] = String::tryParse<T>(numbers[i]);
+                ret[i] = String::convertTo<T>(numbers[i]);
             }
 
             return ret;
+        }
+        static std::string convertFrom(const glm::vec<L, T, Q> & vec) {
+            return glm::to_string(vec);
         }
     };
 }

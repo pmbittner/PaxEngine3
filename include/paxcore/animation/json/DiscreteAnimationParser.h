@@ -5,13 +5,13 @@
 #ifndef MESHFOLD_DISCRETEANIMATIONPARSER_H
 #define MESHFOLD_DISCRETEANIMATIONPARSER_H
 
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonTypeConverter.h>
 #include "../DiscreteAnimation.h"
 #include "AnimationBehaviourParser.h"
 
 namespace PAX {
     template<typename T>
-    class TryParser<nlohmann::json, DiscreteAnimation<T>> {
+    class TypeConverter<nlohmann::json, DiscreteAnimation<T>> {
         using Anim = DiscreteAnimation<T>;
         static constexpr const char * FRAMES = "frames";
         static constexpr const char * TYPE = "type";
@@ -20,7 +20,7 @@ namespace PAX {
         static constexpr const char * KEYFRAME_VALUE = "value";
 
     public:
-        PAX_NODISCARD static Anim tryParse(const nlohmann::json & j) {
+        PAX_NODISCARD static Anim convertTo(const nlohmann::json & j) {
             if (j.count(FRAMES) < 1) {
                 PAX_THROW_RUNTIME_ERROR("No frames given for animation:\n" << JsonToString(j));
             }
@@ -32,20 +32,35 @@ namespace PAX {
 
             double defaultDuration = 1.0; // seconds
             if (j.count(DEFAULTFRAMEDURATION) > 0) {
-                defaultDuration = Json::tryParse<double>(j[DEFAULTFRAMEDURATION]);
+                defaultDuration = Json::convertTo<double>(j[DEFAULTFRAMEDURATION]);
             }
 
             for (const nlohmann::json & framejson : j[FRAMES]) {
-                T val = Json::tryParse<T>(framejson[KEYFRAME_VALUE]);
+                T val = Json::convertTo<T>(framejson[KEYFRAME_VALUE]);
                 double duration = defaultDuration;
                 if (framejson.count(KEYFRAME_DURATION) > 0) {
-                    duration = Json::tryParse<double>(framejson[KEYFRAME_DURATION]);
+                    duration = Json::convertTo<double>(framejson[KEYFRAME_DURATION]);
                 }
                 frames.emplace_back(val, duration);
             }
 
-            auto behaviour = Json::tryParse<AnimationBehaviour>(j[TYPE]);
+            auto behaviour = Json::convertTo<AnimationBehaviour>(j[TYPE]);
             return Anim(frames, behaviour);
+        }
+
+        PAX_NODISCARD static nlohmann::json convertFrom(const Anim & d) {
+            nlohmann::json node;
+            node["type"] = Json::convertFrom(d.getBehaviour());
+
+            nlohmann::json frames = nlohmann::json::array();
+            for (const typename Anim::KeyFrame & f : d.getFrames()) {
+                nlohmann::json frame;
+                frame["value"] = Json::convertFrom(f.value);
+                frame["duration"] = f.duration.count();
+                frames.push_back(frame);
+            }
+            node["frames"] = frames;
+            return node;
         }
     };
 }

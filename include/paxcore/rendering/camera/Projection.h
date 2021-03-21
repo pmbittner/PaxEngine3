@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_PROJECTION_H
 #define PAXENGINE3_PROJECTION_H
 
-#include <glm/glm.hpp>
+#include <paxutil/lib/GlmIncludes.h>
 #include <polypropylene/definitions/Definitions.h>
 
 namespace PAX {

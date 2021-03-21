@@ -5,13 +5,12 @@
 #include <paxcore/rendering/camera/PerspectiveProjection.h>
 #include <paxcore/rendering/camera/PixelScreenProjection.h>
 #include "paxcore/rendering/camera/json/ProjectionJsonParser.h"
-#include "polypropylene/serialisation/json/nlohmann/Json.h"
 
 namespace PAX {
-    Projection * TryParser<nlohmann::json, Projection*>::tryParse(const nlohmann::json &j) {
-        Json::assertPresence(j, "type");
+    PAX_IMPLEMENT_JSON_CONVERT_TO(Projection *) {
+        Json::assertPresence(x, "type");
 
-        std::string type = JsonToString(j["type"]);
+        std::string type = JsonToString(x["type"]);
         Projection * proj = nullptr;
 
         if (type == "Perspective") {
@@ -23,14 +22,18 @@ namespace PAX {
         }
 
         glm::ivec2 resolution = proj->getResolution();
-        if (j.count("resolution_width") > 0) {
-            resolution.x = Json::tryParse<int>(j["resolution_width"]);
+        if (x.count("resolution_width") > 0) {
+            resolution.x = Json::convertTo<int>(x["resolution_width"]);
         }
-        if (j.count("resolution_height") > 0) {
-            resolution.y = Json::tryParse<int>(j["resolution_height"]);
+        if (x.count("resolution_height") > 0) {
+            resolution.y = Json::convertTo<int>(x["resolution_height"]);
         }
         proj->setResolution(resolution);
 
         return proj;
+    }
+
+    PAX_IMPLEMENT_JSON_CONVERT_FROM(Projection *) {
+        PAX_NOT_IMPLEMENTED_EXCEPTION();
     }
 }

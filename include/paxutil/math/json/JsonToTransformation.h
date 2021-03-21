@@ -9,6 +9,7 @@
 #include <paxutil/math/Transformation.h>
 
 namespace PAX {
+    // TODO: Use the actual json interface
     namespace Json {
         class JsonToTransformation {
         public:

@@ -5,11 +5,9 @@
 #ifndef MESHFOLD_ANIMATIONBEHAVIOURPARSER_H
 #define MESHFOLD_ANIMATIONBEHAVIOURPARSER_H
 
-#include <polypropylene/serialisation/json/JsonParser.h>
+#include <polypropylene/serialisation/json/JsonTypeConverter.h>
 #include "../AnimationBehaviour.h"
 
-PAX_DECLARE_JSONPARSER_FOR(AnimationBehaviour)
-
-
+PAX_DECLARE_JSON_CONVERTER_FOR(AnimationBehaviour)
 
 #endif //MESHFOLD_ANIMATIONBEHAVIOURPARSER_H

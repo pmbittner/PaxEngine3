@@ -5,7 +5,7 @@
 #ifndef PAXENGINE3_KEYS_H
 #define PAXENGINE3_KEYS_H
 
-#include "polypropylene/serialisation/TryParser.h"
+#include "polypropylene/serialisation/TypeConverter.h"
 #include <string>
 #include <map>
 
@@ -331,7 +331,7 @@ namespace PAX {
     };
 
     template<>
-    class TryParser<std::string, Key> {
+    class TypeConverter<std::string, Key> {
         static std::map<std::string, Key> & GetUninitializedStringToKeyMap();
         static std::map<Key, std::string> & GetUninitializedKeyToStringMap();
         static std::map<std::string, Key> & GetMutableStringToKeyMap();
@@ -342,7 +342,8 @@ namespace PAX {
         static const std::map<std::string, Key> & GetStringToKeyMap();
         static const std::map<Key, std::string> & GetKeyToStringMap();
 
-        PAX_NODISCARD static Key tryParse(const std::string & f);
+        PAX_NODISCARD static Key convertTo(std::string const & f);
+        PAX_NODISCARD static std::string convertFrom(Key const & k);
     };
 }
 
