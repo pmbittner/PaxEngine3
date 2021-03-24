@@ -26,7 +26,7 @@ namespace PAX::Physics {
     GravityField::GravityField() = default;
 
     GravityField::GravityField(const std::shared_ptr<Shape2D> & shape, float intensity)
-    : intensity(intensity), hitbox(Plugin::CreateHitbox(shape))
+    : intensity(intensity)
     {
         initializeHitbox();
     }
