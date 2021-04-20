@@ -115,6 +115,11 @@ namespace PAX {
 
         handleWorldAddingQueue();
         handleWorldRemovingQueue();
+
+        for (const std::function<void()> & f : dispatchedFunctions) {
+            f();
+        }
+        dispatchedFunctions.clear();
     }
 
     EventService & Game::getEventService() {
@@ -131,5 +136,9 @@ namespace PAX {
 
     const std::vector<std::unique_ptr<GameSystem>> & Game::getSystems() const {
         return systems;
+    }
+
+    void Game::dispatch(const std::function<void()>& f) {
+        dispatchedFunctions.emplace_back(f);
     }
 }

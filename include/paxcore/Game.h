@@ -31,6 +31,8 @@ namespace PAX {
         void handleWorldAddingQueue();
         void handleWorldRemovingQueue();
 
+        std::vector<std::function<void()>> dispatchedFunctions;
+
     public:
         Game();
         ~Game() override;
@@ -57,6 +59,12 @@ namespace PAX {
         void addSystem(std::unique_ptr<GameSystem>&& system);
 
         PAX_NODISCARD const std::vector<std::unique_ptr<GameSystem>> & getSystems() const;
+
+        /**
+         * Runs the given function at the end of the next update cycle.
+         * @param f Function that is dispatched until the end of the next updated cycle.
+         */
+        void dispatch(const std::function<void()>& f);
 
         template<class T>
         T * getSystem() const {
