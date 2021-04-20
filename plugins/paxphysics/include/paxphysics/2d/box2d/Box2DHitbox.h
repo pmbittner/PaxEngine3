@@ -31,6 +31,8 @@ namespace PAX::Physics {
 
         PAX_NODISCARD bool isInside(const glm::vec2 & point) const override;
         PAX_NODISCARD b2Fixture* getFixture() const;
+
+        void setTriggerArea(bool isTrigger) override;
     };
 }
 

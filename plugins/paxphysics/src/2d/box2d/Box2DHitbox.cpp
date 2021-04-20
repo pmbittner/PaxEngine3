@@ -36,4 +36,11 @@ namespace PAX::Physics {
     b2Fixture * Box2DHitbox::getFixture() const {
         return fixture;
     }
+
+    void Box2DHitbox::setTriggerArea(bool isTrigger) {
+        Super::setTriggerArea(isTrigger);
+        if (fixture) {
+            fixture->SetSensor(isTrigger);
+        }
+    }
 }
