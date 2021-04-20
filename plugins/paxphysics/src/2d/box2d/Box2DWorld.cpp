@@ -103,10 +103,17 @@ namespace PAX::Physics {
     }
 
     void Box2DWorld::cleanupDeadBodies() {
-        for (b2Body * zombie : queuedForDeletion) {
+        for (b2Body * zombie : bodiesQueuedForDeletion) {
             box2dWorld.DestroyBody(zombie);
         }
-        queuedForDeletion.clear();
+        bodiesQueuedForDeletion.clear();
+
+        for (b2Fixture * zombie : fixturesQueuedForDeletion) {
+            Box2DHitbox * hitbox = reinterpret_cast<Box2DHitbox *>(zombie->GetUserData().pointer);
+            hitbox->fixture = nullptr;
+            zombie->GetBody()->DestroyFixture(zombie);
+        }
+        fixturesQueuedForDeletion.clear();
     }
 
     void Box2DWorld::spawnInBox2D(GameEntity &entity) {
@@ -142,7 +149,7 @@ namespace PAX::Physics {
 
     void Box2DWorld::despawnInBox2D(GameEntity &entity) {
         if (b2Body * body = bodies[&entity]) {
-            queuedForDeletion.push_back(body);
+            bodiesQueuedForDeletion.push_back(body);
             bodies.erase(&entity);
             if (Box2DRigidBody * rigidBody = entity.get<Box2DRigidBody>()) {
                 rigidBody->body = nullptr;
@@ -183,8 +190,11 @@ namespace PAX::Physics {
         if (!body) {
             return;
         }
-        body->DestroyFixture(hitbox.fixture);
-        hitbox.fixture = nullptr;
+
+        fixturesQueuedForDeletion.push_back(hitbox.fixture);
+        if (!insideBox2DStep) {
+            cleanupDeadBodies();
+        }
     }
 
     void Box2DWorld::turnIntoRigidBody(GameEntity &entity, Box2DRigidBody &rigidBody) {
@@ -322,9 +332,17 @@ namespace PAX::Physics {
     void Box2DWorld::ContactListenersDelegate::BeginContact(b2Contact *contact) {
         FixtureMetadata a(*contact->GetFixtureA());
         FixtureMetadata b(*contact->GetFixtureB());
-        world->onHitBegin(Collision(a.hitbox, b.hitbox));
-        for (b2ContactListener * listener : contactListeners) {
-            listener->BeginContact(contact);
+        // Only broadcast the collision if both hitboxes are still alive
+        if (a.hitbox->getOwner() && b.hitbox->getOwner()) {
+            world->onHitBegin(Collision(a.hitbox, b.hitbox));
+            for (b2ContactListener *listener : contactListeners) {
+                // We have to check this every step as each listener might modify or despawn fixtures.
+                // But uncommented for now because this would cause inconsistent behaviour.
+                // Instead, interactions with Box2D during b2world::step should be delayed.
+                //if (a.hitbox->getOwner() && b.hitbox->getOwner()) {
+                    listener->BeginContact(contact);
+                //}
+            }
         }
     }
 

@@ -28,7 +28,8 @@ namespace PAX::Physics {
         bool insideBox2DStep = false;
 
         std::map<GameEntity*, b2Body*> bodies;
-        std::vector<b2Body*> queuedForDeletion;
+        std::vector<b2Fixture*> fixturesQueuedForDeletion;
+        std::vector<b2Body*> bodiesQueuedForDeletion;
 
         struct FixtureMetadata {
             b2Fixture & fixture;
