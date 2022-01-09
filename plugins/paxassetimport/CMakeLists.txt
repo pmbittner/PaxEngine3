@@ -3,17 +3,17 @@ set(PAX_ASSIMP_SOURCE_FILES
         src/AssimpResourceLoader.cpp)
 
 # Assimp
-option(PAX_ASSIMP_BUILDMANUALLY OFF)
+option(PAX_ASSIMP_BUILDMANUALLY "use a manually built assimp for linking" ON)
 
 set(ASSIMP_DIRECTORY ${PAX_LIB_DIR}/assimp)
 set(ASSIMP_BUILD_DIRECTORY ${ASSIMP_DIRECTORY})
 set(ASSIMP_LINK_DIRECTORIES)
 set(ASSIMP_LIBRARIES)
-
 set(ASSIMP_LOCAL_BUILD_DIR)
 
+message("Using manual build of assimp: ${PAX_ASSIMP_BUILDMANUALLY}")
 if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
-    if (PAX_ASSIMP_BUILDMANUALLY)
+    if (${PAX_ASSIMP_BUILDMANUALLY})
         if(${CMAKE_BUILD_TYPE} MATCHES Debug)
             message("Building PaxAssimp (Manual Build) with MSVC - Debug")
             set(ASSIMP_LOCAL_BUILD_DIR bin/msvc-debug)
@@ -28,6 +28,7 @@ if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
             set(ASSIMP_LIBRARY_NAME_ZLIB zlibstatic.lib)
         endif()
     else()
+        message(SEND_ERROR "Using potentially deprecated assimp linking. Errors may occur.")
         # TODO: Deprecated?
         set(ASSIMP_BUILD_TYPE_DIR Release)
         set(ASSIMP_ZLIB_NAME zlibstatic.lib)
