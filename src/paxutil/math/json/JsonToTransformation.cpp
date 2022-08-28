@@ -5,20 +5,32 @@
 #include <paxutil/math/json/JsonToTransformation.h>
 #include <polypropylene/serialisation/json/nlohmann/Json.h>
 #include <iostream>
+#include "paxutil/io/Settings.h"
+#include "polypropylene/serialisation/json/JsonUtil.h"
 
 namespace PAX {
     namespace Json {
-        static void fillVec3(glm::vec3 & vec, const nlohmann::json & node) {
-            assert(node.is_array());
-            std::vector<float> jsonVec = node;
-            size_t dims = jsonVec.size();
+        static void fillGlmVecFromStdVec(glm::vec3 & vec, const std::vector<float> & parsedVec) {
+            size_t dims = parsedVec.size();
             assert(dims <= 3);
+//            PAX_LOG(Log::Level::Info, parsedVec.at(0) << ", " << parsedVec.at(1) << ", " << parsedVec.at(2));
 
             for (size_t i = 0; i < dims; ++i) {
                 if (dims > i) {
-                    vec[i] = jsonVec[i];
+                    vec[i] = parsedVec[i];
                 }
             }
+        }
+
+        static void fillVec3(glm::vec3 & vec, const nlohmann::json & node) {
+            if (node.is_array()) {
+                fillGlmVecFromStdVec(vec, node);
+            } else {
+                Settings s;
+                s.set("vec", JsonToString(node));
+                fillGlmVecFromStdVec(vec, s.getVector<float>("vec"));
+            }
+
         }
 
         static glm::vec4 jsonToVec4(const nlohmann::json & node, const std::string & attributeName) {
