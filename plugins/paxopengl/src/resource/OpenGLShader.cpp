@@ -10,6 +10,7 @@
 #include "paxopengl/resource/OpenGLShader.h"
 
 #include "paxopengl/OpenGLError.h"
+#include "polypropylene/stdutils/CollectionUtils.h"
 
 namespace PAX {
     namespace OpenGL {
@@ -56,18 +57,48 @@ namespace PAX {
             return compiled;
         }
 
-        std::string OpenGLShader::LoadCodeFromFile(const std::string & filename)
+        static std::string eatPrefix(const std::string & str, const std::string & prefix) {
+            std::string remains = str.substr(prefix.length());
+            String::ltrim(remains);
+            return remains;
+        }
+
+        std::string OpenGLShader::LoadCodeFromFile(const Path & filename, const std::vector<Path> & alreadyIncludedFiles)
         {
             std::string code;
 
             std::ifstream codeFile;
-            codeFile.open(filename);
+            codeFile.open(filename.c_str());
             if (!codeFile.is_open()) {
                 PAX_THROW_RUNTIME_ERROR("Unable to open shader file \"" << filename << "\"!");
             }
 
             std::string line;
+            int lineno = -1;
             while (std::getline(codeFile,line)) {
+                ++lineno;
+
+                if (String::startsWith(line, "#")) {
+                    std::string macro = eatPrefix(line, "#");
+
+                    if (String::startsWith(macro, "include")) {
+                        macro = eatPrefix(macro, "include");
+
+                        Path includeFile = filename.getDirectory() + macro;
+                        includeFile.simplify();
+
+                        if (Util::vectorContains(alreadyIncludedFiles, includeFile)) {
+                            PAX_THROW_RUNTIME_ERROR("Cyclic include: file " << includeFile << " included at line " << lineno << " in " << filename << " was already included!");
+                        }
+
+                        std::vector<Path> nowIncludedFiles = alreadyIncludedFiles;
+                        nowIncludedFiles.push_back(includeFile);
+                        std::string includeContent = LoadCodeFromFile(includeFile, nowIncludedFiles);
+                        code += includeContent;
+                        continue;
+                    }
+                }
+
                 code+=line+"\n";
             }
             codeFile.close();
@@ -127,7 +158,7 @@ namespace PAX {
         bool OpenGLShader::Finalize(ShaderProgram &program, const Flags & flags, const FileInfo & fileInfo) {
             if (!program.uploaded) {
                 {
-                    std::string vertexCode = LoadCodeFromFile(fileInfo.VertexPath);
+                    std::string vertexCode = LoadCodeFromFile(fileInfo.VertexPath, {});
                     InsertFlags(vertexCode, flags.VertexFlags);
 
                     if (!LoadShaderFromCode(GL_VERTEX_SHADER, vertexCode, program, program.vertexShaderId)) {
@@ -138,7 +169,7 @@ namespace PAX {
                 }
 
                 {
-                    std::string fragmentCode = LoadCodeFromFile(fileInfo.FragmentPath);
+                    std::string fragmentCode = LoadCodeFromFile(fileInfo.FragmentPath, {});
                     InsertFlags(fragmentCode, flags.FragmentFlags);
 
                     if (!LoadShaderFromCode(GL_FRAGMENT_SHADER, fragmentCode, program, program.fragmentShaderId)) {
