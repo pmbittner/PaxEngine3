@@ -101,9 +101,9 @@ namespace PAX {
                     // Predefined variables should be overridable in settings.
                     // Therefore put them into the map only, when they were not set manually already.
                     if (resolvableVariables.find(PreDefinedVariable::CurrentPath) == resolvableVariables.end())
-                        resolvableVariables[PreDefinedVariable::CurrentPath] = path.toAbsolute().toString();
+                        resolvableVariables[PreDefinedVariable::CurrentPath] = path.toAbsolute().convertedToUnix().toString();
                     if (resolvableVariables.find(PreDefinedVariable::CurrentDirectory) == resolvableVariables.end())
-                        resolvableVariables[PreDefinedVariable::CurrentDirectory] = currentDirectory.toAbsolute().toString();
+                        resolvableVariables[PreDefinedVariable::CurrentDirectory] = currentDirectory.toAbsolute().convertedToUnix().toString();
 
                     settings[row[0]] = VariableResolver::resolveVariables(row[1], resolvableVariables);
 
