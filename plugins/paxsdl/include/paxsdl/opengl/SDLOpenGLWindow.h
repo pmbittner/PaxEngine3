@@ -22,6 +22,7 @@ namespace PAX {
                 ~SDLOpenGLWindow() override;
 
                 bool create(const std::string& title, int width, int height) override;
+                PAX_NODISCARD const SDL_GLContext & getContext() const;
             };
         }
     }

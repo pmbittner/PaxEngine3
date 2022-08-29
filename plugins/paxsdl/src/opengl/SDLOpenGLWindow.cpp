@@ -48,6 +48,10 @@ namespace PAX {
 
                 return false;
             }
+
+            const SDL_GLContext &SDLOpenGLWindow::getContext() const {
+                return _context;
+            }
         }
     }
 }
