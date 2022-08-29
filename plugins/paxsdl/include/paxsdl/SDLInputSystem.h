@@ -38,6 +38,8 @@ namespace PAX {
             int max_events_to_process_per_update = 20;
 
         public:
+            EventHandler<const SDL_Event*> OnSDL_Event;
+
             void initialize() override;
             void terminate() override;
             void update(UpdateOptions & options) override;
