@@ -61,7 +61,9 @@ namespace PAX {
             }
 
             void registerJsonWriters(Json::JsonFieldWriterRegister & writerRegister) override {
+#ifdef PAX_WITH_SDLIMAGE
                 jsonImageParser.registerAt(writerRegister);
+#endif
             }
         };
     }
