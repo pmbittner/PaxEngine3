@@ -30,7 +30,12 @@ namespace PAX {
     }
 
     void Renderer::setSceneGraphGenerationEntryPoint(SceneGraph *generationEntryPoint) {
-        assert(generationEntryPoint);
+        if (generationEntryPoint == nullptr) {
+            PAX_THROW_RUNTIME_ERROR("NullPointer: Cannot set nullptr as SceneGraphGenerationEntryPoint!");
+        }
+        if (!generationEntryPoint->isEmpty()) {
+            PAX_THROW_RUNTIME_ERROR("NullPointer: Expected empty SceneGraphGenerationEntryPoint but the given scene graph has " << generationEntryPoint->size() << " children!");
+        }
         this->generationEntryPoint = generationEntryPoint;
         this->generationEntryPoint->addChild(&sortingNode);
     }

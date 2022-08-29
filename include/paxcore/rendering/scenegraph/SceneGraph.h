@@ -61,6 +61,10 @@ namespace PAX {
             return _children.empty();
         }
 
+        size_t size() {
+            return _children.size();
+        }
+
         void render(RenderOptions &renderOptions) override {
             for (ChildrensType *child : _children)
                 child->render(renderOptions);

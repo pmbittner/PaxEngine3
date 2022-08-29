@@ -61,13 +61,7 @@ namespace PAX {
                 return;
             }
 
-            // get all children of the current generation entry point and add them to our renderer
-            for (Renderable * childOfOpenGLContext : openGlContext->getChildren()) {
-                imguiRenderer.addChild(childOfOpenGLContext);
-            }
-            // then remove the children from the old entry point
             openGlContext->dropChildren();
-            // and add our renderer below the old entry point
             openGlContext->addChild(&imguiRenderer);
             renderer.setSceneGraphGenerationEntryPoint(&imguiRenderer);
         }
