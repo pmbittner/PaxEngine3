@@ -20,11 +20,14 @@ include_directories(../paxopengl/include/)
 
 set(PAX_IMGUI_HEADERS_FOR_CLION
         include/paximgui/ImguiPlugin.h
-        include/paximgui/ImguiRenderer.h)
+        include/paximgui/ImguiRenderer.h
+        include/paximgui/Variable.h
+        )
 
 set(PAX_IMGUI_SOURCE_FILES
         src/ImguiPlugin.cpp
-        src/ImguiRenderer.cpp)
+        src/ImguiRenderer.cpp
+        src/Variable.cpp)
 
 include_directories(include)
 
