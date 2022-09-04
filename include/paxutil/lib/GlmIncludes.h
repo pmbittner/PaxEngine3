@@ -44,12 +44,17 @@ namespace PAX {
     class TypeConverter<std::string, glm::vec<L, T, Q>> {
     public:
         static glm::vec<L, T, Q> convertTo(const std::string &str) {
+            auto pos = str.find_first_of('(');
+            if (pos == std::string::npos) {
+                pos = str.find_first_of('[');
+            }
+            std::string vecStr = str.substr(pos);
+
             glm::vec<L, T, Q> ret(0);
-            const size_t strlen = str.length();
-            std::string vecStr = str;
+            const size_t strlen = vecStr.length();
             if (
-                    (str[0] == '(' && str[strlen-1] == ')')
-                    || (str[0] == '[' && str[strlen-1] == ']')
+                    (vecStr[0] == '(' && vecStr[strlen-1] == ')')
+                    || (vecStr[0] == '[' && vecStr[strlen-1] == ']')
                     ) {
                 vecStr = vecStr.substr(1, strlen - 2);
             }
@@ -60,13 +65,14 @@ namespace PAX {
             }
             std::vector<std::string> numbers = String::split(separator, vecStr, false);
 
-            const glm::length_t dims = glm::length_t(numbers.size());
+            const auto dims = glm::length_t(numbers.size());
             for (glm::length_t i = 0; i < L && i < dims; ++i) {
                 ret[i] = String::convertTo<T>(numbers[i]);
             }
 
             return ret;
         }
+
         static std::string convertFrom(const glm::vec<L, T, Q> & vec) {
             return glm::to_string(vec);
         }
