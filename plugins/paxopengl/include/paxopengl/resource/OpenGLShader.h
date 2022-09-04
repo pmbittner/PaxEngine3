@@ -38,7 +38,6 @@ namespace PAX {
             } shaderProgram;
 
         protected:
-            static std::string LoadCodeFromFile(const Path & filename, const std::vector<Path> & alreadyIncludedFiles);
             static bool LoadShaderFromCode(GLenum type, const std::string & code, const ShaderProgram & program, GLuint& out_id);
             static bool CompileShaderAndPrintErrors(GLuint shader);
             static bool SetupShaderFromCodeString(GLuint shader, const std::string & code);
@@ -58,6 +57,8 @@ namespace PAX {
 
             void bind() override;
             void unbind() override;
+
+            static std::string LoadCodeFromFile(const Path & filename);
 
             bool hasUniform(const std::string& uniformName) override;
 

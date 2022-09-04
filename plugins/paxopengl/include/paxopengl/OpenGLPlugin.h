@@ -20,6 +20,7 @@
 #include "io/OpenGLShaderLoader.h"
 
 #include "OpenGLPointCloudSettings.h"
+#include "glslpreprocessor/GLSLPreprocessorService.h"
 
 namespace PAX {
     namespace OpenGL {
@@ -34,6 +35,7 @@ namespace PAX {
             OpenGLTextureFactory textureFactory;
             OpenGLRenderPassFactory renderPassFactory;
             OpenGLPointCloudSettings pointCloudSettings;
+            GLSLPreprocessorService preprocessorService;
 
             JsonResourceFieldWriter<Shader> shaderJsonParser;
 

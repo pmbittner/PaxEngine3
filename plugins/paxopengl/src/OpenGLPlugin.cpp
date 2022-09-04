@@ -9,6 +9,7 @@
 #include <paxcore/rendering/renderpass/RenderPassFactory.h>
 
 #include "paxopengl/OpenGLPlugin.h"
+#include "paxopengl/glslpreprocessor/GLSLIncludeDirectives.h"
 
 namespace PAX {
     namespace OpenGL {
@@ -38,8 +39,11 @@ namespace PAX {
         }
 
         void OpenGLPlugin::registerServices(Services &services) {
-            services.registerService(paxtypeid(PointCloudSettings), &pointCloudSettings);
             pointCloudSettings.initialize();
+            services.registerService(paxtypeid(PointCloudSettings), &pointCloudSettings);
+
+            preprocessorService.addAndOwnPreprocessor(new GLSLIncludeDirectives());
+            services.registerService(paxtypeid(GLSLPreprocessorService), &preprocessorService);
         }
     }
 }

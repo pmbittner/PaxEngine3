@@ -26,11 +26,16 @@ set(PAX_OPENGL_HEADERS_FOR_CLION
         include/paxopengl/resource/OpenGLMesh.h
         include/paxopengl/resource/OpenGLShader.h
         include/paxopengl/rendernodes/OpenGLContext.h
+        include/paxopengl/factory/OpenGLTextureFactory.h
         include/paxopengl/OpenGLViewport.h
         include/paxopengl/factory/OpenGLViewportFactory.h
         include/paxopengl/OpenGLError.h
         include/paxopengl/rendernodes/OpenGLRenderPass.h
-        include/paxopengl/OpenGLPointCloudSettings.h include/paxopengl/factory/OpenGLRenderPassFactory.h include/paxopengl/Conversion.h)
+        include/paxopengl/OpenGLPointCloudSettings.h
+        include/paxopengl/glslpreprocessor/GLSLPreprocessor.h
+        include/paxopengl/glslpreprocessor/GLSLPreprocessorService.h
+        include/paxopengl/factory/OpenGLRenderPassFactory.h
+        include/paxopengl/Conversion.h include/paxopengl/glslpreprocessor/GLSLIncludeDirectives.h)
 
 set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLViewport.cpp
@@ -44,8 +49,12 @@ set(PAX_OPENGL_SOURCE_FILES
         src/OpenGLPlugin.cpp
         src/OpenGLError.cpp
         src/rendernodes/OpenGLRenderPass.cpp
-        include/paxopengl/factory/OpenGLTextureFactory.h
-        src/factory/OpenGLTextureFactory.cpp src/OpenGLPointCloudSettings.cpp src/factory/OpenGLRenderPassFactory.cpp src/Conversion.cpp)
+        src/factory/OpenGLTextureFactory.cpp
+        src/OpenGLPointCloudSettings.cpp
+        src/factory/OpenGLRenderPassFactory.cpp
+        src/Conversion.cpp
+        src/glslpreprocessor/GLSLPreprocessorService.cpp
+        src/glslpreprocessor/GLSLIncludeDirectives.cpp)
 
 ### TARGET ###########################################
 include_directories(include)
