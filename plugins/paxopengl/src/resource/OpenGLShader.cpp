@@ -41,18 +41,25 @@ namespace PAX {
             glShaderSource(shader,1,&shader_src, NULL);
 
             bool compiled = CompileShaderAndPrintErrors(shader);
+
             /*
             if (!compiled) {
-                PAX_LOG_RAW(Log::Level::Error, "Shader Compilation - Error - Code was:");
-
-                std::stringstream ss(code);
-                std::string line;
-                int i = 0;
-                while (std::getline(ss, line, '\n')) {
-                    PAX_LOG_RAW(Log::Level::Error, std::setw(3) << std::fixed << i << "| " << line);
-                    ++i;
-                }
+                PAX_LOG_RAW(Log::Level::Error,
+                            "Full Shader Code:\n------------------\n" << code << "==================");
             }//*/
+            if (!compiled) {
+                std::stringstream codeAsStream(code);
+                std::stringstream output;
+
+                std::string line;
+                int lineNo = 0;
+                while (std::getline(codeAsStream, line, '\n')) {
+                    output << std::setw(4) << std::fixed << lineNo << "| " << line << std::endl;
+                    ++lineNo;
+                }
+
+                PAX_LOG_RAW(Log::Level::Error, "Full Shader Code:\n------------------\n" << output.str() << "==================");
+            }
 
             return compiled;
         }
