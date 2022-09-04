@@ -31,6 +31,18 @@ if (WIN32 AND ${PAX_COMPILER_IS_MSVC})
     message("Set MSVC RuntimeLibrary to ${CMAKE_MSVC_RUNTIME_LIBRARY}")
 endif()
 
+#set(CompilerFlags
+#        CMAKE_CXX_FLAGS
+#        CMAKE_CXX_FLAGS_DEBUG
+#        CMAKE_CXX_FLAGS_RELEASE
+#        CMAKE_C_FLAGS
+#        CMAKE_C_FLAGS_DEBUG
+#        CMAKE_C_FLAGS_RELEASE
+#        )
+#foreach(CompilerFlag ${CompilerFlags})
+#    string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
+#endforeach()
+
 ### FLAGS ###############################################
 if (${PAX3ENGINE_STANDALONE})
     set(CMAKE_CXX_STANDARD ${PAX_CXX_STANDARD_MINIMUM})

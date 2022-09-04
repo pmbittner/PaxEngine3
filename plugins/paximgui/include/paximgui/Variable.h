@@ -18,6 +18,9 @@ namespace PAX {
     namespace Imgui {
         struct Color {
             glm::vec4 color;
+
+            Color();
+            explicit Color(const glm::vec4 & color);
         };
 
         class Variable {
@@ -25,8 +28,16 @@ namespace PAX {
             const std::string name;
 
             explicit Variable(const std::string & name);
+            virtual ~Variable() = 0;
             virtual void drawOnGui() = 0;
             virtual void upload(Shader & shader) = 0;
+        };
+
+        class Variables {
+        public:
+            std::vector<Variable*> variables;
+            void drawOnGui();
+            void upload(Shader & shader);
         };
 
         template<typename T>
@@ -37,13 +48,13 @@ namespace PAX {
             const T min;
             const T max;
 
-            explicit VariableT(const T& val)
-                : val(val), min(val), max(val), isRanged(false) {
+            explicit VariableT(const std::string & name, const T& val)
+                : Variable(name), val(val), min(val), max(val), isRanged(false) {
 
             }
 
-            VariableT(const T& val, const T& min, const T& max)
-                : val(val), min(min), max(max), isRanged(true) {
+            VariableT(const std::string & name, const T& val, const T& min, const T& max)
+                : Variable(name), val(val), min(min), max(max), isRanged(true) {
 
             }
 
@@ -63,9 +74,7 @@ namespace PAX {
             }
 
             template<>
-            void UploadVariable<Color>(Shader &shader, const VariableT<Color> &var) {
-                shader.setUniform(var.name, var.val.color);
-            }
+            void UploadVariable<Color>(Shader &shader, const VariableT<Color> &var);
 
             template<typename T>
             void DrawVariableOnGui(VariableT<T> &var) {
@@ -76,23 +85,13 @@ namespace PAX {
         template<> \
         void DrawVariableOnGui<T>(VariableT<T> & var)
 
-#define PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI_NUMERIC(T, TCapitalized) \
-        PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI(T) { \
-            if (var.isRanged) { \
-                ImGui::Slider##TCapitalized(var.name.c_str(), &var.val, var.min, var.max); \
-            } else { \
-                ImGui::Input##TCapitalized(var.name.c_str(), &var.val); \
-            } \
-        }
-
-            PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI_NUMERIC(float, Float)
-            PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI_NUMERIC(int, Int)
-
-            PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI(Color) {
-                ImGui::ColorEdit4(var.name.c_str(), &var.val.color.x);
-            }
+            PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI(float);
+            PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI(int);
+            PAX_IMGUI_SPECIALIZE_DRAWVARIABLEONGUI(Color);
         }
     }
 }
+
+PAX_DECLARE_STRING_CONVERTER_FOR(Imgui::Color)
 
 #endif //PAXENGINE3_VARIABLE_H
