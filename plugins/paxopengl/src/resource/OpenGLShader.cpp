@@ -7,13 +7,13 @@
 #include <polypropylene/log/Log.h>
 #include <sstream>
 #include <fstream>
-#include <iomanip> // std::setw
 #include "paxopengl/resource/OpenGLShader.h"
 
 #include "paxopengl/OpenGLError.h"
 #include "polypropylene/stdutils/CollectionUtils.h"
 #include "paxcore/service/Services.h"
 #include "paxopengl/glslpreprocessor/GLSLPreprocessorService.h"
+#include "paxutil/io/PrettyPrint.h"
 
 namespace PAX {
     namespace OpenGL {
@@ -51,16 +51,8 @@ namespace PAX {
                             "Full Shader Code:\n------------------\n" << code << "==================");
             }//*/
             if (!compiled) {
-                std::stringstream codeAsStream(code);
                 std::stringstream output;
-
-                std::string line;
-                int lineNo = 0;
-                while (std::getline(codeAsStream, line, '\n')) {
-                    output << std::setw(4) << std::fixed << lineNo << "| " << line << std::endl;
-                    ++lineNo;
-                }
-
+                Util::printWithLineNumbersTo(output, code);
                 PAX_LOG_RAW(Log::Level::Error, "Full Shader Code:\n------------------\n" << output.str() << "==================");
             }
 

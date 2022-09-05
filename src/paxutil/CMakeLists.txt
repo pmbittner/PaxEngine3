@@ -35,7 +35,8 @@ set(HEADERS_FOR_CLION
         ../../include/paxutil/Sleep.h
         ../../include/paxutil/reflection/EngineFieldFlags.h
         ../../include/paxutil/resources/JsonResourceFieldWriter.h
-        ../../include/paxutil/macros/Functional.h)
+        ../../include/paxutil/macros/Functional.h
+        ../../include/paxutil/io/PrettyPrint.h)
 
 set(SOURCE_FILES
         Signature.cpp
@@ -49,7 +50,8 @@ set(SOURCE_FILES
         reflection/TypeHierarchy.cpp
         resources/ResourceHandle.cpp
         resources/Resources.cpp
-        resources/ResourceLoader.cpp)
+        resources/ResourceLoader.cpp
+        io/PrettyPrint.cpp)
 
 add_library(paxutil ${HEADERS_FOR_CLION} ${SOURCE_FILES})
 target_link_libraries(paxutil)
