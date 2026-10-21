@@ -1,101 +1,77 @@
 ## Build Instructions
-This document is still under construction. If your interested in building the engine, please leave an issue on GitHub.
 
-### General
-The engine needs a `core.paxconfig`.
-You can just copy the `core.example.paxconfig` in place and rename it.
+PaxEngine3 uses CMake. Third-party libraries are found with `find_package`, so any way of providing them works.
+The recommended way is the included [Nix flake](https://nixos.wiki/wiki/Flakes), which pins all dependencies (including the compiler) and works on Linux and macOS.
+Flakes have to be enabled once with `experimental-features = nix-command flakes` in `~/.config/nix/nix.conf`.
 
-### Libraries
-Additional libraries may be needed by some plugins or the engine core itself.
-Some of them may have to be build manually.
+```bash
+nix build                # engine with the default plugins -> ./result
+nix build .#everything   # all plugins and the demo games
+nix develop              # shell with all dependencies, for building with CMake directly
+```
 
-#### Libraries to add via symbolic links
-PaxEngine3 is based on [Polypropylene](https://github.com/PaulAtTUBS/Polypropylene).
-Check it out next to the PaxEngine3 repository and create symlinks with the [setupLinks.(bat|sh)](https://github.com/PaulAtTUBS/PaxEngine3/tree/master/libs).
+### Plugins and their dependencies
 
-#### Libraries to install
+The engine core (`paxutil`, `paxio`, `paxrendering`, `paxcore`) always needs [Polypropylene](https://github.com/pmbittner/Polypropylene) and [glm](https://github.com/g-truc/glm).
+Everything else is a plugin. Only the libraries of the plugins you select are looked up and required:
 
-Required: glm
+| Plugin    | CMake target | Additional dependencies                  | Needs plugin |
+|-----------|--------------|------------------------------------------|--------------|
+| `opengl`  | `paxopengl`  | OpenGL, GLEW                             |              |
+| `sdl`     | `paxsdl`     | SDL2, SDL2_image (`WITH_SDL_IMAGE`)      | `opengl`     |
+| `physics` | `paxphysics` | Box2D 2.4                                |              |
+| `tiles`   | `paxtiles`   |                                          | `physics`    |
+| `assimp`  | `paxassimp`  | assimp                                   |              |
+| `font`    | `paxfont`    |                                          |              |
+| `imgui`   | `paximgui`   | SDL2, GLEW, ANTLR 4.10 C++ runtime       | `sdl`, `opengl` |
 
-The following libraries are needed by the respective plugins:
+The plugins are selected with the CMake variable `PAX_PLUGINS`, a semicolon-separated list (default: all plugins but `imgui`).
+Plugins that others need are added automatically.
+With Nix, the same is done with `override`, which also adds only the dependencies of these plugins:
 
-paxopengl: requires glew 2.0.0 or higher
+```nix
+paxengine3.packages.${system}.default.override { plugins = [ "sdl" "opengl" ]; }
+```
 
-paxsdl: requires SDL2, optional SDL2-image for texture loading
+The demo games in `plugins/games` are built with `-DPAX_BUILD_DEMOS=ON` (or `withDemos = true` in Nix), as far as their plugins are selected.
 
-##### Windows and MinGW
-**Ask Paul to get the necessary files for your compiler.**
-##### Windows and MSVC
-The files have to be placed in a directory called 'lib' next to the git repository.
+### Using the engine in a game
 
-Include files have to be in "lib/win/include".
+Install the engine (or take the Nix package) and request the plugins as components:
 
-Libraries have to be in "lib/win/libs".
+```cmake
+find_package(PaxEngine3 3 CONFIG REQUIRED COMPONENTS sdl opengl physics)
+target_link_libraries(MyGame PRIVATE PaxEngine3::paxcore PaxEngine3::sdl PaxEngine3::opengl PaxEngine3::physics)
+```
 
-SDL2 and SDL2_image have their own subdirectories.
+The targets bring include directories, compile definitions, and the third-party libraries of the plugin.
+`PaxEngine3_RESOURCE_DIR` points to the resources that ship with the engine (see below).
+[Meshfold](https://github.com/pmbittner/Meshfold) is a complete example, including a Nix flake for the game.
 
-**Ask Paul to get the necessary files for your compiler.**
+### Working on the engine and a game together
 
-##### Linux
-The package names are `libsdl2-dev`, `libglm-dev`, `libsdl2-image-dev`
+A game can include the engine and Polypropylene from local checkouts, so all three are built in one incremental build, as an alternative to the installed packages.
+Meshfold supports this through the CMake variables `MESHFOLD_LOCAL_ENGINE_DIR` and `MESHFOLD_LOCAL_POLYPROPYLENE_DIR`.
+Your own game can do the same with `add_subdirectory` of both directories before using the targets above.
+Polypropylene must be added first: the engine uses the target `Polypropylene::polypropylene` if it exists, and looks for an installed package otherwise.
 
+With Nix, the pinned versions of the engine and Polypropylene can be replaced by local checkouts without editing any file:
 
-#### Libraries to build manually
-These libraries have to be located in a directory called 'lib' next to the git repository like the files for MSVC.
+```bash
+nix build --override-input paxengine3 path:../PaxEngine3 --override-input polypropylene path:../Polypropylene
+```
 
-##### Assimp (required by paxassetimport)
-Check out their git repository and build manually. The build directory names
-currently are:
+### Resources and `core.paxconfig`
 
-    cmake-build-release-msvc
-    cmake-build-release-mingw
-    cmake-build-debug-mingw
-    build (on Linux)
+The engine reads a file `core.paxconfig` from the working directory.
+It defines two resource directories:
 
-Before building a few adjustments have to be made to their CMakeLists.txt. First we want to build static libraries.
-Hence, set the option `BUILD_SHARED_LIBS` to `OFF`.
-For `MSVC` we have to set a compiler flag additionally.
-Thus, append the compile option `/MT`
-Change the lines
+-   `core_engineResourceDirectory`: The resources that ship with the engine, i.e., this repository's `res` directory. It is installed to `share/paxengine3/res`.
+-   `core_customResourceDirectory`: The resources of the game.
 
-    ELSEIF(MSVC)
-      # enable multi-core compilation with MSVC
-      ADD_COMPILE_OPTIONS(/MP)
+See `bin/core.example.paxconfig` for an example.
 
-to
+### Windows
 
-    ELSEIF(MSVC)
-      # enable multi-core compilation with MSVC
-      ADD_COMPILE_OPTIONS(/MP /MT)
-
-Fow now we let assimp build its own version of zlib to avoid version conflicts.
-Therefore, set `ASSIMP_BUILD_ZLIB` to `ON`.
-For the same reason, the option `SYSTEM_IRRXML` has to be `OFF`.
-
-##### Box2D (required by paxphysics)
-We created a custom CMake-Project for Box2D, as the original one just delivers a makefile and does not split include and src files
-into separate directories.
-
-**Ask Paul to get the necessary files.**
-
-
-#### DLLs on Windows
-Both MinGW and MSVC require certain DLLs:
-
-Dont know anymore who actually requires this one: zlib1.dll
-
-For SDL2: SDL2.dll
-
-For Glew: glew32.dll
-
-For SDL2-Image: SDL2_image.dll
-libjpeg-9.dll
-libtiff-5.dll
-libwebp-7.dll
-libpng16-16.dll
-
-For Assimp: assimp-vc140-mt.dll
-assimp-vc140-mtd.dll
-
-**Ask Paul to get the necessary files.**
-
+Windows and MSVC are currently not supported by the build files.
+Cross-compiling from Nix with MinGW (`pkgsCross.mingwW64`) is a possible way to bring it back with the same CMake files.

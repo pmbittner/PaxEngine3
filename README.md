@@ -74,16 +74,29 @@ Plugins delivered with the engine can be found in the [plugins](plugins) directo
 The central library of PaxEngine3, contains all primary artefacts and interfaces for extending the framework:
 - [Engine](include/paxcore/Engine.h): Root object of the entire software containing the game loop.
 - [Game](include/paxcore/Game.h): Abstract class that is intended to be derived to setup your game! Manages all active _worlds_.
-- [GameEntity](include/paxcore/gameentity/GameEntity.h): Describes game objects in the scene and is implemented as an [Entity](https://github.com/PaulAtTUBS/Polypropylene/blob/master/include/polypropylene/property/Entity.h) of our custom entity-property system [Polypropylene](https://github.com/PaulAtTUBS/Polypropylene).
-- [World](include/paxcore/world/World.h): Describes a scene of _GameEntities_ and is implemented as an [Entity](https://github.com/PaulAtTUBS/Polypropylene/blob/master/include/polypropylene/property/Entity.h) of our custom entity-property system [Polypropylene](https://github.com/PaulAtTUBS/Polypropylene).
+- [GameEntity](include/paxcore/gameentity/GameEntity.h): Describes game objects in the scene and is implemented as an [Entity](https://github.com/pmbittner/Polypropylene/blob/master/include/polypropylene/property/Entity.h) of our custom entity-property system [Polypropylene](https://github.com/pmbittner/Polypropylene).
+- [World](include/paxcore/world/World.h): Describes a scene of _GameEntities_ and is implemented as an [Entity](https://github.com/pmbittner/Polypropylene/blob/master/include/polypropylene/property/Entity.h) of our custom entity-property system [Polypropylene](https://github.com/pmbittner/Polypropylene).
 There can be multiple acitve worlds at the same time to support offline rendering, minimaps, splitscreen, hud among others.
 - [GameSystem](include/paxcore/system/GameSystem.h): Interface for arbitrary systems operating on the game's state.
 - [io](include/paxcore/io): Contains classes for reading user input.
 - [rendering](include/paxcore/rendering): Sub-library with rendering facilities such as constructing scene graphs, camera and viewport management, framebuffers, and asset management.
 - [service](include/paxcore/service/Services.h): Centralised management of services such as, io, resource management, allocation, instantiation of implementations for interfaces provided by plugins, window management, and important paths.
 
-[GameEntities](include/paxcore/gameentity/GameEntity.h) and [Worlds](include/paxcore/world/World.h) are implemented as entities of the custom entity-property system [Polypropylene](https://github.com/PaulAtTUBS/Polypropylene).
+[GameEntities](include/paxcore/gameentity/GameEntity.h) and [Worlds](include/paxcore/world/World.h) are implemented as entities of the custom entity-property system [Polypropylene](https://github.com/pmbittner/Polypropylene).
 This allows defining and changing worlds and game objects arbitrarily, flexibly, and serializable.
+
+## Building
+
+PaxEngine3 is built with CMake, and a [Nix flake](https://nixos.wiki/wiki/Flakes) provides all dependencies in pinned versions for reproducible builds on Linux and macOS.
+
+```bash
+nix build              # builds the engine with the plugins needed by Meshfold
+nix build .#everything # builds all plugins and the demo games
+nix develop            # development shell with all dependencies
+```
+
+Which plugins are built (and therefore which third-party libraries are needed) can be chosen.
+See [doc/BUILD.md](doc/BUILD.md) for the details, including how to use the engine in your own game and how to work on the engine and a game at the same time.
 
 [1]: plugins/games/TileDemo/src/main.cpp
 [2]: https://www.mapeditor.org
