@@ -5,11 +5,13 @@
 #include <polypropylene/log/Errors.h>
 #include "paxcore/animation/AnimationBehaviour.h"
 
-std::ostream & operator<<(std::ostream & str, const PAX::AnimationBehaviour & ab) {
-    switch (ab) {
-        case PAX::AnimationBehaviour::ONCE: return str << "ONCE";
-        case PAX::AnimationBehaviour::LOOP: return str << "LOOP";
-        case PAX::AnimationBehaviour::PINGPONG: return str << "PINGPONG";
-        default: PAX_NOT_IMPLEMENTED_EXCEPTION();
+namespace PAX {
+    std::ostream & operator<<(std::ostream & str, const AnimationBehaviour & ab) {
+        switch (ab) {
+            case AnimationBehaviour::ONCE: return str << "ONCE";
+            case AnimationBehaviour::LOOP: return str << "LOOP";
+            case AnimationBehaviour::PINGPONG: return str << "PINGPONG";
+            default: PAX_NOT_IMPLEMENTED_EXCEPTION();
+        }
     }
 }

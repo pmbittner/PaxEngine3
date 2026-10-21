@@ -13,8 +13,9 @@ namespace PAX {
         LOOP,
         PINGPONG
     };
-}
 
-std::ostream & operator<<(std::ostream & str, const PAX::AnimationBehaviour & ab);
+    // Declared in the namespace of the enum, so that argument-dependent lookup finds it.
+    std::ostream & operator<<(std::ostream & str, const AnimationBehaviour & ab);
+}
 
 #endif //MESHFOLD_ANIMATIONBEHAVIOUR_H

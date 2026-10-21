@@ -60,7 +60,12 @@ namespace PAX::Font {
 
 PAX_DECLARE_JSON_CONVERTER_FOR(Font::TextLine)
 PAX_DECLARE_JSON_CONVERTER_FOR(Font::TextBlock)
-std::ostream & operator<<(std::ostream & str, const PAX::Font::TextLine & l);
-std::ostream & operator<<(std::ostream & str, const PAX::Font::TextBlock & b);
+namespace PAX {
+    namespace Font {
+        // Declared in the namespace of the types, so that argument-dependent lookup finds them.
+        std::ostream & operator<<(std::ostream & str, const TextLine & l);
+        std::ostream & operator<<(std::ostream & str, const TextBlock & b);
+    }
+}
 
 #endif //PAXENGINE3_BITMAPFONT_H

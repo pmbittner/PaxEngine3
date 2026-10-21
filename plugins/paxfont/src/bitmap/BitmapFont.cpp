@@ -151,20 +151,24 @@ namespace PAX {
     PAX_IMPLEMENT_JSON_CONVERT_FROM_WITH_OSTREAM(Font::TextBlock)
 }
 
-std::ostream & operator<<(std::ostream & str, const PAX::Font::TextLine & l) {
-    return str << l.toString();
-}
-
-std::ostream & operator<<(std::ostream & str, const PAX::Font::TextBlock & b) {
-    str << "[";
-    bool first = true;
-    for (const PAX::Font::TextLine & line : b.lines) {
-        if (first) {
-            first = false;
-        } else {
-            str << ", ";
+namespace PAX {
+    namespace Font {
+        std::ostream & operator<<(std::ostream & str, const TextLine & l) {
+            return str << l.toString();
         }
-        str << line;
+
+        std::ostream & operator<<(std::ostream & str, const TextBlock & b) {
+            str << "[";
+            bool first = true;
+            for (const TextLine & line : b.lines) {
+                if (first) {
+                    first = false;
+                } else {
+                    str << ", ";
+                }
+                str << line;
+            }
+            return str << "]";
+        }
     }
-    return str << "]";
 }

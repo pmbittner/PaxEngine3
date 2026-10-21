@@ -106,20 +106,22 @@ namespace PAX {
     }
 }
 
-std::ostream &operator<<(std::ostream &os, PAX::Shader::Flags const &flags) {
-    return os << "Flags[\n\tVertex: " << flags.VertexFlags
-              << "\n\tGeometry " << flags.GeometryFlags
-              << "\n\tFragment " << flags.FragmentFlags
-              << "\n\tTessControl " << flags.TessControlFlags
-              << "\n\tTessEvaluation " << flags.TessEvaluationFlags
-              << "\n\tCompute " << flags.ComputeFlags + "\n]";
-}
+namespace PAX {
+    std::ostream &operator<<(std::ostream &os, Shader::Flags const &flags) {
+        return os << "Flags[\n\tVertex: " << flags.VertexFlags
+                  << "\n\tGeometry " << flags.GeometryFlags
+                  << "\n\tFragment " << flags.FragmentFlags
+                  << "\n\tTessControl " << flags.TessControlFlags
+                  << "\n\tTessEvaluation " << flags.TessEvaluationFlags
+                  << "\n\tCompute " << flags.ComputeFlags + "\n]";
+    }
 
-std::ostream &operator<<(std::ostream &os, PAX::Shader::FileInfo const &fileInfo) {
-    return os << "Flags[\n\tVertex: " << fileInfo.VertexPath
-              << "\n\tGeometry " << fileInfo.GeometryPath
-              << "\n\tFragment " << fileInfo.FragmentPath
-              << "\n\tTessControl " << fileInfo.TessControlPath
-              << "\n\tTessEvaluation " << fileInfo.TessEvaluationPath
-              << "\n\tCompute " << fileInfo.ComputePath + "\n]";
+    std::ostream &operator<<(std::ostream &os, Shader::FileInfo const &fileInfo) {
+        return os << "Flags[\n\tVertex: " << fileInfo.VertexPath
+                  << "\n\tGeometry " << fileInfo.GeometryPath
+                  << "\n\tFragment " << fileInfo.FragmentPath
+                  << "\n\tTessControl " << fileInfo.TessControlPath
+                  << "\n\tTessEvaluation " << fileInfo.TessEvaluationPath
+                  << "\n\tCompute " << fileInfo.ComputePath + "\n]";
+    }
 }

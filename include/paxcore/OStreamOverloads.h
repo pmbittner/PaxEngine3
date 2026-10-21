@@ -8,7 +8,10 @@
 #include <paxutil/stdutils/OstreamOverloads.h>
 #include "rendering/data/Shader.h"
 
-std::ostream &operator<<(std::ostream &os, PAX::Shader::Flags const &flags);
-std::ostream &operator<<(std::ostream &os, PAX::Shader::FileInfo const &fileInfo);
+namespace PAX {
+    // Declared in the namespace of PAX::Shader, so that argument-dependent lookup finds them.
+    std::ostream &operator<<(std::ostream &os, Shader::Flags const &flags);
+    std::ostream &operator<<(std::ostream &os, Shader::FileInfo const &fileInfo);
+}
 
 #endif //MESHFOLD_OSTREAMOVERLOADS_H
