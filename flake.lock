@@ -1,0 +1,48 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1792503283,
+        "narHash": "sha256-vhe2jyvRCgufWPqDuDq1S3t3ypE+ka46IFutV02xKso=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "cd4ea8d57de16f4810bc5f14207bac45fbf19f67",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-26.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "polypropylene": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792578123,
+        "narHash": "sha256-Ea1F+iL0Kb2LGjBvyvkINVy/Vz8kcHNuIk242Ktq7nU=",
+        "owner": "pmbittner",
+        "repo": "Polypropylene",
+        "rev": "7cb3732208f2176861a31d9a5ad3452fce27cdd7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pmbittner",
+        "repo": "Polypropylene",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "polypropylene": "polypropylene"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
