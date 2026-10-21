@@ -41,6 +41,18 @@ namespace PAX {
         };
 
         template<typename T>
+        class VariableT;
+
+        // Declared before VariableT, which calls them. They are defined further below.
+        namespace Internal {
+            template<typename T>
+            void UploadVariable(Shader &shader, const VariableT<T> &var);
+
+            template<typename T>
+            void DrawVariableOnGui(VariableT<T> &var);
+        }
+
+        template<typename T>
         class VariableT : public Variable {
         public:
             T val;

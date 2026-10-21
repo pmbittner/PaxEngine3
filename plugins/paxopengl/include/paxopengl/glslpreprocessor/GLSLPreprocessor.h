@@ -12,7 +12,7 @@ namespace PAX {
     namespace OpenGL {
         class GLSLPreprocessor {
         public:
-            virtual ~GLSLPreprocessor() = 0 {};
+            virtual ~GLSLPreprocessor() = default;
             virtual std::string preprocess(const Path & codeFile, const std::string& code) = 0;
         };
     }
