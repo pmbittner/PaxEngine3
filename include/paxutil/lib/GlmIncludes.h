@@ -48,7 +48,8 @@ namespace PAX {
             if (pos == std::string::npos) {
                 pos = str.find_first_of('[');
             }
-            std::string vecStr = str.substr(pos);
+            // Brackets are optional: "(1, 2)", "[1, 2]", "1, 2", and "1 2" are all valid.
+            std::string vecStr = pos == std::string::npos ? str : str.substr(pos);
 
             glm::vec<L, T, Q> ret(0);
             const size_t strlen = vecStr.length();
