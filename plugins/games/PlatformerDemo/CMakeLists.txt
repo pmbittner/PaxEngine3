@@ -1,5 +1,3 @@
-project(PlatformerDemo)
-
 set(PAX_PLATFORMERDEMO_SOURCE_FILES
         src/main.cpp
         src/Plugin.cpp
@@ -10,21 +8,8 @@ set(PAX_PLATFORMERDEMO_SOURCE_FILES
         src/behaviour/PlayerControls.cpp
         )
 
-include_directories(include)
-include_directories(../../paxsdl/include)
-include_directories(../../paxopengl/include)
-include_directories(../../paxphysics/include)
-include_directories(../../paxtiles/include)
 
-set(HEADERS_FOR_CLION
-        include/platformerdemo/Plugin.h
-        include/platformerdemo/Demo.h
-        include/platformerdemo/behaviour/PlayerControls.h
-        include/platformerdemo/behaviour/PlayerSpriteAnimation.h
-        include/platformerdemo/behaviour/Dance2D.h
-        include/platformerdemo/behaviour/DragNDrop.h
-        include/platformerdemo/behaviour/ProfileGameLoopBehaviour.h)
-
-add_executable(PlatformerDemo ${PAX_PLATFORMERDEMO_SOURCE_FILES} ${HEADERS_FOR_CLION} )
-target_link_libraries(PlatformerDemo paxutil paxphysics paxsdl paxopengl paxtiles paxcore)
-set_target_properties(PlatformerDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Demo)
+add_executable(PlatformerDemo ${PAX_PLATFORMERDEMO_SOURCE_FILES})
+target_link_libraries(PlatformerDemo PRIVATE paxsdl paxopengl paxphysics paxtiles)
+target_include_directories(PlatformerDemo PRIVATE include)
+set_target_properties(PlatformerDemo PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Demo)

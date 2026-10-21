@@ -1,17 +1,3 @@
-set(HEADERS_FOR_CLION
-        include/paxtiles/Plugin.h
-        include/paxtiles/TileMapProperty.h
-        include/paxtiles/TileMap.h
-        include/paxtiles/Tile.h
-        include/paxtiles/TileMapGraphics.h
-        include/paxtiles/tiled/TileMapJsonLoader.h
-        include/paxtiles/TileSet.h
-        include/paxtiles/tiled/TileSetJsonLoader.h
-        include/paxtiles/topdown/CharacterOrientation.h
-        include/paxtiles/topdown/CharacterSpriteAnimation.h
-        include/paxtiles/topdown/SimpleCharacterKeyboardControls.h
-        include/paxtiles/TileMapTransition.h)
-
 set(SOURCE_FILES
         src/Plugin.cpp
         src/TileMapProperty.cpp
@@ -25,8 +11,9 @@ set(SOURCE_FILES
         src/topdown/SimpleCharacterKeyboardControls.cpp
         src/TileMapTransition.cpp)
 
-include_directories(include)
-include_directories(../paxphysics/include)
-
-add_library(paxtiles ${SOURCE_FILES} ${HEADERS_FOR_CLION})
-target_link_libraries(paxtiles paxphysics)
+add_library(paxtiles ${SOURCE_FILES})
+add_library(PaxEngine3::tiles ALIAS paxtiles)
+target_include_directories(paxtiles PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_link_libraries(paxtiles PUBLIC paxcore paxphysics)

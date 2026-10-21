@@ -58,4 +58,5 @@ add_library(paxrendering
         data/ColourPalette.cpp
         primitives/PrimitiveFactory.cpp animation/SpriteSheetAnimator.cpp animation/SpriteSheetAnimations.cpp)
 
-target_link_libraries(paxrendering paxcore)
+add_library(PaxEngine3::paxrendering ALIAS paxrendering)
+target_link_libraries(paxrendering PUBLIC paxutil paxcore)

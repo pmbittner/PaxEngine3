@@ -6,10 +6,6 @@ bin/*
 bin/Demo/*
 !bin/Demo/core.paxconfig
 
-# libraries
-libs/Polypropylene
-libs/Polypropylene/*
-
 # Project data
 .idea
 vs
@@ -24,3 +20,7 @@ __pycache__
 # Build
 build
 cmake-build-*
+
+# Nix
+result
+result-*

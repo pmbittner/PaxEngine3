@@ -1,0 +1,59 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# Components are the names of the plugins, e.g.
+#   find_package(PaxEngine3 REQUIRED COMPONENTS sdl opengl physics)
+# The engine core is always included. Third-party dependencies are only looked up for the requested components.
+set_and_check(PaxEngine3_RESOURCE_DIR "@PACKAGE_PAX_RESOURCE_INSTALL_DIR@")
+set(PaxEngine3_AVAILABLE_PLUGINS "@PAX_INSTALLED_PLUGINS@")
+
+find_dependency(Polypropylene 1 CONFIG)
+find_dependency(glm CONFIG)
+
+set(_pax_components ${PaxEngine3_FIND_COMPONENTS})
+
+# Plugins that others are built on top of.
+if ("sdl" IN_LIST _pax_components)
+    list(APPEND _pax_components opengl)
+endif()
+if ("tiles" IN_LIST _pax_components)
+    list(APPEND _pax_components physics)
+endif()
+if ("imgui" IN_LIST _pax_components)
+    list(APPEND _pax_components sdl opengl)
+endif()
+list(REMOVE_DUPLICATES _pax_components)
+
+foreach (_pax_component IN LISTS _pax_components)
+    if (NOT _pax_component IN_LIST PaxEngine3_AVAILABLE_PLUGINS)
+        set(PaxEngine3_${_pax_component}_FOUND FALSE)
+        continue()
+    endif()
+    set(PaxEngine3_${_pax_component}_FOUND TRUE)
+
+    if (_pax_component STREQUAL "opengl")
+        find_dependency(OpenGL)
+        find_dependency(GLEW)
+    elseif (_pax_component STREQUAL "sdl")
+        find_dependency(SDL2)
+        @PAX_SDL_IMAGE_DEPENDENCY@
+    elseif (_pax_component STREQUAL "physics")
+        find_dependency(box2d)
+    elseif (_pax_component STREQUAL "assimp")
+        find_dependency(assimp)
+    elseif (_pax_component STREQUAL "imgui")
+        find_dependency(antlr4-runtime)
+    endif()
+endforeach()
+unset(_pax_components)
+unset(_pax_component)
+
+include("${CMAKE_CURRENT_LIST_DIR}/PaxEngine3Targets.cmake")
+
+# The ANTLR runtime package does not provide include directories on its target.
+if (TARGET PaxEngine3::imguipp)
+    target_include_directories(PaxEngine3::imguipp INTERFACE "${ANTLR4_INCLUDE_DIR}")
+endif()
+
+check_required_components(PaxEngine3)
